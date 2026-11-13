@@ -1,1 +1,1169 @@
-[]
+[
+  {
+    "id": "conseil-1",
+    "marche": 3,
+    "enonce": [
+      "DÉFI MIROIR : choisis une phrase drôle que tu connais bien, la tienne ou une vanne du catalogue. Devant un miroir, dis-la en plaçant 3 secondes de silence juste avant le mot qui la retourne, visage neutre, et refais-la deux fois. Ensuite, dis-la à quelqu'un avec la même pause et regarde ce que fait son visage pendant le silence."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-2",
+    "marche": 2,
+    "enonce": [
+      "DÉFI FAIT DIVERS : pense à un petit ridicule récent et léger (un oubli, un détour, un plat raté). Écris-le d'abord en verdict (« je suis nul en... »), puis réécris-le en fait raconté, avec un détail précis et un objet ou une situation qui conclut à ta place. Envoie la seconde version à un ami aujourd'hui."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-3",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CARNET : aujourd'hui, note dans ton téléphone 3 gestes que tu fais sans y penser (appuyer plusieurs fois sur un bouton, attendre le bip, fermer une appli). Choisis le plus universel et écris-le en une phrase : le constat, puis l'intention que tu lui prêtes. Lis-la à voix haute pour vérifier qu'elle tient toute seule."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-4",
+    "marche": 1,
+    "enonce": [
+      "DÉFI TROIS TEMPS : pense à trois piques que tu reçois vraiment (retard, désordre, gourmandise, téléphone). Pour chacune, écris ta réponse en trois temps : confirmation avec un détail exact, raison inattendue, silence. Dis la meilleure à voix haute, puis garde-la pour la prochaine occasion aujourd'hui."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-5",
+    "marche": 3,
+    "enonce": [
+      "DÉFI DÉRAILLEMENT : aujourd'hui, écris cinq phrases sur un moment banal de ta journée (une file, un rendez-vous, un trajet). Les quatre premières donnent des détails vrais, sans une once d'humour : heure, lieu, geste, personne. La cinquième déraille, dans le même ton. Critère : quelqu'un qui entend les quatre premières ne peut pas deviner la fin. Lis-les à voix haute à quelqu'un, ou envoie-les en vocal. Personne sous la main ? Relis-les seul : si tu ne souris qu'à la dernière phrase, c'est réussi."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-6",
+    "marche": 4,
+    "enonce": [
+      "DÉFI SOIRÉE : lors de ta prochaine conversation de groupe, retiens le premier détail précis qui fait sourire. Attends au moins 20 minutes, puis trouve un moyen naturel d'y revenir dans un autre contexte. C'est réussi si quelqu'un sourit en reconnaissant le détail. Pas de groupe aujourd'hui ? Fais-le par message : envoie un détail drôle le matin et reprends-le le soir.",
+      "Tu travailles ton anecdote du parcours Storytelling ? Plante dans ses deux premières phrases un détail qui fait sourire, et fais-le revenir dans la chute : la deuxième fois, il fait rire. Raconte-la ensuite à deux personnes cette semaine, à une soirée si l'occasion se présente ou une par une. Pas de public ? Envoie-la en vocal ou par écrit à deux amis."
+    ],
+    "suites": {
+      "marche": "Bien joué : à plusieurs, il faut prendre sa place, et tu l'as prise. Marche suivante : avec quelqu'un que tu connais peu.",
+      "bof": "Un groupe ne rebondit pas toujours sur la première phrase."
+    }
+  },
+  {
+    "id": "conseil-8",
+    "marche": 3,
+    "enonce": [
+      "DÉFI RÈGLE : aujourd'hui, invente une règle personnelle absurde (un mot que tu ne dis plus, un objet que tu ne touches que d'une main, un jour où tu ne fais que tourner à gauche). Écris-la en une phrase, puis la conséquence qu'elle a sur ton entourage, sans jamais sourire dans le texte. Dis-la à quelqu'un avec le plus grand sérieux, ou envoie-la par message."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-9",
+    "marche": 2,
+    "enonce": [
+      "DÉFI SCALPEL : aujourd'hui, prends une phrase drôle que tu as dite ou écrite récemment. Retire au moins 5 mots en gardant la chute en dernière position. Lis les deux versions à voix haute : la courte doit tenir seule. Envoie-la à un ami, sans explication. Pas de phrase drôle en stock ? Écris en roue libre une phrase sur ta journée, puis coupe-la de la même façon."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-10",
+    "marche": 2,
+    "enonce": [
+      "DÉFI DOSAGE : choisis UNE vérité de ta journée (ta cuisine, tes transports, ton téléphone) et écris-la en une phrase. Pousse-la d'un cran, pas plus loin que ce qui pourrait presque arriver. Envoie-la à quelqu'un aujourd'hui : réussi s'il répond quelque chose comme « c'est exagéré, mais c'est tout à fait ça »."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-11",
+    "marche": 3,
+    "enonce": [
+      "DÉFI BILAN : pense à un petit échec récent (un plat, un bricolage, un rendez-vous, un trajet). Écris une phrase du type « C'est raté, mais l'opération n'est pas un échec : ... » en listant ce que ça a produit d'inattendu et de vrai. Raconte-la à quelqu'un ce soir avec l'air satisfait d'un bilan annuel. Personne ce soir ? Dis-la à voix haute ou enregistre-la en vocal."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-17",
+    "marche": 2,
+    "enonce": [
+      "DÉFI DOUBLE SENS : aujourd'hui, choisis un conseil ou une consigne qu'on t'a déjà donné (« il faut que tu décroches », « prends du recul », « lâche prise »). Écris en deux phrases ce que tu aurais fait en le comprenant par l'autre sens, la seconde étant la chute. Dis-la à voix haute d'un ton appliqué, puis envoie-la à la personne qui t'a donné le conseil."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-20",
+    "marche": 3,
+    "enonce": [
+      "DÉFI NON-DIT : aujourd'hui, raconte UNE anecdote à un ami, mais arrête-toi sur un geste ou un détail, avant la conclusion, et laisse 3 secondes de silence. S'il sourit ou finit la phrase à ta place, le non-dit a marché. Pas d'ami sous la main ? Envoie l'anecdote par message, coupée avant sa conclusion, et regarde s'il répond en la complétant."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-23",
+    "marche": 1,
+    "enonce": [
+      "DÉFI COUPE : écris dans tes notes une anecdote de ta journée en cinq phrases, bavarde, comme tu la raconterais sans y penser (pas d'anecdote ? prends ton trajet de ce matin et les gens que tu y as croisés). Puis coupe : pour chaque phrase, demande-toi si la chute marche encore sans elle. Garde le détail qui fait voir la scène, barre le détail neutre. C'est réussi si ta version coupée tient en trois phrases ou moins et que la dernière est la plus courte. Dis-la ensuite à voix haute, même seul."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-24",
+    "marche": 2,
+    "enonce": [
+      "DÉFI REGISTRE : aujourd'hui, choisis UN registre (commentateur sportif, avocat au tribunal, présentateur météo) et décris ta journée avec, en 3 phrases. Envoie la meilleure version par texto à un ami."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-30",
+    "marche": 1,
+    "enonce": [
+      "DÉFI DOUBLE LECTURE : repense à un moment où tu as mal compris qui était là ou ce qui se passait. Écris-le en trois phrases sans nommer la personne ou la chose clé (« elle », « il », « le nouveau »), et révèle-la dans la dernière. C'est réussi si tes deux premières phrases restent vraies dans les deux lectures : relis-les en connaissant la fin, aucune ne doit sonner faux. Aucun souvenir ? Prends un objet de la pièce (un radiateur, une plante, une lampe) et décris-le comme une personne en deux phrases, sans le nommer, puis révèle-le. Lis-le à quelqu'un si tu peux : s'il se trompe avant la fin, c'est gagné."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-31",
+    "marche": 3,
+    "enonce": [
+      "DÉFI OUI, ET : la prochaine fois qu'une de tes vannes tombe, constate-le en une phrase d'un ton neutre, puis pousse ce constat d'un cran avec un détail de plus. C'est réussi quand tes deux temps sont dits sans excuse ni explication. Pas de vanne tombée aujourd'hui ? Écris le constat et l'ajout que tu aurais lancés à ta dernière, et envoie-les à un ami."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-39",
+    "marche": 3,
+    "enonce": [
+      "DÉFI TIROIR : raconte une anecdote de ta journée en trois phrases. Entre la première et la deuxième, ouvre un tiroir : une parenthèse de deux phrases au maximum sur un détail qui t'a fait sourire, puis reviens avec « bref ». C'est réussi si le tout tient en moins d'une minute trente, chronométrée, et si ta chute parle de l'histoire, pas de la parenthèse. Pas de public : dis-le à voix haute devant ton téléphone ou un miroir."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-40",
+    "marche": 3,
+    "enonce": [
+      "DÉFI SOCIAL : choisis UN moment de malaise social récent. Réécris-le en détaillant tes pensées internes de l'instant, puis raconte-le à quelqu'un aujourd'hui. Le monologue intérieur est presque toujours plus drôle que l'action."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-42",
+    "marche": 3,
+    "enonce": [
+      "DÉFI IRONIE DOUCE : la prochaine fois qu'un proche fait un truc agaçant (retard, oubli, gaffe), réponds l'exact contraire de ce que tu penses, avec un sourire. Tout l'exercice tient dans l'affection de la voix. Pas d'occasion aujourd'hui ? Écris la phrase que tu aurais pu dire au dernier retard ou à la dernière gaffe d'un proche, et envoie-la-lui si ça te fait sourire."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-45",
+    "marche": 1,
+    "enonce": [
+      "DÉFI DÉGONFLE : prends un accomplissement minuscule de ta semaine. Raconte-le comme l'exploit du siècle (3 phrases de montée héroïque), puis termine sur la réalité banale."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-46",
+    "marche": 1,
+    "enonce": [
+      "DÉFI TROIS MESSAGES : aujourd'hui, retrouve dans tes messages envoyés les trois qui ont fait le plus rire et écris en une ligne ce qu'ils ont en commun. Puis écris un quatrième message dans le même moule, sur ta journée, et envoie-le si tu veux. Pas de message drôle à retrouver ? Prends trois messages quelconques et regarde comment tu ouvres et comment tu finis : ta manière est déjà là."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-51",
+    "marche": 3,
+    "enonce": [
+      "DÉFI FAUX SECRET : aujourd'hui, choisis une vérité minuscule que tu n'as jamais avouée (un truc que tu fais semblant de comprendre, une manie sans gravité). Écris-la en deux phrases après « Ça reste entre nous : ». Répète-la à voix basse, puis dis-la à un collègue, un coloc ou un ami, ou envoie-la en vocal si tu es seul."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-53",
+    "marche": 5,
+    "enonce": [
+      "DÉFI PS : aujourd'hui, écris un PS d'une phrase qui corrige une erreur que personne n'a faite : prends une petite scène vraie de ta journée, rectifie un seul détail et finis sur la version rectifiée. Il doit rester présentable si ton chef le lit. Choisis un mail à faible enjeu, entre collègues, et si tu hésites, garde le PS en brouillon : il compte quand même. Pas de mail pro à envoyer aujourd'hui ? Écris le PS que tu aurais ajouté au dernier mail sérieux que tu as envoyé. C'est gagné si ton PS tient en une phrase et que la version rectifiée en est la toute fin."
+    ],
+    "suites": {
+      "marche": "Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche.",
+      "bof": "Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer."
+    }
+  },
+  {
+    "id": "conseil-58",
+    "marche": 4,
+    "enonce": [
+      "DÉFI INTÉGRATION : à la prochaine soirée, observe pendant 15 minutes sans intervenir. Repère le rôle de chacun (le blagueur, le rieur, le commentateur). Puis place 3 remarques, pas plus, quand tout le monde reprend son souffle. Compare avec tes soirées habituelles. Pas de soirée cette semaine ? Fais l'exercice à un repas, en réunion ou dans une conversation de groupe en ligne : repérer les rôles marche partout."
+    ],
+    "suites": {
+      "marche": "Bien joué : à plusieurs, il faut prendre sa place, et tu l'as prise. Marche suivante : avec quelqu'un que tu connais peu.",
+      "bof": "Un groupe ne rebondit pas toujours sur la première phrase."
+    }
+  },
+  {
+    "id": "conseil-63",
+    "marche": 4,
+    "enonce": [
+      "DÉFI BLANCS : aujourd'hui, ne cherche pas à faire rire. Dans une conversation de groupe (pause, repas, réunion, visio), écoute le rythme et repère les blancs qui suivent chaque rire, en les comptant dans ta tête. C'est réussi quand tu en as repéré trois. Si tu as une phrase qui colle au sujet, pose-la au premier blanc, jamais avant. Pas de groupe aujourd'hui ? Regarde un extrait de plateau ou de stand-up avec public et repère les blancs qui suivent chaque rire de la salle."
+    ],
+    "suites": {
+      "marche": "Bien joué : à plusieurs, il faut prendre sa place, et tu l'as prise. Marche suivante : avec quelqu'un que tu connais peu.",
+      "bof": "Un groupe ne rebondit pas toujours sur la première phrase."
+    }
+  },
+  {
+    "id": "conseil-69",
+    "marche": 3,
+    "enonce": [
+      "DÉFI NOSTALGIE : aujourd'hui, choisis un seul geste d'avant (le téléphone fixe, la carte routière, la cabine, les photos à développer). Écris en deux phrases l'avant et l'aujourd'hui, et termine sur ce qui rend l'un pire ou l'autre plus bête que prévu. Dis-la à quelqu'un de ton âge, ou envoie-la par message."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-70",
+    "marche": 5,
+    "enonce": [
+      "DÉFI CROISEMENT : aujourd'hui, choisis un irritant que tout le monde subit (l'imprimante, la clim, le café, l'ascenseur) et écris sa phrase en dix mots maximum. Dis-la une seule fois, au moment où tu croises quelqu'un, sans t'arrêter ni te retourner. C'est réussi si tu l'as dite en marchant et sans attendre de réponse, qu'elle ait fait rire ou non. Pas de couloir aujourd'hui (télétravail, jour off), ou pas envie de tenter devant n'importe qui ? Joue le croisement seul : lève-toi, dis ta phrase à voix haute en traversant une pièce ou en montant l'escalier, puis fais encore cinq pas avant de t'arrêter. C'est réussi si tu l'as dite d'un seul trait, en marchant, et si tu as fait ces cinq pas sans te retourner."
+    ],
+    "suites": {
+      "marche": "Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche.",
+      "bof": "Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer."
+    }
+  },
+  {
+    "id": "conseil-71",
+    "marche": 5,
+    "enonce": [
+      "DÉFI DEUX PHRASES : écris ta réponse à « tu fais quoi dans la vie ? » en deux phrases et vingt-cinq mots au maximum : un verbe concret d'abord, le détail que la fiche de poste ne dit pas ensuite. Donne-la à la première personne qui te pose la question aujourd'hui. C'est réussi si ta réponse tient en deux phrases et si on te pose une question dessus au lieu de changer de sujet. Personne ne te le demande aujourd'hui ? Dis-la trois fois à voix haute : c'est réussi quand tu la dis la troisième fois sans regarder ta feuille."
+    ],
+    "suites": {
+      "marche": "Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche.",
+      "bof": "Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer."
+    }
+  },
+  {
+    "id": "conseil-72",
+    "marche": 1,
+    "enonce": [
+      "DÉFI TRENTE SECONDES : choisis un petit moment de ta semaine de travail où c'est toi qui as été dépassé (un objet, une procédure, une machine, jamais un collègue précis). Écris-le en trois temps : un décor en une phrase sans sigle, une escalade, une chute. Dis-le à voix haute en chronométrant. C'est réussi s'il tient en 30 secondes ou moins, sans un seul sigle, et si tu t'arrêtes net après la chute. Pas d'afterwork à venir ? Raconte-le à un ami qui ne connaît rien à ton boulot : s'il le comprend sans poser de question, c'est gagné."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-76",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CHAMBRAGE : prends une pique que tu reçois vraiment (ton retard, ton téléphone, ta façon de manger) et écris ta réponse en trois temps, en deux ou trois phrases courtes : accepter, exagérer, retourner en compliment déguisé. C'est réussi quand tes trois temps sont écrits."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-78",
+    "marche": 3,
+    "enonce": [
+      "DÉFI PRÉCISION : raconte un événement banal de ta semaine à un ami, mais ajoute 3 détails ultra-précis (heure, lieu, prénom, vêtement). Observe la différence de réaction. Pas d'ami sous la main ? Écris l'anecdote avec ses trois détails dans un message ou en vocal, puis relis-la : est-ce qu'on voit la scène ?"
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "conseil-79",
+    "marche": 1,
+    "enonce": [
+      "DÉFI RÈGLE NON ÉCRITE : aujourd'hui, repère une règle non écrite d'un lieu que tu traverses (ascenseur, salle d'attente, transport) et formule-la comme un article de loi. Dis-la à voix haute si l'envie vient, sinon écris-la dans tes notes ou envoie-la à un proche : elle compte autant."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-80",
+    "marche": 5,
+    "enonce": [
+      "DÉFI SILENCE : aujourd'hui, guette un blanc dans un lieu sonore (café, magasin, cantine, soirée) et glisse ta phrase de responsable du silence à voix normale, en une seule phrase. Aucun lieu sonore dans ta journée ? Dis-la chez toi à voix haute quand ta musique ou ta vidéo s'arrête, ou envoie-la en vocal à un ami. C'est réussi quand ta phrase est dite au moment exact du blanc."
+    ],
+    "suites": {
+      "marche": "Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche.",
+      "bof": "Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer."
+    }
+  },
+  {
+    "id": "conseil-81",
+    "marche": 1,
+    "enonce": [
+      "DÉFI TRACE : aujourd'hui ou à ta prochaine réunion, repère dans la salle trois traces (un scotch, une étiquette, une rature, un mot oublié) et note-les. Choisis-en une et écris-la en deux phrases courtes : la première décrit ce que tu vois, la seconde ajoute un chiffre ou une durée que la trace laisse supposer. Tu ne dis rien à personne : elles restent dans tes notes. C'est réussi si tu as trois traces notées, si tes deux phrases sont au présent (relis-les : elles doivent rester justes si tu les fais commencer par « En ce moment, »), si la seconde contient un chiffre ou une durée, et si elles ne contiennent aucune personne, ni nom ni fonction. Pas de réunion en vue, ou elle se passe en visio ? Fais-le sur la première pièce où tu passes (cuisine, escalier, la pièce où tu es) : n'importe quel objet qui porte une trace compte."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "conseil-82",
+    "marche": 1,
+    "enonce": [
+      "DÉFI SOIXANTE SECONDES : écris un toast en trois blocs : un souvenir précis, une seule vanne en rappel, une phrase de fermeture. Pas besoin d'être sur place : imagine-toi au pot et note deux choses qui seraient vraies pour toi ce soir-là (ce que tu ressentirais, ce que tu aurais préparé, ce que tout le monde ferait en attendant que tu parles). Transforme chacune en rappel, c'est l'étape qui fait d'un fait une vanne : pars d'un détail de ton souvenir (une phrase, un objet, un geste), un différent pour chaque, puis écris deux phrases. La première dit ce qui t'arrive, la seconde fait revenir le détail contre toi, de préférence sur le dernier mot. Garde la meilleure pour ton toast et l'autre en vanne de rechange : le jour J, si l'ambiance n'est pas celle que tu imaginais, tu changes de vanne sans toucher au reste. Aucun pot en vue ? Choisis quelqu'un qui t'a dépanné au travail et imagine son pot de départ. Pas besoin de chrono : compte tes mots. C'est réussi s'il fait entre 100 et 125 mots (c'est ta minute), si la vanne arrive après le souvenir, si elle reprend un détail de ce souvenir et se retourne contre toi (ou contre ce détail, jamais contre la personne qui l'a dit ou donné), sans viser la personne honorée, l'organisation, le buffet ni un responsable, et si tu as noté une vanne de rechange à côté. Rien à prononcer : le toast reste sur ta feuille jusqu'au jour J."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-2",
+    "marche": 3,
+    "enonce": [
+      "DÉFI ŒIL NEUF : pendant 3 jours, note chaque soir un objet ou une habitude croisée dans la journée qui te paraît absurde quand tu y repenses. Le 4e jour, choisis le meilleur et raconte-le à un ami comme un touriste qui découvre la France et ne comprend pas pourquoi personne ne s'en étonne. Si ton ami répond « mais c'est vrai, c'est bizarre », tu tiens ton angle."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-3",
+    "marche": 3,
+    "enonce": [
+      "DÉFI POP CULTURE : choisis une célébrité que tout le monde connaît et isole 3 de ses tics ou habitudes. Pour chacun, écris une phrase qui le transpose dans ta vie de tous les jours, par exemple : « Neymar qui s'effondre au moindre contact, c'est moi quand quelqu'un demande “et ton mémoire, ça avance ?” ». Teste la meilleure sur un ami ce soir."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-4",
+    "marche": 3,
+    "enonce": [
+      "DÉFI ETHNOLOGUE : demain, observe pendant 10 minutes un lieu que tu fréquentes (bureau, cantine, salle de sport) comme si tu y débarquais en mission scientifique. Note 5 comportements absurdes que les habitués ne remarquent plus. Ce soir, raconte le meilleur à un ami avec une voix de documentaire : c'est réussi s'il te coupe avec « c'est trop ça »."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-5",
+    "marche": 3,
+    "enonce": [
+      "DÉFI QUARTIER : décris ton quartier, ton bureau ou ta fac en 5 phrases, comme si tu le faisais visiter à un touriste un peu trop crédule. Chaque phrase doit contenir un détail ultra-spécifique (un nom de rue, un commerce, une habitude locale). Teste-les sur quelqu'un qui connaît l'endroit : c'est gagné s'il répond « c'est exactement ça »."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-6",
+    "marche": 3,
+    "enonce": [
+      "DÉFI ACTU : ouvre ton fil d'actu et prends le premier sujet sérieux (inflation, logement, climat). Écris 3 phrases qui le ramènent à ton quotidien, sans donner ton avis, en montrant juste une conséquence concrète. Par exemple : « Mon banquier m'a conseillé de diversifier. J'ai maintenant deux découverts. » Teste la meilleure sur un ami."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-7",
+    "marche": 1,
+    "enonce": [
+      "DÉFI MIROIR : pendant 1 semaine, chaque matin, dis devant ton miroir une phrase d'auto-dérision sur ta journée de la veille, avec le ton calme de quelqu'un qui lit un compte rendu médical. Le but : trouver le point exact entre humour et gravité. Tu y es quand tu te fais sourire toi-même sans avoir forcé la voix."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-8",
+    "marche": 2,
+    "enonce": [
+      "DÉFI GÊNANT ASSUMÉ : envoie à un ami de confiance un vocal de 30 secondes où tu racontes un moment honteux de ta semaine. Règle unique : exagère ta propre réaction, jamais les faits. Si ton ami répond en riant ou en te racontant le sien, tu as trouvé le ton."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "video-10",
+    "marche": 2,
+    "enonce": [
+      "DÉFI ÉNERGIE : envoie à un ami un vocal de 45 secondes où tu racontes un de tes complexes avec l'énergie de quelqu'un qui vient de gagner au loto. Pas une once de tristesse, que de l'enthousiasme. Si ton ami est surpris puis rit, la technique fonctionne."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "video-11",
+    "marche": 2,
+    "enonce": [
+      "DÉFI ANTI-CONSEIL : prends le dernier conseil bien-être croisé sur Insta, TikTok ou dans un magazine, et réécris-le en version honnête. Par exemple, « Lève-toi à 5h pour avoir du temps pour toi » devient « Lève-toi à 5h pour avoir plus de temps pour être fatigué. » Envoie ta version à un ami qui a déjà essayé."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "video-12",
+    "marche": 1,
+    "enonce": [
+      "DÉFI RETOURNEMENT : écris 3 phrases sur un de tes défauts en transformant chacun en avantage de mauvaise foi. Par exemple : « Je suis nul en orientation. Du coup, je découvre ma ville tous les jours. » Garde celle qui te fait le plus sourire et ressors-la la prochaine fois qu'on te chambre là-dessus."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-13",
+    "marche": 1,
+    "enonce": [
+      "DÉFI PLAIDOIRIE : filme-toi pendant 2 minutes en défendant l'idée que ta vie serait meilleure si tu étais un animal improbable (un flamant rose, un paresseux, un ornithorynque). Trouve au moins trois arguments vrais sur l'animal avant de te lancer. Revois la vidéo : les moments où tu ris de toi-même sont ceux à garder."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-15",
+    "marche": 3,
+    "enonce": [
+      "DÉFI GUERRE DOMESTIQUE : avec un ou une amie, improvisez une dispute de couple de 2 minutes sur un sujet dérisoire (qui a fini le PQ, le bon réglage du thermostat), jouée comme si l'avenir du monde en dépendait. Échangez les rôles au deuxième tour. Le meilleur moment arrive souvent quand l'un de vous sort une date précise comme preuve."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-16",
+    "marche": 3,
+    "enonce": [
+      "DÉFI DEUX VERSIONS : raconte un souvenir gênant à un ami en 2 versions. D'abord la version factuelle, 30 sec. Puis la même en incarnant un narrateur exagéré (le dramatique, le beaucoup trop calme ou le paranoïaque). Demande-lui laquelle il a préférée : la réponse te dit quel narrateur tu portes le mieux."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-18",
+    "marche": 1,
+    "enonce": [
+      "DÉFI PERSONNAGE ABSURDE : invente quelqu'un qui exerce un métier sérieux (policier, médecin, prof) mais applique les règles de façon totalement absurde, comme un policier qui verbalise les gens qui ne sourient pas. Écris 5 situations et joue-les devant ton miroir sans jamais sourire. Si tu craques avant la fin, recommence : le sérieux fait la moitié de la vanne."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-19",
+    "marche": 1,
+    "enonce": [
+      "DÉFI OBJET UNIQUE : prends un objet que tu portes ou utilises tous les jours (tes baskets, ton sac, tes écouteurs) et écris 5 observations drôles dessus en 5 minutes, chrono lancé. Les premières viendront vite et seront banales ; celles que tu arraches à la fin sont souvent les bonnes."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-20",
+    "marche": 3,
+    "enonce": [
+      "DÉFI PROF COOL : explique un sujet que tu maîtrises (ton métier, ton hobby, ta matière préférée) à quelqu'un qui n'y connaît rien, comme si c'était un sketch : une vraie info, puis une conclusion qui dérape. 2 minutes max. Si la personne rit et a compris, tu as trouvé ton style."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-21",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CLICHÉ : liste 3 clichés que tu entends souvent sur toi (ton métier, ta ville, ton âge). Pour chacun, écris une phrase qui accepte le cliché et le retourne en compliment de mauvaise foi, par exemple : « On dit que les gens de ma ville sont têtus. C'est faux, on a juste raison plus longtemps que les autres. » Teste la meilleure la prochaine fois qu'on te ressort le cliché."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-22",
+    "marche": 3,
+    "enonce": [
+      "DÉFI DOUBLE SENS : écris 5 phrases sur ton travail ou tes études qui fonctionnent au sens propre comme au figuré, par exemple : « Ma prof m'a dit que mon mémoire tenait debout. Elle parlait de la reliure. » Garde les 3 meilleures et glisse-en une dans une conversation demain, sans la souligner."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-23",
+    "marche": 3,
+    "enonce": [
+      "DÉFI LITTÉRAL : prends 3 expressions françaises (poser un lapin, avoir le cafard, se prendre un râteau) et imagine chacune au sens littéral, comme si elle se produisait vraiment devant toi. Décris la scène en deux phrases, avec le sérieux d'un témoin. Raconte ta préférée à quelqu'un ce soir."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-24",
+    "marche": 5,
+    "enonce": [
+      "DÉFI JARGON : prends 5 mots anglais que tu utilises au boulot ou en cours (meeting, deadline, brainstorm…), traduis-les littéralement en français et place chaque traduction dans une phrase sérieuse. « Je travaille sous une ligne de mort » sonne tout de suite plus dramatique qu'une deadline. Teste la meilleure sur un collègue."
+    ],
+    "suites": {
+      "marche": "Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche.",
+      "bof": "Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer."
+    }
+  },
+  {
+    "id": "video-25",
+    "marche": 3,
+    "enonce": [
+      "DÉFI PAUSE : raconte à un ami une vanne que tu aimes bien. La 1ère fois, d'une traite. La 2ème fois, marque 3 secondes de silence juste avant la chute. Demande-lui quelle version était la plus drôle : sa réponse t'en apprendra plus sur le timing qu'un long discours."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-26",
+    "marche": 1,
+    "enonce": [
+      "DÉFI MITRAILLETTE : écris 3 one-liners sur les rendez-vous amoureux (réels ou inventés), puis coupe dans chacun jusqu'à ce qu'il tienne en une respiration. Dis-les à voix haute à la suite, sans jamais laisser plus de 3 secondes entre deux. Répète 3 fois en supprimant un mot à chaque passage : la version la plus courte est souvent la plus drôle."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-27",
+    "marche": 1,
+    "enonce": [
+      "DÉFI RYTHME : écris 3 phrases très courtes sur ta matinée (du genre « Réveil 7h. Café froid. Bus raté. »), puis une version longue et détaillée de la même matinée. Lis les deux à voix haute : la courte claque plus, c'est ça, le rythme comique. Ensuite, essaie de garder un détail savoureux de la longue avec le rythme de la courte."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-28",
+    "marche": 4,
+    "enonce": [
+      "DÉFI RÉPARTIE : en soirée, lance le jeu « la répartie en 5 secondes » : quelqu'un fait une affirmation, les autres ont 5 secondes pour rebondir. Pas de méchanceté, juste de la vitesse, et le plus drôle gagne le tour. Faites 10 tours minimum : les premiers sont laborieux, les derniers bien meilleurs."
+    ],
+    "suites": {
+      "marche": "Bien joué : à plusieurs, il faut prendre sa place, et tu l'as prise. Marche suivante : avec quelqu'un que tu connais peu.",
+      "bof": "Un groupe ne rebondit pas toujours sur la première phrase."
+    }
+  },
+  {
+    "id": "video-29",
+    "marche": 3,
+    "enonce": [
+      "DÉFI RITUEL : choisis une formule de politesse que tu dis sans y penser (« ça va ? », « on se fait un truc bientôt », « bonne continuation ») et écris ce qu'elle veut vraiment dire, en une phrase honnête. Par exemple, « on se fait un truc bientôt » signifie « je t'aime bien, mais pas au point d'ouvrir mon agenda ». Teste ta meilleure traduction en conversation cette semaine."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-33",
+    "marche": 1,
+    "enonce": [
+      "DÉFI ANALYSE : regarde une partie du gala et choisis 3 passages. Pour chacun, note le sujet et la technique utilisée, puis écris ta propre vanne sur le même sujet. Le but : t'entraîner à analyser et à produire dans la foulée, pour que l'un nourrisse l'autre."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-34",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CONTRADICTIONS : écris 3 de tes contradictions et formule chacune en une phrase qui fait sourire, par exemple : « Je milite pour l'écologie, mais je prends des bains de 45 minutes. Pour y réfléchir. » Garde la meilleure : c'est ton premier matériel de stand-up."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-35",
+    "marche": 2,
+    "enonce": [
+      "DÉFI RÉSEAUX : ouvre Instagram ou TikTok, scrolle pendant 2 minutes et note 3 comportements absurdes (filtres, poses, légendes). Écris un commentaire drôle pour chacun, pas méchant, juste lucide, et idéalement sur un comportement que tu as toi aussi. Envoie le meilleur à un ami."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "video-36",
+    "marche": 3,
+    "enonce": [
+      "DÉFI DÉCALAGE CULTUREL : raconte à un ami ta pire expérience de décalage culturel (un voyage, un coloc étranger, un plat inconnu) en exagérant ta propre réaction. La clé : tu te moques de toi face à la différence, jamais de l'autre culture."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-37",
+    "marche": 3,
+    "enonce": [
+      "DÉFI DUO : avec un ami, lancez un sujet banal (les courses, le ménage). L'un reste parfaitement logique, l'autre pousse chaque idée vers l'absurde, et vous échangez les rôles après 2 minutes. Seule règle : toujours répondre « oui, et… », jamais « non, mais… »."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-40",
+    "marche": 3,
+    "enonce": [
+      "DÉFI CLASSEMENT : classe les restaurants de ta ville en 3 catégories absurdes (ceux où tu paies le décor, ceux où le serveur te tutoie d'office, ceux avec une télé au-dessus du bar) et présente ta classification à un pote avec le sérieux d'une thèse. S'il conteste un classement, tant mieux : tu tiens un débat, donc une vanne qui vit."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-41",
+    "marche": 4,
+    "enonce": [
+      "DÉFI RÉSUMÉ DÉTOURNÉ : prends un film ou une série que tu as vu récemment et résume-le en 3 phrases, sur le ton d'un avis de client ou d'un compte rendu de réunion. Par exemple : « Titanic : croisière très bien notée dans l'ensemble, un peu moins sur la fin. » Envoie tes résumés dans un groupe et regarde lequel est deviné en premier."
+    ],
+    "suites": {
+      "marche": "Bien joué : à plusieurs, il faut prendre sa place, et tu l'as prise. Marche suivante : avec quelqu'un que tu connais peu.",
+      "bof": "Un groupe ne rebondit pas toujours sur la première phrase."
+    }
+  },
+  {
+    "id": "video-42",
+    "marche": 1,
+    "enonce": [
+      "DÉFI SINGULARITÉ : identifie une de tes particularités que les gens remarquent (ta voix, ton rire, ta démarche, un tic) et écris 3 vannes qui en jouent avec fierté plutôt qu'avec gêne, par exemple : « J'ai un rire très fort. Ça évite aux gens de se demander si leur blague a marché. » La règle : c'est toi qui tiens le micro sur toi-même, et tu le fais en souriant."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-43",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CONSTRUCTION : prends un aliment banal (la courgette, le surimi, le pain de mie) et, en 5 minutes chrono, accumule le maximum d'arguments pour prouver que c'est le meilleur aliment au monde, en commençant par des arguments raisonnables. Enregistre-toi, réécoute, garde les 3 meilleurs et range-les du plus crédible au plus délirant."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-44",
+    "marche": 3,
+    "enonce": [
+      "DÉFI DIALOGUE INTÉRIEUR : raconte à un ami ta dernière visite chez le médecin, le dentiste ou le coiffeur en faisant parler les deux personnages, toi et le pro. Exagère l'écart entre ce que tu dis à voix haute et ce que tu penses au même moment. C'est ce dialogue en double qui fait rire, pas la situation elle-même."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-45",
+    "marche": 1,
+    "enonce": [
+      "DÉFI DEUX CAMPS : prends un sujet qui divise (le véganisme, le sport, les réveils à 5h) et écris 2 vannes, une qui égratigne les pour, une qui égratigne les contre. La plus drôle gagne, quelle que soit ton opinion : c'est ça, la neutralité comique."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-46",
+    "marche": 3,
+    "enonce": [
+      "DÉFI PING-PONG : avec un ami, jouez au ping-pong de vannes, chacun à tour de rôle sur le même thème. La règle : attendre 3 secondes après le rire avant d'enchaîner, parce que c'est la pause qui donne le rythme. 5 échanges minimum, et le premier qui coupe l'autre offre le café."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-47",
+    "marche": 3,
+    "enonce": [
+      "DÉFI DEUX VERSIONS : prends une histoire que tu racontes souvent. Version 1 : raconte-la en 1 minute. Version 2 : en 3 minutes, avec des personnages, des dialogues et des détails sensoriels. Demande à un ami laquelle il préfère, puis garde de la version longue uniquement ce qu'il a cité."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-48",
+    "marche": 1,
+    "enonce": [
+      "DÉFI VANNE INATTENDUE : liste 3 aspects de ton identité (ton origine, ton métier, une passion bizarre). Pour chacun, écris la vanne que les gens attendent, puis celle qu'ils n'attendent pas. C'est la deuxième qui te rend unique ; la première, laisse-la aux autres."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-49",
+    "marche": 1,
+    "enonce": [
+      "DÉFI « ET J'AI RAISON » : prends un de tes défauts, ajoute « et j'ai raison », puis justifie avec une logique imparable. Par exemple : « Je réponds aux messages trois jours après, et j'ai raison : entre-temps, la moitié des problèmes se sont réglés tout seuls. » Écris-en 5 et garde les 2 qui feraient rire ta mère."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-50",
+    "marche": 1,
+    "enonce": [
+      "DÉFI PINCE-SANS-RIRE : écris une chronique de 1 minute sur un sujet sérieux (la météo, l'économie) en n'utilisant que des faits faux, présentés avec un sérieux total. Lis-la à voix haute avec le ton le plus neutre possible, comme un bulletin d'information. Si tu ris en lisant, recommence : c'est ton sérieux qui doit faire rire, pas toi."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-51",
+    "marche": 1,
+    "enonce": [
+      "DÉFI REGARD ÉTRANGER : joue le rôle d'un visiteur qui découvre ton quotidien et décris 5 de tes habitudes (le café du matin, la bise, le pain quotidien) comme s'il les voyait pour la première fois et cherchait poliment à comprendre. L'étonnement sincère révèle l'absurde caché dans le normal."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-52",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CHRONIQUE : écris une chronique de 2 minutes sur un sujet d'actu qui t'agace, en alternant à chaque phrase un fait réel et un commentaire drôle. Enregistre-toi, réécoute, puis coupe sans pitié tout ce qui n'ajoute pas de rire. La version finale est souvent bien plus courte que la première, et bien meilleure."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-54",
+    "marche": 1,
+    "enonce": [
+      "DÉFI NONCHALANCE : enregistre-toi en audio en racontant une anecdote de ta semaine. Réécoute et repère les moments où tu forces. Réenregistre en étant moins expressif, plus détendu, comme si l'histoire ne te concernait qu'à moitié. Paradoxalement, moins tu en fais, plus c'est drôle : compare les deux versions."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-57",
+    "marche": 3,
+    "enonce": [
+      "DÉFI MIME : choisis 3 comportements que tu croises tous les jours (quelqu'un qui cherche son ticket, qui attend une réponse à un message, qui fait semblant de connaître la chanson). Écris 3 phrases pour les présenter, puis joue chacun sans un mot devant un ami. S'il devine le comportement avant d'entendre ta phrase, ton mime est juste."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-58",
+    "marche": 3,
+    "enonce": [
+      "DÉFI TROIS VERSIONS : raconte un choc culturel que tu as vécu (voyage, rencontre, déménagement) en 3 versions : factuelle, exagérée, puis complètement absurde, et joue-les à un ami dans cet ordre. La version 2 est généralement la plus drôle : l'exagération marche tant qu'on reconnaît encore la vérité dessous."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-60",
+    "marche": 3,
+    "enonce": [
+      "DÉFI PING-PONG ABSURDE : avec un ami complice, choisissez un sujet de société (la galanterie, le sport genré, les tâches ménagères), écrivez chacun 3 vannes dessus, puis enchaînez-les en ping-pong. La règle : jamais méchant, toujours absurde. Une vanne qui vise une personne plutôt qu'un comportement sort du jeu."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-61",
+    "marche": 3,
+    "enonce": [
+      "DÉFI PARALLÈLE : note cette semaine 3 différences de réaction entre toi et une personne proche (ton coloc, ta sœur, ton ou ta partenaire) face à la même situation, des trucs vrais que tu vis, pas des clichés. Pour chacune, écris la version drôle en montrant les deux réactions côte à côte. Teste la meilleure au dîner, idéalement devant la personne concernée."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-62",
+    "marche": 3,
+    "enonce": [
+      "DÉFI RÉCIT DE SOIRÉE : raconte un souvenir de voyage ou de soirée entre amis qui a mal tourné, ou bien tourné d'une façon inattendue. Commence par planter le décor (le lieu, l'ambiance), ajoute un détail sensoriel (une odeur, un son), et garde la chute pour la toute fin. Si ton auditeur demande « et alors ? » avant la fin, ton suspense fonctionne."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-63",
+    "marche": 1,
+    "enonce": [
+      "DÉFI GUIDE TOURISTIQUE : compare deux systèmes que tu connais (la santé en France et dans un autre pays, l'école publique et privée, la ville et la campagne) et note 3 différences absurdes. Présente-les comme un guide touristique ultra-sérieux qui met en garde les visiteurs, conseils pratiques à l'appui."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-64",
+    "marche": 1,
+    "enonce": [
+      "DÉFI REGISTRE : raconte une visite chez un professionnel de santé (dentiste, ophtalmo, kiné) qui a été gênante ou absurde, en y intégrant le dialogue avec le praticien, réel ou reconstitué. Fais-lui parler un français médical impeccable pendant que toi, tu paniques en langage courant. C'est le contraste entre les deux registres qui fait le travail."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-65",
+    "marche": 1,
+    "enonce": [
+      "DÉFI STÉRÉOTYPE ACCEPTÉ : écris 3 stéréotypes qu'on te colle (à cause de ton métier, ton âge, ton origine ou ta passion). Pour chacun, écris la réponse qui accepte le stéréotype et le pousse jusqu'à l'absurde, par exemple : « Oui, je suis prof, donc oui, j'ai beaucoup de vacances. Je les passe à expliquer que je n'ai pas tant de vacances que ça. » Garde-les en réserve pour la prochaine fois qu'on te le ressort."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-66",
+    "marche": 5,
+    "enonce": [
+      "DÉFI PERSONNAGE DE MILIEU : choisis un milieu que tu connais (ton boulot, ton sport, ta fac) et note 5 mots de son jargon. Crée un personnage qui les utilise pour parler d'un sujet banal, comme choisir une baguette ou raconter son week-end. Joue-le devant un collègue : s'il te cite quelqu'un qui parle exactement comme ça, tu tiens un bon filon."
+    ],
+    "suites": {
+      "marche": "Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche.",
+      "bof": "Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer."
+    }
+  },
+  {
+    "id": "video-67",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CANDIDE : prends un sujet de société qui fait débat et, au lieu de donner ton avis, liste 3 observations que tout le monde reconnaît, sans prendre parti. Commence chacune par « le truc, c'est que… » et décris seulement ce que tu vois. Tu verras que l'observation neutre est souvent plus drôle que l'opinion."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-68",
+    "marche": 3,
+    "enonce": [
+      "DÉFI DÉMARCHE : lève-toi et imite 3 types de personnes uniquement par leur démarche (la personne pressée, le touriste perdu, le sportif au parc). Filme-toi 10 secondes pour chacun, puis montre les vidéos à un ami, sans le son. S'il devine les trois, tu as trouvé le raccourci le plus rapide vers le rire : la physicalité."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-69",
+    "marche": 3,
+    "enonce": [
+      "DÉFI RITUEL SPORTIF : regarde un match ou une compétition ce week-end et note 3 gestes rituels absurdes (célébrations, tics, superstitions). Pour chacun, imagine l'équivalent dans ta vie quotidienne, comme le tennisman qui fait rebondir sa balle avant de servir, version toi devant la porte de la salle d'exam. Raconte le meilleur à un ami en le mimant."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-70",
+    "marche": 5,
+    "enonce": [
+      "DÉFI CONSEILS CROISÉS : trouve quelqu'un qui a plus, ou moins, d'expérience que toi dans un domaine et échangez 3 conseils chacun, formulés de manière drôle. Les conseils doivent être vrais, juste tournés avec un pas de côté, par exemple : « Pour ton premier jour, arrive en avance, comme ça tu auras le temps de te perdre. » Laisse toujours l'autre finir avant de rebondir : c'est ça, le timing à deux."
+    ],
+    "suites": {
+      "marche": "Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche.",
+      "bof": "Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer."
+    }
+  },
+  {
+    "id": "video-71",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CRESCENDO : prends un objet anodin sur ton bureau et, en 60 secondes chrono, argumente pourquoi c'est l'objet le plus important au monde. Chaque phrase doit être plus dramatique que la précédente, avec le ton d'un éditorial du matin. Enregistre-toi, et garde la phrase où tu as failli y croire."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-72",
+    "marche": 1,
+    "enonce": [
+      "DÉFI PHYSIQUE ASSUMÉ : écris 5 vannes sur un aspect physique que tu n'assumes pas totalement. Règle : chaque vanne doit te faire sourire, pas grimacer. Si tu grimaces, c'est trop intime, remonte d'un cran. La bonne autodérision est celle qui te libère, pas celle qui appuie là où ça fait mal."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-73",
+    "marche": 1,
+    "enonce": [
+      "DÉFI PROCÈS ABSURDE : invente un procès où un objet du quotidien est accusé d'un crime (le réveil pour nuisances sonores, le wifi pour séquestration). Écris la plaidoirie de la défense en 1 minute et garde un ton d'avocat sérieux du début à la fin, circonstances atténuantes comprises. Si tu finis par croire à l'innocence du réveil, c'est gagné."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-74",
+    "marche": 3,
+    "enonce": [
+      "DÉFI VULGARISATION : prends 3 mots de jargon tech ou pro (blockchain, KPI, synergie) et explique chacun à un ami comme si tu parlais à un enfant de 5 ans, par exemple : « Un KPI, c'est un chiffre qu'on regarde très fort en réunion pour qu'il monte. » La simplification forcée révèle l'absurdité du jargon, et c'est là que se cache le rire."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-75",
+    "marche": 2,
+    "enonce": [
+      "DÉFI ANNONCES RÊVÉES : imagine 5 annonces qu'on rêverait d'entendre dans un lieu public (métro, supermarché, salle d'attente), par exemple : « Suite à un incident voyageur, votre patron est bloqué entre deux stations. Prenez votre temps. » Lis-les à voix haute avec le ton d'un vrai message d'enceinte, puis envoie les meilleures à un ami."
+    ],
+    "suites": {
+      "marche": "Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face.",
+      "bof": "Un message qui ne prend pas, ça arrive."
+    }
+  },
+  {
+    "id": "video-77",
+    "marche": 1,
+    "enonce": [
+      "DÉFI PHILOSOPHIE DU BANAL : écris une réflexion philosophique de 1 minute sur un lieu banal (la laverie, le parking, la salle d'attente). Pose une question existentielle très sérieuse, du genre « pourquoi met-on de la musique dans les ascenseurs ? », et développe une théorie absurde mais logique pour y répondre. Lis-la avec la voix grave d'une émission de fin de soirée."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-79",
+    "marche": 1,
+    "enonce": [
+      "DÉFI PERSONNAGE À DÉFAUT : invente un personnage avec un défaut social (le snob, celui qui explique tout à tout le monde, le complotiste) et incarne-le pendant 1 minute avec une conviction totale. Le public doit rire du personnage, pas avec lui. Le piège à éviter : que ses propos aient l'air, même une seconde, d'être les tiens."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-80",
+    "marche": 1,
+    "enonce": [
+      "DÉFI TIC NARRATIF : invente un personnage qui a un seul tic narratif (il exagère tout, il minimise tout, il ramène tout à lui) et place-le dans 3 situations différentes (au café, chez le médecin, en réunion). Le tic doit rester parfaitement constant d'une scène à l'autre : c'est la cohérence du personnage qui fait rire, pas la situation."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-81",
+    "marche": 1,
+    "enonce": [
+      "DÉFI REGARD D'ENFANT : imagine qu'un enfant de 8 ans découvre une de tes habitudes d'adulte (le café du matin, les réunions en visio, les séries enchaînées le soir). Écris 5 questions qu'il poserait et tes réponses embarrassées, par exemple : « Pourquoi tu dis que tu vas te coucher tôt, alors que tu le fais jamais ? » Le regard candide révèle l'absurdité de nos habitudes."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-82",
+    "marche": 1,
+    "enonce": [
+      "DÉFI RÉPLIQUE EN POCHE : écris 3 chambrages que tu reçois souvent (sur ta taille, ton métier, ton célibat). Pour chacun, prépare une réponse qui accepte la remarque puis la retourne, par exemple : « T'es encore en retard. » → « Oui, mais toujours du même quart d'heure. Tu peux régler ta montre sur moi. » Garde la meilleure en poche : la prochaine fois qu'on te chambre, elle sera prête."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-83",
+    "marche": 1,
+    "enonce": [
+      "DÉFI « ET J'AI RAISON » : écris 3 choses que ton entourage te reproche (pas d'enfants, pas marié, pas de CDI). Pour chacune, construis la démonstration inverse avec un argument absurde mais logique, par exemple : « Je n'ai pas de CDI. Je préfère qu'on regrette mon départ plutôt que ma présence. » Celle qui te fait le plus rire devient ton matériel."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
+    "id": "video-84",
+    "marche": 3,
+    "enonce": [
+      "DÉFI VÉCU EN DUO : raconte à un ami ton pire rendez-vous ou ta pire tentative de séduction. Règle : pas une seule justification, pas de « bon, en même temps… », et le ton de quelqu'un qui raconte la plus belle soirée de sa vie. Ton ami fait pareil ensuite, et chacun garde le détail qui a fait rire l'autre."
+    ],
+    "suites": {
+      "marche": "Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe.",
+      "bof": "En face, une réplique ne fait pas toujours mouche du premier coup."
+    }
+  },
+  {
+    "id": "video-86",
+    "marche": 5,
+    "enonce": [
+      "DÉFI MACHINE À CAFÉ : prends 5 termes de ton travail (KPI, deadline, synergies, best practices, scalable) et utilise-les pour décrire une activité du quotidien (faire les courses, promener le chien, organiser un dîner). Par exemple : « Pour les courses de samedi, j'ai revu le périmètre : les chips passent en V2. » Teste la meilleure sur un collègue lundi."
+    ],
+    "suites": {
+      "marche": "Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche.",
+      "bof": "Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer."
+    }
+  },
+  {
+    "id": "video-88",
+    "marche": 4,
+    "enonce": [
+      "DÉFI DEUX CAMPS : choisis un conflit du quotidien (piétons contre cyclistes, lève-tôt contre couche-tard, ceux qui répondent tout de suite aux messages contre ceux qui les laissent mariner). Joue les deux personnages devant tes amis, en changeant de position physique à chaque changement de rôle. 2 minutes max, et chaque camp doit être d'une parfaite mauvaise foi."
+    ],
+    "suites": {
+      "marche": "Bien joué : à plusieurs, il faut prendre sa place, et tu l'as prise. Marche suivante : avec quelqu'un que tu connais peu.",
+      "bof": "Un groupe ne rebondit pas toujours sur la première phrase."
+    }
+  }
+]

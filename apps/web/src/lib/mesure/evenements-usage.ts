@@ -30,6 +30,13 @@ export const TYPES_EVENEMENT = [
   "resiliation_programmee",
   "portail_ouvert",
   "renouvellement_paye",
+  // s24, lot D9 (espace client) : écrits SEULEMENT interrupteur ouvert, par `lib/mesure/evenements-espace.ts`.
+  "espace_ouvert",
+  "cloche_ouverte",
+  "bonus_ouvert",
+  "cap_atteint",
+  "replique_ecrite",
+  "question_envoyee",
 ] as const;
 export type TypeEvenement = (typeof TYPES_EVENEMENT)[number];
 
@@ -55,18 +62,26 @@ const DETAILS: Record<TypeEvenement, readonly string[]> = {
   resiliation_programmee: MOTIFS_STRIPE,
   portail_ouvert: ["changer-formule", "resilier", "carte", "simple"],
   renouvellement_paye: ["month", "year", "iap"],
+  // Lot D9 : aucun détail, sauf le seul numéro de cap (`cap:<n>`). Jamais le texte d'une réplique ou d'une question.
+  espace_ouvert: [],
+  cloche_ouverte: [],
+  bonus_ouvert: ["cap"],
+  cap_atteint: ["cap"],
+  replique_ecrite: [],
+  question_envoyee: [],
 };
-/** Numéro d'étape (`etape:<n>`, `quiz:<n>`). */
-const AVEC_SUFFIXE = new Set(["etape", "quiz"]);
-const SUFFIXE = /^[0-9]{1,3}$/;
+/** Suffixe admis par tête : numéro d'étape (`etape:<n>`, `quiz:<n>`), numéro de cap (`cap:1` à `cap:5`). */
+const AVEC_SUFFIXE: Record<string, RegExp> = { etape: /^[0-9]{1,3}$/, quiz: /^[0-9]{1,3}$/, cap: /^[1-5]$/ };
 
 /** Détail accepté tel quel s'il est dans la liste fermée du type, sinon `null` (jamais de texte libre). */
 export function detailFerme(type: TypeEvenement, detail: string | null | undefined): string | null {
   if (!detail) return null;
   const [tete, suffixe, ...reste] = detail.split(":");
   if (reste.length > 0 || !DETAILS[type].includes(tete)) return null;
-  if (suffixe === undefined) return detail;
-  return AVEC_SUFFIXE.has(tete) && SUFFIXE.test(suffixe) ? detail : null;
+  const motif = AVEC_SUFFIXE[tete];
+  // `etape` et `quiz` seuls restent admis (comme avant D9) ; `cap` exige son numéro.
+  if (suffixe === undefined) return tete === "cap" ? null : detail;
+  return motif?.test(suffixe) ? detail : null;
 }
 
 /** Sous-ensemble Prisma utilisé ici (injectable en test). */

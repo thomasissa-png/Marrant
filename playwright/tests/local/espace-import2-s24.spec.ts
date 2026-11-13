@@ -47,7 +47,7 @@ test.describe("espace client, import 2 (s24), vrai contenu", () => {
     await page.goto("/mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes");
     for (const t of [T.seance.pourQuiQuand, T.seance.ilTeFaut, T.seance.tuProduis, T.seance.renvois]) await expect(page.getByRole("heading", { name: t, exact: true })).toBeVisible();
     await expect(page.getByTestId("seance-grille").getByRole("listitem")).toHaveCount(3);
-    await expect(page.getByTestId("geste-fiche")).toContainText("Ressors-la à voix haute ce soir.");
+    await expect(page.getByTestId("geste-fiche")).toContainText("Redis ta réplique deux fois ce soir, pour l'avoir en bouche à la prochaine pique.");
     await capturer(page, "seance");
 
     await page.goto("/mon-espace/fiche/vocabulaire/vocabulaire-quand-on-te-lance-une-pique");
@@ -72,8 +72,9 @@ test.describe("espace client, import 2 (s24), vrai contenu", () => {
     await capturer(page, "a-plat-le-blanc");
 
     await page.goto("/mon-espace/fiche/jeu/les-pires-reponses-1");
-    await page.getByText(T.ceQuOnAuraitPuDire).click();
+    await page.getByText(T.reponsePiresReponses.defaut).click();
     await expect(page.locator("details")).toContainText("B.");
+    await expect(page.getByText(T.ceQuOnAuraitPuDire)).toHaveCount(0);
     await capturer(page, "jeu-les-pires-reponses");
   });
 

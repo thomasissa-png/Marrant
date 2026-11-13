@@ -62,7 +62,7 @@ function Corps({ fiche }: { fiche: Fiche }) {
     case "ecouter":
       return <CorpsEcouter c={fiche.contenu} />;
     case "jeu":
-      return <CorpsJeu c={fiche.contenu} />;
+      return <CorpsJeu c={fiche.contenu} id={fiche.id} />;
     case "seance":
       return <CorpsSeance c={fiche.contenu} />;
     case "bilan": {

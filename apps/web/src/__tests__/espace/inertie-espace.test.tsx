@@ -162,6 +162,11 @@ describe("garde-fou de construction", () => {
     // `lib/account.ts` (déjà listé, sans import de l'espace) exporte et supprime les fils avec le compte.
     "app/api/admin/questions-equipe/route.ts",
     "app/(dashboard)/admin/questions/page.tsx",
+    // D9 (mesure d'usage de l'espace) : `lib/mesure/evenements-espace.ts` lit l'interrupteur pour n'écrire
+    // AUCUN événement fermé (seconde barrière après la garde des routes) ; la lecture admin
+    // `api/admin/espace-lecture` répond 404 fermé avant toute lecture, puis l'auth admin existante.
+    "lib/mesure/evenements-espace.ts",
+    "app/api/admin/espace-lecture/route.ts",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

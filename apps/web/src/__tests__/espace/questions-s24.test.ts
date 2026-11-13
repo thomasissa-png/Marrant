@@ -83,13 +83,17 @@ const mockDb = {
     update: jest.fn(async (a: { where: Ligne; data: Ligne }) => Object.assign(tables.equipeMessage.find((m) => m.id === a.where.id)!, a.data)),
   },
   usageEvent: { create: jest.fn(), createMany: jest.fn() },
+  // Lot D9 : opposition à la mesure lue avant chaque écriture (aucune ici).
+  webhookEvent: { findUnique: jest.fn(async () => null) },
   $transaction: jest.fn(async (ops: Promise<unknown>[]) => Promise.all(ops)),
 };
 jest.mock("@/lib/prisma", () => ({ get prisma() { return mockDb; } }));
-const ouvert = { espace: true, email: false };
+// Lot D9 : `lib/progression` (chargé par la mesure de l'espace) lit l'interrupteur au chargement, avant cette
+// ligne : l'état vit sur `globalThis` (même patron que `cloche-s24`).
+const ouvert = ((globalThis as { __Q_OUVERT__?: { espace: boolean; email: boolean } }).__Q_OUVERT__ ??= { espace: true, email: false });
 jest.mock("@/config/espace-client", () => ({
   ...jest.requireActual("@/config/espace-client"),
-  get ESPACE_CLIENT_PUBLIE() { return ouvert.espace; },
+  get ESPACE_CLIENT_PUBLIE() { return (globalThis as { __Q_OUVERT__?: { espace: boolean } }).__Q_OUVERT__?.espace ?? true; },
 }));
 jest.mock("@/config/textes/espace-questions", () => ({
   ...jest.requireActual("@/config/textes/espace-questions"),
@@ -293,7 +297,11 @@ describe("aucune trace du texte", () => {
     const ecrit = s.flatMap((x) => x.mock.calls.flat()).map(String).join("\n");
     expect(ecrit).not.toContain("Bérénice");
     expect(ecrit).toContain("[espace/questions/envoi] échec : PrismaClientKnownRequestError P1001");
-    expect(mockDb.usageEvent.create).not.toHaveBeenCalled();
+    // Lot D9 : un `question_envoyee` par fil créé, sans détail ni texte.
+    const evenements = mockDb.usageEvent.create.mock.calls.map((c) => (c as unknown as [{ data: { type: string; detail: unknown } }])[0].data);
+    expect(evenements.length).toBeGreaterThan(0);
+    for (const e of evenements) expect(e).toMatchObject({ type: "question_envoyee", detail: null });
+    expect(JSON.stringify(mockDb.usageEvent.create.mock.calls)).not.toContain(SECRET);
     s.forEach((x) => x.mockRestore());
     const SRC = join(__dirname, "../..");
     const fichiers = (d: string): string[] => readdirSync(d).flatMap((e) => (statSync(join(d, e)).isDirectory() ? fichiers(join(d, e)) : [join(d, e)]));
@@ -306,6 +314,7 @@ describe("aucune trace du texte", () => {
     ];
     // Code seulement (les commentaires disent justement « ni UsageEvent, ni Umami »).
     const code = (f: string) => readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+    // Lot D9 : la seule mesure admise passe par `noterEvenementEspace` (aucun texte, test ci-dessus).
     for (const f of sources) expect([relative(SRC, f), /umami|usageEvent|trackEvent/i.test(code(f))]).toEqual([relative(SRC, f), false]);
   });
 });

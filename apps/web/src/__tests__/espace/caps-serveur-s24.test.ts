@@ -29,6 +29,9 @@ jest.mock("@/config/espace-client", () => ({
 const getServerSession = jest.fn();
 jest.mock("next-auth", () => ({ getServerSession: (...a: unknown[]) => getServerSession(...a) }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));
+// Lot D9 : mesure `cap_atteint` espionnée (annonce montrée seulement, jamais le recalcul silencieux).
+const noterCapsAtteints = jest.fn(async (_u: string, caps: readonly number[]) => caps.length);
+jest.mock("@/lib/mesure/evenements-espace", () => ({ noterCapsAtteints: (u: string, c: readonly number[]) => noterCapsAtteints(u, c) }));
 
 import { GET, POST } from "@/app/api/espace/caps/route";
 import { recalculerCapsSilencieux, type DbCaps } from "@/lib/espace/caps-serveur";
@@ -94,6 +97,7 @@ describe("POST /api/espace/caps (acquittement)", () => {
     expect(skipDuplicates).toBe(true);
     expect(data).toEqual([expect.objectContaining({ userId: "u1", type: "CAP", numero: 3, silencieux: false })]);
     expect(mockDb.user.update).not.toHaveBeenCalled();
+    expect(noterCapsAtteints).toHaveBeenCalledWith("u1", [3]);
   });
 
   it("valeur hors liste : 400, rien d'écrit", async () => {
@@ -131,6 +135,8 @@ describe("recalcul unique des caps (silencieux, vers le haut)", () => {
     expect(mockDb.user.update).toHaveBeenCalledWith({ where: { id: "a" }, data: { level: "COMIQUE" } });
     const lignes = mockDb.capAnnonce.createMany.mock.calls.flatMap((c) => c[0].data as Array<Record<string, unknown>>);
     expect(lignes.every((l) => l.silencieux === true)).toBe(true);
+    // Lot D9 : le recalcul unique de l'ouverture n'émet aucun `cap_atteint`.
+    expect(noterCapsAtteints).not.toHaveBeenCalled();
     const de = (id: string, type: string) => lignes.filter((l) => l.userId === id && l.type === type).map((l) => l.numero);
     expect(de("a", "CAP")).toEqual([2, 3, 4]);
     expect(de("a", "BONUS")).toEqual([2, 3, 4]);

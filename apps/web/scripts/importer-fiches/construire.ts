@@ -4,6 +4,7 @@
  */
 import { FICHIERS_ESPACE, ficheSchema, validerFichier, type Fiche, type TypeFiche } from "../../src/lib/espace/fiches-schema";
 import { lireTousLesLots, type Refus } from "./lots";
+import { construireMissions, type ImportMissions } from "./missions";
 import { verifierBilans, verifierJeux, type Controle } from "./verifier";
 
 /** Fichiers que l'import remplit ; `ecouter` et `bonus` ne sont jamais touchés (hors import). */
@@ -14,6 +15,8 @@ export interface Import {
   parFichier: Map<NomImporte, Fiche[]>;
   refus: Refus[];
   controles: Controle[];
+  /** Missions (s24) : `missions.json`, schéma propre (`lib/espace/missions.ts`). */
+  missions: ImportMissions;
 }
 
 export function construireImport(): Import {
@@ -37,7 +40,12 @@ export function construireImport(): Import {
   const doublons = ids.filter((id, i) => ids.indexOf(id) !== i);
   if (doublons.length) throw new Error(`id en double entre fichiers : ${doublons.join(", ")}`);
   const pourControle = fiches as unknown as Parameters<typeof verifierJeux>[0];
-  return { parFichier, refus, controles: [...verifierJeux(pourControle), ...verifierBilans(pourControle)] };
+  return {
+    parFichier,
+    refus,
+    controles: [...verifierJeux(pourControle), ...verifierBilans(pourControle)],
+    missions: construireMissions(),
+  };
 }
 
 /** Texte exact d'un fichier JSON servi (2 espaces, fin de ligne finale). */

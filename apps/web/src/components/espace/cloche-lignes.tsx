@@ -12,7 +12,8 @@ import { dateCourte } from "@/components/espace/questions/appel";
  * groupe en 14/20 secondaire ; chaque notification est un lien d'au moins 44 px de haut, survol `elevated`,
  * focus visible ; une réponse dit le type du fil et « Répondu le {date} » (aucun doublon du titre de
  * groupe) ; aucune pastille de ligne. Rien de chargé : rien n'est écrit ; chargé et vide : « Rien de
- * nouveau. Reviens quand tu veux. ». Toucher une ligne ferme le panneau (`onChoisir`).
+ * nouveau. Reviens quand tu veux. » ; lecture échouée sans rien de lu : « On n'a pas pu afficher tes
+ * notifications. Repasse dans un moment. ». Toucher une ligne ferme le panneau (`onChoisir`).
  */
 const LIGNE =
   "flex min-h-11 flex-col justify-center rounded-md px-3 py-2 text-sm text-text-primary hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
@@ -29,8 +30,8 @@ function Groupe({ titre, cle, children }: { titre: string; cle: string; children
   );
 }
 
-export function LignesCloche({ contenu, onChoisir }: { contenu: ContenuCloche | null; onChoisir: () => void }) {
-  if (!contenu) return null;
+export function LignesCloche({ contenu, erreur = false, onChoisir }: { contenu: ContenuCloche | null; erreur?: boolean; onChoisir: () => void }) {
+  if (!contenu) return erreur ? <p className="py-3 text-sm text-text-secondary" data-cloche-erreur>{C.erreur}</p> : null;
   const { reponses, nouveautes, lettre } = contenu;
   if (reponses.length + nouveautes.length === 0 && !lettre) return <p className="py-3 text-sm text-text-secondary">{T.cloche.vide}</p>;
   return (

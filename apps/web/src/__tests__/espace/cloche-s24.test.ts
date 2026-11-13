@@ -311,6 +311,8 @@ describe("textes du lot", () => {
     expect(TEXTES_CLOCHE).toEqual({
       groupes: { reponses: "L'équipe t'a répondu", nouveautes: "Nouveau ce mois-ci", lettre: "Nouvelle lettre" },
       lignes: { carnet: "Le carnet du mois", situations: "De nouvelles situations", bibliotheque: "Nouveau dans la Bibliothèque" },
+      // Lot D9 : textes-manquants-import2-s24.md section 3 (reco B, clôture du 13/11).
+      erreur: "On n'a pas pu afficher tes notifications. Repasse dans un moment.",
     });
     for (const f of ["config/textes/espace-cloche.ts", "config/textes/espace-questions.ts"]) {
       const code = readFileSync(join(SRC, f), "utf8");

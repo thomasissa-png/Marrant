@@ -27,6 +27,10 @@ import { cn } from "@/lib/utils";
 interface ClocheProps {
   /** Contenu lu par `ClocheEspace` ; null tant que rien n'est chargé (aucune ligne, nom « aucune »). */
   contenu?: ContenuCloche | null;
+  /** Lecture échouée sans rien de lu : le panneau dit que les notifications n'ont pas pu s'afficher. */
+  erreur?: boolean;
+  /** Lot D9 : appelé à chaque ouverture du panneau (mesure `cloche_ouverte`, sans effet sur l'écran). */
+  onOuvrir?: () => void;
 }
 
 const IconeCloche = () => (
@@ -39,11 +43,17 @@ const IconeCloche = () => (
   </svg>
 );
 
-export function Cloche({ contenu = null }: ClocheProps) {
+export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps) {
   const [ouvert, setOuvert] = useState(false);
   const nonLues = contenu?.nonLues ?? 0;
   return (
-    <Dialog.Root open={ouvert} onOpenChange={setOuvert}>
+    <Dialog.Root
+      open={ouvert}
+      onOpenChange={(o) => {
+        setOuvert(o);
+        if (o) onOuvrir?.();
+      }}
+    >
       <Dialog.Trigger
         aria-label={nomCloche(nonLues)}
         className="group relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary aria-expanded:bg-background-elevated aria-expanded:text-text-primary"
@@ -67,7 +77,7 @@ export function Cloche({ contenu = null }: ClocheProps) {
             <Dialog.Title className="font-display text-xl font-bold text-text-primary">{T.cloche.titre}</Dialog.Title>
             <Dialog.Close className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-11 shrink-0 border-border-input")}>{T.cloche.fermer}</Dialog.Close>
           </div>
-          <LignesCloche contenu={contenu} onChoisir={() => setOuvert(false)} />
+          <LignesCloche contenu={contenu} erreur={erreur} onChoisir={() => setOuvert(false)} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -75,20 +85,42 @@ export function Cloche({ contenu = null }: ClocheProps) {
 }
 
 /**
+ * Lot D9 : ouverture du panneau signalée à `POST /api/espace/mesure` (`cloche_ouverte`, liste fermée), en
+ * `keepalive`, sans attente ni retour visible ; le serveur n'écrit qu'une ligne par jour et par abonné.
+ */
+function signalerClocheOuverte() {
+  try {
+    void fetch("/api/espace/mesure", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ evenement: "cloche_ouverte" }),
+      keepalive: true,
+      credentials: "same-origin",
+    }).catch(() => undefined);
+  } catch {
+    // Navigateur sans fetch : rien n'est mesuré.
+  }
+}
+
+/**
  * Cloche branchée sur `GET /api/espace/cloche` (lot D8) : lue au montage et à chaque changement d'adresse
  * (un fil ouvert éteint la pastille à la page suivante), jamais à intervalles ni à l'ouverture du panneau.
- * Échec de lecture : le dernier contenu lu reste ; rien de lu : nom « aucune », panneau sans ligne.
+ * Échec de lecture : le dernier contenu lu reste ; rien de lu : nom « aucune », panneau avec le message
+ * d'erreur validé (`TEXTES_CLOCHE.erreur`), aucune ligne.
  */
 export function ClocheEspace({ pathname }: { pathname: string | null }) {
   const [contenu, setContenu] = useState<ContenuCloche | null>(null);
+  const [erreur, setErreur] = useState(false);
   useEffect(() => {
     let actif = true;
     void appelEspace<ContenuCloche>("/api/espace/cloche", "GET").then((lu) => {
-      if (actif && lu) setContenu(lu);
+      if (!actif) return;
+      if (lu) setContenu(lu);
+      setErreur(!lu);
     });
     return () => {
       actif = false;
     };
   }, [pathname]);
-  return <Cloche contenu={contenu} />;
+  return <Cloche contenu={contenu} erreur={erreur && !contenu} onOuvrir={signalerClocheOuverte} />;
 }

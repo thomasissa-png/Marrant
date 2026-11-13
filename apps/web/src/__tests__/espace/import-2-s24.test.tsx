@@ -60,7 +60,7 @@ describe("import 2 : écrans", () => {
       expect(screen.getByRole("heading", { name: t })).toBeInTheDocument();
     }
     expect(within(screen.getByTestId("seance-grille")).getAllByRole("listitem")).toHaveLength(3);
-    expect(screen.getByTestId("geste-fiche")).toHaveTextContent("Ressors-la à voix haute ce soir.");
+    expect(screen.getByTestId("geste-fiche")).toHaveTextContent("Redis ta réplique deux fois ce soir, pour l'avoir en bouche à la prochaine pique.");
   });
 
   it("vocabulaire : mot neuf sans lien, mot du glossaire avec son lien ; l'emploi attesté n'est jamais affiché", () => {

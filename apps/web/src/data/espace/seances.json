@@ -6,7 +6,7 @@
     "dureeMinutes": 20,
     "geste": {
       "verbe": "faire",
-      "consigne": "Ressors-la à voix haute ce soir."
+      "consigne": "Redis ta réplique deux fois ce soir, pour l'avoir en bouche à la prochaine pique."
     },
     "type": "seance",
     "contenu": {
@@ -54,7 +54,7 @@
     "dureeMinutes": 20,
     "geste": {
       "verbe": "faire",
-      "consigne": "Ressors-la à voix haute ce soir."
+      "consigne": "Ce soir, redis ta première phrase une fois à voix haute, pour qu'elle passe en douce au repas que tu as choisi."
     },
     "type": "seance",
     "contenu": {
@@ -101,7 +101,7 @@
     "dureeMinutes": 20,
     "geste": {
       "verbe": "faire",
-      "consigne": "Ressors-la à voix haute ce soir."
+      "consigne": "Envoie ton détournement gardé dans un message ce soir, sans l'expliquer."
     },
     "type": "seance",
     "contenu": {
@@ -148,7 +148,7 @@
     "dureeMinutes": 20,
     "geste": {
       "verbe": "faire",
-      "consigne": "Ressors-la à voix haute ce soir."
+      "consigne": "Ce soir, dis ta vanne puis ta sortie à voix haute, avec trois secondes de silence entre les deux."
     },
     "type": "seance",
     "contenu": {
@@ -195,7 +195,7 @@
     "dureeMinutes": 20,
     "geste": {
       "verbe": "faire",
-      "consigne": "Ressors-la à voix haute ce soir."
+      "consigne": "Dis ton titre à quelqu'un ce soir, et attends qu'on te demande la suite."
     },
     "type": "seance",
     "contenu": {
@@ -243,7 +243,7 @@
     "dureeMinutes": 20,
     "geste": {
       "verbe": "faire",
-      "consigne": "Ressors-la à voix haute ce soir."
+      "consigne": "Ce soir, après une de tes phrases, devine le nombre de signaux et sors la clôture qui va avec, ou rien s'il n'y en a aucun."
     },
     "type": "seance",
     "contenu": {

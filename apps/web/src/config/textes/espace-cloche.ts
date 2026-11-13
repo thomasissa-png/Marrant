@@ -9,6 +9,8 @@
  *   sujet, identique pour tous les blocs de la Bibliothèque, humour noir compris) ;
  * - ligne d'une réponse : type du fil et « Répondu le {date} » de « Mes questions » (libellés, ligne 21) ;
  * - titre du panneau, « Fermer », état vide et nom du bouton : `espace-navigation.ts` (lot D2).
+ * - message de la cloche qui ne charge pas : `docs/copy/espace/textes-manquants-import2-s24.md` section 3
+ *   (reco B, clôture du 13/11), test `textes-manquants-s24`.
  * Contrôle automatique : zéro tiret cadratin, zéro émoji (`__tests__/espace/cloche-s24.test.ts`).
  */
 export const TEXTES_CLOCHE = {
@@ -22,4 +24,5 @@ export const TEXTES_CLOCHE = {
     situations: "De nouvelles situations",
     bibliotheque: "Nouveau dans la Bibliothèque",
   },
+  erreur: "On n'a pas pu afficher tes notifications. Repasse dans un moment.",
 } as const;

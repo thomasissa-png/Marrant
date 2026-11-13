@@ -149,6 +149,15 @@ export const TEXTES_FICHE = {
   principe: "Le principe",
   siCaNePrendPas: "Si ça ne prend pas",
   ceQuOnAuraitPuDire: "Ce qu'on aurait pu dire",
+  /**
+   * Libellé de la réponse des jeux « Les pires réponses » (au lieu de « Ce qu'on aurait pu dire ») :
+   * `docs/copy/espace/textes-manquants-import2-s24.md` section 2, clôture du 13/11 (jeux 1, 2, 4 : la reco ;
+   * jeu 3, consigne « met le plus sur la défensive », son propre libellé). Test : `textes-manquants-s24`.
+   */
+  reponsePiresReponses: {
+    defaut: "La réponse qui ferme le plus l'échange",
+    parJeu: { "les-pires-reponses-3": "La réponse qui met le plus la personne sur la défensive" } as Record<string, string>,
+  },
   etapesSeance: { echauffement: "Échauffement", observation: "Observation", essai: "Essai", bilan: "Bilan" },
   /** Import 2 : rubriques d'une séance, étiquettes du lot C6c telles qu'écrites. */
   seance: {

@@ -53,10 +53,13 @@ test.describe("espace client fermé (s24, lot D0)", () => {
   });
 
   test("api/espace/* : 404 à chaque méthode", async ({ request }) => {
-    for (const chemin of ["/api/espace/aise", "/api/espace/vanne", "/api/espace/compteur"]) {
+    for (const chemin of ["/api/espace/aise", "/api/espace/vanne", "/api/espace/compteur", "/api/espace/mesure"]) {
       expect([chemin, (await request.get(chemin)).status()]).toEqual([chemin, 404]);
       expect([chemin, (await request.post(chemin, { data: { cle: "x" } })).status()]).toEqual([chemin, 404]);
     }
+    // D9 : la lecture admin répond 404 fermé, avant l'auth admin (même avec un faux secret).
+    const lecture = await request.get("/api/admin/espace-lecture", { headers: { Authorization: "Bearer x" } });
+    expect(lecture.status()).toBe(404);
   });
 
   test("pages publiques (abonné connecté) : aucun appel à l'espace", async ({ page }) => {

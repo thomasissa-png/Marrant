@@ -1,10 +1,10 @@
 /**
  * Jeux (C4a à C4c), « Quand ça tombe à plat » (C6a), bilans (C6b), séances (C6c), coin humour noir (C7).
  */
-import { TEXTES_AUJOURDHUI } from "../../src/config/textes/espace-aujourdhui";
 import { Ecart, estCitation, nettoyer, sansGuillemets, section, slug, type Bloc } from "./md";
 import { etapeDuQuiz } from "./seeds";
 import { replique, scene } from "./situations";
+import { gestesSeances } from "./textes-manquants";
 
 export const FAMILLES_JEU: Record<string, string> = {
   "Quelle réplique ?": "quelle-replique",
@@ -162,15 +162,12 @@ const ETAPES_SEANCE = [
 const RUBRIQUES_SEANCE = ["Pour qui, quand", "Il te faut", "Tu produis", "Renvois"];
 
 /**
- * Geste « faire » d'une séance (import 2) : le lot n'écrit aucun « À toi » pour les séances (les lignes
- * `[Retour : …]` et `[Ma réplique à moi : …]` sont des boutons d'écran). Repli décidé par la session : le
- * libellé de geste validé le plus proche, le n°8 de `libelles-espace-e5-s24.md` (« À toi : ressors-la à
- * voix haute ce soir. », `TEXTES_AUJOURDHUI`), sans son « À toi : » (l'écran le pose), majuscule initiale.
+ * Geste « faire » d'une séance : le lot C6c n'écrit aucun « À toi » (les lignes `[Retour : …]` et
+ * `[Ma réplique à moi : …]` sont des boutons d'écran). Les 6 gestes ont été écrits à part et validés
+ * (`docs/copy/espace/textes-manquants-import2-s24.md` section 1, clôture du 13/11), lus par numéro de
+ * séance ; ils remplacent le repli de l'import 2 (libellé n°8 de `libelles-espace-e5-s24.md`).
  */
-export const GESTE_SEANCE = (() => {
-  const l = TEXTES_AUJOURDHUI.jour.geste.replace(/^À toi : /, "");
-  return l.charAt(0).toUpperCase() + l.slice(1);
-})();
+const GESTES_SEANCES = gestesSeances();
 
 /**
  * Séance de 20 minutes (C6c, import 2) : titre « Séance N (palier P…). Titre » ; « Pour qui, quand »,
@@ -178,7 +175,7 @@ export const GESTE_SEANCE = (() => {
  * produis », « Une version possible » (précision entre parenthèses facultative), « Renvois ».
  */
 export function seance(bloc: Bloc) {
-  const t = /^Séance \d+ \(palier (\d)[^)]*\)\.\s*(.+)$/.exec(bloc.titre);
+  const t = /^Séance (\d+) \(palier (\d)[^)]*\)\.\s*(.+)$/.exec(bloc.titre);
   if (!t) throw new Ecart(`titre de séance illisible : ${bloc.titre}`);
   const labels = bloc.sections.map((x) => x.label);
   const connus = (l: string) => RUBRIQUES_SEANCE.includes(l) || /^Une version possible( \([^)]+\))?$/.test(l) || ETAPES_SEANCE.some(([n]) => new RegExp(`^${n} \\(\\d+ min\\)$`).test(l));
@@ -198,12 +195,14 @@ export function seance(bloc: Bloc) {
   const version = bloc.sections.find((x) => /^Une version possible/.test(x.label));
   if (!version || version.lignes.length === 0) throw new Ecart("« Une version possible » absente");
   const precision = /\(([^)]+)\)$/.exec(version.label)?.[1];
-  const titre = t[2].trim();
+  const titre = t[3].trim();
+  const geste = GESTES_SEANCES.get(Number(t[1]));
+  if (!geste) throw new Ecart(`geste « À toi » absent pour la séance ${t[1]}`);
   return {
     id: `seance-${slug(titre)}`,
     titre,
     type: "seance",
-    palier: `P${t[1]}`,
+    palier: `P${t[2]}`,
     duree: etapes.reduce((n, e) => n + e.minutes, 0),
     corps: {
       contenu: {
@@ -214,7 +213,7 @@ export function seance(bloc: Bloc) {
         versionPossible: { ...(precision ? { precision } : {}), texte: version.lignes.join("\n") },
         renvois: un("Renvois"),
       },
-      geste: { verbe: "faire", consigne: GESTE_SEANCE },
+      geste: { verbe: "faire", consigne: geste },
     },
   };
 }

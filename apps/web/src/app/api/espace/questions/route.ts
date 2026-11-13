@@ -4,6 +4,7 @@ import { jsonEspace, lireCorps } from "@/lib/espace/api";
 import { corpsEnvoi, creerFil, erreurDeTexte, journaliserQuestions, lireFil, listerFils } from "@/lib/espace/questions";
 import { notifierEquipe } from "@/lib/espace/questions-equipe";
 import { limiterQuestions, notifier } from "@/lib/espace/questions-route";
+import { noterEvenementEspace } from "@/lib/mesure/evenements-espace";
 
 /**
  * /api/espace/questions (s24, lot D7, architecture v20 2.6) : « Mes questions ».
@@ -14,6 +15,7 @@ import { limiterQuestions, notifier } from "@/lib/espace/questions-route";
  *   AVANT la notification interne à l'équipe (Reply-To = adresse du compte lue en base) ; l'échec de la
  *   notification ne perd rien (le fil est dans l'outil).
  * Le texte n'est jamais journalisé, ni dans `UsageEvent`, ni vers Umami. Fermé : 404 avant toute lecture.
+ * Lot D9 : `question_envoyee` SANS texte ni détail, une fois par fil créé (double clic : rien de plus).
  */
 export const dynamic = "force-dynamic";
 
@@ -38,6 +40,7 @@ export async function POST(request: Request) {
     const trop = await limiterQuestions(garde.userId);
     if (trop) return trop;
     const { id, nouveau } = await creerFil(garde.userId, lu.data.type, lu.data.message, lu.data.cle);
+    if (nouveau) await noterEvenementEspace({ type: "question_envoyee", envoi: id }, garde.userId);
     if (nouveau) await notifier(garde.userId, (replyTo, envoyer) => notifierEquipe({ type: lu.data.type, message: lu.data.message, replyTo, cle: lu.data.cle, envoyer }));
     return jsonEspace({ fil: await lireFil(garde.userId, id) });
   } catch (error) {

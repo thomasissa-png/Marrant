@@ -18,6 +18,7 @@ import {
   type NumeroCap,
   type TypeAnnonce,
 } from "@/lib/espace/caps";
+import { noterCapsAtteints } from "@/lib/mesure/evenements-espace";
 
 /** Sous-ensemble Prisma lu et écrit ici (client réel, transaction ou double de test). */
 export type DbCaps = Pick<PrismaClient, "user" | "userPathStepCompletion" | "userPathProgress" | "capAnnonce">;
@@ -84,7 +85,11 @@ export async function lireEtatCaps(db: DbCaps, userId: string, bonusRanges: read
   };
 }
 
-/** Écrit les annonces faites, une ligne par (compte, type, numéro), doublons ignorés. */
+/**
+ * Écrit les annonces faites, une ligne par (compte, type, numéro), doublons ignorés. Lot D9 : une annonce
+ * de cap MONTRÉE (`silencieux = false`) écrit aussi `cap_atteint` avec le seul numéro ; le recalcul
+ * silencieux de l'ouverture n'en écrit aucun.
+ */
 export async function marquerAnnonces(
   db: DbCaps,
   userId: string,
@@ -97,6 +102,7 @@ export async function marquerAnnonces(
     data: marques.map((m) => ({ userId, type: m.type, numero: m.numero, silencieux, annonceLe: maintenant })),
     skipDuplicates: true,
   });
+  if (!silencieux) await noterCapsAtteints(userId, marques.filter((m) => m.type === "CAP").map((m) => m.numero));
   return count;
 }
 

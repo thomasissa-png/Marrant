@@ -53,10 +53,13 @@ export function CorpsEcouter({ c }: { c: FicheDeType<"ecouter">["contenu"] }) {
 }
 
 /**
- * « Jeux » (3.9) : consigne, matière, « Ce qu'on aurait pu dire » à ouvrir. Les lignes sont affichées
+ * « Jeux » (3.9) : consigne, matière, « Ce qu'on aurait pu dire » à ouvrir (« Les pires réponses » : leur
+ * propre libellé, `reponsePiresReponses`). Les lignes sont affichées
  * telles qu'écrites dans le lot (guillemets compris) : l'écran n'en ajoute aucun.
  */
-export function CorpsJeu({ c }: { c: FicheDeType<"jeu">["contenu"] }) {
+export function CorpsJeu({ c, id }: { c: FicheDeType<"jeu">["contenu"]; id: string }) {
+  const R = T.reponsePiresReponses;
+  const libelle = c.famille === "les-pires-reponses" ? (R.parJeu[id] ?? R.defaut) : T.ceQuOnAuraitPuDire;
   return (
     <>
       <p className={P}>{c.consigne}</p>
@@ -68,7 +71,7 @@ export function CorpsJeu({ c }: { c: FicheDeType<"jeu">["contenu"] }) {
         </ul>
       )}
       <details className="space-y-2">
-        <summary className="inline-flex min-h-11 cursor-pointer items-center text-base font-semibold text-text-primary">{T.ceQuOnAuraitPuDire}</summary>
+        <summary className="inline-flex min-h-11 cursor-pointer items-center text-base font-semibold text-text-primary">{libelle}</summary>
         <ul className="space-y-1 text-base text-text-primary">
           {c.ceQuOnAuraitPuDire.map((x) => (
             <li key={x}>{x}</li>

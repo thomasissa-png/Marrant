@@ -7,6 +7,8 @@
  * - Aucune réécriture : une fiche dont le texte ne tient pas dans le schéma est ÉCARTÉE et signalée.
  * - Chaque fiche est validée par `fiches-schema.ts` (fiche par fiche, puis fichier par fichier).
  * - Répliques reprises (jeux « Quelle réplique ? », « Choisis la chute », bilans) vérifiées mot pour mot.
+ * - Missions : table d'étiquetage des défis + suites génériques (`importer-fiches/missions.ts`), chaque
+ *   défi vérifié identique au champ `exercise` de son seed ; un écart refuse l'import (rien n'est corrigé).
  * - Hors import : Écouter (E4 en attente de réécoute, G7), bonus (passages à choisir), vannes du coin.
  *
  * Usage (depuis apps/web) :
@@ -22,7 +24,7 @@ const DATA = join(__dirname, "..", "src", "data", "espace");
 
 function main() {
   const ecrire = process.argv.includes("--ecrire");
-  const { parFichier, refus, controles } = construireImport();
+  const { parFichier, refus, controles, missions } = construireImport();
   const fautes = controles.filter((c) => !c.ok);
   const total = [...parFichier.values()].reduce((s, l) => s + l.length, 0);
 
@@ -35,13 +37,19 @@ function main() {
   for (const c of controles.filter((x) => x.note)) console.log(`  note ${c.ou} : ${c.note}`);
   for (const c of fautes) console.log(`  ÉCART ${c.ou} : « ${c.replique} »`);
 
-  if (fautes.length) {
-    console.error("\nImport refusé : une réplique reprise ne correspond pas à sa source.");
+  const parMarche = [1, 2, 3, 4, 5].map((n) => `${n} : ${missions.missions.filter((m) => m.marche === n).length}`);
+  console.log(`\nMissions : ${missions.missions.length} (marche ${parMarche.join(", ")}), hors missions ${missions.horsMissions.length}`);
+  for (const e of missions.ecartees) console.log(`  écartée ${e.id} : ${e.raison}`);
+  for (const e of missions.ecarts) console.log(`  ÉCART ${e.id} : ${e.raison}`);
+
+  if (fautes.length || missions.ecarts.length) {
+    console.error("\nImport refusé : une réplique reprise ou un défi ne correspond pas à sa source.");
     process.exit(1);
   }
   if (!ecrire) return console.log("\nBilan seul (aucun fichier écrit). Ajouter --ecrire pour écrire les JSON.");
   for (const [nom, liste] of parFichier) writeFileSync(join(DATA, `${nom}.json`), enJson(liste), "utf8");
-  console.log(`\nÉcrit : ${[...parFichier.keys()].map((n) => `${n}.json`).join(", ")}`);
+  writeFileSync(join(DATA, "missions.json"), enJson(missions.missions), "utf8");
+  console.log(`\nÉcrit : ${[...parFichier.keys(), "missions"].map((n) => `${n}.json`).join(", ")}`);
 }
 
 main();
