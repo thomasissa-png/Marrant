@@ -4,7 +4,7 @@ Usage interne. Chaque auteur de lot relit cette liste avant d'écrire, chaque re
 
 ## Règles dures
 - Aucun accord au masculin ou au féminin pour l'utilisateur (« seul », « nul », « champion », « tous », « partir aimé », « adversaire », « couché », « fatigué »).
-- La personne d'en face n'est pas genrée non plus dans les scènes, les répliques et les rafales (« gêné », « exposé », « lui-même », « Désolé », « crevé »).
+- La personne d'en face n'est pas genrée non plus dans les scènes, les répliques et les rafales (« gêné », « exposé », « lui-même », « Désolé », « crevé »). Contenu déjà en ligne (carnet) : on ne corrige que les accords ; les noms (un ami, un invité) restent (arbitrage G5 du 13/11).
 - Zéro tiret cadratin, zéro emoji, ni IA ni concurrent, guillemets « » et intérieurs “ ” (jamais droits).
 - Aucune note interne visible dans un texte affiché.
 
