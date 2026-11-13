@@ -98,7 +98,7 @@ Tu gardes la réplique que tout le monde connaît. Tu la fais tomber dans un dé
 → « Je suis ton père, et le chargeur dans ta chambre est le mien depuis mars. »
 
 « Vous ne passerez pas ! »
-→ « Vous ne passerez pas ! dit le portique à mon troisième vieux ticket. »
+→ « Vous ne passerez pas ! Mon troisième vieux ticket vient de l'apprendre. »
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
@@ -322,3 +322,9 @@ Deux lignes de la fiche 3 seulement (décision C8), le reste est inchangé. 3 ca
 |---|---|---|
 | « Vous ne passerez pas ! » (elon 8, critique 10) | « Vous ne passerez pas ! dit le portique à mon troisième vieux ticket. » | L'idée reste l'entêtement du ticket. Le locuteur est nommé (le portique) et le vieux ticket est un mot qu'on entend à l'oral. « Dit le + objet » n'apparaît plus qu'ici dans la fiche 3. Écartées : « …crie le portique au ticket de la semaine dernière », « …Le portique refuse mon ticket d'il y a trois semaines ». |
 | « Je suis ton père » (retouche de la critique) | « …, et le chargeur dans ta chambre est le mien depuis mars. » | La retouche tient : aucun accord, suite de 11 mots (limite : une douzaine), « depuis mars » donne la durée de l'emprunt. Écartées : « …depuis l'été », « …est à moi depuis mars ». |
+
+## Retouche avant ouverture (13/11) : avant → après
+
+| Ligne | Avant | Après | Pourquoi |
+|---|---|---|---|
+| Fiche 3, « Vous ne passerez pas ! » (l. 101) | « Vous ne passerez pas ! dit le portique à mon troisième vieux ticket. » | « Vous ne passerez pas ! Mon troisième vieux ticket vient de l'apprendre. » | Le motif « dit le + objet » avait été retiré au tour 2 ; la version l'avait réintroduit. Même scène et même entêtement, le ticket est lui-même le sujet, 10 mots. Recherche web de la phrase exacte (13/11) : 0 occurrence ; grep du dépôt : aucune reprise. Les autres lignes du fichier (tables des tours 2 et 3) citent encore l'ancienne version comme historique. |

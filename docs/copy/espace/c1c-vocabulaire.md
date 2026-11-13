@@ -278,7 +278,7 @@ Définition complète : `[lien à décider, mot neuf]`
 
 **Prendre au pied de la lettre**
 Répondre aux mots de l'autre plutôt qu'à ce qu'il veut dire.
-En deux temps : « Tu as cinq minutes ? » Tu regardes ta montre : « J'en ai quatre. Fais court. »
+En deux temps : « Tu as cinq minutes ? » Tu regardes ta montre : « Oui, cinq minutes pile. Le chrono tourne. »
 À ne pas confondre avec : ne pas comprendre. Tu as compris, et tu choisis les mots.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -308,7 +308,7 @@ Cinq mots pour lire ce qui se passe chez ceux qui t'écoutent, et pour savoir qu
 
 **Rire jaune**
 Un rire forcé, pour cacher une gêne ou un dépit.
-En deux temps : un collègue raconte ta présentation de lundi, celle où le projecteur s'est éteint au milieu, avec des détails en plus. Tu ris aussi, une seconde trop tard.
+En deux temps : quelqu'un de l'équipe raconte ta présentation de lundi, celle où le projecteur s'est éteint au milieu, avec des détails en plus. Tu ris aussi, une seconde trop tard.
 À ne pas confondre avec : le rire franc, celui qui part sans y penser. Le rire jaune se décide, et se voit.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -429,3 +429,10 @@ Trois candidats par exemple repris, recherche web de chacun : 0 occurrence pour 
 | Tac au tac plus long que « moins de dix mots » (elon) | Fiche 5 : « Cinq. Les cinq autres, je te les souhaite. » (8 mots) |
 | « Tu connais un bon restaurant ? » classique (critique, elon) | Fiche 7, pied de la lettre : retour à la version du tour 2 notée 10 par elon : « Tu as cinq minutes ? » Tu regardes ta montre : « J'en ai quatre. Fais court. » Elle illustre le mot : la question est prise comme un compte, et la réponse donne le chiffre |
 | Rire jaune sans raté (reviewer, critique) | Fiche 8 : « un collègue raconte ta présentation de lundi, celle où le projecteur s'est éteint au milieu, avec des détails en plus. Tu ris aussi, une seconde trop tard. » Recherche web de la phrase exacte : 0 occurrence |
+
+## Retouche avant ouverture (13/11) : avant → après
+
+| Ligne | Avant | Après | Pourquoi |
+|---|---|---|---|
+| Fiche 7, prendre au pied de la lettre (l. 281) | « Tu as cinq minutes ? » Tu regardes ta montre : « J'en ai quatre. Fais court. » | « Tu as cinq minutes ? » Tu regardes ta montre : « Oui, cinq minutes pile. Le chrono tourne. » | « J'en ai quatre » doublait l'exemple de la fiche 1 (l. 23). La question est toujours prise comme un compte, et la réponse donne le chiffre. Évité : « il m'en reste » (déjà au carnet). Recherche web et grep : aucune reprise. |
+| Fiche 8, rire jaune (l. 311) | « un collègue raconte ta présentation de lundi… » | « quelqu'un de l'équipe raconte ta présentation de lundi… » | Personne d'en face non genrée. Reste de la ligne inchangé. |

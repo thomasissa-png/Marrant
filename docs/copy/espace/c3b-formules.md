@@ -107,7 +107,7 @@ Tu gardes le début de la comptine tel quel. Tu remplaces ou tu prolonges la fin
 2. « Au clair de la lune, mon ami Pierrot, prête-moi … »
    `[Voir une version possible]` « Au clair de la lune, mon ami Pierrot, prête-moi ton wifi pour écrire un mot. »
 3. « Alouette, gentille alouette, alouette, je te … »
-   `[Voir une version possible]` « Alouette, gentille alouette, alouette, je te débrancherai, si j'arrive à te trouver sans ouvrir les yeux. »
+   `[Voir une version possible]` « Alouette, gentille alouette, alouette, je te repousse de dix minutes. »
 
 **Le piège**
 Changer la forme : plus personne ne reconnaît l'expression.
@@ -349,3 +349,9 @@ Une seule ligne (décision C8), le reste est inchangé. 3 candidates, recherche 
 |---|---|---|
 | Fiche 9, alouette : « cinq minutes de plus » est la formule toute faite du réveil et reprend le réveil repoussé de C1c (reviewer) | « Alouette, gentille alouette, alouette, je te débrancherai, si j'arrive à te trouver sans ouvrir les yeux. » | Le réveil se devine par la scène (on cherche l'appareil les yeux fermés), sans expliquer ni répéter la formule du réveil repoussé. Suite de 11 mots, aucun accord. Écartées : « …si je trouve la prise à tâtons », « …avec un seul œil ouvert ». |
 | Table « Tour 3 » | Alignée sur ses 7 lignes | « Six » devient « Sept » ; la ligne de l'alouette indique qu'elle est remplacée au tour 4. |
+
+## Retouche avant ouverture (13/11) : avant → après
+
+| Ligne | Avant | Après | Pourquoi |
+|---|---|---|---|
+| Fiche 9, alouette (l. 110) | « …je te débrancherai, si j'arrive à te trouver sans ouvrir les yeux. » | « Alouette, gentille alouette, alouette, je te repousse de dix minutes. » | Rien ne disait que l'alouette est le réveil, et la suite dépassait la douzaine de mots. « Dix minutes » nomme le réveil sans l'expliquer ; 6 mots après « je te ». Recherche web (idée et phrase, 13/11) : 0 occurrence ; grep du dépôt : aucune reprise. Piste @elon retenue telle quelle. |
