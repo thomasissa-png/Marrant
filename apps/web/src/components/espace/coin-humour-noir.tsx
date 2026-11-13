@@ -14,7 +14,8 @@ import { ListeFiches } from "@/components/espace/liste-fiches";
  * contenu n'est PAS dans la page avant le geste : le serveur ne l'envoie qu'à un navigateur « entré »
  * (témoin posé par `api/espace/humour-noir`, `lib/espace/humour-noir.ts`), au rendu ou en réponse au geste.
  * Après « Entrer », le focus va au titre du coin ; « Sortir » oublie l'état et rend le focus à « Entrer ».
- * Échec : rien ne change, la phrase d'échec est annoncée (`role="status"`).
+ * Échec : rien ne change, la phrase d'échec est annoncée (`role="status"`). Entré sans rien à montrer
+ * (reste du D6) : « Rien à lire dans ce coin, et rien n'y est caché. », avec « Sortir » toujours affiché.
  */
 export function CoinHumourNoir({ lignesInitiales }: { lignesInitiales: LigneFiche[] | null }) {
   const [lignes, setLignes] = useState<LigneFiche[] | null>(lignesInitiales);
@@ -61,7 +62,13 @@ export function CoinHumourNoir({ lignesInitiales }: { lignesInitiales: LigneFich
         </button>
       ) : (
         <div id="coin-contenu" className="space-y-4">
-          <ListeFiches lignes={lignes} avecDuree labelledBy="coin-titre" />
+          {lignes.length > 0 ? (
+            <ListeFiches lignes={lignes} avecDuree labelledBy="coin-titre" />
+          ) : (
+            <p className="text-base text-text-secondary" data-testid="coin-vide">
+              {T.vide}
+            </p>
+          )}
           <button type="button" className={BOUTON_SECONDAIRE} aria-disabled={occupe || undefined} onClick={() => void basculer(false)}>
             {T.sortir}
           </button>

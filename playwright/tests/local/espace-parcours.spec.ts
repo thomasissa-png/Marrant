@@ -156,7 +156,17 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
         Math.max(...Array.from(document.querySelectorAll('[data-testid="parcours-espace"] *')).map((e) => e.getBoundingClientRect().right)),
       );
       expect(droite).toBeLessThanOrEqual(188 + 0.5);
-      const yPremier = await page.locator("#parcours-machine-a-cafe h3").evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
+      // Lot D5b : mesure prise une fois la mise en page stable (polices chargées, deux lectures égales à
+      // 500 ms d'écart) ; avant, une valeur transitoire plus basse de 13 px pouvait être lue.
+      await page.evaluate(() => document.fonts.ready);
+      const lireY = () => page.locator("#parcours-machine-a-cafe h3").evaluate((e) => Math.round(e.getBoundingClientRect().top + window.scrollY));
+      let yPremier = await lireY();
+      for (let i = 0; i < 10; i++) {
+        await page.waitForTimeout(500);
+        const y = await lireY();
+        if (y === yPremier) break;
+        yPremier = y;
+      }
       const yEntete = await page.getByTestId("parcours-espace").evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
       const hEntete = await page.getByTestId("parcours-espace").evaluate((e) => e.getBoundingClientRect().height);
       test.info().annotations.push({ type: "mesure", description: `entête y=${Math.round(yEntete)} h=${Math.round(hEntete)} ; premier parcours y=${Math.round(yPremier)}` });
@@ -164,8 +174,10 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       // N2 : l'en-tête de l'espace ajoute au plus 2 écrans avant la liste (au-dessus, l'en-tête public inchangé).
       expect(hEntete).toBeLessThanOrEqual(2 * 406);
       // Lot D5 (arbitrage @ux D4 n°1) : introduction publique masquée pour l'abonné, h1 gardé pour les
-      // lecteurs d'écran. Re-mesure du 13/11 : premier parcours à y = 818 pour 812 (2 écrans de 406) :
-      // le test n'est PAS resserré (6 px de trop), retour à @ux (piste : réduire l'en-tête de l'espace).
+      // lecteurs d'écran. Lot D5b (arbitrage @ux D5 n°2) : levier 1 (`mb-4` sous 300 px) et levier 2 (lien
+      // du logo à 32 px sous 300 px) appliqués ; mesure STABLE du 13/11 : premier parcours à y = 815 pour
+      // 812 (2 écrans de 406), cible @ux 796. Le test n'est PAS resserré : retour à @ux (consigne : « si
+      // encore au-dessus, me revenir, ne pas toucher la barre »).
       await expect(page.locator('nav[aria-label="Fil d’Ariane"]')).toHaveCount(0);
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(P.titrePage);
     });

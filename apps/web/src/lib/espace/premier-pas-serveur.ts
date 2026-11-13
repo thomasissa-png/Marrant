@@ -42,12 +42,37 @@ export async function resoudreOrigine(origine: Origine | null): Promise<OrigineR
   return etape ? { genre: origine.genre, titre: etape.titre, href: `/parcours/${origine.parcours}#etape-${ordre}` } : null;
 }
 
+/** Traces lues pour le premier pas (arbitrage @ux D5 n°3, `docs/ux/arbitrages-d5-s24.md`). */
+export interface TracesPremierPas {
+  /** Fiche déclarée faite (`FicheFait`) ou carte de la rafale jouée, « Rien » compris (`CarteReponse`). */
+  ficheOuCarte: boolean;
+  /** Étapes de parcours validées (`UserPathStepCompletion`) : une étape est une fiche (2.1). */
+  etapesValidees: number;
+  /** Réponse à la question C9 enregistrée : elle n'est posée qu'APRÈS le premier pas. */
+  c9Repondue: boolean;
+}
+
 /**
- * Premier pas fait ? (lot D5) : une fiche déclarée faite (`FicheFait`) ou une carte de la rafale jouée.
- * Tant que non, « Aujourd'hui » reste à l'état 1 (4.4) et la question C9 (posée APRÈS) n'est pas montée.
+ * Règle du premier pas, monotone : une fiche « Fait », OU une carte jouée, OU une étape validée. Ne
+ * comptent pas : réplique écrite, retour de mission, favori. « Fait » est réversible (« Pas essayé »
+ * retire la ligne) : la réponse à C9, posée seulement après le premier pas et jamais effacée, le garde
+ * vrai, pour que ni « Ton premier pas » ni la question C9 ne reviennent.
+ */
+export function premierPasDepuis(t: TracesPremierPas): boolean {
+  return t.ficheOuCarte || t.etapesValidees > 0 || t.c9Repondue;
+}
+
+/**
+ * Premier pas fait ? Tant que non, « Aujourd'hui » reste à l'état 1 (4.4) et la question C9 (posée
+ * APRÈS) n'est pas montée. Trois lectures en parallèle (comptes seulement).
  */
 export async function premierPasFait(userId: string): Promise<boolean> {
-  return auMoinsUneFicheFaite(userId);
+  const [ficheOuCarte, etapesValidees, compte] = await Promise.all([
+    auMoinsUneFicheFaite(userId),
+    prisma.userPathStepCompletion.count({ where: { userId } }),
+    prisma.espaceCompte.findUnique({ where: { userId }, select: { aise: true } }),
+  ]);
+  return premierPasDepuis({ ficheOuCarte, etapesValidees, c9Repondue: Boolean(compte?.aise) });
 }
 
 /** Jours depuis la création de l'abonnement, étapes validées : de quoi décider « Ton mois » (J25, 4.4). */

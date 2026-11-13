@@ -9,22 +9,29 @@
  * - écriture (ajout, modification) : abonné actif seulement ; après la résiliation, lecture seule, la
  *   suppression reste possible ; la suppression du compte emporte tout (cascade et `deleteAccount`) ;
  * - jamais de « Fait » ni de points (C4) : écrire une note ne coche rien.
- * Plafond : `REPLIQUE_MAX` caractères [HYPOTHÈSE : 200, fixé par @fullstack, question Q5b à confirmer
- * avec @ux] ; même borne en base (contrainte CHECK de la migration 24).
+ * Plafond (arbitrage @ux D5 n°1, `docs/ux/arbitrages-d5-s24.md`) : une seule constante,
+ * `REPLIQUE_MAX_CLIENT` (`components/espace/carte/limites.ts`), reprise ici et par la contrainte CHECK
+ * de la migration 24 (1 à 200 caractères). Comptage en caractères (`Array.from`, comme `char_length` en
+ * base) ; au-delà, 400, jamais de troncature silencieuse.
  */
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import type { AccesEspace } from "@/lib/espace/garde";
 import { chargeursFiches } from "@/lib/espace/fiches";
-import { CARNET_DANS_LA_RAFALE, cartesCarnetRafale } from "@/lib/espace/carnet-cartes";
+import { FICHES_CARNET_RELUES, cartesCarnetRafale } from "@/lib/espace/carnet-cartes";
 import type { CategorieToucher } from "@/lib/espace/vanne";
 import type { UNIVERS } from "@/lib/espace/fiches-schema";
 import { hrefFiche } from "@/lib/espace/premier-pas";
+import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 
-export const REPLIQUE_MAX = 200;
+export const REPLIQUE_MAX = REPLIQUE_MAX_CLIENT;
 
 /** Texte d'une réplique : non vide après nettoyage des bords, `REPLIQUE_MAX` caractères au plus. */
-export const texteReplique = z.string().trim().min(1).max(REPLIQUE_MAX);
+export const texteReplique = z
+  .string()
+  .trim()
+  .min(1)
+  .refine((t) => Array.from(t).length <= REPLIQUE_MAX);
 
 /**
  * Correspondance CERTAINE entre catégories du toucher (vannes) et univers des fiches (2.7) : une ligne
@@ -52,11 +59,15 @@ export interface FicheDeReplique {
   href: string | null;
 }
 
-/** Fiche qui accepte une réplique : fiche à geste servie à l'abonné, ou carte du carnet (après G5). */
-export function ficheAcceptantReplique(ficheId: string, acces: AccesEspace, porteG5: boolean = CARNET_DANS_LA_RAFALE): FicheDeReplique | null {
+/** Fiche qui accepte une réplique : fiche à geste servie à l'abonné, ou carte d'une fiche relue du carnet (G5). */
+export function ficheAcceptantReplique(
+  ficheId: string,
+  acces: AccesEspace,
+  relues: ReadonlySet<string> = FICHES_CARNET_RELUES,
+): FicheDeReplique | null {
   const fiche = chargeursFiches.trouverFiche(ficheId, acces);
   if (fiche) return fiche.geste ? { ficheId, titre: fiche.titre, href: hrefFiche(fiche.type, fiche.id) } : null;
-  const carte = cartesCarnetRafale(porteG5).find((c) => c.ficheId === ficheId);
+  const carte = cartesCarnetRafale(relues).find((c) => c.ficheId === ficheId);
   return carte ? { ficheId, titre: carte.titre, href: "/carnet" } : null;
 }
 

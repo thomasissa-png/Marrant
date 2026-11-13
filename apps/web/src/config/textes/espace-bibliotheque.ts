@@ -69,6 +69,15 @@ export const TEXTES_BIBLIOTHEQUE = {
     { slug: "gaming", label: "Gaming" },
   ],
   ecouter: "Écouter, repérer",
+  /**
+   * Reste du D6 (arbitrage @ux D6 n°3, validé par Thomas le 13/11, écart à la maquette E5 accepté) :
+   * une ligne de trois liens vers les pages publiques du catalogue, après les thèmes.
+   */
+  catalogue: [
+    { href: "/vannes", label: "Vannes" },
+    { href: "/conseils", label: "Conseils" },
+    { href: "/videos", label: "Vidéos" },
+  ],
   blocTechniques: "Vocabulaire et techniques",
   /** Préfixe d'une ligne de fiche, « {type} : {titre} » (maquette). */
   prefixes: {
@@ -84,6 +93,8 @@ export const TEXTES_COIN = {
   phrase: "Ici, on rit de sujets graves, avec ceux qui te connaissent.",
   entrer: "Entrer",
   sortir: "Sortir",
+  /** État vide, entré et rien à montrer (arbitrage @ux D6 n°5, validé par Thomas le 13/11). */
+  vide: "Rien à lire dans ce coin, et rien n'y est caché.",
 } as const;
 
 const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -96,6 +107,9 @@ export const TEXTES_LETTRES = {
     `La lettre du ${JOURS[jour.semaine]} ${jour.jour === 1 ? "1er" : jour.jour} ${MOIS[jour.mois]}`,
   /** Ligne d'une fiche reprise d'une lettre (architecture 2.8). */
   vuDans: (titreLettre: string) => `Vu dans ${titreLettre.charAt(0).toLowerCase()}${titreLettre.slice(1)}`,
+  /** État vide, aucune lettre envoyée (arbitrage @ux D6 n°5, validé par Thomas le 13/11). */
+  vide: "Tes lettres s'affichent ici dès leur envoi.",
+  allerAujourdhui: "Aller à Aujourd'hui",
 } as const;
 
 /** Titres de section d'une fiche (étalons E1 à E3, E6, architecture 3.1 et 3.11). */

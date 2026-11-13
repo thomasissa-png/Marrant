@@ -18,8 +18,28 @@ import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 export const COOKIE_COIN = "dm_coin_humour_noir";
 export const VALEUR_ENTREE = "entre";
-/** Un an : l'état « entré » se garde jusqu'à « Sortir » (ou effacement du navigateur). */
-export const DUREE_COIN_SECONDES = 365 * 86_400;
+/**
+ * Six mois fixes (lot D5b, option prudente de @legal retenue par la session, `docs/legal/espace-d6-cookie-coin-s24.md`
+ * point 3) : posé au clic « Entrer », jamais prolongé ; retiré par « Sortir », à la déconnexion et à la
+ * suppression du compte (poste partagé), ou par l'effacement du navigateur.
+ */
+export const DUREE_COIN_SECONDES = 183 * 86_400;
+
+/** Attributs du témoin (pose et retrait doivent avoir les mêmes `path` et `secure`). */
+export function attributsTemoinCoin(): { httpOnly: true; sameSite: "lax"; secure: boolean; path: "/" } {
+  const securise = process.env.NODE_ENV === "production" && !(process.env.NEXTAUTH_URL ?? "").startsWith("http://");
+  return { httpOnly: true, sameSite: "lax", secure: securise, path: "/" };
+}
+
+/**
+ * Retire le témoin du coin d'une réponse existante (déconnexion NextAuth, suppression du compte). Interrupteur
+ * fermé : la réponse n'est pas touchée (mêmes en-têtes qu'aujourd'hui ; le témoin ne peut pas exister).
+ */
+export function effacerTemoinCoin(headers: Headers): void {
+  if (!ESPACE_CLIENT_PUBLIE) return;
+  const a = attributsTemoinCoin();
+  headers.append("Set-Cookie", `${COOKIE_COIN}=; Path=${a.path}; Max-Age=0; HttpOnly; SameSite=Lax${a.secure ? "; Secure" : ""}`);
+}
 
 /**
  * Porte G6 : la promesse « l'espace n'affiche jamais ce contenu sans le geste « Entrer » » n'est écrite que

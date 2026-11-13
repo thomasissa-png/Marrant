@@ -2,7 +2,7 @@ import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Browser, Cookie, Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, requete } from "../support/base-locale";
-import { TEXTES_CARTES as T, TEXTES_GESTE as G, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
+import { TEXTES_CARTES as T, TEXTES_COMPTE_A_REBOURS as CR, TEXTES_GESTE as G, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
 import { TEXTES_REPLIQUES as R } from "@/config/textes/espace-repliques";
 import { TEXTES_AUJOURDHUI as A } from "@/config/textes/espace-aujourdhui";
 import { SERIE } from "@/config/textes/parcours";
@@ -17,6 +17,7 @@ import { SERIE } from "@/config/textes/parcours";
  */
 const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
 const CAPTURES = process.env.E2E_CAPTURES_D5 ?? "";
+// Lot D5b : captures du compte à rebours et de la limite de la réplique (`docs/captures/s24-d5b`).
 const MOT_DE_PASSE = "E2e-espace-cartes-D5";
 const NOTE = "Je la rends en échange de la paix des ménages";
 
@@ -227,6 +228,73 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
       await expect(c.getByText(G.note.echec)).toBeVisible();
       await expect(c.getByLabel(G.note.label)).toHaveValue("Une phrase à garder");
       await expect(c.getByRole("button", { name: G.note.reessayer })).toBeVisible();
+    });
+
+    test("D5b, compte à rebours : proposition « 7 secondes », décompte, fin annoncée, retour visible à 10, durée enregistrée", async ({ browser, page }) => {
+      const { id, cookies } = await compte(browser);
+      await page.context().addCookies(cookies);
+      // Semaine précédente (même jour, 7 jours avant) : 10 cartes à 10 secondes, dont 7 « Oui ».
+      for (let i = 0; i < 10; i++) {
+        await requete(
+          `INSERT INTO "CarteReponse" (id, "userId", "carteId", reponse, "compteARebours", cle, "repondueLe") VALUES ($1, $2, $3, $4, 10, $5, now() - interval '7 days')`,
+          [`${id}-a${i}`, id, `ancienne-${i}.c1`, i < 7 ? "OUI" : "RIEN", `${id}-cle-${i}`],
+        );
+      }
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/mon-espace/s-entrainer");
+      const c = page.locator('[data-carte="coloc-la-poele.c1"]');
+      await expect(c.getByText(CR.proposition(7, 10))).toBeVisible();
+      const dix = c.getByRole("button", { name: CR.nom(10) });
+      await expect(dix).toHaveText(CR.libelle(10));
+      await expect(dix).toHaveAttribute("aria-pressed", "false");
+      await capturer(page, "rafale-compte-a-rebours-proposition", '[data-carte="coloc-la-poele.c1"] [data-compte-a-rebours]');
+      await page.setViewportSize({ width: 375, height: 812 });
+      await c.getByRole("button", { name: CR.essayer(7) }).click();
+      await expect(c.getByText(CR.proposition(7, 10))).toHaveCount(0);
+      await expect(c.getByRole("button", { name: CR.nom(7) })).toHaveAttribute("aria-pressed", "true");
+      await expect(c.getByRole("timer", { name: CR.minuteur })).toContainText(/Il reste \d secondes?/);
+      await expect(c.getByText(T.prendsTonTemps)).toHaveCount(0);
+      await capturer(page, "rafale-compte-a-rebours-actif", '[data-carte="coloc-la-poele.c1"] [data-compte-a-rebours]');
+      await page.setViewportSize({ width: 375, height: 812 });
+      // Retour visible à la durée précédente, puis 7 de nouveau.
+      await dix.click();
+      await expect(dix).toHaveAttribute("aria-pressed", "true");
+      await c.getByRole("button", { name: CR.nom(7) }).click();
+      await expect(c.getByRole("status").filter({ hasText: CR.passees(7) })).toBeVisible({ timeout: 10_000 });
+      await expect(c.getByRole("timer")).toHaveCount(0);
+      await capturer(page, "rafale-compte-a-rebours-fin", '[data-carte="coloc-la-poele.c1"] [data-compte-a-rebours]');
+      await page.setViewportSize({ width: 375, height: 812 });
+      await c.getByRole("button", { name: T.reponses.OUI, exact: true }).click();
+      await expect(c.getByRole("heading", { name: T.laquelle })).toBeVisible();
+      // L'écriture suit le clic (le titre s'affiche avant la réponse de l'API) : lecture répétée.
+      await expect
+        .poll(async () => (await requete<{ duree: number }>(`SELECT "compteARebours" AS duree FROM "CarteReponse" WHERE "userId" = $1 AND "carteId" = 'coloc-la-poele.c1'`, [id]))[0]?.duree ?? null)
+        .toBe(7);
+      // Rien n'est noté : aucun mot de note ni de sanction dans la carte.
+      expect(await c.innerText()).not.toMatch(/score|note sur|trop lent|raté|perdu/i);
+    });
+
+    test("D5b, « Ma réplique à moi » : un collage de 300 caractères est coupé à 200, message de limite", async ({ browser, page }) => {
+      const { cookies } = await compte(browser);
+      await page.context().addCookies(cookies);
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/mon-espace/s-entrainer");
+      const c = await repondre(page, "coloc-la-poele.c1", T.reponses.OUI);
+      await c.getByRole("button", { name: /La sûre/ }).click();
+      const champ = c.getByLabel(G.note.label);
+      await champ.fill("Je la rends propre, mais je garde le droit de la juger. ".repeat(6));
+      await expect(champ).toHaveValue(/^.{200}$/s);
+      await expect(c.getByText(G.note.compteur(200, 200))).toBeVisible();
+      await expect(c.getByRole("status").filter({ hasText: G.note.limite(200) })).toBeVisible();
+      await capturer(page, "replique-limite", '[data-carte="coloc-la-poele.c1"] form:has(textarea)');
+      // À 200 % : le compteur reste sur une ligne.
+      await page.setViewportSize({ width: 188, height: 406 });
+      const compteur = c.getByText(G.note.compteur(200, 200));
+      const lignes = await compteur.evaluate((e) => Math.round(e.getBoundingClientRect().height / parseFloat(getComputedStyle(e).lineHeight)));
+      expect(lignes).toBe(1);
+      // Le serveur refuse au-delà (400), sans troncature.
+      const r = await page.request.put("/api/espace/replique", { data: { ficheId: "coloc-la-poele", texte: "a".repeat(201) } });
+      expect(r.status()).toBe(400);
     });
 
     test("200 % de texte (188 x 406) : aucun débordement, cibles de 44 px", async ({ browser, page }) => {

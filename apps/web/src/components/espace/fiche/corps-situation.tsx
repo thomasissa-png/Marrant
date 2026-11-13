@@ -3,6 +3,7 @@
 import { TEXTES_CARTES as C } from "@/config/textes/espace-cartes";
 import { TEXTES_FICHE as T } from "@/config/textes/espace-bibliotheque";
 import { ETIQUETTE } from "@/components/espace/carte/styles";
+import { entreGuillemets } from "@/components/espace/carte/citation";
 import { ReponseDabord } from "@/components/espace/fiche/reponse-dabord";
 
 type Replique = { texte: string; pourquoi: string };
@@ -30,7 +31,7 @@ export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, 
           {T.scene}
         </h2>
         <p className="text-base text-text-primary">{scene.texte}</p>
-        {scene.onTeDit && <p className="text-base font-semibold text-text-primary">« {scene.onTeDit} »</p>}
+        {scene.onTeDit && <p className="text-base font-semibold text-text-primary">{entreGuillemets(scene.onTeDit)}</p>}
         {scene.suite && <p className="text-base text-text-primary">{scene.suite}</p>}
       </section>
       <ReponseDabord premierePhrase={premierePhrase}>

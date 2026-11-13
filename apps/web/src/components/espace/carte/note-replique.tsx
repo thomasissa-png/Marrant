@@ -6,7 +6,13 @@ import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 
-type Etat = "repos" | "enregistree" | "echec" | "confirmer" | "supprimee";
+type Etat = "repos" | "limite" | "enregistree" | "echec" | "confirmer" | "supprimee";
+
+/** Texte gardé dans le champ : `REPLIQUE_MAX_CLIENT` au plus (le collage est coupé, comme `maxLength`). */
+export function couperReplique(valeur: string): { texte: string; aLaLimite: boolean } {
+  const texte = valeur.length > REPLIQUE_MAX_CLIENT ? valeur.slice(0, REPLIQUE_MAX_CLIENT) : valeur;
+  return { texte, aLaLimite: texte.length >= REPLIQUE_MAX_CLIENT };
+}
 
 /**
  * « Ma réplique à moi » (architecture v20 2.7, maquette `carte-rafale.html#note=…`) : une phrase, sous
@@ -48,7 +54,16 @@ export function NoteReplique({ ficheId, initiale }: { ficheId: string; initiale:
     champ.current?.focus();
   };
 
-  const statut = etat === "enregistree" ? G.note.enregistree : etat === "echec" ? G.note.echec : etat === "supprimee" ? G.note.supprimee : "";
+  const statut =
+    etat === "enregistree"
+      ? G.note.enregistree
+      : etat === "echec"
+        ? G.note.echec
+        : etat === "supprimee"
+          ? G.note.supprimee
+          : etat === "limite"
+            ? G.note.limite(REPLIQUE_MAX_CLIENT)
+            : "";
 
   return (
     <form
@@ -70,8 +85,9 @@ export function NoteReplique({ ficheId, initiale }: { ficheId: string; initiale:
         placeholder={G.note.placeholder}
         aria-describedby={`${id}-c ${id}-s`}
         onChange={(e) => {
-          setTexte(e.target.value);
-          if (etat !== "confirmer") setEtat("repos");
+          const { texte: garde, aLaLimite } = couperReplique(e.target.value);
+          setTexte(garde);
+          if (etat !== "confirmer") setEtat(aLaLimite ? "limite" : "repos");
         }}
         className="block w-full min-w-0 rounded-md border border-border-input bg-background-light px-3 py-2 text-base text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
       />
@@ -94,7 +110,7 @@ export function NoteReplique({ ficheId, initiale }: { ficheId: string; initiale:
             {G.note.supprimer}
           </button>
         )}
-        <span id={`${id}-c`} className="text-xs text-text-muted">
+        <span id={`${id}-c`} className="whitespace-nowrap text-xs text-text-muted">
           {G.note.compteur(texte.length, REPLIQUE_MAX_CLIENT)}
         </span>
       </div>

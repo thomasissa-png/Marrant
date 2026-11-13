@@ -122,7 +122,13 @@ const commun = {
   dureeMinutes: z.number().int().min(1).max(30),
   geste: gesteSchema.optional(),
   /** Deux liens vers le catalogue au plus, chemins internes. */
-  liens: z.array(z.string().regex(/^\/[^\s]*$/, "chemin interne attendu")).max(2).optional(),
+  liens: z
+    .array(z.string().regex(/^\/[^\s]*$/, "chemin interne attendu"))
+    .max(2)
+    // Reste du D6 (arbitrage @ux D6 n°4) : le lien est nommé par sa rubrique ; deux liens vers la même
+    // rubrique porteraient le même nom sur la fiche, refusé à l'import.
+    .refine((l) => new Set(l.map((h) => h.split("/")[1])).size === l.length, "deux liens vers la même rubrique")
+    .optional(),
   /**
    * Lot D6 (architecture 2.8) : reprise d'une lettre, par son numéro (`NewsletterIssue.periodKey`,
    * « 2026-W46 » ou « 2026-11 »). La fiche n'est servie nulle part avant l'envoi de cette lettre.

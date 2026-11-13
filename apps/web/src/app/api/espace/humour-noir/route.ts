@@ -3,7 +3,7 @@ import { z } from "zod";
 import { garderApiEspace, methodeNonPermise } from "@/lib/espace/garde";
 import { jsonEspace, limiterEcritures, lireCorps } from "@/lib/espace/api";
 import { chargeursFiches } from "@/lib/espace/fiches";
-import { COOKIE_COIN, DUREE_COIN_SECONDES, VALEUR_ENTREE } from "@/lib/espace/humour-noir";
+import { COOKIE_COIN, DUREE_COIN_SECONDES, VALEUR_ENTREE, attributsTemoinCoin } from "@/lib/espace/humour-noir";
 import { idsFaits, ligneDeFiche } from "@/lib/espace/lignes-fiches";
 
 /**
@@ -24,8 +24,7 @@ export async function POST(request: Request) {
   const lu = corpsSchema.safeParse(await lireCorps(request));
   if (!lu.success) return jsonEspace({ error: "valeur" }, 400);
 
-  const securise = process.env.NODE_ENV === "production" && !(process.env.NEXTAUTH_URL ?? "").startsWith("http://");
-  const temoin = { httpOnly: true, sameSite: "lax" as const, secure: securise, path: "/" };
+  const temoin = attributsTemoinCoin();
   if (!lu.data.entrer) {
     const res = jsonEspace({ lignes: [] });
     res.cookies.set(COOKIE_COIN, "", { ...temoin, maxAge: 0 });

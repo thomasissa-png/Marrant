@@ -149,6 +149,8 @@ export default function ConfidentialitePage() {
           <h2 className={SECTION_TITLE}>5. Cookies et mesure d’audience</h2>
           <ul className={LIST}>
             <li><strong>Cookies essentiels</strong> : ta session de connexion. Ils sont nécessaires au fonctionnement du site.</li>
+            {/* s24 lot D5b (@legal, cookie du coin « Humour noir ») : ouvert seulement. */}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.cookie)}</li>}
             <li><strong>Mesure d’audience</strong> : Umami Cloud, sans cookie. On compte les pages vues et quelques actions (par exemple un clic sur un bouton d’abonnement, l’ouverture d’une étape de parcours ou le score d’un quiz), sans y associer ton nom, ton e-⁠mail ni ton compte, et on ne lit que des statistiques globales. Ces mesures ne sont ni croisées avec les données de ton compte, ni utilisées pour de la publicité.</li>
             <li><strong>Provenance de ta visite</strong> (réseau social, campagne) : gardée dans le stockage de session de ton navigateur, effacé à la fermeture de l’onglet.</li>
             {/* s22 (go Thomas 24/10, visa @legal N8) : affichée seulement quand le widget est ouvert. */}

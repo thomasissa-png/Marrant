@@ -20,7 +20,7 @@ export const dynamic = "force-dynamic";
 
 const cle = z.string().regex(FORMAT_CLE);
 const corps = z.union([
-  z.object({ cle, reponse: z.enum(REPONSES_CARTE), compteARebours: z.number().int().min(1).max(60).nullable().default(null) }).strict(),
+  z.object({ cle, reponse: z.enum(REPONSES_CARTE), compteARebours: z.union([z.literal(10), z.literal(7), z.literal(5)]).nullable().default(null) }).strict(),
   z.object({ cle, choix: z.enum(["sure", "joueuse", "risquee"]) }).strict(),
 ]);
 const ID_CARTE = /^[a-z0-9-]{1,90}(\.c[12])?$/;

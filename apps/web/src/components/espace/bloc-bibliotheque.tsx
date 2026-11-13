@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { TEXTES_BIBLIOTHEQUE as T } from "@/config/textes/espace-bibliotheque";
 import type { LigneFiche } from "@/lib/espace/lignes-fiches";
-import { CARTE } from "@/components/espace/carte/styles";
+import { CARTE, LIEN } from "@/components/espace/carte/styles";
 import { ListeFiches } from "@/components/espace/liste-fiches";
 
 /** Un bloc de la Bibliothèque (maquette `bibliotheque.html`, `.card`) : titre de niveau 2 et contenu. */
@@ -18,7 +18,7 @@ export function BlocBibliotheque({ id, titre, children }: { id: string; titre: s
 
 /**
  * Bloc « Vannes, conseils, vidéos » (6.2) : ouvert sur les thèmes, pages publiques existantes
- * `/vannes/theme/[slug]` (aucune copie), puis « Écouter, repérer » avec les bonus des caps 2 à 4 ouverts
+ * `/vannes/theme/[slug]` (aucune copie), les liens `/vannes`, `/conseils`, `/videos` (reste du D6), puis « Écouter, repérer » avec les bonus des caps 2 à 4 ouverts
  * (un bonus non ouvert n'existe pas ici : ni ligne grisée ni phrase d'attente, 5.4).
  */
 export function BlocVannes({ ecouter }: { ecouter: readonly LigneFiche[] }) {
@@ -32,6 +32,16 @@ export function BlocVannes({ ecouter }: { ecouter: readonly LigneFiche[] }) {
               className="inline-flex min-h-11 items-center rounded-full border border-border-input px-4 text-sm font-medium text-text-primary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
             >
               {t.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      {/* Reste du D6 : le catalogue complet (la barre de l'abonné remplace les onglets du site). */}
+      <ul className="flex flex-wrap gap-x-4 gap-y-1" data-testid="bibliotheque-catalogue">
+        {T.catalogue.map((c) => (
+          <li key={c.href}>
+            <Link href={c.href} className={LIEN}>
+              {c.label}
             </Link>
           </li>
         ))}

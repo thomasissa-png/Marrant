@@ -4,8 +4,8 @@
  *
  * Cartes : chaque situation neuve (`data/espace/situations.json`) donne DEUX cartes « Quel registre ? »
  * (`<fiche>.c1`, `<fiche>.c2`, un contexte chacune ; forme `premiere-phrase` = « Ta première phrase
- * d'abord ») ; chaque fiche du carnet donne une carte « Et toi ? » (`carnet-<id>`), seulement après la
- * porte G5 (`lib/espace/carnet-cartes.ts`). Jamais tirés : humour noir (3.12) et bonus de cap (3.13),
+ * d'abord ») ; chaque fiche RELUE du carnet donne une carte « Et toi ? » (`carnet-<id>`) :
+ * porte G5 franchie le 13/11 (`lib/espace/carnet-cartes.ts`). Jamais tirés : humour noir (3.12) et bonus de cap (3.13),
  * qui ne sont pas des situations : ils n'entrent pas dans ce catalogue.
  *
  * Composition du jour (jour civil de Paris) :
@@ -16,7 +16,8 @@
  *   20 cartes avec « Oui » [HYPOTHÈSE de seuil de l'architecture, calée à E5] ; après « pour plaire »
  *   (C9), une situation de rencontre, une fois ; carnet en retard : une nouvelle un jour sur deux ;
  * - puis jusqu'à 2 cartes à revoir (échéance atteinte, la plus ancienne d'abord) ;
- * - places libres et aucune carte à revoir : le second contexte d'une situation déjà vue un autre jour ;
+ * - places libres et aucune carte à revoir : le second contexte d'une situation déjà vue un autre jour
+ *   (étiquette « Nouvelle », carte jamais jouée ; sous-titre « 1 autre contexte ») ;
  *   sinon rien (« C'est tout pour aujourd'hui », jamais une carte répétée).
  */
 import type { Fiche } from "@/lib/espace/fiches-schema";
@@ -137,6 +138,11 @@ export interface EntreeRafale {
 export interface CarteDuJourMoteur {
   carteId: string;
   nouvelle: boolean;
+  /**
+   * Second contexte d'une situation déjà vue (arbitrage @ux D5 n°3 b) : carte jamais jouée, étiquetée
+   * « Nouvelle » (jamais « À revoir »), mais pas comptée comme « situation nouvelle » (libellé 4).
+   */
+  autreContexte?: true;
 }
 
 export interface RafaleDuJour {
@@ -151,10 +157,18 @@ export function jourParis(d: Date): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
 }
 
+/** Début de la semaine (lundi, jour de Paris) contenant `maintenant`. */
+export function lundiParis(maintenant: Date): string {
+  const jour = jourParis(maintenant);
+  const d = new Date(`${jour}T12:00:00Z`);
+  const recul = (d.getUTCDay() + 6) % 7;
+  return jourParis(new Date(d.getTime() - recul * 86_400_000));
+}
+
 const RANG_PALIER = { P1: 1, P2: 2, P3: 3 } as const;
 
 function rangNouvelle(c: CarteRafale, entrees: readonly string[]): number {
-  if (c.genre === "et-toi") return 2.5; // carnet : après les P2 neuves [HYPOTHÈSE d'ordre, sans effet avant G5]
+  if (c.genre === "et-toi") return 2.5; // carnet : après les P2 neuves [HYPOTHÈSE d'ordre, en vigueur depuis G5]
   const e = entrees.indexOf(c.ficheId);
   if (e >= 0) return e / 10; // les 5 entrées, dans leur ordre, avant tout autre P1
   return RANG_PALIER[c.palier];
@@ -214,7 +228,7 @@ export function composerRafale(e: EntreeRafale): RafaleDuJour {
       if (c.genre !== "registre" || c.contexteIndex !== 2 || vues.has(c.id)) continue;
       const vu1 = premiereVue.get(idCarteRegistre(c.ficheId, 1));
       if (!vu1 || jourParis(vu1) === jour) continue;
-      cartes.push({ carteId: c.id, nouvelle: false });
+      cartes.push({ carteId: c.id, nouvelle: true, autreContexte: true });
       places -= 1;
     }
   }

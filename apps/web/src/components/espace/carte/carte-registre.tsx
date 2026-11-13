@@ -7,9 +7,12 @@ import type { ReponseCarte } from "@/lib/espace/revision";
 import type { RetourGeste } from "@/lib/espace/retours";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { BoutonsReponse } from "@/components/espace/carte/boutons-reponse";
+import { CompteARebours } from "@/components/espace/carte/compte-a-rebours";
+import type { DureeCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
 import { BOUTON_SECONDAIRE, CARTE, ETIQUETTE, nouvelleCle } from "@/components/espace/carte/styles";
+import { entreGuillemets } from "@/components/espace/carte/citation";
 
 type Registre = keyof Carte["repliques"];
 const REGISTRES: readonly Registre[] = ["sure", "joueuse", "risquee"];
@@ -28,11 +31,12 @@ export function CarteRegistre({ carte, nouvelle, ancre }: { carte: Carte; nouvel
   const [apres, setApres] = useState<ApresReponse | null>(null);
   const [choix, setChoix] = useState<Registre | null>(null);
   const [echec, setEchec] = useState(false);
+  const [compte, setCompte] = useState<DureeCompteARebours | null>(null);
   const titreId = `${ancre}-t`;
 
   const repondre = async (r: ReponseCarte) => {
     setReponse(r);
-    const res = await appelEspace<ApresReponse>(`/api/espace/carte/${carte.id}/reponse`, "POST", { cle: cle.current, reponse: r, compteARebours: null });
+    const res = await appelEspace<ApresReponse>(`/api/espace/carte/${carte.id}/reponse`, "POST", { cle: cle.current, reponse: r, compteARebours: compte });
     setEchec(!res);
     setApres(res ?? { revision: !nouvelle, replique: null, retour: null });
   };
@@ -50,7 +54,7 @@ export function CarteRegistre({ carte, nouvelle, ancre }: { carte: Carte; nouvel
       <div className="space-y-2">
         <h3 className={ETIQUETTE}>{T.scene}</h3>
         <p className="text-base text-text-primary">{carte.scene.texte}</p>
-        {carte.scene.onTeDit && <p className="text-base font-semibold text-text-primary">« {carte.scene.onTeDit} »</p>}
+        {carte.scene.onTeDit && <p className="text-base font-semibold text-text-primary">{entreGuillemets(carte.scene.onTeDit)}</p>}
         {carte.scene.suite && <p className="text-base text-text-primary">{carte.scene.suite}</p>}
       </div>
       <div className="rounded-md border-l-2 border-border-input bg-background-light px-3 py-2">
@@ -61,7 +65,8 @@ export function CarteRegistre({ carte, nouvelle, ancre }: { carte: Carte; nouvel
         <h3 className="text-base font-semibold text-text-primary">{carte.premierePhrase ? T.premierePhraseDabord : T.reponseDabord}</h3>
         <p className="text-sm text-text-secondary">{T.consigne}</p>
       </div>
-      <BoutonsReponse reponse={reponse} revision={!nouvelle} onRepondre={(r) => void repondre(r)} />
+      <CompteARebours repondu={reponse !== null} proposer={ancre === "carte-1"} onChange={setCompte} />
+      <BoutonsReponse reponse={reponse} revision={!nouvelle} compteActif={compte !== null} onRepondre={(r) => void repondre(r)} />
       {echec && (
         <p role="status" className="text-sm text-text-secondary">
           {T.echec}

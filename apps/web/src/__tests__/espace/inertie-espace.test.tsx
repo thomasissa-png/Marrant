@@ -151,6 +151,11 @@ describe("garde-fou de construction", () => {
     // l'interrupteur dans `filtreHumourNoir` : fermé, filtre vide, témoin non lu, réponses identiques.
     "app/api/search/route.ts",
     "app/api/favorites/route.ts",
+    // D5b (@legal, cookie du coin « Humour noir », poste partagé) : à la déconnexion et à la suppression du
+    // compte, le témoin du coin est retiré. Sous garde de l'interrupteur dans `effacerTemoinCoin` : fermé,
+    // aucun en-tête ajouté, réponses identiques (test `d5b-temoin-coin-s24`).
+    "app/api/auth/[...nextauth]/route.ts",
+    "app/api/user/route.ts",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

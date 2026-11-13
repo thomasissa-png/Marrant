@@ -13,21 +13,25 @@ export const PRENDS_TON_TEMPS_MS = 3_000;
  * dès le départ en `aria-disabled` pendant « Prends ton temps » (rien ne bloque le lecteur d'écran),
  * puis actifs ; un seul toucher, qui révèle la suite. Ligne neutre sous les boutons : « À moitié » et
  * « Rien » disent quand la carte reviendra (première vue seulement) ; « Oui » n'a aucune ligne.
- * Compte à rebours : désactivé (la première fois toujours ; son libellé d'activation n'est pas écrit).
+ * Compte à rebours (lot D5b, `compte-a-rebours.tsx`) : quand il est lancé, il remplace « Prends ton
+ * temps » (texte masqué, boutons actifs : deux consignes ne se contredisent pas) ; il ne bloque jamais.
  */
 export function BoutonsReponse({
   reponse,
   revision,
   onRepondre,
+  compteActif = false,
 }: {
   reponse: ReponseCarte | null;
   revision: boolean;
   onRepondre: (r: ReponseCarte) => void;
+  compteActif?: boolean;
 }) {
-  const [attente, setAttente] = useState(true);
+  const [pause, setPause] = useState(true);
+  const attente = pause && !compteActif;
   const id = useId();
   useEffect(() => {
-    const t = setTimeout(() => setAttente(false), PRENDS_TON_TEMPS_MS);
+    const t = setTimeout(() => setPause(false), PRENDS_TON_TEMPS_MS);
     return () => clearTimeout(t);
   }, []);
 
@@ -45,7 +49,7 @@ export function BoutonsReponse({
             <button
               key={r}
               type="button"
-              className={`${BOUTON_SECONDAIRE} ${reponse === r ? "border-2 border-accent-link bg-background-elevated" : ""}`}
+              className={`${BOUTON_SECONDAIRE} w-full [overflow-wrap:anywhere] ${reponse === r ? "border-2 border-accent-link bg-background-elevated" : ""}`}
               aria-pressed={reponse === r}
               aria-disabled={attente && !reponse ? true : undefined}
               disabled={reponse !== null}

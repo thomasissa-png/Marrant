@@ -50,7 +50,9 @@ export function EnTeteEspace({ pathname }: { pathname: string | null }) {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md max-e300:static" data-en-tete-espace>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 e360:px-4 sm:gap-4 md:px-6 xl:px-8 max-e300:h-auto max-e300:flex-col max-e300:items-start max-e300:gap-0">
-        <Link href="/" className="flex min-h-11 shrink-0 items-center gap-2">
+        {/* Arbitrage @ux D5 n°2, levier 2 (N2 à 200 %) : sous 300 px, seul le lien du logo passe à 32 px
+            (au-dessus des 24 px de WCAG 2.5.8 AA) ; les trois icônes gardent 44 px. Écart à l'étalon v4.1 noté. */}
+        <Link href="/" className="flex min-h-11 shrink-0 items-center gap-2 max-e300:min-h-8">
           <span className="whitespace-nowrap font-display text-sm font-bold text-gradient e360:text-base e400:text-lg sm:text-xl">
             deviens-marrant.fr
           </span>

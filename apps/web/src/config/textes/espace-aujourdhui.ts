@@ -34,11 +34,16 @@ export const TEXTES_AUJOURDHUI = {
     nouvelle: "Nouvelle", // (5)
     aRevoir: "À revoir", // (5)
     fini: "C'est tout pour aujourd'hui",
-    /** (4) : « 1 situation nouvelle, 2 cartes à revoir », singulier et variantes. */
-    sousTitre: (nouvelles: number, aRevoir: number): string => {
+    /**
+     * (4) : « 1 situation nouvelle, 2 cartes à revoir », singulier et variantes. Second contexte d'une
+     * situation déjà vue (arbitrage @ux D5, validé par Thomas le 13/11) : « 1 autre contexte » /
+     * « {n} autres contextes », jamais compté dans « situation nouvelle ».
+     */
+    sousTitre: (nouvelles: number, aRevoir: number, autresContextes: number = 0): string => {
       const n = nouvelles > 0 ? `${nouvelles} situation nouvelle` : "";
       const r = aRevoir > 0 ? `${aRevoir} ${aRevoir > 1 ? "cartes" : "carte"} à revoir` : "";
-      return [n, r].filter(Boolean).join(", ");
+      const a = autresContextes > 0 ? (autresContextes > 1 ? `${autresContextes} autres contextes` : "1 autre contexte") : "";
+      return [n, r, a].filter(Boolean).join(", ");
     },
   },
   jour: {

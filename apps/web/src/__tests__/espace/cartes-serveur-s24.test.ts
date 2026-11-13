@@ -135,7 +135,7 @@ afterEach(() => {
 describe("cartes de la rafale", () => {
   it("rafale du jour : la situation d'entrée (contexte 1), « Nouvelle »", async () => {
     const corps = await (await cartes()).json();
-    expect(corps.cartes).toEqual([{ id: "coloc-la-poele.c1", titre: "Coloc : la poêle", nouvelle: true }]);
+    expect(corps.cartes).toEqual([{ id: "coloc-la-poele.c1", titre: "Coloc : la poêle", nouvelle: true, autreContexte: false }]);
     expect(corps.fini).toBe(false);
   });
 

@@ -153,10 +153,15 @@ describe("export des données du compte (@legal, espace-c9-information-s24.md po
 describe("confidentialité, espace OUVERT (simulé) : les trois lignes de @legal (G9)", () => {
   it("partie 2, partie 3 et phrase de la partie 6 rendues ; date de mise à jour inchangée tant que la date est vide", () => {
     const html = renderToStaticMarkup(createElement(ConfidentialitePage));
-    for (const t of [CONFIDENTIALITE_ESPACE.donnees, CONFIDENTIALITE_ESPACE.base, CONFIDENTIALITE_ESPACE.dureeEtapes]) {
+    // D5b : quatrième ligne, le cookie du coin « Humour noir » (partie 5, @legal `espace-d6-cookie-coin-s24.md`).
+    for (const t of [CONFIDENTIALITE_ESPACE.donnees, CONFIDENTIALITE_ESPACE.base, CONFIDENTIALITE_ESPACE.dureeEtapes, CONFIDENTIALITE_ESPACE.cookie]) {
       expect(html).toContain(frTypo(t).replace(/'/g, "&#x27;"));
     }
     expect(ESPACE_DATE_TEXTES).toBe("");
-    expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(3);
+    expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(4);
+    // Placée juste après « Cookies essentiels ».
+    const essentiels = html.indexOf("Cookies essentiels");
+    expect(essentiels).toBeGreaterThan(0);
+    expect(html.indexOf("Coin « Humour noir »", essentiels)).toBeLessThan(html.indexOf("Mesure d’audience", essentiels));
   });
 });

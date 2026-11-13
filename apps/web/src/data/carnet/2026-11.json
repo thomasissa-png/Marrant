@@ -45,10 +45,10 @@
       "accroche": "Vendredi soir, tu proposes de conduire. Ton ami, déjà côté passager, se tourne vers toi",
       "contexte": "amis",
       "situation": "Vendredi soir, tu proposes de conduire pour aller à un dîner, et un ami, déjà installé côté passager, se tourne vers toi.",
-      "onTeDit": "Tu es sûr que tu connais le chemin ? La dernière fois, on a visité un champ.",
+      "onTeDit": "Tu connais vraiment le chemin ? La dernière fois, on a visité un champ.",
       "reponse": "Ce n'était pas un champ. C'était un raccourci qui avait de l'ambition.",
-      "pourquoi": "Tu contestes le mot, pas les faits : vous étiez bien au milieu d'un champ. Mais ton raccourci avait de l'ambition, comme un stagiaire qui veut trop bien faire, et la faute passe du conducteur au chemin.",
-      "siTendu": "Pas sûr, non. Je mets le GPS ce soir, et tu me préviens si je rate une sortie ?",
+      "pourquoi": "Tu contestes le mot, pas les faits : vous étiez bien au milieu d'un champ. Mais ton raccourci avait de l'ambition, comme un stagiaire qui veut trop bien faire, et la faute passe de toi au chemin.",
+      "siTendu": "Pas vraiment, non. Je mets le GPS ce soir, et tu me préviens si je rate une sortie ?",
       "exercice": "Assieds-toi, les mains à dix heures dix comme sur un volant, regard droit devant : dis « Ce n'était pas un champ » d'un ton ferme, comme une rectification, puis « C'était un raccourci qui avait de l'ambition » avec une pointe de fierté, comme pour défendre un proche."
     },
     {
@@ -61,7 +61,7 @@
       "reponse": "Regarde mieux. Cette année, j'ai osé le paprika.",
       "pourquoi": "Ton audace de l'année s'appelle paprika, et tu la sors face au reproche d'apporter toujours la même chose. Un parfum de chips présenté comme un saut dans le vide, ça donne une idée assez juste de la hauteur de tes sauts.",
       "siTendu": "J'ai pris le plus simple. La prochaine fois, je ramène ce que tu préfères, souffle-moi une idée.",
-      "exercice": "Prends n'importe quel paquet dans ton placard. Dis « Regarde mieux » en pointant l'étiquette du doigt, comme une pièce à conviction, puis « Cette année, j'ai osé le paprika » en le tendant devant toi, fier comme si tu avais pris un vrai risque."
+      "exercice": "Prends n'importe quel paquet dans ton placard. Dis « Regarde mieux » en pointant l'étiquette du doigt, comme une pièce à conviction, puis « Cette année, j'ai osé le paprika » en le tendant devant toi, avec la fierté de quelqu'un qui vient de prendre un vrai risque."
     },
     {
       "id": "2026-11-06",
@@ -92,7 +92,7 @@
       "titre": "Le dimanche des gens en short",
       "accroche": "À l'apéro, un sportif du groupe te propose de rejoindre le footing du dimanche",
       "contexte": "amis",
-      "situation": "Un groupe d'amis sportifs organise un footing dominical, et l'un d'eux t'a repéré à l'apéro pour te proposer de venir.",
+      "situation": "Un groupe d'amis sportifs organise un footing dominical, et quelqu'un du groupe, à l'apéro, te propose de venir.",
       "onTeDit": "Viens courir avec nous dimanche, dix kilomètres, c'est tranquille !",
       "reponse": "La dernière fois que j'ai couru, une poussette m'a doublé. Le bébé avait l'air gêné pour moi.",
       "pourquoi": "Se faire doubler par une poussette, c'est déjà le fond du classement. Le bébé creuse encore : le concurrent assis de la course a trouvé le temps d'être gêné pour toi, comme un adulte poli qui n'ose rien dire.",
@@ -133,7 +133,7 @@
       "onTeDit": "Toi, tu joues où, d'habitude ?",
       "reponse": "Je suis ce qui fait onze. On ne m'a jamais demandé de faire plus.",
       "pourquoi": "Il demande un poste, tu réponds par un effectif. « Ce qui fait onze », et non « celui qui » : tu te ranges avec le matériel, quelque part entre les plots et le ballon. Personne n'a jamais attendu plus de toi, et ça te va.",
-      "siTendu": "Mets-moi où tu as besoin de quelqu'un. Je ne suis pas très fort, mais je suis là.",
+      "siTendu": "Mets-moi où tu as besoin de quelqu'un. Je n'ai pas un grand niveau, mais je suis là.",
       "exercice": "Compte jusqu'à dix sur tes doigts, pose la main sur ta poitrine pour le onzième, puis dis « Je suis ce qui fait onze » comme une info pratique et enchaîne la suite sur le même ton."
     },
     {
@@ -170,7 +170,7 @@
       "reponse": "J'ai gagné une fois à pile ou face. On a demandé de refaire.",
       "pourquoi": "Tu n'as gagné qu'à pile ou face, un jeu où le talent ne compte pas, et même cette victoire n'a pas tenu. Chez toi, perdre est devenu si normal qu'une victoire ressemble à une erreur de tirage : on refait pour rétablir l'ordre.",
       "siTendu": "Je perds souvent, c'est vrai. Je joue volontiers quand même, mets-moi avec quelqu'un de patient.",
-      "exercice": "Lance une pièce et rattrape-la, puis dis la première phrase en la tenant levée entre deux doigts, fier de toi. Pour la seconde, repose-la sans bruit sur la table, l'air de rien."
+      "exercice": "Lance une pièce et rattrape-la, puis dis la première phrase en la tenant levée entre deux doigts, avec fierté. Pour la seconde, repose-la sans bruit sur la table, l'air de rien."
     },
     {
       "id": "2026-11-15",
@@ -204,7 +204,7 @@
       "situation": "Un collègue passe derrière ton poste de travail avec un dossier sous le bras et ralentit devant les piles de papiers.",
       "onTeDit": "Ton bureau, il est rangé selon quel système ?",
       "reponse": "J'ai un système. Il est dans un des dossiers.",
-      "pourquoi": "Le système existe, tu l'affirmes, mais il est rangé dans les piles qu'il devait organiser : c'est la clé de la maison, enfermée à l'intérieur. Un système dont l'adresse est « un des dossiers » ne sert plus à rien, sauf à rassurer celui qui en parle.",
+      "pourquoi": "Le système existe, tu l'affirmes, mais il est rangé dans les piles qu'il devait organiser : c'est la clé de la maison, enfermée à l'intérieur. Un système dont l'adresse est « un des dossiers » ne sert plus à rien, sauf à te rassurer.",
       "siTendu": "Il n'y a pas vraiment de système, je range quand j'ai le temps. Tu cherches quelque chose ?",
       "exercice": "Pose une pile de papiers devant toi. Dis « J'ai un système » en tapotant la pile, soulève une feuille et regarde dessous, puis ajoute « Il est dans un des dossiers » sur le même ton sûr, comme si c'était une bonne nouvelle."
     },
@@ -217,7 +217,7 @@
       "onTeDit": "Tu es encore à l'heure d'été, toi ?",
       "reponse": "J'ai changé le four, la voiture, la pendule du salon. Pour la mienne, je n'ai pas trouvé le bouton.",
       "pourquoi": "Le four et la voiture, ce sont les horloges que beaucoup laissent fausses pendant des mois : en les citant, tu te poses en élève modèle. Reste « la mienne » : après trois appareils, tu passes à ton horloge interne, celle qu'aucun bouton ne règle.",
-      "siTendu": "Désolé pour le retard, je rattrape ça dans la matinée.",
+      "siTendu": "Pardon pour le retard, je rattrape ça dans la matinée.",
       "exercice": "Récite « le four, la voiture, la pendule du salon » à toute vitesse en pointant trois objets chez toi, puis tâte ta nuque comme si tu y cherchais un bouton avant de dire la fin."
     },
     {
@@ -229,7 +229,7 @@
       "onTeDit": "Encore en retard ? C'est le métro, j'imagine ?",
       "reponse": "Oui, le métro. Je l'accuse depuis six ans, il ne s'est jamais défendu.",
       "pourquoi": "Le métro fait le suspect parfait : six ans d'accusations, et il ne viendra jamais au bureau donner sa version. En acceptant l'excuse que ton collègue te tend, tu reconnais à moitié que le métro n'y est peut-être pour rien.",
-      "siTendu": "Désolé, je suis en retard. Qu'est-ce que j'ai raté ?",
+      "siTendu": "Pardon, je suis en retard. Qu'est-ce que j'ai raté ?",
       "exercice": "Regarde l'heure sur ton téléphone, soupire, puis dis la réplique en haussant les épaules, comme on parle d'un vieux complice."
     },
     {
@@ -246,27 +246,27 @@
     },
     {
       "id": "2026-11-21",
-      "titre": "Le premier arrivé au pot",
+      "titre": "En avance au pot",
       "accroche": "Pot de départ en salle de réunion. Tu es déjà devant le plateau de gâteaux",
       "contexte": "boulot",
-      "situation": "Pot de départ en salle de réunion, les gobelets sont sortis, et tu es le premier arrivé, juste devant le plateau de gâteaux.",
+      "situation": "Pot de départ en salle de réunion, les gobelets sont sortis, et tu es là en premier, juste devant le plateau de gâteaux.",
       "onTeDit": "On ne te voit qu'aux pots, toi.",
-      "reponse": "Je suis venu dire au revoir à Philippe. Quelqu'un peut me le montrer ?",
+      "reponse": "Je viens dire au revoir à Philippe. Quelqu'un peut me le montrer ?",
       "pourquoi": "Le motif est noble, dire au revoir, puis ta question révèle que tu ne connais même pas Philippe. Il ne reste qu'une raison à ta présence, et elle est sur le plateau, à portée de ta main.",
       "siTendu": "On ne me voit pas souvent, je le reconnais. Aujourd'hui, je suis là pour dire au revoir.",
-      "exercice": "Debout dans une pièce vide, dis « Je suis venu dire au revoir à Philippe » d'un ton ému. Balaie ensuite l'espace des yeux, une main en visière, et demande « Quelqu'un peut me le montrer ? » avec le sérieux de quelqu'un qui cherche vraiment. Le jour du pot, mets le vrai prénom, et dis « me la montrer » si c'est une collègue qui part."
+      "exercice": "Debout dans une pièce vide, dis « Je viens dire au revoir à Philippe » d'un ton ému. Balaie ensuite l'espace des yeux, une main en visière, et demande « Quelqu'un peut me le montrer ? » avec le sérieux de quelqu'un qui cherche vraiment. Le jour du pot, mets le vrai prénom, et dis « me la montrer » si c'est une collègue qui part."
     },
     {
       "id": "2026-11-22",
       "titre": "L'abonnement de septembre",
-      "accroche": "Un ami te croise au pied de ton immeuble. Il sait que tu t'es inscrit à la salle en septembre",
+      "accroche": "Un ami te croise au pied de ton immeuble. Il sait que tu as pris un abonnement à la salle en septembre",
       "contexte": "sport",
-      "situation": "Début novembre, un ami te croise au pied de ton immeuble, il sait que tu t'es inscrit à la salle de sport en septembre.",
-      "onTeDit": "Alors, ta salle de sport, tu y es allé, depuis septembre ?",
-      "reponse": "Je passe devant tous les jours, en bus. On se connaît de vue.",
-      "pourquoi": "Tu parles de la salle comme d'une voisine : vous vous croisez chaque jour, vous ne vous êtes jamais parlé. « En bus » précise que même ces croisements se font assis, et « de vue » décrit exactement ton abonnement.",
+      "situation": "Début novembre, un ami te croise au pied de ton immeuble, il sait que tu as pris un abonnement à la salle de sport en septembre.",
+      "onTeDit": "Alors, ta salle de sport, depuis septembre, ça donne quoi ?",
+      "reponse": "On m'a dit « à bientôt » à l'inscription. Je n'ai pas voulu les brusquer.",
+      "pourquoi": "Tu prends le « à bientôt » de l'inscription pour un rendez-vous dont la salle fixe la date. Par politesse, tu ne presses pas les gens qui te l'ont dit : ta paresse devient de la délicatesse, et tu avoues sans t'excuser.",
       "siTendu": "Pas encore, non. Tu y vas, toi ? Ça me motiverait d'y aller avec quelqu'un.",
-      "exercice": "Assieds-toi comme dans un bus et fais un petit signe de tête poli vers la fenêtre. Puis dis la réplique d'un ton détaché, comme on donne des nouvelles d'une vague connaissance."
+      "exercice": "Assieds-toi au bord d'une chaise, les mains sur les genoux comme en salle d'attente, puis dis la réplique d'un ton tranquille, en marquant un temps avant la seconde phrase."
     },
     {
       "id": "2026-11-23",
@@ -288,7 +288,7 @@
       "situation": "Un dimanche de novembre, ta cousine fait le plan de table du repas de Noël et te montre où elle t'a placé.",
       "onTeDit": "Cette année encore, tu es à la table des enfants.",
       "reponse": "Parfait. À la table des enfants, personne ne me demande si j'ai quelqu'un.",
-      "pourquoi": "Tu reçois la table des enfants comme un surclassement, puis tu en donnes la vraie raison : le seul coin où la question « Et toi, tu as quelqu'un ? » ne passe pas. Ta cousine croyait te reléguer, et tu la remercies de t'avoir mis à l'abri.",
+      "pourquoi": "Tu reçois la table des enfants comme un surclassement, puis tu en donnes la vraie raison : le seul coin où la question « Et toi, tu as quelqu'un ? » ne passe pas. Ta cousine croyait te reléguer, et tu la remercies de te mettre à l'abri.",
       "siTendu": "Je préférerais être à la grande table cette année, si c'est possible. Sinon, ça me va.",
       "exercice": "Assieds-toi sur le siège le plus bas de chez toi (tabouret, marche), dis « Parfait » les bras ouverts, puis la suite de la réplique penché vers un voisin imaginaire, comme une confidence."
     },
@@ -323,8 +323,8 @@
       "contexte": "famille",
       "situation": "Dimanche chez ta grand-mère, vous êtes à table, elle te ressert du café et regarde par la fenêtre.",
       "onTeDit": "Tu ne viens jamais me voir. Remarque, je ne t'en veux pas.",
-      "reponse": "« Jamais », c'est exagéré. Je suis venu à Pâques. Mais tu as raison, c'était à Pâques.",
-      "pourquoi": "Tu brandis « Pâques » pour prouver que tu viens, et il suffit de le redire pour entendre depuis combien de temps tu n'es pas venu. Tu t'es rendu tout seul, avec ton propre alibi.",
+      "reponse": "« Jamais », c'est exagéré. J'étais là à Pâques. Mais tu as raison, c'était à Pâques.",
+      "pourquoi": "Tu brandis « Pâques » pour prouver que tu viens, et il suffit de le redire pour entendre depuis quand tu n'as pas mis les pieds chez elle. Tu te livres toi-même, avec ton propre alibi.",
       "siTendu": "Je ne viens pas assez souvent, et ça m'embête. Choisis un dimanche ce mois-ci, et je viens.",
       "exercice": "Dis-la à voix haute en deux temps : le menton relevé sur « jamais, c'est exagéré », puis les épaules qui s'affaissent sur le dernier « Pâques »."
     },
@@ -359,9 +359,9 @@
       "contexte": "couple",
       "situation": "Premier rendez-vous dans un bar, vous avez commandé, le silence dure une seconde de trop et la personne en face se penche vers toi.",
       "onTeDit": "Raconte-moi un truc sur toi que je ne trouverais pas sur ton profil.",
-      "reponse": "J'ai écrit « drôle » sur mon profil. Depuis que je suis assis, je sens la dette.",
+      "reponse": "J'ai écrit « drôle » sur mon profil. Depuis qu'on a commandé, je sens la dette.",
       "pourquoi": "Sur un profil, « drôle » est une promesse, et la personne en face est venue encaisser. « La dette » traduit ton trac en comptabilité : chaque seconde de silence ajoute des intérêts, et l'avouer devient la première chose drôle de la soirée.",
-      "siTendu": "Je suis un peu nerveux, et ça, ce n'est pas sur mon profil. À toi : un truc que je ne trouverais pas sur le tien ?",
+      "siTendu": "J'ai un peu le trac, et ça, ce n'est pas sur mon profil. À toi : un truc que je ne trouverais pas sur le tien ?",
       "exercice": "Place une chaise vide en face de toi, comme à une table de bar, dis la première phrase, tiens deux secondes de silence en regardant la chaise, puis dis la seconde plus bas, comme un aveu."
     }
   ]

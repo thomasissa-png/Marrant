@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { deleteAccount, StripeCancelError } from "@/lib/account";
 import { refuserSiAutreSite } from "@/lib/same-site";
+import { effacerTemoinCoin } from "@/lib/espace/humour-noir";
 import { effectiveStreak } from "@/lib/progression";
 import { MOT_CONFIRMATION_SUPPRESSION, PRENOM_MAX, TEXTES_API, TEXTES_PRENOM, TEXTES_SUPPRESSION } from "@/config/textes/compte";
 
@@ -161,6 +162,8 @@ export async function DELETE(request: Request) {
     for (const name of SESSION_COOKIES) {
       res.cookies.set(name, "", { path: "/", maxAge: 0, httpOnly: true, sameSite: "lax", secure: name.startsWith("__Secure-") });
     }
+    // Espace client (lot D5b, poste partagé) : témoin du coin « Humour noir » retiré ; fermé, rien ne change.
+    effacerTemoinCoin(res.headers);
     return res;
   } catch (error) {
     console.error(`[API /user DELETE] Échec pour ${userId}:`, error);

@@ -80,7 +80,7 @@ export function FicheVue({
     <article className="flex flex-col gap-6" data-fiche-type={fiche.type}>
       <div className="space-y-2">
         {!bilan && <p className={ETIQUETTE}>{T.types[fiche.type]}</p>}
-        <h1 className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl max-e300:text-2xl">
+        <h1 id="fiche-titre" className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl max-e300:text-2xl">
           {bilan ? TEXTES_BILAN.h1 : fiche.titre}
         </h1>
         <p className="text-sm text-text-secondary">{L.minutes(fiche.dureeMinutes)}</p>
@@ -110,7 +110,9 @@ export function FicheVue({
         </div>
       )}
       {fiche.liens && fiche.liens.length > 0 && (
-        <ul className="flex flex-wrap gap-x-4">
+        // Reste du D6 (arbitrage @ux D6 n°4) : liste étiquetée par le titre de la fiche ; jamais deux liens
+        // au même nom (une rubrique par lien, contrôlé par le schéma `liens`).
+        <ul aria-labelledby="fiche-titre" className="flex flex-wrap gap-x-4" data-testid="fiche-liens">
           {fiche.liens.map((h) => (
             <li key={h}>
               <Link href={h} className={LIEN}>

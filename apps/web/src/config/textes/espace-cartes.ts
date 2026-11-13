@@ -54,8 +54,10 @@ export const TEXTES_GESTE = {
     supprimee: "Supprimée", // (19)
     confirmer: "Supprimer cette réplique ?", // (19)
     echec: "L'enregistrement n'a pas abouti. Ton texte est toujours là.", // (19)
-    /** (19) : « {n} / {max} caractères » une fois le plafond fixé. */
+    /** (19) : « {n} / {max} caractères », dès le premier caractère, sans seuil ni alerte. */
     compteur: (n: number, max: number) => `${n} / ${max} caractères`,
+    /** À la limite (frappe bloquée ou collage coupé), annoncé dans le statut : validé par Thomas le 13/11. */
+    limite: (max: number) => `C'est la limite : ${max} caractères.`,
   },
 } as const;
 
@@ -75,4 +77,25 @@ export const TEXTES_MISSION = {
   autreSituation: "Une autre situation, même marche", // (26)
   aPlat: "Quand ça tombe à plat",
   raconte: "Raconte-nous ce qui s'est passé",
+} as const;
+
+/**
+ * Compte à rebours facultatif de la rafale (lot D5b) : `docs/copy/libelles-compte-a-rebours-s24.md`,
+ * tour 2, GO du 13/11 (reviewer et elon à 10, décision de Thomas). `{n}` = durée, `{k}` = secondes restantes.
+ */
+export const TEXTES_COMPTE_A_REBOURS = {
+  /** §1 : libellé constant de l'interrupteur (`aria-pressed`). */
+  libelle: (n: number) => `${n} secondes pour répondre`,
+  /** §4 : nom accessible, commence par le libellé visible, ne change pas avec l'état. */
+  nom: (n: number) => `${n} secondes pour répondre, compte à rebours`,
+  /** §1 : état actif, singulier à k = 1. */
+  reste: (k: number) => (k === 1 ? "Il reste 1 seconde" : `Il reste ${k} secondes`),
+  /** §4 : nom du `role="timer"` (aucune annonce seconde par seconde). */
+  minuteur: "Temps restant",
+  /** §3 : fin du temps, même phrase pour l'annonce `role="status"`. */
+  passees: (n: number) => `Les ${n} secondes sont passées.`,
+  /** §2 : proposition de raccourcir (7 depuis 10, 5 depuis 7) ; aucun message après le refus. */
+  proposition: (n: number, m: number) => `Envie d'essayer avec ${n} secondes ? Tu peux revenir à ${m} quand tu veux.`,
+  essayer: (n: number) => `Essayer ${n} secondes`,
+  garder: (m: number) => `Garder ${m} secondes`,
 } as const;

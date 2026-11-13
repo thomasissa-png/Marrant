@@ -17,12 +17,14 @@ import { cartesCarnetRafale, carnetEnRetard } from "@/lib/espace/carnet-cartes";
 import { lireReplique } from "@/lib/espace/repliques";
 import { lireRetour } from "@/lib/espace/fiche-fait";
 import { envoyeesSiBesoin, fichesVisibles } from "@/lib/espace/lettres";
+import { etatCompteARebours, type EtatCompteARebours } from "@/lib/espace/compte-a-rebours";
 import type { RetourGeste } from "@/lib/espace/retours";
 import {
   cartesDesSituations,
   composerRafale,
   ficheDeCarte,
   jourParis,
+  lundiParis,
   type CarteRafale,
   type RafaleDuJour,
 } from "@/lib/espace/rafale";
@@ -56,14 +58,8 @@ export interface EtatRafale extends RafaleDuJour {
   catalogue: Map<string, CarteRafale>;
   /** Repère neutre « {n} cartes cette semaine » (4.4 a). */
   cetteSemaine: number;
-}
-
-/** Début de la semaine (lundi, jour de Paris) contenant `maintenant`. */
-export function lundiParis(maintenant: Date): string {
-  const jour = jourParis(maintenant);
-  const d = new Date(`${jour}T12:00:00Z`);
-  const recul = (d.getUTCDay() + 6) % 7;
-  return jourParis(new Date(d.getTime() - recul * 86_400_000));
+  /** Compte à rebours facultatif (lot D5b) : interrupteur, durées, proposition de raccourcir. */
+  compteARebours: EtatCompteARebours;
 }
 
 export async function lireRafale(
@@ -72,7 +68,7 @@ export async function lireRafale(
   maintenant: Date = new Date(),
 ): Promise<EtatRafale> {
   const catalogue = catalogueCartes(acces, await lettresDesReprises(acces, maintenant));
-  const [suivis, recentes, compte, nbOui, semaine] = await Promise.all([
+  const [suivis, recentes, compte, nbOui, semaine, dureesUtilisees] = await Promise.all([
     prisma.carteSuivi.findMany({
       where: { userId },
       select: { carteId: true, dueLe: true, premiereVueLe: true },
@@ -93,12 +89,19 @@ export async function lireRafale(
       },
     }),
     prisma.carteReponse.count({ where: { userId, reponse: "OUI" } }),
+    // 15 jours : cette semaine et la précédente (repère et proposition du compte à rebours).
     prisma.carteReponse.findMany({
       where: {
         userId,
-        repondueLe: { gte: new Date(maintenant.getTime() - 8 * 86_400_000) },
+        repondueLe: { gte: new Date(maintenant.getTime() - 15 * 86_400_000) },
       },
-      select: { repondueLe: true },
+      select: { repondueLe: true, reponse: true, compteARebours: true },
+    }),
+    // Durées distinctes (au plus 4 lignes) : première carte ou non, durées déjà essayées.
+    prisma.carteReponse.findMany({
+      where: { userId },
+      select: { compteARebours: true },
+      distinct: ["compteARebours"],
     }),
   ]);
   const jour = jourParis(maintenant);
@@ -126,6 +129,11 @@ export async function lireRafale(
     catalogue: new Map(catalogue.map((c) => [c.id, c])),
     cetteSemaine: semaine.filter((r) => jourParis(r.repondueLe) >= lundi)
       .length,
+    compteARebours: etatCompteARebours({
+      dureesUtilisees: Array.from(new Set(dureesUtilisees.map((r) => r.compteARebours))),
+      recentes: semaine,
+      maintenant,
+    }),
   };
 }
 

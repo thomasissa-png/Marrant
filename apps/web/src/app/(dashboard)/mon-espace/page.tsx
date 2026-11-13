@@ -84,6 +84,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
     titre: rafale?.catalogue.get(c.carteId)?.titre ?? "",
     href: `/mon-espace/s-entrainer#carte-${i + 1}`,
     nouvelle: c.nouvelle,
+    autreContexte: c.autreContexte === true,
   }));
 
   return (

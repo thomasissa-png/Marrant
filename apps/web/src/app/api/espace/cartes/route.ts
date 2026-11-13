@@ -17,7 +17,7 @@ export async function GET() {
   try {
     const etat = await lireRafale(garde.userId, { acces: "ouvert", userId: garde.userId });
     return jsonEspace({
-      cartes: etat.cartes.map((c) => ({ id: c.carteId, titre: etat.catalogue.get(c.carteId)?.titre ?? "", nouvelle: c.nouvelle })),
+      cartes: etat.cartes.map((c) => ({ id: c.carteId, titre: etat.catalogue.get(c.carteId)?.titre ?? "", nouvelle: c.nouvelle, autreContexte: c.autreContexte === true })),
       faites: etat.faites,
       fini: etat.fini,
       cetteSemaine: etat.cetteSemaine,

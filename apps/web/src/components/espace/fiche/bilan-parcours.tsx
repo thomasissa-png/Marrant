@@ -52,10 +52,11 @@ function QuestionLaquelle({ e, n }: { e: Laquelle; n: number }) {
                 aria-pressed={choix === i}
                 disabled={choix !== null}
                 onClick={() => setChoix(i)}
-                className={`${BOUTON_SECONDAIRE} !justify-start gap-3 text-left font-normal disabled:text-text-muted ${choix === i ? "border-2 border-accent-link bg-background-elevated !text-text-primary" : ""}`}
+                // Reste du D6 (arbitrage @ux D6 n°2) : pleine largeur, sous 300 px texte 14/20 et écart de 8 px.
+                className={`${BOUTON_SECONDAIRE} w-full !justify-start gap-3 text-left font-normal [overflow-wrap:anywhere] disabled:text-text-muted max-e300:gap-2 max-e300:leading-5 ${choix === i ? "border-2 border-accent-link bg-background-elevated !text-text-primary" : ""}`}
               >
                 <b className="flex-none">{B.lettres[i]}</b>
-                <span>{o}</span>
+                <span className="min-w-0">{o}</span>
               </button>
             ))}
           </div>

@@ -15,6 +15,8 @@ import { TEXTES_ESPACE_NAVIGATION as NAV } from "@/config/textes/espace-navigati
  */
 const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
 const CAPTURES = process.env.E2E_CAPTURES_D6 ?? "";
+/** Reste du D6, fait au lot D5b : captures dans `docs/captures/s24-d5b`. */
+const CAPTURES_D5B = process.env.E2E_CAPTURES_D5B ?? "";
 const MOT_DE_PASSE = "E2e-espace-bibliotheque-D6";
 const NOUVELLES = ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/lettres", "/mon-espace/lettres/2026-W46", "/mon-espace/fiche/situation/coloc-la-poele"];
 
@@ -28,13 +30,15 @@ async function compte(browser: Browser): Promise<{ email: string; cookies: Cooki
   return { email, cookies };
 }
 
-async function capturer(page: Page, nom: string) {
-  if (!CAPTURES) return;
-  mkdirSync(CAPTURES, { recursive: true });
+async function capturer(page: Page, nom: string, dossier = CAPTURES, recharger = false) {
+  if (!dossier) return;
+  mkdirSync(dossier, { recursive: true });
   for (const [l, h, s] of [[320, 700, "320"], [375, 812, "375"], [768, 1024, "768"], [1280, 900, "1280"], [188, 406, "375-200pc"]] as const) {
     await page.setViewportSize({ width: l, height: h });
+    // Filtres repliés : l'état fermé ne se voit qu'au chargement (le passage à 640 px les ouvre).
+    if (recharger) await page.reload();
     await page.waitForTimeout(300);
-    await page.screenshot({ path: join(CAPTURES, `${nom}-${s}.png`), fullPage: true });
+    await page.screenshot({ path: join(dossier, `${nom}-${s}.png`), fullPage: true });
   }
   await page.setViewportSize({ width: 375, height: 812 });
 }
@@ -76,9 +80,25 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await expect(page.locator('[data-fiche="coloc-la-poele"]')).toBeVisible();
       await expect(page.locator('[data-fiche="apres-l-expose"]')).toHaveCount(0);
       await capturer(page, "quoi-repondre-liste");
+      // Reste du D6 (arbitrage @ux D6 n°1) : sous 640 px, filtres repliés, la liste dans le premier écran.
+      const replies = page.locator("[data-filtres-replies]");
+      await expect(replies).not.toHaveAttribute("open", "");
+      await expect(replies.locator("summary")).toHaveText(`${Q.filtreOu} ${Q.filtrePour}`);
+      expect((await replies.locator("summary").boundingBox())!.height).toBeGreaterThanOrEqual(44);
+      await expect(page.getByRole("link", { name: Q.univers.coloc, exact: true })).toBeHidden();
+      const yLigne = await page.locator('[data-fiche="coloc-la-poele"]').evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
+      expect(yLigne).toBeLessThan(812);
+      await capturer(page, "quoi-repondre-replie", CAPTURES_D5B, true);
+      await replies.locator("summary").click();
+      await expect(replies).toHaveAttribute("open", "");
+      await capturer(page, "quoi-repondre-ouvert", CAPTURES_D5B);
       await page.getByRole("link", { name: Q.univers.coloc, exact: true }).click();
       await expect(page).toHaveURL(/\?ou=coloc$/);
       await expect(page.getByRole("link", { name: Q.univers.coloc, exact: true })).toHaveAttribute("aria-current", "true");
+      // Choisir une puce garde le bloc ouvert ; le summary nomme la valeur choisie.
+      await expect(replies).toHaveAttribute("open", "");
+      await expect(replies.locator("summary")).toHaveText(Q.univers.coloc);
+      await capturer(page, "quoi-repondre-filtre", CAPTURES_D5B);
       await page.getByRole("link", { name: Q.pourQuoiFaire["prendre-la-parole"], exact: true }).click();
       await expect(page.getByTestId("quoi-repondre-vide")).toContainText(Q.vide);
       await expect(page.getByRole("link", { name: Q.raconte })).toHaveAttribute("href", "/mon-espace/questions");
@@ -119,6 +139,10 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await expect(page.locator('a[aria-current="page"]', { hasText: NAV.rubriques.parcours })).toHaveCount(1);
       const carte = page.locator('[data-bilan="laquelle"]').first();
       await capturer(page, "bilan-avant");
+      // Reste du D6 (arbitrage @ux D6 n°2) : à 200 %, options lisibles, aucun débordement.
+      await page.setViewportSize({ width: 188, height: 406 });
+      expect(await debordement(page)).toBeLessThanOrEqual(188 + 1);
+      await capturer(page, "bilan-options", CAPTURES_D5B);
       await repondre(page, carte, C.reponses.OUI);
       await carte.getByRole("button", { name: /^A/ }).click();
       await expect(carte.getByTestId("bilan-retour")).toContainText(B.pasCelleLa);
@@ -135,6 +159,11 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.goto("/mon-espace/bibliotheque");
       for (const t of [BI.blocVannes, BI.blocTechniques, N.titre]) await expect(page.getByRole("heading", { level: 2, name: t })).toBeVisible();
       await expect(page.getByRole("link", { name: "Boulot" })).toHaveAttribute("href", "/vannes/theme/boulot");
+      // Reste du D6 (arbitrage @ux D6 n°3, validé par Thomas) : le catalogue public en trois liens.
+      const catalogue = page.getByTestId("bibliotheque-catalogue");
+      for (const c of BI.catalogue) await expect(catalogue.getByRole("link", { name: c.label, exact: true })).toHaveAttribute("href", c.href);
+      for (const a of await catalogue.getByRole("link").all()) expect((await a.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+      await capturer(page, "bibliotheque-catalogue", CAPTURES_D5B);
       await expect(page.getByRole("link", { name: /Comment c'est construit : La règle de trois/ })).toBeVisible();
       expect(await page.content()).not.toContain("Qui est dans la pièce");
       await capturer(page, "bibliotheque-seuil");
@@ -164,6 +193,11 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.goto("/mon-espace/lettres");
       await expect(page.getByRole("heading", { level: 1, name: L.titre })).toBeVisible();
       await expect(page.locator("[data-lettre]")).toHaveCount(0);
+      // Reste du D6 (arbitrage @ux D6 n°5, validé par Thomas) : état vide et sortie vers « Aujourd'hui ».
+      await expect(page.getByText(L.vide)).toBeVisible();
+      await expect(page.getByRole("link", { name: L.allerAujourdhui })).toHaveAttribute("href", "/mon-espace");
+      await capturer(page, "lettres-vide", CAPTURES_D5B);
+      await page.setViewportSize({ width: 1280, height: 900 });
       await page.getByRole("button", { name: NAV.rubriques.plus }).click();
       const menu = page.getByRole("menu", { name: NAV.menuPlus.nom });
       await expect(menu.getByRole("menuitem", { name: NAV.menuPlus.sEntrainer })).toBeVisible();

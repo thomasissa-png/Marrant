@@ -11,6 +11,7 @@ import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation
 import { TEXTES_CARTES as T } from "@/config/textes/espace-cartes";
 import { CarteRegistre } from "@/components/espace/carte/carte-registre";
 import { CarteEtToi } from "@/components/espace/carte/carte-et-toi";
+import { FournisseurCompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
 import { CARTE } from "@/components/espace/carte/styles";
 
@@ -46,16 +47,18 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
     <div className="flex flex-col gap-6 pb-12 lg:max-w-3xl">
       <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{N.menuPlus.sEntrainer}</h1>
       <p className="text-sm text-text-secondary">{T.accroche}</p>
-      {etat.cartes.map((c, i) => {
-        const carte = etat.catalogue.get(c.carteId);
-        if (!carte) return null;
-        const ancre = `carte-${i + 1}`;
-        return carte.genre === "registre" ? (
-          <CarteRegistre key={c.carteId} carte={carte} nouvelle={c.nouvelle} ancre={ancre} />
-        ) : (
-          <CarteEtToi key={c.carteId} carte={carte} nouvelle={c.nouvelle} ancre={ancre} />
-        );
-      })}
+      <FournisseurCompteARebours etat={etat.compteARebours}>
+        {etat.cartes.map((c, i) => {
+          const carte = etat.catalogue.get(c.carteId);
+          if (!carte) return null;
+          const ancre = `carte-${i + 1}`;
+          return carte.genre === "registre" ? (
+            <CarteRegistre key={c.carteId} carte={carte} nouvelle={c.nouvelle} ancre={ancre} />
+          ) : (
+            <CarteEtToi key={c.carteId} carte={carte} nouvelle={c.nouvelle} ancre={ancre} />
+          );
+        })}
+      </FournisseurCompteARebours>
       {etat.fini && (
         <div className={CARTE}>
           <p className="text-base font-semibold text-text-primary">{T.fini}</p>

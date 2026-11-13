@@ -20,13 +20,14 @@ import {
   type EntreeRafale,
 } from "@/lib/espace/rafale";
 import { DELAIS_RATE, echeanceApresChoix, echeanceApresReponse } from "@/lib/espace/revision";
-import { CARNET_DANS_LA_RAFALE, carnetEnRetard, cartesCarnetRafale } from "@/lib/espace/carnet-cartes";
+import { FICHES_CARNET_RELUES, carnetEnRetard, cartesCarnetRafale } from "@/lib/espace/carnet-cartes";
 import { marcheProposee, missionOuverte, suiteApres, validerMissions, type RetourMissionLu } from "@/lib/espace/missions";
 import { REPLIQUE_MAX, UNIVERS_PAR_CATEGORIE, texteReplique } from "@/lib/espace/repliques";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { TEXTES_CARTES, TEXTES_GESTE, TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { parseCarnets } from "@/lib/carnet";
+import carnetOctobre from "@/data/carnet/2026-10.json";
 import carnetNovembre from "@/data/carnet/2026-11.json";
 
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
@@ -103,20 +104,40 @@ describe("catalogue des cartes", () => {
     expect(ficheDeCarte("carnet-2026-11-01")).toBe("carnet-2026-11-01");
   });
 
-  it("carnet : aucune carte avant la porte G5 ; une carte « Et toi ? » par fiche publiée après", () => {
-    expect(CARNET_DANS_LA_RAFALE).toBe(false);
-    expect(cartesCarnetRafale()).toEqual([]);
-    expect(carnetEnRetard()).toBe(false);
-    const carnets = parseCarnets([carnetNovembre]);
+  it("carnet, porte G5 franchie (D5b) : les 45 fiches relues entrent dans la rafale, une carte « Et toi ? » chacune", () => {
+    const carnets = parseCarnets([carnetOctobre, carnetNovembre]);
     const fiches = carnets.flatMap((c) => c.fiches);
-    const cartes = cartesCarnetRafale(true, carnets, MAINTENANT);
-    expect(fiches.length).toBeGreaterThan(0);
-    expect(cartes).toHaveLength(fiches.length);
-    expect(cartes[0].genre).toBe("et-toi");
-    expect(cartes[0].id).toMatch(/^carnet-/);
-    // Aucun texte du carnet modifié.
-    const f = fiches.find((x) => `carnet-${x.id}` === cartes[0].id)!;
-    expect([cartes[0].scene, cartes[0].onTeDit, cartes[0].reponse, cartes[0].siTendu, cartes[0].pourquoi]).toEqual([f.situation, f.onTeDit, f.reponse, f.siTendu, f.pourquoi]);
+    expect(fiches).toHaveLength(45);
+    expect(FICHES_CARNET_RELUES.size).toBe(45);
+    expect(fiches.every((f) => FICHES_CARNET_RELUES.has(f.id))).toBe(true);
+    const cartes = cartesCarnetRafale(FICHES_CARNET_RELUES, carnets, MAINTENANT);
+    expect(cartes).toHaveLength(45);
+    expect(new Set(cartes.map((c) => c.id)).size).toBe(45);
+    expect(cartes.every((c) => c.genre === "et-toi" && /^carnet-2026-1[01]-\d\d$/.test(c.id))).toBe(true);
+    // Valeur par défaut : la liste livrée (les carnets du dépôt sont passés : pas de `require.context` sous Jest).
+    expect(cartesCarnetRafale(undefined, carnets, MAINTENANT)).toHaveLength(45);
+    // Aucun texte du carnet modifié par la carte.
+    for (const c of cartes) {
+      const f = fiches.find((x) => `carnet-${x.id}` === c.id)!;
+      expect([c.scene, c.onTeDit, c.reponse, c.siTendu, c.pourquoi]).toEqual([f.situation, f.onTeDit, f.reponse, f.siTendu, f.pourquoi]);
+    }
+    expect(carnetEnRetard(FICHES_CARNET_RELUES, carnets, MAINTENANT)).toBe(false);
+  });
+
+  it("carnet : une fiche non relue n'entre pas ; un mois sans fiche relue est « en retard »", () => {
+    const decembre = { ...carnetNovembre, mois: "2026-12", fiches: carnetNovembre.fiches.slice(0, 2).map((f, i) => ({ ...f, id: `2026-12-0${i + 1}` })) };
+    const carnets = parseCarnets([carnetNovembre, decembre]);
+    const enDecembre = new Date("2026-12-05T10:00:00Z");
+    const cartes = cartesCarnetRafale(FICHES_CARNET_RELUES, carnets, enDecembre);
+    expect(cartes).toHaveLength(30);
+    expect(cartes.some((c) => c.id.startsWith("carnet-2026-12"))).toBe(false);
+    expect(carnetEnRetard(FICHES_CARNET_RELUES, carnets, enDecembre)).toBe(true);
+    // Relue (ajoutée à la liste) : elle entre, le mois n'est plus en retard.
+    const relues = new Set([...FICHES_CARNET_RELUES, "2026-12-01"]);
+    expect(cartesCarnetRafale(relues, carnets, enDecembre).map((c) => c.id)).toContain("carnet-2026-12-01");
+    expect(carnetEnRetard(relues, carnets, enDecembre)).toBe(false);
+    // Liste vide : aucune carte du carnet.
+    expect(cartesCarnetRafale(new Set(), carnets, enDecembre)).toEqual([]);
   });
 });
 
@@ -137,7 +158,8 @@ describe("rafale du jour (2.2, 2.3)", () => {
     expect(composerRafale(entree({ catalogue, suivis: [vu("coloc-la-poele")] })).cartes[0].carteId).toBe("p1-b.c1");
     expect(composerRafale(entree({ catalogue, suivis: [vu("coloc-la-poele"), vu("p1-b")] })).cartes[0].carteId).toBe("p2-a.c1");
     const tout = [vu("coloc-la-poele"), vu("p1-b"), vu("p2-a")];
-    const sansP3 = composerRafale(entree({ catalogue, suivis: tout })).cartes.filter((c) => c.nouvelle);
+    // Situations nouvelles seulement (D5b : le second contexte est « Nouvelle » mais pas une situation nouvelle).
+    const sansP3 = composerRafale(entree({ catalogue, suivis: tout })).cartes.filter((c) => c.nouvelle && !c.autreContexte);
     expect(sansP3).toEqual([]);
     expect(composerRafale(entree({ catalogue, suivis: tout, nbOui: 20 })).cartes[0].carteId).toBe("p3-a.c1");
     const semaine5 = new Date(MAINTENANT.getTime() - 29 * JOUR);
@@ -182,7 +204,7 @@ describe("rafale du jour (2.2, 2.3)", () => {
   it("place libre sans carte à revoir : second contexte d'une situation vue un autre jour, sinon « C'est tout »", () => {
     const hier = { carteId: "coloc-la-poele.c1", dueLe: null, premiereVueLe: new Date(MAINTENANT.getTime() - JOUR) };
     const r = composerRafale(entree({ catalogue: cartesDesSituations([poele]), suivis: [hier] }));
-    expect(r.cartes).toEqual([{ carteId: "coloc-la-poele.c2", nouvelle: false }]);
+    expect(r.cartes).toEqual([{ carteId: "coloc-la-poele.c2", nouvelle: true, autreContexte: true }]);
     const aujourdhui = { ...hier, premiereVueLe: MAINTENANT };
     expect(composerRafale(entree({ catalogue: cartesDesSituations([poele]), suivis: [aujourdhui] })).fini).toBe(true);
   });

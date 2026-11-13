@@ -9,10 +9,20 @@ export const hrefLettre = (numero: string) => `${ESPACE_ACCUEIL}/lettres/${numer
 /**
  * Archive « Lettres » (s24, lot D6 ; architecture v20 2.8) : une ligne par lettre envoyée, la plus récente
  * d'abord, titrée par sa date d'envoi (« La lettre du jeudi 12 novembre ») et son objet ; aucun compteur
- * d'âge, aucun mot « ancienne » ni « archive ». Aucune lettre envoyée : rien n'est rendu sous le titre.
+ * d'âge, aucun mot « ancienne » ni « archive ». Aucune lettre envoyée (reste du D6) : une ligne, sans
+ * reproche ni date promise, et une sortie vers « Aujourd'hui » ; état statique, sans `role="status"`.
  */
 export function ArchiveLettres({ lettres }: { lettres: readonly LettreArchive[] }) {
-  if (lettres.length === 0) return null;
+  if (lettres.length === 0) {
+    return (
+      <div className={`${CARTE} flex flex-col items-start gap-2`} data-testid="lettres-vide">
+        <p className="text-base text-text-primary">{T.vide}</p>
+        <Link href={ESPACE_ACCUEIL} className={LIEN}>
+          {T.allerAujourdhui}
+        </Link>
+      </div>
+    );
+  }
   return (
     <ul className="flex flex-col gap-2">
       {lettres.map((l) => (

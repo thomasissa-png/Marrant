@@ -9,7 +9,7 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  * au-dessus du titre, le titre collé au bouton (aucun bloc entre les deux, condition du libellé 7).
  * Jamais montée le jour 1 (le premier pas est la seule action principale).
  */
-export type CarteDuJour = { titre: string; href: string; nouvelle: boolean };
+export type CarteDuJour = { titre: string; href: string; nouvelle: boolean; autreContexte?: boolean };
 
 const Chevron = () => (
   <svg className="h-4 w-4 flex-none text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -18,7 +18,9 @@ const Chevron = () => (
 );
 
 export function CartesDuJour({ cartes, href, fini }: { cartes: readonly CarteDuJour[]; href: string; fini: boolean }) {
-  const nouvelles = cartes.filter((c) => c.nouvelle).length;
+  const autres = cartes.filter((c) => c.autreContexte).length;
+  const nouvelles = cartes.filter((c) => c.nouvelle && !c.autreContexte).length;
+  const aRevoir = cartes.filter((c) => !c.nouvelle).length;
   return (
     <section aria-labelledby="rafale-titre" className="space-y-3 rounded-lg border border-border bg-background-card p-4 md:p-6">
       <p className="text-sm text-text-secondary">{T.rafale.accroche}</p>
@@ -32,7 +34,7 @@ export function CartesDuJour({ cartes, href, fini }: { cartes: readonly CarteDuJ
           <Link href={href} className={buttonVariants({ variant: "primary", className: "h-11" })}>
             {T.rafale.bouton}
           </Link>
-          <p className="text-sm text-text-secondary">{T.rafale.sousTitre(nouvelles, cartes.length - nouvelles)}</p>
+          <p className="text-sm text-text-secondary">{T.rafale.sousTitre(nouvelles, aRevoir, autres)}</p>
           <ul className="flex flex-col gap-2">
             {cartes.map((c) => (
               <li key={c.href}>

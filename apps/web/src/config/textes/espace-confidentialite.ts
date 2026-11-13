@@ -28,4 +28,12 @@ export const CONFIDENTIALITE_ESPACE = {
    */
   dureeEtapes:
     "La date de chaque étape validée, tes retours sur les exercices et ta réponse sur l'endroit où tu veux être plus à l'aise sont gardés tant que ton compte existe, et effacés avec lui.",
+  /**
+   * Partie 5 (cookies), puce juste après « Cookies essentiels » : `docs/legal/espace-d6-cookie-coin-s24.md`
+   * point 2, mot pour mot, sauf la durée : « 1 an » devient « 6 mois » (point 3, option prudente retenue
+   * par la session le 13/11, `DUREE_COIN_SECONDES`). [À VÉRIFIER @legal : mention de l'effacement à la
+   * déconnexion, ajouté pour le poste partagé.]
+   */
+  cookie:
+    "Coin « Humour noir » de ton espace : si tu cliques sur « Entrer », un petit cookie gardé dans ton navigateur retient ton choix pendant 6 mois, pour ne pas te le redemander. Il ne contient aucune donnée sur toi et sert seulement à ça. Tu l'effaces en cliquant sur « Sortir » ou depuis ton navigateur.",
 } as const;

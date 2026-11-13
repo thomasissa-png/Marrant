@@ -18,10 +18,13 @@ import { readSessionPlan } from "@/lib/session-plan";
 const DATA = path.join(__dirname, "..", "..", "data", "carnet");
 /**
  * Empreinte de la source validée (`docs/copy/carnet/novembre/carnet-2026-11.json`, commit e6f5584,
- * sha256 44b3a8c7…cac8c), seule la clé `intro` remplacée par le texte de la concision v5
- * (`docs/copy/cta-s21/concision/textes-v5-c.md` §6) : aucun autre octet ne bouge.
+ * sha256 44b3a8c7…cac8c), la clé `intro` remplacée par le texte de la concision v5
+ * (`docs/copy/cta-s21/concision/textes-v5-c.md` §6), puis les corrections de la porte G5 validées par
+ * Thomas le 13/11 (`docs/copy/espace/g5-corrections-carnet.md`, 25 champs de novembre ; diff réel
+ * `docs/copy/espace/g5-diff-reel.md` ; empreinte d'avant G5 : e2b15d0f…5b270a). Rien d'autre ne bouge ;
+ * le contenu de chaque champ corrigé est vérifié contre le document par `espace/d5b-serveur-s24.test.ts`.
  */
-const SHA256_VALIDE = "e2b15d0f38422b7baf72eeaf814697702786d04a8c62a0c244fb02b1985b270a";
+const SHA256_VALIDE = "f8a6222fadec34688349f6f3e89fcabcaaeee45e8cb06e8565a7aa7b53d51c8e";
 
 function lire(fichier: string): unknown {
   return JSON.parse(fs.readFileSync(path.join(DATA, fichier), "utf8"));
