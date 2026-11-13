@@ -133,16 +133,16 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 **Le pourquoi**
 - Sûre : tu ne démens ni ne confirmes, et tu transformes la question en enquête commune. Rien à défendre.
 - Joueuse : le plus petit changement imaginable, accueilli avec le respect d'un expert. Tout le jeu est dans l'écart.
-- Risquée : un vrai pari, truqué en toute franchise : rien n'a changé (enfin, presque), il ne peut pas trouver, et c'est lui qui paie. Une provocation tendre, qui ne passe que s'il aime jouer et paiera de bonne grâce.
+- Risquée : un vrai pari, truqué en toute franchise : rien n'a changé (enfin, presque), la personne ne peut pas trouver, et c'est elle qui paie. Une provocation tendre, qui ne passe que si elle aime jouer et paiera de bonne grâce.
 
-**Quand monter d'un cran.** Joueuse : l'ambiance est détendue. Risquée : l'autre aime jouer, il a déjà relevé un défi avec toi.
+**Quand monter d'un cran.** Joueuse : l'ambiance est détendue. Risquée : l'autre aime jouer et a déjà relevé un défi avec toi.
 
 **La règle.** Devant une question sans vraie réponse, n'explique rien : joue le jeu, très sérieusement, en une phrase.
 **L'erreur.** Chercher toi-même ce qui aurait pu changer (« Ah, mes cheveux peut-être ? »). Tu fais le travail de l'autre et tu perds l'instant.
 **À toi.** Trouve ton plus petit changement de la semaine (un mug, un fond d'écran) et dis-le comme un grand secret.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**1. « La soirée peine à démarrer, et personne ne rit encore » : la sûre. L'ambiance n'est pas détendue, donc la joueuse tomberait à plat ; l'ami n'a relevé aucun défi, donc la risquée serait un pari de trop.
-2. « L'ambiance est détendue, et l'ami te guette en souriant : la semaine dernière, il a perdu contre toi aux mots croisés, en riant » : la risquée. Il a déjà relevé un défi avec toi : la joueuse s'arrêterait un cran trop bas, la sûre laisserait filer son jeu.
+2. « L'ambiance est détendue, et la personne te guette en souriant : la semaine dernière, elle a perdu contre toi aux mots croisés, en riant » : la risquée. Cette personne a déjà relevé un défi avec toi : la joueuse s'arrêterait un cran trop bas, la sûre laisserait filer son jeu.
 
 ---
 
@@ -210,8 +210,8 @@ Un défaut minuscule, vrai pour presque tout le monde, et la chute est dans la p
 Un défaut qui parle de cette conversation même : la bonne réponse arrive toujours trop tard, et la chute est dans « une heure après ». Court, il se lit d'un coup dans une messagerie. À sortir quand les échanges ont déjà fait sourire l'autre.
 
 **La risquée**
-« Un défaut chacun, pas la liste. On envoie ensemble : le dernier à appuyer a le plus gênant. »
-Tu proposes un jeu à deux : un défaut chacun, envoyés au même instant, et la chute dit que celui qui hésite a le plus gênant. Chacun tape de son côté, puis on envoie. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre.
+« Un défaut chacun, pas la liste. On envoie ensemble : qui appuie en dernier a le plus gênant. »
+Tu proposes un jeu à deux : un défaut chacun, envoyés au même instant, et la chute dit que qui hésite a le plus gênant. Chacun tape de son côté, puis on envoie. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre.
 
 **Comment choisir**
 La conversation est déjà détendue ? Monte d'un cran. L'autre plaisante de ses propres défauts ? Monte encore. Sinon, reste sur la sûre.
@@ -442,3 +442,18 @@ Recherche web (12/11/2026) : **0 occurrence exacte** pour les 6 répliques modif
 - Fichier : `/home/user/Marrant/docs/copy/espace/qr1-situations.md` (tour 4) : corrections de lignes ; A1 à A5 intactes, B1 et les 8 contextes inchangés (sauf pronoms et « défiés »).
 - 6 répliques modifiées, 0 occurrence web. Zéro tiret cadratin, zéro émoji, aucun accord genré chez l'utilisateur ni pour la personne rencontrée.
 - À repasser à l'aveugle : B2 joueuse et risquée, B3 joueuse, B4 risquée, B5 sûre et joueuse ; aucun autre fichier modifié, pas de commit.
+
+## Retouche avant ouverture (13/11) : avant → après
+
+| Ligne | Avant | Après |
+|---|---|---|
+| B2 risquée, réplique (l. 213) | « …On envoie ensemble : le dernier à appuyer a le plus gênant. » | « …On envoie ensemble : qui appuie en dernier a le plus gênant. » |
+| B2 risquée, pourquoi (l. 214) | « …la chute dit que celui qui hésite a le plus gênant. » | « …la chute dit que qui hésite a le plus gênant. » |
+| A5 rafale 2 (l. 145) | « …l'ami te guette en souriant : la semaine dernière, il a perdu contre toi aux mots croisés, en riant » ; « Il a déjà relevé un défi avec toi » | « …la personne te guette en souriant : la semaine dernière, elle a perdu contre toi aux mots croisés, en riant » ; « Cette personne a déjà relevé un défi avec toi » |
+
+Une seule bonne réponse par contexte reste vraie (signal inchangé). Recherche web : 0 occurrence (B2) ; A5 sans texte neuf. 
+
+| Ligne | Avant | Après |
+|---|---|---|
+| A5, risquée (l. 136) | « …il ne peut pas trouver, et c'est lui qui paie… ne passe que s'il aime jouer… » | « …la personne ne peut pas trouver, et c'est elle qui paie… ne passe que si elle aime jouer… » |
+| A5, quand monter d'un cran (l. 138) | « …l'autre aime jouer, il a déjà relevé un défi avec toi. » | « …l'autre aime jouer et a déjà relevé un défi avec toi. » |
