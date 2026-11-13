@@ -234,3 +234,6 @@ Recherche web (phrase et idée) et grep dépôt de chaque texte neuf : 0 occurre
 
 - Fichier : `/home/user/Marrant/docs/copy/espace/c4b-jeux.md` (10 jeux : 5 « Finis la phrase », 5 « Remets la chute »), tour 4, à relire à l'aveugle (J3 seulement).
 - Textes neufs recherchés (phrase et idée) : 0 occurrence ; doublons dépôt : 0 au grep. Aucune vanne du catalogue citée, aucun autre fichier modifié, rien de commité.
+
+## Arbitrage de Thomas (13/11)
+Jeu 3 : fin « …il y a un formulaire, et le formulaire a un formulaire. » gardée (elon 10, reviewer 9 pour mécanique proche de « Mes brouillons ont des brouillons », idée différente). Lot clos.
