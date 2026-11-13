@@ -1,209 +1,221 @@
 # C6b : les 5 bilans de fin de parcours
 
-> Auteur : @copywriter, s24. **Statut : tour 1, à relire à l'aveugle.** Rien n'est publié.
-> Source : `docs/espace-client/audit-contenu/architecture-contenu-v20.md` 3.10, schéma `bilan` de `apps/web/src/lib/espace/fiches-schema.ts` (2 « laquelle », 1 « ordre », 1 « voix-haute » par bilan).
+> Auteur : @copywriter, s24. **Statut : tour 2, à relire à l'aveugle.** Rien n'est publié.
+> Modèle : `docs/espace-client/audit-contenu/architecture-contenu-v20.md` l. 536 à 545 (3.10). Schéma `bilan` de `apps/web/src/lib/espace/fiches-schema.ts` : 2 « laquelle », 1 « ordre », 1 « voix-haute ».
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Compte neuf** : 10 contextes + 10 retours « laquelle » + 5 retours « ordre » = 25 textes écrits ici (les 15 retours sont la charge « textes de retour » ; les 10 contextes la charge « contextes »). **Aucune réplique neuve** : chaque option est reprise mot pour mot, avec sa ligne d'origine (`qr*-situations.md`, numéro de ligne). Les étapes des « ordre » reprennent les règles et les « À toi » des mêmes fiches.
-> Convention « ordre » : les étapes sont affichées dans l'ordre a, b, c (indices 0, 1, 2) ; `ordreCorrect` donne les indices dans le bon ordre.
-> Renvoi en cas d'erreur (« celle-là mérite un deuxième tour ») : posé par l'écran à partir de la fiche d'origine de la bonne réponse, pas écrit dans le retour.
+> **Mécanique des « laquelle »** : les trois options sont de bonnes répliques **du parcours** (vannes, réponses justes des quiz), reprises mot pour mot, chacune bonne pour un autre moment. Le contexte neuf porte le signal du moment et désigne une seule option. Le retour enseigne la règle et dit pour quel moment valent les deux autres.
+> **Compte neuf** : 10 contextes + 10 retours « laquelle » + 5 retours « ordre ». Aucune réplique neuve. Le renvoi « celle-là mérite un deuxième tour » est posé par l'écran (fiche de l'étape d'origine), pas écrit dans le retour.
+> Sources : `docs/content/parcours-seed.json` (S), `parcours-storytelling-s18.json` (ST), `parcours-boulot-s19.json` (BO), suivies du numéro de ligne. Convention « ordre » : étapes affichées a, b, c (indices 0, 1, 2) ; `ordreCorrect` donne les indices dans le bon ordre. La « voix haute » vient après l'« ordre ».
 
 ---
 
 ## 1. Machine à Café (`machine-a-cafe`)
 
 **Laquelle 1**
-Contexte : « Le lendemain d'une réunion où tu as longuement pris la parole, quelqu'un du service te félicite à la pause. Laquelle ressortir ? »
-- A) « Calme, merci. J'ai fait quelques petites choses, aucune de la liste. » (qr2 l.216)
-- B) « Merci. L'équipe y est pour beaucoup : elle m'a évité les pires diapositives. » (qr2 l.330)
-- C) « Avec plaisir. Je viens pour les gens. Les cacahuètes sont une coïncidence. » (qr2 l.254)
+Contexte : « Le groupe se sert dans le plateau de viennoiseries de la pause, et chacun s'excuse de se resservir. Laquelle ressortir ? »
+- A) « Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un. » (S l.37)
+- B) « J'ai téléchargé une app pour compter les calories. J'ai rentré ma journée. » (S l.39)
+- C) « Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi. » (S l.113)
 
 `bonneReponse` : 1 (B)
-Retour : « B. On te félicite : tu rends une part du mérite et tu glisses un détail qui fait sourire. A répond à une autre question, C à une invitation. »
+Retour : « B. La vanne qui reste dans le sujet du moment passe mieux qu'une meilleure vanne hors sujet. A est bonne quand la boîte mail est le sujet, C quand la conversation tourne autour de la famille. »
 
 **Laquelle 2**
-Contexte : « Dans le couloir, vers onze heures, quelqu'un te croise et te demande de tes nouvelles, sans s'arrêter. Laquelle ressortir ? »
-- A) « Ça va, merci : j'ai trouvé un stylo qui marche du premier coup. » (qr1 l.107)
-- B) « Je viens. J'ai même prévu une tenue : la même, en plus détendue. » (qr2 l.258)
-- C) « Déjà sept prénoms retenus. Je ne sais pas à qui ils vont, mais je les ai. » (qr2 l.296)
+Contexte : « À l'entrée de l'entreprise, un accès reste verrouillé et la file s'allonge derrière toi. Laquelle ressortir ? »
+- A) « Dans le TGV, la seule prise qui marche est sous le siège d'un inconnu. » (S l.194)
+- B) « Mon voisin tousse tous les matins à 7h12. Ce matin, 7h20. » (S l.195)
+- C) « Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche. » (S l.192)
 
-`bonneReponse` : 0 (A)
-Retour : « A. Une nouvelle minuscule, dite sans s'arrêter : elle tient dans la durée d'un couloir. B répond à une invitation, C à une première journée. »
+`bonneReponse` : 2 (C)
+Retour : « C. Tout le monde a le même obstacle sous les yeux : ta vanne raconte ce que le groupe vit à l'instant. A est bonne dans un train, B quand quelqu'un tousse de l'autre côté du mur. »
 
 **Dans l'ordre**
-Consigne : « Remets dans l'ordre le geste du « Ça va ? » au bureau. »
-- a) Un collègue te lance « Ça va ? »
-- b) Tu bois.
-- c) Tu dis ta réplique, rien d'autre.
+Consigne : « Remets dans l'ordre : le faux secret à la machine à café. »
+- a) Tu lâches l'aveu.
+- b) Tu te penches et tu dis « Ça reste entre nous : ».
+- c) Tu t'arrêtes net.
 
-`ordreCorrect` : [0, 2, 1] (source : qr1 l.118 et l.120)
-Retour : « a, c, b. La question, ta réplique seule, puis le café. Tu n'expliques rien : c'est l'arrêt qui la fait tenir. »
+`ordreCorrect` : [1, 0, 2] (source : S l.70 et l.93, quiz de l'étape 1)
+Retour : « b, a, c. La posture ouvre le suspense, l'aveu est unique, et le silence final fait le reste. »
 
 **Dis-la à voix haute**
-Consigne : « Dis à voix haute, sans l'expliquer : « Ça va. J'ai juste l'impression d'avoir oublié un mardi. » » (qr1 l.108)
+Consigne : « Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, en te penchant : « Ça reste entre nous : je dis « je regarde ça » sur tout ce que je ne regarderai jamais. » » (S l.84)
 
 ---
 
 ## 2. Repartie (`repartie`)
 
 **Laquelle 1**
-Contexte : « Au dîner, une personne de la bande finit l'histoire qu'elle préparait depuis le début du repas, puis te fixe et te reproche ton air sérieux. Laquelle ressortir ? »
-- A) « Jamais. Je le garde pour un mois où il ne se passera rien. » (qr3 l.182)
-- B) « Samedi. Je commençais à devenir un souvenir. » (qr3 l.258)
-- C) « Si, en différé. Le signal arrive jeudi. » (qr3 l.220)
+Contexte : « Ta phrase vient de se perdre sans le moindre rire autour de la table. Laquelle ressortir ? »
+- A) « Je note trois silences et une toux. Je classe ça en mitigé. » (S l.562)
+- B) « Je viens de remarquer que je criais depuis dix minutes. » (S l.409)
+- C) « Oui. On a une relation sérieuse, je songe à lui présenter mes parents. » (S l.486)
 
-`bonneReponse` : 2 (C)
-Retour : « C. On te reproche de ne pas avoir ri : tu réponds « si », avec un décalage assumé. A et B répondent à d'autres phrases. »
+`bonneReponse` : 0 (A)
+Retour : « A. Quand une vanne tombe à plat, tu décris la scène telle qu'elle est et tu conclus d'un ton neutre. B est bonne dans le blanc d'une soirée, C quand on te chambre sur ton téléphone. »
 
 **Laquelle 2**
-Contexte : « Après une partie de cartes en famille, tu remportes la manche finale, et toute la tablée proteste. Laquelle ressortir ? »
-- A) « J'ai ri à l'intérieur. Les murs sont épais. » (qr3 l.224)
-- B) « Tout ce que j'ai fait est dans les règles. Celles que j'ai écrites au deuxième tour. » (qr3 l.340)
-- C) « Je faisais des économies. J'ai maintenant assez de nouvelles pour une heure. » (qr3 l.302)
+Contexte : « Dans la cuisine, tu constates que le repas gardé pour ce soir est parti dans l'estomac de la personne qui partage ton appart. Laquelle ressortir ? »
+- A) « Pile à l'heure ! J'ai juste eu le temps de lire toute la carte. Deux fois. » (S l.320)
+- B) « Aucun souci, j'ai toujours rêvé de dîner en regardant ton assiette. Régale-toi. » (S l.341)
+- C) « ...et là, j'ai perdu la suite. Si quelqu'un la retrouve, elle répond au nom de « la chute ». » (S l.586)
 
 `bonneReponse` : 1 (B)
-Retour : « B. On te soupçonne : tu te défends avec le sérieux d'un avocat, et la tablée rit de ta mauvaise foi. A répond à un silence, C à un reproche d'absence. »
+Retour : « B. L'ironie bienveillante dit l'inverse de ce qu'on pense, sur la situation et jamais sur la personne. A est bonne pour un retard au restaurant, C pour un fil perdu en pleine histoire. »
 
 **Dans l'ordre**
-Consigne : « Remets dans l'ordre la scène de la poêle. »
-- a) Tu dis une seule phrase, calmement.
-- b) Tu tends la main pour reprendre la poêle.
-- c) Quelqu'un tient la poêle en l'air : « Elle est là depuis jeudi. »
+Consigne : « Quelqu'un te chambre sur ton retard habituel. Remets ta réponse dans l'ordre. »
+- a) « C'est mon rôle : sans moi, personne ne remarque que vous êtes à l'heure. »
+- b) « Tu me remercieras. »
+- c) « Après tout le monde, oui. »
 
-`ordreCorrect` : [2, 0, 1] (source : qr1 l.19, l.45)
-Retour : « c, a, b. Une phrase, puis le geste. Pas de déni, pas d'excuses répétées : la scène passe avant. »
+`ordreCorrect` : [2, 0, 1] (source : S l.471 et l.473, quiz de l'étape 3)
+Retour : « c, a, b. On accepte, on pousse d'un cran, puis on retourne avec un compliment déguisé : l'autre rit avec toi, pas de toi. »
 
 **Dis-la à voix haute**
-Consigne : « Debout, sans sourire, dis à voix haute : « Elle est à moi. Je la lave, et jeudi n'aura jamais existé. » » (qr1 l.29, geste de l'« À toi » l.48)
+Consigne : « Dis maintenant la réponse entière à voix haute : « Après tout le monde, oui. C'est mon rôle : sans moi, personne ne remarque que vous êtes à l'heure. Tu me remercieras. » » (S l.473)
 
 ---
 
 ## 3. Confiance (`confiance`)
 
 **Laquelle 1**
-Contexte : « Il est tard, ton énergie est à plat, et l'hôte te presse de rester une heure de plus. Laquelle ressortir ? »
-- A) « Je file pendant que tout le monde m'aime encore. » (qr2 l.176)
-- B) « Je viens. Je danse surtout des épaules, le reste me suit quand il peut. » (qr2 l.102)
-- C) « Avec plaisir. Je fais plusieurs photos : on garde celle où personne n'a fermé les yeux. » (qr2 l.64)
-
-`bonneReponse` : 0 (A)
-Retour : « A. Tu pars en gardant le sourire de la salle : un départ qui se présente comme un compliment. B et C disent oui à une danse ou à une photo. »
-
-**Laquelle 2**
-Contexte : « En réunion, on t'interroge sur un point alors que ton esprit est resté deux sujets plus tôt. Laquelle ressortir ? »
-- A) « Merci. C'était la version courte. Voici celle avec le son. » (qr3 l.28)
-- B) « Je prends les notes. Je n'ai qu'un stylo, donc une idée à la fois. » (qr2 l.372)
-- C) « J'avais une excellente réponse à une autre question. Tu peux reformuler celle-ci ? » (qr3 l.104)
+Contexte : « Tu veux rire d'une de tes propres mésaventures de la semaine, légère et déjà digérée, en laissant un détail du récit conclure à ta place. Laquelle ressortir ? »
+- A) « Avant, une page mettait trois minutes à s'afficher et on ne disait rien. Aujourd'hui, elle met une seconde et on soupire. » (S l.843)
+- B) « Quand quelqu'un commence par « à la base », il faut être patient. » (S l.643)
+- C) « J'ai fermé la porte avec mes clés à l'intérieur. Le serrurier m'a demandé si c'était un abonnement. » (S l.766)
 
 `bonneReponse` : 2 (C)
-Retour : « C. Tu as perdu le fil, tu le dis en une phrase et tu redemandes la question. A répond à un micro coupé, B à une prise de notes. »
+Retour : « C. Un fait précis, et c'est le serrurier qui conclut, pas toi : l'autodérision sans verdict sur toi. A est bonne quand tu compares avant et aujourd'hui, B quand tu observes un tic de langage chez les autres. »
+
+**Laquelle 2**
+Contexte : « À table, quelqu'un te demande ce que devient ta vie en ce moment, et tu n'as rien de grand à répondre. Laquelle ressortir ? »
+- A) « Mon voisin s'est mis au didgeridoo, tous les matins à 7h. Je ne lui en veux pas : il est plus matinal que moi. » (S l.1100)
+- B) « Règle numéro un : on s'assoit toujours le plus loin possible des autres, même quand il reste dix chaises à côté. » (S l.664)
+- C) « Article premier : dans un wagon, on se tient à un mètre de tout le monde, comme si la proximité était contagieuse. » (S l.678)
+
+`bonneReponse` : 0 (A)
+Retour : « A. Une micro-anecdote vraie, dans ton ton, répond sans rien forcer : c'est ton style, pas une vanne empruntée. B est bonne dans une salle d'attente où personne ne parle, C dans une rame de métro. »
 
 **Dans l'ordre**
-Consigne : « Remets dans l'ordre : on te demande ce que tu fais, en soirée. »
-- a) Tu ajoutes un détail qui relance.
-- b) On te demande ce que tu fais.
-- c) Tu réponds vrai en une phrase courte.
+Consigne : « Remets dans l'ordre : trouver ton style d'humour. »
+- a) Tu le refais exprès sur un quatrième sujet.
+- b) Tu retrouves trois messages qui ont fait rire.
+- c) Tu notes en une phrase ce qui se répète.
 
-`ordreCorrect` : [1, 2, 0] (source : qr1 l.74)
-Retour : « b, c, a. Une phrase vraie d'abord, le détail ensuite : c'est lui qui donne une prise à l'autre. »
+`ordreCorrect` : [1, 2, 0] (source : S l.1054 et l.1067, quiz de l'étape 6)
+Retour : « b, c, a. On cherche dans ce qui a marché, on note ce qui revient, puis on le refait exprès : le style se repère avant de se jouer. »
 
 **Dis-la à voix haute**
-Consigne : « Dis à voix haute, sans la lire : « Personne. J'ai encore toutes mes premières impressions à faire. » » (qr2 l.30)
+Consigne : « Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, avec le sérieux d'un constat : « Mon gâteau est sorti du four plus plat que le mode d'emploi. » » (S l.745)
 
 ---
 
 ## 4. Storytelling (`storytelling`)
 
 **Laquelle 1**
-Contexte : « À un mariage, micro en main, tu as une limite de temps fixée d'avance et la salle patiente. Laquelle ressortir ? »
-- A) « Le gâteau attend, et il a de l'autorité : je commence. » (qr5 l.24)
-- B) « En vous voyant, j'ai décidé d'applaudir plutôt que de parler. » (qr5 l.133)
-- C) « On m'a dit “deux minutes”. J'en ai déjà utilisé dix secondes à vous le dire. » (qr5 l.98)
-
-`bonneReponse` : 2 (C)
-Retour : « C. Le temps est compté : tu le dis en riant, et tu commences. A ouvre un anniversaire, B remercie une salle de fin de soirée. »
-
-**Laquelle 2**
-Contexte : « Dîner entre proches : on te demande de raconter ta semaine, et elle n'a eu aucun événement digne d'un récit. Laquelle ressortir ? »
-- A) « Si, mardi. Il est au chaud dans l'entrée. » (qr5 l.243)
-- B) « J'ai réparé un tiroir. Il ferme. Je ne m'en remets pas. » (qr1 l.85)
-- C) « Samedi. Je commençais à devenir un souvenir. » (qr3 l.258)
+Contexte : « Ton récit d'un meuble coincé dans la cage d'escalier touche à sa fin, et il te faut une phrase courte qui laisse l'image conclure. Laquelle ressortir ? »
+- A) « Le train n'est pas un échec : j'ai lu la moitié de mon livre et je connais la gare par cœur. » (ST l.306)
+- B) « Depuis, il fait partie de l'immeuble. » (ST l.158)
+- C) « Parenthèse : dans le métro, tout le monde fixe le plan comme si la ligne avait changé depuis ce matin. » (ST l.465)
 
 `bonneReponse` : 1 (B)
-Retour : « B. Rien de grand à raconter : tu annonces la plus petite nouvelle avec le sérieux d'un exploit. A parle d'un colis, C fixe un rendez-vous. »
+Retour : « B. Une chute courte, sans moralité : l'image finit seule. A est bonne pour le bilan d'un raté, C pour un tiroir ouvert au milieu d'une histoire. »
+
+**Laquelle 2**
+Contexte : « Ton récit présente un personnage mystérieux qui garde tes confidences, et la dernière phrase doit trancher sans le nommer. Laquelle ressortir ? »
+- A) « Le dîner n'est pas un échec : pour la première fois, tous mes invités se sont proposés pour cuisiner la prochaine fois. » (ST l.318)
+- B) « Le monsieur devant moi tenait un cactus en pot sous le bras. » (ST l.168)
+- C) « Hier soir, j'ai ouvert sa porte à minuit, et il s'est allumé pour moi. » (ST l.395)
+
+`bonneReponse` : 2 (C)
+Retour : « C. Tu tranches sans nommer : la phrase prolonge le doute et reste juste des deux côtés. A est bonne pour le bilan d'un dîner raté, B pour garder le détail qu'on voit dans une version coupée. »
 
 **Dans l'ordre**
-Consigne : « Remets dans l'ordre : tu as beaucoup à dire. »
-- a) L'autre demande la suite.
-- b) Tu donnes d'abord la plus petite nouvelle.
-- c) Quelqu'un te lance « Alors, quoi de neuf ? »
+Consigne : « Remets dans l'ordre : faire revenir un détail dans la soirée. »
+- a) Tu attends que la conversation soit passée à autre chose.
+- b) Tu reprends ce détail, une seule fois.
+- c) Tu choisis un détail précis et un peu étrange, dit en passant.
 
-`ordreCorrect` : [2, 1, 0] (source : qr1 l.96)
-Retour : « c, b, a. La petite nouvelle ouvre la porte, et la suite se demande toute seule. »
+`ordreCorrect` : [2, 0, 1] (source : ST l.569 et l.583, quiz de l'étape 6)
+Retour : « c, a, b. On sème en passant, on laisse la conversation avancer, puis le détail revient une fois : il arrive quand plus personne ne l'attend. »
 
 **Dis-la à voix haute**
-Consigne : « Dis à voix haute, en la posant : « J'ai essayé un nouveau café. Je n'ai pas encore de conclusion. » » (qr1 l.86)
+Consigne : « Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, comme une phrase d'ouverture : « Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée. » » (ST l.122)
 
 ---
 
 ## 5. Boulot (`boulot`)
 
 **Laquelle 1**
-Contexte : « L'échange d'embauche s'achève, et la personne en face te laisse la parole. Laquelle ressortir ? »
-- A) « Une seule, et sérieuse : à quoi ressemble une bonne première semaine ici ? » (qr3 l.66)
-- B) « Oui, merci. Du premier coup : je vais le noter quelque part. » (qr3 l.142)
-- C) « Très bien. J'ai trouvé les toilettes du premier coup : le reste suivra. » (qr2 l.292)
+Contexte : « Un message de confirmation pour un atelier du service part dans une minute, tout est écrit, et il te reste une dernière ligne d'humeur à ajouter après ton nom. Laquelle ressortir ? »
+- A) « PS : petite correction, ce n'est pas le ficus que j'arrose depuis mardi, mais son sosie en plastique. » (BO l.428)
+- B) « Cette porte ferme avec la discrétion d'une fanfare. » (BO l.496)
+- C) « Mercredi, j'ai passé une heure entière à chercher une salle qui n'existait pas. » (BO l.565)
 
 `bonneReponse` : 0 (A)
-Retour : « A. Une vraie question qui te montre déjà dans le poste, avec un petit trait sérieux. B répond à un trajet, C à une première journée. »
+Retour : « A. Sous un message sérieux, un PS rectifie un détail minuscule : il détend sans parasiter. B vaut en passant dans un couloir, C à l'afterwork, quand on raconte. »
 
 **Laquelle 2**
-Contexte : « Dernière heure de ton premier jour dans l'entreprise : une personne de ton étage passe voir comment tu t'en sors. Laquelle ressortir ? »
-- A) « J'ai fait une sieste d'une conviction rare. Je pourrais donner une formation. » (qr2 l.220)
-- B) « Très facilement. Le plus dur : arrêter de répéter mes réponses à voix haute dans la rue. » (qr3 l.146)
-- C) « Déjà sept prénoms retenus. Je ne sais pas à qui ils vont, mais je les ai. » (qr2 l.296)
+Contexte : « Au pot d'un réseau pro, on te demande ton métier : tu t'occupes des espaces verts de la ville, ta première phrase est dite, et il te faut la seconde, celle qui ouvre une perspective lointaine. Laquelle ressortir ? »
+- A) « J'envoie les factures du mois et je vérifie qu'elles arrivent. » (BO l.624)
+- B) « Dans quarante ans, des familles pique-niqueront à l'ombre de mon travail, sans me remercier. » (BO l.636)
+- C) « Il est neuf, et il garde deux stylos et une agrafeuse cassée. » (BO l.373)
 
-`bonneReponse` : 2 (C)
-Retour : « C. Des prénoms sans visages : un aveu minuscule, vrai pour toute personne qui arrive. A parle d'une sieste, B d'un trajet. »
+`bonneReponse` : 1 (B)
+Retour : « B. La seconde phrase prolonge la première avec une image, et le temps long fait sourire. A est une bonne première phrase, C une bonne seconde phrase pour un autre objet : chacune a son moment. »
 
 **Dans l'ordre**
-Consigne : « Remets dans l'ordre : ton premier jour au travail. »
-- a) Tu choisis celle qui te fait le plus sourire.
-- b) Tu écris deux petites réussites de ton premier jour.
-- c) Tu la dis à voix haute.
+Consigne : « Remets dans l'ordre : la vanne de couloir. »
+- a) Tu continues ta route, qu'on ait souri ou non.
+- b) Tu sors ta phrase en passant, dans le couloir.
+- c) Tu choisis le sujet le plus sûr : le thermostat du service.
 
-`ordreCorrect` : [1, 0, 2] (source : qr2 l.311)
-Retour : « b, a, c. D'abord deux candidates, puis la plus drôle, puis la voix : une phrase qui sonne se choisit avant de se dire. »
+`ordreCorrect` : [2, 1, 0] (source : BO l.503 à 505 et l.514 à 517, quiz de l'étape 3)
+Retour : « c, b, a. Le sujet sûr d'abord, la phrase en passant, puis tu continues : on ne vérifie pas si ça a fait rire. »
 
 **Dis-la à voix haute**
-Consigne : « Dis à voix haute : « Très bien. J'ai trouvé les toilettes du premier coup : le reste suivra. » » (qr2 l.292)
+Consigne : « Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, sur le ton d'un constat : « Un chargeur est branché sous la table, sans téléphone au bout. » » (BO l.360)
 
 ---
 
 ## Table de contrôle
 
-| Bilan | Contexte | Bonne réponse (reprise, ligne d'origine) | Mots du contexte absents de la bonne réponse |
+| Bilan | Contexte | Bonne réponse (ligne) | Mots du contexte absents de la bonne réponse |
 |---|---|---|---|
-| 1 | L1 | qr2 l.330 (B4 sûre) | oui (lendemain, réunion, parole, service, félicite, pause) |
-| 1 | L2 | qr1 l.107 (A4 sûre) | oui (couloir, onze, heures, croise, nouvelles, arrêter) |
-| 2 | L1 | qr3 l.220 (M2 sûre) | oui (dîner, bande, histoire, fixe, reproche, air, sérieux) |
-| 2 | L2 | qr3 l.340 (F2 joueuse) | oui (cartes, famille, manche, finale, tablée, proteste) |
-| 3 | L1 | qr2 l.176 (S5 sûre) | oui (tard, énergie, plat, hôte, presse, rester, heure) |
-| 3 | L2 | qr3 l.104 (R3 sûre) | oui (réunion, interroge, point, esprit, sujets, tôt) |
-| 4 | L1 | qr5 l.98 (P3 joueuse) | oui (mariage, micro, limite, temps, fixée, salle, patiente) |
-| 4 | L2 | qr1 l.85 (A3 sûre) | oui (dîner, proches, raconter, semaine, événement, digne, récit) |
-| 5 | L1 | qr3 l.66 (R2 sûre) | oui (échange, embauche, achève, personne, face, laisse, parole) |
-| 5 | L2 | qr2 l.296 (B3 joueuse) | oui (dernière, heure, premier, jour, entreprise, étage, sors) |
-
-Autres répliques reprises (options et voix haute) : toutes listées avec leur ligne dans le texte ci-dessus ; 0 réplique neuve. Pas de mot ni de signal de registre dans les contextes : aucun ne dit « sourit », « plaisante » ni « tu as déjà ri ».
+| 1 | L1 | S l.39 | oui (groupe, plateau, viennoiseries, pause, chacun, excuse, resservir) |
+| 1 | L2 | S l.192 | oui (entrée, entreprise, accès, verrouillé, file, allonge) |
+| 2 | L1 | S l.562 | oui (phrase, perdre, rire, table) |
+| 2 | L2 | S l.341 | oui (cuisine, constates, repas, gardé, soir, estomac, partage, appart) |
+| 3 | L1 | S l.766 | oui (mésaventures, semaine, légère, digérée, détail, récit, conclure, place) |
+| 3 | L2 | S l.1100 | oui (table, demande, devient, vie, moment, rien, grand, répondre) |
+| 4 | L1 | ST l.158 | oui (récit, meuble, coincé, cage, escalier, touche, fin, courte, image, conclure) |
+| 4 | L2 | ST l.395 | oui (récit, présente, personnage, mystérieux, garde, confidences, dernière, trancher, nommer) |
+| 5 | L1 | BO l.428 | oui (message, confirmation, atelier, service, minute, humeur, nom) |
+| 5 | L2 | BO l.636 | oui (pot, réseau, métier, occupes, espaces, verts, ville, seconde, perspective, lointaine) |
 
 | Contrôle | Résultat |
 |---|---|
-| Tirets cadratins | 0 (recherche du caractère faite sur ce fichier) |
-| Emoji, IA, concurrent | 0 |
-| Genre | aucun accord pour l'utilisateur ni pour la personne d'en face (« quelqu'un », « une personne », « l'hôte », « la bande », pas de participe accordé) |
+| Répliques | toutes reprises mot pour mot des seeds, ligne citée ; chaque option est une vanne ou une réponse JUSTE d'un quiz (aucune réponse marquée mauvaise) |
+| Une seule bonne réponse | désignée sans lire le retour : B, C, A, B, C, A, B, C, A, B (concordent avec `bonneReponse`) ; les deux leurres de chaque contexte ne collent pas à son signal (autre sujet, autre moment) |
+| Position de la bonne réponse | 1, 2, 0, 1, 2, 0, 1, 2, 0, 1 |
+| Leurres | aucune réplique n'apparaît deux fois dans l'ensemble des 5 bilans (options et voix haute) |
+| Tirets cadratins | 0 (grep fait) ; emoji, IA, concurrent : 0 |
+| Genre | aucune réplique avec « nul », « félicité », « sûr », « fauché », « arrivé » (écartées) ; aucune personne d'en face genrée dans les contextes (« quelqu'un », « la personne », « chacun ») ; « Un collègue » du modèle neutralisé ; pas d'« hôte » |
+| Doublons | grep (viennoiseries, tourniquet, plateau, huis clos, jardin, tes confidences, personnage mystérieux, après ton nom, etc.) dans qr*, c3*, c4*, c6a, c6c, c7 et le blog : aucun doublon de scène ; seule idée proche : le portique de c3a l.250, évité en remplaçant « tourniquets » par « accès verrouillé » |
 | Guillemets | « » extérieurs, “ ” intérieurs |
-| Doublons | grep des idées (félicitation après exposé, croisement dans le couloir, reproche de ne pas rire, partie de cartes, hôte qui retient, perte de fil en réunion, limite de temps au micro, semaine sans événement, fin d'entretien, fin de premier jour) dans qr*, c3*, c4*, c6a, c6c, c7 et `blog-article-rewrites.json` : seules coïncidences = les situations d'origine des répliques reprises (voulu, contexte réécrit). Aucun doublon avec un autre lot ni avec le blog. |
-| Une seule bonne réponse | chaque décor ne correspond qu'à une des trois répliques (les deux autres répondent à une autre question) |
-| Position de la bonne réponse | 1, 0, 2, 1, 0, 2, 2, 1, 0, 2 |
 
-Points à surveiller en relecture à l'aveugle : le bilan teste surtout « à quelle question répond cette réplique » (la mécanique de l'exemple 3.10) ; les étapes des « ordre » sont tirées des règles et « À toi » des fiches d'origine, à aligner avec le quiz réel de chaque parcours quand @fullstack les branche.
+## Tour 2 : retouche → ligne
+
+| Retouche demandée | Où |
+|---|---|
+| Options prises dans le contenu du parcours (plus de situations QR) | toutes les « laquelle » (sources S, ST, BO) |
+| Trois bonnes réponses d'un autre moment, signal dans le contexte, retour qui enseigne | 10 contextes et 10 retours |
+| « Ordre » sur une étape réelle, citée | bilans 1 à 5, lignes S l.70/93, l.471/473, l.1054/1067 ; ST l.569/583 ; BO l.503 à 517 |
+| « Un collègue » (B1), « l'hôte » (B3) | supprimés (nouveaux contextes) |
+| Deux bonnes réponses (B2 L1, B4 L1, B5 L2) | contextes et options remplacés (B2 L1, B4 L1, B5 L2) |
+| « Si » sans objet (B2) | disparu avec les nouvelles options |
+| « Sans la lire » (B3) | « Lis-la une fois, puis dis-la sans regarder l'écran » |
+| Voix haute du B5 sur une réponse marquée mauvaise | remplacée par BO l.360, réponse juste |
+| Leurres répétés d'un bilan à l'autre | tous distincts |
+| Vannes à accord genré ou à « elle » (S l.35, l.38 ; ST l.181) | écartées |
