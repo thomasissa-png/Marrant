@@ -83,7 +83,7 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       // Reste du D6 (arbitrage @ux D6 n°1) : sous 640 px, filtres repliés, la liste dans le premier écran.
       const replies = page.locator("[data-filtres-replies]");
       await expect(replies).not.toHaveAttribute("open", "");
-      await expect(replies.locator("summary")).toHaveText(`${Q.filtreOu} ${Q.filtrePour}`);
+      await expect(replies.locator("summary")).toHaveText(Q.filtrerLesCartes);
       expect((await replies.locator("summary").boundingBox())!.height).toBeGreaterThanOrEqual(44);
       await expect(page.getByRole("link", { name: Q.univers.coloc, exact: true })).toBeHidden();
       const yLigne = await page.locator('[data-fiche="coloc-la-poele"]').evaluate((e) => e.getBoundingClientRect().top + window.scrollY);

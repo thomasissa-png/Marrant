@@ -104,6 +104,8 @@ model User {
   fichesFaites    FicheFait[]
   missionRetours  MissionRetour[]
   repliques       UserReplique[]
+  /// s24 lot D7 : « Mes questions », fils et messages (migration 25).
+  equipeFils      EquipeFil[]
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -1314,6 +1316,8 @@ model EspaceCompte {
   aise              String? // POTES | BOULOT | PLAIRE | PARTOUT
   aiseLe            DateTime?
   rencontreServieLe DateTime?
+  /// s24 lot D7 (migration 26) : date du premier pas, posée une fois et jamais effacée (premier pas monotone).
+  premierPasLe      DateTime?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
@@ -1427,4 +1431,47 @@ model UserReplique {
 
   @@unique([userId, ficheId])
   @@index([userId, modifieLe])
+}
+
+/// s24 lot D7 (migration 25) : « Mes questions » (architecture v20 2.6). Un fil par envoi, conservé sans
+/// effacement sauf demande de l'abonné (« Retirer de mon historique ») ou suppression du compte (cascade).
+/// Le texte n'est jamais journalisé, ni dans `UsageEvent`, ni vers Umami.
+model EquipeFil {
+  id                String    @id @default(cuid())
+  userId            String
+  type              String // PROBLEME | SITUATION | QUESTION (contrainte CHECK en base)
+  sceneOu           String? // UNIVERS de 3.3 ou « autre » (CHECK), posé par l'équipe dans l'outil
+  sceneBut          String? // POUR_QUOI_FAIRE de 3.3 ou « autre » (CHECK), posé par l'équipe
+  statut            String    @default("EN_ATTENTE") // EN_ATTENTE | REPONDU (CHECK)
+  /// Clé d'idempotence de l'envoi qui crée le fil (double clic = un seul fil).
+  cle               String
+  creeLe            DateTime  @default(now())
+  dernierMessageLe  DateTime  @default(now())
+  /// État « lu » des réponses : date de la dernière ouverture du fil par l'abonné (cloche, 2.9).
+  ouvertParAbonneLe DateTime?
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages EquipeMessage[]
+
+  @@unique([userId, cle])
+  @@index([userId, dernierMessageLe])
+  @@index([statut, dernierMessageLe])
+}
+
+/// s24 lot D7 (migration 25) : un message d'un fil, de l'abonné ou de l'équipe. Cascade avec le fil.
+model EquipeMessage {
+  id            String    @id @default(cuid())
+  filId         String
+  auteur        String // ABONNE | EQUIPE (contrainte CHECK en base)
+  corps         String // texte du message (CHECK : 1 à 10 000 caractères)
+  /// Clé d'idempotence d'un envoi (double clic = une ligne).
+  cle           String?
+  creeLe        DateTime  @default(now())
+  /// Réponse de l'équipe : date d'envoi de l'e-mail de réponse (null : pas envoyé).
+  emailEnvoyeLe DateTime?
+
+  fil EquipeFil @relation(fields: [filId], references: [id], onDelete: Cascade)
+
+  @@unique([filId, cle])
+  @@index([filId, creeLe])
 }

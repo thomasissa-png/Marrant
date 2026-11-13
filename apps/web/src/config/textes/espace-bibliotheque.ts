@@ -21,6 +21,8 @@ export const TEXTES_QUOI_REPONDRE = {
   titre: "Quoi répondre",
   filtreOu: "Où et avec qui ?",
   filtrePour: "Pour quoi faire ?",
+  /** Résumé des filtres repliés sans filtre choisi (validé par Thomas le 13/11, `founder-preferences.md`). */
+  filtrerLesCartes: "Filtrer les cartes",
   univers: {
     coloc: "Coloc",
     soiree: "Soirée",

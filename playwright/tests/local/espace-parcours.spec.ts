@@ -175,9 +175,10 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       expect(hEntete).toBeLessThanOrEqual(2 * 406);
       // Lot D5 (arbitrage @ux D4 n°1) : introduction publique masquée pour l'abonné, h1 gardé pour les
       // lecteurs d'écran. Lot D5b (arbitrage @ux D5 n°2) : levier 1 (`mb-4` sous 300 px) et levier 2 (lien
-      // du logo à 32 px sous 300 px) appliqués ; mesure STABLE du 13/11 : premier parcours à y = 815 pour
-      // 812 (2 écrans de 406), cible @ux 796. Le test n'est PAS resserré : retour à @ux (consigne : « si
-      // encore au-dessus, me revenir, ne pas toucher la barre »).
+      // du logo à 32 px sous 300 px) appliqués ; mesure du 13/11 : y = 815. Lot D7 (arbitrage @ux D5b n°1,
+      // `docs/ux/arbitrages-d5b-s24.md`) : `max-e300:gap-2` et `max-e300:mb-3` ; mesure STABLE à 188 x 406
+      // (3 passes) : premier parcours à y = 787, sous la cible @ux de 796. Test RESSERRÉ : 2 écrans (812).
+      expect(yPremier).toBeLessThanOrEqual(2 * 406);
       await expect(page.locator('nav[aria-label="Fil d’Ariane"]')).toHaveCount(0);
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(P.titrePage);
     });

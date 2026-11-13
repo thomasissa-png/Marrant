@@ -5,7 +5,7 @@ import Link from "next/link";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { TEXTES_ESPACE_NAVIGATION as T } from "@/config/textes/espace-navigation";
 import { MENU_PLUS } from "@/components/espace/rubriques";
-import { CLASSE_SOULIGNEMENT } from "@/components/espace/styles-barre";
+import { CLASSE_ACCROCHE_FIN, CLASSE_SOULIGNEMENT } from "@/components/espace/styles-barre";
 import { cn } from "@/lib/utils";
 
 /**
@@ -43,6 +43,7 @@ export const MenuPlus = forwardRef<HTMLButtonElement, MenuPlusProps>(function Me
         {T.rubriques.plus}
         <Chevron />
         {actif && <span aria-hidden="true" className={CLASSE_SOULIGNEMENT} />}
+        <span aria-hidden="true" className={CLASSE_ACCROCHE_FIN} />
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content

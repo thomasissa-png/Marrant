@@ -10,6 +10,7 @@ import {
 import { createPreviewToken, isAdminPassword } from "@/lib/blog-preview-auth";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { ESPACE_ACCUEIL, ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { PAGE_ADMIN_QUESTIONS } from "@/lib/espace/questions-chemins";
 
 // Routes PREMIUM-only (pas de version gratuite)
 const PREMIUM_ONLY_PATHS = ["/favoris"];
@@ -124,7 +125,11 @@ export default async function middleware(req: NextRequest) {
   // s24 (espace client, lot D3) : interrupteur fermé, toute adresse /mon-espace/** est servie comme
   // une adresse inexistante (réécriture vers un chemin sans page : la 404 naturelle, tête et styles
   // compris). Une page présente qui appelle notFound() perd ses feuilles de style dans Next 14.
-  if (!ESPACE_CLIENT_PUBLIE && (req.nextUrl.pathname === ESPACE_ACCUEIL || req.nextUrl.pathname.startsWith(`${ESPACE_ACCUEIL}/`))) {
+  // Lot D7 : l'outil d'admin de « Mes questions » aussi (adresse inexistante tant que l'espace est fermé).
+  if (
+    !ESPACE_CLIENT_PUBLIE &&
+    (req.nextUrl.pathname === ESPACE_ACCUEIL || req.nextUrl.pathname.startsWith(`${ESPACE_ACCUEIL}/`) || req.nextUrl.pathname === PAGE_ADMIN_QUESTIONS)
+  ) {
     return NextResponse.rewrite(new URL("/_espace-ferme", req.url));
   }
 

@@ -7,6 +7,16 @@ export const CLASSE_ONGLET =
   "relative flex h-11 flex-none snap-start items-center whitespace-nowrap border-0 bg-transparent px-[var(--app-onglet-pad,0.75rem)] text-sm font-medium text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary aria-[current=page]:text-text-primary max-e300:px-[var(--app-onglet-pad,0.5rem)] max-e300:text-xs";
 
 /** Trait de 2 px sous l'entrée courante, aligné sur le texte. */
+/**
+ * Lot D7 (cause des 2 échecs `espace-barre` en régime ouvert) : l'accroche `scroll-snap` (proximity) n'avait
+ * que les DÉBUTS d'onglets ; un défilement programmé (focus clavier, `scrollIntoView`) qui montrait l'entrée
+ * entière était ensuite ramené au début d'onglet le plus proche, et l'entrée visée repassait sous le bord
+ * droit (0,6 px avec nos métriques de police, 5 px et plus avec des glyphes un peu plus larges : ratio 0,958).
+ * Cette marque donne aussi un point d'accroche à la FIN de chaque onglet (bord droit moins 8 px,
+ * `scroll-pr-2` de la liste) : l'accroche ne coupe plus l'entrée qu'on vient de montrer. Décorative.
+ */
+export const CLASSE_ACCROCHE_FIN = "pointer-events-none absolute inset-0 snap-end";
+
 export const CLASSE_SOULIGNEMENT =
   "absolute inset-x-[var(--app-onglet-pad,0.75rem)] bottom-0 h-0.5 bg-accent-primary max-e300:inset-x-[var(--app-onglet-pad,0.5rem)]";
 

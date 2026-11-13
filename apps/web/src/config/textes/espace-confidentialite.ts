@@ -34,6 +34,15 @@ export const CONFIDENTIALITE_ESPACE = {
    * par la session le 13/11, `DUREE_COIN_SECONDES`). [À VÉRIFIER @legal : mention de l'effacement à la
    * déconnexion, ajouté pour le poste partagé.]
    */
+  /**
+   * Partie 9 (« Ta question à l'équipe »), lot D7 (plan §6 T5) : `docs/legal/espace-client-s24-phrases.md`,
+   * bloc 2, puces 1 et 4 proposées, mot pour mot (clé = rang de la puce remplacée, à partir de 0). Go de
+   * Thomas requis avant l'ouverture (plan §6 : chaque ligne déjà en ligne qu'on touche).
+   */
+  questions: {
+    0: "Ce qu'on reçoit : le texte de ta question (1 000 caractères au plus) et l'adresse e-mail de ton compte, pour te répondre. Le site garde ta question et notre réponse dans sa base de données, pour que tu retrouves ton historique dans « Mes questions », et les envoie aussi par e-mail à l'équipe.",
+    3: "Combien de temps : dans ton espace, ta question et notre réponse sont gardées tant que ton compte existe, et effacées avec lui. Leurs copies par e-mail restent dans les boîtes de l'équipe au plus 6 mois après notre dernier échange, même si tu supprimes ton compte avant, puis sont effacées. Tu peux demander leur effacement plus tôt.",
+  } as Readonly<Record<number, string>>,
   cookie:
     "Coin « Humour noir » de ton espace : si tu cliques sur « Entrer », un petit cookie gardé dans ton navigateur retient ton choix pendant 6 mois, pour ne pas te le redemander. Il ne contient aucune donnée sur toi et sert seulement à ça. Tu l'effaces en cliquant sur « Sortir » ou depuis ton navigateur.",
 } as const;

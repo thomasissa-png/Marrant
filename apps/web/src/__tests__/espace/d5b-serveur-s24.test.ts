@@ -5,20 +5,34 @@
  * proposition hebdomadaire, jamais de raccourci automatique), premier pas (4 cas de l'arbitrage @ux D5
  * n°3 et règle monotone), plafond de la réplique compté en caractères (constante unique).
  */
-const comptes = { ficheFait: 0, carteReponse: 0, etapes: 0, aise: null as string | null };
+const comptes = { ficheFait: 0, carteReponse: 0, etapes: 0, aise: null as string | null, premierPasLe: null as Date | null, ligne: false };
 jest.mock("@/lib/prisma", () => ({
   prisma: {
-    ficheFait: { count: jest.fn(async () => comptes.ficheFait) },
+    ficheFait: { count: jest.fn(async () => comptes.ficheFait), upsert: jest.fn(async () => ({})), deleteMany: jest.fn(async () => ({ count: 1 })) },
     carteReponse: { count: jest.fn(async () => comptes.carteReponse) },
     userPathStepCompletion: { count: jest.fn(async () => comptes.etapes) },
-    espaceCompte: { findUnique: jest.fn(async () => (comptes.aise ? { aise: comptes.aise } : null)) },
+    espaceCompte: {
+      findUnique: jest.fn(async () => (comptes.ligne || comptes.aise ? { aise: comptes.aise, premierPasLe: comptes.premierPasLe } : null)),
+      // Lot D7 (migration 26) : date du premier pas, posée une fois (création sans conflit, puis si vide).
+      createMany: jest.fn(async (a: { data: Array<{ premierPasLe: Date }> }) => {
+        if (comptes.ligne) return { count: 0 };
+        Object.assign(comptes, { ligne: true, premierPasLe: a.data[0].premierPasLe });
+        return { count: 1 };
+      }),
+      updateMany: jest.fn(async (a: { data: { premierPasLe: Date } }) => {
+        if (comptes.premierPasLe) return { count: 0 };
+        comptes.premierPasLe = a.data.premierPasLe;
+        return { count: 1 };
+      }),
+    },
   },
 }));
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { etatCompteARebours, estDuree, type ReponseLue } from "@/lib/espace/compte-a-rebours";
-import { premierPasDepuis, premierPasFait } from "@/lib/espace/premier-pas-serveur";
+import { figerPremierPas, premierPasDepuis, premierPasFait } from "@/lib/espace/premier-pas-serveur";
+import { declarerRetour } from "@/lib/espace/fiche-fait";
 import { REPLIQUE_MAX, texteReplique } from "@/lib/espace/repliques";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 
@@ -62,16 +76,20 @@ describe("compte à rebours : état servi à la rafale", () => {
 });
 
 describe("premier pas (arbitrage @ux D5 n°3)", () => {
-  beforeEach(() => Object.assign(comptes, { ficheFait: 0, carteReponse: 0, etapes: 0, aise: null }));
+  beforeEach(() => Object.assign(comptes, { ficheFait: 0, carteReponse: 0, etapes: 0, aise: null, premierPasLe: null, ligne: false }));
 
   it("4 cas : fiche « Fait », carte « Rien », étape seule = vrai ; réplique seule = faux", async () => {
+    const sansDate = () => Object.assign(comptes, { premierPasLe: null, ligne: false });
     comptes.ficheFait = 1;
     expect(await premierPasFait("u1")).toBe(true);
+    sansDate();
     Object.assign(comptes, { ficheFait: 0, carteReponse: 1 });
     expect(await premierPasFait("u1")).toBe(true);
+    sansDate();
     Object.assign(comptes, { carteReponse: 0, etapes: 1 });
     expect(await premierPasFait("u1")).toBe(true);
     // Réplique seule : aucune des sources lues ne bouge (la réplique n'est pas lue).
+    sansDate();
     Object.assign(comptes, { etapes: 0 });
     expect(await premierPasFait("u1")).toBe(false);
   });
@@ -80,6 +98,25 @@ describe("premier pas (arbitrage @ux D5 n°3)", () => {
     Object.assign(comptes, { ficheFait: 0, carteReponse: 0, etapes: 0, aise: "POTES" });
     expect(await premierPasFait("u1")).toBe(true);
     expect(premierPasDepuis({ ficheOuCarte: false, etapesValidees: 0, c9Repondue: false })).toBe(false);
+  });
+
+  it("STRICTEMENT monotone (lot D7, migration 26) : « Fait » puis « Pas essayé » AVANT la question C9, il reste fait", async () => {
+    comptes.ficheFait = 1;
+    expect(await premierPasFait("u1")).toBe(true);
+    const date = comptes.premierPasLe;
+    expect(date).toBeInstanceOf(Date);
+    comptes.ficheFait = 0; // « Pas essayé » retire la ligne ; aucune autre trace, C9 pas répondue
+    expect(await premierPasFait("u1")).toBe(true);
+    // Jamais réécrite : la date du premier pas reste celle du premier « Fait ».
+    await figerPremierPas("u1", new Date("2030-01-01T00:00:00Z"));
+    expect(comptes.premierPasLe).toBe(date);
+  });
+
+  it("« Fait » déclaré : la date est posée tout de suite (sans attendre « Aujourd'hui »)", async () => {
+    await declarerRetour("u1", "fiche-x", "essaye-bof");
+    expect(comptes.premierPasLe).toBeInstanceOf(Date);
+    await declarerRetour("u1", "fiche-x", "pas-essaye");
+    expect(await premierPasFait("u1")).toBe(true);
   });
 });
 

@@ -33,7 +33,8 @@ describe("« Quoi répondre » : filtres repliés sous 640 px", () => {
     expect(details).toHaveLength(1);
     expect(details[0].open).toBe(false);
     const summary = details[0].querySelector("summary")!;
-    expect(summary).toHaveTextContent(`${Q.filtreOu} ${Q.filtrePour}`);
+    // Lot D7 (choix de Thomas du 13/11) : « Filtrer les cartes » sans filtre choisi.
+    expect(summary).toHaveTextContent("Filtrer les cartes");
     expect(summary.className).toContain("min-h-11");
     // Titres H2 conservés, puces toujours dans le DOM (clavier et lecteur d'écran une fois ouvert).
     expect(within(details[0]).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([Q.filtreOu, Q.filtrePour]);

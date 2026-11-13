@@ -42,6 +42,8 @@ function modele(nom: string) {
       return l;
     }),
     updateMany: jest.fn(async () => ({ count: 0 })),
+    // Lot D7 : premier pas figé au « Fait » (`figerPremierPas`).
+    createMany: jest.fn(async () => ({ count: 1 })),
     upsert: jest.fn(async (a: { where: Record<string, unknown>; create: Ligne; update: Ligne }) => {
       const l = t(nom).find((x) => egal(x, a.where));
       if (l) {

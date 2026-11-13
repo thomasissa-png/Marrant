@@ -60,7 +60,7 @@ function Groupe<V extends string>({
  */
 export function resumeFiltres(filtres: FiltresSituations): string {
   const choisis = [filtres.ou ? T.univers[filtres.ou] : null, filtres.pour ? T.pourQuoiFaire[filtres.pour] : null].filter(Boolean);
-  return choisis.length ? choisis.join(", ") : `${T.filtreOu} ${T.filtrePour}`;
+  return choisis.length ? choisis.join(", ") : T.filtrerLesCartes;
 }
 
 export function FiltresSituations({ base, filtres }: { base: string; filtres: FiltresSituations }) {

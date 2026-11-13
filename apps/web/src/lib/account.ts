@@ -166,6 +166,9 @@ export async function deleteAccount(userId: string): Promise<{ deleted: boolean;
     prisma.ficheFait.deleteMany({ where: { userId } }),
     prisma.carteReponse.deleteMany({ where: { userId } }),
     prisma.carteSuivi.deleteMany({ where: { userId } }),
+    // s24 lot D7 : « Mes questions », messages puis fils (en plus de la cascade).
+    prisma.equipeMessage.deleteMany({ where: { fil: { userId } } }),
+    prisma.equipeFil.deleteMany({ where: { userId } }),
     prisma.webhookEvent.deleteMany({ where: { eventId: cleOpposition(userId) } }),
     prisma.user.delete({ where: { id: userId } }),
   ]);
@@ -181,10 +184,12 @@ export async function deleteAccount(userId: string): Promise<{ deleted: boolean;
  * (`EspaceCompte` : réponse C9 et ses dates) et annonces de cap et de bonus déjà faites
  * (`CapAnnonce`, lot D4). Lot D5 : cartes de la rafale (`CarteSuivi`, `CarteReponse`), « Fait » par
  * fiche (`FicheFait`), retours de mission (`MissionRetour`) et « Ma réplique à moi » (`UserReplique`,
- * texte compris : c'est la donnée de l'abonné). Tables vides tant que l'espace est fermé.
+ * texte compris : c'est la donnée de l'abonné). Lot D7 : « Mes questions » (`EquipeFil`, `EquipeMessage` :
+ * messages de l'abonné ET réponses de l'équipe, étiquette de scène, état « lu ») et date du premier pas.
+ * Tables vides tant que l'espace est fermé.
  */
 export async function collecterDonneesParcours(userId: string) {
-  const [progressions, etapes, retours, rappel, espace, annoncesCaps, cartesSuivies, cartesReponses, fichesFaites, missions, repliques] = await Promise.all([
+  const [progressions, etapes, retours, rappel, espace, annoncesCaps, cartesSuivies, cartesReponses, fichesFaites, missions, repliques, questions] = await Promise.all([
     prisma.userPathProgress.findMany({
       where: { userId },
       select: { learningPath: { select: { slug: true } }, completedSteps: true, startedAt: true, completedAt: true },
@@ -212,7 +217,7 @@ export async function collecterDonneesParcours(userId: string) {
     }),
     prisma.espaceCompte.findUnique({
       where: { userId },
-      select: { aise: true, aiseLe: true, rencontreServieLe: true, createdAt: true, updatedAt: true },
+      select: { aise: true, aiseLe: true, rencontreServieLe: true, premierPasLe: true, createdAt: true, updatedAt: true },
     }),
     prisma.capAnnonce.findMany({
       where: { userId },
@@ -232,6 +237,20 @@ export async function collecterDonneesParcours(userId: string) {
     prisma.ficheFait.findMany({ where: { userId }, select: { ficheId: true, retour: true, faitLe: true }, orderBy: { faitLe: "asc" } }),
     prisma.missionRetour.findMany({ where: { userId }, select: { missionId: true, marche: true, retour: true, creeLe: true }, orderBy: { creeLe: "asc" } }),
     prisma.userReplique.findMany({ where: { userId }, select: { ficheId: true, texte: true, creeLe: true, modifieLe: true }, orderBy: { creeLe: "asc" } }),
+    prisma.equipeFil.findMany({
+      where: { userId },
+      select: {
+        type: true,
+        statut: true,
+        sceneOu: true,
+        sceneBut: true,
+        creeLe: true,
+        dernierMessageLe: true,
+        ouvertParAbonneLe: true,
+        messages: { select: { auteur: true, corps: true, creeLe: true, emailEnvoyeLe: true }, orderBy: { creeLe: "asc" } },
+      },
+      orderBy: { creeLe: "asc" },
+    }),
   ]);
-  return { progressions, etapes, retours, rappel, espace, annoncesCaps, cartesSuivies, cartesReponses, fichesFaites, missions, repliques };
+  return { progressions, etapes, retours, rappel, espace, annoncesCaps, cartesSuivies, cartesReponses, fichesFaites, missions, repliques, questions };
 }

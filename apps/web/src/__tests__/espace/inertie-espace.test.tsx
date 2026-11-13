@@ -156,6 +156,12 @@ describe("garde-fou de construction", () => {
     // aucun en-tête ajouté, réponses identiques (test `d5b-temoin-coin-s24`).
     "app/api/auth/[...nextauth]/route.ts",
     "app/api/user/route.ts",
+    // D7 (« Mes questions ») : l'outil de l'équipe, sous l'auth admin existante (`refusAdmin`), et sa page.
+    // Fermé : la route répond 404 avant toute lecture et la page est la 404 (middleware + `notFound()`).
+    // `middleware.ts` (déjà listé) réécrit aussi `/admin/questions` vers la 404 naturelle, fermé seulement ;
+    // `lib/account.ts` (déjà listé, sans import de l'espace) exporte et supprime les fils avec le compte.
+    "app/api/admin/questions-equipe/route.ts",
+    "app/(dashboard)/admin/questions/page.tsx",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

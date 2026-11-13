@@ -247,9 +247,17 @@ export default function ConfidentialitePage() {
           <section id={QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE} className="scroll-mt-24" data-testid="confidentialite-question-equipe">
             <h2 className={SECTION_TITLE}>{frTypo(QUESTION.titre)}</h2>
             <ul className={LIST}>
-              {QUESTION.puces.map((texte) => (
-                <li key={texte.slice(0, 24)}>{frTypo(texte)}</li>
-              ))}
+              {/* s24 lot D7 (plan §6 T5) : puces 1 et 4 remplacées par les phrases de @legal, ouvert seulement. */}
+              {QUESTION.puces.map((texte, i) => {
+                const espace = ESPACE_CLIENT_PUBLIE ? CONFIDENTIALITE_ESPACE.questions[i] : undefined;
+                return espace ? (
+                  <li key={texte.slice(0, 24)} data-testid="confidentialite-espace">
+                    {frTypo(espace)}
+                  </li>
+                ) : (
+                  <li key={texte.slice(0, 24)}>{frTypo(texte)}</li>
+                );
+              })}
             </ul>
           </section>
         )}

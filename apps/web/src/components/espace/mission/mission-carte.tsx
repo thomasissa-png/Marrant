@@ -9,6 +9,7 @@ import { appelEspace } from "@/components/espace/carte/appel";
 import { LigneRetour } from "@/components/espace/carte/ligne-retour";
 import { BOUTON_PRINCIPAL, CARTE, LIEN, nouvelleCle } from "@/components/espace/carte/styles";
 import { Marches } from "@/components/espace/mission/marches";
+import { preparerQuestion } from "@/components/espace/questions/prefill";
 
 export interface MissionVue {
   id: string;
@@ -103,7 +104,8 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
                 </li>
               )}
               <li>
-                <Link href="/mon-espace/questions" className={LIEN}>
+                {/* Lot D7 : « Une situation à gérer » choisie d'avance (navigateur seul, `prefill.ts`). */}
+                <Link href="/mon-espace/questions" className={LIEN} onClick={() => preparerQuestion({ type: "SITUATION" })}>
                   {M.raconte}
                 </Link>
               </li>

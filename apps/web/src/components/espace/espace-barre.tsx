@@ -5,7 +5,7 @@ import Link from "next/link";
 import { TEXTES_ESPACE_NAVIGATION as T } from "@/config/textes/espace-navigation";
 import { RUBRIQUES, rubriqueActive } from "@/components/espace/rubriques";
 import { MenuPlus } from "@/components/espace/menu-plus";
-import { CLASSE_ONGLET, CLASSE_SOULIGNEMENT, margeIndice } from "@/components/espace/styles-barre";
+import { CLASSE_ACCROCHE_FIN, CLASSE_ONGLET, CLASSE_SOULIGNEMENT, margeIndice } from "@/components/espace/styles-barre";
 import { cn } from "@/lib/utils";
 
 /**
@@ -16,7 +16,8 @@ import { cn } from "@/lib/utils";
  * - rubrique courante en `aria-current="page"`, ramenée à droite de l'épinglée par
  *   affectation directe de `scrollLeft` (jamais animée, donc rien à couper sous
  *   `prefers-reduced-motion`), arrêt sur le bord d'un onglet : jamais coupée en plein mot ;
- * - accroche `scroll-snap` (proximity) sur le bord de l'épinglée, espace final seulement si
+ * - accroche `scroll-snap` (proximity) sur le bord de l'épinglée et (lot D7) sur la fin de chaque onglet
+ *   à 8 px du bord droit, espace final seulement si
  *   les entrées ne tiennent pas (le dernier onglet peut atteindre ce bord) ;
  * - indice de suite : l'entrée coupée au bord droit en montre de 16 à 24 px au repos (marge
  *   des entrées réglée, `styles-barre.ts`), plus fondu de 40 px et chevron, éteints en fin de
@@ -189,7 +190,7 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
             onScroll={surDefilement}
             onFocus={surFocus}
             onKeyDown={surTouche}
-            className="relative flex h-11 snap-x snap-proximity overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="relative flex h-11 snap-x snap-proximity scroll-pr-2 overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {RUBRIQUES.map((r, i) => {
               const courante = active === r.cle;
@@ -203,6 +204,7 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
                 >
                   {r.label}
                   {courante && <Soulignement />}
+                  {i > 0 && <span aria-hidden="true" className={CLASSE_ACCROCHE_FIN} />}
                 </Link>
               );
             })}

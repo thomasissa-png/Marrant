@@ -28,6 +28,9 @@ const mockDb = {
   ficheFait: { deleteMany: jest.fn((a: unknown) => ({ op: "ficheFait.deleteMany", a })) },
   carteReponse: { deleteMany: jest.fn((a: unknown) => ({ op: "carteReponse.deleteMany", a })) },
   carteSuivi: { deleteMany: jest.fn((a: unknown) => ({ op: "carteSuivi.deleteMany", a })) },
+  // s24 lot D7 : « Mes questions » (messages puis fils).
+  equipeMessage: { deleteMany: jest.fn((a: unknown) => ({ op: "equipeMessage.deleteMany", a })) },
+  equipeFil: { deleteMany: jest.fn((a: unknown) => ({ op: "equipeFil.deleteMany", a })) },
   webhookEvent: { deleteMany: jest.fn((a: unknown) => ({ op: "webhookEvent.deleteMany", a })) },
   $transaction: jest.fn(async (ops: unknown[]) => ops),
 };
@@ -150,6 +153,8 @@ describe("deleteAccount (reco 5)", () => {
       "ficheFait.deleteMany",
       "carteReponse.deleteMany",
       "carteSuivi.deleteMany",
+      "equipeMessage.deleteMany",
+      "equipeFil.deleteMany",
       "webhookEvent.deleteMany",
       "user.delete",
     ]);
@@ -165,6 +170,16 @@ describe("deleteAccount (reco 5)", () => {
     expect(ops.find((o) => o.op === "webhookEvent.deleteMany")?.a).toEqual({ where: { eventId: "mesure-usage:opposition:u9" } });
     expect(ops.filter((o) => o.op === "webhookEvent.deleteMany")).toHaveLength(1);
     expect(ops[ops.length - 1].op).toBe("user.delete");
+  });
+
+  it("s24 lot D7 : la suppression du compte emporte les fils de « Mes questions » et leurs messages", async () => {
+    mockDb.user.findUnique.mockResolvedValue({ email: "a@b.fr", subscription: null });
+    mockDb.$transaction.mockImplementation(async (ops: unknown[]) => ops);
+    await deleteAccount("u9");
+    const ops = mockDb.$transaction.mock.calls.at(-1)?.[0] as Array<{ op: string; a: unknown }>;
+    expect(ops.find((o) => o.op === "equipeMessage.deleteMany")?.a).toEqual({ where: { fil: { userId: "u9" } } });
+    expect(ops.find((o) => o.op === "equipeFil.deleteMany")?.a).toEqual({ where: { userId: "u9" } });
+    expect(ops.findIndex((o) => o.op === "equipeFil.deleteMany")).toBeLessThan(ops.findIndex((o) => o.op === "user.delete"));
   });
 
   it("s17 (C14) : dates par étape, retours et rappel du compte effacés dans la même transaction", async () => {

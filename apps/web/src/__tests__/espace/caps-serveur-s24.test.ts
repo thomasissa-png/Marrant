@@ -18,6 +18,8 @@ const mockDb = {
   ficheFait: { findMany: jest.fn(async () => []) },
   missionRetour: { findMany: jest.fn(async () => []) },
   userReplique: { findMany: jest.fn(async () => []) },
+  // Lot D7 : « Mes questions » dans l'export.
+  equipeFil: { findMany: jest.fn(async () => []) },
 };
 jest.mock("@/lib/prisma", () => ({ get prisma() { return mockDb; } }));
 jest.mock("@/config/espace-client", () => ({
@@ -147,6 +149,10 @@ describe("export des données du compte (@legal, espace-c9-information-s24.md po
     expect(donnees.espace).toEqual(espace);
     expect(donnees.annoncesCaps).toHaveLength(1);
     expect(mockDb.espaceCompte.findUnique).toHaveBeenCalledWith(expect.objectContaining({ where: { userId: "u1" } }));
+    // Lot D7 : date du premier pas et fils de « Mes questions » (messages ET réponses) exportés.
+    expect(mockDb.espaceCompte.findUnique.mock.calls.at(-1)?.[0].select).toMatchObject({ premierPasLe: true });
+    expect(donnees.questions).toEqual([]);
+    expect(mockDb.equipeFil.findMany).toHaveBeenCalledWith(expect.objectContaining({ where: { userId: "u1" } }));
   });
 });
 
@@ -158,7 +164,10 @@ describe("confidentialité, espace OUVERT (simulé) : les trois lignes de @legal
       expect(html).toContain(frTypo(t).replace(/'/g, "&#x27;"));
     }
     expect(ESPACE_DATE_TEXTES).toBe("");
-    expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(4);
+    // D7 (plan §6 T5) : puces 1 et 4 de la partie 9 remplacées par les phrases de @legal (bloc 2) : 6 lignes.
+    expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(6);
+    for (const t of Object.values(CONFIDENTIALITE_ESPACE.questions)) expect(html).toContain(frTypo(t).replace(/'/g, "&#x27;"));
+    expect(html).not.toContain("Le site ne les garde pas dans sa base de données");
     // Placée juste après « Cookies essentiels ».
     const essentiels = html.indexOf("Cookies essentiels");
     expect(essentiels).toBeGreaterThan(0);

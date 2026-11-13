@@ -8,6 +8,7 @@
  */
 import { prisma } from "@/lib/prisma";
 import { RETOURS_GESTE, type RetourGeste } from "@/lib/espace/retours";
+import { figerPremierPas } from "@/lib/espace/premier-pas-fige";
 
 export { RETOURS_GESTE, type RetourGeste };
 
@@ -21,6 +22,8 @@ export async function declarerRetour(userId: string, ficheId: string, retour: Re
     update: { retour },
     create: { userId, ficheId, retour },
   });
+  // Lot D7 : le premier pas est figé dès le « Fait » (un « Pas essayé » ensuite ne le défait pas).
+  await figerPremierPas(userId);
   return { fait: true };
 }
 

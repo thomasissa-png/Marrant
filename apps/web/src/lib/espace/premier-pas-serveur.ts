@@ -6,6 +6,9 @@
  */
 import { capDepuisXp, type NumeroCap } from "@/lib/espace/caps";
 import { auMoinsUneFicheFaite } from "@/lib/espace/fiche-fait";
+import { figerPremierPas } from "@/lib/espace/premier-pas-fige";
+
+export { figerPremierPas };
 import { prisma } from "@/lib/prisma";
 import { buildJokeSlug, buildTipSlug, buildVideoSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
 import type { Origine, OrigineResolue } from "@/lib/espace/premier-pas";
@@ -53,26 +56,29 @@ export interface TracesPremierPas {
 }
 
 /**
- * Règle du premier pas, monotone : une fiche « Fait », OU une carte jouée, OU une étape validée. Ne
- * comptent pas : réplique écrite, retour de mission, favori. « Fait » est réversible (« Pas essayé »
- * retire la ligne) : la réponse à C9, posée seulement après le premier pas et jamais effacée, le garde
- * vrai, pour que ni « Ton premier pas » ni la question C9 ne reviennent.
+ * Règle du premier pas : une fiche « Fait », OU une carte jouée, OU une étape validée. Ne comptent pas :
+ * réplique écrite, retour de mission, favori. La réponse à C9 (posée seulement après le premier pas) le
+ * garde vrai pour les comptes d'avant la migration 26.
  */
 export function premierPasDepuis(t: TracesPremierPas): boolean {
   return t.ficheOuCarte || t.etapesValidees > 0 || t.c9Repondue;
 }
 
 /**
- * Premier pas fait ? Tant que non, « Aujourd'hui » reste à l'état 1 (4.4) et la question C9 (posée
- * APRÈS) n'est pas montée. Trois lectures en parallèle (comptes seulement).
+ * Premier pas fait ? STRICTEMENT monotone : une fois `premierPasLe` posé, vrai pour toujours. Sinon, les
+ * traces (lectures en parallèle, comptes seulement) ; vraies, la date est posée avant de répondre. Tant que
+ * non, « Aujourd'hui » reste à l'état 1 (4.4) et la question C9 (posée APRÈS) n'est pas montée.
  */
 export async function premierPasFait(userId: string): Promise<boolean> {
   const [ficheOuCarte, etapesValidees, compte] = await Promise.all([
     auMoinsUneFicheFaite(userId),
     prisma.userPathStepCompletion.count({ where: { userId } }),
-    prisma.espaceCompte.findUnique({ where: { userId }, select: { aise: true } }),
+    prisma.espaceCompte.findUnique({ where: { userId }, select: { aise: true, premierPasLe: true } }),
   ]);
-  return premierPasDepuis({ ficheOuCarte, etapesValidees, c9Repondue: Boolean(compte?.aise) });
+  if (compte?.premierPasLe) return true;
+  const fait = premierPasDepuis({ ficheOuCarte, etapesValidees, c9Repondue: Boolean(compte?.aise) });
+  if (fait) await figerPremierPas(userId);
+  return fait;
 }
 
 /** Jours depuis la création de l'abonnement, étapes validées : de quoi décider « Ton mois » (J25, 4.4). */
