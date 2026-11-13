@@ -1,0 +1,84 @@
+[
+  {
+    "id": "hn-qui-est-dans-la-piece",
+    "type": "humour-noir",
+    "titre": "Qui est dans la pièce",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Pense à la dernière fois où quelqu'un a plaisanté sur sa propre mort. Qu'a fait la table ? Note le signal que tu aurais pu lire."
+    },
+    "contenu": {
+      "forme": "limite",
+      "principe": "Avant de lancer, le test décide. Les trois signaux ci-dessous se voient avec un peu d'attention ; ils aident à lire la table, ils ne t'assurent de rien : c'est pourquoi la question 2 passe avant.",
+      "blocs": [
+        {
+          "titre": "Signal 1, avant : le groupe a déjà ri d'un sujet sombre.",
+          "texte": "Dans les dix dernières minutes, quelqu'un a plaisanté sur sa « mort » du lundi matin et la table a ri. Sans ça, tu ne la dis pas (dans une situation, tu prends la sûre)."
+        },
+        {
+          "titre": "Signal 2, après : le rire revient vers toi.",
+          "texte": "Quelqu'un relance, reprend ta formule ou ajoute la sienne : tu laisses le sujet ouvert, sans en rajouter. Les regards descendent vers les verres, un « hm » poli, tout le monde regarde la même personne : c'est le signal qui dit d'arrêter, pas de continuer. Il arrive après la vanne : il sert à clore vite, pas à éviter de blesser."
+        },
+        {
+          "titre": "Signal 3, la personne qui pourrait être touchée.",
+          "texte": "Si ta vanne frôle sans le vouloir la vie de quelqu'un à table, regarde cette personne, elle, pas la salle. Même si elle rit, tu ne reviens pas sur le sujet : tu clos tout de suite. Un rire peut être un masque."
+        }
+      ],
+      "siCaNePrendPas": "Une seule phrase pour passer à autre chose, en souriant, sans commenter : « Quelqu'un reprend du pain ? » Pas d'explication devant la table : une excuse publique fait de la vanne un événement. Si quelqu'un a été touché, un mot en privé, plus tard. Une fois pour lancer, une fois pour clore."
+    }
+  },
+  {
+    "id": "hn-les-quarante-ans",
+    "type": "humour-noir",
+    "titre": "Anniversaire : la moitié du chemin",
+    "univers": "amis",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Dis à voix haute la sûre, puis la joueuse, avec la même voix posée. Dix secondes.",
+      "pourAllerPlusLoin": "écris la tienne pour ton prochain anniversaire."
+    },
+    "contenu": {
+      "forme": "situation",
+      "scene": {
+        "texte": "Samedi, 21 h, dîner d'anniversaire chez un ami. Il souffle ses quarante bougies, regarde la table et dit :",
+        "onTeDit": "Voilà, la moitié du chemin. Après, c'est la descente.",
+        "suite": "Quelques rires polis. Quelqu'un tousse dans son verre."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Bonne nouvelle : une descente, ça se fait sans pédaler.",
+          "pourquoi": "Tu rebondis sur son image, sans mort et sans âge, et la chute retombe sur la situation. Elle ne demande rien à personne. C'est la bonne quand tu ne sais pas qui, à table, traverse quelque chose."
+        },
+        "joueuse": {
+          "texte": "Quarante ans : l'âge où la vie arrête de promettre et commence à prévenir.",
+          "pourquoi": "Tu parles de la vie, pas de son corps, et tu pars de ses mots à lui. Il n'est pas visé : la vie prévient tout le monde. À sortir quand la table rit déjà de ses propres âges."
+        },
+        "risquee": {
+          "texte": "La moitié ? Moi, on m'a juste dit : “Quelqu'un passera entre 8 h et 90 ans, restez joignable.”",
+          "pourquoi": "Tu fais de la mort un livreur qui n'annonce qu'un créneau : tu prends sa « descente » au mot, côté mort en général, et la chute retombe sur toi (« on m'a dit »). Le fêté n'est pas visé, tu te mets dans le même créneau que tout le monde. Elle demande quatre feux verts : la table rit de ses âges ; la table a déjà ri d'un sujet sombre ce soir ; tu connais chaque personne à table ; tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés. S'il en manque un : la joueuse ou la sûre."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "La table rit déjà de ses âges ? Monte d'un cran. Les trois autres feux verts de la risquée sont là aussi ? Monte encore. Sinon, reste sur la réplique du dessous.",
+        "surCetteScene": "Si ça ne prend pas, tu clos d'une phrase et tu passes."
+      },
+      "erreur": "Enchaîner : le rire poli est pris pour un feu vert, et la deuxième vanne est plus noire que la première. Une vanne sombre, une seule fois. Après, le sujet est à la table, pas à toi.",
+      "contextesRafale": [
+        {
+          "contexte": "Tu connais à moitié les invités, personne n'a encore plaisanté sur son âge",
+          "bonneReponse": "sure",
+          "pourquoi": "La joueuse parlerait de l'âge devant des inconnus, la risquée de la mort devant eux."
+        },
+        {
+          "contexte": "La table plaisante déjà sur les âges, mais deux invités sont des collègues de l'ami, que tu ne connais pas",
+          "bonneReponse": "joueuse",
+          "pourquoi": "Le premier signal est là, pas la connaissance de la table ; la sûre fermerait un échange ouvert, la risquée exige de connaître chaque personne."
+        }
+      ]
+    }
+  }
+]

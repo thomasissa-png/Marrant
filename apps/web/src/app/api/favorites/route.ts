@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
 import { sansExerciceConseil, sansExerciceVanne, sansExerciceVideo } from "@/lib/champs-premium";
+import { COOKIE_COIN, favoriAutorise, filtreHumourNoir } from "@/lib/espace/humour-noir";
 
 const addFavoriteSchema = z.object({
   contentType: z.enum(["JOKE", "TIP", "VIDEO"]),
@@ -35,12 +37,16 @@ export async function GET() {
       }),
     ]);
     const isPremium = user?.plan === "PREMIUM";
+    // s24 lot D6 (architecture 3.12) : interrupteur de l'espace ouvert, les vannes d'humour noir d'un abonné
+    // dont le navigateur n'est pas « entré » ne sont pas renvoyées (gardées en base). Fermé : rien n'est retiré.
+    const filtreNoir = filtreHumourNoir(isPremium, () => cookies().get(COOKIE_COIN)?.value);
+    const visibles = favorites.filter((f) => favoriAutorise(f.joke, filtreNoir));
 
     return NextResponse.json(
       {
         favorites: isPremium
-          ? favorites
-          : favorites.map((f) => ({
+          ? visibles
+          : visibles.map((f) => ({
               ...f,
               joke: f.joke && sansExerciceVanne(f.joke),
               tip: f.tip && sansExerciceConseil(f.tip),

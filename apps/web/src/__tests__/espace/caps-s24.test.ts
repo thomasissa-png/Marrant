@@ -216,6 +216,8 @@ describe("bonus absents partout tant qu'ils ne sont pas ouverts (critères 14 et
       .map((f) => relative(SRC, f))
       .sort();
     expect(lecteurs).toEqual([
+      // Lot D6 : la Bibliothèque range les bonus OUVERTS (cap de déblocage) dans leurs blocs (5.4, une seule porte).
+      "app/(dashboard)/mon-espace/bibliotheque/page.tsx",
       "app/(dashboard)/mon-espace/bonus/[id]/page.tsx",
       "app/api/espace/caps/route.ts",
       "lib/espace/bonus.ts",

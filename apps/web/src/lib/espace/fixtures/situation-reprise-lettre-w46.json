@@ -1,0 +1,54 @@
+{
+  "id": "apres-l-expose",
+  "type": "situation",
+  "titre": "Après l'exposé : « Tu avais un train ? »",
+  "univers": "etudes-fac",
+  "pourQuoiFaire": [
+    "repondre-chambrage"
+  ],
+  "palier": "P2",
+  "dureeMinutes": 5,
+  "repriseDeLettre": "2026-W46",
+  "geste": {
+    "verbe": "dire",
+    "consigne": "Prends la sûre ci-dessus, ou une phrase courte de ton choix. Pose ton téléphone à l'autre bout de la pièce et enregistre-la deux fois : une fois assis, la tête vers ton bureau, une fois debout, la tête levée vers le téléphone. Réécoute les deux. Celle que tu comprends du premier coup est celle que tu peux dire devant dix-huit personnes."
+  },
+  "contenu": {
+    "scene": {
+      "texte": "Mardi, 17 h 30, dernière heure de la journée. La nuit tombe derrière les fenêtres de la salle de TD. Tu viens de finir ton exposé : tu as tenu quatre minutes sur les dix prévues, la tête dans tes fiches. Le chargé de TD note quelque chose. Mathis, au deuxième rang, lance :",
+      "onTeDit": "Tu avais un train ?",
+      "suite": "Dix-huit personnes sourient. Toi, tu as encore tes fiches à la main."
+    },
+    "repliques": {
+      "sure": {
+        "texte": "Non. C'est vous que je ne voulais pas retenir.",
+        "pourquoi": "Tu écartes le train et tu renvoies la politesse à la salle : ta brièveté devient une attention pour elle. Rien n'est dirigé contre Mathis, et le chargé de TD n'entend rien d'insolent : ton exposé reste court, ta réponse reste polie. À choisir quand tu ne connais pas encore l'humour de la salle, ou quand l'exposé t'a déjà coûté beaucoup."
+      },
+      "joueuse": {
+        "texte": "Dix minutes prévues, quatre utilisées. Je rends la monnaie.",
+        "pourquoi": "Les six minutes que tu n'as pas prises, tu les rends à la salle comme on rend de la monnaie : la pique te reprochait d'avoir été court, tu en fais un cadeau. Dis-la en reposant tes fiches, d'une voix égale, devant un groupe qui t'a déjà vu plaisanter, ne serait-ce qu'une fois depuis la rentrée."
+      },
+      "risquee": {
+        "texte": "Le train attendra. Tu as une question, Mathis ?",
+        "pourquoi": "Tu acceptes le train et tu le fais attendre pour lui : la pique devient une invitation, devant le chargé de TD. S'il trouve une vraie question, tu dois savoir y répondre ; s'il n'en trouve pas, c'est lui que la salle regarde. À garder pour un sujet que tu maîtrises. Si ton exposé s'est mal passé, elle sonne comme une provocation."
+      }
+    },
+    "quandMonterDUnCran": {
+      "regle": "Dans une salle de TD, la pique tombe juste après ton passage, donc ta réponse devient la fin de ton exposé pour les dix-huit personnes. Demande-toi quelle dernière phrase tu veux leur laisser. La sûre laisse l'image d'un étudiant bref, mais courtois. La joueuse ajoute que tu sais compter et que tu sais en rire. La risquée fait retenir l'échange avec Mathis, sa question ou son silence, plus du tout l'exposé.",
+      "surCetteScene": "Si ton passage a été difficile, prends la fin la plus calme."
+    },
+    "erreur": "Répondre à tes fiches. La phrase est bonne, mais tu la dis la tête baissée, en rangeant tes feuilles, et elle s'arrête au bord du bureau. Mathis l'entend à moitié, la salle voit surtout que tu ramasses tes affaires, et ta meilleure réplique devient un murmure. Pose tes fiches sur la table dès que Mathis commence sa phrase : tes mains ont autre chose à faire que ranger, tu lèves la tête, et tout le monde comprend que tu as fini.",
+    "contextesRafale": [
+      {
+        "contexte": "[fixture de test, contexte non écrit] Tu ne connais pas encore l'humour de la salle.",
+        "bonneReponse": "sure",
+        "pourquoi": "[fixture de test]"
+      },
+      {
+        "contexte": "[fixture de test, contexte non écrit] La salle t'a déjà vu plaisanter depuis la rentrée.",
+        "bonneReponse": "joueuse",
+        "pourquoi": "[fixture de test]"
+      }
+    ]
+  }
+}

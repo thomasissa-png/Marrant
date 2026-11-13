@@ -1,0 +1,64 @@
+[
+  {
+    "id": "bilan-confiance",
+    "type": "bilan",
+    "titre": "Bilan du parcours Confiance",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "[fixture de test, texte non écrit] Dis à voix haute la réplique que tu as choisie."
+    },
+    "contenu": {
+      "parcoursSlug": "confiance",
+      "elements": [
+        {
+          "forme": "laquelle",
+          "scene": "Fin de soirée chez une amie. Tout le monde cherche son manteau dans l'entrée, les invités partent.",
+          "contexte": "Tu connais bien la bande : elle rit volontiers de ses propres habitudes. Ce soir, chacun a déjà promis de revenir, sans rien fixer.",
+          "options": [
+            "Mon père dit « je vais chercher du pain » dès qu'il y a trop de monde à la maison.",
+            "Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années.",
+            "Dans le train, la place à côté de moi était réservée. Personne n'est venu."
+          ],
+          "bonneReponse": 1,
+          "retour": "B. Elle dit tout haut ce que chacun sait déjà de ces promesses-là, avec toi dedans, sans viser personne. A est une sortie qu'on invente pour s'échapper : ce soir, personne ne cherche à s'échapper. C est une jolie observation, mais une place vide n'a rien à voir avec ce que le groupe vit ce soir.",
+          "renvoi": {
+            "titre": "Énoncer la règle non écrite",
+            "href": "/parcours/confiance#etape-1"
+          }
+        },
+        {
+          "forme": "ordre",
+          "consigne": "Remets dans l'ordre :",
+          "etapes": [
+            "tu lâches l'aveu",
+            "tu te penches et tu dis « Ça reste entre nous : »",
+            "tu t'arrêtes net"
+          ],
+          "ordreCorrect": [
+            1,
+            0,
+            2
+          ],
+          "retour": "b, a, c. Le silence final fait le reste."
+        },
+        {
+          "forme": "laquelle",
+          "contexte": "[fixture de test, exemple non validé de l'architecture 3.10] Pause café. Un collègue raconte, accablé, sa journée de réunions qui n'en finit pas, et le groupe rit jaune.",
+          "options": [
+            "Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ».",
+            "Avec un collègue, on a enfin comparé nos salaires.",
+            "Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un."
+          ],
+          "bonneReponse": 2,
+          "retour": "C. Elle prolonge ce que le groupe vit déjà, le trop-plein du boulot, en une phrase, avec un chiffre que tout le monde reconnaît."
+        },
+        {
+          "forme": "voix-haute",
+          "consigne": "[fixture de test, texte non écrit] Dis-la à voix haute."
+        }
+      ]
+    }
+  }
+]

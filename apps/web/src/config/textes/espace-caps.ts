@@ -26,6 +26,12 @@ const NOMS: Record<NumeroCap, string> = {
 export const TEXTES_CAPS = {
   titre: "Ton cap",
   noms: NOMS,
+  /**
+   * État zéro de la série dans « Ton cap » et « Ton mois » (décision de Thomas du 13/11,
+   * `docs/founder-preferences.md` ; règle 3.0 point 6 de `niveaux-xp-s24.md` : pas de mot « étape »).
+   * `SERIE.zero` (`parcours.ts`) reste celui du profil public, interrupteur fermé.
+   */
+  serieZero: "Ta série démarre à ta prochaine pratique.",
   /** Texte visible : le nom d'abord, le mot ensuite, toujours avec l'échelle (3.0 point 1). */
   capVisible: (n: NumeroCap) => `${NOMS[n]} · cap ${n} sur 5`,
   /** Texte lu (les repères sont masqués aux lecteurs d'écran). */

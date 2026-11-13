@@ -15,6 +15,7 @@ import { capDepuisXp } from "@/lib/espace/caps";
 import { bonusSchema } from "@/lib/espace/fiches-schema";
 import { SERIE } from "@/config/textes/parcours";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import bonusFactice from "@/lib/espace/fixtures/bonus-factice-cap-2.json";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 
@@ -32,15 +33,16 @@ describe("carte « Ton cap » : XP, cap et série = User et lib/espace/caps sur 
     const { container } = render(<TonCap cap={capDepuisXp(xp)} serie={serie} ecart={false} xp={xp} />);
     expect(screen.getByRole("heading", { level: 2, name: "Ton cap" })).toBeInTheDocument();
     expect(screen.getByText(lu)).toHaveClass("sr-only");
-    expect(screen.getByText(serie > 0 ? SERIE.jours(serie) : SERIE.zero)).toBeInTheDocument();
+    expect(screen.getByText(serie > 0 ? SERIE.jours(serie) : "Ta série démarre à ta prochaine pratique.")).toBeInTheDocument();
+    expect(TEXTES_CAPS.serieZero).toBe("Ta série démarre à ta prochaine pratique.");
     expect(screen.getByText(`${xp} XP gagnés depuis ton arrivée`)).toBeInTheDocument();
     const reperes = screen.getByTestId("reperes-cap");
     expect(reperes).toHaveAttribute("aria-hidden", "true");
     expect(reperes.querySelectorAll('[data-plein="oui"]')).toHaveLength(pleins);
-    // 3.6 critère 4 : ni pourcentage, ni « XP restants » ; 3.0 point 6 : le mot « étape » n'est que dans
-    // l'état à 0 de la série, texte validé s17 rendu tel quel par la maquette E5 (`parcours.html#serie=0`).
+    // 3.6 critère 4 : ni pourcentage, ni « XP restants » ; 3.0 point 6 : aucun mot « étape » dans la carte,
+    // état à 0 de la série compris (décision de Thomas du 13/11 : « … à ta prochaine pratique. »).
     expect(container.textContent).not.toMatch(/%|restant/i);
-    expect((container.textContent ?? "").replace(SERIE.zero, "")).not.toMatch(/étape/i);
+    expect(container.textContent ?? "").not.toMatch(/étape/i);
   });
 
   it("phrase de l'écart seulement quand le cap affiché dépasse le déblocage", () => {

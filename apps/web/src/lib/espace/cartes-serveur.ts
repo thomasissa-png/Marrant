@@ -16,6 +16,7 @@ import { ENTREES_QUIZ } from "@/lib/espace/premier-pas";
 import { cartesCarnetRafale, carnetEnRetard } from "@/lib/espace/carnet-cartes";
 import { lireReplique } from "@/lib/espace/repliques";
 import { lireRetour } from "@/lib/espace/fiche-fait";
+import { envoyeesSiBesoin, fichesVisibles } from "@/lib/espace/lettres";
 import type { RetourGeste } from "@/lib/espace/retours";
 import {
   cartesDesSituations,
@@ -34,12 +35,19 @@ import {
 
 export const ENTREES_RAFALE: readonly string[] = Object.values(ENTREES_QUIZ);
 
-/** Catalogue des cartes servi à l'abonné : situations neuves, puis carnet (après G5). */
-export function catalogueCartes(acces: AccesEspace): CarteRafale[] {
-  const situations = chargeursFiches.listerFiches("situation", acces);
+/**
+ * Catalogue des cartes servi à l'abonné : situations neuves, puis carnet (après G5). Lot D6 (2.8) : une
+ * reprise de lettre n'y entre qu'une fois sa lettre envoyée (`envoyees`, vide par défaut : aucune reprise).
+ */
+export function catalogueCartes(acces: AccesEspace, envoyees: ReadonlyMap<string, string> = new Map()): CarteRafale[] {
+  const situations = fichesVisibles(chargeursFiches.listerFiches("situation", acces), envoyees);
   if (acces.acces !== "ouvert") return [];
   return [...cartesDesSituations(situations), ...cartesCarnetRafale()];
 }
+
+/** Lettres envoyées, lues seulement si une situation reprend une lettre (aucune requête sinon). */
+const lettresDesReprises = (acces: AccesEspace, maintenant: Date) =>
+  envoyeesSiBesoin(prisma, chargeursFiches.listerFiches("situation", acces), maintenant);
 
 /** Fenêtre de lecture des réponses « du jour » (le filtre exact se fait au jour de Paris). */
 const DEUX_JOURS = 2 * 86_400_000;
@@ -63,7 +71,7 @@ export async function lireRafale(
   acces: AccesEspace,
   maintenant: Date = new Date(),
 ): Promise<EtatRafale> {
-  const catalogue = catalogueCartes(acces);
+  const catalogue = catalogueCartes(acces, await lettresDesReprises(acces, maintenant));
   const [suivis, recentes, compte, nbOui, semaine] = await Promise.all([
     prisma.carteSuivi.findMany({
       where: { userId },
@@ -250,7 +258,7 @@ export async function enregistrerChoix(
   saisie: { cle: string; choix: "sure" | "joueuse" | "risquee" },
   maintenant: Date = new Date(),
 ): Promise<ResultatChoix> {
-  const carte = catalogueCartes(acces).find((c) => c.id === carteId);
+  const carte = catalogueCartes(acces, await lettresDesReprises(acces, maintenant)).find((c) => c.id === carteId);
   if (!carte || carte.genre !== "registre")
     return { ok: false, erreur: "introuvable" };
   const ligne = await prisma.carteReponse.findUnique({

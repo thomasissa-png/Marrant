@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { COOKIE_COIN, filtreHumourNoir } from "@/lib/espace/humour-noir";
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,11 +26,15 @@ export async function GET(request: NextRequest) {
 
     // Résultats limités pour FREE (3 par type), complets pour PREMIUM (5 par type)
     const resultLimit = isPremium ? 5 : 3;
+    // s24 lot D6 (architecture 3.12) : interrupteur de l'espace ouvert, un abonné dont le navigateur
+    // n'est pas « entré » dans le coin ne trouve aucune vanne d'humour noir. Fermé : `{}`, requête inchangée.
+    const filtreNoir = filtreHumourNoir(isPremium, () => request.cookies.get(COOKIE_COIN)?.value);
 
     const [jokes, tips, videos] = await Promise.all([
       prisma.joke.findMany({
         where: {
           isActive: true,
+          ...filtreNoir,
           OR: [
             { content: { contains: q, mode: "insensitive" } },
             { punchline: { contains: q, mode: "insensitive" } },

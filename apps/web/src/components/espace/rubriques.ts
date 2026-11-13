@@ -17,16 +17,27 @@ export interface Rubrique {
   portes?: string[];
 }
 
+/** Adresses des fiches d'un type (`hrefFiche`, lot D6) : `/mon-espace/fiche/{type}`. */
+const fiches = (...types: string[]) => types.map((t) => `${ESPACE_ACCUEIL}/fiche/${t}`);
+
 export const RUBRIQUES: readonly Rubrique[] = [
   { cle: "aujourdhui", href: ESPACE_ACCUEIL, label: T.rubriques.aujourdhui },
-  { cle: "parcours", href: "/parcours", label: T.rubriques.parcours },
-  { cle: "quoiRepondre", href: `${ESPACE_ACCUEIL}/quoi-repondre`, label: T.rubriques.quoiRepondre, portes: ["/carnet"] },
+  // D6 (6.3, maquette `mission.html` v7.1) : le bilan est la dernière fiche d'un parcours, sa porte est « Parcours ».
+  { cle: "parcours", href: "/parcours", label: T.rubriques.parcours, portes: fiches("bilan") },
+  {
+    cle: "quoiRepondre",
+    href: `${ESPACE_ACCUEIL}/quoi-repondre`,
+    label: T.rubriques.quoiRepondre,
+    // D6 (6.3) : situations et « Quand ça tombe à plat » ont pour porte « Quoi répondre ».
+    portes: ["/carnet", ...fiches("situation", "a-plat")],
+  },
   {
     cle: "bibliotheque",
     href: `${ESPACE_ACCUEIL}/bibliotheque`,
     label: T.rubriques.bibliotheque,
     // [HYPOTHÈSE] le catalogue public a pour porte le bloc « Vannes, conseils, vidéos » (6.2).
-    portes: ["/vannes", "/conseils", "/videos"],
+    // D6 (6.3) : fiches des blocs de la Bibliothèque, coin compris, et bonus des caps.
+    portes: ["/vannes", "/conseils", "/videos", ...fiches("construction", "vocabulaire", "formule", "ecouter", "humour-noir"), `${ESPACE_ACCUEIL}/bonus`],
   },
   { cle: "mesQuestions", href: `${ESPACE_ACCUEIL}/questions`, label: T.rubriques.mesQuestions },
 ];
@@ -62,6 +73,9 @@ export const MENU_PLUS: readonly GroupeMenuPlus[] = [
   },
 ];
 
+/** D6 (6.3) : jeux et séances ont pour porte « Plus », ligne « S'entraîner ». */
+const PORTES_PLUS: readonly string[] = fiches("jeu", "seance");
+
 /**
  * Rubrique courante (`aria-current="page"`), ou `null` (accueil du site, `/profil`,
  * adresse inexistante : aucune rubrique). « Aujourd'hui » seulement sur `/mon-espace` exact.
@@ -73,7 +87,7 @@ export function rubriqueActive(pathname: string | null): CleRubrique | null {
     if (r.cle === "aujourdhui") continue;
     if ([r.href, ...(r.portes ?? [])].some((h) => isActivePath(pathname, h))) return r.cle;
   }
-  const lignesPlus = MENU_PLUS.flatMap((g) => g.lignes);
-  if (lignesPlus.some((l) => isActivePath(pathname, l.href))) return "plus";
+  const lignesPlus = [...MENU_PLUS.flatMap((g) => g.lignes).map((l) => l.href), ...PORTES_PLUS];
+  if (lignesPlus.some((h) => isActivePath(pathname, h))) return "plus";
   return null;
 }

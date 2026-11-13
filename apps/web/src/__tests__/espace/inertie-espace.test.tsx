@@ -146,6 +146,11 @@ describe("garde-fou de construction", () => {
     //   seulement, « Ton cap » en `md:col-span-2` ouvert ;
     // - `lib/account.ts` : export et suppression du compte avec `CarteSuivi`, `CarteReponse`, `FicheFait`,
     //   `MissionRetour`, `UserReplique` (tables vides fermé ; la suppression du compte emporte tout).
+    // D6 (architecture 3.12) : un abonné dont le navigateur n'est pas « entré » dans le coin « Humour noir,
+    // fait bien » ne trouve aucune vanne repérée dans la recherche ni dans ses favoris. Sous garde de
+    // l'interrupteur dans `filtreHumourNoir` : fermé, filtre vide, témoin non lu, réponses identiques.
+    "app/api/search/route.ts",
+    "app/api/favorites/route.ts",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

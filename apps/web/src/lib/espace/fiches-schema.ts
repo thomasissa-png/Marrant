@@ -123,6 +123,11 @@ const commun = {
   geste: gesteSchema.optional(),
   /** Deux liens vers le catalogue au plus, chemins internes. */
   liens: z.array(z.string().regex(/^\/[^\s]*$/, "chemin interne attendu")).max(2).optional(),
+  /**
+   * Lot D6 (architecture 2.8) : reprise d'une lettre, par son numéro (`NewsletterIssue.periodKey`,
+   * « 2026-W46 » ou « 2026-11 »). La fiche n'est servie nulle part avant l'envoi de cette lettre.
+   */
+  repriseDeLettre: z.string().regex(/^\d{4}-(?:W\d{2}|\d{2})$/, "numéro de lettre attendu").optional(),
 };
 
 const repliqueSchema = z.object({ texte, pourquoi: texte }).strict();
@@ -292,10 +297,14 @@ const elementBilan = z.discriminatedUnion("forme", [
   z
     .object({
       forme: z.literal("laquelle"),
+      /** Lot D6 (libellés E5 §5, `mission.html#etat=bilan`) : la scène avant le contexte, facultative. */
+      scene: texte.optional(),
       contexte: texte,
       options: z.tuple([texte, texte, texte]),
       bonneReponse: z.number().int().min(0).max(2),
       retour: texte,
+      /** Lot D6 (3.10) : la fiche à revoir après une erreur, « … mérite un deuxième tour ». */
+      renvoi: z.object({ titre: texte, href: z.string().regex(/^\/[^\s]*$/, "chemin interne attendu") }).strict().optional(),
     })
     .strict(),
   z
