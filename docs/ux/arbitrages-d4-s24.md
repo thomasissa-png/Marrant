@@ -1,0 +1,19 @@
+# Arbitrages UX D4 (s24), @ux, 13/11/2026
+
+> Lu : plan D4 (l. 82 à 89), niveaux-xp 3.0 pt 6 et pt « Place dans l'espace », étalon E5, capture `parcours-cap-2-375-200pc.png`, `profil-dashboard.tsx`, `parcours/(liste)/page.tsx`. Aucune capture `profil*` n'existe dans `docs/captures/s24-d4/` : à produire (point 2).
+
+## 1. N2 à 200 % : masquer l'introduction publique pour l'abonné
+**Décision** : l'abonné n'a pas besoin du fil d'Ariane ni de l'argumentaire public (il est déjà abonné). On les retire de son écran, sans replier (un repli ajoute une cible et un état pour rien). Le HTML public ne change pas (critère 11) : le masque est côté navigateur et rend `null`.
+**Consigne @fullstack** (`app/(dashboard)/parcours/(liste)/page.tsx`, l. 68 à 84) : envelopper le `<nav aria-label="Fil d'Ariane">` et le `<div className="mb-8">` (h1 et paragraphe) dans `<MasqueSiPremium>` (`components/home/masque-si-premium.tsx`, déjà importé), seulement quand `ESPACE_CLIENT_PUBLIE` est vrai (flag fermé : rien ne change pour l'abonné). Dans `components/espace/parcours/parcours-espace.tsx`, ajouter en première ligne un `<h1 className="sr-only">Parcours</h1>` : l'abonné garde un h1 pour les lecteurs d'écran, et le visiteur ne le reçoit pas (ce composant ne rend rien hors abonné). Laisser le `ul.sr-only` et le JSON-LD inchangés. Gain attendu : environ 780 px, premier parcours vers 680 px (1,7 écran à 188 x 406). Re-mesurer à 200 % ; si le test N2 dépasse encore 2 écrans, revenir me voir (piste suivante : réduire l'en-tête de l'espace, pas la page publique).
+
+## 2. Série en double sur `/profil` : garder « Ton cap », retirer la carte « Série »
+**Décision** : l'architecture (3.0, « Place dans l'espace ») place la série sur la carte « Ton cap », sur sa propre ligne, et la carte « Série » seule fait doublon. Espace ouvert, on garde « Ton cap » (`CapProfil`), on retire la carte « Série ». Espace fermé : inchangé (la carte « Série » reste).
+**Consigne @fullstack** (`components/profil/profil-dashboard.tsx`, l. 195 à 203) : rendre la carte « Série » seulement si `!ESPACE_CLIENT_PUBLIE`. Pour ne pas laisser de trou dans la grille à 2 colonnes, passer `className="md:col-span-2"` à `CapProfil` quand le drapeau est ouvert (ajouter la prop si absente). Vérifier que `CapProfil` affiche bien la série avec le texte validé `SERIE` (« {n} jours de pratique d'affilée », `config/textes/parcours.ts`) et la même valeur que `user.streak`. Test : à 375 px, une seule occurrence de la série dans `/profil` ; capture `profil-375`, `profil-375-200pc`, `profil-768` à ajouter.
+
+## 3. État zéro de la série : garder le texte validé, soumettre une variante à Thomas
+**Règle lue** (niveaux-xp 3.0 pt 6) : la carte « Ton cap » est lue « Ton cap : Tu avances bien, cap 3 sur 5 » et **le mot « étape » n'y figure pas**, pour ne pas confondre « Étape 3 sur 6 » (carte voisine) et le cap. Le texte validé « Ta série démarre à ta prochaine étape. » la heurte, même s'il décrit la série et non le cap.
+**Décision** : ne pas changer le texte (validé par Thomas, il ne bouge pas sans lui). Le livrer tel quel, avec un commentaire `// à soumettre à Thomas : règle 3.0 pt 6` dans `config/textes/espace-caps.ts`. Le risque réel est faible : la ligne est séparée de la carte de l'étape par au moins 24 px, et elle ne contient pas de total « sur N ».
+**Proposition à soumettre à Thomas (non validée)** : « Ta série démarre à ta prochaine pratique. » (reprend « pratique » de « {n} jours de pratique d'affilée », texte validé s17 ; aucun mot de la carte voisine). Si Thomas dit oui : @fullstack remplace la chaîne dans `config/textes/espace-caps.ts` seulement, aucun autre fichier.
+
+## Déjà tranché par Thomas
+La page 404 garde son emoji (non re-questionné ; l'espace s'interdit les emoji, la 404 réelle fait exception pour rester identique).
