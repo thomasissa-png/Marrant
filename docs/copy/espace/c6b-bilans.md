@@ -157,7 +157,7 @@ Contexte : « Ton mail de confirmation pour l'atelier de jeudi est prêt, destin
 Retour : « A. Le PS rectifie un détail minuscule et sans enjeu : il détend sans rien parasiter. B est une formule de politesse qui ne fait pas sourire, C pique un service. »
 
 **Laquelle 2** (quiz BO l.632)
-Contexte : « Au pot d'un réseau pro, on te demande ton métier. Tu viens de dire : “Je plante des arbres dans un parc.” La personne attend la suite, intriguée. Laquelle ajoutes-tu ? »
+Contexte : « Au pot d'un réseau pro, on te demande ton métier. Tu viens de dire : “Je plante des arbres dans un parc.” La personne attend la suite avec curiosité. Laquelle ajoutes-tu ? »
 - A) « La mairie me paie pour regarder pousser, avec patience, ce que d'autres ont mal choisi. » (BO l.634)
 - B) « Dans quarante ans, des familles pique-niqueront à l'ombre de mon travail, sans me remercier. » (BO l.636)
 - C) « Mais assez parlé de moi : et vous, qu'est-ce que vous faites ? » (BO l.637)
@@ -234,3 +234,7 @@ Test d'acceptation : « Sans parcours » = hésite entre ces options ; « Avec p
 | B5 L2 : « La personne attend la suite, intriguée » ajouté ; retour qui dit pourquoi A perd (vise des choix qui ne sont pas les tiens) | bilan 5, laquelle 2 |
 | B2, B4, les 5 « ordre » | non touchés |
 | Doublons du nouveau contexte B3 (téléphone fixe, modems, lessive) | grep dans qr*, c3*, c4*, c6a, c6c, c7 et le blog : aucune occurrence |
+
+
+## Clôture (13/11)
+GO : reviewer et elon à 10 sur les 5 bilans, aucune faute dure restante de la critique. Dernière retouche appliquée par la session : B5 L2 « intriguée » devient « avec curiosité » (critique tour 4 : aucun accord sur la personne d'en face, même grammatical).
