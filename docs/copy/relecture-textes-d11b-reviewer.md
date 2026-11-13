@@ -1,0 +1,4 @@
+# Textes neufs D11b, relecture à l'aveugle : @reviewer, 13/11/2026
+- `aucuneMission` (`espace-cartes.ts` l. 82) : 7/10. Faute (exactitude) : le texte s'affiche quand la marche est déjà toute essayée ou n'a qu'une mission (commentaire l. 80-81). Dans ces deux cas, des missions existent, donc « Pas de mission pour cette marche » est faux, et « pour l'instant » promet des missions neuves que rien ne garantit. Réécriture : « Pas d'autre mission à te proposer sur cette marche. » (suivie du lien « Voir la marche n », inchangé).
+- `semaine4SansEcouter` (`espace-caps.ts` l. 95) : 10/10. C'est la ligne validée (libellés E5 l. 40) sans la seule mention « Écouter, repérer » ; même fin que la semaine 3 (l. 39), aucune promesse d'une fiche non publiée.
+- Accord genré, tiret cadratin : 0. Verdict : semaine 4 en GO ; `aucuneMission` en GO après réécriture, puis go de Thomas.
