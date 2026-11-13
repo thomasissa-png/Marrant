@@ -1,9 +1,9 @@
-# C4c : « Jeux », lot 3 (10 jeux), tour 2
+# C4c : « Jeux », lot 3 (10 jeux), tour 3
 
-> **Statut : tour 2, à relire à l'aveugle** (P0 s18). Non publié, rien n'est importé. Jeux 4, 6, 9, 10 inchangés (10 chez reviewer et elon) ; jeux 1, 2, 3, 5, 7, 8 retouchés (voir « Tour 2 : retouche → ligne »).
+> **Statut : tour 3, jeu 8 seul à relire à l'aveugle** (P0 s18). Non publié, rien n'est importé. Jeux 1 à 7, 9, 10 inchangés depuis le tour 2 (10 chez reviewer et elon) ; jeu 8 repris (voir « Tour 3 : retouche → ligne »).
 > Auteur : @copywriter, 13/11/2026. Lot C4c du plan s24 §5 (30 jeux en 3 lots de 10). Même format que `c4a-jeux.md` : famille, consigne, matière, ce qu'on aurait pu dire, retour court. Type « jeu » : `architecture-contenu-v20.md` §3.9 (l. 528 à 534).
 > **Répartition** : 4 « Les pires réponses » (jeux 1 à 4), 3 « Quelle réplique ? » (jeux 5 à 7, situations QR4 C5, QR5 W3, QR6 L3), 1 « Trouve l'angle » ×2 (jeux 8 et 9) et 1 « Change de registre » (jeu 10) sur des lieux et des registres neufs (caisse automatique, gare, notice d'utilisation).
-> Les « Quelle réplique ? » reprennent les trois répliques de leur situation **mot pour mot** ; seul le contexte est neuf. Une seule bonne réponse par jeu à choix. Dans « Les pires réponses », les trois réponses sont plausibles, aucune n'est méchante ; une seule est la plus fermante.
+> Les « Quelle réplique ? » reprennent les trois répliques de leur situation **mot pour mot** ; seul le contexte est neuf. Une seule bonne réponse par jeu à choix. Dans « Les pires réponses », les trois réponses sont plausibles, aucune n'est méchante ; une seule répond au critère posé par la consigne : « ferme le plus l'échange » (jeux 1, 2, 4) ou « met le plus la personne sur la défensive » (jeu 3).
 > `[Framework : démonstration puis geste]` `[Conscience : Product-Aware]`. Retour de chaque jeu : `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` `[Ma réplique à moi : une phrase, facultative]` (écrans de l'application, pas du texte à écrire). Chaque jeu commence par : « Dis ta réponse avant de lire la suite. Rien n'est noté. »
 > Règles tenues (`checklist-fautes-recurrentes.md` relue) : tutoiement ; aucun accord au masculin ou au féminin pour l'utilisateur ni pour la personne d'en face (« la personne », « quelqu'un », « l'autre », relu ligne à ligne) ; zéro tiret cadratin, zéro émoji, ni IA ni concurrent, aucune marque ; guillemets « » et “ ” ; aucune note interne dans le texte affiché ; aucune scène de C4a reprise.
 
@@ -114,9 +114,9 @@ C. « Le temps de convaincre l'eau chaude de me laisser partir. »
 **Ce qu'on aurait pu relever.**
 1. Un bip identique pour chaque article, du pot de yaourt au sac de pommes de terre.
 2. Un écran qui demande la carte de fidélité à chaque passage, même quand la réponse est non.
-3. À la fin, la machine dit « à bientôt » ou « merci de votre visite », et certains lui répondent.
+3. Une voix qui annonce un article inattendu pour un simple sac posé.
 
-**Retour.** Le troisième travaille le mieux : un réflexe que beaucoup de gens ont, et dont personne ne parle. Les deux autres sont des détails isolés. La blague vient ensuite, de ce que tu fais de lui. Par exemple : « La caisse automatique dit “à bientôt”, et chacun répond tout bas, en vérifiant que personne n'écoute. »
+**Retour.** Le deuxième travaille le mieux : une question que la machine répète à chaque passage, et une réponse que tu répètes aussi, toujours la même. Les deux autres sont des détails isolés. La blague vient ensuite, de ce que tu fais de lui. Par exemple : « Chaque semaine, la caisse me demande ma carte de fidélité, et chaque semaine je dis non. La seule chose fidèle chez moi, c'est ma réponse. »
 
 ---
 
@@ -231,6 +231,25 @@ Doublons vérifiés dans `qr1-situations.md` à `qr6-situations.md`, `c3a-formul
 | Jeu 7 : « je prends juste de tes nouvelles » rend la risquée défendable (elon, critique) | Contexte : « …lance d'une voix chantante : « Tu en as pour longtemps ? » » (critique). Proposition d'elon (« Ton shampoing et toi… ») non retenue : elle ajoute un jeu à réponse (l'objet vivant) qui rapprocherait la joueuse de la risquée ; retour inchangé |
 | Jeu 8 : observation de l'item 3 douteuse, chute proche du portique antivol (reviewer, elon, critique) | Nouvel angle (la politesse de la machine) : item 3 « À la fin, la machine dit “à bientôt” ou “merci de votre visite”, et certains lui répondent. » ; exemple : « La caisse automatique dit “à bientôt”, et chacun répond tout bas, en vérifiant que personne n'écoute. » ; items 1 et 2 inchangés ; recherche : 0 |
 | Non changé | Jeux 4, 6, 9, 10 (10 chez reviewer et elon) ; la piste de la critique pour 9 (« inscrite au programme ») et 10 (« et le canapé ») non reprise : elle défait un texte à 10 ; répliques reprises mot pour mot |
+
+## Tour 3 : candidates du jeu 8 (3 par texte neuf)
+
+| Texte | Candidate 1 | Candidate 2 | Candidate 3 | Gardée |
+|---|---|---|---|---|
+| Exemple | « Chaque semaine, la caisse me demande ma carte de fidélité, et chaque semaine je dis non. Côté fidélité, je suis imbattable. » (piste d'elon) | « Chaque semaine, la caisse me demande ma carte de fidélité, et chaque semaine je dis non. La seule chose fidèle chez moi, c'est ma réponse. » | « La caisse me demande ma carte de fidélité à chaque passage. Je lui réponds non avec une régularité qu'aucune carte n'a jamais récompensée. » | 2 (1 : « Je suis imbattable » est déjà la chute d'une vanne du dépôt, `neuves-lot4.json` l. 104 ; 3 : plus longue, la chute s'explique) |
+| Item 3 | « Une voix qui annonce un article inattendu pour un simple sac posé. » | « Un reçu que personne ne lit, imprimé même quand on n'en veut pas. » | « Une balance qui n'aime pas les sacs de légumes mal posés. » | 1 (observation vraie, détail isolé) |
+| Retour | « Le deuxième travaille le mieux : une question que la machine répète à chaque passage, et une réponse que tu répètes aussi, toujours la même. » | « Le deuxième travaille le mieux : une régularité que la machine et toi partagez. » | « Le deuxième travaille le mieux : un échange sans surprise, répété chaque semaine. » | 1 (désigne l'item 2 et dit pourquoi) |
+
+Recherche web, tour 3 (idée et phrase) : « “chaque semaine je dis non” carte de fidélité caisse “la seule chose fidèle” blague » ; « blague “carte de fidélité” “ma réponse” fidèle je dis non à chaque fois caissier humour » : 0 occurrence de la phrase, ni du schéma « répondre non à chaque passage » comme chute. Idée voisine : le jeu de mots fidélité / infidèle sur les cartes existe (titre d'une alerte de consommateurs, un propos de radio), sans cette chute (la réponse du client est la seule chose fidèle). Dépôt : « carte de fidélité » apparaît dans `decryptage-ecrit-1.json` l. 276 (la carte empruntée à une sœur, autre idée) et « caisse automatique » dans `neuves-toutes.json` l. 2327 (la caisse qui bloque) et dans `parcours-conseils-reecrits.json` l. 108 (tout le monde regarde ses courses) : aucune des deux idées reprise. Remercier ou répondre à la machine (anecdote du GPS de C1c fiche 6) abandonné. Preuve partielle.
+
+## Tour 3 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Jeu 8 : « chacun répond tout bas » est un masculin générique (reviewer, critique) | Plus de « chacun » ; la phrase de l'exemple ne contient aucun accord sur l'utilisateur ni sur une personne |
+| Jeu 8 : la chute fait sourire sans faire rire ; remercier une machine est déjà l'anecdote de C1c fiche 6 (elon) | Piste d'elon prise : item 2 devenu le meilleur angle ; exemple : « Chaque semaine, la caisse me demande ma carte de fidélité, et chaque semaine je dis non. La seule chose fidèle chez moi, c'est ma réponse. » (« imbattable » écarté : déjà dans une vanne du dépôt) ; item 3 : « Une voix qui annonce un article inattendu pour un simple sac posé. » ; retour : « Le deuxième travaille le mieux : une question que la machine répète à chaque passage, et une réponse que tu répètes aussi, toujours la même. » |
+| Note interne l. 6 : « une seule est la plus fermante » alors que le jeu 3 a changé de critère (reviewer) | « une seule répond au critère posé par la consigne : “ferme le plus l'échange” (jeux 1, 2, 4) ou “met le plus la personne sur la défensive” (jeu 3) » |
+| Non changé | Jeux 1 à 7, 9, 10 ; items 1 et 2 du jeu 8 ; répliques reprises mot pour mot |
 
 ## Points de vigilance pour la relecture (note interne)
 
