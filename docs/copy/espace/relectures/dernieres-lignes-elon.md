@@ -1,0 +1,5 @@
+# Dernières lignes, confirmation à l'aveugle (@elon)
+
+- **QR1 l. 144, « la personne n'a relevé aucun défi » : 10.** Le contraste avec le contexte 2 est net, et une seule bonne réponse reste possible.
+- **C3b l. 110, « …je te débrancherai, avec un seul œil ouvert. » : 10.** Oui, elle fait sourire franchement. « Je te débrancherai » garde le moule exact de « je te plumerai » (verbe au futur), « un seul œil ouvert » donne le réveil sans le nommer, et le doublon avec C1c l. 65 a disparu.
+- **QR1 l. 214 : 8.** La phrase ajoutée, « Vous tapez en même temps, puis vous envoyez. », arrive après l'explication comme une didascalie et redit « envoyés au même instant » ; en plus, la phrase d'avant enchaîne deux deux-points. Réécriture : « Tu proposes un jeu à deux : chaque défaut tapé en même temps, puis envoyé au même instant. La chute fait de l'hésitation un aveu : appuyer en dernier, c'est avoir le plus gênant. Elle ne vise rien… » (la suite est inchangée). Une fois cette ligne corrigée, c'est GO.

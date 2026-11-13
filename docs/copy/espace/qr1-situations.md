@@ -211,7 +211,7 @@ Un défaut qui parle de cette conversation même : la bonne réponse arrive touj
 
 **La risquée**
 « Un défaut chacun, pas la liste. On envoie ensemble : qui appuie en dernier a le plus gênant. »
-Tu proposes un jeu à deux : un défaut chacun, envoyés au même instant, et la chute fait de l'hésitation un aveu : appuyer en dernier, c'est avoir le plus gênant. Vous tapez en même temps, puis vous envoyez. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre.
+Tu proposes un jeu à deux : chaque défaut tapé en même temps, puis envoyé au même instant. La chute fait de l'hésitation un aveu : appuyer en dernier, c'est avoir le plus gênant. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre.
 
 **Comment choisir**
 La conversation est déjà détendue ? Monte d'un cran. L'autre plaisante de ses propres défauts ? Monte encore. Sinon, reste sur la sûre.
@@ -460,3 +460,4 @@ Une seule bonne réponse par contexte reste vraie (signal inchangé). Recherche 
 
 | B2 risquée, pourquoi (l. 214) | « …la chute dit que qui hésite a le plus gênant. Chacun tape de son côté, puis on envoie. » | « …la chute fait de l'hésitation un aveu : appuyer en dernier, c'est avoir le plus gênant. Vous tapez en même temps, puis vous envoyez. » (elon ; « chacun » retiré) |
 | A2 rafale 1 (l. 144) | « l'ami n'a relevé aucun défi » | « la personne n'a relevé aucun défi » (reviewer) |
+| B2 risquée, pourquoi (l. 214), second passage | « …un défaut chacun… Vous tapez en même temps, puis vous envoyez. » | « Tu proposes un jeu à deux : chaque défaut tapé en même temps, puis envoyé au même instant. La chute fait de l'hésitation un aveu : appuyer en dernier, c'est avoir le plus gênant. » (elon) |
