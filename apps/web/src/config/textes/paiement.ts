@@ -11,6 +11,8 @@
  * Exception : le modèle de formulaire de rétractation (annexe à l'article
  * R.221-1 du Code de la consommation) est un texte légal repris mot pour mot.
  */
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { PUCE_BONUS_E0 } from "@/config/textes/espace-textes-en-ligne";
 import {
   formatEuros,
   PARCOURS_COUNT,
@@ -357,6 +359,8 @@ export function emailBienvenuePremium(v: ConfirmationAbonnementVars & BienvenueP
   const puces = [
     "- Les vannes, les conseils et les vidéos : tout, sans limite, et les filtres pour trouver vite ce qui colle à ta situation.",
     `- Les parcours : les ${PARCOURS_COUNT}, en entier, de la première à la dernière étape.`,
+    // s24 lot D10 (plan §6 T3, décision Q8) : ligne des bonus, interrupteur de l'espace ouvert seulement ; E0 à réapprouver.
+    ESPACE_CLIENT_PUBLIE ? PUCE_BONUS_E0 : null,
     v.carnet ? "- Le carnet de répartie : chaque mois, des situations et leurs répliques, carnets passés compris." : null,
     "- Les exercices des vannes, conseils et vidéos : de quoi t’entraîner, pas seulement lire.",
     "- Tes favoris, ta progression et ta série de jours de pratique : ce qui te plaît sous la main, et où tu en es.",

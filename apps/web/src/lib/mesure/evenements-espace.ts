@@ -5,13 +5,13 @@
  *
  * - **Interrupteur fermé : aucun événement écrit** (rendu `false` avant toute lecture de base). Les
  *   routes et pages de l'espace répondent déjà 404 fermé ; ce test est la seconde barrière.
- * - Jamais de texte saisi par l'abonné (réplique, question) : `replique_ecrite` et `question_envoyee`
- *   n'ont aucun détail ; `bonus_ouvert` et `cap_atteint` ont le seul numéro de cap (`cap:<n>`).
- * - Clé d'unicité par type (aucun doublon) : ouverture de l'espace et de la cloche une fois par jour
- *   de Paris ; bonus une fois par jour et par cap ; cap atteint une fois par cap ; réplique une fois
- *   par fiche ; question une fois par envoi (fil ou message).
- * - Capteurs anonymes (toucher « Ce soir, c'est plutôt ? », « Une autre ») : `EspaceCompteur` (lot D3,
- *   migration 21), sans identifiant d'abonné, hors de ce fichier.
+ * - Lot D10 (architecture 7.7 point 6, avis @legal `espace-d9-mesure-s24.md` points 6 et 7) : seuls
+ *   `espace_ouvert` et `cap_atteint` restent rattachés au compte. Cloche, bonus, coin « Humour noir »,
+ *   archive « Lettres », réplique écrite et question envoyée sont des compteurs ANONYMES
+ *   (`lib/espace/compteurs.ts`, table `EspaceCompteur`), sans identifiant d'abonné.
+ * - Jamais de texte saisi par l'abonné ; `cap_atteint` a le seul numéro de cap (`cap:<n>`).
+ * - Clé d'unicité par type (aucun doublon) : ouverture de l'espace une fois par jour de Paris ; cap
+ *   atteint une fois par cap.
  * - Opposition à la mesure, écriture jamais bloquante, journal sans identifiant : ceux du lot 0.
  *   Awaité par l'appelant avant sa réponse (zéro fire-and-forget sous Workers).
  */
@@ -19,38 +19,24 @@ import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { parisDayNumber } from "@/lib/progression";
 import { cleUnique, noterEvenement, type MesureDb } from "@/lib/mesure/evenements-usage";
 
-export const TYPES_EVENEMENT_ESPACE = ["espace_ouvert", "cloche_ouverte", "bonus_ouvert", "cap_atteint", "replique_ecrite", "question_envoyee"] as const;
+export const TYPES_EVENEMENT_ESPACE = ["espace_ouvert", "cap_atteint"] as const;
 export type TypeEvenementEspace = (typeof TYPES_EVENEMENT_ESPACE)[number];
-
-/** Événements que le navigateur peut signaler (`POST /api/espace/mesure`) : la cloche seule. */
-export const EVENEMENTS_NAVIGATEUR = ["cloche_ouverte"] as const;
 
 export type NumeroCapMesure = 1 | 2 | 3 | 4 | 5;
 
 /** Ce qui fait la clé d'unicité et le détail, par type (aucun texte libre possible). */
-export type SujetEvenement =
-  | { type: "espace_ouvert" | "cloche_ouverte" }
-  | { type: "bonus_ouvert" | "cap_atteint"; cap: NumeroCapMesure }
-  | { type: "replique_ecrite"; ficheId: string }
-  | { type: "question_envoyee"; envoi: string };
-
-const FORMAT_MARQUE = /^[A-Za-z0-9_-]{1,80}$/;
+export type SujetEvenement = { type: "espace_ouvert" } | { type: "cap_atteint"; cap: NumeroCapMesure };
 
 /** Clé d'unicité et détail d'un événement (null : sujet invalide, rien n'est écrit). */
 export function cleEtDetail(sujet: SujetEvenement, userId: string, maintenant: Date): { dedupKey: string; detail: string | null } | null {
   const jour = parisDayNumber(maintenant);
   switch (sujet.type) {
     case "espace_ouvert":
-    case "cloche_ouverte":
       return { dedupKey: cleUnique(sujet.type, userId, jour), detail: null };
-    case "bonus_ouvert":
-      return { dedupKey: cleUnique(sujet.type, userId, `${sujet.cap}:${jour}`), detail: `cap:${sujet.cap}` };
     case "cap_atteint":
-      return { dedupKey: cleUnique(sujet.type, userId, sujet.cap), detail: `cap:${sujet.cap}` };
-    case "replique_ecrite":
-      return FORMAT_MARQUE.test(sujet.ficheId) ? { dedupKey: cleUnique(sujet.type, userId, sujet.ficheId), detail: null } : null;
-    case "question_envoyee":
-      return FORMAT_MARQUE.test(sujet.envoi) ? { dedupKey: cleUnique(sujet.type, userId, sujet.envoi), detail: null } : null;
+      return Number.isInteger(sujet.cap) && sujet.cap >= 1 && sujet.cap <= 5
+        ? { dedupKey: cleUnique(sujet.type, userId, sujet.cap), detail: `cap:${sujet.cap}` }
+        : null;
   }
 }
 

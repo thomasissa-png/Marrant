@@ -4,7 +4,7 @@ import { garderApiLectureSeule, methodeNonPermise } from "@/lib/espace/garde";
 import { enregistrerReplique, ficheAcceptantReplique, journaliserSansTexte, supprimerReplique, texteReplique } from "@/lib/espace/repliques";
 import { idFiche } from "@/lib/espace/fiches-schema";
 import { jsonEspace, lireCorps, limiterEcritures } from "@/lib/espace/api";
-import { noterEvenementEspace } from "@/lib/mesure/evenements-espace";
+import { compterAnonyme } from "@/lib/espace/compteurs";
 
 /**
  * /api/espace/replique (s24, lot D5) : « Ma réplique à moi », une phrase par fiche à geste.
@@ -12,7 +12,7 @@ import { noterEvenementEspace } from "@/lib/mesure/evenements-espace";
  *   lecture seule) ; texte vide ou trop long : 400 ; fiche sans geste ou non servie : 404.
  * DELETE `{ ficheId }` : suppression, acceptée aussi après la résiliation.
  * Le texte n'est jamais journalisé (erreurs : nom seul), ni écrit ailleurs (`UsageEvent`, Umami).
- * Lot D9 : `replique_ecrite` SANS texte ni détail (une fois par fiche : le nombre de notes seulement).
+ * Lot D10 : réplique NOUVELLE = compteur anonyme `action` / `replique-ecrite` (aucun compte, aucun texte).
  * Fermé : 404 avant toute lecture ; 401 sans session ; 403 compte jamais abonné ; 503.
  */
 export const dynamic = "force-dynamic";
@@ -30,8 +30,8 @@ export async function PUT(request: Request) {
   try {
     const trop = await limiterEcritures("replique", garde.userId);
     if (trop) return trop;
-    await enregistrerReplique(garde.userId, lu.data.ficheId, lu.data.texte);
-    await noterEvenementEspace({ type: "replique_ecrite", ficheId: lu.data.ficheId }, garde.userId);
+    const nouvelle = await enregistrerReplique(garde.userId, lu.data.ficheId, lu.data.texte);
+    if (nouvelle) await compterAnonyme({ cle: "action", valeur: "replique-ecrite" });
     return jsonEspace({ ok: true });
   } catch (error) {
     journaliserSansTexte("replique", error);

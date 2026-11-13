@@ -50,7 +50,13 @@ export function AbonnementView({
   connecteServeur = false,
   retourInscription = false,
   planInitial = "monthly",
+  ligneBonus = null,
+  lignesAncienAbonne = [],
 }: {
+  /** s24 lot D10 (T1) : ligne des bonus sous le sous-titre, interrupteur de l'espace ouvert seulement. */
+  ligneBonus?: string | null;
+  /** s24 lot D10 (T11) : lignes de l'ancien abonné au-dessus de l'offre (serveur, chacune si n > 0). */
+  lignesAncienAbonne?: readonly string[];
   /** Formule de l'URL (`plan=annual`), lue par le serveur : HTML juste dès le premier rendu. */
   planInitial?: PremiumPlan;
   annualAvailable: boolean;
@@ -173,6 +179,15 @@ export function AbonnementView({
 
       {/* v3 M1 : sous 400 px, en-tête resserré pour que la garantie tienne dans le premier écran à 320 × 640. */}
       <header className="text-center max-[399px]:-mt-5 max-[359px]:-mt-6">
+        {lignesAncienAbonne.length > 0 && (
+          <div className="mb-3 space-y-1" data-testid="abonnement-ancien-abonne">
+            {lignesAncienAbonne.map((l) => (
+              <p key={l} className="text-sm text-text-secondary">
+                {frTypo(l)}
+              </p>
+            ))}
+          </div>
+        )}
         {/* v2 A02b : taille du corps, couleur de texte pleine. */}
         {accroche && (
           <p className="mb-1 text-base font-semibold text-text-primary" data-testid="abonnement-accroche">
@@ -186,6 +201,11 @@ export function AbonnementView({
         <p className="mx-auto mt-2 max-w-xl text-balance text-base leading-snug text-text-secondary max-[359px]:mt-1 max-[359px]:text-sm sm:text-lg">
           {frTypo(ABONNEMENT_HAUT.sousTitre)}
         </p>
+        {ligneBonus && (
+          <p className="mx-auto mt-1 max-w-xl text-balance text-base leading-snug text-text-secondary max-[359px]:text-sm sm:text-lg" data-testid="abonnement-ligne-bonus">
+            {frTypo(ligneBonus)}
+          </p>
+        )}
         <p className="mt-2 text-sm text-text-secondary max-[399px]:mt-1 max-[359px]:hidden" data-testid="abonnement-preuve">
           {frTypo(ABONNEMENT_HAUT.preuve)}
         </p>

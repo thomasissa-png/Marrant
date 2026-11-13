@@ -13,9 +13,13 @@ import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE, QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
 import { CGU_QUESTION_EQUIPE, CONSERVATION_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
-import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
+import { dateTextesJuridiques, servicesTextesJuridiques } from "@/lib/date-textes-juridiques";
 import { CGU_LETTRE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
+// s24 lot D10 (plan §6 T7) : article 10, retouches de @legal, servies interrupteur ouvert seulement (go de Thomas).
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { CGU_QUESTION_EQUIPE_ESPACE } from "@/config/textes/espace-textes-en-ligne";
+import { ESPACE_DATE_TEXTES } from "@/config/textes/espace-confidentialite";
 
 const PAGE_URL = "https://deviens-marrant.fr/cgu";
 const PAGE_TITLE = "Conditions Générales d’Utilisation";
@@ -34,7 +38,7 @@ export default function CGUPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Conditions <span className="whitespace-nowrap">Générales d’Utilisation</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {dateTextesJuridiques()}</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {dateTextesJuridiques([...servicesTextesJuridiques(), { ouvert: ESPACE_CLIENT_PUBLIE, date: ESPACE_DATE_TEXTES }])}</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Objet</h2>
@@ -103,7 +107,7 @@ export default function CGUPage() {
               sur la lettre mensuelle. */}
           {QUESTION_EQUIPE_OUVERTE && (
             <p id={QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE} className="mb-2 scroll-mt-24" data-testid="cgu-question-equipe">
-              <strong className="font-semibold text-text-primary">{frTypo(CGU_QUESTION_EQUIPE.amorce)}</strong> {frTypo(CGU_QUESTION_EQUIPE.texte)}
+              <strong className="font-semibold text-text-primary">{frTypo(CGU_QUESTION_EQUIPE.amorce)}</strong> {frTypo(ESPACE_CLIENT_PUBLIE ? CGU_QUESTION_EQUIPE_ESPACE : CGU_QUESTION_EQUIPE.texte)}
             </p>
           )}
           <p>La lettre mensuelle gratuite est indépendante de l’abonnement : elle se fait sur inscription, confirmée par e-⁠mail.</p>

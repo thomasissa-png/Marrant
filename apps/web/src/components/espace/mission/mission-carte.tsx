@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TEXTES_CARTES, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
 import type { RetourGeste } from "@/lib/espace/retours";
 import type { SuiteMission } from "@/lib/espace/missions";
+import { enonceAffiche } from "@/lib/espace/enonce-mission";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { LigneRetour } from "@/components/espace/carte/ligne-retour";
 import { BOUTON_PRINCIPAL, CARTE, LIEN, nouvelleCle } from "@/components/espace/carte/styles";
@@ -69,7 +70,7 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
         {M.titresMarches[n]}
       </h2>
       <div className="space-y-2">
-        {mission.enonce.map((p) => (
+        {enonceAffiche(mission.enonce).map((p) => (
           <p key={p} className="text-base text-text-primary">
             {p}
           </p>

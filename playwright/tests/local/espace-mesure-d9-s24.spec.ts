@@ -4,18 +4,21 @@ import type { Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, requete } from "../support/base-locale";
 import { TEXTES_GESTE as G, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
 import { TEXTES_ESPACE_NAVIGATION as N, nomCloche } from "@/config/textes/espace-navigation";
+import { enonceAffiche } from "@/lib/espace/enonce-mission";
 
 /**
  * Lot D9 (s24) : mesure d'usage de l'espace et missions importées, sur le VRAI contenu.
  * - Fermé (CI) : un abonné qui parcourt le site public n'écrit AUCUN événement de l'espace.
  * - Ouvert (`E2E_ESPACE_OUVERT=1`, bascule temporaire rétablie par `trap`) : `espace_ouvert` une fois par
- *   jour, `cloche_ouverte` sans détail ; une mission par marche, énoncé du seed et suite validée de la
- *   marche. `E2E_CAPTURES_D9` : captures sombres 375 et 1280 (`docs/captures/s24-d9`).
+ *   jour ; lot D10 : la cloche est un compteur ANONYME (`EspaceCompteur`, aucun compte) ; une mission par
+ *   marche, énoncé du seed affiché sans le préfixe « DÉFI XXX : » (D10) et suite validée de la marche.
+ *   `E2E_CAPTURES_D9` : captures sombres 375 et 1280 (`docs/captures/s24-d9`).
  */
 const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
 const FIXTURES_ESPACE = process.env.E2E_FIXTURES_ESPACE === "1";
 const CAPTURES = process.env.E2E_CAPTURES_D9 ?? "";
 const MOT_DE_PASSE = "E2e-espace-mesure-d9";
+// D10 : seuls types rattachés au compte ; les anciens noms restent cherchés pour prouver qu'aucun n'est écrit.
 const TYPES_ESPACE = ["espace_ouvert", "cloche_ouverte", "bonus_ouvert", "cap_atteint", "replique_ecrite", "question_envoyee"];
 
 type MissionJson = { id: string; marche: number; enonce: string[]; suites: { marche?: string; bof?: string } };
@@ -56,7 +59,7 @@ test.describe("lot D9, interrupteur fermé", () => {
   test("un abonné qui parcourt le site n'écrit aucun événement de l'espace", async ({ page }) => {
     const email = await abonne(page, "ferme");
     for (const chemin of ["/", "/vannes", "/parcours", "/profil", "/mon-espace", "/mon-espace/s-entrainer?marche=1"]) await page.goto(chemin);
-    expect((await page.request.post("/api/espace/mesure", { data: { evenement: "cloche_ouverte" } })).status()).toBe(404);
+    expect((await page.request.post("/api/espace/mesure", { data: { ouverture: "cloche" } })).status()).toBe(404);
     expect(await evenements(email)).toEqual([]);
   });
 });
@@ -65,15 +68,20 @@ test.describe("lot D9, interrupteur ouvert, vrai contenu", () => {
   localSeulement();
   test.skip(!ESPACE_OUVERT || FIXTURES_ESPACE, "E2E_ESPACE_OUVERT=1 requis, serveur construit avec le vrai contenu");
 
-  test("espace_ouvert une fois par jour ; cloche_ouverte sans détail ; aucun texte", async ({ page }) => {
+  test("espace_ouvert une fois par jour ; cloche en compteur anonyme (D10) ; aucun texte", async ({ page }) => {
     const email = await abonne(page, "mesure");
+    const cloche = async () =>
+      Number((await requete<{ n: number }>(`SELECT COALESCE(SUM(n), 0)::int AS n FROM "EspaceCompteur" WHERE cle = 'ouverture' AND valeur = 'cloche'`))[0].n);
+    const avant = await cloche();
     await page.goto("/mon-espace");
     await page.goto("/mon-espace");
     await page.getByRole("button", { name: nomCloche(0) }).click();
     await expect(page.getByRole("dialog", { name: N.cloche.titre })).toBeVisible();
-    await expect.poll(async () => (await evenements(email)).map((e) => e.type)).toEqual(["espace_ouvert", "cloche_ouverte"]);
+    await expect.poll(cloche).toBe(avant + 1);
+    expect((await evenements(email)).map((e) => e.type)).toEqual(["espace_ouvert"]);
     expect((await evenements(email)).every((e) => e.detail === null)).toBe(true);
-    expect((await page.request.post("/api/espace/mesure", { data: { evenement: "texte libre" } })).status()).toBe(400);
+    expect((await page.request.post("/api/espace/mesure", { data: { ouverture: "texte libre" } })).status()).toBe(400);
+    expect((await page.request.post("/api/espace/mesure", { data: { evenement: "cloche_ouverte" } })).status()).toBe(400);
   });
 
   for (const marche of [1, 2, 3, 4, 5]) {
@@ -87,7 +95,8 @@ test.describe("lot D9, interrupteur ouvert, vrai contenu", () => {
       const m = page.locator("#mission");
       await expect(m).toHaveAttribute("data-mission", mission.id);
       await expect(m.getByRole("heading", { name: M.titresMarches[marche as 1 | 2 | 3 | 4 | 5] })).toBeVisible();
-      for (const p of mission.enonce) await expect(m).toContainText(p);
+      for (const p of enonceAffiche(mission.enonce)) await expect(m).toContainText(p);
+      await expect(m).not.toContainText(/DÉFI [^:]+ :/);
       await expect(m).not.toContainText("—");
       await capturer(page, `mission-marche-${marche}`);
       await m.getByRole("button", { name: G.retours["essaye-ca-a-marche"] }).click();

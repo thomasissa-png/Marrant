@@ -24,7 +24,7 @@ const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest
 
 describe("carte « Ton cap » : XP, cap et série = User et lib/espace/caps sur 5 profils", () => {
   it.each([
-    [0, 0, "Tu t'échauffes, cap 1 sur 5", 1],
+    [0, 0, "Tu t’échauffes, cap 1 sur 5", 1],
     [100, 1, "Tu te lances, cap 2 sur 5", 2],
     [412, 3, "Tu avances bien, cap 3 sur 5", 3],
     [700, 12, "Tu enchaînes, cap 4 sur 5", 4],

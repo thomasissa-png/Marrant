@@ -107,6 +107,9 @@ export default function ConfidentialitePage() {
             <li data-testid="confidentialite-mesure-usage">Usage du service, si tu es ou as été abonné : la date et la formule (mensuelle, annuelle ou app) de ta souscription et de chaque renouvellement payé, ton premier contenu Premium affiché (son type ou son étape), ta première étape ou ton premier quiz terminé, chaque jour où tu termines un quiz, chaque ouverture du portail de paiement avec l’action choisie, et, si tu programmes ta résiliation, son heure et le motif choisi dans une liste. Aucun texte libre ni adresse IP. Ces données sont effacées avec ton compte</li>
             {/* s24 lot D4 (@legal G9, espace-c9-information-s24.md) : publié avec l'ouverture de l'espace. */}
             {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.donnees)}</li>}
+            {/* s24 lot D10 (plan §6 T6, @legal D4 point 2 et D9 point 4) : caps annoncés et usage de l'espace, ouvert seulement. */}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.donneesCaps)}</li>}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.mesure)}</li>}
             <li>Rétractation, si tu envoies une demande : adresse e-⁠mail, date d’achat indiquée, motif (facultatif) et une empreinte de ton adresse IP (pour limiter les abus, sans garder l’adresse elle-⁠même)</li>
             {/* s23 (@legal O2), publié avec l'ouverture de /resiliation. Ancre visée par la mention sous le champ libre. */}
             {RESILIATION_PAGE_OUVERTE && (
@@ -129,6 +132,8 @@ export default function ConfidentialitePage() {
             <li>T’envoyer chaque semaine un rappel de ton parcours, uniquement si tu l’as demandé : ton consentement, que tu peux retirer à tout moment en un clic</li>
             {ONBOARDING_PREMIUM_OUVERT && <li data-testid="confidentialite-onboarding-premium">{frTypo(CONFIDENTIALITE_ONBOARDING_PREMIUM)}</li>}
             {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.base)}</li>}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.baseCaps)}</li>}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.baseMesure)}</li>}
             {RESILIATION_PAGE_OUVERTE && <li data-testid="confidentialite-resiliation">{frTypo(RESILIATION.base)}</li>}
           </ul>
         </section>
@@ -136,7 +141,8 @@ export default function ConfidentialitePage() {
           <h2 className={SECTION_TITLE}>4. Prestataires (sous-traitants)</h2>
           <p>On confie certaines opérations techniques à des prestataires, qui traitent tes données pour notre compte :</p>
           <ul className={LIST}>
-            {prestataires().map((p) => (
+            {/* s24 lot D10 (plan §6 T6, @legal bloc 2, facultatif) : ouvert, Neon cite « tes questions et nos réponses ». */}
+            {prestataires().map((p) => (p.nom === "Neon" && ESPACE_CLIENT_PUBLIE ? { ...p, role: CONFIDENTIALITE_ESPACE.neonRole } : p)).map((p) => (
               <li key={p.nom}>
                 <strong>{p.nom}</strong> : {frTypo(p.role)}
               </li>
@@ -190,7 +196,8 @@ export default function ConfidentialitePage() {
           )}
           {QUESTION_EQUIPE_OUVERTE && (
             <p className="mt-2" data-testid="confidentialite-conservation-question-equipe">
-              {frTypo(CONSERVATION_QUESTION_EQUIPE.confidentialite)}
+              {/* s24 lot D10 (plan §6 T6, @legal bloc 2) : ouvert, « Les copies par e-mail de… » ; fermé, inchangé. */}
+              {frTypo(ESPACE_CLIENT_PUBLIE ? CONFIDENTIALITE_ESPACE.conservationQuestions : CONSERVATION_QUESTION_EQUIPE.confidentialite)}
             </p>
           )}
         </section>

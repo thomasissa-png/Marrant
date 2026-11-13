@@ -18,7 +18,9 @@ export const TEXTES_ESPACE_NAVIGATION = {
   /** Nom de la région de la barre (architecture 6.2 règle a) et entrée du menu de compte (Q2 = A). */
   monEspace: "Mon espace",
   rubriques: {
-    aujourdhui: "Aujourd'hui",
+    /** Lot D10 : apostrophe typographique, règle du texte visible du site (`typographie-s21.spec.ts`,
+     *  verdict @design s21 décision 4) : la barre s'affiche aussi sur les pages publiques de l'abonné. */
+    aujourdhui: "Aujourd’hui",
     parcours: "Parcours",
     quoiRepondre: "Quoi répondre",
     bibliotheque: "Bibliothèque",

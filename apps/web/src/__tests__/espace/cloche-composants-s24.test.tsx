@@ -70,12 +70,12 @@ describe("cloche : nom accessible et pastille", () => {
     jest.useRealTimers();
     await userEvent.click(screen.getByRole("button", { name: nomCloche(1) }));
     expect(await screen.findByRole("dialog")).toBeInTheDocument();
-    // Ouvrir le panneau ne relit pas la cloche et ne marque rien lu ; lot D9 : seule la mesure `cloche_ouverte`
-    // part (liste fermée, sans texte).
+    // Ouvrir le panneau ne relit pas la cloche et ne marque rien lu ; lot D9 : seule la mesure d'ouverture
+    // part (liste fermée, sans texte ; lot D10 : compteur anonyme).
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(fetchMock.mock.calls[0][0]).toBe("/api/espace/cloche");
     expect(fetchMock.mock.calls[1][0]).toBe("/api/espace/mesure");
-    expect(JSON.parse(String((fetchMock.mock.calls[1][1] as RequestInit).body))).toEqual({ evenement: "cloche_ouverte" });
+    expect(JSON.parse(String((fetchMock.mock.calls[1][1] as RequestInit).body))).toEqual({ ouverture: "cloche" });
     expect(document.body.querySelector("[aria-live], [role='status'], [role='alert']")).toBeNull();
     expect(container.querySelector("[aria-live]")).toBeNull();
     await userEvent.keyboard("{Escape}");

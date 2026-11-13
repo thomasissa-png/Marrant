@@ -78,6 +78,8 @@ const mockDb = {
   userReplique: modele("userReplique"),
   espaceCompte: modele("espaceCompte"),
   usageEvent: modele("usageEvent"),
+  // Lot D10 : réplique nouvelle = compteur anonyme (aucun compte).
+  espaceCompteur: modele("espaceCompteur"),
   // Lot D9 : opposition à la mesure lue avant chaque écriture (aucune ici).
   webhookEvent: { findUnique: jest.fn(async () => null) },
   $transaction: jest.fn(async (ops: Promise<unknown>[]) => Promise.all(ops)),
@@ -235,11 +237,15 @@ describe("« Ma réplique à moi »", () => {
     expect(soiree.repliques).toEqual([]);
   });
 
-  it("le texte n'est jamais écrit dans `UsageEvent` (ni ailleurs que `UserReplique`) ; D9 : `replique_ecrite` sans détail", async () => {
+  it("le texte n'est jamais écrit ailleurs que dans `UserReplique` ; D10 : réplique NOUVELLE = compteur anonyme, sans compte", async () => {
     await ecrire(req({ ficheId: "coloc-la-poele", texte: SECRET }, "PUT"));
-    expect(mockDb.usageEvent.create).toHaveBeenCalledTimes(1);
-    expect(mockDb.usageEvent.create.mock.calls[0][0].data).toMatchObject({ userId: "u1", type: "replique_ecrite", detail: null, dedupKey: "replique_ecrite:u1:coloc-la-poele" });
-    expect(JSON.stringify(mockDb.usageEvent.create.mock.calls)).not.toContain(SECRET);
+    await ecrire(req({ ficheId: "coloc-la-poele", texte: `${SECRET} bis` }, "PUT"));
+    expect(mockDb.usageEvent.create).not.toHaveBeenCalled();
+    expect(mockDb.espaceCompteur.upsert).toHaveBeenCalledTimes(1);
+    const compteur = mockDb.espaceCompteur.upsert.mock.calls[0][0] as { create: Record<string, unknown> };
+    expect(compteur.create).toMatchObject({ cle: "action", valeur: "replique-ecrite", n: 1 });
+    expect(Object.keys(compteur.create).sort()).toEqual(["cle", "jour", "n", "valeur"]);
+    expect(JSON.stringify(mockDb.espaceCompteur.upsert.mock.calls)).not.toMatch(/u1|coloc-la-poele/);
     const autres = Object.entries(tables).filter(([n]) => n !== "userReplique");
     expect(JSON.stringify(autres)).not.toContain(SECRET);
   });
@@ -280,7 +286,7 @@ describe("confinement des répliques (2.7)", () => {
       .map((f) => readFileSync(f, "utf8"))
       .join("\n");
     // Appels réels seulement (les commentaires citent la règle) : tracker Umami, table `UsageEvent`, mesure d'usage.
-    // Lot D9 : seule la mesure de l'espace est admise (`replique_ecrite`, sans texte ni détail, test ci-dessus).
-    expect(code.replace(/@\/lib\/mesure\/evenements-espace/g, "")).not.toMatch(/umami\.track|window\.umami|\.usageEvent\.|@\/lib\/mesure\/|@\/lib\/analytics\//);
+    // Lot D10 : seul le compteur anonyme de l'espace est admis (`lib/espace/compteurs`, test ci-dessus).
+    expect(code).not.toMatch(/umami\.track|window\.umami|\.usageEvent\.|@\/lib\/mesure\/|@\/lib\/analytics\//);
   });
 });

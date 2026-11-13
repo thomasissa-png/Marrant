@@ -167,6 +167,22 @@ describe("garde-fou de construction", () => {
     // `api/admin/espace-lecture` répond 404 fermé avant toute lecture, puis l'auth admin existante.
     "lib/mesure/evenements-espace.ts",
     "app/api/admin/espace-lecture/route.ts",
+    // D10 (« Mon profil », pages d'abonnement, textes en ligne du plan §6 ; go de Thomas ligne par ligne) :
+    // - `profil/page.tsx` : historique en lecture seule de l'ancien abonné, composant monté ouvert seulement
+    //   (lecture chargée à la demande) ; fermé, page synchrone identique (snapshot) ;
+    // - `abonnement/page.tsx` : ligne des bonus (T1) et lignes de l'ancien abonné (T11), passées à la vue
+    //   ouvert seulement ; fermé, `lignesAncienAbonne` rend [] sans lire session ni base, props absentes ;
+    // - `cgu/page.tsx` : article 10 retouché (T7) ouvert seulement ; date de mise à jour avec
+    //   `ESPACE_DATE_TEXTES` (vide d'ici l'ouverture, donc inchangée) ;
+    // - `config/textes/paiement.ts` : puce des bonus de l'e-mail E0 (T3) ouvert seulement ; E0 fermé
+    //   identique (test par hachage) ;
+    // - `lib/analytics/espace-lecture.ts` : lecture des compteurs anonymes (règles @legal D9 point 6),
+    //   appelée seulement par la route admin, 404 fermé.
+    "app/(dashboard)/profil/page.tsx",
+    "app/(dashboard)/abonnement/page.tsx",
+    "app/(dashboard)/cgu/page.tsx",
+    "config/textes/paiement.ts",
+    "lib/analytics/espace-lecture.ts",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

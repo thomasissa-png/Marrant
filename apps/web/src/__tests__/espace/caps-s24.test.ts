@@ -238,7 +238,7 @@ describe("textes des caps et de « Parcours » (critère 13, 3.0 point 1)", () =
 
   it("noms exacts de la décision Q3", () => {
     expect(NUMEROS_CAPS.map((n) => TEXTES_CAPS.noms[n])).toEqual([
-      "Tu t'échauffes",
+      "Tu t’échauffes", // D10 : apostrophe typographique (règle du texte visible), mots de la décision inchangés
       "Tu te lances",
       "Tu avances bien",
       "Tu enchaînes",

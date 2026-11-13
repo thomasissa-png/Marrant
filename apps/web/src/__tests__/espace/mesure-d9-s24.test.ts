@@ -5,6 +5,9 @@
  * (jamais le code livré), sauf les cas « fermé ». Lignes Jest du plan §3 « Lot D9 » :
  * détail d'une liste fermée ; le recalcul unique n'émet aucun `cap_atteint` ; `EspaceCompteur` sans
  * identifiant ; clé d'unicité ; lecture admin refusée sans auth admin ; aucun pourcentage sous 15.
+ * Lot D10 (architecture 7.7 point 6, avis @legal D9 points 6 et 7) : seuls `espace_ouvert` et `cap_atteint`
+ * restent rattachés au compte ; cloche, bonus, réplique et question sont des compteurs anonymes
+ * (`__tests__/espace/compteurs-d10-s24.test.ts`).
  */
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
@@ -21,8 +24,8 @@ const charger = jest.fn();
 jest.mock("@/lib/analytics/espace-lecture-donnees", () => ({ chargerDonneesLecture: () => charger() }));
 
 import { NextRequest } from "next/server";
-import { detailFerme, type MesureDb } from "@/lib/mesure/evenements-usage";
-import { noterCapsAtteints, noterEvenementEspace } from "@/lib/mesure/evenements-espace";
+import { TYPES_EVENEMENT, detailFerme, type MesureDb } from "@/lib/mesure/evenements-usage";
+import { TYPES_EVENEMENT_ESPACE, noterCapsAtteints, noterEvenementEspace } from "@/lib/mesure/evenements-espace";
 import { lectureEspace, type DonneesLecture } from "@/lib/analytics/espace-lecture";
 import { GET as lireAdmin } from "@/app/api/admin/espace-lecture/route";
 
@@ -54,11 +57,8 @@ beforeEach(() => {
 
 describe("UsageEvent : détail d'une liste fermée, jamais de texte libre", () => {
   it.each([
-    ["replique_ecrite", "Ma super réplique"],
-    ["question_envoyee", "Comment répondre à mon chef ?"],
     ["espace_ouvert", "accueil"],
-    ["cloche_ouverte", "x"],
-    ["bonus_ouvert", "Le bonus du cap 3"],
+    ["cap_atteint", "Le bonus du cap 3"],
     ["cap_atteint", "cap"],
     ["cap_atteint", "cap:9"],
     ["cap_atteint", "cap:3:texte"],
@@ -66,8 +66,7 @@ describe("UsageEvent : détail d'une liste fermée, jamais de texte libre", () =
     expect(detailFerme(type, detail)).toBeNull();
   });
 
-  it("le seul numéro de cap est admis pour bonus_ouvert et cap_atteint ; etape et quiz inchangés", () => {
-    expect(detailFerme("bonus_ouvert", "cap:3")).toBe("cap:3");
+  it("le seul numéro de cap est admis pour cap_atteint ; etape et quiz inchangés", () => {
     expect(detailFerme("cap_atteint", "cap:5")).toBe("cap:5");
     expect(detailFerme("aha", "etape")).toBe("etape");
     expect(detailFerme("premier_acces_premium", "etape:3")).toBe("etape:3");
@@ -86,24 +85,27 @@ describe("écriture des événements de l'espace", () => {
     expect(db.webhookEvent.findUnique).not.toHaveBeenCalled();
   });
 
-  it("clé d'unicité : une ouverture par jour de Paris, un cap atteint une fois, une réplique par fiche", async () => {
+  it("D10 : seuls `espace_ouvert` et `cap_atteint` restent rattachés au compte (liste fermée)", () => {
+    expect([...TYPES_EVENEMENT_ESPACE]).toEqual(["espace_ouvert", "cap_atteint"]);
+    for (const t of ["cloche_ouverte", "bonus_ouvert", "replique_ecrite", "question_envoyee"]) {
+      expect((TYPES_EVENEMENT as readonly string[]).includes(t)).toBe(false);
+    }
+  });
+
+  it("clé d'unicité : une ouverture par jour de Paris, un cap atteint une fois", async () => {
     const { db, lignes } = base();
     expect(await noterEvenementEspace({ type: "espace_ouvert" }, "u1", { db, maintenant })).toBe(true);
     expect(await noterEvenementEspace({ type: "espace_ouvert" }, "u1", { db, maintenant: new Date(maintenant.getTime() + 3_600_000) })).toBe(false);
     expect(await noterEvenementEspace({ type: "espace_ouvert" }, "u1", { db, maintenant: new Date(maintenant.getTime() + JOUR) })).toBe(true);
     expect(await noterCapsAtteints("u1", [3, 3], { db, maintenant })).toBe(1);
-    expect(await noterEvenementEspace({ type: "replique_ecrite", ficheId: "le-callback" }, "u1", { db, maintenant })).toBe(true);
-    expect(await noterEvenementEspace({ type: "replique_ecrite", ficheId: "le-callback" }, "u1", { db, maintenant })).toBe(false);
-    expect(lignes.map((l) => l.type)).toEqual(["espace_ouvert", "espace_ouvert", "cap_atteint", "replique_ecrite"]);
+    expect(lignes.map((l) => l.type)).toEqual(["espace_ouvert", "espace_ouvert", "cap_atteint"]);
     expect(lignes.find((l) => l.type === "cap_atteint")?.detail).toBe("cap:3");
   });
 
-  it("réplique et question : aucun détail, aucun texte ; un sujet hors format n'écrit rien", async () => {
+  it("un cap hors 1 à 5 n'écrit rien", async () => {
     const { db, lignes } = base();
-    await noterEvenementEspace({ type: "question_envoyee", envoi: "fil_abc123" }, "u1", { db, maintenant });
-    await noterEvenementEspace({ type: "replique_ecrite", ficheId: "Ma réplique en clair" }, "u1", { db, maintenant });
-    expect(lignes).toHaveLength(1);
-    expect(lignes[0].detail).toBeNull();
+    expect(await noterCapsAtteints("u1", [0, 6, 2.5], { db, maintenant })).toBe(0);
+    expect(lignes).toHaveLength(0);
   });
 
   it("le recalcul unique de l'ouverture n'appelle jamais la mesure (sources)", () => {
@@ -133,16 +135,17 @@ describe("EspaceCompteur : capteur anonyme, sans identifiant", () => {
 function donnees(n: number, debut = new Date("2026-10-01T08:00:00Z")): DonneesLecture {
   const evenements: DonneesLecture["evenements"] = Array.from({ length: n }, (_, i) => ({ userId: `compte-secret-${i}`, type: "espace_ouvert", detail: null, occurredAt: new Date(debut.getTime() + i * 60_000) }));
   evenements.push({ userId: "compte-secret-0", type: "espace_ouvert", detail: null, occurredAt: new Date(debut.getTime() + 8 * JOUR) });
-  evenements.push({ userId: "compte-secret-0", type: "bonus_ouvert", detail: "cap:2", occurredAt: debut });
+  evenements.push({ userId: "compte-secret-0", type: "cap_atteint", detail: "cap:2", occurredAt: debut });
   return {
     evenements,
     missions: new Map([["compte-secret-0", 2]]),
     fiches: new Map(),
     cartes: new Map([["compte-secret-1", 4]]),
     compteurs: [
-      { cle: "toucher", valeur: "soiree", n: 3 },
-      { cle: "une-autre", valeur: "peu-importe", n: 1 },
+      { jour: new Date("2026-11-09T00:00:00Z"), cle: "toucher", valeur: "soiree", n: 3 },
+      { jour: new Date("2026-11-10T00:00:00Z"), cle: "une-autre", valeur: "peu-importe", n: 1 },
     ],
+    abonnesActifs: n,
   };
 }
 
@@ -157,7 +160,10 @@ describe("lecture de la mesure (tableau d'une ligne par abonné anonymisé)", ()
     const sortie = JSON.stringify(l);
     expect(sortie).not.toContain("%");
     expect(sortie).not.toContain("compte-secret");
-    expect(l.lignes[0]).toMatchObject({ abonne: "M-A", premiereOuverture: "01/10/2026 10:00", joursOuverture: 2, bonusVus: [2], missionsTentees: 2 });
+    expect(l.lignes[0]).toMatchObject({ abonne: "M-A", premiereOuverture: "01/10/2026 10:00", joursOuverture: 2, capsAtteints: [2], missionsTentees: 2 });
+    expect(l.lignes[0]).not.toHaveProperty("joursCloche");
+    expect(l.lignes[0]).not.toHaveProperty("repliquesEcrites");
+    expect(l.periodeCompteurs).toBe("semaine");
     expect(l.lignes[0].retours).toEqual({ 7: "oui", 30: "non", 60: "pas encore" });
     expect(l.lignes[1]).toMatchObject({ abonne: "M-B", cartesJouees: 4 });
   });

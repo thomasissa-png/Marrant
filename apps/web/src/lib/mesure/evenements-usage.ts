@@ -31,12 +31,9 @@ export const TYPES_EVENEMENT = [
   "portail_ouvert",
   "renouvellement_paye",
   // s24, lot D9 (espace client) : écrits SEULEMENT interrupteur ouvert, par `lib/mesure/evenements-espace.ts`.
+  // Lot D10 : cloche, bonus, réplique et question passés en compteurs anonymes (`lib/espace/compteurs.ts`).
   "espace_ouvert",
-  "cloche_ouverte",
-  "bonus_ouvert",
   "cap_atteint",
-  "replique_ecrite",
-  "question_envoyee",
 ] as const;
 export type TypeEvenement = (typeof TYPES_EVENEMENT)[number];
 
@@ -62,13 +59,9 @@ const DETAILS: Record<TypeEvenement, readonly string[]> = {
   resiliation_programmee: MOTIFS_STRIPE,
   portail_ouvert: ["changer-formule", "resilier", "carte", "simple"],
   renouvellement_paye: ["month", "year", "iap"],
-  // Lot D9 : aucun détail, sauf le seul numéro de cap (`cap:<n>`). Jamais le texte d'une réplique ou d'une question.
+  // Lot D9 : aucun détail, sauf le seul numéro de cap (`cap:<n>`).
   espace_ouvert: [],
-  cloche_ouverte: [],
-  bonus_ouvert: ["cap"],
   cap_atteint: ["cap"],
-  replique_ecrite: [],
-  question_envoyee: [],
 };
 /** Suffixe admis par tête : numéro d'étape (`etape:<n>`, `quiz:<n>`), numéro de cap (`cap:1` à `cap:5`). */
 const AVEC_SUFFIXE: Record<string, RegExp> = { etape: /^[0-9]{1,3}$/, quiz: /^[0-9]{1,3}$/, cap: /^[1-5]$/ };

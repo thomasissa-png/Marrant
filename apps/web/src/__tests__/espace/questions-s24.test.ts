@@ -83,6 +83,8 @@ const mockDb = {
     update: jest.fn(async (a: { where: Ligne; data: Ligne }) => Object.assign(tables.equipeMessage.find((m) => m.id === a.where.id)!, a.data)),
   },
   usageEvent: { create: jest.fn(), createMany: jest.fn() },
+  // Lot D10 : question envoyée = compteur anonyme (aucun compte).
+  espaceCompteur: { upsert: jest.fn(async () => ({})) },
   // Lot D9 : opposition à la mesure lue avant chaque écriture (aucune ici).
   webhookEvent: { findUnique: jest.fn(async () => null) },
   $transaction: jest.fn(async (ops: Promise<unknown>[]) => Promise.all(ops)),
@@ -297,11 +299,13 @@ describe("aucune trace du texte", () => {
     const ecrit = s.flatMap((x) => x.mock.calls.flat()).map(String).join("\n");
     expect(ecrit).not.toContain("Bérénice");
     expect(ecrit).toContain("[espace/questions/envoi] échec : PrismaClientKnownRequestError P1001");
-    // Lot D9 : un `question_envoyee` par fil créé, sans détail ni texte.
-    const evenements = mockDb.usageEvent.create.mock.calls.map((c) => (c as unknown as [{ data: { type: string; detail: unknown } }])[0].data);
-    expect(evenements.length).toBeGreaterThan(0);
-    for (const e of evenements) expect(e).toMatchObject({ type: "question_envoyee", detail: null });
-    expect(JSON.stringify(mockDb.usageEvent.create.mock.calls)).not.toContain(SECRET);
+    // Lot D10 : un compteur anonyme `action` / `question-envoyee` par fil créé, sans compte ni texte ; aucun `UsageEvent`.
+    expect(mockDb.usageEvent.create).not.toHaveBeenCalled();
+    const compteurs = mockDb.espaceCompteur.upsert.mock.calls.map((c) => (c as unknown as [{ create: Record<string, unknown> }])[0].create);
+    expect(compteurs.length).toBeGreaterThan(0);
+    for (const c of compteurs) expect(Object.keys(c).sort()).toEqual(["cle", "jour", "n", "valeur"]);
+    for (const c of compteurs) expect(c).toMatchObject({ cle: "action", valeur: "question-envoyee" });
+    expect(JSON.stringify(mockDb.espaceCompteur.upsert.mock.calls)).not.toContain(SECRET);
     s.forEach((x) => x.mockRestore());
     const SRC = join(__dirname, "../..");
     const fichiers = (d: string): string[] => readdirSync(d).flatMap((e) => (statSync(join(d, e)).isDirectory() ? fichiers(join(d, e)) : [join(d, e)]));
@@ -314,7 +318,7 @@ describe("aucune trace du texte", () => {
     ];
     // Code seulement (les commentaires disent justement « ni UsageEvent, ni Umami »).
     const code = (f: string) => readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
-    // Lot D9 : la seule mesure admise passe par `noterEvenementEspace` (aucun texte, test ci-dessus).
+    // Lot D10 : la seule mesure admise est le compteur anonyme `compterAnonyme` (aucun texte, test ci-dessus).
     for (const f of sources) expect([relative(SRC, f), /umami|usageEvent|trackEvent/i.test(code(f))]).toEqual([relative(SRC, f), false]);
   });
 });

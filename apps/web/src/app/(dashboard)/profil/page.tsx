@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
 import { UpgradeToast } from "@/components/profil/upgrade-toast";
 import { ReprendreParcours } from "@/components/home/reprendre-parcours";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { HistoriqueProfil } from "@/components/espace/profil/historique-profil";
 
 export const metadata: Metadata = {
   title: "Mon profil | Progression & Statistiques",
@@ -9,6 +11,13 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
+/**
+ * « Mon profil » (rubrique des réglages ; s24, lot D10, plan §3 : adresse et ancres `#abonnement`,
+ * `#rappel-parcours` conservées, aucune redirection). Rendu : SSR dynamique (layout), cartes du compte en
+ * Client Components. Interrupteur de l'espace fermé : page d'aujourd'hui au caractère près (test
+ * d'inertie), aucune lecture en plus. Ouvert : ancien abonné, « Mes questions » et « Mes répliques » en
+ * lecture seule sous les cartes, chacune seulement si elle a des données.
+ */
 export default function ProfilPage({
   searchParams,
 }: {
@@ -32,6 +41,8 @@ export default function ProfilPage({
 
       {/* Rappel e-mail sur demande (D7, legal C1) : rendu dans ProfilDashboard, sous « Mes parcours » (s17 tour 1, UXV-1-02). */}
       <ProfilDashboard />
+
+      {ESPACE_CLIENT_PUBLIE && <HistoriqueProfil />}
     </>
   );
 }

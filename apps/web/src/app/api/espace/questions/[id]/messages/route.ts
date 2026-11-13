@@ -4,7 +4,7 @@ import { FORMAT_CLE, jsonEspace, lireCorps } from "@/lib/espace/api";
 import { continuerFil, corpsContinuer, erreurDeTexte, journaliserQuestions, lireFil } from "@/lib/espace/questions";
 import { notifierEquipe } from "@/lib/espace/questions-equipe";
 import { limiterQuestions, notifier } from "@/lib/espace/questions-route";
-import { noterEvenementEspace } from "@/lib/mesure/evenements-espace";
+import { compterAnonyme } from "@/lib/espace/compteurs";
 
 /**
  * POST /api/espace/questions/[id]/messages (s24, lot D7) : « Continuer » un fil répondu.
@@ -31,7 +31,7 @@ export async function POST(request: Request, { params }: Contexte = SANS_ID) {
     if (trop) return trop;
     const r = await continuerFil(garde.userId, params.id, lu.data.message, lu.data.cle);
     if (!r.ok) return jsonEspace({ error: r.raison }, r.raison === "introuvable" ? 404 : 409);
-    if (r.nouveau) await noterEvenementEspace({ type: "question_envoyee", envoi: lu.data.cle }, garde.userId);
+    if (r.nouveau) await compterAnonyme({ cle: "action", valeur: "question-envoyee" });
     const fil = await lireFil(garde.userId, params.id);
     if (r.nouveau && fil) await notifier(garde.userId, (replyTo, envoyer) => notifierEquipe({ type: fil.type, message: lu.data.message, replyTo, cle: lu.data.cle, envoyer }));
     return jsonEspace({ fil });

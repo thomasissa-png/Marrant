@@ -4,7 +4,7 @@ import { jsonEspace, lireCorps } from "@/lib/espace/api";
 import { corpsEnvoi, creerFil, erreurDeTexte, journaliserQuestions, lireFil, listerFils } from "@/lib/espace/questions";
 import { notifierEquipe } from "@/lib/espace/questions-equipe";
 import { limiterQuestions, notifier } from "@/lib/espace/questions-route";
-import { noterEvenementEspace } from "@/lib/mesure/evenements-espace";
+import { compterAnonyme } from "@/lib/espace/compteurs";
 
 /**
  * /api/espace/questions (s24, lot D7, architecture v20 2.6) : « Mes questions ».
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const trop = await limiterQuestions(garde.userId);
     if (trop) return trop;
     const { id, nouveau } = await creerFil(garde.userId, lu.data.type, lu.data.message, lu.data.cle);
-    if (nouveau) await noterEvenementEspace({ type: "question_envoyee", envoi: id }, garde.userId);
+    if (nouveau) await compterAnonyme({ cle: "action", valeur: "question-envoyee" });
     if (nouveau) await notifier(garde.userId, (replyTo, envoyer) => notifierEquipe({ type: lu.data.type, message: lu.data.message, replyTo, cle: lu.data.cle, envoyer }));
     return jsonEspace({ fil: await lireFil(garde.userId, id) });
   } catch (error) {

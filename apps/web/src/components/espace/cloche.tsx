@@ -29,7 +29,7 @@ interface ClocheProps {
   contenu?: ContenuCloche | null;
   /** Lecture échouée sans rien de lu : le panneau dit que les notifications n'ont pas pu s'afficher. */
   erreur?: boolean;
-  /** Lot D9 : appelé à chaque ouverture du panneau (mesure `cloche_ouverte`, sans effet sur l'écran). */
+  /** Lot D9 : appelé à chaque ouverture du panneau (compteur anonyme d'ouverture, lot D10 ; sans effet sur l'écran). */
   onOuvrir?: () => void;
 }
 
@@ -85,15 +85,15 @@ export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps
 }
 
 /**
- * Lot D9 : ouverture du panneau signalée à `POST /api/espace/mesure` (`cloche_ouverte`, liste fermée), en
- * `keepalive`, sans attente ni retour visible ; le serveur n'écrit qu'une ligne par jour et par abonné.
+ * Lot D9 : ouverture du panneau signalée à `POST /api/espace/mesure` (`{ ouverture: "cloche" }`, liste
+ * fermée), en `keepalive`, sans attente ni retour visible ; lot D10 : compteur anonyme, aucun compte.
  */
 function signalerClocheOuverte() {
   try {
     void fetch("/api/espace/mesure", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ evenement: "cloche_ouverte" }),
+      body: JSON.stringify({ ouverture: "cloche" }),
       keepalive: true,
       credentials: "same-origin",
     }).catch(() => undefined);

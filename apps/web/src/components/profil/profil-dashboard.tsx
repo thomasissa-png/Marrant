@@ -25,6 +25,8 @@ import { QuestionEquipeCard } from "@/components/profil/question-equipe-card";
 import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { CapProfil } from "@/components/espace/cap-profil";
+import { LigneMesQuestions } from "@/components/espace/profil/ligne-mes-questions";
+import { ErreurProfil } from "@/components/espace/profil/erreur-profil";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -70,6 +72,8 @@ export function ProfilDashboard() {
   const [parcoursProgress, setParcoursProgress] = useState<ParcoursProgress[]>([]);
   // Résumé d'abonnement lu une fois, partagé par les cartes Abonnement et Suppression (lot G).
   const abonnement = useSubscriptionSummary(status === "authenticated");
+  // s24 lot D10 : lecture du compte terminée (succès ou échec), pour l'état d'erreur ouvert seulement.
+  const [lectureFaite, setLectureFaite] = useState(false);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -95,7 +99,7 @@ export function ProfilDashboard() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      fetchUser();
+      void Promise.resolve(fetchUser()).finally(() => setLectureFaite(true));
       fetch("/api/user/progress")
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
@@ -125,6 +129,11 @@ export function ProfilDashboard() {
         </CardContent>
       </Card>
     );
+  }
+
+  // s24 lot D10 : espace ouvert, compte illisible = message et « Réessayer » (fermé : squelette, inchangé).
+  if (ESPACE_CLIENT_PUBLIE && lectureFaite && !isLoading && !user) {
+    return <ErreurProfil onReessayer={() => void fetchUser()} />;
   }
 
   if (isLoading || !user) {
@@ -379,8 +388,9 @@ export function ProfilDashboard() {
         abonnement={abonnement}
       />
 
-      {/* s22 : « Ta question à l'équipe », Premium seulement, sous la carte abonnement. Absente interrupteur fermé. */}
-      {isPremium && <QuestionEquipeCard className="md:col-span-2" />}
+      {/* s22 : « Ta question à l'équipe », Premium seulement, sous la carte abonnement. Absente interrupteur fermé.
+          s24 lot D10 (plan §6 T8) : espace ouvert, l'encadré devient une ligne de lien vers « Mes questions ». */}
+      {isPremium && (ESPACE_CLIENT_PUBLIE ? <LigneMesQuestions className="md:col-span-2" /> : <QuestionEquipeCard className="md:col-span-2" />)}
 
       {/* s21 : lettre de la semaine (Premium), sous la carte abonnement (spec US-H2). Absente interrupteur fermé. */}
       <LettreHebdoReglage className="md:col-span-2" />

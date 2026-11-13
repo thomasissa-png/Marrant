@@ -166,12 +166,14 @@ describe("confidentialité, espace OUVERT (simulé) : les trois lignes de @legal
   it("partie 2, partie 3 et phrase de la partie 6 rendues ; date de mise à jour inchangée tant que la date est vide", () => {
     const html = renderToStaticMarkup(createElement(ConfidentialitePage));
     // D5b : quatrième ligne, le cookie du coin « Humour noir » (partie 5, @legal `espace-d6-cookie-coin-s24.md`).
-    for (const t of [CONFIDENTIALITE_ESPACE.donnees, CONFIDENTIALITE_ESPACE.base, CONFIDENTIALITE_ESPACE.dureeEtapes, CONFIDENTIALITE_ESPACE.cookie]) {
+    // D10 (plan §6 T6) : caps annoncés (@legal D4) et usage de l'espace (@legal D9), parties 2 et 3.
+    const E = CONFIDENTIALITE_ESPACE;
+    for (const t of [E.donnees, E.base, E.dureeEtapes, E.cookie, E.donneesCaps, E.baseCaps, E.mesure, E.baseMesure]) {
       expect(html).toContain(frTypo(t).replace(/'/g, "&#x27;"));
     }
     expect(ESPACE_DATE_TEXTES).toBe("");
-    // D7 (plan §6 T5) : puces 1 et 4 de la partie 9 remplacées par les phrases de @legal (bloc 2) : 6 lignes.
-    expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(6);
+    // D7 (plan §6 T5) : puces 1 et 4 de la partie 9 remplacées par les phrases de @legal (bloc 2) ; D10 : + 4 lignes.
+    expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(10);
     for (const t of Object.values(CONFIDENTIALITE_ESPACE.questions)) expect(html).toContain(frTypo(t).replace(/'/g, "&#x27;"));
     expect(html).not.toContain("Le site ne les garde pas dans sa base de données");
     // Placée juste après « Cookies essentiels ».

@@ -10,7 +10,7 @@ import { TYPES_EVENEMENT_ESPACE } from "@/lib/mesure/evenements-espace";
 const enMap = (lignes: { userId: string; _count: { _all: number } }[]) => new Map(lignes.map((l) => [l.userId, l._count._all]));
 
 export async function chargerDonneesLecture(): Promise<DonneesLecture> {
-  const [evenements, missions, fiches, cartes, compteurs] = await Promise.all([
+  const [evenements, missions, fiches, cartes, compteurs, abonnesActifs] = await Promise.all([
     prisma.usageEvent.findMany({
       where: { type: { in: [...TYPES_EVENEMENT_ESPACE] } },
       select: { userId: true, type: true, detail: true, occurredAt: true },
@@ -18,13 +18,15 @@ export async function chargerDonneesLecture(): Promise<DonneesLecture> {
     prisma.missionRetour.groupBy({ by: ["userId"], where: { retour: { not: "pas-essaye" } }, _count: { _all: true } }),
     prisma.ficheFait.groupBy({ by: ["userId"], _count: { _all: true } }),
     prisma.carteReponse.groupBy({ by: ["userId"], _count: { _all: true } }),
-    prisma.espaceCompteur.groupBy({ by: ["cle", "valeur"], _sum: { n: true } }),
+    prisma.espaceCompteur.groupBy({ by: ["jour", "cle", "valeur"], _sum: { n: true } }),
+    prisma.user.count({ where: { plan: "PREMIUM" } }),
   ]);
   return {
     evenements,
     missions: enMap(missions),
     fiches: enMap(fiches),
     cartes: enMap(cartes),
-    compteurs: compteurs.map((c) => ({ cle: c.cle, valeur: c.valeur, n: c._sum.n ?? 0 })),
+    compteurs: compteurs.map((c) => ({ jour: c.jour, cle: c.cle, valeur: c.valeur, n: c._sum.n ?? 0 })),
+    abonnesActifs,
   };
 }

@@ -15,8 +15,10 @@
  */
 import type { NumeroCap } from "@/lib/espace/caps";
 
+// Lot D10 : apostrophe typographique dans « Tu t’échauffes » (règle du texte visible du site,
+// `typographie-s21.spec.ts`) : la carte « Ton cap » s'affiche sur `/profil`, page vérifiée par cette règle.
 const NOMS: Record<NumeroCap, string> = {
-  1: "Tu t'échauffes",
+  1: "Tu t’échauffes",
   2: "Tu te lances",
   3: "Tu avances bien",
   4: "Tu enchaînes",

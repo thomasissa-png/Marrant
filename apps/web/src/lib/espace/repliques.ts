@@ -76,12 +76,15 @@ export async function lireReplique(userId: string, ficheId: string): Promise<str
   return r?.texte ?? null;
 }
 
-export async function enregistrerReplique(userId: string, ficheId: string, texte: string): Promise<void> {
+/** Ajout ou modification ; `true` si la réplique est nouvelle (compteur anonyme du lot D10). */
+export async function enregistrerReplique(userId: string, ficheId: string, texte: string): Promise<boolean> {
+  const avant = await prisma.userReplique.findUnique({ where: { userId_ficheId: { userId, ficheId } }, select: { id: true } });
   await prisma.userReplique.upsert({
     where: { userId_ficheId: { userId, ficheId } },
     update: { texte },
     create: { userId, ficheId, texte },
   });
+  return !avant;
 }
 
 /** Suppression (abonné actif ou ancien abonné) ; sans effet si la réplique n'existe pas. */
