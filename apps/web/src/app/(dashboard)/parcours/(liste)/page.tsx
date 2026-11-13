@@ -77,7 +77,7 @@ export default async function ParcoursPage() {
           {PARCOURS_COUNT} parcours pour progresser en humour, chacun taillé pour une
           situation : {listeFr(NOMS_PARCOURS)}. Compte
           15 à 20 min/semaine selon le parcours, soit moins qu’un épisode de
-          série, avec des exercices concrets et des XP à gagner.
+          série, avec des exercices concrets.
         </p>
       </div>
       {/* Liens SSR vers les parcours individuels, lus par les robots et les lecteurs d'écran

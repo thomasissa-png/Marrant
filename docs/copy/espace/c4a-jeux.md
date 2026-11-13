@@ -99,7 +99,7 @@ C. « Vas-y, raconte la suivante. Cette fois, je pose mon verre. »
 **Ce qu'on aurait pu relever.**
 1. Une plaque « charge maximale » que personne ne lit.
 2. Chacun sort son badge deux étages avant le sien.
-3. Un écran qui annonce la météo d'une ville où personne ne va.
+3. Un écran qui affiche la météo du jour.
 
 **Retour.** Le deuxième travaille le mieux : un geste que tout le monde fait ensemble, et dont personne ne parle. Les deux autres sont des détails. Par exemple : « Dans l'ascenseur, chacun sort son badge deux étages trop tôt, comme à la douane de son propre palier. »
 
@@ -214,3 +214,11 @@ Recherche web (phrase et idée) de chaque texte neuf : **0 occurrence**.
 - Reprises : 3 situations (QR1 A5, QR2 S5, QR3 M2) avec leurs répliques mot pour mot et un contexte neuf ; 1 vanne du site (l. 677-678).
 - Textes drôles neufs : 4 (jeux 4, 5, 8, 9), recherche web de la phrase et de l'idée : 0 occurrence.
 - Longueur : chaque jeu tient en 3 à 5 minutes, retour de 2 phrases.
+
+
+## Arbitrage de Thomas après le tour 4 (13/11)
+
+| Retouche | Ligne |
+|---|---|
+| Jeu 7, item 3 plus plat (elon, la consigne demande des détails, pas des blagues) | « 3. Un écran qui affiche la météo du jour. » ; ligne seule à repasser à l'aveugle |
+| Jeu 2 (proposition de la critique) | Non retenue (arbitrage de Thomas) |
