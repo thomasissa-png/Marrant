@@ -112,6 +112,12 @@ describe("garde-fou de construction", () => {
    */
   const LISTE_BLANCHE: string[] = [
     "components/layout/header.tsx",
+    // D10b : condition de la puce des bonus de l'e-mail E0 (`bonusTousPublies`, lecture de fichier seule) ; la
+    // puce n'est écrite qu'interrupteur ouvert (`paiement.ts`), fermé l'e-mail reste identique (hachage, D10).
+    "lib/emails/paiement-notifications.ts",
+    // D10b : purge de `UsageEvent` programmée sur le planificateur existant, inerte interrupteur fermé
+    // (import dynamique de l'interrupteur, testé dans `purge-usage-d10b-s24.test.ts`).
+    "lib/scheduler/jobs.ts",
     // D3 : arrivées après paiement et après connexion, sous garde de l'interrupteur.
     "app/(dashboard)/abonnement/success/page.tsx",
     "app/(auth)/login/page.tsx",

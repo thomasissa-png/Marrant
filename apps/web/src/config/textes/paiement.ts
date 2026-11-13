@@ -339,6 +339,11 @@ export interface BienvenuePremiumConditions {
   lettre: boolean;
   /** `[si question]` : `QUESTION_EQUIPE_OUVERTE`. */
   question: boolean;
+  /**
+   * s24 lot D10b (T3) : les 4 fiches bonus des caps sont publiées (`bonusTousPublies`, calculé côté
+   * serveur par l'appelant ; ce fichier part aussi au navigateur). Absent : faux, la puce n'est pas écrite.
+   */
+  bonus?: boolean;
 }
 
 /** « A, B, C et D » : noms des parcours de l'offre (`PREMIUM_PARCOURS`, sans le rythme). */
@@ -360,7 +365,8 @@ export function emailBienvenuePremium(v: ConfirmationAbonnementVars & BienvenueP
     "- Les vannes, les conseils et les vidéos : tout, sans limite, et les filtres pour trouver vite ce qui colle à ta situation.",
     `- Les parcours : les ${PARCOURS_COUNT}, en entier, de la première à la dernière étape.`,
     // s24 lot D10 (plan §6 T3, décision Q8) : ligne des bonus, interrupteur de l'espace ouvert seulement ; E0 à réapprouver.
-    ESPACE_CLIENT_PUBLIE ? PUCE_BONUS_E0 : null,
+    // Lot D10b : et seulement si les 4 fiches bonus sont publiées (sinon la phrase serait fausse).
+    ESPACE_CLIENT_PUBLIE && v.bonus === true ? PUCE_BONUS_E0 : null,
     v.carnet ? "- Le carnet de répartie : chaque mois, des situations et leurs répliques, carnets passés compris." : null,
     "- Les exercices des vannes, conseils et vidéos : de quoi t’entraîner, pas seulement lire.",
     "- Tes favoris, ta progression et ta série de jours de pratique : ce qui te plaît sous la main, et où tu en es.",

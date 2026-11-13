@@ -1,7 +1,8 @@
 /**
  * Purge de la mesure d'usage rattachée au compte (`UsageEvent`) au-delà de la durée de conservation
  * (s24, lot D10 ; `src/lib/mesure/conservation-usage.ts`, `DUREE_CONSERVATION_USAGE_MOIS`,
- * [HYPOTHÈSE : 13 mois] à fixer par Thomas). Programmée nulle part tant que la durée n'est pas fixée.
+ * [HYPOTHÈSE : 13 mois] à fixer par Thomas). Programmée chaque jour à 4 h (Paris) par le planificateur
+ * (`runUsageEventsPurgeJob`, inerte interrupteur fermé, lot D10b) ; ce script reste pour un passage à la main.
  *
  * Par défaut : LECTURE SEULE (nombre d'événements concernés). `--ecrire` : efface.
  * Usage (depuis apps/web, base visée dans DATABASE_URL) :

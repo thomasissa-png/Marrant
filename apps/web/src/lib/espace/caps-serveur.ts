@@ -19,6 +19,7 @@ import {
   type TypeAnnonce,
 } from "@/lib/espace/caps";
 import { noterCapsAtteints } from "@/lib/mesure/evenements-espace";
+import { isPremiumPlan } from "@/lib/parcours-access";
 
 /** Sous-ensemble Prisma lu et écrit ici (client réel, transaction ou double de test). */
 export type DbCaps = Pick<PrismaClient, "user" | "userPathStepCompletion" | "userPathProgress" | "capAnnonce">;
@@ -113,16 +114,21 @@ export interface BilanRecalcul {
 }
 
 /**
- * Recalcul UNIQUE de l'ouverture (niveaux-xp-s24.md 3.0, 5.4 ; lot D4) : pour chaque compte ayant
- * des XP ou une étape validée, `User.level` relevé au cap des nouveaux seuils (jamais abaissé), et
+ * Recalcul UNIQUE de l'ouverture (niveaux-xp-s24.md 3.0, 5.4 ; lot D4) : pour chaque compte ABONNÉ ACTIF
+ * (plan PREMIUM en base, même notion que la garde de l'espace) ayant des XP ou une étape validée,
+ * `User.level` relevé au cap des nouveaux seuils (jamais abaissé), et
  * chaque cap atteint et bonus gagné marqué annoncé en SILENCIEUX (aucune phrase, aucun événement
  * « cap atteint »). `appliquer = false` : lecture seule, bilan seulement. Rejouable sans effet.
  */
 export async function recalculerCapsSilencieux(db: DbCaps, appliquer: boolean): Promise<BilanRecalcul> {
-  const comptes = await db.user.findMany({
-    where: { OR: [{ xp: { gt: 0 } }, { pathStepCompletions: { some: {} } }] },
-    select: { id: true, xp: true, level: true },
+  // Lot D10b (minimisation, relecture @reviewer T6 a) : abonnés actifs seulement, pour que la politique de
+  // confidentialité (« si tu es abonné ») dise vrai. Filtre en base ET relu ici (une base qui renverrait plus
+  // n'écrit rien pour un compte non abonné).
+  const lus = await db.user.findMany({
+    where: { plan: "PREMIUM", OR: [{ xp: { gt: 0 } }, { pathStepCompletions: { some: {} } }] },
+    select: { id: true, xp: true, level: true, plan: true },
   });
+  const comptes = lus.filter((c) => isPremiumPlan(c.plan));
   const bilan: BilanRecalcul = { comptes: comptes.length, niveauxReleves: 0, lignesSilencieuses: 0 };
   for (const c of comptes) {
     const niveau = niveauRecalcule(c.level, c.xp);

@@ -110,9 +110,11 @@ describe("POST /api/espace/caps (acquittement)", () => {
 describe("recalcul unique des caps (silencieux, vers le haut)", () => {
   beforeEach(() => {
     mockDb.user.findMany.mockResolvedValue([
-      { id: "a", xp: 750, level: "APPRENTI" },
-      { id: "b", xp: 5200, level: "LEGENDE" },
-      { id: "c", xp: 40, level: "NOVICE" },
+      { id: "a", xp: 750, level: "APPRENTI", plan: "PREMIUM" },
+      { id: "b", xp: 5200, level: "LEGENDE", plan: "PREMIUM" },
+      { id: "c", xp: 40, level: "NOVICE", plan: "PREMIUM" },
+      // Lot D10b : un compte non abonné renvoyé par erreur n'est jamais traité.
+      { id: "f", xp: 900, level: "NOVICE", plan: "FREE" },
     ]);
     mockDb.userPathStepCompletion.findMany.mockImplementation(async (a: { where: { userId: string } }) =>
       a.where.userId === "a" ? etapes("confiance", [1, 2, 3, 4, 5, 6]) : [],
@@ -144,6 +146,16 @@ describe("recalcul unique des caps (silencieux, vers le haut)", () => {
     expect(de("b", "BONUS")).toEqual([]);
     expect(de("c", "CAP")).toEqual([]);
   });
+
+  it("lot D10b : abonnés actifs seulement (plan PREMIUM demandé à la base, puis relu), aucun écrit pour un compte non abonné", async () => {
+    await recalculerCapsSilencieux(db, true);
+    const requete = mockDb.user.findMany.mock.calls[0][0] as { where: Record<string, unknown> };
+    expect(requete.where.plan).toBe("PREMIUM");
+    const lignes = mockDb.capAnnonce.createMany.mock.calls.flatMap((c) => c[0].data as Array<Record<string, unknown>>);
+    expect(lignes.some((l) => l.userId === "f")).toBe(false);
+    expect(mockDb.user.update).not.toHaveBeenCalledWith(expect.objectContaining({ where: { id: "f" } }));
+    expect(mockDb.userPathStepCompletion.findMany).not.toHaveBeenCalledWith(expect.objectContaining({ where: { userId: "f" } }));
+  });
 });
 
 describe("export des données du compte (@legal, espace-c9-information-s24.md point 1)", () => {
@@ -172,8 +184,9 @@ describe("confidentialité, espace OUVERT (simulé) : les trois lignes de @legal
       expect(html).toContain(frTypo(t).replace(/'/g, "&#x27;"));
     }
     expect(ESPACE_DATE_TEXTES).toBe("");
-    // D7 (plan §6 T5) : puces 1 et 4 de la partie 9 remplacées par les phrases de @legal (bloc 2) ; D10 : + 4 lignes.
-    expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(10);
+    // D7 (plan §6 T5) : puces 1 et 4 de la partie 9 remplacées par les phrases de @legal (bloc 2) ; D10 : + 4 lignes ;
+    // D10b : + 4 lignes (répliques et état « lu », parties 2 et 3, phrases manquantes de @legal).
+    expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(14);
     for (const t of Object.values(CONFIDENTIALITE_ESPACE.questions)) expect(html).toContain(frTypo(t).replace(/'/g, "&#x27;"));
     expect(html).not.toContain("Le site ne les garde pas dans sa base de données");
     // Placée juste après « Cookies essentiels ».

@@ -3,6 +3,8 @@
  * À lancer UNE fois à l'ouverture de l'espace, par @infrastructure, APRÈS : correction de la route
  * d'XP (porte G3), vérification 2.6, remise à niveau des 3 comptes de test de Thomas (Q6, porte G4).
  *
+ * - Comptes traités : ABONNÉS ACTIFS seulement (plan PREMIUM en base ; lot D10b, minimisation : la
+ *   politique de confidentialité dit « si tu es abonné »). Un compte non abonné n'est ni lu ni écrit.
  * - `User.level` relevé aux nouveaux seuils (0, 100, 300, 700, 2 300), jamais abaissé.
  * - Chaque cap atteint et chaque bonus gagné (étapes et bonus de fin) marqué dans `CapAnnonce` avec
  *   `silencieux = true` : aucune phrase de passage, aucun événement « cap atteint ».
@@ -23,7 +25,7 @@ async function main() {
     console.log(
       [
         appliquer ? "Recalcul appliqué (silencieux)." : "Lecture seule : rien n'est écrit (ajouter --appliquer).",
-        `comptes lus : ${bilan.comptes}`,
+        `comptes abonnés actifs lus : ${bilan.comptes}`,
         `niveaux relevés : ${bilan.niveauxReleves}`,
         appliquer
           ? `lignes silencieuses écrites : ${bilan.lignesSilencieuses}`

@@ -3,10 +3,10 @@
  * 2.6). Serveur seulement. Interrupteur fermé : AUCUNE lecture (ni session ni base), aucune ligne.
  *
  * Ancien abonné = compte non PREMIUM qui a eu un abonnement Stripe (`lireAccesEspace`, garde du lot D0).
- * Chaque ligne n'est affichée que si ses nombres sont au-dessus de 0 :
- * - « Tes favoris et ta progression sont gardés : {n} étapes faites, {n} favoris. » : étapes ET favoris
- *   au-dessus de 0 [HYPOTHÈSE : une ligne à « 0 favori » serait fausse dans son sens ; à confirmer par Thomas] ;
- * - « Ton historique de questions et tes répliques sont gardés. » : au moins une question ou une réplique.
+ * Chaque ligne ne dit que ce qui existe (lot D10b, relectures @elon et @reviewer) :
+ * - étapes et favoris : les deux au-dessus de 0, la ligne d'origine ; un seul, sa partie seule
+ *   (« Ta progression est gardée : … » ou « Tes favoris sont gardés : … ») ; aucun, rien ;
+ * - questions et répliques : les deux, la ligne d'origine ; une seule sorte, sa phrase ; aucune, rien.
  * Une requête agrégée par table (`count`), rien n'est écrit.
  */
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
@@ -24,7 +24,11 @@ export interface ComptesAncienAbonne {
 export function lignesDepuisComptes(c: ComptesAncienAbonne): string[] {
   const lignes: string[] = [];
   if (c.etapes > 0 && c.favoris > 0) lignes.push(ANCIEN_ABONNE.progression(c.etapes, c.favoris));
-  if (c.questions + c.repliques > 0) lignes.push(ANCIEN_ABONNE.historique);
+  else if (c.etapes > 0) lignes.push(ANCIEN_ABONNE.etapesSeules(c.etapes));
+  else if (c.favoris > 0) lignes.push(ANCIEN_ABONNE.favorisSeuls(c.favoris));
+  if (c.questions > 0 && c.repliques > 0) lignes.push(ANCIEN_ABONNE.historique);
+  else if (c.questions > 0) lignes.push(ANCIEN_ABONNE.questionsSeules);
+  else if (c.repliques > 0) lignes.push(ANCIEN_ABONNE.repliquesSeules);
   return lignes;
 }
 

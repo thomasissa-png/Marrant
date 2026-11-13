@@ -4,8 +4,10 @@
  * du compte »). Une seule constante, une seule purge.
  *
  * [HYPOTHÈSE : 13 mois] À FIXER PAR THOMAS (`docs/espace-client/textes-en-ligne-d10-a-valider.md`, ligne
- * « Durée de conservation de la mesure »). Tant qu'elle n'est pas fixée, la purge n'est PROGRAMMÉE nulle
- * part (aucun cron, aucun appel) : elle se lance à la main, `--ecrire` exigé (voir `REPLIT_ACTIONS.md`).
+ * « Durée de conservation de la mesure »). Lot D10b : la purge est PROGRAMMÉE par le planificateur du dépôt
+ * (`lib/scheduler/jobs.ts`, `runUsageEventsPurgeJob`, chaque jour à 4 h, Paris), INERTE tant que
+ * l'interrupteur de l'espace est fermé ; à la main : `scripts/purger-usage-events.ts`, `--ecrire` exigé.
+ * La même constante écrit la durée dans la politique de confidentialité (`CONFIDENTIALITE_ESPACE.mesure`).
  * Les compteurs anonymes (`EspaceCompteur`) ne sont pas concernés (aucune donnée de compte).
  */
 export const DUREE_CONSERVATION_USAGE_MOIS = 13;

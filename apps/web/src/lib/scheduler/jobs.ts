@@ -1009,6 +1009,30 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : Purge de la mesure d'usage de l'espace (`UsageEvent`, s24 lot D10b ; avis @legal D9 point 3).
+   * Une fois par jour à 4 h (Paris), comme les autres purges de données. INERTE tant que l'interrupteur
+   * de l'espace est fermé (aucune lecture ni écriture). Ouvert : efface les événements plus vieux que
+   * `DUREE_CONSERVATION_USAGE_MOIS` ([HYPOTHÈSE : 13 mois] à fixer par Thomas, constante unique, la même
+   * que la phrase de la politique de confidentialité). Sans verrou : effacement idempotent.
+   */
+  const runUsageEventsPurgeJob = async (now: Date = new Date()): Promise<number> => {
+    try {
+      const { ESPACE_CLIENT_PUBLIE } = await import("@/config/espace-client");
+      if (!ESPACE_CLIENT_PUBLIE) return 0;
+      const { parisParts } = await import("@/lib/analytics/weekly-visits-period");
+      if (parisParts(now).hour !== 4) return 0;
+      const { prisma } = await import("@/lib/prisma");
+      const { purgerUsageEvents } = await import("@/lib/mesure/conservation-usage");
+      const n = await purgerUsageEvents(prisma, { maintenant: now, ecrire: true });
+      if (n > 0) console.log(`[scheduler:usage-events-purge] ${n} événement(s) d'usage effacé(s).`);
+      return n;
+    } catch (err) {
+      console.error("[scheduler:usage-events-purge] Échec :", err instanceof Error ? err.name : "erreur");
+      return 0;
+    }
+  };
+
+  /**
    * Job : Digest quotidien des alertes admin (s15, 06/10/2026). Le SEUL e-mail
    * d'alerte vers l'admin : au plus 1 par jour, 07:30-09:59 heure de Paris,
    * seulement s'il y a une action pour Thomas (ou des alertes B non relues par
@@ -1054,6 +1078,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runLettreHebdoJob();
     await runLettreEntretienJob();
     await runLettreHebdoEntretienJob();
+    await runUsageEventsPurgeJob();
     await runEmailDnsJob();
     await runWeeklyVisitsReportJob();
     await runAdminDigestJob();
@@ -1072,6 +1097,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runLettreHebdoJob,
     runLettreEntretienJob,
     runLettreHebdoEntretienJob,
+    runUsageEventsPurgeJob,
     runWeeklyVisitsReportJob,
     runBufferStatusCheckJob,
     runCouvertureSocialeJob,

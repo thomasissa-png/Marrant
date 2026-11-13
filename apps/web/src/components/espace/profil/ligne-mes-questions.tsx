@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * « Mon profil », espace ouvert (s24, lot D10 ; plan §6 T8) : l'encadré « Ta question à l'équipe »
- * devient une ligne de lien vers « Mes questions » (la phrase de l'e-mail E0 « écris-nous depuis ton
+ * devient une ligne de lien vers « Mes questions » (lot D10b : « écris-la dans », relecture @elon ; la phrase de l'e-mail E0 « écris-nous depuis ton
  * profil » reste vraie). Cible de 44 px, focus visible. Fermé : jamais rendue (l'encadré s22 reste).
  */
 export function LigneMesQuestions({ className }: { className?: string }) {
@@ -22,6 +22,7 @@ export function LigneMesQuestions({ className }: { className?: string }) {
           >
             {T.lien}
           </Link>
+          {T.apres}
         </p>
       </CardContent>
     </Card>

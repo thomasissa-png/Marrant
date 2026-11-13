@@ -220,6 +220,8 @@ describe("bonus absents partout tant qu'ils ne sont pas ouverts (critères 14 et
       "app/(dashboard)/mon-espace/bibliotheque/page.tsx",
       "app/(dashboard)/mon-espace/bonus/[id]/page.tsx",
       "app/api/espace/caps/route.ts",
+      // Lot D10b : condition de la ligne des bonus (T1, T3), lit si les 4 bonus sont publiés, ne sert aucun bonus.
+      "lib/espace/bonus-publies.ts",
       "lib/espace/bonus.ts",
       "lib/espace/fiches.ts",
     ]);

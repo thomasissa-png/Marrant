@@ -156,9 +156,11 @@ describe("durée de conservation de `UsageEvent` (constante unique, [HYPOTHÈSE 
     expect(await purgerUsageEvents(db, { maintenant, ecrire: true })).toBe(4);
     expect(db.usageEvent.deleteMany).toHaveBeenCalledWith({ where: { occurredAt: { lt: new Date("2026-11-20T10:00:00Z") } } });
   });
-  it("la purge n'est programmée nulle part (ni cron, ni route) tant que la durée n'est pas fixée", () => {
+  // Lot D10b (décision de la session) : la purge est programmée par le planificateur existant, inerte fermé ;
+  // le détail est testé dans `purge-usage-d10b-s24.test.ts`. Ici : seul ce planificateur l'appelle.
+  it("la purge n'est programmée que par le planificateur existant (ni route, ni autre cron)", () => {
     const code = fichiers(SRC)
-      .filter((f) => /\.(ts|tsx)$/.test(f) && !f.includes("__tests__") && !f.endsWith("conservation-usage.ts"))
+      .filter((f) => /\.(ts|tsx)$/.test(f) && !f.includes("__tests__") && !f.endsWith("conservation-usage.ts") && !f.endsWith("scheduler/jobs.ts"))
       .map((f) => readFileSync(f, "utf8"))
       .join("\n");
     expect(code).not.toContain("purgerUsageEvents");

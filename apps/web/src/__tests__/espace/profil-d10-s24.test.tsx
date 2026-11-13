@@ -33,7 +33,7 @@ import { ProfilDashboard } from "@/components/profil/profil-dashboard";
 import { Footer } from "@/components/layout/footer";
 import { emailBienvenuePremium, emailConfirmationAbonnement, texteStripeSubmit, LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
 import { emailOnboardingE1, emailOnboardingE1b, emailOnboardingE2 } from "@/config/textes/onboarding-premium";
-import { ANCIEN_ABONNE, CGU_QUESTION_EQUIPE_ESPACE, LIGNE_BONUS_OFFRE, PROFIL_LIGNE_QUESTIONS, PUCE_BONUS_E0 } from "@/config/textes/espace-textes-en-ligne";
+import { ANCIEN_ABONNE, CGU_QUESTION_EQUIPE_ESPACE, LIGNE_BONUS_OFFRE, PHRASE_RETROUVER_CGU, PROFIL_LIGNE_QUESTIONS, PUCE_BONUS_E0 } from "@/config/textes/espace-textes-en-ligne";
 import { CGU_QUESTION_EQUIPE, CONSERVATION_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
 import { CONFIDENTIALITE_ESPACE } from "@/config/textes/espace-confidentialite";
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
@@ -84,7 +84,8 @@ describe.each([["fermé", false], ["ouvert", true]])("« Mon profil », interrup
     if (ouvert) {
       expect(screen.getByRole("link", { name: PROFIL_LIGNE_QUESTIONS.lien })).toHaveAttribute("href", "/mon-espace/questions");
       expect(screen.queryByRole("button", { name: QUESTION_EQUIPE_UI.bouton })).toBeNull();
-      expect(screen.getByTestId("profil-ligne-mes-questions").textContent).toContain("Ta question à l’équipe");
+      expect(screen.getByTestId("profil-ligne-mes-questions").textContent).toBe(frTypo(`${PROFIL_LIGNE_QUESTIONS.avant}${PROFIL_LIGNE_QUESTIONS.lien}${PROFIL_LIGNE_QUESTIONS.apres}`));
+      expect(PROFIL_LIGNE_QUESTIONS.avant + PROFIL_LIGNE_QUESTIONS.lien + PROFIL_LIGNE_QUESTIONS.apres).toBe("Ta question à l'équipe : écris-la dans Mes questions.");
     } else {
       expect(screen.queryByTestId("profil-ligne-mes-questions")).toBeNull();
     }
@@ -130,12 +131,15 @@ describe("e-mails : E1, E1b, E2 inchangés, E0 inchangé hors la ligne des bonus
     expect(sha(readFileSync(join(SRC, "config/textes/onboarding-premium.ts"), "utf8"))).toBe(HACHAGES.onboardingPremium);
   });
 
-  it("E0 fermé : rendu identique à la référence (hachage) ; ouvert : la seule puce des bonus en plus", () => {
+  it("E0 fermé : rendu identique à la référence (hachage), bonus publiés ou non ; ouvert : la seule puce des bonus en plus, et seulement bonus publiés (D10b)", () => {
     const ferme = emailBienvenuePremium({ ...MENSUEL, ...TOUT });
     expect(sha(JSON.stringify(ferme))).toBe(HACHAGES.e0Ferme);
+    expect(sha(JSON.stringify(emailBienvenuePremium({ ...MENSUEL, ...TOUT, bonus: true })))).toBe(HACHAGES.e0Ferme);
     expect(ferme.text).not.toContain(LIGNE_BONUS_OFFRE);
     etat.__D10_OUVERT__ = true;
-    const ouvert = emailBienvenuePremium({ ...MENSUEL, ...TOUT });
+    expect(emailBienvenuePremium({ ...MENSUEL, ...TOUT })).toEqual(ferme);
+    expect(emailBienvenuePremium({ ...MENSUEL, ...TOUT, bonus: false })).toEqual(ferme);
+    const ouvert = emailBienvenuePremium({ ...MENSUEL, ...TOUT, bonus: true });
     expect(ouvert.subject).toBe(ferme.subject);
     expect(ouvert.text.replace(`${PUCE_BONUS_E0}\n`, "")).toBe(ferme.text);
     expect(ouvert.text).toContain(`de la première à la dernière étape.\n${PUCE_BONUS_E0}\n- Le carnet`);
@@ -172,7 +176,20 @@ describe("textes touchés : zéro tiret cadratin, zéro émoji", () => {
     expect(t).not.toMatch(/\p{Extended_Pictographic}/u);
   });
   it("valeurs proposées", () => {
-    const tout = [LIGNE_BONUS_OFFRE, PUCE_BONUS_E0, CGU_QUESTION_EQUIPE_ESPACE, PROFIL_LIGNE_QUESTIONS.avant, ANCIEN_ABONNE.progression(3, 2), ANCIEN_ABONNE.historique].join("\n");
+    const tout = [
+      LIGNE_BONUS_OFFRE,
+      PUCE_BONUS_E0,
+      CGU_QUESTION_EQUIPE_ESPACE,
+      PROFIL_LIGNE_QUESTIONS.avant,
+      PROFIL_LIGNE_QUESTIONS.apres,
+      ANCIEN_ABONNE.progression(3, 2),
+      ANCIEN_ABONNE.etapesSeules(3),
+      ANCIEN_ABONNE.favorisSeuls(2),
+      ANCIEN_ABONNE.historique,
+      ANCIEN_ABONNE.questionsSeules,
+      ANCIEN_ABONNE.repliquesSeules,
+      ...Object.values(CONFIDENTIALITE_ESPACE).filter((v): v is string => typeof v === "string"),
+    ].join("\n");
     expect(tout).not.toContain("—");
     expect(tout).not.toMatch(/\p{Extended_Pictographic}/u);
   });
@@ -182,24 +199,44 @@ describe("confidentialité et CGU (T5, T6, T7) : phrases de @legal mot pour mot"
   const LEGAL = readFileSync(join(RACINE, "docs/legal/espace-client-s24-phrases.md"), "utf8");
   const D9 = readFileSync(join(RACINE, "docs/legal/espace-d9-mesure-s24.md"), "utf8");
   const D4 = readFileSync(join(RACINE, "docs/legal/espace-d4-confidentialite-s24.md"), "utf8");
+  // Lot D10b : phrases manquantes de @legal et réécritures des deux relectures à l'aveugle.
+  const D10L = readFileSync(join(RACINE, "docs/legal/espace-d10-phrases-manquantes-s24.md"), "utf8");
+  const ELON = readFileSync(join(RACINE, "docs/espace-client/relecture-textes-d10-elon.md"), "utf8");
+  const REVIEWER = readFileSync(join(RACINE, "docs/espace-client/relecture-textes-d10-reviewer.md"), "utf8");
+  const E = CONFIDENTIALITE_ESPACE;
 
-  it("chaque phrase codée est dans le document de @legal, au caractère près", () => {
-    for (const t of [CONFIDENTIALITE_ESPACE.mesure, CONFIDENTIALITE_ESPACE.baseMesure]) expect(D9).toContain(t);
-    for (const t of [CONFIDENTIALITE_ESPACE.donneesCaps, CONFIDENTIALITE_ESPACE.baseCaps, CONFIDENTIALITE_ESPACE.dureeEtapes]) expect(D4).toContain(t);
-    expect(LEGAL).toContain("« base de données (compte, progression, abonnement, tes questions et nos réponses) »");
+  it("chaque phrase codée est dans le document de sa source (@legal ou relecture), au caractère près", () => {
+    expect(D9).toContain(E.baseMesure);
+    for (const t of [E.baseCaps]) expect(D4).toContain(t);
+    // T6 a (@elon), T6 c (`mesure` raccourcie de @legal, durée = constante de la purge, sans point final de puce).
+    expect(ELON).toContain(`« ${E.donneesCaps} »`);
+    expect(D10L).toContain(`« ${E.mesure.replace("13 mois", "{durée}")}. »`);
+    // T6 e et g (@reviewer).
+    const dureeD4 = "La date de chaque étape validée, tes retours sur les exercices, ta réponse sur l'endroit où tu veux être plus à l'aise et la liste des caps et des bonus déjà annoncés sont gardés tant que ton compte existe, et effacés avec lui.";
+    expect(D4).toContain(dureeD4);
+    expect(E.dureeEtapes).toBe(dureeD4.replace("tes retours sur les exercices, ", "tes retours sur les exercices, tes répliques, "));
+    expect(REVIEWER).toContain("…tes retours sur les exercices, tes répliques, ta réponse sur l'endroit…");
+    expect(REVIEWER).toContain(`« Neon : ${E.neonRole} »`);
+    // Phrases manquantes de @legal, mot pour mot.
+    for (const t of [E.donneesReplique, E.baseReplique, E.dureeReplique, E.donneesLu, E.baseLu, E.dureeLu]) expect(D10L).toContain(`« ${t} »`);
     expect(CONFIDENTIALITE_ESPACE.conservationQuestions).toBe(
       CONSERVATION_QUESTION_EQUIPE.confidentialite.replace("Tes questions à l'équipe et nos réponses suivent leur propre durée", "Les copies par e-mail de tes questions à l'équipe et de nos réponses suivent leur propre durée"),
     );
-    expect(CGU_QUESTION_EQUIPE_ESPACE).toContain("tu peux écrire à l'équipe depuis ton espace (Mes questions)");
-    expect(CGU_QUESTION_EQUIPE_ESPACE).toContain("L'équipe répond par e-mail, et tu retrouves ta question et sa réponse dans ton espace, en général sous 1 à 2 jours ouvrés");
-    expect(CGU_QUESTION_EQUIPE_ESPACE.length).toBe(CGU_QUESTION_EQUIPE.texte.length + "ton espace (Mes questions)".length - "ton profil".length + ", et tu retrouves ta question et sa réponse dans ton espace".length);
+    // T7, lot D10b : variante de @legal (phrase séparée), la 2e phrase d'aujourd'hui reste telle quelle.
+    expect(LEGAL).toContain(`« ${PHRASE_RETROUVER_CGU} »`);
+    expect(CGU_QUESTION_EQUIPE_ESPACE).toBe(
+      CGU_QUESTION_EQUIPE.texte
+        .replace("depuis ton profil pour décrire", "depuis ton espace (Mes questions) pour décrire")
+        .replace("en cas de retard, on te prévient. La réponse", `en cas de retard, on te prévient. ${PHRASE_RETROUVER_CGU} La réponse`),
+    );
+    expect(CGU_QUESTION_EQUIPE_ESPACE).toContain("L'équipe répond par e-mail, en général sous 1 à 2 jours ouvrés, et au plus tard sous 3 jours ouvrés ; en cas de retard, on te prévient. Tu retrouves ensuite");
   });
 
   it("ouvert : lignes rendues, plus aucune phrase « pas gardée » ; fermé : rien de neuf", () => {
     etat.__D10_OUVERT__ = true;
     const conf = renderToStaticMarkup(<ConfidentialitePage />);
     const cgu = renderToStaticMarkup(<CguPage />);
-    for (const t of [CONFIDENTIALITE_ESPACE.mesure, CONFIDENTIALITE_ESPACE.baseMesure, CONFIDENTIALITE_ESPACE.donneesCaps, CONFIDENTIALITE_ESPACE.baseCaps, CONFIDENTIALITE_ESPACE.conservationQuestions, CONFIDENTIALITE_ESPACE.neonRole]) {
+    for (const t of [E.mesure, E.baseMesure, E.donneesCaps, E.baseCaps, E.conservationQuestions, E.neonRole, E.donneesReplique, E.baseReplique, E.donneesLu, E.baseLu, E.dureeEtapes, E.dureeReplique, E.dureeLu]) {
       expect(conf).toContain(html(t));
     }
     expect(conf).not.toMatch(/ne les garde pas|n.est pas gard/);
@@ -209,22 +246,28 @@ describe("confidentialité et CGU (T5, T6, T7) : phrases de @legal mot pour mot"
     etat.__D10_OUVERT__ = false;
     const confF = renderToStaticMarkup(<ConfidentialitePage />);
     const cguF = renderToStaticMarkup(<CguPage />);
-    expect(confF).not.toContain(html(CONFIDENTIALITE_ESPACE.mesure));
+    for (const t of [E.mesure, E.donneesReplique, E.donneesLu, E.baseReplique, E.baseLu, E.dureeReplique, E.dureeLu]) expect(confF).not.toContain(html(t));
     expect(confF).not.toContain("tes questions et nos réponses)");
     expect(cguF).toContain(html(CGU_QUESTION_EQUIPE.texte));
     expect(cguF).not.toContain("ton espace (Mes questions)");
+    expect(cguF).not.toContain(html(PHRASE_RETROUVER_CGU));
   });
 });
 
 describe("T11 : lignes de l'ancien abonné sur `/abonnement`", () => {
-  it("chaque ligne seulement si ses nombres sont au-dessus de 0, pluriels accordés", () => {
-    expect(lignesDepuisComptes({ etapes: 0, favoris: 0, questions: 0, repliques: 0 })).toEqual([]);
-    expect(lignesDepuisComptes({ etapes: 4, favoris: 0, questions: 0, repliques: 0 })).toEqual([]);
-    expect(lignesDepuisComptes({ etapes: 1, favoris: 1, questions: 0, repliques: 0 })).toEqual(["Tes favoris et ta progression sont gardés : 1 étape faite, 1 favori."]);
-    expect(lignesDepuisComptes({ etapes: 7, favoris: 3, questions: 0, repliques: 2 })).toEqual([
-      "Tes favoris et ta progression sont gardés : 7 étapes faites, 3 favoris.",
-      "Ton historique de questions et tes répliques sont gardés.",
-    ]);
+  it("chaque ligne ne dit que ce qui existe (lot D10b : partie non nulle seule, historique selon les nombres), pluriels accordés", () => {
+    const l = (etapes: number, favoris: number, questions: number, repliques: number) => lignesDepuisComptes({ etapes, favoris, questions, repliques });
+    expect(l(0, 0, 0, 0)).toEqual([]);
+    expect(l(4, 0, 0, 0)).toEqual(["Ta progression est gardée : 4 étapes faites."]);
+    expect(l(1, 0, 0, 0)).toEqual(["Ta progression est gardée : 1 étape faite."]);
+    expect(l(0, 3, 0, 0)).toEqual(["Tes favoris sont gardés : 3 favoris."]);
+    expect(l(0, 1, 0, 0)).toEqual(["Tes favoris sont gardés : 1 favori."]);
+    expect(l(1, 1, 0, 0)).toEqual(["Tes favoris et ta progression sont gardés : 1 étape faite, 1 favori."]);
+    expect(l(7, 3, 0, 2)).toEqual(["Tes favoris et ta progression sont gardés : 7 étapes faites, 3 favoris.", "Tes répliques sont gardées."]);
+    expect(l(0, 0, 2, 0)).toEqual(["Ton historique de questions est gardé."]);
+    expect(l(0, 0, 1, 1)).toEqual(["Ton historique de questions et tes répliques sont gardés."]);
+    // Jamais un historique de questions annoncé sans question (relecture @reviewer T11 b).
+    for (const r of [1, 5]) expect(l(2, 0, 0, r).join(" ")).not.toContain("questions");
   });
   it("fermé : aucune ligne, sans lire ni session ni base ; abonné actif ou compte jamais abonné : aucune ligne", async () => {
     expect(await lignesAncienAbonne(false)).toEqual([]);

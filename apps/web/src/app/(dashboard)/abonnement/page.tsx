@@ -13,6 +13,7 @@ import { estRetourSansPaiement } from "@/lib/checkout-tracking";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { LIGNE_BONUS_OFFRE } from "@/config/textes/espace-textes-en-ligne";
 import { lignesAncienAbonne } from "@/lib/espace/ancien-abonne";
+import { bonusTousPublies } from "@/lib/espace/bonus-publies";
 
 // Rendu : SSR dynamique (`dynamic = "force-dynamic"` dans layout.tsx). La disponibilité de
 // l'annuel est lue au rendu (secret serveur STRIPE_PREMIUM_ANNUAL_PRICE_ID). Paiement côté client
@@ -22,6 +23,7 @@ import { lignesAncienAbonne } from "@/lib/espace/ancien-abonne";
 // d'après inscription (`auto=1` avec une session : plus de flash de la page de vente avant Stripe).
 // s24 lot D10 (plan §6 T1 et T11) : interrupteur de l'espace ouvert seulement, ligne des bonus sous le
 // sous-titre et lignes de l'ancien abonné au-dessus de l'offre ; fermé, rien n'est lu ni rendu en plus.
+// Lot D10b : la ligne des bonus seulement si les 4 fiches bonus sont publiées (`bonusTousPublies`).
 export default async function AbonnementPage({
   searchParams = {},
 }: {
@@ -54,7 +56,7 @@ export default async function AbonnementPage({
       planInitial={lire("plan") === "annual" ? "annual" : "monthly"}
       tableau={<TableauGratuitPremium lignes={lignes} ligneMiseEnAvant={ligneMiseEnAvant} />}
       carnetExtrait={extrait ? <CarnetExtraitBloc extrait={extrait} /> : null}
-      {...(ESPACE_CLIENT_PUBLIE ? { ligneBonus: LIGNE_BONUS_OFFRE, lignesAncienAbonne: ancienAbonne } : {})}
+      {...(ESPACE_CLIENT_PUBLIE ? { ligneBonus: bonusTousPublies() ? LIGNE_BONUS_OFFRE : null, lignesAncienAbonne: ancienAbonne } : {})}
     />
   );
 }

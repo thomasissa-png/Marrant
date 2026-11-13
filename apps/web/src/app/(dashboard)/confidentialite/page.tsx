@@ -109,6 +109,9 @@ export default function ConfidentialitePage() {
             {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.donnees)}</li>}
             {/* s24 lot D10 (plan §6 T6, @legal D4 point 2 et D9 point 4) : caps annoncés et usage de l'espace, ouvert seulement. */}
             {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.donneesCaps)}</li>}
+            {/* s24 lot D10b (@legal, phrases manquantes s24 points 1 et 2) : répliques et état « lu », ouvert seulement. */}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.donneesReplique)}</li>}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.donneesLu)}</li>}
             {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.mesure)}</li>}
             <li>Rétractation, si tu envoies une demande : adresse e-⁠mail, date d’achat indiquée, motif (facultatif) et une empreinte de ton adresse IP (pour limiter les abus, sans garder l’adresse elle-⁠même)</li>
             {/* s23 (@legal O2), publié avec l'ouverture de /resiliation. Ancre visée par la mention sous le champ libre. */}
@@ -133,6 +136,8 @@ export default function ConfidentialitePage() {
             {ONBOARDING_PREMIUM_OUVERT && <li data-testid="confidentialite-onboarding-premium">{frTypo(CONFIDENTIALITE_ONBOARDING_PREMIUM)}</li>}
             {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.base)}</li>}
             {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.baseCaps)}</li>}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.baseReplique)}</li>}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.baseLu)}</li>}
             {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.baseMesure)}</li>}
             {RESILIATION_PAGE_OUVERTE && <li data-testid="confidentialite-resiliation">{frTypo(RESILIATION.base)}</li>}
           </ul>
@@ -182,7 +187,7 @@ export default function ConfidentialitePage() {
               à ajouter seulement une fois la purge Umami réglée (C12, Thomas). */}
           {/* s24 lot D4 (@legal G9) : ouvert, la phrase des étapes cite aussi la réponse C9 ; fermé, inchangée. */}
           {ESPACE_CLIENT_PUBLIE ? (
-            <p className="mt-2" data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.dureeEtapes)} Ton rappel de parcours s’arrête dès que tu le désactives, que ton abonnement Premium prend fin ou que tu supprimes ton compte.</p>
+            <p className="mt-2" data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.dureeEtapes)} {frTypo(CONFIDENTIALITE_ESPACE.dureeReplique)} {frTypo(CONFIDENTIALITE_ESPACE.dureeLu)} Ton rappel de parcours s’arrête dès que tu le désactives, que ton abonnement Premium prend fin ou que tu supprimes ton compte.</p>
           ) : (
           <p className="mt-2">La date de chaque étape validée et tes retours sur les exercices sont gardés tant que ton compte existe, et effacés avec lui. Ton rappel de parcours s’arrête dès que tu le désactives, que ton abonnement Premium prend fin ou que tu supprimes ton compte.</p>
           )}

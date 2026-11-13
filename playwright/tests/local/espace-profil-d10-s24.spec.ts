@@ -1,9 +1,11 @@
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { randomBytes } from "node:crypto";
 import type { Browser, Cookie, Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, requete } from "../support/base-locale";
-import { ANCIEN_ABONNE, LIGNE_BONUS_OFFRE, PROFIL_LIGNE_QUESTIONS } from "@/config/textes/espace-textes-en-ligne";
+import { ANCIEN_ABONNE, CGU_QUESTION_EQUIPE_ESPACE, LIGNE_BONUS_OFFRE, PHRASE_RETROUVER_CGU, PROFIL_LIGNE_QUESTIONS } from "@/config/textes/espace-textes-en-ligne";
+import { CONFIDENTIALITE_ESPACE } from "@/config/textes/espace-confidentialite";
+import { validerBonus } from "@/lib/espace/fiches-schema";
 import { QUESTION_EQUIPE_UI } from "@/config/textes/question-equipe-s22";
 import { TEXTES_API, TEXTES_ABONNEMENT } from "@/config/textes/compte";
 import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
@@ -25,11 +27,27 @@ const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
 const CAPTURES = process.env.E2E_CAPTURES_D10 ?? "";
 const MOT_DE_PASSE = "E2e-espace-profil-d10";
 const SUFFIXE = ESPACE_OUVERT ? "apres" : "avant";
+/** Lot D10b : `E2E_CAPTURES_LARGEURS=375,1280` limite les captures à ces largeurs (défaut : toutes). */
+const LARGEURS = (process.env.E2E_CAPTURES_LARGEURS ?? "").split(",").filter(Boolean);
+const typo = (t: string) => t.replace(/'/g, "’");
+/**
+ * Lot D10b : la ligne des bonus n'est servie que si les 4 fiches bonus sont publiées (même règle que
+ * `bonusTousPublies`, recopiée ici : le typage E2E ne lit pas les fichiers JSON importés).
+ */
+const BONUS_PUBLIES = (() => {
+  try {
+    const lus = validerBonus(JSON.parse(readFileSync(join(__dirname, "../../../apps/web/src/data/espace/bonus.json"), "utf8")));
+    return [2, 3, 4, 5].every((cap) => lus.some((b) => b.cap === cap));
+  } catch {
+    return false;
+  }
+})();
 
 async function capturer(page: Page, nom: string) {
   if (!CAPTURES) return;
   mkdirSync(CAPTURES, { recursive: true });
   for (const [l, h, s] of [[320, 700, "320"], [375, 812, "375"], [768, 1024, "768"], [1280, 900, "1280"], [188, 406, "375-200pc"]] as const) {
+    if (LARGEURS.length > 0 && !LARGEURS.includes(s)) continue;
     await page.setViewportSize({ width: l, height: h });
     await page.waitForTimeout(300);
     await page.screenshot({ path: join(CAPTURES, `${nom}-${SUFFIXE}-${s}.png`), fullPage: true });
@@ -174,7 +192,9 @@ test.describe("lot D10, « Mon profil » et `/abonnement`", () => {
       await expect(page).toHaveURL(/\/abonnement/);
       await expect(lignes).toContainText(ANCIEN_ABONNE.progression(2, 1).replace(/'/g, "’"));
       await expect(lignes).toContainText(ANCIEN_ABONNE.historique);
-      await expect(page.getByTestId("abonnement-ligne-bonus")).toHaveText(LIGNE_BONUS_OFFRE);
+      // Lot D10b : ligne des bonus seulement si les 4 fiches bonus sont publiées (aujourd'hui : non).
+      if (BONUS_PUBLIES) await expect(page.getByTestId("abonnement-ligne-bonus")).toHaveText(LIGNE_BONUS_OFFRE);
+      else await expect(page.getByTestId("abonnement-ligne-bonus")).toHaveCount(0);
     } else {
       await page.goto("/abonnement");
       await expect(lignes).toHaveCount(0);
@@ -196,6 +216,21 @@ test.describe("lot D10, « Mon profil » et `/abonnement`", () => {
     await capturer(page, "profil-ancien-abonne");
   });
 
+  test("lot D10b, ancien abonné sans favori ni question : seules les parties non nulles", async ({ page }) => {
+    for (const table of ["UserFavorite", "EquipeFil"]) await requete(`DELETE FROM "${table}" WHERE "userId" = $1`, [ancien.id]);
+    await page.context().addCookies(ancien.cookies);
+    await page.goto("/abonnement");
+    const lignes = page.getByTestId("abonnement-ancien-abonne");
+    if (ESPACE_OUVERT) {
+      await expect(lignes.locator("p")).toHaveText([typo(ANCIEN_ABONNE.etapesSeules(2)), typo(ANCIEN_ABONNE.repliquesSeules)]);
+      await expect(lignes).not.toContainText("questions");
+    } else {
+      await expect(lignes).toHaveCount(0);
+    }
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await capturer(page, "abonnement-ancien-abonne-partiel");
+  });
+
   test("compte FREE sans historique : aucune ligne sur `/abonnement`, rien sur `/profil`", async ({ page }) => {
     // Même compte, historique effacé : plus rien à dire, aucune ligne.
     for (const table of ["UserPathStepCompletion", "UserFavorite", "EquipeFil", "UserReplique"]) {
@@ -207,5 +242,24 @@ test.describe("lot D10, « Mon profil » et `/abonnement`", () => {
     await page.goto("/profil");
     await expect(page.getByTestId("profil-historique-lecture-seule")).toHaveCount(0);
   });
-});
 
+  test("lot D10b, confidentialité et CGU : versions finales ouvertes, texte d'aujourd'hui fermé", async ({ page }) => {
+    await page.goto("/confidentialite");
+    const espace = page.getByTestId("confidentialite-espace");
+    if (ESPACE_OUVERT) {
+      for (const t of [CONFIDENTIALITE_ESPACE.donneesCaps, CONFIDENTIALITE_ESPACE.donneesReplique, CONFIDENTIALITE_ESPACE.donneesLu, CONFIDENTIALITE_ESPACE.mesure]) {
+        await expect(espace.filter({ hasText: typo(t).slice(0, 60) })).toHaveCount(1);
+      }
+      await expect(page.locator("main")).toContainText(typo(CONFIDENTIALITE_ESPACE.neonRole));
+    } else {
+      await expect(espace).toHaveCount(0);
+    }
+    await capturer(page, "confidentialite");
+    await page.goto("/cgu");
+    if (ESPACE_OUVERT) await expect(page.locator("main")).toContainText(typo(PHRASE_RETROUVER_CGU));
+    else await expect(page.locator("main")).not.toContainText(typo(PHRASE_RETROUVER_CGU));
+    expect(CGU_QUESTION_EQUIPE_ESPACE).toContain(PHRASE_RETROUVER_CGU);
+    await page.getByText(typo("Tu restes titulaire de ce que tu écris"), { exact: false }).first().scrollIntoViewIfNeeded();
+    await capturer(page, "cgu");
+  });
+});

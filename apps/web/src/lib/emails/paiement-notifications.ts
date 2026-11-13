@@ -22,6 +22,7 @@ import { ONBOARDING_PREMIUM_OUVERT } from "@/config/onboarding-premium";
 import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { getCarnetExtrait } from "@/lib/carnet";
+import { bonusTousPublies } from "@/lib/espace/bonus-publies";
 import { recoitHebdo, SELECT_CANDIDAT_HEBDO } from "@/lib/lettre/hebdo";
 import { noterAncreJ0 } from "@/lib/onboarding/journal-onboarding";
 import {
@@ -82,7 +83,7 @@ export async function conditionsBienvenue(userId: string): Promise<BienvenuePrem
   } catch (err) {
     console.warn("[email:confirmation-abonnement] État de la lettre illisible :", err instanceof Error ? err.message : err);
   }
-  return { carnet: getCarnetExtrait() !== null, lettre, question: QUESTION_EQUIPE_OUVERTE };
+  return { carnet: getCarnetExtrait() !== null, lettre, question: QUESTION_EQUIPE_OUVERTE, bonus: bonusTousPublies() };
 }
 
 /** Bienvenue s23 (E0), puis ancre J0 de l'onboarding (E1, E2) si l'e-mail est parti. */
