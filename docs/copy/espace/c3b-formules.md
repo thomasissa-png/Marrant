@@ -107,7 +107,7 @@ Tu gardes le début de la comptine tel quel. Tu remplaces ou tu prolonges la fin
 2. « Au clair de la lune, mon ami Pierrot, prête-moi … »
    `[Voir une version possible]` « Au clair de la lune, mon ami Pierrot, prête-moi ton wifi pour écrire un mot. »
 3. « Alouette, gentille alouette, alouette, je te … »
-   `[Voir une version possible]` « Alouette, gentille alouette, alouette, je te repousse de dix minutes. »
+   `[Voir une version possible]` « Alouette, gentille alouette, alouette, je te débrancherai, avec un seul œil ouvert. »
 
 **Le piège**
 Changer la forme : plus personne ne reconnaît l'expression.
@@ -355,3 +355,5 @@ Une seule ligne (décision C8), le reste est inchangé. 3 candidates, recherche 
 | Ligne | Avant | Après | Pourquoi |
 |---|---|---|---|
 | Fiche 9, alouette (l. 110) | « …je te débrancherai, si j'arrive à te trouver sans ouvrir les yeux. » | « Alouette, gentille alouette, alouette, je te repousse de dix minutes. » | Rien ne disait que l'alouette est le réveil, et la suite dépassait la douzaine de mots. « Dix minutes » nomme le réveil sans l'expliquer ; 6 mots après « je te ». Recherche web (idée et phrase, 13/11) : 0 occurrence ; grep du dépôt : aucune reprise. Piste @elon retenue telle quelle. |
+
+| Fiche 9, alouette (l. 110), second passage | « …je te repousse de dix minutes. » | « …je te débrancherai, avec un seul œil ouvert. » (reviewer : le réveil repoussé doublait C1c l. 65) |
