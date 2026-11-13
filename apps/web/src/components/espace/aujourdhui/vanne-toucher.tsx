@@ -104,7 +104,7 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
         onClick={() => void choisir(categorie)}
         className={cn(
           "inline-flex min-h-11 min-w-11 items-center gap-1 rounded-full border px-4 text-sm font-medium text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          choisie ? "border-2 border-accent-link bg-background-elevated px-3.5" : "border-border-input hover:bg-background-elevated",
+          choisie ? "border-2 border-accent-link bg-background-elevated px-3.5" : "border-border-input hover:border-text-muted hover:bg-background-elevated",
         )}
       >
         {choisie && <Coche />}
@@ -148,7 +148,7 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
           type="button"
           onClick={() => void uneAutre()}
           aria-busy={enCours}
-          className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border-input px-4 text-sm font-semibold text-text-primary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+          className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border-input px-4 text-sm font-semibold text-text-primary transition-colors hover:border-text-muted hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
         >
           {T.jour.uneAutre}
         </button>

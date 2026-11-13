@@ -21,6 +21,8 @@ export interface EtatCapsApi {
   bonus: Array<{ cap: NumeroCap; id: string; titre: string; href: string; dureeMinutes: number }>;
   annonce: AnnonceApi | null;
   etape: EtapeAReprendre | null;
+  /** Lot D11b (@ux D-1) : au moins une fiche « Écouter, repérer » publiée (serveur, `ecouterPublie`). */
+  ecouterPublie?: boolean;
 }
 
 /** Lecture de `/api/espace/caps`, 5 s au plus ; null en cas d'échec (rien d'inventé). */
@@ -44,6 +46,9 @@ export async function lireCaps(): Promise<EtatCapsApi | null> {
  * Côté navigateur seulement (`/parcours` est public et prérendu) ; rien n'est rendu interrupteur fermé,
  * pour un visiteur ou un compte sans abonnement (le serveur relit le plan en base : 403 = rien).
  * États : chargement (calendrier seul, `aria-busy`), erreur (calendrier seul), succès.
+ * Lot D11b (@ux D-1) : `ecouterPublie` (réponse de `/api/espace/caps`) choisit la ligne de la semaine 4 ; tant
+ * qu'elle n'est pas lue (chargement, erreur), la ligne sans « Écouter », toujours vraie. La page `/parcours` n'est
+ * pas touchée (fichier sous hachage, textes en ligne).
  */
 export function ParcoursEspace() {
   const { data: session, status } = useSession();
@@ -72,7 +77,7 @@ export function ParcoursEspace() {
       {/* Arbitrage @ux D4 n°1 (lot D5) : l'introduction publique est masquée pour l'abonné ; il garde un h1. */}
       <h1 className="sr-only">{P.titrePage}</h1>
       <AnnonceCap annonce={caps?.annonce ?? null} retour={() => reprendre.current} />
-      <QuatreSemaines ref={reprendre} etape={caps?.etape ?? null} />
+      <QuatreSemaines ref={reprendre} etape={caps?.etape ?? null} ecouterPublie={caps?.ecouterPublie === true} />
       {caps && (
         <>
           <TonCap cap={caps.capAffiche} serie={caps.serie} ecart={caps.ecart} />

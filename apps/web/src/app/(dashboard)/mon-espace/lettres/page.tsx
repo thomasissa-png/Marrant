@@ -26,7 +26,7 @@ export default async function LettresPage() {
   const lettres = await listerLettres(prisma);
   await compterAnonyme({ cle: "ouverture", valeur: "archive-lettres" });
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-3xl">
+    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
       <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
       <ArchiveLettres lettres={lettres} />
     </div>

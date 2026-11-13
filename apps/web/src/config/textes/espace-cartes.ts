@@ -77,6 +77,9 @@ export const TEXTES_MISSION = {
   autreSituation: "Une autre situation, même marche", // (26)
   aPlat: "Quand ça tombe à plat",
   raconte: "Raconte-nous ce qui s'est passé",
+  // Lot D11b (@ux D-3) : `?marche=n` sans mission servable (marche déjà toute essayée, « autre situation »
+  // sur une marche à une seule mission). Texte de la consigne @ux, [À VALIDER] par Thomas avant l'ouverture.
+  aucuneMission: "Pas de mission pour cette marche pour l'instant.",
 } as const;
 
 /**

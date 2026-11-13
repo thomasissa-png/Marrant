@@ -31,7 +31,7 @@ export default async function LettrePage({ params }: { params: { numero: string 
   const lettre = await lettreDeLaPage(params.numero);
   if (!lettre) notFound();
   return (
-    <div className="pb-12 lg:max-w-3xl">
+    <div className="pb-12 lg:max-w-lecture">
       <LettreVue lettre={lettre} />
     </div>
   );

@@ -142,13 +142,16 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
     if (!l) return;
     const observateur = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => ramener());
     observateur?.observe(l);
+    // Lot D11b (revue @design D3) : chaque entrée aussi. Sa largeur change quand la police arrive (substitution
+    // puis police du site) sans que la liste change de taille : le chevron restait allumé alors que tout tient.
+    for (const t of onglets()) observateur?.observe(t);
     window.addEventListener("resize", ramener);
     void document.fonts?.ready.then(ramener);
     return () => {
       observateur?.disconnect();
       window.removeEventListener("resize", ramener);
     };
-  }, [ramener]);
+  }, [ramener, onglets]);
 
   const surDefilement = () => {
     fondus();
@@ -220,7 +223,7 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
             ref={fonduDroite}
             aria-hidden="true"
             data-indice-suite
-            className="pointer-events-none absolute inset-y-0 right-0 flex w-10 items-center justify-end opacity-0 bg-gradient-to-l from-background/90 from-10% to-transparent text-text-secondary transition-opacity max-e300:hidden"
+            className="pointer-events-none absolute inset-y-0 right-0 flex w-10 items-center justify-end opacity-0 bg-gradient-to-l from-background from-40% to-transparent text-text-secondary transition-opacity max-e300:hidden"
           >
             <svg className="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

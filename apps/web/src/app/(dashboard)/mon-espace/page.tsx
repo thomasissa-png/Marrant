@@ -98,7 +98,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
           {frTypo(BIENVENUE_PREMIUM.favori[favori])}
         </p>
       )}
-      <div className={cn("flex flex-col gap-6", mois.montrer ? "lg:grid lg:grid-cols-3 lg:items-start" : "lg:max-w-3xl")}>
+      <div className={cn("flex flex-col gap-6", mois.montrer ? "lg:grid lg:grid-cols-3 lg:items-start" : "lg:max-w-lecture")}>
         <div className="flex flex-col gap-6 lg:col-span-2">
           {!fait && <PremierPas origine={origine} entrees={entrees} avecBandeau={Boolean(favori)} />}
           {rafale && rafale.fini && etape && <EtapeEnCours etape={etape} />}

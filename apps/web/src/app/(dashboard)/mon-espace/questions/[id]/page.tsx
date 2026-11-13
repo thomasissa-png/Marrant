@@ -26,7 +26,7 @@ export default async function FilQuestionPage({ params }: { params: { id: string
   const fil = FORMAT_CLE.test(params.id) ? await lireFil(userId, params.id) : null;
   if (!fil) notFound();
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-3xl">
+    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
       <div>
         <Link href="/mon-espace/questions" className={LIEN}>
           {Q.titre}

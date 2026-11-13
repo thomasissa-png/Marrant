@@ -2,6 +2,12 @@
 
 ## À DÉPLOYER
 
+### À DÉPLOYER (s24) : lot D11b (corrections de la recette D11, code et tests), **NON DÉPLOYÉ, NON COMMITÉ, INTERRUPTEUR FERMÉ** (consolidation du jour du go : Q-3, à part)
+
+- **Effet fermé** : aucun changement visible (inertie verte, snapshot jamais régénéré). Seules retouches hors espace : `middleware.ts` (ouvert seulement), `components/layout/header.tsx` (repère de chargement de l'en-tête abonné à 65 px, ouvert et Premium seulement), `cgu/page.tsx` (alinéa des bonus de l'article 3, ouvert ET 4 bonus publiés seulement), `tailwind.config.ts` (token `max-w-lecture`, 720 px).
+- **CI** : `e2e-local` devient une matrice `ferme` / `ouvert` (interrupteur posé dans la copie du job, `E2E_ESPACE_OUVERT=1` pour `ouvert`), délai 30 min.
+- **Migration** : aucune. **Variable d'environnement** : aucune. **Retour arrière** : rollback de version.
+
 ### À DÉPLOYER (s24) : lot D10c (défi de la vidéo 39 sans tiret cadratin, mission video-39 importée, 13 mois de conservation validés), **NON DÉPLOYÉ, NON COMMITÉ ; espace INTERRUPTEUR FERMÉ, SAUF la fiche vidéo publique 39 : sa retouche est VISIBLE DÈS CE DÉPLOIEMENT** (décisions de Thomas du 13/11, `docs/founder-preferences.md`, ligne « porte G8 franchie »)
 
 - **Retouche publique, une seule** : défi de la fiche 39 (Aymeric Lompret, `itrLXrwG18c`), exemple de réponse. Seed `docs/content/videos-seed.json` l. 706 (`exercise`) : « Relativise. — Justement, … » devient « Relativise. » « Justement, … » (deux répliques, comme les trois injonctions citées juste avant). En ligne depuis le 12/10 (s20), la base porte déjà le texte sans tiret mais fondu en une réplique : « « Relativise. Justement, … » ».

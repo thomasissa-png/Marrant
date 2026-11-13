@@ -107,3 +107,15 @@ export function missionOuverte(missions: readonly Mission[], retours: readonly R
   const exclure = dernier && suiteApres(retours) === "pas2" && dernier.marche === 1 ? dernier.missionId : null;
   return missionDeMarche(missions, retours, marcheProposee(retours), exclure);
 }
+
+/**
+ * Lot D11b (@ux D-3) : marche vers laquelle renvoyer quand la marche demandée n'a plus de mission servable
+ * (toute essayée, ou une seule mission déjà exclue) : la marche ouverte si elle a une mission et diffère, sinon
+ * la plus proche au-dessus puis en dessous qui en a une ; null s'il n'y en a aucune.
+ */
+export function marcheDeRepli(missions: readonly Mission[], retours: readonly RetourMissionLu[], demandee: NumeroMarche): NumeroMarche | null {
+  const ouverte = missionOuverte(missions, retours);
+  if (ouverte && ouverte.marche !== demandee) return ouverte.marche as NumeroMarche;
+  const ordre = [1, 2, 3, 4].flatMap((d) => [demandee + d, demandee - d]).filter((n) => n >= 1 && n <= 5) as NumeroMarche[];
+  return ordre.find((n) => missionDeMarche(missions, retours, n) !== null) ?? null;
+}

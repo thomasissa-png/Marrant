@@ -7,6 +7,7 @@ import { bonusOuverts, bonusRanges, hrefBonus } from "@/lib/espace/bonus";
 import { etapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { PARCOURS_SEED_JSON } from "@/lib/parcours-seed";
 import { derniereValidation } from "@/lib/parcours-xp";
+import { ecouterPublie } from "@/lib/espace/ecouter-publie";
 
 /**
  * /api/espace/caps (s24, lot D4). Interrupteur fermé : 404 avant toute lecture (garde). 401 sans
@@ -49,6 +50,8 @@ export async function GET() {
       capDeblocage: etat.capDeblocage,
       ecart: etat.capAffiche > etat.capDeblocage,
       bonus: bonusOuverts(etat.capDeblocage, acces),
+      // Lot D11b (@ux D-1) : la semaine 4 du calendrier ne promet « Écouter, repérer » que si une fiche est publiée.
+      ecouterPublie: ecouterPublie(),
       annonce:
         annonce.cap || annonce.bonus
           ? {

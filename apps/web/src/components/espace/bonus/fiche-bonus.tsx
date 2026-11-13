@@ -30,7 +30,7 @@ function Section({ id, titre, children }: { id: string; titre: string; children:
 export function FicheBonusVue({ bonus }: { bonus: FicheBonus }) {
   const cap = bonus.cap as NumeroCap;
   return (
-    <article className="mx-auto max-w-2xl space-y-6">
+    <article className="max-w-lecture space-y-6">
       <div className="space-y-2">
         <p className="text-xs font-semibold text-text-muted">{T.bonus.marque(cap)}</p>
         <h1 className="font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-3xl">

@@ -19,10 +19,12 @@ const E = TEXTES_AUJOURDHUI.etape;
  * l'étape 1 ». `etape` null : chargement ou erreur, seul le calendrier est rendu (rien d'inventé).
  * Le bouton porte la `ref` : l'annonce de passage y rend le focus à sa fermeture.
  */
-export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeAReprendre | null }>(function QuatreSemaines(
-  { etape },
+export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeAReprendre | null; ecouterPublie: boolean }>(function QuatreSemaines(
+  { etape, ecouterPublie },
   ref,
 ) {
+  // Lot D11b (@ux D-1) : la semaine 4 ne promet « Écouter, repérer » que si une fiche est publiée.
+  const lignes = ecouterPublie ? P.semaines.lignes : [...P.semaines.lignes.slice(0, 3), P.semaines.semaine4SansEcouter];
   const details = useRef<HTMLDetailsElement>(null);
   const touche = useRef(false);
 
@@ -47,7 +49,7 @@ export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeARepre
           </svg>
         </summary>
         <ol className="mt-2 grid gap-2">
-          {P.semaines.lignes.map((l) => (
+          {lignes.map((l) => (
             <li
               key={l.semaine}
               className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 border-t border-border py-2 text-sm text-text-secondary max-e300:grid-cols-1"

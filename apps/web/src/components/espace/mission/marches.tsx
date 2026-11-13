@@ -3,7 +3,8 @@
  * que les pastilles rondes du cap ; décoratif (`aria-hidden`), le texte « Marche n » porte l'information.
  */
 export function Marches({ n }: { n: number }) {
-  const hauteurs = ["h-1.5", "h-2.5", "h-3.5", "h-4", "h-5"];
+  // Lot D11b (revue @design D7) : hauteurs sur l'échelle de 4 px (8 à 24 px).
+  const hauteurs = ["h-2", "h-3", "h-4", "h-5", "h-6"];
   return (
     <span className="inline-flex items-end gap-0.5" aria-hidden="true">
       {hauteurs.map((h, i) => (

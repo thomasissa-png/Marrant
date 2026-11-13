@@ -9,7 +9,7 @@ import {
 } from "@/config/blog-preview";
 import { createPreviewToken, isAdminPassword } from "@/lib/blog-preview-auth";
 import { buildAbonnementUrl } from "@/lib/premium-return";
-import { ESPACE_ACCUEIL, ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { EN_TETE_CHEMIN_ESPACE, ESPACE_ACCUEIL, ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { PAGE_ADMIN_QUESTIONS } from "@/lib/espace/questions-chemins";
 
 // Routes PREMIUM-only (pas de version gratuite)
@@ -131,6 +131,17 @@ export default async function middleware(req: NextRequest) {
     (req.nextUrl.pathname === ESPACE_ACCUEIL || req.nextUrl.pathname.startsWith(`${ESPACE_ACCUEIL}/`) || req.nextUrl.pathname === PAGE_ADMIN_QUESTIONS)
   ) {
     return NextResponse.rewrite(new URL("/_espace-ferme", req.url));
+  }
+
+  // Lot D11b (Q-1) : ouvert, l'adresse demandée sous /mon-espace est transmise au layout de l'espace
+  // (en-tête de requête, toujours réécrit ici) pour le retour après connexion. Fermé : branche jamais atteinte.
+  if (ESPACE_CLIENT_PUBLIE && (req.nextUrl.pathname === ESPACE_ACCUEIL || req.nextUrl.pathname.startsWith(`${ESPACE_ACCUEIL}/`))) {
+    const parametres = new URLSearchParams(req.nextUrl.search);
+    parametres.delete("_rsc");
+    const requete = new Headers(req.headers);
+    const recherche = parametres.toString();
+    requete.set(EN_TETE_CHEMIN_ESPACE, `${req.nextUrl.pathname}${recherche ? `?${recherche}` : ""}`);
+    return NextResponse.next({ request: { headers: requete } });
   }
 
   if (isBlogPreviewPath(req.nextUrl.pathname)) {

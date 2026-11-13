@@ -1,12 +1,25 @@
 import { randomBytes } from "node:crypto";
 import type { Page, Route } from "@playwright/test";
-import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule, quitterRetourPaiement } from "../support/base-locale";
+import {
+  test,
+  expect,
+  localSeulement,
+  requete,
+  creerCompte,
+  connecter,
+  urlRetourStripeSimule,
+  quitterRetourPaiement,
+  attendreArriveePaiement,
+  ESPACE_OUVERT,
+} from "../support/base-locale";
 
 /**
  * Trajet de conversion s21, tour 3 (docs/copy/conversion-s21/textes-trajet-v3.md §5) :
  * - retour sur la page d'origine après le paiement (bouton « Premium » de l'en-tête), bienvenue BV1 ;
  * - mises en page M1 à M4 et M7, chacune avec son contrôle (320 × 640, 1 280 px).
  * Paiement simulé comme dans `conversion-v2-s21.spec.ts` (plan Premium en base, success_url de Stripe).
+ * Lot D11b (Q-2) : espace client OUVERT (`E2E_ESPACE_OUVERT=1`), l'arrivée est « Aujourd'hui » (décision C14),
+ * la page d'origine voyage dans `depuis` ; la bienvenue BV1 de la page d'origine n'existe plus.
  */
 const MDP = "MotDePasse-e2e-42";
 const comptes: string[] = [];
@@ -55,8 +68,9 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
     await page.locator("#password").fill(MDP);
     await page.getByRole("button", { name: /Créer mon compte/ }).click();
     await quitterRetourPaiement(page);
-    await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
-    expect(new URL(page.url()).pathname).toBe("/conseils");
+    const { origine } = await attendreArriveePaiement(page);
+    expect(origine).toBe("/conseils");
+    if (ESPACE_OUVERT) return;
     // frTypo : gluon (U+2060) après le trait d'union de « Sers-toi ».
     await expect(page.getByTestId("bienvenue-texte")).toHaveText(/^Tout est ouvert\s:\sles listes, les parcours, les carnets\. Sers-\u2060?toi\.$/);
   });
@@ -78,16 +92,16 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
     await page.getByRole("button", { name: "Se connecter" }).click();
     // Avant le correctif : le middleware renvoyait le compte Premium de /abonnement/success vers /vannes.
     await quitterRetourPaiement(page);
-    await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
-    const arrivee = new URL(page.url());
-    expect(arrivee.pathname).toBe("/vannes");
+    const { url: arrivee, origine } = await attendreArriveePaiement(page);
+    expect(origine).toBe("/vannes");
     expect(arrivee.searchParams.get("favori")).toBe("JOKE");
     const favoris = await requete<{ jokeId: string }>(
       `SELECT f."jokeId" FROM "UserFavorite" f JOIN "User" u ON u.id = f."userId" WHERE u.email = $1`,
       [email],
     );
     expect(favoris.map((f) => f.jokeId)).toEqual([vanne.id]);
-    await expect(page.getByTestId("bienvenue-texte")).toHaveText(/^Ta vanne est dans tes favoris\./);
+    if (ESPACE_OUVERT) await expect(page.getByRole("status").filter({ hasText: "dans tes favoris" })).toHaveText(/^Ta vanne est dans tes favoris\./);
+    else await expect(page.getByTestId("bienvenue-texte")).toHaveText(/^Ta vanne est dans tes favoris\./);
     // Le reste de /abonnement* renvoie toujours un compte Premium vers /vannes.
     await page.goto("/abonnement?src=header");
     await expect(page).toHaveURL(/\/vannes$/);
@@ -130,9 +144,9 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
       await page.locator("#password").fill(MDP);
       await page.getByRole("button", { name: /Créer mon compte/ }).click();
       await quitterRetourPaiement(page);
-      await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
-      expect(new URL(page.url()).pathname).toBe(retourAttendu);
-      await expect(page.getByTestId("bienvenue-texte")).toBeVisible();
+      const { origine } = await attendreArriveePaiement(page);
+      expect(origine).toBe(retourAttendu);
+      if (!ESPACE_OUVERT) await expect(page.getByTestId("bienvenue-texte")).toBeVisible();
     });
   }
 

@@ -58,7 +58,7 @@ export default async function FichePage({ params }: { params: Params }) {
   const { userId, fiche, lettre } = lu;
   if (estAuSeuil(fiche)) {
     return (
-      <div className="flex flex-col gap-6 pb-12 lg:max-w-3xl">
+      <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
         <h1 className="sr-only">{TEXTES_BIBLIOTHEQUE.titre}</h1>
         <CoinHumourNoir lignesInitiales={null} />
       </div>
@@ -66,7 +66,7 @@ export default async function FichePage({ params }: { params: Params }) {
   }
   const [retour, replique] = fiche.geste ? await Promise.all([lireRetour(userId, fiche.id), lireReplique(userId, fiche.id)]) : [null, null];
   return (
-    <div className="pb-12 lg:max-w-3xl">
+    <div className="pb-12 lg:max-w-lecture">
       <FicheVue fiche={fiche} retour={retour} replique={replique} lettre={lettre} />
     </div>
   );

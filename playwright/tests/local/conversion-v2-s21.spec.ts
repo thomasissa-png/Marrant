@@ -1,6 +1,17 @@
 import { randomBytes } from "node:crypto";
 import type { Page, Route } from "@playwright/test";
-import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule, quitterRetourPaiement } from "../support/base-locale";
+import {
+  test,
+  expect,
+  localSeulement,
+  requete,
+  creerCompte,
+  connecter,
+  urlRetourStripeSimule,
+  quitterRetourPaiement,
+  attendreArriveePaiement,
+  ESPACE_OUVERT,
+} from "../support/base-locale";
 
 /**
  * Trajet de conversion s21, tour 2 (docs/copy/conversion-s21/textes-trajet-v2.md, arbitrages) :
@@ -13,7 +24,10 @@ import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetou
  * 2. Premier écran à 320 × 640 : « S'abonner · 1,99 €/mois » visible sans défiler (visiteur, connecté).
  * 3. « Annuel » choisi jusqu'à l'attente : ligne de renouvellement, /register, attente dans le bouton,
  *    corps du paiement, mesure ; page d'attente brève (connexion) avec la formule annuelle.
+ * Lot D11b (Q-2) : espace client OUVERT (`E2E_ESPACE_OUVERT=1`), l'arrivée après paiement est « Aujourd'hui »
+ * (décision C14) avec l'origine dans `depuis` ; favori en base et drapeau `favori=JOKE` vérifiés de même.
  */
+const BIENVENUE_FAVORI_VANNE = /^Ta vanne est dans tes favoris\. Le reste est ouvert aussi\s:\sles listes, les parcours, les carnets\.$/;
 const MDP = "MotDePasse-e2e-42";
 const comptes: string[] = [];
 
@@ -87,10 +101,18 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await page.getByRole("button", { name: /Créer mon compte/ }).click();
 
     await quitterRetourPaiement(page);
-    await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
+    const arrivee = await attendreArriveePaiement(page);
     const favori = new URLSearchParams(paiement.corps().returnTo.split("?")[1]).get("favori") ?? "";
     expect(favori).toMatch(/^JOKE\./);
     const jokeId = favori.slice("JOKE.".length);
+    if (ESPACE_OUVERT) {
+      // C14 : « Aujourd'hui », origine /vannes (le favori y voyage pour le premier pas), drapeau après un ajout réussi.
+      expect(arrivee.origine).toBe("/vannes");
+      expect(arrivee.url.searchParams.get("favori")).toBe("JOKE");
+      expect(await favorisEnBase(email)).toEqual([jokeId]);
+      await expect(page.getByRole("status").filter({ hasText: "dans tes favoris" })).toHaveText(BIENVENUE_FAVORI_VANNE);
+      return;
+    }
     // L'identifiant ne reste jamais dans l'URL (seul le type, drapeau v3 de la bienvenue).
     expect(page.url()).not.toContain(`favori=${favori}`);
     expect(page.url()).not.toContain(jokeId);
@@ -118,8 +140,14 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await expect(fenetre).not.toContainText("D’abord ton compte");
     await fenetre.getByRole("button", { name: "S’abonner et la garder" }).click();
     await quitterRetourPaiement(page);
-    await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
+    const arrivee = await attendreArriveePaiement(page);
     expect(await favorisEnBase(email)).toHaveLength(1);
+    if (ESPACE_OUVERT) {
+      expect(arrivee.origine).toBe("/vannes");
+      expect(arrivee.url.searchParams.get("favori")).toBe("JOKE");
+      await expect(page.getByRole("status").filter({ hasText: "dans tes favoris" })).toHaveText(BIENVENUE_FAVORI_VANNE);
+      return;
+    }
     await expect(page.getByRole("button", { name: "Retirer des favoris" }).first()).toBeVisible({ timeout: 20_000 });
   });
 
@@ -185,8 +213,9 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     expect(urlRetourStripeSimule(corps)).toMatch(/&formule=annuel$/);
     liberer();
     await quitterRetourPaiement(page);
-    await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
-    await expect(page.getByText("Bienvenue dans Premium")).toBeVisible();
+    // Ouvert : « Aujourd'hui » (contrôlé par l'aide) ; fermé : la bienvenue sur la page d'origine.
+    await attendreArriveePaiement(page);
+    if (!ESPACE_OUVERT) await expect(page.getByText("Bienvenue dans Premium")).toBeVisible();
     const liste = (await page.evaluate(() => JSON.parse(sessionStorage.getItem("e2e-umami") ?? "[]"))) as { nom: string; donnees: Record<string, unknown> }[];
     expect(liste.filter((e) => e.nom === "checkout-ouvert").map((e) => e.donnees)).toEqual([{ src: "header", formule: "annuel" }]);
     await expect

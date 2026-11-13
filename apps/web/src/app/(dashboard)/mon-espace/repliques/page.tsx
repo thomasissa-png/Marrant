@@ -23,7 +23,7 @@ export default async function MesRepliquesPage() {
   const { userId } = await garderEspace("/mon-espace/repliques");
   const repliques = await listerRepliques(userId, { acces: "ouvert", userId });
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-3xl">
+    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
       <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{R.titre}</h1>
       <ListeRepliques initiales={repliques} lectureSeule={false} />
     </div>

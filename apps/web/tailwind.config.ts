@@ -25,6 +25,11 @@ const config: Config = {
       "2xl": "1536px",
     },
     extend: {
+      // s24 lot D11b (revue @design D2) : colonne de lecture de l'espace client, largeur de l'étalon E5
+      // (`.stack.solo`, `.blocs`, `.col`, `.carte` : 720 px), alignée à gauche dans le conteneur de 1280.
+      maxWidth: {
+        lecture: "45rem",
+      },
       colors: {
         // Palette deviens-marrant — ambiance cinéma/Netflix
         background: {

@@ -1,6 +1,6 @@
 import { createServer, type Server } from "node:http";
 import type { Page } from "@playwright/test";
-import { test, expect, localSeulement, creerCompte } from "../support/base-locale";
+import { test, expect, localSeulement, creerCompte, ESPACE_OUVERT } from "../support/base-locale";
 import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
 
 /**
@@ -13,6 +13,10 @@ import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
  * Envoi Premium : vers un faux Resend local (`E2E_FAUX_RESEND_PORT`, serveur démarré ici ;
  * le serveur testé tourne avec `RESEND_BASE_URL=http://127.0.0.1:<port>` et une clé
  * factice). Aucun e-mail réel. Sauté sans faux Resend.
+ *
+ * Lot D11b (Q-2) : espace client OUVERT (`E2E_ESPACE_OUVERT=1`), l'encadré devient la ligne vers « Mes questions »
+ * (plan §6 T8, lot D10) : on vérifie la ligne (lien, cible, aucun débordement) et l'absence d'encadré ; la route
+ * s22 reste servie, son envoi est vérifié par l'API (l'envoi depuis « Mes questions » : `espace-questions`).
  */
 const MOT_DE_PASSE = "E2e-question-equipe-2026!";
 const PREMIUM = "e2e-question-premium@exemple.fr";
@@ -67,6 +71,17 @@ test.describe("Ta question à l'équipe : encadré du profil", () => {
       test.skip(!QUESTION_EQUIPE_OUVERTE, "interrupteur fermé (état déployé) : vérifié en local en basculant la constante");
       await page.setViewportSize({ width: largeur, height: largeur < 768 ? 812 : 800 });
       await profil(page, PREMIUM, "PREMIUM");
+      if (ESPACE_OUVERT) {
+        await expect(page.getByTestId("question-equipe")).toHaveCount(0);
+        const ligne = page.getByTestId("profil-ligne-mes-questions");
+        await expect(ligne).toBeVisible();
+        const lien = ligne.getByRole("link");
+        await expect(lien).toHaveAttribute("href", "/mon-espace/questions");
+        expect((await lien.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
+        const l = await ligne.evaluate((el) => ({ contenu: el.scrollWidth, boite: el.clientWidth }));
+        expect(l.contenu).toBeLessThanOrEqual(l.boite + 1);
+        return;
+      }
       const encadre = page.getByTestId("question-equipe");
       await expect(encadre).toBeVisible();
       await expect(encadre.getByRole("textbox")).toBeVisible();
@@ -120,12 +135,17 @@ test.describe("Ta question à l'équipe : envoi Premium vers le faux Resend", ()
 
   test("envoi : succès affiché, un e-mail vers alex@, objet horodaté, Reply-To du compte, Idempotency-Key", async ({ page }) => {
     await profil(page, PREMIUM, "PREMIUM");
-    const encadre = page.getByTestId("question-equipe");
-    await encadre.getByRole("textbox").fill("Mon collègue me chambre sur mes chaussettes, je réponds quoi ?");
-    await encadre.getByRole("button", { name: /envoyer/i }).click();
-    // Succès : le champ n'est vidé qu'après une réponse 200.
-    await expect(encadre.getByRole("textbox")).toHaveValue("", { timeout: 15_000 });
-    await expect(page.getByTestId("question-equipe-statut")).not.toBeEmpty();
+    if (ESPACE_OUVERT) {
+      // Encadré remplacé par la ligne vers « Mes questions » : la route s22, toujours servie, par l'API.
+      expect((await poser(page)).status()).toBe(200);
+    } else {
+      const encadre = page.getByTestId("question-equipe");
+      await encadre.getByRole("textbox").fill("Mon collègue me chambre sur mes chaussettes, je réponds quoi ?");
+      await encadre.getByRole("button", { name: /envoyer/i }).click();
+      // Succès : le champ n'est vidé qu'après une réponse 200.
+      await expect(encadre.getByRole("textbox")).toHaveValue("", { timeout: 15_000 });
+      await expect(page.getByTestId("question-equipe-statut")).not.toBeEmpty();
+    }
     await expect.poll(() => courriels.length, { timeout: 15_000 }).toBe(1);
     const [c] = courriels;
     expect(c.to).toBe("alex@deviens-marrant.fr");

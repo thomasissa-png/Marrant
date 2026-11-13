@@ -3,7 +3,7 @@
  * cibles de 44 px au moins, focus visible, boutons qui passent à la ligne à 200 % de texte.
  */
 export const BOUTON_SECONDAIRE =
-  "inline-flex min-h-11 min-w-0 items-center justify-center whitespace-normal rounded-lg border border-border-input px-3 py-2 text-sm font-semibold text-text-primary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-disabled:cursor-default aria-disabled:border-border aria-disabled:text-text-muted disabled:cursor-default";
+  "inline-flex min-h-11 min-w-0 items-center justify-center whitespace-normal rounded-lg border border-border-input px-3 py-2 text-sm font-semibold text-text-primary transition-colors hover:border-text-muted hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-disabled:cursor-default aria-disabled:border-border aria-disabled:text-text-muted disabled:cursor-default";
 
 export const BOUTON_PRINCIPAL =
   "inline-flex min-h-11 min-w-0 items-center justify-center whitespace-normal rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50";
@@ -18,7 +18,7 @@ export const LIEN = "inline-flex min-h-11 items-center text-sm text-accent-link 
 export const puce = (choisie: boolean) =>
   [
     "inline-flex min-h-11 min-w-11 items-center gap-1 whitespace-normal rounded-full border px-4 py-2 text-left text-sm font-medium text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-    choisie ? "border-2 border-accent-link bg-background-elevated px-3.5" : "border-border-input hover:bg-background-elevated",
+    choisie ? "border-2 border-accent-link bg-background-elevated px-3.5" : "border-border-input hover:border-text-muted hover:bg-background-elevated",
   ].join(" ");
 
 /** Clé d'idempotence d'un geste (une par toucher, gardée pour la suite du même geste). */

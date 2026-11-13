@@ -18,7 +18,8 @@ import { CGU_LETTRE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
 // s24 lot D10 (plan §6 T7) : article 10, retouches de @legal, servies interrupteur ouvert seulement (go de Thomas).
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
-import { CGU_QUESTION_EQUIPE_ESPACE } from "@/config/textes/espace-textes-en-ligne";
+import { CGU_BONUS_ARTICLE_3, CGU_QUESTION_EQUIPE_ESPACE } from "@/config/textes/espace-textes-en-ligne";
+import { bonusTousPublies } from "@/lib/espace/bonus-publies";
 import { ESPACE_DATE_TEXTES } from "@/config/textes/espace-confidentialite";
 
 const PAGE_URL = "https://deviens-marrant.fr/cgu";
@@ -56,6 +57,8 @@ export default function CGUPage() {
           {/* Lot G (@legal point 9, à valider par un avocat) : plus de « reconduite tacitement chaque mois » (L.215-1). */}
           <p className="mt-2">La formule mensuelle est conclue pour une durée indéterminée, sans engagement : elle est prélevée chaque mois jusqu’à ta résiliation. La formule annuelle est conclue pour une durée d’un an à compter du paiement, puis reconduite tacitement par périodes successives d’un an, au tarif annuel en vigueur indiqué dans l’email de rappel. Chaque formule peut être résiliée à tout moment depuis l’espace profil (article 7).</p>
           <p className="mt-2">Avant chaque reconduction de la formule annuelle, l’éditeur informe l’utilisateur par email dédié, au plus tôt trois mois et au plus tard un mois avant la date limite de non-reconduction, de la possibilité de ne pas reconduire le contrat, de cette date limite, du montant et de la date du prélèvement. À défaut, l’utilisateur peut résilier à tout moment à compter de la reconduction et être remboursé des sommes versées pour la période postérieure à la résiliation (article L.215-1 du Code de la consommation).</p>
+          {/* Lot D11b (@legal G9) : alinéa des bonus, avec la ligne T1 seulement (ouvert ET 4 bonus publiés) ; sinon rien. */}
+          {ESPACE_CLIENT_PUBLIE && bonusTousPublies() && <p className="mt-2" data-cgu-bonus="">{frTypo(CGU_BONUS_ARTICLE_3)}</p>}
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">4. Contenu utilisateur</h2>

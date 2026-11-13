@@ -10,7 +10,7 @@ import { BOUTON_SECONDAIRE, CARTE } from "@/components/espace/carte/styles";
  */
 export default function MesQuestionsErreur({ reset }: { error: Error; reset: () => void }) {
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-3xl" data-etat="erreur">
+    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture" data-etat="erreur">
       <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{Q.titre}</h1>
       <div className={CARTE}>
         <p className="text-sm text-text-secondary">

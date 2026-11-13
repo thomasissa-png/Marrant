@@ -71,7 +71,7 @@ export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps
         <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/60" />
         <Dialog.Content
           aria-describedby={undefined}
-          className="fixed inset-x-0 bottom-0 z-[70] max-h-[calc(100dvh-1rem)] overflow-y-auto rounded-t-2xl border border-border bg-background-card p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] focus:outline-none md:inset-x-auto md:bottom-auto md:left-1/2 md:top-1/2 md:w-full md:max-w-md md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-lg md:p-6 max-e300:px-3 max-e300:pt-3"
+          className="fixed inset-x-0 bottom-0 z-[70] max-h-[calc(100dvh-1rem)] overflow-y-auto rounded-t-lg border border-border bg-background-card p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] focus:outline-none md:inset-x-auto md:bottom-auto md:left-1/2 md:top-1/2 md:w-full md:max-w-md md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-lg md:p-6 max-e300:px-3 max-e300:pt-3"
         >
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <Dialog.Title className="font-display text-xl font-bold text-text-primary">{T.cloche.titre}</Dialog.Title>

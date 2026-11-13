@@ -17,7 +17,12 @@ const Chevron = () => (
   </svg>
 );
 
-export function CartesDuJour({ cartes, href, fini }: { cartes: readonly CarteDuJour[]; href: string; fini: boolean }) {
+export function CartesDuJour({ cartes: toutes, href, fini: finiMoteur }: { cartes: readonly CarteDuJour[]; href: string; fini: boolean }) {
+  // Lot D11b (Q-6, @ux D-4) : une carte sans titre n'est jamais montrée, et une rafale sans carte
+  // montrable (catalogue épuisé, tirage vide) rend l'état « C'est tout pour aujourd'hui », jamais un
+  // bouton au sous-titre vide vers une page sans carte.
+  const cartes = toutes.filter((c) => c.titre.trim() !== "");
+  const fini = finiMoteur || cartes.length === 0;
   const autres = cartes.filter((c) => c.autreContexte).length;
   const nouvelles = cartes.filter((c) => c.nouvelle && !c.autreContexte).length;
   const aRevoir = cartes.filter((c) => !c.nouvelle).length;

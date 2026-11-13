@@ -12,7 +12,7 @@ export function TesBonus({ bonus }: { bonus: ReadonlyArray<{ cap: number; href: 
   return (
     <Link
       href={dernier.href}
-      className="flex min-h-11 items-center justify-between rounded-lg border border-border-input px-4 py-2 text-sm font-semibold text-text-primary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+      className="flex min-h-11 items-center justify-between rounded-lg border border-border-input px-4 py-2 text-sm font-semibold text-text-primary transition-colors hover:border-text-muted hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
     >
       <span>{T.bonus.raccourci}</span>
       <svg className="h-4 w-4 text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>

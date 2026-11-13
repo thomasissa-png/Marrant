@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { headers } from "next/headers";
+import { EN_TETE_CHEMIN_ESPACE, ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { garderEspace } from "@/lib/espace/garde";
 import { noterEvenementEspace } from "@/lib/mesure/evenements-espace";
 import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
@@ -17,6 +18,8 @@ import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
  * pour tout compte sans abonnement actif). Chaque page appelle aussi la garde.
  * Lot D9 : `espace_ouvert` (une fois par jour de Paris, `UsageEvent`), écrit seulement ouvert, awaité,
  * jamais bloquant (rétention J7, J30, J60 de l'architecture 7.6).
+ * Lot D11b (Q-1) : la garde du layout reçoit l'adresse demandée (en-tête posé par le middleware) ; sans elle,
+ * un visiteur sur `/mon-espace/questions/…` revenait sur « Aujourd'hui » après connexion.
  */
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -26,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function MonEspaceLayout({ children }: { children: React.ReactNode }) {
-  const { userId } = await garderEspace();
+  const { userId } = await garderEspace(ESPACE_CLIENT_PUBLIE ? headers().get(EN_TETE_CHEMIN_ESPACE) : null);
   await noterEvenementEspace({ type: "espace_ouvert" }, userId);
   return <>{children}</>;
 }

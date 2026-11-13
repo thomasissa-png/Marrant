@@ -61,6 +61,17 @@ function cheminDeRetour(chemin: string | null | undefined): string {
 }
 
 /**
+ * Lot D11b (@ux D-5) : l'ancien abonné qui ouvre l'adresse d'un fil (lien « L'équipe t'a répondu » de
+ * l'e-mail) arrive sur son historique en lecture seule de « Mon profil », pas sur l'offre.
+ */
+export const HISTORIQUE_QUESTIONS_PROFIL = "/profil#mes-questions";
+
+function estAdresseDeFil(chemin: string | null | undefined): boolean {
+  const route = (sanitizeCallbackUrl(chemin) ?? "").split(/[?#]/)[0];
+  return route.startsWith(`${ESPACE_ACCUEIL}/questions/`) && route.length > `${ESPACE_ACCUEIL}/questions/`.length;
+}
+
+/**
  * Garde d'une page (ou du layout) de l'espace : 404 interrupteur fermé, sinon
  * redirection vers la connexion ou `/abonnement`, sinon le compte de l'abonné.
  * `chemin` = adresse demandée sous `/mon-espace`, reprise comme retour de connexion.
@@ -69,7 +80,7 @@ export async function garderEspace(chemin?: string | null): Promise<{ userId: st
   if (!ESPACE_CLIENT_PUBLIE) notFound();
   const acces = await lireAccesEspace();
   if (acces.acces === "connexion") redirect(buildLoginUrl({ callbackUrl: cheminDeRetour(chemin) }));
-  if (acces.acces === "abonnement") redirect(ESPACE_REDIRECTION_SANS_ABONNEMENT);
+  if (acces.acces === "abonnement") redirect(acces.ancienAbonne && estAdresseDeFil(chemin) ? HISTORIQUE_QUESTIONS_PROFIL : ESPACE_REDIRECTION_SANS_ABONNEMENT);
   return { userId: acces.userId };
 }
 

@@ -39,7 +39,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
   const faits = await idsFaits(userId, retenues.map((f) => f.id));
 
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-3xl">
+    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
       <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
       <Link href="/carnet" className={`${BOUTON_SECONDAIRE} self-start`}>
         {T.carnet}

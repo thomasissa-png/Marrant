@@ -41,6 +41,26 @@ export function ArchiveLettres({ lettres }: { lettres: readonly LettreArchive[] 
   );
 }
 
+/**
+ * Lot D11b (revue @design D9) : une adresse du texte approuvé devient un lien cliquable (même texte affiché,
+ * rien de réécrit) ; ponctuation finale laissée hors du lien.
+ */
+function avecLiens(texte: string): React.ReactNode[] {
+  return texte.split(/(https?:\/\/[^\s]+[^\s.,;:!?»)])/).map((morceau, i) =>
+    i % 2 === 1 ? (
+      <a
+        key={i}
+        href={morceau}
+        className="text-accent-link underline underline-offset-2 [overflow-wrap:anywhere] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+      >
+        {morceau}
+      </a>
+    ) : (
+      morceau
+    ),
+  );
+}
+
 /** Une lettre telle qu'envoyée : sa date, son objet, son texte (paragraphes du texte approuvé). */
 export function LettreVue({ lettre }: { lettre: LettreLue }) {
   return (
@@ -55,7 +75,7 @@ export function LettreVue({ lettre }: { lettre: LettreLue }) {
       <div className={CARTE}>
         {lettre.corps.split(/\n{2,}/).map((p, i) => (
           <p key={i} className="whitespace-pre-line text-base leading-7 text-text-primary">
-            {p}
+            {avecLiens(p)}
           </p>
         ))}
       </div>

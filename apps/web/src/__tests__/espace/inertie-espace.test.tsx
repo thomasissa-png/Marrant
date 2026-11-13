@@ -111,6 +111,7 @@ describe("garde-fou de construction", () => {
    * D4 : parcours, profil, bulle d'XP et seuils (détail ci-dessous), sous garde de l'interrupteur.
    */
   const LISTE_BLANCHE: string[] = [
+    // D11b, touché de nouveau : repère de chargement de l'en-tête abonné à 65 px (rendu ouvert et Premium seulement).
     "components/layout/header.tsx",
     // D10b : condition de la puce des bonus de l'e-mail E0 (`bonusTousPublies`, lecture de fichier seule) ; la
     // puce n'est écrite qu'interrupteur ouvert (`paiement.ts`), fermé l'e-mail reste identique (hachage, D10).
@@ -122,6 +123,8 @@ describe("garde-fou de construction", () => {
     "app/(dashboard)/abonnement/success/page.tsx",
     "app/(auth)/login/page.tsx",
     // D3 : /mon-espace/** réécrit vers la 404 naturelle interrupteur fermé.
+    // D11b (Q-1), touché de nouveau : ouvert seulement, l'adresse demandée sous /mon-espace est transmise au
+    // layout (en-tête `EN_TETE_CHEMIN_ESPACE`) ; fermé, la réécriture vers la 404 passe avant (testé).
     "middleware.ts",
     // D4 : en-tête de l'abonné sur /parcours (4 premières semaines, « Ton cap »), monté seulement ouvert.
     "app/(dashboard)/parcours/(liste)/page.tsx",
@@ -178,7 +181,8 @@ describe("garde-fou de construction", () => {
     //   (lecture chargée à la demande) ; fermé, page synchrone identique (snapshot) ;
     // - `abonnement/page.tsx` : ligne des bonus (T1) et lignes de l'ancien abonné (T11), passées à la vue
     //   ouvert seulement ; fermé, `lignesAncienAbonne` rend [] sans lire session ni base, props absentes ;
-    // - `cgu/page.tsx` : article 10 retouché (T7) ouvert seulement ; date de mise à jour avec
+    // - `cgu/page.tsx` : article 10 retouché (T7) ouvert seulement ; D11b : dernier alinéa de l'article 3 (bonus),
+    //   ouvert ET 4 bonus publiés seulement (`bonusTousPublies`, lecture de fichier), fermé rien ; date de mise à jour avec
     //   `ESPACE_DATE_TEXTES` (vide d'ici l'ouverture, donc inchangée) ;
     // - `config/textes/paiement.ts` : puce des bonus de l'e-mail E0 (T3) ouvert seulement ; E0 fermé
     //   identique (test par hachage) ;

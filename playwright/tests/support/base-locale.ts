@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test as base, expect, type Page } from "@playwright/test";
 import { randomBytes, scryptSync } from "node:crypto";
 import { cheminRetourPaiement } from "@/lib/premium-return";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
@@ -64,8 +64,26 @@ export async function connecter(page: Page, email: string, motDePasse: string): 
   await page.getByLabel(/e-?mail/i).fill(email);
   await page.locator("#password").fill(motDePasse);
   await page.getByRole("button", { name: "Se connecter" }).click();
-  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
+  // Lot D11b : espace ouvert, l'arrivée passe par `/api/espace/arrivee` (303) ; on attend la page d'arrivée
+  // au repos (10 s au plus), sinon un `goto` immédiat coupe la redirection et les requêtes de session en vol (NextAuth
+  // relance alors `/api/auth/_log`, qui empêchait `networkidle` dans `conversion-v2-s21`).
+  await expect(page).not.toHaveURL(/\/login|\/api\/espace\/arrivee/, { timeout: 20_000 });
+  await page.waitForLoadState("networkidle", { timeout: 10_000 }).catch(() => undefined);
 }
+
+/**
+ * Lot D11b (Q-2) : chaque test local a sa propre adresse de visiteur (`cf-connecting-ip`, comme Cloudflare),
+ * même mécanisme que les specs qui la posaient déjà (`concision-s21`, `conversion-v2-s21`…). La limite de
+ * production (30 connexions par adresse en 15 min, `lib/auth.ts`) reste intacte : la suite complète, interrupteur
+ * ouvert, ne la partage plus entre tous ses tests. Une spec qui pose son adresse (`test.use`, `setExtraHTTPHeaders`,
+ * contexte à elle) garde la sienne.
+ */
+export const adresseVisiteur = () => `10.${[1, 2, 3].map(() => randomBytes(1)[0]).join(".")}`;
+const test = base.extend({
+  extraHTTPHeaders: async ({}, use) => {
+    await use({ "cf-connecting-ip": adresseVisiteur() });
+  },
+});
 
 export { test, expect };
 
@@ -93,4 +111,30 @@ export async function quitterRetourPaiement(page: Page): Promise<void> {
   await expect(page.getByTestId("lettre-hebdo-paiement")).toHaveText(/^Chaque jeudi, la lettre de la semaine arrive dans ta boîte\s:\selle est incluse dans ton abonnement\./);
   await expect(page.getByRole("checkbox")).toHaveCount(0);
   await bouton.click();
+}
+
+/**
+ * Régime de l'espace client du serveur testé (lot D11b, Q-2) : `E2E_ESPACE_OUVERT=1` quand le serveur a été
+ * construit interrupteur OUVERT (job CI `e2e-local`, matrice `ouvert`, ou bascule locale temporaire).
+ */
+export const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
+
+/**
+ * Arrivée après le paiement, dans les deux régimes. Fermé : la page d'origine avec `premium=bienvenue`.
+ * Ouvert (décision C14, lot D3) : « Aujourd'hui », `/mon-espace?depuis=<origine>` (favori compris dans
+ * l'origine, le premier pas s'en sert), plus le drapeau `favori=<TYPE>` si le favori a été ajouté.
+ * Renvoie l'adresse d'arrivée et l'origine retenue (chemin seul).
+ */
+export async function attendreArriveePaiement(page: Page): Promise<{ url: URL; origine: string }> {
+  if (!ESPACE_OUVERT) {
+    await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
+    const url = new URL(page.url());
+    return { url, origine: url.pathname };
+  }
+  await page.waitForURL(/\/mon-espace(\?|$)/, { timeout: 60_000 });
+  const url = new URL(page.url());
+  expect(url.pathname).toBe("/mon-espace");
+  await expect(page.getByRole("heading", { level: 1, name: /^Aujourd.hui$/ })).toBeVisible({ timeout: 20_000 });
+  const depuis = url.searchParams.get("depuis") ?? "";
+  return { url, origine: depuis.split(/[?#]/)[0] };
 }

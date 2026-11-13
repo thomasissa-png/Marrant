@@ -102,9 +102,20 @@ jobs:
   # @legal L5). Build de production, base PostgreSQL jetable du service, faux Resend
   # démarré par le test lui-même (aucun e-mail réel), aucune clé Stripe ni Anthropic.
   # En parallèle des autres jobs : la CI ne dure que l'écart avec le job `test`.
+  #
+  # s24 lot D11b (recette D11, Q-2) : matrice des deux régimes de l'espace client. `ferme` construit avec
+  # `ESPACE_CLIENT_PUBLIE = false` (production d'aujourd'hui et retour arrière), `ouvert` avec `true` et
+  # `E2E_ESPACE_OUVERT=1` (specs de l'espace en régime ouvert, suite locale complète). L'interrupteur est
+  # posé dans la copie jetable du job seulement (jamais commité ici), contrôlé avant le build : le commit
+  # d'activation garde ainsi une CI qui joue aussi le régime fermé, et inversement.
   e2e-local:
+    name: e2e-local (${{ matrix.regime }})
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        regime: [ferme, ouvert]
 
     services:
       postgres:
@@ -136,9 +147,18 @@ jobs:
       E2E_BASE_URL: http://localhost:5300
       E2E_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/marrant_e2e
       E2E_FAUX_RESEND_PORT: "5301"
+      E2E_ESPACE_OUVERT: ${{ matrix.regime == 'ouvert' && '1' || '' }}
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Interrupteur de l'espace client (${{ matrix.regime }})
+        run: |
+          F=src/config/espace-client.ts
+          if [ "${{ matrix.regime }}" = ouvert ]; then DE=false; VERS=true; else DE=true; VERS=false; fi
+          sed -i "s/^export const ESPACE_CLIENT_PUBLIE: boolean = $DE;/export const ESPACE_CLIENT_PUBLIE: boolean = $VERS;/" "$F"
+          grep -q "^export const ESPACE_CLIENT_PUBLIE: boolean = $VERS;" "$F" || { echo "interrupteur introuvable"; exit 1; }
+          echo "ESPACE_CLIENT_PUBLIE = $VERS, E2E_ESPACE_OUVERT='${E2E_ESPACE_OUVERT}'"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -157,8 +177,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: apps/web/.next/cache
-          key: next-e2e-${{ hashFiles('apps/web/package-lock.json') }}-${{ github.sha }}
-          restore-keys: next-e2e-${{ hashFiles('apps/web/package-lock.json') }}-
+          key: next-e2e-${{ matrix.regime }}-${{ hashFiles('apps/web/package-lock.json') }}-${{ github.sha }}
+          restore-keys: next-e2e-${{ matrix.regime }}-${{ hashFiles('apps/web/package-lock.json') }}-
 
       - name: Base jetable (schéma + seed)
         run: bash scripts/seed.sh
@@ -191,7 +211,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-local-report
+          name: e2e-local-report-${{ matrix.regime }}
           path: |
             playwright/playwright-report
             playwright/test-results

@@ -42,7 +42,8 @@ const EspaceBarreClient = dynamic(() => import("@/components/espace/espace-barre
   ssr: false,
   loading: () => (
     <div aria-hidden="true" className="sticky top-0 z-50">
-      <div className="h-16 border-b border-border bg-background/95" />
+      {/* Lot D11b : `box-content`, 64 px plus la bordure = 65 px comme l'en-tête réel (avant : 64, saut de 1 px). */}
+      <div className="box-content h-16 border-b border-border bg-background/95" />
       <div className="box-content h-11 border-b border-border bg-background pt-px" />
     </div>
   ),

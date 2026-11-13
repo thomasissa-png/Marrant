@@ -76,11 +76,11 @@ export function PremierPas({
     >
       <div>
         <p className="text-xs font-semibold text-text-muted">{T.premierPas.eyebrow}</p>
-        <h2 id="premier-pas-titre" className="mt-3 font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] lg:text-xl max-e300:text-base">
+        <h2 id="premier-pas-titre" className="mt-3 font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] lg:text-xl max-e300:mt-1 max-e300:text-base">
           {pas.titre}
         </h2>
       </div>
-      <div className="mt-auto flex flex-col pt-4 max-e300:flex-row max-e300:flex-wrap max-e300:items-center max-e300:gap-2 max-e300:pt-2">
+      <div className="mt-auto flex flex-col pt-4 max-e300:flex-row max-e300:flex-wrap max-e300:items-center max-e300:gap-2 max-e300:pt-1">
         {pas.minutes !== null && <p className="text-sm text-text-secondary">{T.premierPas.duree(pas.minutes)}</p>}
         <Link
           href={pas.href}

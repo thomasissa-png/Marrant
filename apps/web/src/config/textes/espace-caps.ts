@@ -87,6 +87,12 @@ export const TEXTES_PARCOURS_ESPACE = {
       { semaine: "Semaine 3 :", texte: "l'étape suivante, une séance de 20 minutes, une mission en face." },
       { semaine: "Semaine 4 :", texte: "l'étape suivante, un exercice « Écouter, repérer », une mission en face." },
     ],
+    /**
+     * Lot D11b (@ux D-1) : ligne 4 tant qu'aucune fiche « Écouter, repérer » n'est publiée (`ecouterPublie`).
+     * Aucune version validée sans « Écouter » n'existe (`docs/copy/libelles-espace-e5-s24.md` ligne 13) :
+     * la mention seule est retirée, le reste mot pour mot. [À VALIDER] par Thomas.
+     */
+    semaine4SansEcouter: { semaine: "Semaine 4 :", texte: "l'étape suivante, une mission en face." },
   },
   listeParcours: "Les parcours", // (14)
   /** h1 de l'abonné (lecteurs d'écran), arbitrage @ux D4 n°1 : le nom de la rubrique de la barre (« Parcours »). */

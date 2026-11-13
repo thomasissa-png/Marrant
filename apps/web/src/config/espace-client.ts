@@ -25,3 +25,12 @@ export const ESPACE_REDIRECTION_SANS_ABONNEMENT = "/abonnement";
 
 /** Préfixe des routes d'API de l'espace (404 JSON interrupteur fermé). */
 export const ESPACE_API_PREFIXE = "/api/espace/";
+
+/**
+ * Lot D11b (Q-1) : en-tête de requête posé par le middleware, interrupteur ouvert seulement, avec
+ * l'adresse demandée sous `/mon-espace` (chemin + paramètres). Le layout de l'espace n'a pas accès
+ * à l'adresse dans Next 14 : sans lui, le retour de connexion retombait sur « Aujourd'hui ».
+ * Toujours réécrit par le middleware (une valeur envoyée par le navigateur est remplacée) et
+ * repassé par `sanitizeCallbackUrl` dans la garde.
+ */
+export const EN_TETE_CHEMIN_ESPACE = "x-marrant-chemin-espace";

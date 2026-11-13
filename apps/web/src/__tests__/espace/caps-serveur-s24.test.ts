@@ -72,6 +72,8 @@ describe("GET /api/espace/caps (ouvert)", () => {
     // Aucun bonus rangé en production (lot C8 à venir) : l'annonce ne porte que le cap.
     expect(corps.annonce).toEqual({ cap: 3, bonus: null, marques: [{ type: "CAP", numero: 2 }, { type: "CAP", numero: 3 }] });
     expect(corps.etape).toMatchObject({ slug: "confiance", ordre: 3, enCours: true });
+    // Lot D11b (@ux D-1) : aucune fiche « Écouter, repérer » servie aujourd'hui, la semaine 4 ne la promet pas.
+    expect(corps.ecouterPublie).toBe(false);
   });
 
   it("compte sans abonnement actif (plan relu en base) : 403, aucune lecture de caps", async () => {

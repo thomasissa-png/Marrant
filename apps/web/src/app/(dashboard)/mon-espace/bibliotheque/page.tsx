@@ -53,7 +53,7 @@ export default async function BibliothequePage() {
   return (
     <div className="flex flex-col gap-6 pb-12">
       <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
-      <div className="grid max-w-3xl grid-cols-1 gap-6">
+      <div className="grid max-w-lecture grid-cols-1 gap-6">
         <BlocVannes ecouter={[...lignes("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
         <BlocBibliotheque id="bloc-techniques" titre={T.blocTechniques}>
           <ListeFiches

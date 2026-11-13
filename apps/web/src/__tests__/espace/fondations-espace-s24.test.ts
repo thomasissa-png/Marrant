@@ -22,6 +22,8 @@ jest.mock("next/navigation", () => ({
     throw new Error(`NEXT_REDIRECT ${url}`);
   },
 }));
+// Lot D11b (Q-1) : le layout lit l'adresse demandée (en-tête posé par le middleware) ; aucune ici.
+jest.mock("next/headers", () => ({ headers: () => ({ get: () => null }) }));
 const getServerSession = jest.fn();
 jest.mock("next-auth", () => ({ getServerSession: (...a: unknown[]) => getServerSession(...a) }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));

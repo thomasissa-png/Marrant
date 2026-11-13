@@ -20,6 +20,14 @@ import { CGU_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
 /** T1 : ligne AJOUTÉE sous le sous-titre de `/abonnement` (titre et sous-titre inchangés). */
 export const LIGNE_BONUS_OFFRE = "Et à chaque cap franchi dans les parcours, un bonus en plus.";
 
+/**
+ * Lot D11b : CGU, article 3, dernier alinéa AJOUTÉ (avis @legal G9, `docs/legal/espace-ligne-bonus-g9-s24.md`,
+ * point 10 « Version finale après relectures », phrase 1 de la « Clôture (13/11) »). Publié avec la ligne T1 :
+ * interrupteur ouvert ET les 4 bonus publiés (`bonusTousPublies`). Relecture d'un avocat conseillée avant publication.
+ */
+export const CGU_BONUS_ARTICLE_3 =
+  "Dans ton espace, ta pratique te fait franchir des caps. Du deuxième au cinquième cap, un bonus s'ouvre à chaque fois, en plus du reste de l'offre ; ce sont tes étapes validées et tes parcours terminés qui l'ouvrent. Les bonus suivent l'accès Premium (article 7) : ils restent ouverts tant que ton abonnement est actif. Ta progression reste sur ton compte tant qu'il existe : si tu te réabonnes, les bonus des caps déjà franchis se rouvrent.";
+
 /** T3 : puce AJOUTÉE à l'e-mail de bienvenue E0, juste après celle des parcours (E0 à réapprouver). */
 export const PUCE_BONUS_E0 = `- ${LIGNE_BONUS_OFFRE}`;
 

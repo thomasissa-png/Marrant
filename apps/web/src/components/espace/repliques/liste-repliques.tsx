@@ -66,7 +66,7 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
             return (
               <li key={r.ficheId} className={CARTE} data-replique={r.ficheId}>
                 {r.titre &&
-                  (r.href ? (
+                  (r.href && !lectureSeule ? (
                     <Link href={r.href} className="inline-flex min-h-11 items-center font-semibold text-accent-link underline underline-offset-2">
                       {r.titre}
                     </Link>

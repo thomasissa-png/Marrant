@@ -14,7 +14,7 @@
  */
 import { ESPACE_ACCUEIL, ESPACE_CLIENT_PUBLIE, ESPACE_REDIRECTION_SANS_ABONNEMENT } from "@/config/espace-client";
 import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
-import { resolvePostAuthRedirect } from "@/lib/safe-callback";
+import { resolvePostAuthRedirect, sanitizeCallbackUrl } from "@/lib/safe-callback";
 import { PARAM_DEPUIS } from "@/lib/espace/premier-pas";
 
 /** Arrivée par défaut d'une connexion aujourd'hui (`login/page.tsx`, `resolvePostAuthRedirect`). */
@@ -36,6 +36,19 @@ export function arriveeApresPaiement(
 }
 
 /** Route qui calcule l'arrivée après connexion en relisant le compte en base (`api/espace/arrivee`). */
+/**
+ * Lot D11b (recette D11, Q-2, `conversion-v3-s21` QA m2) : la page de retour de Stripe. Session perdue au retour
+ * du paiement puis connexion : elle seule vérifie le paiement, ajoute le favori mémorisé et mène à
+ * « Aujourd'hui ». `sanitizeReturnTo` refuse tout `/abonnement*` : sans cette exception, l'abonné arrivait sur
+ * « Aujourd'hui » sans son favori ni sa bienvenue (fermé : `resolvePostAuthRedirect` la gardait déjà).
+ */
+export const PAGE_RETOUR_PAIEMENT = "/abonnement/success";
+
+function retourDePaiement(raw: string | null | undefined): string | null {
+  const sur = sanitizeCallbackUrl(raw);
+  return sur && sur.split(/[?#]/)[0] === PAGE_RETOUR_PAIEMENT ? sur : null;
+}
+
 export const ROUTE_ARRIVEE_CONNEXION = "/api/espace/arrivee";
 
 /**
@@ -45,7 +58,7 @@ export const ROUTE_ARRIVEE_CONNEXION = "/api/espace/arrivee";
  */
 export function urlArriveeConnexion(rawOrigine: string | null | undefined, marqueur?: string): string {
   const params = new URLSearchParams();
-  const origine = sanitizeReturnTo(rawOrigine);
+  const origine = retourDePaiement(rawOrigine) ?? sanitizeReturnTo(rawOrigine);
   if (origine) params.set("origine", origine);
   if (marqueur && /^[a-z0-9-]{1,40}$/.test(marqueur)) params.set("marqueur", marqueur);
   const q = params.toString();
@@ -64,6 +77,9 @@ export function arriveeApresConnexion(
 ): string {
   const actuelle = resolvePostAuthRedirect(rawOrigine, ARRIVEE_CONNEXION_ACTUELLE);
   if (!ouvert) return actuelle;
+  // Paiement en cours de vérification : la page de retour, quel que soit le plan lu (webhook passé ou non).
+  const paiement = retourDePaiement(rawOrigine);
+  if (paiement) return paiement;
   if (compte === "ancien-abonne") return ESPACE_REDIRECTION_SANS_ABONNEMENT;
   if (compte === "abonne") return sanitizeReturnTo(rawOrigine) ?? ESPACE_ACCUEIL;
   return actuelle;
