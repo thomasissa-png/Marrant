@@ -1,7 +1,7 @@
-# C7 : « Humour noir, fait bien » (coin de la Bibliothèque, espace Premium s24), partie texte, tour 2
+# C7 : « Humour noir, fait bien » (coin de la Bibliothèque, espace Premium s24), partie texte, tour 4
 
 > Auteur : @copywriter, 13/11/2026. Sources : étalon `docs/copy/etalon-e6-humour-noir-s24.md` (barre, ton, format, périmètre), ligne du 12/11 de `docs/founder-preferences.md` (nom, périmètre), `architecture-contenu-v20.md` 3.12, format de `docs/copy/espace/qr6-situations.md`, `checklist-fautes-recurrentes.md`.
-> **Statut : tour 2, à relire à l'aveugle** (retouches d'après les relectures du tour 1 : voir la table « Tour 2 : retouche → ligne » en bas ; fiche 1 et C7-3 intactes). Rien n'est en base ni publié (règle d'or s18). Le lot de vannes sélectionnées n'est pas écrit : il attend la lecture de la base de production.
+> **Statut : tour 4, confirmation à l'aveugle de la seule réponse « avec » de la fiche 3** (tours 2 à 4 : voir les tables en bas ; tout le reste est à 10 chez reviewer et elon, sans faute dure de la critique). Rien n'est en base ni publié (règle d'or s18). Le lot de vannes sélectionnées n'est pas écrit : il attend la lecture de la base de production.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro emoji, ni IA ni concurrent, aucun humoriste cité, guillemets « » (intérieurs “ ”), aucun accord genré pour l'utilisateur ni pour la personne d'en face, on rit avec et jamais contre.
 > Périmètre : la mort en général et ta propre mort, jamais celle d'un proche ; aucun deuil récent de la personne d'en face, aucune maladie de quelqu'un, aucune cible absente. Dans chaque situation, la **sûre** est la réponse par défaut ; la joueuse et la risquée se méritent par les signaux de la scène de rafale.
 > Chaque registre d'une même situation a sa propre image. Aucune scène de QR1 à QR6 ni de l'étalon E6 reprise (anniversaire, voyage, balcon, obsèques, abonnement), ni « minute de silence », ni « réunion et testament », ni « musique d'attente » (déjà dans le dépôt).
@@ -62,13 +62,13 @@ Ta réponse met-elle la personne dedans avec toi, ou la regarde-t-elle de dehors
 **Même blague, deux réponses**
 La personne dit : « À mon enterrement, il y aura du monde : le buffet sera gratuit. »
 *De* : « Heureusement, sinon personne ne viendrait. » Tu commentes sa vie sociale : la personne devient la cible de sa propre blague.
-*Avec* : « Au mien, le buffet sera avant la cérémonie : comme ça, tout le monde reste. » Tu réponds avec ta propre fin, sur le même ton, sans parler de la sienne.
+*Avec* : « Au mien, le buffet sera après la cérémonie : comme ça, tout le monde reste jusqu'au bout. » Tu réponds avec ta propre fin, sur le même ton, sans parler de la sienne.
 
 **Une réserve**
 Si la personne traverse quelque chose, ou si son rire sonne comme un masque (fiche 1, signal 3), tu ne rejoins pas la blague : tu écoutes, tu demandes comment ça va, tu laisses le sujet.
 
 **À toi, ce soir**
-À la prochaine blague que fait quelqu'un sur sa propre vie ou sa propre fin, réponds avec ta propre fin, sur le même ton : « Moi aussi », « Au mien, ... ». Jamais avec la sienne. Si rien ne vient, souris et laisse la suite. Une phrase, une seule fois.
+À la prochaine blague que fait quelqu'un sur sa propre vie ou sa propre fin, réponds avec ta propre fin, sur le même ton : « Moi aussi », « Au mien, … ». Jamais avec la sienne. Si rien ne vient, souris et laisse la suite. Une phrase, une seule fois.
 
 ---
 
@@ -357,3 +357,11 @@ Trois candidates par réplique, la première est la retenue. Les deux autres ne 
 | C7-5 : risquée remplacée (assurance annulation, plus « sauf décès » formule courante) ; sûre avec un trait (« ma mauvaise foi », elon) ; « relis comme une affiche » sorti de la liste, trois feux verts | C7-5 (rafale 2 et « comment choisir » alignés) |
 | Annexe : retenues en première colonne, remplacées du tour 1 gardées en candidate ; deux lignes pour les exemples des fiches 2 et 3 | Annexe |
 | Intactes : fiche 1, C7-3 (reviewer et elon à 10), joueuse de C7-1, joueuse de C7-3, sûres de C7-1 à C7-3 | Hors retouche |
+
+
+## Tour 4 : retouche → ligne
+
+| Retouche | Ligne |
+|---|---|
+| Fiche 3, réponse « avec » : logique inversée (un buffet avant fait partir les gens), elon | « Au mien, le buffet sera après la cérémonie : comme ça, tout le monde reste jusqu'au bout. » |
+| En-tête « tour 2 » et « ... » au lieu de « … » (reviewer) | En-tête mis à jour, « Au mien, … » |
