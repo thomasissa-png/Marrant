@@ -222,7 +222,7 @@ Les 9 défis « limite » restent dehors (conseils 12, 14, 18 ; vidéos 1, 17, 3
 4. **Préfixe « DÉFI XXX : »** du champ du seed : il fait partie du texte cité ici. L'import `enonce` décidera de le garder ou non à l'affichage, sans modifier le seed.
 5. **Marches « déduites »** (destinataire non précisé : environ 25 défis, signalés « déduite ») : relire à l'aveugle le choix 1 ou 3 pour ceux sans auditeur nommé.
 6. **Défis à public implicite flou** : conseil 31 (« la prochaine fois qu'une de tes vannes tombe ») et vidéo 28 (« en soirée ») sont jugés provocables par un repli ou parce que l'abonné propose le jeu lui-même ; à confirmer.
-7. **Suites des missions** (`suites.marche`, `suites.bof`) : aucun texte n'existe pour ces 111 missions ; à écrire à part avant l'import dans `missions.json`.
+7. **Suites des missions** (`suites.marche`, `suites.bof`) : aucun texte n'existe pour ces 107 missions ; à écrire à part avant l'import dans `missions.json`.
 8. **Sujets sensibles retenus mais à relire en priorité à l'aveugle** : vidéo 72 (aspect physique non assumé), 83 (reproches de l'entourage), 84 (rendez-vous raté). Contexte à l'import : vidéo 33 (« le gala ») et vidéo 60 (rattachée à une vidéo d'humour noir) n'ont pas de champ vidéo dans `missions.json`, leur énoncé seul est à vérifier.
 
 ## 7. Tour 2 (corrections de la relecture à l'aveugle)
