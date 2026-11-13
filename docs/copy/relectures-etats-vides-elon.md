@@ -1,0 +1,4 @@
+# États vides D6, relecture à l'aveugle (@elon)
+
+- **Lettres, A : 10.** L'état, la règle (« dès qu'une lettre t'est envoyée ») et la sortie (« Aller à Aujourd'hui ») se comprennent en une seconde. Ici, « pour l'instant » décrit un état adossé à un envoi qui existe vraiment : ce n'est pas une promesse en l'air.
+- **Coin Humour noir, A : 7.** « Ce coin est vide » répète le titre. Surtout, « rien n'y est caché » répond à un soupçon que l'abonné n'avait pas, et le fait naître : dans un coin « humour noir », dire « rien n'est caché » fait penser qu'on filtre. La phrase ne dit pas non plus pourquoi c'est vide ni ce qui va venir. Réécriture, sur le modèle des Lettres : titre « Rien à lire ici pour l'instant », phrase « Dès qu'un texte est publié, il s'affiche ici. », lien « Sortir ». Les deux états vides parlent ainsi de la même voix. Ce « pour l'instant » promet bien un contenu à venir : c'est juste tant que le coin 3.12 est au plan, à confirmer par Thomas.
