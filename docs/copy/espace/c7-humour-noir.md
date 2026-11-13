@@ -42,7 +42,7 @@ Relis ta phrase et demande-toi : « Qui, ici, prend le coup ? » Si c'est toi, l
 
 **Même sujet, autre cible**
 Avant, la cible est un groupe : « Les gens de la poste, ils sont morts depuis longtemps, ils n'ont juste pas été prévenus. »
-Après, la cible est toi : « Dans cette file, j'ai eu le temps de revoir ma vie. Il y avait des longueurs. »
+Après, la cible est toi : « À ce rythme, on m'enterrera avec mon ticket d'attente à la main. »
 La poste, l'attente et l'idée de fin sont restées. Seule la cible a changé de côté : la chute est passée de « eux » à « moi ».
 
 **Pourquoi ça compte**
@@ -54,21 +54,21 @@ Prends une vanne sombre que tu connais, sur la mort en général. Souligne le mo
 ### Fiche 3 : « Rire avec, pas de » (neuve ; angle : répondre à quelqu'un qui plaisante sur sa propre fin)
 
 **Le principe**
-La fiche 1 règle quand lancer, la fiche 2 où tombe ta chute. Celle-ci règle ce que tu fais quand c'est quelqu'un d'autre qui plaisante sur sa propre fin. Deux façons de répondre : *avec*, tu entres dans sa phrase et tu t'y mets toi aussi ; *de*, tu commentes la personne et tu la montres du doigt.
+La fiche 1 règle quand lancer, la fiche 2 où tombe ta chute. Celle-ci règle ce que tu fais quand c'est quelqu'un d'autre qui plaisante sur sa propre fin. Deux façons de répondre : *avec*, tu réponds avec ta propre fin, sur le même ton ; *de*, tu commentes la personne et tu la montres du doigt.
 
 **Le test**
-Ta réponse met-elle la personne dedans avec toi, ou la regarde-t-elle de dehors ? Si elle parle de la personne (sa vie, ses habitudes, ce qu'elle vaut), c'est *de*. Si elle parle de la scène et que tu y es aussi, c'est *avec*.
+Ta réponse met-elle la personne dedans avec toi, ou la regarde-t-elle de dehors ? Si elle parle de la personne (sa vie, ses habitudes, ce qu'elle vaut), c'est *de*. Si elle parle de ta fin à toi, sur le même ton, c'est *avec*.
 
 **Même blague, deux réponses**
 La personne dit : « À mon enterrement, il y aura du monde : le buffet sera gratuit. »
 *De* : « Heureusement, sinon personne ne viendrait. » Tu commentes sa vie sociale : la personne devient la cible de sa propre blague.
-*Avec* : « Je viendrai tôt : les bons plats partent vite. » Tu entres dans sa scène, tu t'y places et tu ajoutes un détail.
+*Avec* : « Au mien, le buffet sera avant la cérémonie : comme ça, tout le monde reste. » Tu réponds avec ta propre fin, sur le même ton, sans parler de la sienne.
 
 **Une réserve**
 Si la personne traverse quelque chose, ou si son rire sonne comme un masque (fiche 1, signal 3), tu ne rejoins pas la blague : tu écoutes, tu demandes comment ça va, tu laisses le sujet.
 
 **À toi, ce soir**
-À la prochaine blague que fait quelqu'un sur sa propre vie ou sa propre fin, réponds en te mettant dans la même phrase : « Moi aussi », « Je viens », « J'apporte quelque chose ». Si rien ne vient, souris et laisse la suite. Une phrase, une seule fois.
+À la prochaine blague que fait quelqu'un sur sa propre vie ou sa propre fin, réponds avec ta propre fin, sur le même ton : « Moi aussi », « Au mien, ... ». Jamais avec la sienne. Si rien ne vient, souris et laisse la suite. Une phrase, une seule fois.
 
 ---
 
@@ -313,8 +313,17 @@ Trois candidates par réplique, la première est la retenue. Les deux autres ne 
 | C7-5 sûre | « Je viens. J'apporte les jeux de société, et ma mauvaise foi. » | « Je viens. Je prends les jeux de société. » (tour 1, sans trait) | « Je viens. Je me charge de la valise commune. » |
 | C7-5 joueuse | « Je viens, et je me charge de dire “on part dans cinq minutes” pendant deux heures. » | « Je viens, et je serai en retard de façon organisée. » | « Je viens. J'arrive très tôt ou jamais : je ne fais pas de demi-mesure. » |
 | C7-5 risquée | « Je viens. J'ai pris l'assurance annulation : mon décès est couvert, j'ai vérifié. » | « Je viens. Sauf décès, auquel cas je vous écris dès que je peux. » (tour 1, formule courante) | « Je viens. Réservez-moi la chambre la plus calme : j'ai l'habitude du silence. » |
-| Fiche 2, exemple « après » | « Dans cette file, j'ai eu le temps de revoir ma vie. Il y avait des longueurs. » | « Dans cette file, j'ai eu le temps de refaire mon testament, deux fois. » (cliché testament, écartée) | « Dans cette file, j'ai vu défiler ma vie : le générique était long. » |
-| Fiche 3, exemple « avec » | « Je viendrai tôt : les bons plats partent vite. » | « Je viendrai en avance : il faut bien tester le buffet. » | « Alors je prends la place près des petits fours. » |
+| Fiche 2, exemple « après » | « À ce rythme, on m'enterrera avec mon ticket d'attente à la main. » | « Dans cette file, j'ai eu le temps de revoir ma vie. Il y avait des longueurs. » (tour 2, blague qui circule, écartée) | « Ce guichet me survivra, mais je prends mon numéro d'avance. » |
+| Fiche 3, exemple « avec » | « Au mien, le buffet sera avant la cérémonie : comme ça, tout le monde reste. » | « Même buffet pour le mien : on mutualise. » (critique) | « Au mien, ce sera un buffet à volonté : je ne serai pas là pour compter. » |
+
+## Tour 3 : retouche → ligne
+
+| Retouche | Où |
+|---|---|
+| Fiche 3, périmètre : la réponse « avec » parle de ta propre fin (« Au mien, le buffet sera avant la cérémonie »), plus de plaisanterie sur l'enterrement de la personne d'en face ; principe, test et « À toi » alignés (« avec ta propre fin, sur le même ton », « Jamais avec la sienne ») | Fiche 3 |
+| Fiche 2 : exemple « après » remplacé (« À ce rythme, on m'enterrera avec mon ticket d'attente à la main », piste d'elon sans accord : « on m'enterrera ») ; « il y avait des longueurs » écarté (blague qui circule) | Fiche 2 |
+| Web tour 3 (13/11/2026) : « on m'enterrera avec mon ticket d'attente » ; « le buffet sera avant la cérémonie » + idée du buffet avant l'enterrement : aucune occurrence (proche : un podcast où l'au-delà a un ticket d'attente, autre chute). Grep dépôt : aucune occurrence des deux textes ; catalogue en base non greppé | Table de contrôle |
+| Intact : fiche 1, C7-1 à C7-5, reste de l'annexe | Hors retouche |
 
 ---
 
