@@ -78,7 +78,7 @@ test.describe("@espace D11b : retours et états (ouvert)", () => {
     await connecter(page, abonne.email, MOT_DE_PASSE);
     await page.goto("/mon-espace/s-entrainer?marche=3");
     const vide = page.getByTestId("mission-vide");
-    await expect(vide).toContainText("Pas de mission pour cette marche pour l'instant.");
+    await expect(vide).toContainText("Pas d'autre mission à te proposer sur cette marche.");
     const lien = vide.getByRole("link");
     await expect(lien).toHaveAttribute("href", /\/mon-espace\/s-entrainer\?marche=[1245]#mission$/);
     for (const n of [1, 2, 4, 5]) {

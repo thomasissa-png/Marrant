@@ -79,7 +79,7 @@ export const TEXTES_MISSION = {
   raconte: "Raconte-nous ce qui s'est passé",
   // Lot D11b (@ux D-3) : `?marche=n` sans mission servable (marche déjà toute essayée, « autre situation »
   // sur une marche à une seule mission). Texte de la consigne @ux, [À VALIDER] par Thomas avant l'ouverture.
-  aucuneMission: "Pas de mission pour cette marche pour l'instant.",
+  aucuneMission: "Pas d'autre mission à te proposer sur cette marche.",
 } as const;
 
 /**
