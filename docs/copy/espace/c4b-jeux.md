@@ -1,6 +1,6 @@
-# C4b : « Jeux », lot 2 (10 jeux), tour 2, à relire à l'aveugle
+# C4b : « Jeux », lot 2 (10 jeux), tour 3, à relire à l'aveugle
 
-> Statut : **tour 2, à relire à l'aveugle** (P0 s18). Auteur : @copywriter, 13/11/2026. Même format que `c4a-jeux.md` (champs du schéma `[PROVISOIRE]` `fiches-schema.ts` l. 264 à 288 : famille, consigne, matière, ce qu'on aurait pu dire, retour).
+> Statut : **tour 3, à relire à l'aveugle** (jeux 1, 3, 5, 6 et 10 retouchés ; les autres inchangés depuis le tour 2) (P0 s18). Auteur : @copywriter, 13/11/2026. Même format que `c4a-jeux.md` (champs du schéma `[PROVISOIRE]` `fiches-schema.ts` l. 264 à 288 : famille, consigne, matière, ce qu'on aurait pu dire, retour).
 > **Lot de 10, 2 familles** : 5 « Finis la phrase » (jeux 1 à 5), 5 « Remets la chute » (jeux 6 à 10). Ce sont des jeux d'écriture : aucune réponse n'est juste ou fausse, l'abonné compare avec ce qu'il a écrit. Aucune vanne du catalogue n'est citée : tout le texte drôle est neuf.
 > `[Framework : démonstration puis geste]` `[Conscience : Product-Aware]`. Retour de chaque jeu (écrans de l'application, pas du texte à écrire) : `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` `[Ma version à moi : une phrase, facultative]`. Chaque jeu commence par : « Écris ta version avant de lire la suite. Rien n'est noté. »
 > Règles tenues (`checklist-fautes-recurrentes.md`) : tutoiement ; aucun accord au masculin ou au féminin pour l'utilisateur ni pour la personne d'en face ; zéro tiret cadratin, zéro émoji, ni IA ni concurrent, aucune marque ; guillemets « » à l'extérieur et “ ” à l'intérieur partout ; pas de cible absente, pas de peine, santé ou deuil ; univers variés (appartement, mode d'emploi, banque, boulot, famille, coloc, transports, soirée, examen).
@@ -9,15 +9,15 @@
 
 ## Jeu 1. Finis la phrase (le provisoire qui s'installe)
 
-**Consigne.** Finis en une phrase : un objet acheté pour dépanner s'installe pour de bon, avec un constat précis.
+**Consigne.** Finis en une phrase : un objet acheté pour dépanner s'installe pour de bon, avec un détail précis.
 
-**Matière.** « Le tabouret acheté “pour dépanner” il y a deux ans… »
+**Matière.** « Le tabouret acheté “pour dépanner” il y a quatre ans… »
 
 **Ce qu'on aurait pu dire.**
-- « …a maintenant sa place attitrée à table. »
-- « …est devenu la chaise la plus demandée de l'appartement. »
+- « …a survécu à deux canapés. »
+- « …figure sur le bail. »
 
-**Retour.** Le début promet du provisoire ; la fin range l'objet dans le décor, avec un détail que tout le monde a vu chez soi (une place, une demande). Un seul constat : en ajouter un deuxième l'aurait dilué.
+**Retour.** Le début promet du provisoire ; la fin range l'objet dans la durée avec un détail précis (deux canapés, le bail). Un seul constat par fin : en ajouter un deuxième l'aurait dilué.
 
 ---
 
@@ -39,13 +39,13 @@
 
 **Consigne.** Finis en traduisant ce que le message veut vraiment dire.
 
-**Matière.** « Quand ma banque m'écrit “Bonne nouvelle !”, ça veut dire que… »
+**Matière.** « Quand quelqu'un m'écrit “Petite question rapide”, ça veut dire que… »
 
 **Ce qu'on aurait pu dire.**
-- « …un nouveau frais a reçu un joli nom. »
-- « …la mauvaise est en pièce jointe. »
+- « …la réponse va me prendre ma soirée. »
+- « …je vais devoir ouvrir un tableur. »
 
-**Retour.** Un message courant reçoit son vrai sens, en une seule traduction, et personne n'est visé sinon le message lui-même. La seconde fin garde la tournure (« bonne nouvelle ») et déplace la chute sur un détail précis : la pièce jointe.
+**Retour.** Un message courant reçoit son vrai sens, en une seule traduction, et personne n'est visé. La seconde fin chiffre l'effort par un objet précis : le tableur.
 
 ---
 
@@ -70,7 +70,7 @@
 **Matière.** « Chez mes parents, ma chambre a changé de nom. Elle s'appelle maintenant… »
 
 **Ce qu'on aurait pu dire.**
-- « …“la chambre d'amis”, et l'ami, c'est moi. »
+- « …“la chambre d'amis”, et c'est moi qu'on y reçoit. »
 - « …“la salle de repassage”. Mon lit sert de table. »
 
 **Retour.** Le nom officiel dit une chose, le détail en dit une autre : c'est l'écart entre les deux qui fait sourire. Un seul nouveau nom ; l'expliquer (« ils ont repris la pièce ») aurait tout éteint.
@@ -81,7 +81,7 @@
 
 **Consigne.** Voici une histoire sans sa chute. Écris la dernière phrase.
 
-**Matière.** « Notre plante verte a deux arroseurs : moi, le lundi, et l'autre moitié de la coloc, le lundi aussi, sans le dire à l'autre. Ça dure depuis six mois. »
+**Matière.** « Nous sommes deux à arroser la plante de la coloc : le lundi, sans se le dire. Ça dure depuis six mois. »
 
 **Chute d'origine.** « C'est la seule chose de l'appartement dont on s'occupe trop. »
 
@@ -141,7 +141,7 @@
 
 **Chute d'origine.** « Moi, j'ai commencé par elle : c'était la seule où j'avais le droit de me tromper. »
 
-**Une autre chute.** « Bonne nouvelle : la question facultative a le meilleur taux de réussite. »
+**Une autre chute.** « Résultat : la question facultative a eu le meilleur taux de réussite de l'amphi. »
 
 **Retour.** Mécanisme : la raison cachée derrière un comportement collectif. La chute d'origine la donne : la seule question sans enjeu est celle qu'on ose faire. L'autre chute garde le constat de l'histoire et le présente comme une victoire.
 
@@ -155,31 +155,31 @@
 
 | Jeu | Retenue 1 | Retenue 2 | Candidate 3 (non retenue) |
 |---|---|---|---|
-| 1 | « …a maintenant sa place attitrée à table. » | « …est devenu la chaise la plus demandée de l'appartement. » | « …devrait être déclaré à la mairie. » (plus faible sur l'objet) |
+| 1 | « …a survécu à deux canapés. » | « …figure sur le bail. » | « …a maintenant sa place attitrée à table. » (tour 2, plus tiède) |
 | 2 | « …“Avant la première utilisation”. Le four a deux ans. » | « …“Consignes de sécurité”. Je les reconnais toutes : je les ai toutes enfreintes. » | « …“Sommaire”. Je cherche toujours le début. » |
-| 3 | « …un nouveau frais a reçu un joli nom. » | « …la mauvaise est en pièce jointe. » | « …je vais devoir lire jusqu'à la dernière ligne. » (explique) |
+| 3 | « …la réponse va me prendre ma soirée. » | « …je vais devoir ouvrir un tableur. » | « …elle arrive avec une pièce jointe. » (« pièce jointe » est déjà dans un détournement de l'étalon E2.2) |
 | 4 | « …le nombre de gens qui me demandent où est l'imprimante. » | « …une façon très personnelle de dire “je reviens vers vous”. » | « …la place de parking. » (attendue) |
-| 5 | « …“la chambre d'amis”, et l'ami, c'est moi. » | « …“la salle de repassage”. Mon lit sert de table. » | « …“le bureau”, mais mon lit y est toujours. » |
-| 6 | « C'est la seule chose de l'appartement dont on s'occupe trop. » | « Elle ne manque de rien, sauf d'être laissée tranquille. » | « Elle a deux colocs et zéro soif. » (moins lisible) |
+| 5 | « …“la chambre d'amis”, et c'est moi qu'on y reçoit. » | « …“la salle de repassage”. Mon lit sert de table. » | « …“le bureau”, mais mon lit y est toujours. » |
+| 6 | « C'est la seule chose de l'appartement dont on s'occupe trop. » | « Elle ne manque de rien, sauf d'être laissée tranquille. » | « Elle a deux colocs et zéro soif. » (moins lisible) ; matière réécrite, chutes inchangées |
 | 7 | « J'ai levé la main pour dire que je n'avais pas compris. » | « Moi, je ne comprends toujours pas. Mais on me remercie quand même. » | « On me remercie d'une chose que je n'ai pas encore décidé de donner. » |
 | 8 | « Ce manteau a un meilleur agenda que moi. » | « Un manteau a obtenu un créneau que je cherche depuis lundi. » | « Le manteau est en réunion. » |
 | 9 | « Chez nous, “non merci” n'est pas une réponse, c'est une première offre. » | « Chez nous, “non merci” veut dire “un peu moins”. » | « La louche est un argument. » |
-| 10 | « Moi, j'ai commencé par elle : c'était la seule où j'avais le droit de me tromper. » | « Bonne nouvelle : la question facultative a le meilleur taux de réussite. » | « La seule question sans enjeu a eu toute notre attention. » (proposition du reviewer, plus plate) |
+| 10 | « Moi, j'ai commencé par elle : c'était la seule où j'avais le droit de me tromper. » | « Résultat : la question facultative a eu le meilleur taux de réussite de l'amphi. » | « La seule question sans enjeu a eu toute notre attention. » (proposition du reviewer, plus plate) |
 
 ### Recherche web et doublons (tour 2)
 
 | Jeu | Idée / phrase cherchée | Web | Dépôt (grep) |
 |---|---|---|---|
-| 1 | Tabouret « pour dépanner », place attitrée, chaise la plus demandée | 0 | 0 (la chaise cassée du catalogue est une autre idée) |
+| 1 | Tabouret « pour dépanner », « a survécu à deux canapés », « figure sur le bail » (tour 3) | 0 | 0 (la chaise cassée du catalogue est une autre idée) |
 | 2 | Mode d'emploi du four, « Avant la première utilisation », consignes enfreintes | 0 | 0 (le four de C3a et C3b est une recette) |
-| 3 | Banque, « Bonne nouvelle ! », frais au joli nom, mauvaise nouvelle en pièce jointe | 0 | 0 (la banque de QR5 W5 et la vanne de l'appli sont d'autres idées) |
+| 3 | « Petite question rapide », « la réponse va me prendre ma soirée », « je vais devoir ouvrir un tableur » (tour 3) | 0 | 0 (le tableur apparaît dans une vanne de l'audit s20, autre idée ; « pièce jointe » écartée pour l'étalon E2.2) |
 | 4 | Ancienneté, imprimante, « je reviens vers vous » (tour 1, inchangé) | 0 | 0 |
-| 5 | Chambre rebaptisée, « la chambre d'amis », l'ami c'est moi ; salle de repassage | 0 | 0 (V050, chambre gardée à l'identique, n'est pas en catalogue actif ; l'ouverture est abandonnée) |
-| 6 | Plante à deux arroseurs, « dont on s'occupe trop » | 0 (le surarrosage est un fait de jardinage, aucune blague) | 0 (les plantes de QR2 B4, QR4 E2 et C4a jeu 6 sont d'autres idées) |
+| 5 | Chambre rebaptisée, « la chambre d'amis », « c'est moi qu'on y reçoit » (tour 3) ; salle de repassage | 0 | 0 (V050, chambre gardée à l'identique, n'est pas en catalogue actif ; l'ouverture est abandonnée) |
+| 6 | « Nous sommes deux à arroser la plante de la coloc : le lundi, sans se le dire » (tour 3), « dont on s'occupe trop » | 0 (le surarrosage est un fait de jardinage, aucune blague) | 0 (les plantes de QR2 B4, QR4 E2 et C4a jeu 6 sont d'autres idées) |
 | 7 | « J'ai levé la main pour dire que je n'avais pas compris », « Merci de votre compréhension » | 0 (la formule des annonces est citée, pas cette chute) | 0 (C3b fiche 8 : même décor, autre idée) |
 | 8 | Cabine d'appel, manteau, post-it « Occupé » (tour 1, inchangé) | 0 | 0 |
 | 9 | « Non merci » = première offre / « un peu moins », purée | 0 | 0 (le gratin de C1c et C3a est abandonné) |
-| 10 | Question facultative, « le droit de me tromper », meilleur taux de réussite | 0 | 0 |
+| 10 | Question facultative, « le droit de me tromper », « Résultat : … meilleur taux de réussite de l'amphi » | 0 | 0 |
 
 ### Table de contrôle
 
@@ -209,7 +209,20 @@
 | J10 : la chute d'origine contredit la matière (reviewer, elon) | Chute d'origine : « Moi, j'ai commencé par elle… » ; autre chute neuve « Bonne nouvelle : la question facultative a le meilleur taux de réussite. » ; retour d'elon adapté |
 | Non changé (hors guillemets) | Jeu 4 et jeu 8 (9 et 10 chez les relecteurs) |
 
+## Tour 3 : retouche → ligne
+
+Recherche web (phrase et idée) et grep dépôt de chaque texte neuf : 0 occurrence.
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| J1 : fins tièdes, « deux ans » répété au J2 (elon) | Matière « …il y a quatre ans… » ; fins d'elon : « …a survécu à deux canapés. » et « …figure sur le bail. » ; retour avec les deux détails |
+| J3 : la banque reprend C1b fiche 12 ; « un nouveau frais » fautif ; « Bonne nouvelle » revient au J10 (reviewer) | Matière « Quand quelqu'un m'écrit “Petite question rapide”, ça veut dire que… » ; fins du reviewer ; « la mauvaise est en pièce jointe » non gardée (« pièce jointe » est déjà dans un détournement de l'étalon E2.2) ; retour du reviewer |
+| J5 : « l'ami, c'est moi » met l'utilisateur au masculin (elon, reviewer) | « …“la chambre d'amis”, et c'est moi qu'on y reçoit. » (elon) |
+| J6 : deux « l'autre » embrouillent la matière (elon, critique) | « Nous sommes deux à arroser la plante de la coloc : le lundi, sans se le dire. Ça dure depuis six mois. » (critique, sans « chacun ») ; chutes inchangées |
+| J10 : « Bonne nouvelle : » est un tic (critique, elon) | « Résultat : la question facultative a eu le meilleur taux de réussite de l'amphi. » (elon et critique) |
+| Non changé | Jeux 2, 4, 7, 8 et 9 (10 chez reviewer et elon) |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/c4b-jeux.md` (10 jeux : 5 « Finis la phrase », 5 « Remets la chute »), tour 2, à relire à l'aveugle.
+- Fichier : `/home/user/Marrant/docs/copy/espace/c4b-jeux.md` (10 jeux : 5 « Finis la phrase », 5 « Remets la chute »), tour 3, à relire à l'aveugle.
 - Textes neufs recherchés (phrase et idée) : 0 occurrence ; doublons dépôt : 0 au grep. Aucune vanne du catalogue citée, aucun autre fichier modifié, rien de commité.
