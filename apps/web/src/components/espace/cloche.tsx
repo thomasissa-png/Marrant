@@ -18,8 +18,10 @@ import { cn } from "@/lib/utils";
  * - pastille = point plein de 12 px, bordure de 2 px couleur du fond, sans chiffre, sans
  *   animation, réservée aux réponses de l'équipe ; couleur : token `accent-link` (le violet de la
  *   décision E5, `tailwind.config.ts`, plan §0 écart 6 ; contraste 7:1 sur le fond de page), jamais de hex ici ;
- * - panneau : feuille basse sur téléphone ; dès 768 px (lot D11c, revue d'harmonie défaut 9), panneau ancré sous
- *   la cloche, bord droit aligné sur elle, 8 px sous l'en-tête, sans voile, comme « Plus » et le menu du compte ; Échap, clic dehors et
+ * - panneau (s25, relecture tour 1 design F5 à F7 et ux) : à toutes les largeurs sous l'en-tête, 8 px sous son
+ *   filet, sans voile ; bord droit sur la marge de la coque comme le menu du compte ; sous 768 px, toute la
+ *   largeur de la coque, dès 768 px 320 px ; finition des cartes de l'accueil (`rounded-xl`, filet dégradé `h-1`
+ *   en haut, `daily-content.tsx`), « Fermer » discret (ghost, 44 px) ; Échap, clic dehors et
  *   « Fermer » ferment, focus dans le panneau puis rendu au bouton (Radix Dialog) ;
  * - ouvrir le panneau ne lit rien (la pastille reste tant que le fil n'est pas ouvert) ;
  * - le nom ne change jamais en direct : aucun `aria-live`, aucune relecture pendant la lecture d'une page ;
@@ -44,13 +46,22 @@ const IconeCloche = () => (
   </svg>
 );
 
-/** Dès 768 px : position du panneau sous la cloche (bord droit aligné, décalage de 8 px comme le menu du compte). */
+/**
+ * Position du panneau : 8 px sous le bas de l'en-tête (filet compris), bord droit sur la marge de la coque
+ * (premier enfant de `<header>`, padding déduit) ; sous 768 px, bord gauche aussi.
+ */
 function ancrer(bouton: HTMLElement | null): CSSProperties | undefined {
   if (!bouton || typeof window === "undefined" || typeof window.matchMedia !== "function") return undefined;
-  if (!window.matchMedia("(min-width: 768px)").matches) return undefined;
+  const enTete = bouton.closest("header");
+  const coque = enTete?.firstElementChild;
   const r = bouton.getBoundingClientRect();
-  const haut = Math.round(r.bottom + 8);
-  return { top: haut, right: Math.round(window.innerWidth - r.right), maxHeight: window.innerHeight - haut - 16 };
+  const haut = Math.round((enTete?.getBoundingClientRect().bottom ?? r.bottom) + 8);
+  const bord = coque ? coque.getBoundingClientRect() : null;
+  const style = coque ? getComputedStyle(coque) : null;
+  const droite = bord && style ? bord.right - parseFloat(style.paddingRight) : r.right;
+  const position: CSSProperties = { top: haut, right: Math.round(window.innerWidth - droite), maxHeight: window.innerHeight - haut - 16 };
+  if (!window.matchMedia("(min-width: 768px)").matches && bord && style) position.left = Math.round(bord.left + parseFloat(style.paddingLeft));
+  return position;
 }
 
 export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps) {
@@ -90,15 +101,15 @@ export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps
         )}
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/60 md:hidden" />
         <Dialog.Content
           aria-describedby={undefined}
           style={ancre}
-          className="fixed inset-x-0 bottom-0 z-[70] max-h-[calc(100dvh-1rem)] overflow-y-auto rounded-t-lg border border-border bg-background-card p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] focus:outline-none md:inset-x-auto md:bottom-auto md:w-80 md:rounded-lg md:pb-4 md:shadow-xl max-e300:px-3 max-e300:pt-3"
+          className="fixed inset-x-3 top-[4.5rem] z-[70] max-h-[calc(100dvh-5.5rem)] overflow-y-auto rounded-xl border border-border bg-background-card p-4 shadow-xl focus:outline-none md:left-auto md:w-80 max-e300:px-3 max-e300:pt-3"
         >
+          <div aria-hidden="true" className="-mx-4 -mt-4 mb-3 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary max-e300:-mx-3 max-e300:-mt-3" />
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <Dialog.Title className="font-display text-xl font-bold text-text-primary">{T.cloche.titre}</Dialog.Title>
-            <Dialog.Close className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-11 shrink-0 border-border-input")}>{T.cloche.fermer}</Dialog.Close>
+            <Dialog.Close className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 shrink-0")}>{T.cloche.fermer}</Dialog.Close>
           </div>
           <LignesCloche contenu={contenu} erreur={erreur} onChoisir={() => setOuvert(false)} />
         </Dialog.Content>

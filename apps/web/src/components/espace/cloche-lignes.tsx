@@ -20,9 +20,16 @@ const Q = frEspaceProfond(TEXTES_QUESTIONS);
  * groupe) ; aucune pastille de ligne. Rien de chargé : rien n'est écrit ; chargé et vide : « Rien de
  * nouveau. Reviens quand tu veux. » ; lecture échouée sans rien de lu : « On n'a pas pu afficher tes
  * notifications. Repasse dans un moment. ». Toucher une ligne ferme le panneau (`onChoisir`).
+ * s25 (relecture tour 1, design P4 et ux) : chaque ligne porte le chevron des lignes de « Dans ton espace »
+ * (`dans-ton-espace.tsx`), signe visible qu'elle s'ouvre.
  */
 const LIGNE =
-  "flex min-h-11 flex-col justify-center rounded-md px-3 py-2 text-sm text-text-primary hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+  "flex min-h-11 items-center justify-between gap-3 rounded-md px-3 py-2 text-sm text-text-primary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+const Chevron = () => (
+  <svg className="h-4 w-4 flex-none text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+  </svg>
+);
 const LIBELLE: Record<GenreNouveaute, string> = { carnet: C.lignes.carnet, situations: C.lignes.situations, bibliotheque: C.lignes.bibliotheque };
 
 function Groupe({ titre, cle, children }: { titre: string; cle: string; children: React.ReactNode }) {
@@ -47,8 +54,11 @@ export function LignesCloche({ contenu, erreur = false, onChoisir }: { contenu: 
           {reponses.map((r) => (
             <li key={r.id} className="mt-1">
               <Link href={r.href} className={LIGNE} onClick={onChoisir} data-ligne-cloche="reponse">
-                {Q.types[r.type].nom}
-                <small className="text-xs text-text-muted">{Q.envois.reponduLe(dateCourte(r.reponduLe))}</small>
+                <span className="flex min-w-0 flex-col">
+                  {Q.types[r.type].nom}
+                  <small className="text-xs text-text-muted">{Q.envois.reponduLe(dateCourte(r.reponduLe))}</small>
+                </span>
+                <Chevron />
               </Link>
             </li>
           ))}
@@ -59,7 +69,8 @@ export function LignesCloche({ contenu, erreur = false, onChoisir }: { contenu: 
           {nouveautes.map((n) => (
             <li key={n.genre} className="mt-1">
               <Link href={n.href} className={LIGNE} onClick={onChoisir} data-ligne-cloche={n.genre}>
-                {LIBELLE[n.genre]}
+                <span className="min-w-0">{LIBELLE[n.genre]}</span>
+                <Chevron />
               </Link>
             </li>
           ))}
@@ -69,7 +80,8 @@ export function LignesCloche({ contenu, erreur = false, onChoisir }: { contenu: 
         <Groupe titre={C.groupes.lettre} cle="lettre">
           <li className="mt-1">
             <Link href={lettre.href} className={LIGNE} onClick={onChoisir} data-ligne-cloche="lettre">
-              {lettre.titre}
+              <span className="min-w-0">{lettre.titre}</span>
+              <Chevron />
             </Link>
           </li>
         </Groupe>

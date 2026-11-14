@@ -11,7 +11,7 @@ import { frEspace } from "@/lib/fr-typo";
  * Espace client, lot D8 (s24, plan §3) : contenu du panneau de la cloche (maquette `aujourdhui.html#cloche=…`,
  * architecture 2.9) et confirmation avant « Retirer de mon historique » (décision de Thomas du 13/11).
  * Fermé (CI) : aucune cloche, route 404. Ouvert (`E2E_ESPACE_OUVERT=1`) : pastille et nom au singulier pour
- * une réponse posée en base ; feuille basse à 375 px, panneau ancré sous la cloche à 1280 px (D11c) ; Échap, clic dehors et
+ * une réponse posée en base ; panneau sous l'en-tête à 375 et 1280 px (D11c, s25) ; Échap, clic dehors et
  * « Fermer » ferment, focus rendu au bouton, focus piégé ; ouvrir le panneau ne lit rien (rechargement) ;
  * ouvrir le fil éteint la pastille et retire la ligne ; état vide et nouveautés (contenu servi par une route
  * simulée : le carnet du mois rend l'état vide impossible en novembre) ; confirmation du retrait au clavier.
@@ -74,7 +74,7 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
   test.describe("abonné, interrupteur ouvert", () => {
     test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis (serveur construit interrupteur ouvert)");
 
-    test("réponse non lue : pastille, feuille basse puis fenêtre, fermetures et focus ; le panneau ne lit rien, le fil éteint", async ({ browser, page }) => {
+    test("réponse non lue : pastille, panneau sous l'en-tête (375 puis 1280 px), fermetures et focus ; le panneau ne lit rien, le fil éteint", async ({ browser, page }) => {
       await page.emulateMedia({ colorScheme: "dark" });
       const { id, cookies } = await compte(browser);
       await page.context().addCookies(cookies);
@@ -93,9 +93,13 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await expect(panneau.getByRole("heading", { name: frEspace(C.groupes.reponses) })).toBeVisible();
       await expect(ligne).toHaveAttribute("href", `/mon-espace/questions/${filId}`);
       expect((await ligne.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+      // s25 (relecture tour 1, design F5 et F6, ux) : sous l'en-tête (8 px sous son filet), largeur de la coque.
+      // Panneau ouvert, l'en-tête est masqué aux lecteurs d'écran (modal) : lu par son attribut, pas par son rôle.
+      const basEnTete = await page.locator("[data-en-tete-universel]").evaluate((h) => h.getBoundingClientRect().bottom);
       const feuille = (await panneau.boundingBox())!;
-      expect(Math.abs(feuille.y + feuille.height - 812)).toBeLessThanOrEqual(1); // feuille basse
-      expect(feuille.width).toBeGreaterThanOrEqual(374);
+      expect(Math.abs(feuille.y - (basEnTete + 8))).toBeLessThanOrEqual(1);
+      expect(Math.abs(feuille.x - 16)).toBeLessThanOrEqual(1);
+      expect(Math.abs(feuille.x + feuille.width - (375 - 16))).toBeLessThanOrEqual(1);
       for (let i = 0; i < 8; i++) {
         await page.keyboard.press("Tab");
         expect(await panneau.evaluate((p) => p.contains(document.activeElement))).toBe(true);
@@ -111,6 +115,8 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await expect(panneau).toBeHidden();
       await expect(cloche).toBeFocused();
       await cloche.click();
+      // s25 : plus de voile sous 768 px ; le clic dehors est lu par Radix une fois le panneau monté.
+      await expect(panneau).toBeVisible();
       await page.mouse.click(10, 10); // dehors
       await expect(panneau).toBeHidden();
       await expect(cloche).toBeFocused();
@@ -122,16 +128,16 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await page.reload();
       await expect(page.getByRole("banner").getByRole("button", { name: nomCloche(1) })).toBeVisible();
       expect((await requete<{ lu: Date | null }>(`SELECT "ouvertParAbonneLe" AS lu FROM "EquipeFil" WHERE id = $1`, [filId]))[0].lu).toBeNull();
-      // Lot D11c (revue d'harmonie, défaut 9) : sur ordinateur, panneau ancré sous la cloche (bord droit aligné,
-      // 8 px dessous), sans voile, comme « Plus » et le menu du compte.
+      // Lot D11c (revue d'harmonie, défaut 9), s25 (relecture tour 1, F5 et F6) : sur ordinateur, panneau 8 px sous
+      // le filet de l'en-tête, bord droit sur la marge de la coque comme le menu du compte, sans voile.
       await page.setViewportSize({ width: 1280, height: 900 });
       const clocheBureau = page.getByRole("banner").getByRole("button", { name: nomCloche(1) });
       // Mesurée avant l'ouverture : panneau ouvert, le reste de la page est masqué aux lecteurs d'écran (modal).
-      const bouton = (await clocheBureau.boundingBox())!;
+      const enTete = (await page.getByRole("banner").boundingBox())!;
       await clocheBureau.click();
       const fenetre = (await panneau.boundingBox())!;
-      expect(Math.abs(fenetre.x + fenetre.width - (bouton.x + bouton.width))).toBeLessThanOrEqual(1);
-      expect(Math.abs(fenetre.y - (bouton.y + bouton.height + 8))).toBeLessThanOrEqual(1);
+      expect(Math.abs(fenetre.x + fenetre.width - (1280 - 32))).toBeLessThanOrEqual(1);
+      expect(Math.abs(fenetre.y - (enTete.y + enTete.height + 8))).toBeLessThanOrEqual(1);
       expect(fenetre.width).toBe(320);
       expect(await page.locator(".bg-black\\/60").filter({ visible: true }).count()).toBe(0);
       // Ouvrir le fil : la ligne disparaît, la pastille s'éteint.

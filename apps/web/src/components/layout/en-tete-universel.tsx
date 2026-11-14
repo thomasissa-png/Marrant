@@ -122,7 +122,9 @@ export function EnTeteUniversel() {
     <>
       {menuOuvert && <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={() => fermerMenu(true)} />}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md" data-en-tete-universel={etat}>
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:px-4 sm:gap-4 md:px-6 xl:px-8">
+        {/* s25 (relecture design F1) : barre ancrée à gauche, le premier lien au même x pour les 3 états à chaque
+            largeur ; le vide se loge entre les liens et la recherche (ou les actions sous 1280 px). */}
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-2 px-3 min-[360px]:px-4 sm:gap-4 md:px-6 xl:px-8">
           {/* §6 (ROUVRE) : le logo de l'abonné mène à « Aujourd'hui ». */}
           <Link href={etat === "abonne" ? ESPACE_ACCUEIL : "/"} className="flex min-h-11 shrink-0 items-center gap-2">
             <span className="whitespace-nowrap font-display text-sm font-bold text-gradient min-[360px]:text-base min-[400px]:text-lg sm:text-xl">
@@ -131,10 +133,10 @@ export function EnTeteUniversel() {
           </Link>
 
           {/* Barre : « Mon espace » (abonné, dès 768 px) puis les liens du site (dès 1024 px). De 768 à 1023,
-              collée au logo ; dès 1024, répartie comme l'en-tête d'aujourd'hui. */}
+              collée au logo ; dès 1024, 32 px après le logo quel que soit le compte. */}
           <nav
             aria-label="Navigation principale"
-            className={cn("hidden shrink-0 items-center gap-1", etat === "abonne" ? "md:mr-auto md:flex lg:mr-0" : "lg:flex")}
+            className={cn("hidden shrink-0 items-center gap-1 lg:ml-8", etat === "abonne" ? "md:flex" : "lg:flex")}
           >
             {etat === "abonne" && (
               <Link
@@ -158,9 +160,9 @@ export function EnTeteUniversel() {
             ))}
           </nav>
 
-          <SearchBar className="hidden w-44 shrink-0 xl:block" onNavigate={() => setRechercheOuverte(false)} />
+          <SearchBar className="hidden w-44 shrink-0 xl:ml-auto xl:block" onNavigate={() => setRechercheOuverte(false)} />
 
-          <div className="flex shrink-0 items-center gap-1 xl:gap-3">
+          <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-3 xl:gap-3">
             <button
               type="button"
               className={cn(ICONE, "hidden min-[440px]:flex xl:hidden")}
@@ -187,7 +189,8 @@ export function EnTeteUniversel() {
                 className={cn(
                   buttonVariants({ variant: "primary", size: "sm" }),
                   "inline-flex h-11 shrink-0 whitespace-nowrap px-2 text-xs min-[360px]:px-3 min-[360px]:text-sm",
-                  menuOuvert && "invisible lg:visible",
+                  // Menu ouvert sous 1024 px : retiré du flux (relecture design s25 F4), plus de vide qui isole la loupe.
+                  menuOuvert && "hidden lg:inline-flex",
                 )}
               >
                 <span className="sm:hidden lg:inline xl:hidden">{EN_TETE.boutonCourt}</span>

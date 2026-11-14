@@ -4,7 +4,7 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
-import { IconeFavoris, IconeProfil } from "@/components/layout/header-icons";
+import { IconeDeconnexion, IconeFavoris, IconeProfil } from "@/components/layout/header-icons";
 import { INDEX_ESPACE, elementBarreAllume, ligneEspaceAllumee, type EtatLecteur } from "@/components/espace/rubriques";
 import type { LienNav } from "@/components/layout/en-tete-universel";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
@@ -20,9 +20,12 @@ import { cn } from "@/lib/utils";
  * Hauteur à 375 x 667 : 65 + 16 + 52 + 44 + 352 + 1 = 530 px, les 8 entrées sans défilement dès 568 px.
  * Aucun lien deux fois avec la barre : « Connexion » seulement sous 520 px (elle est en barre au-delà),
  * actions du compte seulement sous 768 px (icône du compte en barre au-delà). Ligne allumée (§1) : fond,
- * couleur, `font-semibold`, `aria-current`.
+ * couleur, `font-semibold`, `aria-current` et, s25 (relecture ux tour 1), filet gauche violet de 2 px lisible sans
+ * la teinte : chaque ligne porte un filet transparent (`FILET`) et 2 px de padding gauche en moins, le texte ne
+ * bouge pas d'une ligne à l'autre.
  */
-const ALLUMEE = "bg-background-elevated text-accent-link font-semibold";
+const FILET = "border-l-2 border-transparent";
+const ALLUMEE = "rounded-l-none border-accent-primary bg-background-elevated text-accent-link font-semibold";
 const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary";
 
 interface Props {
@@ -37,8 +40,9 @@ interface Props {
 export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein, onClose }: Props) {
   const allume = elementBarreAllume(pathname, etat);
   const ligne = etat === "abonne" ? ligneEspaceAllumee(pathname) : null;
+  const plein = etat !== "abonne" && !masquerPlein;
   const secondaire = (actif: boolean) =>
-    cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-full justify-start gap-2", actif && ALLUMEE);
+    cn(buttonVariants({ variant: "ghost", size: "sm" }), FILET, "h-11 w-full justify-start gap-2 pl-[10px]", actif && ALLUMEE);
   return (
     <nav
       className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 lg:hidden animate-slide-up"
@@ -55,11 +59,11 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
             href={ESPACE_ACCUEIL}
             onClick={onClose}
             aria-current={ligne === "monEspace" ? "page" : undefined}
-            className={cn("flex min-h-11 items-center rounded-lg px-3 text-sm font-semibold text-text-primary md:hidden", FOCUS, ligne === "monEspace" && ALLUMEE)}
+            className={cn("flex min-h-11 items-center rounded-lg pl-[10px] pr-3 text-sm font-semibold text-text-primary md:hidden", FILET, FOCUS, ligne === "monEspace" && ALLUMEE)}
           >
             {N.monEspace}
           </Link>
-          <p className="hidden px-3 py-3 text-sm font-semibold text-text-primary md:block lg:hidden">{N.monEspace}</p>
+          <p className="hidden border-l-2 border-transparent py-3 pl-[10px] pr-3 text-sm font-semibold text-text-primary md:block lg:hidden">{N.monEspace}</p>
           <ul className="ml-3 border-l border-border">
             {INDEX_ESPACE.map((e) => (
               <li key={e.cle}>
@@ -68,7 +72,9 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
                   onClick={onClose}
                   aria-current={ligne === e.cle ? "page" : undefined}
                   className={cn(
-                    "flex h-11 items-center pl-6 pr-3 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary",
+                    // Filet posé sur le rail (`-ml-px`) : la ligne allumée le recouvre, le texte reste à 24 px du rail.
+                    "-ml-px flex h-11 items-center pl-[23px] pr-3 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary",
+                    FILET,
                     FOCUS,
                     ligne === e.cle && ALLUMEE,
                   )}
@@ -83,10 +89,9 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
       )}
 
       <div className={cn("flex flex-col gap-2", etat === "abonne" && "pt-2")}>
-        {/* Relecture des captures nav s24, tour 2 (ux N1, reviewer FD-A) : abonné, les 5 liens du site sur deux
-            colonnes (ordre de lecture gardé : Parcours, Vannes / Conseils, Vidéos / Articles), 104 px gagnés : à
-            375 x 812, tout le menu tient sans défilement, « Mon profil » et « Déconnexion » à la suite, dans le flux. */}
-        <div className={etat === "abonne" ? "grid grid-cols-2 gap-2" : "contents"} data-liens-site>
+        {/* s25 (relecture ux tour 1, spec §1 « de haut en bas ») : les liens du site en une colonne pour tous les
+            comptes ; critère 5 : seules les 8 entrées de l'espace tiennent sans défilement, le reste peut être sous le pli. */}
+        <div className="contents" data-liens-site>
         {liens.map((l) => (
           <Link
             key={l.href}
@@ -94,7 +99,8 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
             onClick={onClose}
             aria-current={allume === l.href ? "page" : undefined}
             className={cn(
-              "rounded-lg px-3 py-3 text-sm font-medium transition-colors",
+              "rounded-lg py-3 pl-[10px] pr-3 text-sm font-medium transition-colors",
+              FILET,
               FOCUS,
               allume === l.href ? ALLUMEE : "text-text-secondary hover:bg-background-elevated hover:text-text-primary",
             )}
@@ -103,10 +109,12 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
           </Link>
         ))}
         </div>
-        {/* Abonné dès 768 px : plus aucune action dans le menu (compte en barre), pas de séparateur orphelin. */}
-        <hr className={cn("my-2 border-border", etat === "abonne" && "md:hidden")} />
-        {etat !== "abonne" && !masquerPlein && (
-          <Link href={hrefs.prix} onClick={onClose} aria-label={EN_TETE.nomAccessible} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "h-11 w-full")}>
+        {/* Séparateur seulement s'il est suivi de quelque chose (relecture design s25 F3) : bouton d'offre (toutes
+            largeurs), sinon « Connexion » (visiteur, sous 520 px) ou actions du compte (sous 768 px). */}
+        <hr className={cn("my-2 border-border", !plein && (etat === "visiteur" ? "min-[520px]:hidden" : "md:hidden"))} />
+        {plein && (
+          // Dès 768 px, largeur du libellé, aligné sur les liens (relecture ux s25) : plus de bouton de 736 px.
+          <Link href={hrefs.prix} onClick={onClose} aria-label={EN_TETE.nomAccessible} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "h-11 w-full md:w-auto md:self-start")}>
             {EN_TETE.bouton}
           </Link>
         )}
@@ -116,11 +124,8 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
           </Link>
         )}
         {etat !== "visiteur" && (
-          // Abonné : « Mon profil » et « Déconnexion » sur une ligne, à la suite des liens (plus de barre collée qui
-          // cachait « Articles », relecture des captures nav s24, tour 2).
-          <div className={cn("flex gap-2 md:hidden", etat === "abonne" ? "[&>*]:flex-1" : "flex-col")}
-            data-actions-compte
-          >
+          // s25 (relecture tour 1, design F2, ux) : une colonne pour tous, actions à gauche avec icône, comme les liens.
+          <div className="flex flex-col gap-2 md:hidden" data-actions-compte>
             {etat === "gratuit" && (
               <Link href="/favoris" onClick={onClose} aria-current={allume === "compte" && pathname === "/favoris" ? "page" : undefined} className={secondaire(allume === "compte" && pathname === "/favoris")}>
                 <IconeFavoris className="h-4 w-4" />
@@ -134,12 +139,13 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
             <Button
               variant="ghost"
               size="sm"
-              className="h-11 w-full"
+              className={cn(FILET, "h-11 w-full justify-start gap-2 pl-[10px]")}
               onClick={() => {
                 onClose();
                 signOut({ callbackUrl: "/" });
               }}
             >
+              <IconeDeconnexion className="h-4 w-4" />
               Déconnexion
             </Button>
           </div>

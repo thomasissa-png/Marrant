@@ -191,15 +191,21 @@ describe("nom du groupe non répété à chaque ligne (relecture des captures na
   });
 });
 
-it("menu mobile de l'abonné : les 5 liens du site sur deux colonnes, « Mon profil » et « Déconnexion » dans le flux", async () => {
+// s25 (relecture tour 1) : spec §1 « de haut en bas », une colonne pour tous ; actions alignées à gauche, avec icône.
+it("menu mobile de l'abonné : les 5 liens du site en une colonne, « Mon profil » et « Déconnexion » à gauche dans le flux", async () => {
   drapeau.__ESPACE_OUVERT__ = true;
   useSession.mockReturnValue(SESSIONS.abonne);
   render(<EnTeteUniversel />);
   await userEvent.click(screen.getByRole("button", { name: "Menu" }));
   const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
-  expect(menu.querySelector("[data-liens-site]")?.className).toMatch(/grid-cols-2/);
-  expect(menu.querySelector("[data-actions-compte]")?.className).not.toMatch(/sticky/);
+  expect(menu.querySelector("[data-liens-site]")?.className).not.toMatch(/grid/);
+  const actions = menu.querySelector("[data-actions-compte]");
+  expect(actions?.className).not.toMatch(/sticky/);
+  expect(actions?.className).toMatch(/flex-col/);
   expect(within(menu).getByRole("link", { name: "Mon profil" })).toBeInTheDocument();
+  const sortie = within(menu).getByRole("button", { name: "Déconnexion" });
+  expect(sortie.className).toMatch(/\bjustify-start\b/);
+  expect(sortie.querySelector("svg")).not.toBeNull();
 });
 
 const vide = (nonLues = 0) => ({ nonLues, reponses: [], nouveautes: [], lettre: null });

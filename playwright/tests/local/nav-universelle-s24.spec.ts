@@ -442,28 +442,60 @@ test.describe("navigation universelle v5 (s24)", () => {
       }
     });
 
-    // Relecture des captures nav s24 : « Mon profil » à 2 gestes (Menu, ligne) sans défilement à 375 x 667 et 812.
-    // Tour 2 (ux N1, reviewer FD-A) : plus de barre collée ; à 375 x 812, tout le menu tient sans défilement,
-    // « Articles » compris, avec « Mon profil » et « Déconnexion » à la suite.
-    test("abonné à 375 x 812 : tout le menu visible à l'ouverture, Articles, Mon profil et Déconnexion compris", async ({ browser }) => {
+    // s25 (relecture tour 1, spec §1 « de haut en bas ») : liens du site en une colonne ; critère 5 : seules les 8
+    // entrées de l'espace tiennent sans défilement ; le reste (liens du site, « Mon profil », « Déconnexion ») est
+    // atteint en faisant défiler le menu. Actions du compte alignées sur les liens, avec icône.
+    test("abonné à 375 x 812 et 667 : entrées de l'espace sans défilement, liens du site en une colonne, actions à gauche", async ({ browser }) => {
       const c = await contexte(browser, "PREMIUM");
       const page = await c.newPage();
-      for (const hauteur of [812]) {
+      for (const hauteur of [812, 667]) {
         await page.setViewportSize({ width: 375, height: hauteur });
         await page.goto("/vannes");
         await pret(page, "PREMIUM");
         await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
         const menu = page.getByRole("navigation", { name: "Navigation mobile" });
         await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
-        await expect(menu.getByRole("link", { name: "Mon profil" })).toBeInViewport({ ratio: 1 });
-        await expect(menu.getByRole("button", { name: "Déconnexion" })).toBeInViewport({ ratio: 1 });
         await expect(menu.getByRole("link", { name: N.index.carnet, exact: true })).toBeInViewport({ ratio: 1 });
-        for (const lien of ["Parcours", "Vannes", "Conseils", "Vidéos", "Articles"]) await expect(menu.getByRole("link", { name: lien, exact: true })).toBeInViewport({ ratio: 1 });
-        expect(await menu.evaluate((el) => el.scrollHeight <= el.clientHeight), "menu sans défilement").toBe(true);
+        const xs: number[] = [];
+        for (const lien of SITE) xs.push(Math.round((await menu.getByRole("link", { name: lien, exact: true }).boundingBox())!.x));
+        expect(new Set(xs).size, `liens du site en une colonne (${xs.join(", ")})`).toBe(1);
+        const sortie = menu.getByRole("button", { name: "Déconnexion" });
+        await sortie.scrollIntoViewIfNeeded();
+        await expect(sortie).toBeInViewport({ ratio: 1 });
+        const texteGauche = (el: Element) => {
+          const t = Array.from(el.childNodes).find((n) => n.nodeType === 3 && n.textContent?.trim());
+          const r = document.createRange();
+          r.selectNodeContents(t!);
+          return Math.round(r.getBoundingClientRect().left);
+        };
+        const profil = await menu.getByRole("link", { name: "Mon profil" }).evaluate(texteGauche);
+        expect(await sortie.evaluate(texteGauche), "« Déconnexion » aligné sur « Mon profil »").toBe(profil);
+        await expect(sortie.locator("svg")).toHaveCount(1);
         await menu.getByRole("link", { name: "Mon profil" }).click();
         await expect(page).toHaveURL(/\/profil$/);
       }
       await c.close();
+    });
+
+    // s25 (relecture design tour 1, F1) : la barre ne saute plus d'un compte à l'autre, premier lien au même x.
+    test("barre : premier lien au même x pour visiteur, gratuit et abonné (1024, 1280, 1456, 1920 px)", async ({ browser }) => {
+      const xs: Record<number, string[]> = {};
+      for (const etat of ["visiteur", "FREE", "PREMIUM"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [1024, 1280, 1456, 1920]) {
+          await page.setViewportSize({ width: largeur, height: 900 });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          const premier = page.getByRole("banner").getByRole("navigation", { name: "Navigation principale" }).getByRole("link").first();
+          (xs[largeur] ??= []).push(`${etat}=${Math.round((await premier.boundingBox())!.x)}`);
+        }
+        await c.close();
+      }
+      for (const [largeur, valeurs] of Object.entries(xs)) {
+        noter(`premier lien ; ${largeur} px ; ${valeurs.join(" ; ")}`);
+        expect(new Set(valeurs.map((v) => v.split("=")[1])).size, `premier lien à ${largeur} px : ${valeurs.join(", ")}`).toBe(1);
+      }
     });
 
     // Tour 2 (design F1) : le H1 à la même hauteur sur toutes les pages de l'espace et sur les pages publiques
