@@ -4,6 +4,8 @@
 
 ### PRÉVERSION DE TEST s24 (workers.dev, hors production) : EN LIGNE le 14/11/2026 (@infrastructure)
 
+**Mise à jour 14/11 (clôture s24)** : version en ligne `5efd3428-278a-4e21-9896-ab1f21ca7996` = commit `73c27f41` (navigation universelle, interrupteur `true` dans la copie de build seulement) ; 3 comptes : `abonne-en-cours@`, `nouvel-abonne@` (Premium) et `inscrit-gratuit@preversion.test`, mot de passe `preversion-s24`. Les versions citées plus bas (`ff92ebdc`, puis `2299d337`) sont remplacées.
+
 Demande écrite de Thomas : une page de test en ligne pour parcourir l'espace page par page. **Ce n'est pas une entrée de déploiement de production** : elle ne change rien à « JOUR DU GO » ci-dessous. Production non touchée (Worker `marrant` toujours en version `5504e970` du 08/11, ses 2 crons inchangés ; zone deviens-marrant.fr non touchée ; branche Neon de production : aucune écriture).
 - **Adresse** : https://marrant-preversion.thomas-issa.workers.dev ; connexion sur `/login` avec `abonne-en-cours@preversion.test` ou `nouvel-abonne@preversion.test`, mot de passe `preversion-s24` (comptes de test, mêmes états que la préversion locale, voir `docs/espace-client/preversion-locale-s24.md`).
 - **Ressources créées** (aucun secret ici) :

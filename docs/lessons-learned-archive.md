@@ -66,3 +66,9 @@
 ## Archivé en clôture s22 (28/10/2026)
 
 | 08/04 | 08/04/2026 | 1. Problème corrigé | P0 | LinkedIn publié 5j/sem dans code vs 3j/sem dans JSON plan. Désync silencieuse. | Helper linkedInOrFallback + alignement code/JSON/quotas | **Toute divergence entre plan éditorial JSON et code DOIT être détectée par test de conformité.** | ouvert | n/a (vérifié s17 07/10 : pipeline social remplacé en s15, `linkedInOrFallback` supprimé, le code ne lit plus `social-editorial-plan.json` : aucune divergence possible) |
+
+## Archivé en clôture s24 (14/11/2026, TTL > 5 sessions)
+
+| Session | Date | Catégorie | Sévérité | Description | Correction appliquée | Recommandation framework | Cible propagation | Fichiers impactés | Statut | Propagation |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 17 | 07/10/2026 | 1. Problème corrigé | P1 | Deux sessions lancées en parallèle sur la même branche avec le même brief (« parcours ») : la s16 l'a traité (tunnel d'achat) pendant que la s17 lançait 6 agents sur un code déjà périmé ; constat seulement au premier push refusé. Puis 3 fusions nécessaires avec la session de contrôle s15. | Agents arrêtés, branche réalignée avec accord de Thomas, périmètre re-tranché (parcours d'apprentissage) | **Ouverture de session : `git fetch` + `git log HEAD..origin/<branche>` AVANT tout lancement d'agent ; si la branche a avancé depuis le mémo, lire les commits et re-trancher le périmètre avec l'utilisateur.** | prompts | `.claude/prompts-library.html` (prompt d'ouverture, étape 1) via `docs/framework-feedback.md` | fait (projet) | non-propagé (Agent-Team) |

@@ -1,0 +1,598 @@
+diff --git a/REPLIT_ACTIONS.md b/REPLIT_ACTIONS.md
+index f8852214..3b27fe8b 100644
+--- a/REPLIT_ACTIONS.md
++++ b/REPLIT_ACTIONS.md
+@@ -5,15 +5,16 @@
+ ### PRÉVERSION DE TEST s24 (workers.dev, hors production) : EN LIGNE le 14/11/2026 (@infrastructure)
+ 
+ Demande écrite de Thomas : une page de test en ligne pour parcourir l'espace page par page. **Ce n'est pas une entrée de déploiement de production** : elle ne change rien à « JOUR DU GO » ci-dessous. Production non touchée (Worker `marrant` toujours en version `5504e970` du 08/11, ses 2 crons inchangés ; zone deviens-marrant.fr non touchée ; branche Neon de production : aucune écriture).
+-- **Adresse** : https://marrant-preversion.thomas-issa.workers.dev ; connexion sur `/login` avec `abonne-en-cours@preversion.test` ou `nouvel-abonne@preversion.test`, mot de passe `preversion-s24` (comptes de test, mêmes états que la préversion locale, voir `docs/espace-client/preversion-locale-s24.md`).
++- **Adresse** : https://marrant-preversion.thomas-issa.workers.dev ; connexion sur `/login` avec `abonne-en-cours@preversion.test`, `nouvel-abonne@preversion.test` ou `inscrit-gratuit@preversion.test` (compte sans abonnement), mot de passe `preversion-s24` (comptes de test, mêmes états que la préversion locale, voir `docs/espace-client/preversion-locale-s24.md`).
+ - **Ressources créées** (aucun secret ici) :
+-  - Worker `marrant-preversion`, version `ff92ebdc-c4a0-4223-ba14-e6b0e7565ce8` : URL workers.dev seulement, 0 route, 0 domaine, 0 cron (`schedules: []`), URL de préversion désactivées. Variables : `CRON_ENABLED=false`, `NEXTAUTH_URL` = l'adresse ci-dessus, Resend factice vers `resend.invalid`, aucune clé Stripe, pas d'Umami. Secrets de TEST aléatoires : `NEXTAUTH_SECRET`, `CRON_SECRET`, `ADMIN_PASSWORD`, `UNSUBSCRIBE_HMAC_SECRET`.
++  - Worker `marrant-preversion`, version en ligne `5efd3428` (code du commit `73c27f41`, navigation universelle et relectures des captures ; première version `ff92ebdc-c4a0-4223-ba14-e6b0e7565ce8`) : URL workers.dev seulement, 0 route, 0 domaine, 0 cron (`schedules: []`), URL de préversion désactivées. Variables : `CRON_ENABLED=false`, `NEXTAUTH_URL` = l'adresse ci-dessus, Resend factice vers `resend.invalid`, aucune clé Stripe, pas d'Umami. Secrets de TEST aléatoires : `NEXTAUTH_SECRET`, `CRON_SECRET`, `ADMIN_PASSWORD`, `UNSUBSCRIBE_HMAC_SECRET`.
+   - Branche Neon `preversion-s24` (`br-solitary-smoke-b14u64x8`, point de terminaison `ep-snowy-silence-b1i6sc31`, projet `summer-mode-45874667`) : branche racine en **schéma seul** (`init_source` rendu : `parent-schema`). Vide à la création (47 tables, 0 ligne), puis migrations 18 à 26 et contenu de test (export de `marrant_preview` : 2 comptes `@preversion.test`, 95 vannes, 38 conseils, contenu importé de l'espace ; aucun compte réel).
+   - Hyperdrive `marrant-preversion-s24` (`47335c154dde4af8879d82e514573eb7`, cache désactivé) vers cette branche.
+   - Bucket R2 `marrant-preversion-next-cache` (cache Next dédié). Pas d'Images, pas d'Analytics Engine, pas du bucket des images sociales.
+ - **Build** : copie hors dépôt `/root/marrant-preversion-en-ligne-s24/` (interrupteur à `true` dans la copie seulement ; dans le dépôt il reste à `false`). `robots.txt` = `Disallow: /`, `X-Robots-Tag: noindex, nofollow` sur toutes les réponses (Worker et `_headers`), pas de handler `scheduled`. `build:cf` lancé avec `env -i` (aucun secret de production), déployé par `opennextjs-cloudflare deploy` depuis la copie avec `CLOUDFLARE_DM_TOKEN` (le jeton `CLOUDFLARE_API_TOKEN` n'a ni les droits Hyperdrive ni les droits R2).
+ - **Vérifié en ligne** : connexion avec les 2 comptes ; 36 pages sur 36 en 200 sans erreur (18 par compte) ; fil de question en 200 ; `X-Robots-Tag` sur 36 pages sur 36, ainsi que sur `/favicon.ico`, `/sitemap.xml`, `/login` et la 404 ; `robots.txt` en `Disallow: /` ; santé : base `up`, Stripe absent (attendu, statut `down`).
+ - **Remettre les comptes à zéro** : `node <scratchpad s24>/preversion-en-ligne/charger-base.mjs <scratchpad s24>/preversion-en-ligne/url-branche-test.txt --reinitialiser` avec `NODE_USE_ENV_PROXY=1`. Le script vide toutes les tables de la branche de TEST puis recharge l'état exporté le 14/11 ; il refuse l'hôte de production. Les dates ne glissent pas : pour un état « du jour », il faut refaire `comptes.mjs` en local puis un nouvel export.
++- **Non déployé sur la préversion** : lot des décisions de Thomas du 14/11 (catégories de Vannes pour tous et 10 vannes gratuites réparties, « La lettre » en une seule section, question du prix de la FAQ masquée pour l'abonné), NON COMMITÉ.
+ - **Tout supprimer** (jeton `CLOUDFLARE_DM_TOKEN`, toujours avec le nom explicite) :
+   - `npx wrangler delete --name marrant-preversion` ;
+   - `npx wrangler hyperdrive delete 47335c154dde4af8879d82e514573eb7` ;
+diff --git a/apps/web/src/__tests__/espace/inertie-espace.test.tsx b/apps/web/src/__tests__/espace/inertie-espace.test.tsx
+index 00575d5a..a72e30c4 100644
+--- a/apps/web/src/__tests__/espace/inertie-espace.test.tsx
++++ b/apps/web/src/__tests__/espace/inertie-espace.test.tsx
+@@ -223,6 +223,13 @@ describe("garde-fou de construction", () => {
+     "app/(dashboard)/favoris/page.tsx",
+     "components/carnet/carnet-page.tsx",
+     "components/home/daily-content.tsx",
++    // Décisions de Thomas du 14/11 (ouvert seulement, fermé inchangé) : vannes gratuites réparties sur les catégories
++    // (`api/jokes/route.ts`, règle dans le code, aucune écriture en base) ; « La lettre » une seule section, l'abonné
++    // y lit l'archive (`lettre/page.tsx`, lecture de session seulement ouvert) ; question du prix de la FAQ masquée
++    // pour l'abonné (`faq-section.tsx`).
++    "app/api/jokes/route.ts",
++    "app/(dashboard)/lettre/page.tsx",
++    "components/home/faq-section.tsx",
+     // Touchés sans import de l'espace, rendu fermé inchangé : `account-menu.tsx` (variante `universel`, passée
+     // par l'en-tête unique seulement), `header-icons.tsx` (icône de l'ancien menu de compte abonné retirée),
+     // `parcours/[slug]/page.tsx`, `profil/page.tsx` (déjà listés : `AxeEspace` retiré, même colonne pour
+diff --git a/apps/web/src/__tests__/espace/navigation-espace-s24.test.tsx b/apps/web/src/__tests__/espace/navigation-espace-s24.test.tsx
+index ce4d511a..1a454b83 100644
+--- a/apps/web/src/__tests__/espace/navigation-espace-s24.test.tsx
++++ b/apps/web/src/__tests__/espace/navigation-espace-s24.test.tsx
+@@ -135,7 +135,7 @@ describe("retour par type de page (§4.3)", () => {
+     ["/mon-espace/fiche/humour-noir/x", T.index.bibliotheque, "/mon-espace/bibliotheque"],
+     ["/mon-espace/bonus/x", T.index.bibliotheque, "/mon-espace/bibliotheque"],
+     ["/mon-espace/fiche/bilan/bilan-repartie", "Répartie", "/parcours/repartie"],
+-    ["/mon-espace/lettres/2026-W46", T.index.lettres, "/mon-espace/lettres"],
++    ["/mon-espace/lettres/2026-W46", T.index.lettres, "/lettre"],
+     ["/mon-espace/questions/abc", T.index.mesQuestions, "/mon-espace/questions"],
+     ["/mon-espace/quoi-repondre", T.monEspace, "/mon-espace"],
+     ["/mon-espace/s-entrainer", T.monEspace, "/mon-espace"],
+@@ -156,7 +156,7 @@ describe("élément allumé (§1)", () => {
+     ["/favoris", "abonne", "monEspace"],
+     ["/favoris", "gratuit", "compte"],
+     ["/profil", "abonne", "compte"],
+-    ["/lettre", "abonne", null],
++    ["/lettre", "abonne", "monEspace"],
+     ["/lettre", "visiteur", "/lettre"],
+     ["/blog/x", "abonne", "/blog"],
+     ["/carnet", "visiteur", null],
+@@ -171,6 +171,7 @@ describe("élément allumé (§1)", () => {
+     ["/mon-espace/fiche/jeu/x", "sEntrainer"],
+     ["/carnet/2026-11", "carnet"],
+     ["/favoris", "favoris"],
++    ["/lettre", "lettres"],
+     ["/mon-espace/fiche/bilan/bilan-repartie", null],
+   ])("menu mobile de l'abonné, %s : %s", (chemin, attendu) => {
+     expect(ligneEspaceAllumee(chemin)).toBe(attendu);
+diff --git a/apps/web/src/__tests__/espace/profil-d10-s24.test.tsx b/apps/web/src/__tests__/espace/profil-d10-s24.test.tsx
+index 04bba5b2..9fdffb0b 100644
+--- a/apps/web/src/__tests__/espace/profil-d10-s24.test.tsx
++++ b/apps/web/src/__tests__/espace/profil-d10-s24.test.tsx
+@@ -306,7 +306,9 @@ const HACHAGES = {
+     "config/textes/offre.ts": "be6d8f1040b214af9ac5ab4631de08a6c4ef220c59380863d22d108c2e964bb3",
+     "config/textes/parcours-emails.ts": "356fff7e47b215fd117c2b756bae1671faedae518bd7587798f08f0f700e0625",
+     "config/textes/lettre-hebdo-s21.ts": "6f988c87929bd04bb96fe833b194105009488a27d40c410009b2a314558724a0",
+-    "lib/faqs.ts": "709913ccce713ab6fe3a3af7994b270a4286c5fe703e4b0a1e0306b2d890fb11",
++    // Décision de Thomas du 14/11 : `PRICE_FAQ_QUESTION` exportée (question du prix masquée pour l'abonné, espace
++    // ouvert seulement) ; aucun texte changé.
++    "lib/faqs.ts": "50125fd3e00fcd8e3c114d41f7f0e2b383d7479a5d0d4af3d54c00d3df698c30",
+     "components/layout/footer.tsx": "49483435a3a3d5ff80b2e33d17e6c22df5ceef6d2727d87f65f51ba97b94e319",
+     "lib/llms-content.ts": "87842325825ebad22546170ad053336d839587eca10f73a69897f5f7c7c1af0a",
+     "app/(dashboard)/a-propos/page.tsx": "f1f0d3e995f8fa076431317ca77ab440b04c3d59b0fea9653951ceb21662c5d4",
+diff --git a/apps/web/src/__tests__/lib/vannes-gratuites-s24.test.ts b/apps/web/src/__tests__/lib/vannes-gratuites-s24.test.ts
+new file mode 100644
+index 00000000..757187d8
+--- /dev/null
++++ b/apps/web/src/__tests__/lib/vannes-gratuites-s24.test.ts
+@@ -0,0 +1,34 @@
++/**
++ * Décision de Thomas du 14/11 (espace ouvert seulement) : les 10 vannes gratuites réparties sur au moins
++ * 5 catégories de la rangée de /vannes, par une règle dans le code (`selectionGratuite`), sans écriture en base.
++ */
++import { CATEGORIES_VANNES, groupeDeCategorie, selectionGratuite } from "@/config/vannes-categories";
++
++// Distribution du seed (base jetable e2e et préversion) : BOULOT d'abord, comme les plus récentes.
++const SEED: Record<string, number> = {
++  BOULOT: 19, CULTUREL: 10, SITUATION: 10, AUTODERISION: 10, SOIREES: 8, OBSERVATIONNEL: 6, DATING: 5,
++  ECOLE: 5, COUPLE: 5, GAMING: 5, PARENTS: 4, ABSURDE: 4, RESEAUX_SOCIAUX: 3, JEUX_DE_MOTS: 1,
++};
++const catalogue = Object.entries(SEED).flatMap(([cat, n]) => Array.from({ length: n }, (_, i) => ({ id: `${cat}-${i}`, category: cat })));
++
++describe("vannes gratuites réparties (espace ouvert)", () => {
++  it("10 vannes, au moins 5 groupes de la rangée, dans l'ordre du catalogue", () => {
++    const choisies = selectionGratuite(catalogue, 10);
++    expect(choisies).toHaveLength(10);
++    expect(new Set(choisies.map((c) => groupeDeCategorie(c.category))).size).toBeGreaterThanOrEqual(5);
++    const rangs = choisies.map((c) => catalogue.indexOf(c));
++    expect([...rangs].sort((a, b) => a - b)).toEqual(rangs);
++  });
++
++  it("chaque catégorie de la base appartient au plus à un groupe de la rangée ; « Toutes » en tête", () => {
++    expect(CATEGORIES_VANNES[0]).toEqual({ value: "", label: "Toutes" });
++    const toutes = CATEGORIES_VANNES.flatMap((c) => (c.value ? c.value.split(",") : []));
++    expect(new Set(toutes).size).toBe(toutes.length);
++    expect(groupeDeCategorie("DATING")).toBe("COUPLE,DATING");
++  });
++
++  it("un catalogue d'une seule catégorie donne ses 10 plus récentes", () => {
++    const seul = Array.from({ length: 15 }, (_, i) => ({ id: `b${i}`, category: "BOULOT" }));
++    expect(selectionGratuite(seul, 10).map((c) => c.id)).toEqual(seul.slice(0, 10).map((c) => c.id));
++  });
++});
+diff --git a/apps/web/src/app/(dashboard)/lettre/page.tsx b/apps/web/src/app/(dashboard)/lettre/page.tsx
+index 9f18971d..8c7e638b 100644
+--- a/apps/web/src/app/(dashboard)/lettre/page.tsx
++++ b/apps/web/src/app/(dashboard)/lettre/page.tsx
+@@ -9,6 +9,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+ import { AvecContact } from "@/components/lettre/avec-contact";
+ import { lireApercuLettre } from "@/lib/lettre/apercu";
+ import { frPonctuation } from "@/lib/fr-typo";
++import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+ 
+ /**
+  * Page de la lettre mensuelle (s21, spec §1.4 et §5) : présentation, formulaire,
+@@ -38,6 +39,19 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
+   const statut = typeof searchParams.statut === "string" ? searchParams.statut : null;
+   if (!LETTRE_INSCRIPTIONS_OUVERTES && !(statut && (STATUTS_TOUJOURS as readonly string[]).includes(statut))) notFound();
+ 
++  // s24 (décision de Thomas du 14/11), interrupteur de l'espace ouvert : « La lettre » est une seule section pour
++  // tous ; l'abonné actif y trouve l'archive de toutes les lettres (ex-« Mon espace › Lettres »), le visiteur et le
++  // compte gratuit l'inscription d'aujourd'hui. Les adresses de statut (confirmation, désinscription…) gardent leur
++  // écran. Fermé : aucune lecture de session ici, page d'aujourd'hui.
++  // Imports à la demande : fermé, ni la garde de l'espace ni l'archive ne sont chargées.
++  if (ESPACE_CLIENT_PUBLIE && !statut) {
++    const { lireAccesEspace } = await import("@/lib/espace/garde");
++    if ((await lireAccesEspace()).acces === "ouvert") {
++      const { LettresAbonne } = await import("@/components/espace/lettres-abonne");
++      return <LettresAbonne />;
++    }
++  }
++
+   const apercu = LETTRE_INSCRIPTIONS_OUVERTES ? await lireApercuLettre() : { dernier: null };
+   const emplacement = (LETTRE_EMPLACEMENTS as readonly string[]).includes(searchParams.emplacement ?? "")
+     ? (searchParams.emplacement as string)
+diff --git a/apps/web/src/app/(dashboard)/mon-espace/lettres/page.tsx b/apps/web/src/app/(dashboard)/mon-espace/lettres/page.tsx
+index 6cb211b9..cd30b93e 100644
+--- a/apps/web/src/app/(dashboard)/mon-espace/lettres/page.tsx
++++ b/apps/web/src/app/(dashboard)/mon-espace/lettres/page.tsx
+@@ -1,15 +1,9 @@
+ import type { Metadata } from "next";
+-import { COLONNE_LECTURE } from "@/components/layout/gabarit";
+-import { PageHeader } from "@/components/layout/page-header";
+-import { RetourDe } from "@/components/espace/lien-retour";
++import { permanentRedirect } from "next/navigation";
+ import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+ import { metadata as METADONNEES_404 } from "@/app/not-found";
+-import { prisma } from "@/lib/prisma";
+ import { garderEspace } from "@/lib/espace/garde";
+-import { listerLettres } from "@/lib/espace/lettres";
+ import { TEXTES_LETTRES } from "@/config/textes/espace-bibliotheque";
+-import { ArchiveLettres } from "@/components/espace/archive-lettres";
+-import { compterAnonyme } from "@/lib/espace/compteurs";
+ import { frEspaceProfond } from "@/lib/fr-typo";
+ 
+ // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+@@ -29,17 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
+ }
+ 
+ export default async function LettresPage() {
++  // s24 (décision de Thomas du 14/11) : « La lettre » est une seule section pour tous, à `/lettre` ; l'ancienne
++  // adresse de l'archive y renvoie (308), après la garde (fermé : 404 ; sans abonnement : comme avant).
+   await garderEspace("/mon-espace/lettres");
+-  const lettres = await listerLettres(prisma);
+-  await compterAnonyme({ cle: "ouverture", valeur: "archive-lettres" });
+-  return (
+-    // Relecture des captures nav s24, tour 2 (design F2, F3) : gabarit B ; sans contenu, la page passe en colonne
+-    // de lecture (retour, titre et état vide dans la même colonne de 768 px, jamais un titre à gauche et une carte
+-    // centrée).
+-    <div className={lettres.length === 0 ? COLONNE_LECTURE : undefined}>
+-      <RetourDe chemin="/mon-espace/lettres" />
+-      <PageHeader title={T.titre} />
+-      <ArchiveLettres lettres={lettres} />
+-    </div>
+-  );
++  permanentRedirect("/lettre");
+ }
+diff --git a/apps/web/src/app/(dashboard)/vannes/page.tsx b/apps/web/src/app/(dashboard)/vannes/page.tsx
+index f6a5fe91..2450ceb8 100644
+--- a/apps/web/src/app/(dashboard)/vannes/page.tsx
++++ b/apps/web/src/app/(dashboard)/vannes/page.tsx
+@@ -136,9 +136,13 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
+       {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. Revue visuelle s21
+           (R04) : masquées pour l'abonné, qui a déjà la rangée de filtres de la liste (une seule rangée
+           visible) ; le HTML du serveur (sans session) les garde pour les moteurs. */}
+-      <MasqueSiPremium>
+-        <VannesThemeNav />
+-      </MasqueSiPremium>
++      {/* s24 (décision de Thomas du 14/11) : interrupteur de l'espace ouvert, une seule rangée de catégories pour
++          tous (celle de la liste) ; les liens vers les pages thème ne sont plus montrés au-dessus. Fermé : comme avant. */}
++      {!ESPACE_CLIENT_PUBLIE && (
++        <MasqueSiPremium>
++          <VannesThemeNav />
++        </MasqueSiPremium>
++      )}
+ 
+       <Suspense fallback={null}>
+         <VannesList initialData={listPage} initialPage={page} />
+diff --git a/apps/web/src/app/api/jokes/route.ts b/apps/web/src/app/api/jokes/route.ts
+index bb6bd318..82aa93fb 100644
+--- a/apps/web/src/app/api/jokes/route.ts
++++ b/apps/web/src/app/api/jokes/route.ts
+@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
+ import { z } from "zod";
+ import { dedupeJokesByContent } from "@/lib/jokes-dedupe";
+ import { FREE_JOKE_LIMIT } from "@/config/premium";
++import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
++import { selectionGratuite } from "@/config/vannes-categories";
+ import { OFFRE_NOM } from "@/config/textes/offre";
+ import { sansExerciceVanne } from "@/lib/champs-premium";
+ 
+@@ -69,11 +71,27 @@ export async function GET(request: NextRequest) {
+       select: { id: true, content: true },
+       orderBy,
+     });
+-    const uniqueIds = dedupeJokesByContent(candidates).map((c) => c.id);
++    let uniqueIds = dedupeJokesByContent(candidates).map((c) => c.id);
+     const total = uniqueIds.length;
+ 
++    // s24 (décision de Thomas du 14/11), interrupteur de l'espace ouvert seulement : les vannes gratuites sont
++    // réparties sur les groupes de la rangée de catégories (`selectionGratuite`, au moins 5 groupes), choisies sur
++    // tout le catalogue ; un filtre ou une recherche montre celles de cette sélection qui y répondent. Fermé : les
++    // FREE_JOKE_LIMIT plus récentes, comme aujourd'hui. Règle dans le code, aucune écriture en base.
++    if (ESPACE_CLIENT_PUBLIE && !isPremium) {
++      const catalogue = await prisma.joke.findMany({
++        where: { isActive: true },
++        select: { id: true, content: true, category: true },
++        orderBy,
++      });
++      const gratuites = new Set(
++        selectionGratuite(dedupeJokesByContent(catalogue).map((c) => ({ id: c.id, category: String(c.category) })), FREE_JOKE_LIMIT).map((c) => c.id),
++      );
++      uniqueIds = uniqueIds.filter((id) => gratuites.has(id));
++    }
++
+     // FREE : limiter le total accessible
+-    const accessibleTotal = isPremium ? total : Math.min(total, FREE_JOKE_LIMIT);
++    const accessibleTotal = isPremium ? total : Math.min(uniqueIds.length, FREE_JOKE_LIMIT);
+     const effectiveLimit = Math.min(query.limit, accessibleTotal - (query.page - 1) * query.limit);
+ 
+     if (effectiveLimit <= 0 && !isPremium) {
+diff --git a/apps/web/src/components/espace/archive-lettres.tsx b/apps/web/src/components/espace/archive-lettres.tsx
+index fc75b730..d162344d 100644
+--- a/apps/web/src/components/espace/archive-lettres.tsx
++++ b/apps/web/src/components/espace/archive-lettres.tsx
+@@ -73,7 +73,7 @@ export function LettreVue({ lettre }: { lettre: LettreLue }) {
+     <article aria-labelledby="lettre-titre" className="flex flex-col gap-4">
+       {/* Relecture des captures nav s24 (design 6, 7) : H1 de la taille des autres pages A, juste sous le retour. */}
+       <div>
+-        <LienRetour href={`${ESPACE_ACCUEIL}/lettres`} label={T.titre} />
++        <LienRetour href="/lettre" label={T.titre} />
+         <h1 id="lettre-titre" className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl">
+           {lettre.objet}
+         </h1>
+diff --git a/apps/web/src/components/espace/lettres-abonne.tsx b/apps/web/src/components/espace/lettres-abonne.tsx
+new file mode 100644
+index 00000000..a0e439de
+--- /dev/null
++++ b/apps/web/src/components/espace/lettres-abonne.tsx
+@@ -0,0 +1,32 @@
++import { prisma } from "@/lib/prisma";
++import { listerLettres } from "@/lib/espace/lettres";
++import { compterAnonyme } from "@/lib/espace/compteurs";
++import { TEXTES_LETTRES } from "@/config/textes/espace-bibliotheque";
++import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
++import { ESPACE_ACCUEIL } from "@/config/espace-client";
++import { ArchiveLettres } from "@/components/espace/archive-lettres";
++import { LienRetour } from "@/components/espace/lien-retour";
++import { PageHeader } from "@/components/layout/page-header";
++import { COLONNE_LECTURE } from "@/components/layout/gabarit";
++import { frEspaceProfond } from "@/lib/fr-typo";
++
++const T = frEspaceProfond(TEXTES_LETTRES);
++
++/**
++ * « La lettre » vue par l'abonné, à `/lettre` (décision de Thomas du 14/11 : une seule section pour tous ; le
++ * visiteur et le compte gratuit y gardent l'inscription) : l'archive de toutes les lettres envoyées, celle qui
++ * vivait à `/mon-espace/lettres` (redirigée ici), même titre, même retour vers « Mon espace », même compteur
++ * anonyme. Gabarit B ; sans lettre, colonne de lecture (retour, titre et état vide ensemble). Rendu serveur,
++ * appelé par `app/(dashboard)/lettre/page.tsx` seulement interrupteur ouvert et pour un abonné actif.
++ */
++export async function LettresAbonne() {
++  const lettres = await listerLettres(prisma);
++  await compterAnonyme({ cle: "ouverture", valeur: "archive-lettres" });
++  return (
++    <div className={lettres.length === 0 ? COLONNE_LECTURE : undefined} data-lettres-abonne>
++      <LienRetour href={ESPACE_ACCUEIL} label={N.monEspace} />
++      <PageHeader title={T.titre} />
++      <ArchiveLettres lettres={lettres} />
++    </div>
++  );
++}
+diff --git a/apps/web/src/components/espace/rubriques.ts b/apps/web/src/components/espace/rubriques.ts
+index 48e53483..b4f729cb 100644
+--- a/apps/web/src/components/espace/rubriques.ts
++++ b/apps/web/src/components/espace/rubriques.ts
+@@ -24,7 +24,8 @@ export const INDEX_ESPACE: readonly EntreeIndex[] = [
+   { cle: "mesQuestions", href: `${ESPACE_ACCUEIL}/questions`, label: T.index.mesQuestions },
+   { cle: "sEntrainer", href: `${ESPACE_ACCUEIL}/s-entrainer`, label: T.index.sEntrainer },
+   { cle: "mesRepliques", href: `${ESPACE_ACCUEIL}/repliques`, label: T.index.mesRepliques },
+-  { cle: "lettres", href: `${ESPACE_ACCUEIL}/lettres`, label: T.index.lettres },
++  // Décision de Thomas du 14/11 : « La lettre » est une seule section pour tous, à `/lettre` (archive pour l'abonné).
++  { cle: "lettres", href: "/lettre", label: T.index.lettres },
+   { cle: "favoris", href: "/favoris", label: T.index.favoris },
+   { cle: "carnet", href: "/carnet", label: T.index.carnet },
+ ];
+@@ -99,6 +100,7 @@ export function ligneEspaceAllumee(pathname: string | null): CleIndex | "monEspa
+   if (pathname === ESPACE_ACCUEIL) return "monEspace";
+   if (sousAdresse(pathname, "/carnet")) return "carnet";
+   if (pathname === "/favoris") return "favoris";
++  if (sousAdresse(pathname, "/lettre")) return "lettres";
+   const parent = parentEspace(pathname);
+   if (!parent || parent.ligne === "parcours") return null;
+   return parent.ligne;
+@@ -111,8 +113,8 @@ export function elementBarreAllume(pathname: string | null, etat: EtatLecteur):
+   if (!pathname) return null;
+   if (etat === "abonne") {
+     if (sousAdresse(pathname, `${ESPACE_ACCUEIL}/fiche/bilan`)) return "/parcours";
+-    if (sousAdresse(pathname, ESPACE_ACCUEIL) || sousAdresse(pathname, "/carnet") || pathname === "/favoris") return "monEspace";
+-    if (sousAdresse(pathname, "/lettre")) return null;
++    // `/lettre` de l'abonné : l'archive des lettres, rubrique de l'index (décision de Thomas du 14/11).
++    if (sousAdresse(pathname, ESPACE_ACCUEIL) || sousAdresse(pathname, "/carnet") || pathname === "/favoris" || sousAdresse(pathname, "/lettre")) return "monEspace";
+   }
+   if (pathname === "/profil" || (etat === "gratuit" && pathname === "/favoris")) return "compte";
+   for (const href of ["/parcours", "/vannes", "/conseils", "/videos", "/blog", "/lettre"]) {
+diff --git a/apps/web/src/components/home/faq-section.tsx b/apps/web/src/components/home/faq-section.tsx
+index d449d0a9..bf7d09d7 100644
+--- a/apps/web/src/components/home/faq-section.tsx
++++ b/apps/web/src/components/home/faq-section.tsx
+@@ -1,4 +1,6 @@
+-import { faqs } from "@/lib/faqs";
++import { faqs, PRICE_FAQ_QUESTION } from "@/lib/faqs";
++import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
++import { MasqueSiPremium } from "@/components/home/masque-si-premium";
+ import { frTypo } from "@/lib/fr-typo";
+ import { cn } from "@/lib/utils";
+ import { COLONNE_LECTURE, MESURE_TEXTE } from "@/components/layout/gabarit";
+@@ -39,7 +41,8 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes", alig
+         {title}
+       </h2>
+       <div className="space-y-4">
+-        {items.map((faq) => (
++        {items.map((faq) => {
++          const details = (
+           <details
+             key={faq.question}
+             className="group rounded-xl border border-border bg-background-card"
+@@ -59,7 +62,12 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes", alig
+             </summary>
+             <p className={cn("px-4 pb-4 text-sm text-text-secondary", MESURE_TEXTE)}>{frTypo(faq.answer)}</p>
+           </details>
+-        ))}
++          );
++          // Décision de Thomas du 14/11, interrupteur de l'espace ouvert : la question sur le prix n'est pas montrée
++          // à l'abonné (masquée dans le navigateur ; HTML serveur et données structurées inchangés). Fermé : la liste
++          // d'aujourd'hui.
++          return ESPACE_CLIENT_PUBLIE && faq.question === PRICE_FAQ_QUESTION ? <MasqueSiPremium key={faq.question}>{details}</MasqueSiPremium> : details;
++        })}
+       </div>
+     </div>
+   );
+diff --git a/apps/web/src/components/vannes/vannes-list.tsx b/apps/web/src/components/vannes/vannes-list.tsx
+index 39d03740..bf453223 100644
+--- a/apps/web/src/components/vannes/vannes-list.tsx
++++ b/apps/web/src/components/vannes/vannes-list.tsx
+@@ -1,6 +1,7 @@
+ "use client";
+ 
+ import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
++import { CATEGORIES_VANNES } from "@/config/vannes-categories";
+ import { contenuAffiche } from "@/lib/tip-prose";
+ import { useEffect, useState, useCallback } from "react";
+ import { useSearchParams } from "next/navigation";
+@@ -47,23 +48,9 @@ interface Pagination {
+   totalPages: number;
+ }
+ 
+-// Filtres regroupés par contexte d'usage (où tu sors la vanne)
+-// Les groupes fusionnent les catégories DB proches pour simplifier le choix
+-const CATEGORIES = [
+-  { value: "", label: "Toutes" },
+-  // Par contexte — où tu la sors
+-  { value: "SITUATION,OBSERVATIONNEL,CULTUREL", label: "Vie quotidienne" },
+-  { value: "BOULOT", label: "Boulot & Collègues" },
+-  { value: "COUPLE,DATING", label: "Couple & Dating" },
+-  { value: "SOIREES", label: "Soirées & Apéro" },
+-  { value: "ECOLE", label: "École & Études" },
+-  { value: "PARENTS", label: "Famille" },
+-  { value: "RESEAUX_SOCIAUX,GAMING", label: "Digital & Gaming" },
+-  // Par style — comment elle marche
+-  { value: "AUTODERISION", label: "Autodérision" },
+-  { value: "ABSURDE", label: "Absurde" },
+-  { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
+-];
++// Filtres regroupés par contexte d'usage (où tu sors la vanne) : `config/vannes-categories.ts` (s24, partagé avec la
++// sélection des vannes gratuites de l'API).
++const CATEGORIES = CATEGORIES_VANNES;
+ 
+ // Labels pour les badges individuels sur chaque carte (DB enum → label lisible)
+ const CATEGORY_LABELS: Record<string, string> = {
+@@ -193,7 +180,9 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
+     <>
+       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
+       {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
+-      {limited ? null : (
++      {/* s24 (décision de Thomas du 14/11), interrupteur de l'espace ouvert : une seule rangée pour tous, abonné ou
++          non, « Toutes » active par défaut ; fermé, réservée à l'abonné comme avant. */}
++      {limited && !ESPACE_CLIENT_PUBLIE ? null : (
+         // Relecture des captures nav s24 (design 9) : interrupteur de l'espace ouvert, dès 1 024 px un fondu de 64 px
+         // au lieu de 24 annonce la suite de la rangée (une seule rangée gardée, décision T3-07 de la revue s21).
+         <div
+@@ -261,7 +250,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
+                 {/* QA s21 tour 2 n2 : les pastilles passent à la ligne, les boutons ne rétrécissent pas ; plus de débordement à 320 px. */}
+                 <div className="mb-3 flex items-center justify-between gap-2">
+                   <div className="flex min-w-0 flex-wrap items-center gap-2">
+-                    <Badge variant="primary">
++                    <Badge variant="primary" data-categorie-vanne={ESPACE_CLIENT_PUBLIE ? "" : undefined}>
+                       {CATEGORY_LABELS[joke.category] ?? joke.category}
+                     </Badge>
+                   </div>
+diff --git a/apps/web/src/config/vannes-categories.ts b/apps/web/src/config/vannes-categories.ts
+new file mode 100644
+index 00000000..dc04c2e2
+--- /dev/null
++++ b/apps/web/src/config/vannes-categories.ts
+@@ -0,0 +1,54 @@
++/**
++ * Catégories de /vannes : la rangée de filtres (groupes de catégories de la base, par contexte puis par style).
++ * Module sans dépendance : importable par la liste (client) et par l'API (serveur). Avant s24, la rangée vivait
++ * dans `components/vannes/vannes-list.tsx` ; déplacée ici sans changement pour que la sélection des vannes
++ * gratuites (interrupteur de l'espace ouvert) se répartisse sur ces mêmes groupes.
++ */
++export const CATEGORIES_VANNES = [
++  { value: "", label: "Toutes" },
++  // Par contexte : où tu la sors
++  { value: "SITUATION,OBSERVATIONNEL,CULTUREL", label: "Vie quotidienne" },
++  { value: "BOULOT", label: "Boulot & Collègues" },
++  { value: "COUPLE,DATING", label: "Couple & Dating" },
++  { value: "SOIREES", label: "Soirées & Apéro" },
++  { value: "ECOLE", label: "École & Études" },
++  { value: "PARENTS", label: "Famille" },
++  { value: "RESEAUX_SOCIAUX,GAMING", label: "Digital & Gaming" },
++  // Par style : comment elle marche
++  { value: "AUTODERISION", label: "Autodérision" },
++  { value: "ABSURDE", label: "Absurde" },
++  { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
++] as const;
++
++/** Groupe de filtre d'une catégorie de la base (sa valeur dans la rangée), ou la catégorie elle-même. */
++export function groupeDeCategorie(categorie: string): string {
++  return CATEGORIES_VANNES.find((c) => c.value !== "" && c.value.split(",").includes(categorie))?.value ?? categorie;
++}
++
++/**
++ * Vannes gratuites, interrupteur de l'espace ouvert (décision de Thomas du 14/11, `docs/founder-preferences.md`) :
++ * `limite` vannes réparties sur les groupes de la rangée, à tour de rôle. Ordre d'entrée : celui du catalogue
++ * (les plus récentes d'abord) ; à chaque tour, la plus récente de chaque groupe pas encore pris, les groupes dans
++ * l'ordre où ils apparaissent. Avec au moins 5 groupes présents, les 10 vannes en couvrent au moins 5. Règle dans
++ * le code seulement : aucune écriture en base, le seed est inchangé.
++ */
++export function selectionGratuite<T extends { id: string; category: string }>(candidats: readonly T[], limite: number): T[] {
++  const parGroupe = new Map<string, T[]>();
++  for (const c of candidats) {
++    const g = groupeDeCategorie(c.category);
++    const liste = parGroupe.get(g);
++    if (liste) liste.push(c);
++    else parGroupe.set(g, [c]);
++  }
++  const files = Array.from(parGroupe.values());
++  const choisis: T[] = [];
++  for (let tour = 0; choisis.length < limite && files.some((f) => f.length > tour); tour++) {
++    for (const f of files) {
++      if (choisis.length >= limite) break;
++      if (f[tour]) choisis.push(f[tour]);
++    }
++  }
++  // Dans l'ordre du catalogue, comme le reste de la liste.
++  const rang = new Map(candidats.map((c, i) => [c.id, i]));
++  return choisis.sort((a, b) => (rang.get(a.id) ?? 0) - (rang.get(b.id) ?? 0));
++}
+diff --git a/apps/web/src/lib/faqs.ts b/apps/web/src/lib/faqs.ts
+index 4ef271e3..43030258 100644
+--- a/apps/web/src/lib/faqs.ts
++++ b/apps/web/src/lib/faqs.ts
+@@ -3,7 +3,8 @@ import { FAQ_REGULARITE, FAQ_SERIE_XP } from "@/config/textes/entrees-parcours";
+ import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+ import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
+ 
+-const PRICE_FAQ_QUESTION = `${PREMIUM_PRICE_LABEL}, c’est vraiment tout ? Pas de frais cachés ?`;
++/** Décision de Thomas du 14/11 : exportée pour être masquée à l'abonné (FaqSection, espace ouvert seulement). */
++export const PRICE_FAQ_QUESTION = `${PREMIUM_PRICE_LABEL}, c’est vraiment tout ? Pas de frais cachés ?`;
+ 
+ /**
+  * textes-trajet-v3 Q01 : « Et si j'arrête ? ». 1re phrase = `TEXTES_ABONNEMENT.resilierDetailSansDate`
+diff --git a/playwright/tests/local/nav-universelle-s24.spec.ts b/playwright/tests/local/nav-universelle-s24.spec.ts
+index a5eb4856..18db1a96 100644
+--- a/playwright/tests/local/nav-universelle-s24.spec.ts
++++ b/playwright/tests/local/nav-universelle-s24.spec.ts
+@@ -322,7 +322,8 @@ test.describe("navigation universelle v5 (s24)", () => {
+         ["/favoris", [N.monEspace], [T.favoris], null],
+         ["/carnet", [N.monEspace], [T.carnet], null],
+         ["/profil", [TEXTES_CONNEXION.menuCompte], ["Mon profil"], null],
+-        ["/lettre", [], [], null],
++        // Décision de Thomas du 14/11 : « La lettre » est une seule section ; l'abonné y lit l'archive (index « Lettres »).
++        ["/lettre", [N.monEspace], [T.lettres], N.monEspace],
+         ["/vannes", ["Vannes"], ["Vannes"], null],
+         ["/", [], [], null],
+       ];
+@@ -489,5 +490,66 @@ test.describe("navigation universelle v5 (s24)", () => {
+       }
+       await c.close();
+     });
++
++    // Décisions de Thomas du 14/11 : une seule rangée de catégories de Vannes pour tous ; 10 vannes gratuites sur au
++    // moins 5 catégories ; « La lettre » une seule section ; question du prix de la FAQ masquée pour l'abonné.
++    test("Vannes : une rangée pour les 3 états, « Toutes » active ; 10 gratuites sur au moins 5 catégories", async ({ browser }) => {
++      for (const etat of ["visiteur", "FREE", "PREMIUM"] as const) {
++        const c = await contexte(browser, etat);
++        const page = await c.newPage();
++        await page.setViewportSize({ width: 1280, height: 900 });
++        await page.goto("/vannes");
++        await pret(page, etat);
++        const rangee = page.getByRole("tablist", { name: "Catégories de vannes" });
++        await expect(rangee).toBeVisible();
++        await expect(rangee.getByRole("tab", { name: "Toutes" })).toHaveAttribute("aria-selected", "true");
++        await expect(page.locator("main a[href^='/vannes/theme/']")).toHaveCount(0);
++        if (etat !== "PREMIUM") {
++          const badges = page.locator("main [data-categorie-vanne]");
++          await expect(badges).toHaveCount(10);
++          const categories = new Set(await badges.allInnerTexts());
++          noter(`vannes gratuites ; ${etat} ; catégories=${[...categories].join(", ")}`);
++          expect(categories.size, "au moins 5 catégories").toBeGreaterThanOrEqual(5);
++        }
++        await c.close();
++      }
++    });
++
++    test("La lettre : inscription pour le visiteur et le gratuit, archive pour l'abonné ; /mon-espace/lettres renvoie à /lettre", async ({ browser }) => {
++      for (const etat of ["visiteur", "FREE"] as const) {
++        const c = await contexte(browser, etat);
++        const page = await c.newPage();
++        await page.goto("/lettre");
++        await pret(page, etat);
++        await expect(page.locator("[data-lettres-abonne]")).toHaveCount(0);
++        await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
++        await c.close();
++      }
++      const c = await contexte(browser, "PREMIUM");
++      const page = await c.newPage();
++      await page.goto("/lettre");
++      await expect(page.locator("[data-lettres-abonne]")).toBeVisible();
++      await expect(page.getByRole("heading", { level: 1, name: "Lettres" })).toBeVisible();
++      await page.goto("/mon-espace/lettres");
++      await expect(page).toHaveURL(/\/lettre$/);
++      await page.goto("/mon-espace");
++      await expect(page.locator("[data-index-espace]").getByRole("link", { name: N.index.lettres })).toHaveAttribute("href", "/lettre");
++      await c.close();
++    });
++
++    test("FAQ de /parcours : la question du prix est masquée pour l'abonné, visible pour le visiteur", async ({ browser }) => {
++      const question = /1,99\s€\/mois, c’est vraiment tout/;
++      const v = await contexte(browser, "visiteur");
++      const pv = await v.newPage();
++      await pv.goto("/parcours");
++      await expect(pv.getByText(question)).toBeVisible();
++      await v.close();
++      const c = await contexte(browser, "PREMIUM");
++      const page = await c.newPage();
++      await page.goto("/parcours");
++      await pret(page, "PREMIUM");
++      await expect(page.getByText(question)).toHaveCount(0);
++      await c.close();
++    });
+   });
+ });
