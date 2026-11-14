@@ -3,6 +3,7 @@ import { test, expect, localSeulement, creerCompte, connecter } from "../support
 import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
 import { BIENVENUE_PREMIUM } from "@/config/textes/abonnement-vente";
 import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Espace client, lot D3 (s24, plan §3) : « Aujourd'hui », arrivées après paiement et connexion,
@@ -66,7 +67,7 @@ test.describe("espace client, « Aujourd'hui » (s24, lot D3)", () => {
       expect((await commencer.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
       await expect(page.locator('section[data-etat="ok"], section[data-etat="erreur"]')).toHaveCount(1);
       for (const haut of await hautsContenuDuJour(page)) expect(haut).toBeGreaterThanOrEqual(812);
-      await expect(page.locator('[data-source="defaut"] h2')).toHaveText(T.premierPas.sceneParDefaut);
+      await expect(page.locator('[data-source="defaut"] h2')).toHaveText(frEspace(T.premierPas.sceneParDefaut));
     });
 
     test("N4 à 200 % de texte (188 x 406) : « Commencer » dans le premier écran, rien ne déborde", async ({ page }) => {

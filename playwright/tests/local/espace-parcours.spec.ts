@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { Browser, Cookie, Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, requete } from "../support/base-locale";
 import { TEXTES_CAPS, TEXTES_PARCOURS_ESPACE as P } from "@/config/textes/espace-caps";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Espace client, lot D4 (s24, plan §3) : « Parcours » enrichi (4 premières semaines, étape à reprendre,
@@ -123,7 +124,7 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       await page.goto("/parcours");
       const entete = page.getByTestId("parcours-espace");
       await expect(entete.getByRole("heading", { level: 2, name: P.semaines.titre })).toBeVisible();
-      await expect(entete.getByRole("link", { name: "Commencer l'étape 1" })).toHaveAttribute("href", "/parcours/repartie#etape-1");
+      await expect(entete.getByRole("link", { name: frEspace("Commencer l'étape 1") })).toHaveAttribute("href", "/parcours/repartie#etape-1");
       const cap = entete.locator("#cap");
       await expect(cap.getByRole("heading", { level: 2, name: TEXTES_CAPS.titre })).toBeVisible();
       await expect(cap).toContainText(TEXTES_CAPS.capVisible(1));
@@ -200,7 +201,7 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.waitForTimeout(10_500);
       await expect(annonce.locator('[aria-live="polite"]')).toHaveText(TEXTES_CAPS.annonce.cap(2));
-      await annonce.getByRole("button", { name: TEXTES_CAPS.annonce.fermerLu }).focus();
+      await annonce.getByRole("button", { name: frEspace(TEXTES_CAPS.annonce.fermerLu) }).focus();
       await page.keyboard.press("Enter");
       await expect(page.getByTestId("parcours-espace").getByRole("link", { name: "Reprendre" })).toBeFocused();
       const lignes = await requete<{ type: string; numero: number; silencieux: boolean }>(
@@ -238,7 +239,7 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/parcours");
       await expect(page.locator("#cap")).toContainText(TEXTES_CAPS.capVisible(4));
-      await expect(page.locator("#cap")).toContainText(TEXTES_CAPS.ecart);
+      await expect(page.locator("#cap")).toContainText(frEspace(TEXTES_CAPS.ecart));
       await expect(page.getByTestId("annonce-cap").locator('[aria-live="polite"]')).toHaveText(TEXTES_CAPS.annonce.cap(4));
       await expect(page.getByTestId("annonce-cap").getByRole("link")).toHaveCount(0);
       await capturer(page, "parcours-ecart-cap-4", "#cap");

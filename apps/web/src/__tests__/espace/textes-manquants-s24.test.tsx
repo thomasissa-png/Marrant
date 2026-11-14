@@ -11,6 +11,7 @@ import { CorpsJeu } from "@/components/espace/fiche/corps-divers";
 import { TEXTES_FICHE as T } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CLOCHE } from "@/config/textes/espace-cloche";
 import { erreurCloche, gestesSeances, libellesPiresReponses } from "../../../scripts/importer-fiches/textes-manquants";
+import { apo } from "../helpers/typo-espace";
 
 describe("textes manquants de l'import 2, mot pour mot", () => {
   it("les 6 séances portent leur geste validé, dans l'ordre des séances du lot C6c", () => {
@@ -32,8 +33,8 @@ describe("textes manquants de l'import 2, mot pour mot", () => {
       if (j.type !== "jeu") continue;
       const { unmount } = render(<CorpsJeu c={j.contenu} id={j.id} />);
       const attendu = j.id === "les-pires-reponses-3" ? jeu3 : defaut;
-      expect(screen.getByText(attendu, { selector: "summary" })).toBeInTheDocument();
-      expect(screen.queryByText(T.ceQuOnAuraitPuDire)).toBeNull();
+      expect(screen.getByText(apo(attendu), { selector: "summary" })).toBeInTheDocument();
+      expect(screen.queryByText(apo(T.ceQuOnAuraitPuDire))).toBeNull();
       unmount();
     }
   });
@@ -42,7 +43,7 @@ describe("textes manquants de l'import 2, mot pour mot", () => {
     const autre = validerFichier("jeu", jeux).find((j) => j.type === "jeu" && j.contenu.famille !== "les-pires-reponses");
     if (!autre || autre.type !== "jeu") throw new Error("aucun autre jeu");
     render(<CorpsJeu c={autre.contenu} id={autre.id} />);
-    expect(screen.getByText(T.ceQuOnAuraitPuDire, { selector: "summary" })).toBeInTheDocument();
+    expect(screen.getByText(apo(T.ceQuOnAuraitPuDire), { selector: "summary" })).toBeInTheDocument();
   });
 
   it("cloche qui ne charge pas : la reco B ; zéro tiret cadratin dans les trois textes", () => {

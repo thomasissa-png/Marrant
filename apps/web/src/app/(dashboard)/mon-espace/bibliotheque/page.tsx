@@ -53,25 +53,30 @@ export default async function BibliothequePage() {
   const visibles = new Set(fichesVisibles(brutes, envoyees).map((x) => x.id));
   const bonus = bonusOuverts(cap, acces).sort((a, b) => a.cap - b.cap);
   const faits = await idsFaits(userId, [...brutes.map((x) => x.id), ...bonus.map((b) => b.id), ...coin.map((x) => x.id)]);
-  const lignes = (type: keyof typeof T.prefixes) => parType[type].filter((x) => visibles.has(x.id)).map((x) => ligneDeFiche(x, faits, T.prefixes[type]));
+  const lignesSansPrefixe = (type: keyof typeof T.prefixes) => parType[type].filter((x) => visibles.has(x.id)).map((x) => ligneDeFiche(x, faits));
   const marque = (b: (typeof bonus)[number]) => ligneDeBonus(b, faits, TEXTES_CAPS.bonus.marque(b.cap));
   const entre = coinEntre(cookies().get(COOKIE_COIN)?.value);
 
   return (
     <div>
-      {/* v5 §3, gabarit B : pleine coque, blocs en 1 colonne puis 2 dès 768 px ; le long bloc des techniques
-          occupe la colonne de droite sur deux rangées, le coin passe sous les vannes (aucun trou). */}
+      {/* Relecture des captures nav s24 (design 1, ux F1) : cinq cartes réparties en deux colonnes équilibrées dès
+          768 px (colonnes CSS : chaque carte à la hauteur de son contenu, aucun vide sous une colonne étirée) :
+          vannes, coin « Humour noir », puis une carte par groupe de techniques, titrée par le préfixe validé
+          (« Comment c'est construit », « Vocabulaire », « Formules à détourner ») au lieu de le répéter à chaque ligne. */}
       <RetourDe chemin="/mon-espace/bibliotheque" />
       <PageHeader title={T.titre} />
-      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
-        <BlocVannes ecouter={[...lignes("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
-        <BlocBibliotheque id="bloc-techniques" titre={T.blocTechniques} className="md:row-span-2">
-          <ListeFiches
-            lignes={[...lignes("construction"), ...lignes("vocabulaire"), ...lignes("formule"), ...bonus.filter((b) => b.cap === 5).map(marque)]}
-            labelledBy="bloc-techniques"
-          />
-        </BlocBibliotheque>
+      <div className="gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid">
+        <BlocVannes ecouter={[...lignesSansPrefixe("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
         {coin.length > 0 && <CoinHumourNoir lignesInitiales={entre ? coin.map((x) => ligneDeFiche(x, faits)) : null} />}
+        {(["construction", "vocabulaire", "formule"] as const).map((type) => {
+          const groupe = [...lignesSansPrefixe(type), ...(type === "formule" ? bonus.filter((b) => b.cap === 5).map(marque) : [])];
+          if (groupe.length === 0) return null;
+          return (
+            <BlocBibliotheque key={type} id={`groupe-${type}`} titre={T.prefixes[type]}>
+              <ListeFiches lignes={groupe} labelledBy={`groupe-${type}`} />
+            </BlocBibliotheque>
+          );
+        })}
       </div>
     </div>
   );

@@ -300,10 +300,12 @@ export function FavorisList() {
       ) : (
         // Revue visuelle s21 (R02, T3-06) : dès 768 px, vannes et conseils sur 2 colonnes (rangées remplies
         // dans l'ordre, trous comblés), la vidéo sur toute la rangée avec sa vignette bornée à gauche.
-        <div className="grid gap-4 md:grid-flow-row-dense md:grid-cols-2">
+        // Relecture des captures nav s24 (design 3), interrupteur de l'espace ouvert seulement : 3 colonnes dès
+        // 1 024 px, cartes à la hauteur de leur contenu, même marge haute pour vannes, conseils et vidéos.
+        <div className={ESPACE_CLIENT_PUBLIE ? "grid items-start gap-4 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3" : "grid gap-4 md:grid-flow-row-dense md:grid-cols-2"}>
           {filtered.map((fav) => {
             // Nombre impair de vannes et conseils : le dernier prend la rangée (plus de demi-rangée vide).
-            const seulSurSaRangee = fav.id === dernierCourtSeul ? " md:col-span-2" : "";
+            const seulSurSaRangee = fav.id === dernierCourtSeul ? (ESPACE_CLIENT_PUBLIE ? " md:col-span-2 lg:col-span-1" : " md:col-span-2") : "";
             if (fav.contentType === "JOKE" && fav.joke) {
               const joke = fav.joke as unknown as JokeData;
               const isRevealed = revealedJokes.has(fav.id);
@@ -315,7 +317,7 @@ export function FavorisList() {
                   onClick={() => toggleJokePunchline(fav.id)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleJokePunchline(fav.id); } }}
                 >
-                  <CardContent className="pt-4">
+                  <CardContent className={ESPACE_CLIENT_PUBLIE ? undefined : "pt-4"}>
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Badge variant="primary">Vanne</Badge>
@@ -458,8 +460,8 @@ export function FavorisList() {
             if (fav.contentType === "VIDEO" && fav.video) {
               const video = fav.video as unknown as VideoData;
               return (
-                <Card key={fav.id} className="overflow-hidden md:col-span-2">
-                  <CardContent className="pt-4">
+                <Card key={fav.id} className={ESPACE_CLIENT_PUBLIE ? "overflow-hidden md:col-span-2 lg:col-span-3" : "overflow-hidden md:col-span-2"}>
+                  <CardContent className={ESPACE_CLIENT_PUBLIE ? undefined : "pt-4"}>
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Badge variant="default">Vidéo</Badge>

@@ -62,7 +62,15 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
     <section aria-label={R.titre} className="space-y-3">
       {lectureSeule && <p className="text-sm text-text-secondary">{R.lectureSeule}</p>}
       {liste.length === 0 ? (
-        <p className={`${CARTE} text-sm text-text-secondary`}>{R.vide}</p>
+        // Relecture des captures nav s24 (design 4, ux F5) : état vide à sa largeur de lecture, avec une sortie.
+        <div className={`${CARTE} mx-auto flex max-w-2xl flex-col items-center gap-4 text-center md:p-8`} data-testid="repliques-vide">
+          <p className="text-base text-text-primary">{R.vide}</p>
+          {!lectureSeule && (
+            <Link href="/mon-espace/quoi-repondre" className={BOUTON_SECONDAIRE}>
+              {R.ecrirePremiere}
+            </Link>
+          )}
+        </div>
       ) : (
         <ul className="flex flex-col gap-3">
           {liste.map((r) => {

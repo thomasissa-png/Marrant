@@ -6,6 +6,7 @@ import Link from "next/link";
 import { VannesList } from "@/components/vannes/vannes-list";
 import { VannesThemeNav } from "@/components/vannes/vannes-theme-nav";
 import { MasqueSiPremium } from "@/components/home/masque-si-premium";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { FaqSection } from "@/components/home/faq-section";
 import {
   JsonLd,
@@ -113,12 +114,23 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
       <PageHeader
         title={<>Vannes drôles à ressortir ce soir, pas trois jours plus tard</>}
         lead={
-          <>
-            Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique
-            pour révéler la chute. Avec Premium, tu gardes tes préférées sous le coude. La
-            théorie, c’est bien. Avoir une vanne prête au moment où tout le
-            monde te regarde, c’est mieux.
-          </>
+          // Relecture des captures nav s24 (ux F3) : interrupteur de l'espace ouvert, la phrase de vente n'est
+          // plus montrée à l'abonné (masquée dans le navigateur ; HTML serveur et visiteur inchangés). Fermé :
+          // le chapô d'aujourd'hui, au caractère près.
+          ESPACE_CLIENT_PUBLIE ? (
+            <>
+              Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique pour révéler la chute.{" "}
+              <MasqueSiPremium>{"Avec Premium, tu gardes tes préférées sous le coude. "}</MasqueSiPremium>
+              La théorie, c’est bien. Avoir une vanne prête au moment où tout le monde te regarde, c’est mieux.
+            </>
+          ) : (
+            <>
+              Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique
+              pour révéler la chute. Avec Premium, tu gardes tes préférées sous le coude. La
+              théorie, c’est bien. Avoir une vanne prête au moment où tout le
+              monde te regarde, c’est mieux.
+            </>
+          )
         }
       />
       {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. Revue visuelle s21

@@ -418,5 +418,48 @@ test.describe("navigation universelle v5 (s24)", () => {
       }
       await c.close();
     });
+
+    // Relecture des captures nav s24 (reviewer FD1) : toutes les cibles du menu ouvert font 44 px, de 320 à 1023 px.
+    test("critère 7 : menu ouvert, toutes les cibles à 44 px de haut (320, 375, 768, 1023 px, 3 états)", async ({ browser }) => {
+      for (const etat of ["visiteur", "FREE", "PREMIUM"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [320, 375, 768, 1023]) {
+          await page.setViewportSize({ width: largeur, height: 900 });
+          await page.goto("/conseils");
+          await pret(page, etat);
+          await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+          const petites = await page.evaluate(() =>
+            Array.from(document.querySelectorAll("nav[aria-label='Navigation mobile'] a, nav[aria-label='Navigation mobile'] button"))
+              .filter((e) => e.getBoundingClientRect().width > 0)
+              .map((e) => [(e.textContent ?? "").trim(), Math.round(e.getBoundingClientRect().height)] as const)
+              .filter(([, h]) => h < 44),
+          );
+          noter(`critère 7 ; menu ouvert ; ${etat} ; ${largeur} px ; cibles sous 44 px=${petites.length}`);
+          expect(petites, `cibles de moins de 44 px, ${etat} à ${largeur} px`).toEqual([]);
+        }
+        await c.close();
+      }
+    });
+
+    // Relecture des captures nav s24 : « Mon profil » à 2 gestes (Menu, ligne) sans défilement à 375 x 667 et 812.
+    test("abonné à 375 px : « Mon profil » et « Déconnexion » visibles dès l'ouverture du menu (667 et 812 px de haut)", async ({ browser }) => {
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      for (const hauteur of [667, 812]) {
+        await page.setViewportSize({ width: 375, height: hauteur });
+        await page.goto("/vannes");
+        await pret(page, "PREMIUM");
+        await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+        const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+        await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+        await expect(menu.getByRole("link", { name: "Mon profil" })).toBeInViewport({ ratio: 1 });
+        await expect(menu.getByRole("button", { name: "Déconnexion" })).toBeInViewport({ ratio: 1 });
+        await expect(menu.getByRole("link", { name: N.index.carnet, exact: true })).toBeInViewport({ ratio: 1 });
+        await menu.getByRole("link", { name: "Mon profil" }).click();
+        await expect(page).toHaveURL(/\/profil$/);
+      }
+      await c.close();
+    });
   });
 });

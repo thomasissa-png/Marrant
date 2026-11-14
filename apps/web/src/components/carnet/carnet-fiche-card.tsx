@@ -1,6 +1,14 @@
 import type { CarnetFiche, CarnetFicheApercu } from "@/lib/carnet";
 import { frTypo } from "@/lib/fr-typo";
 import { Card } from "@/components/ui/card";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+
+/**
+ * Relecture des captures nav s24 (design 8), interrupteur de l'espace ouvert seulement : fiche moins dense
+ * (plus d'air entre les blocs, corps en 16 px, étiquettes en 14 px, contexte lisible). Fermé : classes d'avant.
+ */
+const AERE = ESPACE_CLIENT_PUBLIE;
+const c = (avant: string, ouvert: string) => (AERE ? ouvert : avant);
 
 /**
  * Fiche complète (Server Component : aucune donnée ne part dans le JS client).
@@ -17,25 +25,25 @@ export function CarnetFicheCard({
 }) {
   const blocTitre = "h3";
   return (
-    <Card className="space-y-4 p-4 hover:border-border sm:p-6" id={`fiche-${fiche.id}`}>
+    <Card className={c("space-y-4 p-4 hover:border-border sm:p-6", "space-y-6 p-5 hover:border-border sm:p-8")} id={`fiche-${fiche.id}`}>
       <header className="space-y-1">
         <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
           Situation {numero}
           {offerte ? " · offerte" : ""}
         </p>
         <h2 className="font-display text-xl font-bold text-text-primary">{frTypo(fiche.titre)}</h2>
-        <p className="text-sm text-text-muted">{frTypo(fiche.contexte)}</p>
+        <p className={c("text-sm text-text-muted", "text-sm text-text-secondary")}>{frTypo(fiche.contexte)}</p>
       </header>
 
-      <p className="text-sm text-text-secondary">{frTypo(fiche.situation)}</p>
+      <p className={c("text-sm text-text-secondary", "text-base leading-relaxed text-text-secondary")}>{frTypo(fiche.situation)}</p>
 
-      <div className="rounded-lg bg-background-elevated p-3">
-        <p className="text-xs font-medium text-text-muted">On te dit</p>
-        <p className="mt-1 text-sm italic text-text-primary">{frTypo(fiche.onTeDit)}</p>
+      <div className={c("rounded-lg bg-background-elevated p-3", "rounded-lg bg-background-elevated p-4")}>
+        <p className={c("text-xs font-medium text-text-muted", "text-sm font-medium text-text-secondary")}>On te dit</p>
+        <p className={c("mt-1 text-sm italic text-text-primary", "mt-1 text-base italic text-text-primary")}>{frTypo(fiche.onTeDit)}</p>
       </div>
 
-      <div className="rounded-lg border border-accent-primary/30 bg-accent-primary/10 p-3">
-        <p className="text-xs font-medium text-accent-link">Tu réponds</p>
+      <div className={c("rounded-lg border border-accent-primary/30 bg-accent-primary/10 p-3", "rounded-lg border border-accent-primary/30 bg-accent-primary/10 p-4")}>
+        <p className={c("text-xs font-medium text-accent-link", "text-sm font-medium text-accent-link")}>Tu réponds</p>
         <p className="mt-1 text-base font-semibold text-text-primary">{frTypo(fiche.reponse)}</p>
       </div>
 
@@ -49,8 +57,8 @@ export function CarnetFicheCard({
 function FicheBloc({ titre, as: Heading, children }: { titre: string; as: "h3" | "h4"; children: string }) {
   return (
     <div>
-      <Heading className="mb-1 text-sm font-semibold text-text-primary">{titre}</Heading>
-      <p className="text-sm text-text-secondary">{children}</p>
+      <Heading className={c("mb-1 text-sm font-semibold text-text-primary", "mb-1.5 text-base font-semibold text-text-primary")}>{titre}</Heading>
+      <p className={c("text-sm text-text-secondary", "text-base leading-relaxed text-text-secondary")}>{children}</p>
     </div>
   );
 }

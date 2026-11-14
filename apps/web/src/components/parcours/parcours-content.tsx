@@ -253,11 +253,14 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
             {LISTE_PARCOURS.reprendre}
           </Link>
           <p className="mt-2 text-sm text-text-secondary">
-            {LISTE_PARCOURS.repriseLigne(
-              reprise.title,
-              userProgress[reprise.slug].nextStep as number,
-              userProgress[reprise.slug].total || reprise.modules.length,
-              reprise.modules[(userProgress[reprise.slug].nextStep as number) - 1]?.title ?? null,
+            {/* Relecture des captures nav s24 (reviewer FD2) : ouvert seulement, apostrophes typographiques du titre. */}
+            {(ESPACE_CLIENT_PUBLIE ? frTypo : (t: string) => t)(
+              LISTE_PARCOURS.repriseLigne(
+                reprise.title,
+                userProgress[reprise.slug].nextStep as number,
+                userProgress[reprise.slug].total || reprise.modules.length,
+                reprise.modules[(userProgress[reprise.slug].nextStep as number) - 1]?.title ?? null,
+              ),
             )}
           </p>
         </div>

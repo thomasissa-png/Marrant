@@ -5,6 +5,7 @@ import { test, expect, localSeulement, creerCompte, connecter, requete } from ".
 import { nomCloche, TEXTES_ESPACE_NAVIGATION as T } from "@/config/textes/espace-navigation";
 import { TEXTES_CLOCHE as C } from "@/config/textes/espace-cloche";
 import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Espace client, lot D8 (s24, plan §3) : contenu du panneau de la cloche (maquette `aujourdhui.html#cloche=…`,
@@ -85,11 +86,11 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await expect(cloche).toBeVisible();
       await expect(cloche.locator("[data-pastille]")).toBeVisible();
       await cloche.click();
-      const panneau = page.getByRole("dialog", { name: T.cloche.titre });
+      const panneau = page.getByRole("dialog", { name: frEspace(T.cloche.titre) });
       await expect(panneau).toBeVisible();
-      await expect(panneau.getByRole("button", { name: T.cloche.fermer })).toBeFocused();
+      await expect(panneau.getByRole("button", { name: frEspace(T.cloche.fermer) })).toBeFocused();
       const ligne = panneau.getByRole("link", { name: new RegExp(Q.types.SITUATION.nom) });
-      await expect(panneau.getByRole("heading", { name: C.groupes.reponses })).toBeVisible();
+      await expect(panneau.getByRole("heading", { name: frEspace(C.groupes.reponses) })).toBeVisible();
       await expect(ligne).toHaveAttribute("href", `/mon-espace/questions/${filId}`);
       expect((await ligne.boundingBox())!.height).toBeGreaterThanOrEqual(44);
       const feuille = (await panneau.boundingBox())!;
@@ -101,7 +102,7 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       }
       // 200 % de texte (188 x 406) : rien ne sort du panneau, « Fermer » entier.
       await page.setViewportSize({ width: 188, height: 406 });
-      const fermer = (await panneau.getByRole("button", { name: T.cloche.fermer }).boundingBox())!;
+      const fermer = (await panneau.getByRole("button", { name: frEspace(T.cloche.fermer) }).boundingBox())!;
       expect(fermer.x + fermer.width).toBeLessThanOrEqual(188);
       expect(await panneau.evaluate((p) => p.scrollWidth <= p.clientWidth)).toBe(true);
       await page.setViewportSize({ width: 375, height: 812 });
@@ -114,7 +115,7 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await expect(panneau).toBeHidden();
       await expect(cloche).toBeFocused();
       await cloche.click();
-      await panneau.getByRole("button", { name: T.cloche.fermer }).click();
+      await panneau.getByRole("button", { name: frEspace(T.cloche.fermer) }).click();
       await expect(panneau).toBeHidden();
       await expect(cloche).toBeFocused();
       // Ouvrir le panneau ne lit rien : même nom après rechargement, rien d'écrit en base.
@@ -143,7 +144,7 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await expect(eteinte).toBeVisible();
       await expect(eteinte.locator("[data-pastille]")).toHaveCount(0);
       await eteinte.click();
-      await expect(panneau.getByRole("heading", { name: C.groupes.reponses })).toHaveCount(0);
+      await expect(panneau.getByRole("heading", { name: frEspace(C.groupes.reponses) })).toHaveCount(0);
     });
 
     test("état vide et nouveautés : texte validé, aucune pastille, nom « aucune » quelles que soient les lignes", async ({ browser, page }) => {
@@ -154,8 +155,8 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await page.goto("/mon-espace");
       const cloche = page.getByRole("banner").getByRole("button", { name: nomCloche(0) });
       await cloche.click();
-      const panneau = page.getByRole("dialog", { name: T.cloche.titre });
-      await expect(panneau.getByText(T.cloche.vide)).toBeVisible();
+      const panneau = page.getByRole("dialog", { name: frEspace(T.cloche.titre) });
+      await expect(panneau.getByText(frEspace(T.cloche.vide))).toBeVisible();
       await capturer(page, "vide");
       await page.unroute("**/api/espace/cloche");
       await servir(page, {
@@ -182,11 +183,11 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       const filId = await fil(id, true);
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/mon-espace/questions");
-      const origine = page.locator(`[data-fil="${filId}"]`).getByRole("button", { name: Q.envois.retirer });
+      const origine = page.locator(`[data-fil="${filId}"]`).getByRole("button", { name: frEspace(Q.envois.retirer) });
       await origine.focus();
       await page.keyboard.press("Enter");
-      const dialogue = page.getByRole("alertdialog", { name: Q.confirmationRetrait.question });
-      await expect(dialogue.getByRole("button", { name: Q.confirmationRetrait.annuler })).toBeFocused();
+      const dialogue = page.getByRole("alertdialog", { name: frEspace(Q.confirmationRetrait.question) });
+      await expect(dialogue.getByRole("button", { name: frEspace(Q.confirmationRetrait.annuler) })).toBeFocused();
       await capturer(page, "confirmation-retrait");
       await page.keyboard.press("Escape");
       await expect(dialogue).toBeHidden();
@@ -194,9 +195,9 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       expect((await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "EquipeMessage" WHERE "filId" = $1`, [filId]))[0].n).toBe(2);
       await page.keyboard.press("Enter");
       await page.keyboard.press("Shift+Tab"); // focus piégé : « Retirer », juste avant « Annuler »
-      await expect(dialogue.getByRole("button", { name: Q.confirmationRetrait.retirer })).toBeFocused();
+      await expect(dialogue.getByRole("button", { name: frEspace(Q.confirmationRetrait.retirer) })).toBeFocused();
       await page.keyboard.press("Enter");
-      await expect(page.getByText(Q.envois.retire)).toBeFocused();
+      await expect(page.getByText(frEspace(Q.envois.retire))).toBeFocused();
       await capturer(page, "retire");
       expect((await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "EquipeFil" WHERE id = $1`, [filId]))[0].n).toBe(0);
       expect((await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "EquipeMessage" WHERE "filId" = $1`, [filId]))[0].n).toBe(0);

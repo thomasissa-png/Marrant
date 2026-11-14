@@ -110,9 +110,41 @@ const AVANT_PONCTUATION_HAUTE = new RegExp(`${BLANC}([;:!?])`, "g");
 const APRES_GUILLEMET_OUVRANT = new RegExp(`«${BLANC}`, "g");
 const AVANT_GUILLEMET_FERMANT = new RegExp(`${BLANC}»`, "g");
 const AVANT_CHEVRON_OU_FLECHE = new RegExp(`${BLANC}([›→])`, "g");
+// Relecture des captures nav s24 (reviewer FD2, FD3) : apostrophe typographique entre deux lettres, guillemets
+// anglais en chevrons avec fine insécable, à l'affichage seulement (JSON et textes validés inchangés).
+// Mots composés courants jamais coupés après le trait d'union (règle T3-02 du site, `typographie-s21.spec.ts`).
+const COMPOSE_COURANT = /(?<![\p{L}-])(stand|start|auto|one|rendez|peut)-(up|dérision|liner|vous|être)(?!\p{L})/giu;
+// Seulement au premier niveau : “ ” à l'intérieur de « » est la citation intérieure validée (corrections G5, F).
+const GUILLEMET_ANGLAIS = /“([^“”«»]*)”/g;
+
+function guillemetsPremierNiveau(text: string): string {
+  if (!text.includes("“")) return text;
+  let profondeur = 0;
+  let sortie = "";
+  let i = 0;
+  while (i < text.length) {
+    const c = text[i];
+    if (c === "«") profondeur++;
+    else if (c === "»") profondeur = Math.max(0, profondeur - 1);
+    if (c === "“" && profondeur === 0) {
+      GUILLEMET_ANGLAIS.lastIndex = i;
+      const m = GUILLEMET_ANGLAIS.exec(text);
+      if (m && m.index === i) {
+        sortie += `«${FINE}${m[1].trim()}${FINE}»`;
+        i += m[0].length;
+        continue;
+      }
+    }
+    sortie += c;
+    i++;
+  }
+  return sortie;
+}
 
 /**
- * Typographie de l'espace client (lot D11c) : seules les espaces changent, aucun mot, aucune apostrophe.
+ * Typographie de l'espace client (lot D11c) : aucun mot ne change. Apostrophe droite entre deux lettres en
+ * apostrophe typographique (’), guillemets anglais (“ ”) de premier niveau en chevrons, la citation intérieure garde “ ” (relecture des
+ * captures nav s24).
  * Fine insécable (U+202F) avant « ; : ! ? », après « « » et avant « » » (la même des deux côtés du guillemet :
  * une insécable pleine avant « » » faisait « «Et toi, tu fais quoi ? » », dissymétrique à l'œil) ;
  * insécable (U+00A0) avant « › » et « → ».
@@ -120,7 +152,9 @@ const AVANT_CHEVRON_OU_FLECHE = new RegExp(`${BLANC}([›→])`, "g");
  * la donnée (JSON de l'espace, base) reste intacte.
  */
 export function frEspace(text: string): string {
-  return text
+  return guillemetsPremierNiveau(text)
+    .replace(APOSTROPHE_DROITE, "$1’")
+    .replace(COMPOSE_COURANT, `$1-${GLUON}$2`)
     .replace(AVANT_PONCTUATION_HAUTE, `${FINE}$1`)
     .replace(APRES_GUILLEMET_OUVRANT, `«${FINE}`)
     .replace(AVANT_GUILLEMET_FERMANT, `${FINE}»`)

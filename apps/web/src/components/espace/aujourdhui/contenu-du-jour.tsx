@@ -7,6 +7,8 @@ import { buildTipSlug, buildVideoSlug } from "@/lib/catalogue-slug";
 import type { CategorieToucher } from "@/lib/espace/vanne";
 import { VanneToucher, type VanneAffichee } from "@/components/espace/aujourdhui/vanne-toucher";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+import { contenuAffiche } from "@/lib/tip-prose";
+import { YouTubePlayer } from "@/components/ui/youtube-player";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -20,8 +22,8 @@ const T = frEspaceProfond(TEXTES_AUJOURDHUI);
  */
 type Daily = {
   joke: VanneAffichee | null;
-  tip: { id: string; title: string } | null;
-  video: { id: string; title: string } | null;
+  tip: { id: string; title: string; content?: string | null } | null;
+  video: { id: string; title: string; youtubeId?: string | null } | null;
 };
 type Etat = { statut: "chargement" } | { statut: "erreur" } | { statut: "ok"; donnees: Daily };
 
@@ -66,7 +68,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
         {T.jour.titre}
       </h2>
       {/* v5 §3 : 1 colonne, 2 dès 768 px, 3 dès 1280 px ; la 3e carte prend la ligne entière à 768. */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 xl:grid-cols-3">
       {etat.statut === "chargement" &&
         [0, 1, 2].map((i) => (
           <div key={i} aria-hidden="true" className={`${CARTE} animate-pulse motion-reduce:animate-none ${i === 2 ? TROISIEME : ""}`}>
@@ -98,14 +100,29 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
           </Carte>
           <Carte id="jour-conseil" titre={T.jour.conseil}>
             {etat.donnees.tip ? (
-              <Link href={`/conseils/${buildTipSlug(etat.donnees.tip)}`} className={lienCarte}>{frEspace(etat.donnees.tip.title)}</Link>
+              <>
+                {/* Relecture des captures nav s24 (design 5, ux F6b, reviewer FD4) : le début du conseil, comme
+                    l'accueil du site, au lieu d'un lien seul dans une carte vide. */}
+                {etat.donnees.tip.content && (
+                  <p className="mb-3 line-clamp-4 text-sm leading-relaxed text-text-secondary">{frEspace(contenuAffiche(etat.donnees.tip.content))}</p>
+                )}
+                <Link href={`/conseils/${buildTipSlug(etat.donnees.tip)}`} className={lienCarte}>{frEspace(etat.donnees.tip.title)}</Link>
+              </>
             ) : (
               <Link href="/conseils" className={lienCarte}>{T.jour.repli.conseils}</Link>
             )}
           </Carte>
           <Carte id="jour-video" titre={T.jour.video} className={TROISIEME}>
             {etat.donnees.video ? (
-              <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={lienCarte}>{frEspace(etat.donnees.video.title)}</Link>
+              <>
+                {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}
+                {etat.donnees.video.youtubeId && (
+                  <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                    <YouTubePlayer youtubeId={etat.donnees.video.youtubeId} title={etat.donnees.video.title} />
+                  </div>
+                )}
+                <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={lienCarte}>{frEspace(etat.donnees.video.title)}</Link>
+              </>
             ) : (
               <Link href="/videos" className={lienCarte}>{T.jour.repli.videos}</Link>
             )}

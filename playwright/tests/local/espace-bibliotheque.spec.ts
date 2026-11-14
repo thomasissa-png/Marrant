@@ -5,6 +5,7 @@ import { test, expect, localSeulement, creerCompte, connecter, requete } from ".
 import { TEXTES_BIBLIOTHEQUE as BI, TEXTES_BILAN as B, TEXTES_COIN as N, TEXTES_LETTRES as L, TEXTES_QUOI_REPONDRE as Q } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CARTES as C } from "@/config/textes/espace-cartes";
 import { TEXTES_ESPACE_NAVIGATION as NAV } from "@/config/textes/espace-navigation";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Espace client, lot D6 (s24, plan §3) : « Quoi répondre » (filtres, états), Bibliothèque (3 blocs), coin
@@ -51,8 +52,8 @@ async function capturer(page: Page, nom: string, dossier = CAPTURES, recharger =
 
 /** « Tu avais une réponse ? » : attend la fin de « Prends ton temps » (3 s), puis touche. */
 async function repondre(page: Page, portee: ReturnType<Page["locator"]>, nom: string) {
-  await expect(portee.getByText(C.prendsTonTemps)).toBeHidden({ timeout: 6_000 });
-  await portee.getByRole("button", { name: nom, exact: true }).click();
+  await expect(portee.getByText(frEspace(C.prendsTonTemps))).toBeHidden({ timeout: 6_000 });
+  await portee.getByRole("button", { name: frEspace(nom), exact: true }).click();
 }
 
 const debordement = (page: Page) => page.evaluate(() => Math.max(...Array.from(document.querySelectorAll("main *")).map((e) => e.getBoundingClientRect().right)));
@@ -82,7 +83,7 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.context().addCookies(cookies);
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/mon-espace/quoi-repondre");
-      await expect(page.getByRole("heading", { level: 1, name: Q.titre })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1, name: frEspace(Q.titre) })).toBeVisible();
       // Navigation universelle v5 §4.3 : page B de l'espace, « Retour : Mon espace ».
       await expect(page.locator("main [data-lien-retour]")).toHaveText(new RegExp(`^Retour\\s:\\s${NAV.monEspace}$`));
       await expect(page.locator('[data-fiche="coloc-la-poele"]')).toBeVisible();
@@ -91,25 +92,25 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       // Reste du D6 (arbitrage @ux D6 n°1) : sous 640 px, filtres repliés, la liste dans le premier écran.
       const replies = page.locator("[data-filtres-replies]");
       await expect(replies).not.toHaveAttribute("open", "");
-      await expect(replies.locator("summary")).toHaveText(Q.filtrerLesCartes);
+      await expect(replies.locator("summary")).toHaveText(frEspace(Q.filtrerLesCartes));
       expect((await replies.locator("summary").boundingBox())!.height).toBeGreaterThanOrEqual(44);
-      await expect(page.getByRole("link", { name: Q.univers.coloc, exact: true })).toBeHidden();
+      await expect(page.getByRole("link", { name: frEspace(Q.univers.coloc), exact: true })).toBeHidden();
       const yLigne = await page.locator('[data-fiche="coloc-la-poele"]').evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
       expect(yLigne).toBeLessThan(812);
       await capturer(page, "quoi-repondre-replie", CAPTURES_D5B, true);
       await replies.locator("summary").click();
       await expect(replies).toHaveAttribute("open", "");
       await capturer(page, "quoi-repondre-ouvert", CAPTURES_D5B);
-      await page.getByRole("link", { name: Q.univers.coloc, exact: true }).click();
+      await page.getByRole("link", { name: frEspace(Q.univers.coloc), exact: true }).click();
       await expect(page).toHaveURL(/\?ou=coloc$/);
-      await expect(page.getByRole("link", { name: Q.univers.coloc, exact: true })).toHaveAttribute("aria-current", "true");
+      await expect(page.getByRole("link", { name: frEspace(Q.univers.coloc), exact: true })).toHaveAttribute("aria-current", "true");
       // Choisir une puce garde le bloc ouvert ; le summary nomme la valeur choisie.
       await expect(replies).toHaveAttribute("open", "");
-      await expect(replies.locator("summary")).toHaveText(Q.univers.coloc);
+      await expect(replies.locator("summary")).toHaveText(frEspace(Q.univers.coloc));
       await capturer(page, "quoi-repondre-filtre", CAPTURES_D5B);
-      await page.getByRole("link", { name: Q.pourQuoiFaire["prendre-la-parole"], exact: true }).click();
-      await expect(page.getByTestId("quoi-repondre-vide")).toContainText(Q.vide);
-      await expect(page.getByRole("link", { name: Q.raconte })).toHaveAttribute("href", "/mon-espace/questions");
+      await page.getByRole("link", { name: frEspace(Q.pourQuoiFaire["prendre-la-parole"]), exact: true }).click();
+      await expect(page.getByTestId("quoi-repondre-vide")).toContainText(frEspace(Q.vide));
+      await expect(page.getByRole("link", { name: frEspace(Q.raconte) })).toHaveAttribute("href", "/mon-espace/questions");
       await capturer(page, "quoi-repondre-vide");
       // La lettre W46 part (première ligne ENVOYE) : la reprise arrive, l'archive aussi ; W47, datée demain, nulle part.
       await requete(`INSERT INTO "NewsletterSend" (id, "issueId", email, status, "sentAt", "updatedAt") SELECT $1, id, $2, 'ENVOYE', now() - interval '1 day', now() FROM "NewsletterIssue" WHERE "periodKey" = '2026-W46'`, [`${email}-46`, email]);
@@ -125,7 +126,7 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
         await expect(page.locator('[data-lettre="2026-W46"]')).toContainText(/^La lettre du /);
         await capturer(page, "lettres");
         await page.locator('[data-lettre="2026-W46"]').click();
-        await expect(page.getByRole("heading", { level: 1 })).toContainText("Tu avais un train ?");
+        await expect(page.getByRole("heading", { level: 1 })).toContainText(frEspace("Tu avais un train ?"));
         expect(await page.locator("main").innerText()).not.toMatch(/€|invitation-premium/);
         await capturer(page, "lettre");
         expect((await page.goto("/mon-espace/lettres/2026-W47"))?.status()).toBe(404);
@@ -141,10 +142,10 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.goto("/mon-espace/fiche/situation/coloc-la-poele");
       await expect(page.getByTestId("fiche-suite")).toHaveCount(0);
       await repondre(page, page.locator("main"), C.reponses.MOITIE);
-      await expect(page.getByTestId("fiche-suite")).toContainText(C.registres.joueuse);
+      await expect(page.getByTestId("fiche-suite")).toContainText(frEspace(C.registres.joueuse));
       await capturer(page, "fiche-situation");
       await page.goto("/mon-espace/fiche/bilan/bilan-confiance");
-      await expect(page.getByRole("heading", { level: 1, name: B.h1 })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1, name: frEspace(B.h1) })).toBeVisible();
       // Navigation universelle v5 §4.3 : le bilan renvoie au parcours d'origine (allumage « Parcours »).
       await expect(page.locator("main [data-lien-retour]")).toHaveAttribute("href", "/parcours/confiance");
       const carte = page.locator('[data-bilan="laquelle"]').first();
@@ -155,7 +156,7 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await capturer(page, "bilan-options", CAPTURES_D5B);
       await repondre(page, carte, C.reponses.OUI);
       await carte.getByRole("button", { name: /^A/ }).click();
-      await expect(carte.getByTestId("bilan-retour")).toContainText(B.pasCelleLa);
+      await expect(carte.getByTestId("bilan-retour")).toContainText(frEspace(B.pasCelleLa));
       await expect(carte.getByRole("link", { name: B.deuxiemeTour("Énoncer la règle non écrite") })).toBeVisible();
       await expect(carte.getByRole("button", { name: /^B/ })).toBeDisabled();
       await capturer(page, "bilan-retour");
@@ -167,39 +168,40 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.context().addCookies((await compte(browser)).cookies);
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/mon-espace/bibliotheque");
-      for (const t of [BI.blocVannes, BI.blocTechniques, N.titre]) await expect(page.getByRole("heading", { level: 2, name: t })).toBeVisible();
-      await expect(page.getByRole("link", { name: "Boulot" })).toHaveAttribute("href", "/vannes/theme/boulot");
+      // Relecture des captures nav s24 (ux F1) : une carte par groupe de techniques, titrée par le préfixe validé.
+      for (const t of [BI.blocVannes, BI.prefixes.construction, BI.prefixes.vocabulaire, N.titre]) await expect(page.getByRole("heading", { level: 2, name: frEspace(t) })).toBeVisible();
+      await expect(page.getByRole("link", { name: frEspace("Boulot") })).toHaveAttribute("href", "/vannes/theme/boulot");
       // Reste du D6 (arbitrage @ux D6 n°3, validé par Thomas) : le catalogue public en trois liens.
       const catalogue = page.getByTestId("bibliotheque-catalogue");
-      for (const c of BI.catalogue) await expect(catalogue.getByRole("link", { name: c.label, exact: true })).toHaveAttribute("href", c.href);
+      for (const c of BI.catalogue) await expect(catalogue.getByRole("link", { name: frEspace(c.label), exact: true })).toHaveAttribute("href", c.href);
       for (const a of await catalogue.getByRole("link").all()) expect((await a.boundingBox())!.height).toBeGreaterThanOrEqual(44);
       await capturer(page, "bibliotheque-catalogue", CAPTURES_D5B);
-      await expect(page.getByRole("link", { name: /Comment c'est construit : La règle de trois/ })).toBeVisible();
+      await expect(page.getByRole("link", { name: /La règle de trois/ })).toBeVisible();
       expect(await page.content()).not.toContain("Qui est dans la pièce");
       await capturer(page, "bibliotheque-seuil");
-      const entrer = page.getByRole("button", { name: N.entrer });
+      const entrer = page.getByRole("button", { name: frEspace(N.entrer) });
       expect((await entrer.boundingBox())!.height).toBeGreaterThanOrEqual(44);
       await entrer.focus();
       await page.keyboard.press("Enter");
-      await expect(page.getByRole("heading", { level: 2, name: N.titre })).toBeFocused();
+      await expect(page.getByRole("heading", { level: 2, name: frEspace(N.titre) })).toBeFocused();
       await expect(page.getByRole("link", { name: /Qui est dans la pièce/ })).toBeVisible();
       await capturer(page, "bibliotheque-coin-entre");
       await page.reload();
       await expect(page.getByRole("link", { name: /Qui est dans la pièce/ })).toBeVisible();
-      await page.getByRole("button", { name: N.sortir }).click();
-      await expect(page.getByRole("button", { name: N.entrer })).toBeFocused();
+      await page.getByRole("button", { name: frEspace(N.sortir) }).click();
+      await expect(page.getByRole("button", { name: frEspace(N.entrer) })).toBeFocused();
       await page.reload();
       expect(await page.content()).not.toContain("Qui est dans la pièce");
       await page.goto("/mon-espace/fiche/humour-noir/hn-qui-est-dans-la-piece");
-      await expect(page.getByRole("button", { name: N.entrer })).toBeVisible();
+      await expect(page.getByRole("button", { name: frEspace(N.entrer) })).toBeVisible();
       expect(await page.content()).not.toContain("Qui est dans la pièce");
       await page.setViewportSize({ width: 188, height: 406 });
       expect(await debordement(page)).toBeLessThanOrEqual(188 + 1);
       // Lot D11c (revue d'harmonie, défaut 16) : « Entrer » depuis l'adresse d'une fiche du coin mène à CETTE fiche,
       // sans second « Voir » ; depuis la Bibliothèque, la liste (ci-dessus).
       await page.setViewportSize({ width: 375, height: 812 });
-      await page.getByRole("button", { name: N.entrer }).click();
-      await expect(page.getByRole("heading", { level: 1, name: "Qui est dans la pièce" })).toBeVisible();
+      await page.getByRole("button", { name: frEspace(N.entrer) }).click();
+      await expect(page.getByRole("heading", { level: 1, name: frEspace("Qui est dans la pièce") })).toBeVisible();
       await expect(page).toHaveURL(/\/mon-espace\/fiche\/humour-noir\/hn-qui-est-dans-la-piece$/);
       await expect(page.locator("[data-coin]")).toHaveCount(0);
     });
@@ -208,17 +210,17 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.context().addCookies((await compte(browser)).cookies);
       await page.setViewportSize({ width: 1280, height: 900 });
       await page.goto("/mon-espace/lettres");
-      await expect(page.getByRole("heading", { level: 1, name: L.titre })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1, name: frEspace(L.titre) })).toBeVisible();
       await expect(page.locator("[data-lettre]")).toHaveCount(0);
       // Reste du D6 (arbitrage @ux D6 n°5, validé par Thomas) : état vide et sortie vers « Aujourd'hui ».
-      await expect(page.getByText(L.vide)).toBeVisible();
-      await expect(page.getByRole("link", { name: L.allerAujourdhui })).toHaveAttribute("href", "/mon-espace");
+      await expect(page.getByText(frEspace(L.vide))).toBeVisible();
+      await expect(page.getByRole("link", { name: frEspace(L.allerAujourdhui) })).toHaveAttribute("href", "/mon-espace");
       await capturer(page, "lettres-vide", CAPTURES_D5B);
       await page.setViewportSize({ width: 1280, height: 900 });
       // Navigation universelle v5 §4.2 : plus de menu « Plus », ses lignes sont dans l'index de « Aujourd'hui ».
       await page.goto("/mon-espace");
       const index = page.locator("[data-index-espace]");
-      for (const l of [NAV.index.sEntrainer, NAV.index.favoris, NAV.index.mesRepliques, NAV.index.lettres]) await expect(index.getByRole("link", { name: l })).toBeVisible();
+      for (const l of [NAV.index.sEntrainer, NAV.index.favoris, NAV.index.mesRepliques, NAV.index.lettres]) await expect(index.getByRole("link", { name: frEspace(l) })).toBeVisible();
       await capturer(page, "index-espace");
     });
   });

@@ -137,7 +137,12 @@ export function EnTeteUniversel() {
             className={cn("hidden shrink-0 items-center gap-1", etat === "abonne" ? "md:mr-auto md:flex lg:mr-0" : "lg:flex")}
           >
             {etat === "abonne" && (
-              <Link href={ESPACE_ACCUEIL} aria-current={allume === "monEspace" ? "page" : undefined} className={classeLienBarre(allume === "monEspace")}>
+              <Link
+                href={ESPACE_ACCUEIL}
+                aria-current={allume === "monEspace" ? "page" : undefined}
+                // Relecture des captures nav s24 (reviewer P8) : de 768 à 1023 px, seul en barre, 12 px de marge.
+                className={cn(classeLienBarre(allume === "monEspace"), "md:px-3 lg:px-1.5 xl:px-2")}
+              >
                 {N.monEspace}
               </Link>
             )}

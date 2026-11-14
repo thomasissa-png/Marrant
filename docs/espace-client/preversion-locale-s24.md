@@ -19,6 +19,7 @@ n'existent que dans la base jetable `marrant_preview` :
 |---|---|---|---|
 | Abonné en cours | `abonne-en-cours@preversion.test` | `preversion-s24` | Premium actif depuis 20 jours, 4 étapes validées (Répartie 1-2, Machine à café 1-2), **cap 2** (annonce pas encore vue), 4 cartes jouées sur les jours passés et 2 cartes qui t'attendent aujourd'hui, 1 réplique (« Coloc : la poêle »), 1 situation marquée « faite », 1 retour de mission, 3 favoris (2 vannes, 1 conseil), 1 question avec **réponse de l'équipe non lue** (pastille sur la cloche) |
 | Nouvel abonné | `nouvel-abonne@preversion.test` | `preversion-s24` | Premium actif, rien fait : carte « Ton premier pas » |
+| Inscrit gratuit | `inscrit-gratuit@preversion.test` | `preversion-s24` | Compte sans abonnement (créé par `captures-nav-s24.mjs`, tour 2 des captures de la navigation universelle) |
 
 Pour passer d'un compte à l'autre : menu du compte (icône bonhomme en haut à droite), « Déconnexion ».
 Les textes de la question et de la réponse de l'équipe sont marqués « test » : ce sont des données factices.
@@ -40,7 +41,7 @@ Les textes de la question et de la réponse de l'équipe sont marqués « test �
 
 Toutes ces pages ont été ouvertes par un navigateur automatique avec les deux comptes : réponse 200, pas
 d'écran d'erreur, pas d'erreur JavaScript. Build en place depuis le 14/11 : navigation universelle v5 (captures et
-mesures : `docs/captures/s24-nav-universelle/INDEX.md` ; avant : lot D11c, `docs/captures/s24-preversion-2/INDEX.md`).
+mesures : `docs/captures/s24-nav-universelle-2/INDEX.md`, tour 2 ; tour 1 : `docs/captures/s24-nav-universelle/INDEX.md` ; avant : lot D11c, `docs/captures/s24-preversion-2/INDEX.md`).
 
 ## Ce qui est simulé
 

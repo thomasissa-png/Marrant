@@ -6,6 +6,7 @@ import { TEXTES_CARTES as T, TEXTES_COMPTE_A_REBOURS as CR, TEXTES_GESTE as G, T
 import { TEXTES_REPLIQUES as R } from "@/config/textes/espace-repliques";
 import { TEXTES_AUJOURDHUI as A } from "@/config/textes/espace-aujourdhui";
 import { SERIE } from "@/config/textes/parcours";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Espace client, lot D5 (s24, plan §3) : rafale (« Quel registre ? », révision), « Ma réplique à moi »,
@@ -203,7 +204,7 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
       const { id, cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       await page.goto("/mon-espace/repliques");
-      await expect(page.getByText(R.vide)).toBeVisible();
+      await expect(page.getByText(frEspace(R.vide))).toBeVisible();
       await capturer(page, "repliques-vide");
       await requete(`INSERT INTO "UserReplique" (id, "userId", "ficheId", texte, "modifieLe") VALUES ($1, $2, 'coloc-la-poele', $3, now())`, [`${id}-r`, id, NOTE]);
       await page.goto("/mon-espace/repliques");

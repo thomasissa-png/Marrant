@@ -33,6 +33,7 @@ import { TEXTES_AUJOURDHUI as A } from "@/config/textes/espace-aujourdhui";
 import { TEXTES_CARTES as T, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
 import { TEXTES_PARCOURS_ESPACE as P } from "@/config/textes/espace-caps";
 import ecouter from "@/data/espace/ecouter.json";
+import { apo } from "../helpers/typo-espace";
 
 const ETAT_VIDE = { cartes: [], faites: [], fini: false, catalogue: new Map(), cetteSemaine: 0, compteARebours: { visible: false, durees: [], proposition: null } };
 
@@ -44,14 +45,14 @@ beforeEach(() => {
 describe("Q-6 / @ux D-4 : rafale sans carte", () => {
   it("0 carte, moteur « non fini » : l'état « C'est tout pour aujourd'hui », ni bouton ni sous-titre vide", () => {
     render(<CartesDuJour cartes={[]} href="/mon-espace/s-entrainer" fini={false} />);
-    expect(screen.getByText(A.rafale.fini)).toBeInTheDocument();
+    expect(screen.getByText(apo(A.rafale.fini))).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: A.rafale.bouton })).toBeNull();
     expect(screen.queryByRole("list")).toBeNull();
   });
 
   it("cartes sans titre (catalogue qui ne les connaît plus) : traitées comme absentes", () => {
     render(<CartesDuJour cartes={[{ titre: "", href: "#carte-1", nouvelle: true }]} href="/mon-espace/s-entrainer" fini={false} />);
-    expect(screen.getByText(A.rafale.fini)).toBeInTheDocument();
+    expect(screen.getByText(apo(A.rafale.fini))).toBeInTheDocument();
     expect(screen.queryByRole("link")).toBeNull();
   });
 
@@ -65,7 +66,7 @@ describe("Q-6 / @ux D-4 : rafale sans carte", () => {
     rafale.mockResolvedValue({ ...ETAT_VIDE, cartes: [{ carteId: "inconnue.c1", nouvelle: true }] });
     retours.mockResolvedValue([]);
     render(await SEntrainerPage({ searchParams: {} }));
-    expect(screen.getByText(T.fini)).toBeInTheDocument();
+    expect(screen.getByText(apo(T.fini))).toBeInTheDocument();
   });
 });
 
@@ -86,7 +87,7 @@ describe("@ux D-3 : mission d'une marche", () => {
     retours.mockResolvedValue(essais);
     render(await SEntrainerPage({ searchParams: { marche: "3" } }));
     const vide = screen.getByTestId("mission-vide");
-    expect(within(vide).getByText(M.aucuneMission)).toBeInTheDocument();
+    expect(within(vide).getByText(apo(M.aucuneMission))).toBeInTheDocument();
     expect(within(vide).getByRole("link", { name: M.voirLaMarche(repli as number) })).toHaveAttribute("href", `/mon-espace/s-entrainer?marche=${repli}#mission`);
   });
 
@@ -116,7 +117,7 @@ describe("@ux D-1 : semaine 4 et « Écouter, repérer »", () => {
     render(<QuatreSemaines etape={null} ecouterPublie={false} />);
     expect(screen.getAllByRole("listitem")).toHaveLength(4);
     expect(semaine4()).not.toHaveTextContent(/Écouter/);
-    expect(semaine4()).toHaveTextContent(P.semaines.semaine4SansEcouter.texte);
+    expect(semaine4()).toHaveTextContent(apo(P.semaines.semaine4SansEcouter.texte));
     expect(P.semaines.semaine4SansEcouter.texte).toBe("l'étape suivante, une mission en face.");
   });
 

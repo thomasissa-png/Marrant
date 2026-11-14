@@ -4,6 +4,7 @@ import type { Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter } from "../support/base-locale";
 import { TEXTES_BILAN as B, TEXTES_FICHE as T } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CARTES as C } from "@/config/textes/espace-cartes";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Import 2 du contenu de l'espace (s24) sur le VRAI contenu (serveur construit interrupteur ouvert,
@@ -28,8 +29,8 @@ async function capturer(page: Page, nom: string) {
 }
 
 async function toucher(page: Page, portee = page.locator("main")) {
-  await expect(portee.getByText(C.prendsTonTemps).first()).toBeHidden({ timeout: 6_000 });
-  await portee.getByRole("button", { name: C.reponses.RIEN, exact: true }).first().click();
+  await expect(portee.getByText(frEspace(C.prendsTonTemps)).first()).toBeHidden({ timeout: 6_000 });
+  await portee.getByRole("button", { name: frEspace(C.reponses.RIEN), exact: true }).first().click();
 }
 
 test.describe("espace client, import 2 (s24), vrai contenu", () => {
@@ -45,36 +46,36 @@ test.describe("espace client, import 2 (s24), vrai contenu", () => {
 
   test("séance : rubriques, grille du bilan, geste ; vocabulaire : lien seulement s'il existe ; C1b fiche 7 en récit", async ({ page }) => {
     await page.goto("/mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes");
-    for (const t of [T.seance.pourQuiQuand, T.seance.ilTeFaut, T.seance.tuProduis, T.seance.renvois]) await expect(page.getByRole("heading", { name: t, exact: true })).toBeVisible();
+    for (const t of [T.seance.pourQuiQuand, T.seance.ilTeFaut, T.seance.tuProduis, T.seance.renvois]) await expect(page.getByRole("heading", { name: frEspace(t), exact: true })).toBeVisible();
     await expect(page.getByTestId("seance-grille").getByRole("listitem")).toHaveCount(3);
-    await expect(page.getByTestId("geste-fiche")).toContainText("Redis ta réplique deux fois ce soir, pour l'avoir en bouche à la prochaine pique.");
+    await expect(page.getByTestId("geste-fiche")).toContainText(frEspace("Redis ta réplique deux fois ce soir, pour l'avoir en bouche à la prochaine pique."));
     await capturer(page, "seance");
 
     await page.goto("/mon-espace/fiche/vocabulaire/vocabulaire-quand-on-te-lance-une-pique");
-    await expect(page.getByRole("heading", { name: "Esprit de l'escalier" })).toBeVisible();
-    await expect(page.getByRole("link", { name: T.definitionComplete })).toHaveCount(3);
+    await expect(page.getByRole("heading", { name: frEspace("Esprit de l'escalier") })).toBeVisible();
+    await expect(page.getByRole("link", { name: frEspace(T.definitionComplete) })).toHaveCount(3);
     await capturer(page, "vocabulaire");
 
     await page.goto("/mon-espace/fiche/construction/le-callback");
-    await expect(page.locator("main")).toContainText("On te demande comment tu t'y retrouves dans ton sac : « Tout a sa place. »");
-    await expect(page.locator("main")).not.toContainText("« On te demande");
+    await expect(page.locator("main")).toContainText(frEspace("On te demande comment tu t'y retrouves dans ton sac : « Tout a sa place. »"));
+    await expect(page.locator("main")).not.toContainText(frEspace("« On te demande"));
     await expect(page.getByTestId("geste-grille").getByRole("listitem")).toHaveCount(3);
     await capturer(page, "construction-callback");
   });
 
   test("C6a fiche 9 : rubrique, le silence sans guillemets, « Si le blanc dure » ; « Les pires réponses »", async ({ page }) => {
     await page.goto("/mon-espace/fiche/a-plat/a-plat-le-blanc");
-    await expect(page.getByRole("heading", { name: "De quel blanc parle-t-on" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: frEspace("De quel blanc parle-t-on") })).toBeVisible();
     await toucher(page);
-    await expect(page.getByTestId("fiche-suite")).toContainText("Le silence. Tu souris");
-    await expect(page.getByTestId("fiche-suite")).not.toContainText("« Le silence.");
-    await expect(page.getByRole("heading", { name: "Si le blanc dure" })).toBeVisible();
+    await expect(page.getByTestId("fiche-suite")).toContainText(frEspace("Le silence. Tu souris"));
+    await expect(page.getByTestId("fiche-suite")).not.toContainText(frEspace("« Le silence."));
+    await expect(page.getByRole("heading", { name: frEspace("Si le blanc dure") })).toBeVisible();
     await capturer(page, "a-plat-le-blanc");
 
     await page.goto("/mon-espace/fiche/jeu/les-pires-reponses-1");
-    await page.getByText(T.reponsePiresReponses.defaut).click();
-    await expect(page.locator("details")).toContainText("B.");
-    await expect(page.getByText(T.ceQuOnAuraitPuDire)).toHaveCount(0);
+    await page.getByText(frEspace(T.reponsePiresReponses.defaut)).click();
+    await expect(page.locator("details")).toContainText(frEspace("B."));
+    await expect(page.getByText(frEspace(T.ceQuOnAuraitPuDire))).toHaveCount(0);
     await capturer(page, "jeu-les-pires-reponses");
   });
 
@@ -84,7 +85,7 @@ test.describe("espace client, import 2 (s24), vrai contenu", () => {
     const carte = page.locator('[data-bilan="laquelle"]').first();
     await toucher(page, carte);
     await carte.getByRole("button", { name: /^A/ }).click();
-    await expect(carte.getByRole("link", { name: B.deuxiemeTour("L'humour à la machine à café") })).toHaveAttribute("href", "/parcours/machine-a-cafe#etape-1");
+    await expect(carte.getByRole("link", { name: frEspace(B.deuxiemeTour("L'humour à la machine à café")) })).toHaveAttribute("href", "/parcours/machine-a-cafe#etape-1");
     await capturer(page, "bilan");
   });
 });

@@ -22,6 +22,7 @@ import { CartesDuJour } from "@/components/espace/aujourdhui/cartes-du-jour";
 import { TEXTES_CARTES as T, TEXTES_COMPTE_A_REBOURS as C, TEXTES_GESTE as G } from "@/config/textes/espace-cartes";
 import { TEXTES_AUJOURDHUI as A } from "@/config/textes/espace-aujourdhui";
 import { frEspace } from "@/lib/fr-typo";
+import { apo } from "../helpers/typo-espace";
 
 type Situation = Extract<Fiche, { type: "situation" }>;
 const fiche1129 = parseCarnets([carnetNovembre])[0].fiches.find((f) => f.id === "2026-11-29")!;
@@ -52,14 +53,14 @@ describe("11-29 : citation intérieure au second niveau (section F des correctio
   it("le JSON garde « oui » ; la carte « Et toi ? » affiche « Tu viens de dire “oui” sans m'écouter. »", () => {
     expect(fiche1129.onTeDit).toBe("Tu viens de dire « oui » sans m'écouter.");
     render(<CarteEtToi carte={carte1129} nouvelle ancre="carte-1" />);
-    expect(screen.getByText("« Tu viens de dire “oui” sans m'écouter. »")).toBeInTheDocument();
+    expect(screen.getByText(apo("« Tu viens de dire “oui” sans m'écouter. »"))).toBeInTheDocument();
     expect(document.body.textContent).not.toContain("« oui »");
   });
 
   it("même rendu sur une carte « Quel registre ? » ; sans citation intérieure, texte inchangé", () => {
     const carte = { ...carteRegistre, scene: { ...carteRegistre.scene, onTeDit: "Tu as dit « jamais » hier." } };
     render(<CarteRegistre carte={carte} nouvelle ancre="carte-1" />);
-    expect(screen.getByText("« Tu as dit “jamais” hier. »")).toBeInTheDocument();
+    expect(screen.getByText(apo("« Tu as dit “jamais” hier. »"))).toBeInTheDocument();
     // Lot D11c : guillemets liés au texte (fine insécable après «, insécable avant »).
     expect(entreGuillemets("Rien à citer.")).toBe(frEspace("« Rien à citer. »"));
     expect(entreGuillemets("A « b » c")).toBe(frEspace("« A “b” c »"));
@@ -119,7 +120,7 @@ describe("compte à rebours facultatif", () => {
 
   it("proposition de raccourcir : texte validé, « Essayer 7 secondes », puis retour visible à 10", () => {
     avecCompte({ visible: true, durees: [10], proposition: { essayer: 7, garder: 10 } }, <CarteEtToi carte={carte1129} nouvelle ancre="carte-1" />);
-    expect(screen.getByText("Envie d'essayer avec 7 secondes ? Tu peux revenir à 10 quand tu veux.")).toBeInTheDocument();
+    expect(screen.getByText(apo("Envie d'essayer avec 7 secondes ? Tu peux revenir à 10 quand tu veux."))).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Essayer 7 secondes" }));
     expect(screen.queryByText(/Envie d'essayer/)).toBeNull();
     expect(screen.getByRole("button", { name: C.nom(7) })).toHaveAttribute("aria-pressed", "true");
@@ -142,7 +143,7 @@ describe("compte à rebours facultatif", () => {
     expect(statut).toHaveTextContent("");
     unmount();
     avecCompte({ visible: true, durees: [10, 7], proposition: { essayer: 5, garder: 7 } }, <CarteEtToi carte={carte1129} nouvelle ancre="carte-1" />);
-    expect(screen.getByText("Envie d'essayer avec 5 secondes ? Tu peux revenir à 7 quand tu veux.")).toBeInTheDocument();
+    expect(screen.getByText(apo("Envie d'essayer avec 5 secondes ? Tu peux revenir à 7 quand tu veux."))).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Garder 7 secondes" })).toBeInTheDocument();
   });
 
@@ -162,7 +163,7 @@ describe("« Ma réplique à moi » : plafond de 200 caractères", () => {
     fireEvent.change(champ, { target: { value: "a".repeat(300) } });
     expect(champ.value).toHaveLength(200);
     expect(screen.getByText("200 / 200 caractères")).toBeInTheDocument();
-    expect(screen.getByRole("status")).toHaveTextContent("C'est la limite : 200 caractères.");
+    expect(screen.getByRole("status")).toHaveTextContent(apo("C'est la limite : 200 caractères."));
     // Compteur sans alerte (ni rouge ni gras), sur sa ligne.
     const compteur = screen.getByText("200 / 200 caractères");
     expect(compteur.className).toContain("whitespace-nowrap");

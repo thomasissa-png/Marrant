@@ -31,5 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function MonEspaceLayout({ children }: { children: React.ReactNode }) {
   const { userId } = await garderEspace(ESPACE_CLIENT_PUBLIE ? headers().get(EN_TETE_CHEMIN_ESPACE) : null);
   await noterEvenementEspace({ type: "espace_ouvert" }, userId);
-  return <>{children}</>;
+  // Relecture des captures nav s24 (design 4) : une page courte (état vide) remplit l'écran, le pied de page
+  // n'est jamais remonté au milieu avec une bande vide dessous. Hauteur = écran moins l'en-tête (65 px) et le
+  // `py-8` de `main` (64 px). Espace seulement : les pages publiques ne changent pas.
+  return <div className="min-h-[calc(100dvh-8.0625rem)]">{children}</div>;
 }

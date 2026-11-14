@@ -18,6 +18,7 @@ import { TEXTES_CARTES as T, TEXTES_GESTE as G, TEXTES_MISSION as M } from "@/co
 import { TEXTES_REPLIQUES as R } from "@/config/textes/espace-repliques";
 // Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
 import { frEspace } from "@/lib/fr-typo";
+import { apo } from "../helpers/typo-espace";
 
 const NOTE = "Ma version à moi, jamais avant la réponse";
 const carte = cartesDesSituations([ficheSchema.parse(situationPoele) as Extract<Fiche, { type: "situation" }>])[0];
@@ -105,7 +106,7 @@ describe("« Ma réplique à moi »", () => {
     reponses.push({ ok: false, corps: {} });
     fireEvent.click(screen.getByRole("button", { name: G.note.enregistrer }));
     await attendre();
-    expect(screen.getByRole("status")).toHaveTextContent(G.note.echec);
+    expect(screen.getByRole("status")).toHaveTextContent(apo(G.note.echec));
     expect(champ).toHaveValue("Une phrase");
     fireEvent.click(screen.getByRole("button", { name: G.note.reessayer }));
     await attendre();
@@ -132,7 +133,7 @@ describe("« Mes répliques »", () => {
 
   it("vide : texte validé, sans reproche", () => {
     render(<ListeRepliques initiales={[]} lectureSeule={false} />);
-    expect(screen.getByText(R.vide)).toBeInTheDocument();
+    expect(screen.getByText(apo(R.vide))).toBeInTheDocument();
   });
 
   it("modifier (la réplique n'est pas affichée deux fois), confirmer, supprimée", async () => {
@@ -146,7 +147,7 @@ describe("« Mes répliques »", () => {
     fireEvent.click(screen.getAllByRole("button", { name: R.supprimer })[0]);
     await attendre();
     expect(screen.getByRole("status")).toHaveTextContent(R.supprimee);
-    expect(screen.getByText(R.vide)).toBeInTheDocument();
+    expect(screen.getByText(apo(R.vide))).toBeInTheDocument();
   });
 
   it("lecture seule : ni « Modifier », la suppression reste", () => {
@@ -179,7 +180,7 @@ describe("mission : trois suites selon le retour", () => {
     expect(screen.getByText(m.suites.bof!)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: M.autreSituation })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: M.aPlat })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: M.raconte })).toHaveAttribute("href", "/mon-espace/questions");
+    expect(screen.getByRole("link", { name: frEspace(M.raconte) })).toHaveAttribute("href", "/mon-espace/questions");
   });
 
   it("« Pas essayé » : rien ; deux fois : « Voir la marche 1 », sans commentaire", async () => {

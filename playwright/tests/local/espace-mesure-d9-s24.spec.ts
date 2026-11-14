@@ -5,6 +5,7 @@ import { test, expect, localSeulement, creerCompte, connecter, requete } from ".
 import { TEXTES_GESTE as G, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
 import { TEXTES_ESPACE_NAVIGATION as N, nomCloche } from "@/config/textes/espace-navigation";
 import { enonceAffiche } from "@/lib/espace/enonce-mission";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Lot D9 (s24) : mesure d'usage de l'espace et missions importées, sur le VRAI contenu.
@@ -76,7 +77,7 @@ test.describe("lot D9, interrupteur ouvert, vrai contenu", () => {
     await page.goto("/mon-espace");
     await page.goto("/mon-espace");
     await page.getByRole("button", { name: nomCloche(0) }).click();
-    await expect(page.getByRole("dialog", { name: N.cloche.titre })).toBeVisible();
+    await expect(page.getByRole("dialog", { name: frEspace(N.cloche.titre) })).toBeVisible();
     await expect.poll(cloche).toBe(avant + 1);
     expect((await evenements(email)).map((e) => e.type)).toEqual(["espace_ouvert"]);
     expect((await evenements(email)).every((e) => e.detail === null)).toBe(true);
@@ -94,13 +95,13 @@ test.describe("lot D9, interrupteur ouvert, vrai contenu", () => {
       await page.goto(`/mon-espace/s-entrainer?marche=${marche}#mission`);
       const m = page.locator("#mission");
       await expect(m).toHaveAttribute("data-mission", mission.id);
-      await expect(m.getByRole("heading", { name: M.titresMarches[marche as 1 | 2 | 3 | 4 | 5] })).toBeVisible();
-      for (const p of enonceAffiche(mission.enonce)) await expect(m).toContainText(p);
+      await expect(m.getByRole("heading", { name: frEspace(M.titresMarches[marche as 1 | 2 | 3 | 4 | 5]) })).toBeVisible();
+      for (const p of enonceAffiche(mission.enonce)) await expect(m).toContainText(frEspace(p));
       await expect(m).not.toContainText(/DÉFI [^:]+ :/);
-      await expect(m).not.toContainText("—");
+      await expect(m).not.toContainText(frEspace("—"));
       await capturer(page, `mission-marche-${marche}`);
-      await m.getByRole("button", { name: G.retours["essaye-ca-a-marche"] }).click();
-      await expect(m.getByText(mission.suites.marche ?? "")).toBeVisible();
+      await m.getByRole("button", { name: frEspace(G.retours["essaye-ca-a-marche"]) }).click();
+      await expect(m.getByText(frEspace(mission.suites.marche ?? ""))).toBeVisible();
       await capturer(page, `mission-marche-${marche}-suite`);
     });
   }

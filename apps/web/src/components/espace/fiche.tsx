@@ -115,13 +115,17 @@ export function FicheVue({
   const parent = parente(fiche);
   return (
     <article className="flex flex-col gap-6" data-fiche-type={fiche.type}>
-      <div className="space-y-2">
+      {/* Relecture des captures nav s24 (design 6, 7) : le titre suit le retour sans écart, à la même hauteur que
+          sur les pages B et C de l'espace. */}
+      <div>
         <LienRetour href={parent.href} label={parent.label} />
-        {/* Étiquette de type gardée quand elle dit autre chose que la liste parente (« Formules à détourner »). */}
-        {!bilan && T.types[fiche.type] !== parent.label && <p className={ETIQUETTE}>{T.types[fiche.type]}</p>}
+      <div className="space-y-2">
         <h1 id="fiche-titre" className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl max-e300:text-2xl">
           {bilan ? TEXTES_BILAN.h1 : fiche.titre}
         </h1>
+        {/* Étiquette de type gardée quand elle dit autre chose que la liste parente (« Formules à détourner ») ;
+            sous le titre (relecture des captures nav s24, design 7 : H1 à la même hauteur sur toutes les fiches). */}
+        {!bilan && T.types[fiche.type] !== parent.label && <p className={ETIQUETTE}>{T.types[fiche.type]}</p>}
         <p className="text-sm text-text-secondary">{L.minutes(fiche.dureeMinutes)}</p>
         {fiche.accroche && <p className="text-base text-text-primary">{fiche.accroche}</p>}
         {lettre && (
@@ -129,6 +133,7 @@ export function FicheVue({
             {lettre.titre}
           </Link>
         )}
+      </div>
       </div>
       {bilan ? (
         <Corps fiche={fiche} />

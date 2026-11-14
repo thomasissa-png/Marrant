@@ -205,6 +205,17 @@ describe("garde-fou de construction", () => {
     // fermé, jamais rendus ni téléchargés (snapshots de l'en-tête inchangés).
     "components/layout/en-tete-universel.tsx",
     "components/layout/menu-mobile-universel.tsx",
+    // Relecture des captures nav s24 (ouvert seulement, rendu fermé inchangé, instantanés et hachages identiques) :
+    // - `vannes/page.tsx` : phrase de vente du chapô masquée pour l'abonné (`MasqueSiPremium`) ;
+    // - `components/vannes/vannes-list.tsx` : rangée des catégories à la ligne dès 1 024 px ;
+    // - `components/carnet/carnet-fiche-card.tsx` : fiche du carnet moins dense ;
+    // - `components/home/reprendre-parcours.tsx` : apostrophes typographiques du titre de l'étape.
+    // `favoris-list.tsx` et `parcours-content.tsx`, déjà listés, sont touchés de nouveau (grille des favoris,
+    // apostrophes du titre de l'étape), ouvert seulement.
+    "app/(dashboard)/vannes/page.tsx",
+    "components/vannes/vannes-list.tsx",
+    "components/carnet/carnet-fiche-card.tsx",
+    "components/home/reprendre-parcours.tsx",
     // Touchés sans import de l'espace, rendu fermé inchangé : `account-menu.tsx` (variante `universel`, passée
     // par l'en-tête unique seulement), `header-icons.tsx` (icône de l'ancien menu de compte abonné retirée),
     // `parcours/[slug]/page.tsx`, `profil/page.tsx` (déjà listés : `AxeEspace` retiré, même colonne pour

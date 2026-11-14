@@ -20,6 +20,7 @@ import bonusFactice from "@/lib/espace/fixtures/bonus-factice-cap-2.json";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 // Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
 import { frEspace } from "@/lib/fr-typo";
+import { apo } from "../helpers/typo-espace";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
@@ -52,7 +53,7 @@ describe("carte « Ton cap » : XP, cap et série = User et lib/espace/caps sur 
     expect(screen.queryByText(/les bonus s'ouvrent avec tes étapes/)).toBeNull();
     rerender(<TonCap cap={3} serie={2} ecart />);
     expect(
-      screen.getByText("Ton cap compte tous les points gagnés depuis ton arrivée ; les bonus s'ouvrent avec tes étapes et tes bonus de parcours."),
+      screen.getByText(apo("Ton cap compte tous les points gagnés depuis ton arrivée ; les bonus s'ouvrent avec tes étapes et tes bonus de parcours.")),
     ).toBeInTheDocument();
   });
 
@@ -124,7 +125,7 @@ describe("annonce de passage (critère 17, 3.0 point 3)", () => {
     rerender(<AnnonceCap annonce={{ ...annonce }} retour={() => retour} />);
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)).toEqual({ annonces: annonce.marques });
-    fireEvent.click(screen.getByRole("button", { name: "Fermer l'annonce" }));
+    fireEvent.click(screen.getByRole("button", { name: frEspace("Fermer l'annonce") }));
     expect(region).toBeEmptyDOMElement();
     expect(document.activeElement).toBe(retour);
     jest.useRealTimers();
@@ -150,10 +151,11 @@ describe("interrupteur fermé : rien de l'espace sur /parcours, même pour un ab
 describe("question C9 : information @legal sous la question (G9)", () => {
   it("phrase mot pour mot, reliée au groupe de réponses", () => {
     render(<QuestionAise />);
+    // Relecture des captures nav s24 : texte frEspacelegal mot pour mot, apostrophes typographiques à l'affichage.
     const info = screen.getByText(
-      "Ta réponse sert à choisir les situations qu'on te propose. Elle reste sur ton compte, et elle est effacée si tu supprimes ton compte.",
+      apo("Ta réponse sert à choisir les situations qu'on te propose. Elle reste sur ton compte, et elle est effacée si tu supprimes ton compte."),
     );
-    expect(info.textContent).toBe(TEXTES_AUJOURDHUI.aise.information);
+    expect(info.textContent).toBe(frEspace(TEXTES_AUJOURDHUI.aise.information));
     expect(screen.getByRole("group")).toHaveAttribute("aria-describedby", info.id);
   });
 });

@@ -15,6 +15,7 @@ import { TEXTES_QUESTIONS as Q, EMAIL_REPONSE_VALIDE } from "@/config/textes/esp
 import type { FilListe } from "@/lib/espace/questions-types";
 // Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
 import { frEspace } from "@/lib/fr-typo";
+import { apo } from "../helpers/typo-espace";
 
 const fetchMock = jest.fn();
 beforeEach(() => {
@@ -56,15 +57,15 @@ const repondu: FilListe = {
 
 it("libellés validés : formulaire, types, délai, bouton ; aucun tiret cadratin dans les textes", () => {
   render(<MesQuestions initiaux={[attente]} lectureSeule={false} />);
-  expect(screen.getByRole("heading", { name: "Écrire à l'équipe" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: frEspace("Écrire à l'équipe") })).toBeInTheDocument();
   expect(screen.getByRole("group", { name: frEspace("C'est à propos de quoi ?") })).toBeInTheDocument();
   expect(screen.getByRole("radio", { name: /Une question/ })).toBeChecked();
   expect(screen.getAllByRole("radio")).toHaveLength(3);
-  expect(screen.getByLabelText("Ton message")).toHaveAccessibleDescription(/Évite les noms\s: décris la scène\. L'équipe répond en général sous 1 à 2 jours ouvrés/);
-  expect(screen.getByRole("button", { name: "Envoyer à l'équipe" })).toBeInTheDocument();
+  expect(screen.getByLabelText("Ton message")).toHaveAccessibleDescription(/Évite les noms\s: décris la scène\. L’équipe répond en général sous 1 à 2 jours ouvrés/);
+  expect(screen.getByRole("button", { name: frEspace("Envoyer à l'équipe") })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "Mes envois" })).toBeInTheDocument();
   expect(screen.getByText("Envoyé le 10 novembre")).toBeInTheDocument();
-  expect(screen.getByText(Q.envois.enAttente)).toBeInTheDocument();
+  expect(screen.getByText(apo(Q.envois.enAttente))).toBeInTheDocument();
   expect(JSON.stringify(Q)).not.toContain("—");
   // Décision de Thomas du 13/11 : texte de l'e-mail validé ; l'envoi reste derrière l'interrupteur de
   // l'espace (preuve : `cloche-s24.test.ts`, « e-mail de réponse »).
@@ -75,30 +76,30 @@ it("état vide : un exemple par type et la phrase sur le délai, jamais une list
   render(<MesQuestions initiaux={[]} lectureSeule={false} />);
   const vide = document.querySelector("[data-etat='vide']") as HTMLElement;
   expect(within(vide).getByText("Par exemple, pour « Une question » :")).toBeInTheDocument();
-  for (const t of ["QUESTION", "PROBLEME", "SITUATION"] as const) expect(within(vide).getByText(Q.types[t].exemple)).toBeInTheDocument();
-  expect(within(vide).getByText(Q.ecrire.delai)).toBeInTheDocument();
+  for (const t of ["QUESTION", "PROBLEME", "SITUATION"] as const) expect(within(vide).getByText(apo(Q.types[t].exemple))).toBeInTheDocument();
+  expect(within(vide).getByText(apo(Q.ecrire.delai))).toBeInTheDocument();
 });
 
 it("envoi : « Envoi en cours », échec = texte conservé et erreur reliée au champ ; puis « Envoyé »", async () => {
   const u = userEvent.setup();
   render(<MesQuestions initiaux={[]} lectureSeule={false} />);
-  await u.click(screen.getByRole("button", { name: "Envoyer à l'équipe" }));
+  await u.click(screen.getByRole("button", { name: frEspace("Envoyer à l'équipe") }));
   expect(screen.getByLabelText("Ton message")).toHaveAccessibleDescription(expect.stringContaining(Q.erreurs.vide));
   expect(fetchMock).not.toHaveBeenCalled();
   await u.type(screen.getByLabelText("Ton message"), "Une scène au boulot");
   let finir: (r: ReturnType<typeof faux>) => void = () => undefined;
   fetchMock.mockReturnValueOnce(new Promise<ReturnType<typeof faux>>((r) => (finir = r)));
-  await u.click(screen.getByRole("button", { name: "Envoyer à l'équipe" }));
+  await u.click(screen.getByRole("button", { name: frEspace("Envoyer à l'équipe") }));
   expect(screen.getByRole("button", { name: "Envoi en cours" })).toBeDisabled();
   await act(async () => finir(faux(503, { error: "indisponible" })));
   expect(screen.getByLabelText("Ton message")).toHaveValue("Une scène au boulot");
-  expect(screen.getByLabelText("Ton message")).toHaveAccessibleDescription(expect.stringContaining("On n'a pas pu confirmer l'envoi."));
+  expect(screen.getByLabelText("Ton message")).toHaveAccessibleDescription(expect.stringContaining(apo("On n'a pas pu confirmer l'envoi.")));
   const cle = JSON.parse(fetchMock.mock.calls[0][1].body as string).cle as string;
   fetchMock.mockReturnValueOnce(reponse(200, { fil: { ...attente, id: "filnouveau01", messages: [{ ...attente.messages[0], corps: "Une scène au boulot" }] } }));
-  await u.click(screen.getByRole("button", { name: "Envoyer à l'équipe" }));
+  await u.click(screen.getByRole("button", { name: frEspace("Envoyer à l'équipe") }));
   // Renvoi après échec : même clé (un seul fil si le premier envoi était en fait passé).
   expect(JSON.parse(fetchMock.mock.calls[1][1].body as string).cle).toBe(cle);
-  await waitFor(() => expect(document.querySelector("[data-formulaire-question] [role='status']")).toHaveTextContent(Q.ecrire.envoye));
+  await waitFor(() => expect(document.querySelector("[data-formulaire-question] [role='status']")).toHaveTextContent(apo(Q.ecrire.envoye)));
   expect(screen.getByLabelText("Ton message")).toHaveValue("");
   expect(screen.getByText("Une scène au boulot")).toBeInTheDocument();
 });
@@ -106,12 +107,12 @@ it("envoi : « Envoi en cours », échec = texte conservé et erreur reliée au 
 it("retard, répondu (ouvrir le fil le rend lu, une fois), « Continuer », « Retirer »", async () => {
   const u = userEvent.setup();
   render(<MesQuestions initiaux={[repondu, { ...attente, enRetard: true }]} lectureSeule={false} />);
-  expect(screen.getByText(Q.envois.enRetard)).toBeInTheDocument();
+  expect(screen.getByText(apo(Q.envois.enRetard))).toBeInTheDocument();
   fetchMock.mockReturnValue(reponse(200, { ok: true }));
   await u.click(screen.getByText("Répondu le 11 novembre"));
   expect(fetchMock).toHaveBeenCalledWith("/api/espace/questions/filrepondu01/ouvert", expect.objectContaining({ method: "POST" }));
-  expect(screen.getByText("Réponse de l'équipe, le 11 novembre")).toBeInTheDocument();
-  expect(screen.getByText("L'Équipe Deviens Marrant")).toBeInTheDocument();
+  expect(screen.getByText(apo("Réponse de l'équipe, le 11 novembre"))).toBeInTheDocument();
+  expect(screen.getByText(apo("L'Équipe Deviens Marrant"))).toBeInTheDocument();
   await u.click(screen.getByText("Répondu le 11 novembre"));
   await u.click(screen.getByText("Répondu le 11 novembre"));
   expect(fetchMock.mock.calls.filter((c) => String(c[0]).endsWith("/ouvert"))).toHaveLength(1);
@@ -126,7 +127,7 @@ it("retard, répondu (ouvrir le fil le rend lu, une fois), « Continuer », « R
 it("lecture seule (abonnement terminé) : ni formulaire ni « Continuer », retrait possible, adresse de l'équipe", async () => {
   const u = userEvent.setup();
   render(<MesQuestions initiaux={[repondu]} lectureSeule />);
-  expect(screen.queryByRole("heading", { name: "Écrire à l'équipe" })).toBeNull();
+  expect(screen.queryByRole("heading", { name: frEspace("Écrire à l'équipe") })).toBeNull();
   await u.click(screen.getByText("Répondu le 11 novembre"));
   expect(screen.queryByRole("button", { name: "Continuer" })).toBeNull();
   expect(screen.getByRole("button", { name: "Retirer de mon historique" })).toBeInTheDocument();

@@ -9,7 +9,8 @@ import { garderEspace } from "@/lib/espace/garde";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import { envoyeesSiBesoin, fichesVisibles } from "@/lib/espace/lettres";
 import { idsFaits, ligneDeFiche } from "@/lib/espace/lignes-fiches";
-import { filtrerSituations, lireFiltres } from "@/lib/espace/quoi-repondre";
+import { filtrerSituations, lireFiltres, type FicheQuoiRepondre } from "@/lib/espace/quoi-repondre";
+import { UNIVERS } from "@/lib/espace/fiches-schema";
 import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { FiltresSituations } from "@/components/espace/filtres-situations";
 import { ListeFiches } from "@/components/espace/liste-fiches";
@@ -35,6 +36,14 @@ export async function generateMetadata(): Promise<Metadata> {
   return ESPACE_CLIENT_PUBLIE ? { title: T.titre } : METADONNEES_404;
 }
 
+/** Fiches rangées par lieu, dans l'ordre des filtres ; sans lieu : « Rattraper un faux pas ». */
+function groupesParLieu(fiches: readonly FicheQuoiRepondre[]) {
+  const groupes: { cle: string; titre: string; fiches: FicheQuoiRepondre[] }[] = UNIVERS.map((u) => ({ cle: u, titre: T.univers[u], fiches: fiches.filter((f) => f.univers === u) }));
+  const sansLieu = fiches.filter((f) => !f.univers);
+  groupes.push({ cle: "sans-lieu", titre: T.pourQuoiFaire["rattraper-faux-pas"], fiches: sansLieu });
+  return groupes.filter((g) => g.fiches.length > 0);
+}
+
 export default async function QuoiRepondrePage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
   const { userId } = await garderEspace(BASE);
   const acces = { acces: "ouvert" as const, userId };
@@ -56,7 +65,19 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
       <FiltresSituations base={BASE} filtres={filtres} />
       <section aria-label={T.titre} aria-live="polite" data-etat={retenues.length > 0 ? "liste" : "vide"}>
         {retenues.length > 0 ? (
-          <ListeFiches lignes={retenues.map((f) => ligneDeFiche(f, faits))} avecDuree deuxColonnes />
+          // Relecture des captures nav s24 (ux F2, design) : la liste est rangée par lieu, sous les titres des
+          // filtres « Où et avec qui ? » (libellés validés) ; les fiches sans lieu (« Quand ça tombe à plat »)
+          // sous « Rattraper un faux pas ». Un seul groupe quand un lieu est choisi.
+          <div className="space-y-10">
+            {groupesParLieu(retenues).map((g) => (
+              <section key={g.cle} aria-labelledby={`lieu-${g.cle}`} className="space-y-3">
+                <h2 id={`lieu-${g.cle}`} className="font-display text-xl font-bold text-text-primary">
+                  {g.titre} <span className="text-base font-normal text-text-secondary">({g.fiches.length})</span>
+                </h2>
+                <ListeFiches lignes={g.fiches.map((f) => ligneDeFiche(f, faits))} avecDuree deuxColonnes labelledBy={`lieu-${g.cle}`} />
+              </section>
+            ))}
+          </div>
         ) : (
           <div className={CARTE} data-testid="quoi-repondre-vide">
             <p className="text-base text-text-primary">{T.vide}</p>

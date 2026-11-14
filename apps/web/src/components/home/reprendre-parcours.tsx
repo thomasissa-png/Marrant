@@ -1,5 +1,7 @@
 "use client";
 
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { frTypo } from "@/lib/fr-typo";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -36,7 +38,9 @@ export function ReprendreParcoursBloc({
         {REPRENDRE.titre}
       </h2>
       <p className="mt-1 text-sm text-text-secondary">
-        {REPRENDRE.ligne(aReprendre.title, aReprendre.etape, aReprendre.totalSteps, aReprendre.titreEtape)}
+        {/* Relecture des captures nav s24 (reviewer FD2) : interrupteur de l'espace ouvert seulement, apostrophes
+            typographiques dans le titre de l'étape ; fermé, la ligne d'aujourd'hui. */}
+        {(ESPACE_CLIENT_PUBLIE ? frTypo : (t: string) => t)(REPRENDRE.ligne(aReprendre.title, aReprendre.etape, aReprendre.totalSteps, aReprendre.titreEtape))}
       </p>
       <Link
         href={parcoursEtapeHref(aReprendre.slug, aReprendre.etape, src)}

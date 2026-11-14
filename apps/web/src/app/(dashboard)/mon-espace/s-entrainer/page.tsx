@@ -56,6 +56,8 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
   const aPlat = chargeursFiches.listerFiches("a-plat", acces)[0];
   // Lot D11b (@ux D-4) : aucune carte montrable = « C'est tout pour aujourd'hui », même si le moteur n'a pas dit fini.
   const sansCarte = etat.cartes.every((c) => !etat.catalogue.get(c.carteId));
+  const montrables = etat.cartes.filter((c) => etat.catalogue.get(c.carteId)).length;
+  const derniere = etat.cartes.reduce((d, c, i) => (etat.catalogue.get(c.carteId) ? i : d), -1);
 
   return (
     <div>
@@ -69,20 +71,26 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
           const carte = etat.catalogue.get(c.carteId);
           if (!carte) return null;
           const ancre = `carte-${i + 1}`;
-          return carte.genre === "registre" ? (
-            <CarteRegistre key={c.carteId} carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
-          ) : (
-            <CarteEtToi key={c.carteId} carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
+          // Nombre impair de cartes : la dernière prend la ligne entière (aucune colonne vide à côté).
+          const seuleSurSaLigne = i === derniere && montrables % 2 === 1;
+          return (
+            <div key={c.carteId} className={seuleSurSaLigne ? "min-w-0 md:col-span-2" : "min-w-0"}>
+              {carte.genre === "registre" ? (
+                <CarteRegistre carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
+              ) : (
+                <CarteEtToi carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
+              )}
+            </div>
           );
         })}
       </FournisseurCompteARebours>
       {(etat.fini || sansCarte) && (
-        <div className={CARTE}>
+        <div className={`${CARTE} md:col-span-2`}>
           <p className="text-base font-semibold text-text-primary">{T.fini}</p>
         </div>
       )}
       {marche && !mission && (
-        <div id="mission" className={CARTE} data-testid="mission-vide">
+        <div id="mission" className={`${CARTE} md:col-span-2`} data-testid="mission-vide">
           <p className="text-sm text-text-primary">{M.aucuneMission}</p>
           {repli && (
             <Link href={`/mon-espace/s-entrainer?marche=${repli}#mission`} className={LIEN}>
@@ -91,11 +99,14 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
           )}
         </div>
       )}
+      {/* Relecture des captures nav s24 (design 2) : la mission prend la ligne entière, aucun vide à droite. */}
       {mission && (
+        <div className="md:col-span-2">
         <MissionCarte
           mission={{ id: mission.id, marche: mission.marche, enonce: mission.enonce, suites: frEspaceProfond(mission.suites) }}
           hrefAPlat={aPlat ? hrefFiche("a-plat", aPlat.id) : null}
         />
+        </div>
       )}
       </div>
     </div>

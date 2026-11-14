@@ -1,5 +1,6 @@
 "use client";
 
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
@@ -193,7 +194,13 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
       {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
       {limited ? null : (
-        <div className={cn("mb-6", RANGEE_CHIPS_UNE_LIGNE)} role="tablist" aria-label="Catégories de vannes">
+        // Relecture des captures nav s24 (design 9) : interrupteur de l'espace ouvert, dès 1 024 px un fondu de 64 px
+        // au lieu de 24 annonce la suite de la rangée (une seule rangée gardée, décision T3-07 de la revue s21).
+        <div
+          className={cn("mb-6", RANGEE_CHIPS_UNE_LIGNE, ESPACE_CLIENT_PUBLIE && "lg:[mask-image:linear-gradient(to_right,#000_calc(100%-64px),transparent)]")}
+          role="tablist"
+          aria-label="Catégories de vannes"
+        >
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}

@@ -27,13 +27,18 @@ describe("titrePrefixe (Bibliothèque)", () => {
 describe("frEspace", () => {
   it("fine insécable avant « ; : ! ? », après « « » et avant « » » ; insécable avant « › » et « → »", () => {
     expect(frEspace("Quelqu'un se tourne vers toi : « Et toi, tu fais quoi ? »")).toBe(
-      `Quelqu'un se tourne vers toi${FINE}: «${FINE}Et toi, tu fais quoi${FINE}?${FINE}»`,
+      `Quelqu’un se tourne vers toi${FINE}: «${FINE}Et toi, tu fais quoi${FINE}?${FINE}»`,
     );
     expect(frEspace("Proverbe → détournement ; ensuite !")).toBe(`Proverbe${NBSP}→ détournement${FINE}; ensuite${FINE}!`);
     expect(frEspace("Suite ›")).toBe(`Suite${NBSP}›`);
   });
   it("n'ajoute aucune espace là où il n'y en a pas, ne change aucune lettre, idempotente", () => {
-    expect(frEspace("10:30, https://x.fr?a=1, l'apostrophe")).toBe("10:30, https://x.fr?a=1, l'apostrophe");
+    expect(frEspace("10:30, https://x.fr?a=1, l'apostrophe")).toBe("10:30, https://x.fr?a=1, l’apostrophe");
+    // Relecture des captures nav s24 (reviewer FD2, FD3) : apostrophe entre deux lettres et guillemets anglais.
+    expect(frEspace("Il m'a dit “oui”, puis 'non'.")).toBe(`Il m’a dit «${FINE}oui${FINE}», puis 'non'.`);
+    expect(frEspace(frEspace("“ici” l'a"))).toBe(frEspace("“ici” l'a"));
+    // Citation intérieure (corrections G5, section F) : “ ” gardés à l'intérieur de « ».
+    expect(frEspace("« Tu dis “oui” »")).toBe(`«${FINE}Tu dis “oui”${FINE}»`);
     const une = frEspace(`Texte : « oui » ?`);
     expect(frEspace(une)).toBe(une);
     expect(frEspace(`a${NBSP}:`)).toBe(`a${FINE}:`);

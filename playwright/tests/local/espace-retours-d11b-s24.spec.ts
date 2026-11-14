@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { test, expect, localSeulement, requete, creerCompte, connecter, ESPACE_OUVERT } from "../support/base-locale";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Lot D11b (s24), recette D11, en vrai navigateur sur la base jetable (interrupteur OUVERT seulement,
@@ -78,7 +79,7 @@ test.describe("@espace D11b : retours et états (ouvert)", () => {
     await connecter(page, abonne.email, MOT_DE_PASSE);
     await page.goto("/mon-espace/s-entrainer?marche=3");
     const vide = page.getByTestId("mission-vide");
-    await expect(vide).toContainText("Pas d'autre mission à te proposer sur cette marche.");
+    await expect(vide).toContainText(frEspace("Pas d'autre mission à te proposer sur cette marche."));
     const lien = vide.getByRole("link");
     await expect(lien).toHaveAttribute("href", /\/mon-espace\/s-entrainer\?marche=[1245]#mission$/);
     for (const n of [1, 2, 4, 5]) {

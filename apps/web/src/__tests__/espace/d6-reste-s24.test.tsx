@@ -15,6 +15,7 @@ import { FicheVue } from "@/components/espace/fiche";
 import { TEXTES_BIBLIOTHEQUE as B, TEXTES_COIN as C, TEXTES_LETTRES as L, TEXTES_QUOI_REPONDRE as Q } from "@/config/textes/espace-bibliotheque";
 // Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
 import { frEspace } from "@/lib/fr-typo";
+import { apo } from "../helpers/typo-espace";
 
 jest.mock("next/navigation", () => ({ useRouter: () => ({ refresh: jest.fn(), push: jest.fn() }), usePathname: () => "/mon-espace" }));
 
@@ -84,15 +85,15 @@ describe("Bibliothèque : liens du catalogue", () => {
 describe("états vides", () => {
   it("Lettres : « Tes lettres s'affichent ici dès leur envoi. » et « Aller à Aujourd'hui », sans `role=status`", () => {
     render(<ArchiveLettres lettres={[]} />);
-    expect(screen.getByText("Tes lettres s'affichent ici dès leur envoi.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Aller à Aujourd'hui" })).toHaveAttribute("href", "/mon-espace");
+    expect(screen.getByText(apo("Tes lettres s'affichent ici dès leur envoi."))).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: frEspace("Aller à Aujourd'hui") })).toHaveAttribute("href", "/mon-espace");
     expect(screen.queryByRole("status")).toBeNull();
     expect(L.vide).not.toMatch(/—/);
   });
 
   it("coin entré et vide : « Rien à lire dans ce coin, et rien n'y est caché. », « Sortir » reste", () => {
     render(<CoinHumourNoir lignesInitiales={[]} />);
-    expect(screen.getByText("Rien à lire dans ce coin, et rien n'y est caché.")).toBeInTheDocument();
+    expect(screen.getByText(apo("Rien à lire dans ce coin, et rien n'y est caché."))).toBeInTheDocument();
     expect(screen.getByRole("button", { name: C.sortir })).toBeInTheDocument();
     expect(C.vide).not.toMatch(/—/);
   });

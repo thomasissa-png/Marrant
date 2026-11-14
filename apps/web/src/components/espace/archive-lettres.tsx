@@ -20,7 +20,7 @@ export const hrefLettre = (numero: string) => `${ESPACE_ACCUEIL}/lettres/${numer
 export function ArchiveLettres({ lettres }: { lettres: readonly LettreArchive[] }) {
   if (lettres.length === 0) {
     return (
-      <div className={`${CARTE} flex flex-col items-start gap-2`} data-testid="lettres-vide">
+      <div className={`${CARTE} mx-auto flex max-w-2xl flex-col items-center gap-2 text-center md:p-8`} data-testid="lettres-vide">
         <p className="text-base text-text-primary">{T.vide}</p>
         {/* Lot D11c (revue d'harmonie, défaut 13) : cible de 44 px gardée, ses 12 px sous le texte dans la marge. */}
         <Link href={ESPACE_ACCUEIL} className={`${LIEN} -mb-3`}>
@@ -71,11 +71,14 @@ function avecLiens(texte: string): React.ReactNode[] {
 export function LettreVue({ lettre }: { lettre: LettreLue }) {
   return (
     <article aria-labelledby="lettre-titre" className="flex flex-col gap-4">
-      <LienRetour href={`${ESPACE_ACCUEIL}/lettres`} label={T.titre} />
+      {/* Relecture des captures nav s24 (design 6, 7) : H1 de la taille des autres pages A, juste sous le retour. */}
+      <div>
+        <LienRetour href={`${ESPACE_ACCUEIL}/lettres`} label={T.titre} />
+        <h1 id="lettre-titre" className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl">
+          {lettre.objet}
+        </h1>
+      </div>
       <p className="text-sm text-text-secondary">{lettre.titre}</p>
-      <h1 id="lettre-titre" className="font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-3xl">
-        {lettre.objet}
-      </h1>
       <div className={CARTE}>
         {lettre.corps.split(/\n{2,}/).map((p, i) => (
           <p key={i} className="whitespace-pre-line text-base leading-7 text-text-primary">

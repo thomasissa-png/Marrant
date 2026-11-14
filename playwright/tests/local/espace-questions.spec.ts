@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { Browser, Cookie, Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, requete } from "../support/base-locale";
 import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
  * Espace client, lot D7 (s24, plan §3) : « Mes questions » (maquette `mes-questions.html`) et l'outil de
@@ -86,8 +87,8 @@ test.describe("espace client, Mes questions (s24, lot D7)", () => {
       await page.context().addCookies((await compte(browser)).cookies);
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto(PAGE);
-      await expect(page.getByRole("heading", { level: 1, name: Q.titre })).toBeVisible();
-      for (const t of ["QUESTION", "PROBLEME", "SITUATION"] as const) await expect(page.getByText(Q.types[t].exemple)).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1, name: frEspace(Q.titre) })).toBeVisible();
+      for (const t of ["QUESTION", "PROBLEME", "SITUATION"] as const) await expect(page.getByText(frEspace(Q.types[t].exemple))).toBeVisible();
       await capturer(page, "vide");
       const champ = page.getByLabel(Q.ecrire.champ);
       await champ.fill("Mon coloc me chambre sur ma cuisine, je bloque.");
@@ -97,17 +98,17 @@ test.describe("espace client, Mes questions (s24, lot D7)", () => {
         await new Promise((r) => setTimeout(r, 600));
         await route.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ error: "indisponible" }) });
       });
-      await page.getByRole("button", { name: Q.ecrire.bouton }).click();
-      await expect(page.getByRole("button", { name: Q.ecrire.envoiEnCours })).toBeDisabled();
-      await expect(page.getByText("On n'a pas pu confirmer l'envoi.", { exact: false })).toBeVisible();
+      await page.getByRole("button", { name: frEspace(Q.ecrire.bouton) }).click();
+      await expect(page.getByRole("button", { name: frEspace(Q.ecrire.envoiEnCours) })).toBeDisabled();
+      await expect(page.getByText(frEspace("On n'a pas pu confirmer l'envoi."), { exact: false })).toBeVisible();
       await expect(champ).toHaveValue("Mon coloc me chambre sur ma cuisine, je bloque.");
       await capturer(page, "echec-texte-conserve");
       bloquer = false;
-      await page.getByRole("button", { name: Q.ecrire.bouton }).click();
-      await expect(page.locator("[data-formulaire-question] [role='status']")).toHaveText(Q.ecrire.envoye);
+      await page.getByRole("button", { name: frEspace(Q.ecrire.bouton) }).click();
+      await expect(page.locator("[data-formulaire-question] [role='status']")).toHaveText(frEspace(Q.ecrire.envoye));
       await expect(champ).toHaveValue("");
       await expect(page.locator("[data-fil]")).toHaveCount(1);
-      await expect(page.locator("[data-fil]").getByText(Q.envois.enAttente)).toBeVisible();
+      await expect(page.locator("[data-fil]").getByText(frEspace(Q.envois.enAttente))).toBeVisible();
     });
 
     test("liste : en attente, en retard, répondu non lu ; ouvrir le fil le rend lu (rechargement) ; retiré", async ({ browser, page }) => {
@@ -120,14 +121,14 @@ test.describe("espace client, Mes questions (s24, lot D7)", () => {
       const repondu = await fil(id, "SITUATION", "Un collègue me chambre en réunion.", { creeLe: ilYA(2), reponse: "D'abord la méthode : on rit avec, pas contre.", reponduLe: ilYA(1) });
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto(PAGE);
-      await expect(page.locator(`[data-fil="${retard}"]`).getByText(Q.envois.enRetard)).toBeVisible();
+      await expect(page.locator(`[data-fil="${retard}"]`).getByText(frEspace(Q.envois.enRetard))).toBeVisible();
       await capturer(page, "liste");
       const carte = page.locator(`[data-fil="${repondu}"]`);
       const ouvert = page.waitForResponse((r) => r.url().endsWith(`/api/espace/questions/${repondu}/ouvert`) && r.status() === 200);
       await carte.locator("summary").click();
       await ouvert;
-      await expect(carte.getByText(Q.envois.signature)).toBeVisible();
-      await expect(carte.getByRole("button", { name: Q.envois.continuer })).toBeVisible();
+      await expect(carte.getByText(frEspace(Q.envois.signature))).toBeVisible();
+      await expect(carte.getByRole("button", { name: frEspace(Q.envois.continuer) })).toBeVisible();
       await capturer(page, "fil-ouvert");
       expect((await requete<{ lu: Date | null }>(`SELECT "ouvertParAbonneLe" AS lu FROM "EquipeFil" WHERE id = $1`, [repondu]))[0].lu).not.toBeNull();
       await page.reload();
@@ -137,9 +138,9 @@ test.describe("espace client, Mes questions (s24, lot D7)", () => {
       await page.waitForTimeout(300);
       expect(appels).toEqual([]); // déjà lu en base
       // Lot D8 (décision du 13/11) : confirmation avant l'effacement, puis effacement DÉFINITIF en base.
-      await page.locator(`[data-fil="${retard}"]`).getByRole("button", { name: Q.envois.retirer }).click();
-      await page.getByRole("alertdialog", { name: Q.confirmationRetrait.question }).getByRole("button", { name: Q.confirmationRetrait.retirer }).click();
-      await expect(page.getByText(Q.envois.retire)).toBeFocused();
+      await page.locator(`[data-fil="${retard}"]`).getByRole("button", { name: frEspace(Q.envois.retirer) }).click();
+      await page.getByRole("alertdialog", { name: frEspace(Q.confirmationRetrait.question) }).getByRole("button", { name: frEspace(Q.confirmationRetrait.retirer) }).click();
+      await expect(page.getByText(frEspace(Q.envois.retire))).toBeFocused();
       await capturer(page, "retire");
       expect((await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "EquipeFil" WHERE id = $1`, [retard]))[0].n).toBe(0);
       expect((await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "EquipeMessage" WHERE "filId" = $1`, [retard]))[0].n).toBe(0);
@@ -158,13 +159,13 @@ test.describe("espace client, Mes questions (s24, lot D7)", () => {
       await expect(page.getByLabel(Q.ecrire.champ)).toBeFocused();
       await page.keyboard.type("Au clavier seulement.");
       await page.keyboard.press("Tab");
-      await expect(page.getByRole("button", { name: Q.ecrire.bouton })).toBeFocused();
+      await expect(page.getByRole("button", { name: frEspace(Q.ecrire.bouton) })).toBeFocused();
       await page.keyboard.press("Enter");
-      await expect(page.locator("[data-formulaire-question] [role='status']")).toHaveText(Q.ecrire.envoye);
+      await expect(page.locator("[data-formulaire-question] [role='status']")).toHaveText(frEspace(Q.ecrire.envoye));
       const carte = page.locator(`[data-fil="${repondu}"]`);
       await carte.locator("summary").focus();
       await page.keyboard.press("Enter");
-      await carte.getByRole("button", { name: Q.envois.continuer }).focus();
+      await carte.getByRole("button", { name: frEspace(Q.envois.continuer) }).focus();
       await page.keyboard.press("Enter");
       await expect(carte.getByLabel(Q.ecrire.champ)).toBeFocused();
       for (const largeur of [320, 188]) {

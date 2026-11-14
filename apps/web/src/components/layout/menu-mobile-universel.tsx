@@ -38,7 +38,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
   const allume = elementBarreAllume(pathname, etat);
   const ligne = etat === "abonne" ? ligneEspaceAllumee(pathname) : null;
   const secondaire = (actif: boolean) =>
-    cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full justify-start gap-2", actif && ALLUMEE);
+    cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-full justify-start gap-2", actif && ALLUMEE);
   return (
     <nav
       className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 lg:hidden animate-slide-up"
@@ -101,17 +101,28 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
         {/* Abonné dès 768 px : plus aucune action dans le menu (compte en barre), pas de séparateur orphelin. */}
         <hr className={cn("my-2 border-border", etat === "abonne" && "md:hidden")} />
         {etat !== "abonne" && !masquerPlein && (
-          <Link href={hrefs.prix} onClick={onClose} aria-label={EN_TETE.nomAccessible} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}>
+          <Link href={hrefs.prix} onClick={onClose} aria-label={EN_TETE.nomAccessible} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "h-11 w-full")}>
             {EN_TETE.bouton}
           </Link>
         )}
         {etat === "visiteur" && (
-          <Link href={hrefs.login} onClick={onClose} className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full min-[520px]:hidden")}>
+          <Link href={hrefs.login} onClick={onClose} className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-full min-[520px]:hidden")}>
             Connexion
           </Link>
         )}
         {etat !== "visiteur" && (
-          <div className="flex flex-col gap-2 md:hidden">
+          // Relecture des captures nav s24 : abonné, « Mon profil » et « Déconnexion » sur une ligne collée au bas du
+          // menu dès 640 px de haut (2 gestes, sans défilement ; sous 640, à la suite, le bloc « Mon espace » garde
+          // la place du critère 5 à 568 px).
+          <div
+            className={cn(
+              "flex gap-2 md:hidden",
+              etat === "abonne"
+                ? "-mx-4 bg-background px-4 py-2 [@media(min-height:640px)]:sticky [@media(min-height:640px)]:bottom-0 [@media(min-height:640px)]:border-t [@media(min-height:640px)]:border-border [&>*]:flex-1"
+                : "flex-col",
+            )}
+            data-actions-compte
+          >
             {etat === "gratuit" && (
               <Link href="/favoris" onClick={onClose} aria-current={allume === "compte" && pathname === "/favoris" ? "page" : undefined} className={secondaire(allume === "compte" && pathname === "/favoris")}>
                 <IconeFavoris className="h-4 w-4" />
@@ -125,7 +136,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
             <Button
               variant="ghost"
               size="sm"
-              className="w-full"
+              className="h-11 w-full"
               onClick={() => {
                 onClose();
                 signOut({ callbackUrl: "/" });

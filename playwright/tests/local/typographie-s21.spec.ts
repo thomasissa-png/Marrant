@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { test, expect, localSeulement, requete, creerCompte, connecter } from "../support/base-locale";
+import { test, expect, localSeulement, requete, creerCompte, connecter, ESPACE_OUVERT } from "../support/base-locale";
 
 /**
  * Revue visuelle s21, tour 3 (verdict @design, R27 / T2-04) : typographie française du texte
@@ -65,6 +65,37 @@ test.describe("Typographie du texte visible @s21", () => {
       for (const chemin of ["/", "/profil", "/favoris", "/carnet", "/vannes", "/conseils"]) {
         await page.goto(chemin);
         expect(await defauts(page), `texte visible de ${chemin} (abonné)`).toEqual([]);
+      }
+    });
+
+    // Relecture des captures nav s24 (reviewer FD2, FD3) : les pages de l'espace, interrupteur ouvert. Apostrophes
+    // et guillemets anglais de premier niveau corrigés à l'affichage (`frEspace`), données JSON inchangées.
+    test("pages de l'espace de l'abonné (interrupteur ouvert) : apostrophes typographiques, aucun guillemet anglais de premier niveau", async ({ page }) => {
+      test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
+      test.setTimeout(120_000);
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await connecter(page, email, motDePasse);
+      const pages = [
+        "/mon-espace",
+        "/mon-espace/quoi-repondre",
+        "/mon-espace/bibliotheque",
+        "/mon-espace/questions",
+        "/mon-espace/s-entrainer",
+        "/mon-espace/repliques",
+        "/mon-espace/lettres",
+        "/mon-espace/fiche/situation/coloc-la-poele",
+        "/mon-espace/fiche/jeu/quelle-replique-1",
+        "/mon-espace/fiche/bilan/bilan-repartie",
+        "/parcours",
+        "/parcours/repartie",
+      ];
+      for (const chemin of pages) {
+        await page.goto(chemin);
+        const fautes = await defauts(page);
+        const texte = await page.evaluate(() => document.querySelector("main")?.innerText ?? "");
+        // “ ” n'est permis qu'à l'intérieur de « » (citation intérieure, corrections G5 F).
+        const horsChevrons = texte.split("\n").filter((l) => /“/.test(l.replace(/«[^»]*»/g, "")));
+        expect([...fautes, ...horsChevrons.map((l) => `guillemet anglais : ${l.trim().slice(0, 90)}`)], `texte visible de ${chemin} (espace)`).toEqual([]);
       }
     });
   });

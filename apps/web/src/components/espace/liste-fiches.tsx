@@ -44,14 +44,15 @@ export function ListeFiches({
               {frEspace(l.titre)}
               {(avecDuree || l.marque) && <span className="text-text-secondary"> · {T.minutes(l.minutes)}</span>}
             </span>
-            <span
-              className={cn(
-                "flex-none justify-self-start rounded-full border px-2 py-0.5 text-xs font-semibold",
-                l.fait ? "border-accent-link text-accent-link" : "border-border-input text-text-secondary",
-              )}
-            >
-              {l.fait ? T.fait : T.voir}
-            </span>
+            {/* Relecture des captures nav s24 (ux F1) : la ligne entière est le lien ; « Fait » quand c'est fait,
+                sinon un chevron (plus de « Voir » répété sur chaque ligne). */}
+            {l.fait ? (
+              <span className="flex-none justify-self-start rounded-full border border-accent-link px-2 py-0.5 text-xs font-semibold text-accent-link">{T.fait}</span>
+            ) : (
+              <svg className="h-4 w-4 flex-none text-text-muted max-e300:hidden" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            )}
           </Link>
         </li>
       ))}

@@ -17,6 +17,7 @@ import type { ContenuCloche } from "@/lib/espace/cloche-types";
 import type { FilListe } from "@/lib/espace/questions-types";
 // Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
 import { frEspace } from "@/lib/fr-typo";
+import { apo } from "../helpers/typo-espace";
 
 const fetchMock = jest.fn();
 beforeAll(() => {
@@ -93,7 +94,7 @@ describe("cloche : panneau", () => {
     render(<Cloche contenu={PLEIN} />);
     await userEvent.click(screen.getByRole("button", { name: nomCloche(1) }));
     const panneau = await screen.findByRole("dialog", { name: T.cloche.titre });
-    expect(within(panneau).getAllByRole("heading", { level: 3 }).map((h) => h.textContent)).toEqual([C.groupes.reponses, C.groupes.nouveautes, C.groupes.lettre]);
+    expect(within(panneau).getAllByRole("heading", { level: 3 }).map((h) => h.textContent)).toEqual([C.groupes.reponses, C.groupes.nouveautes, C.groupes.lettre].map(apo));
     const liens = within(panneau).getAllByRole("link");
     expect(liens.map((l) => [l.textContent, l.getAttribute("href")])).toEqual([
       ["Une situation à gérerRépondu le 11 novembre", "/mon-espace/questions/fil1"],
@@ -123,7 +124,7 @@ describe("cloche : panneau", () => {
     const { unmount } = render(<Cloche contenu={null} erreur />);
     await userEvent.click(screen.getByRole("button", { name: nomCloche(0) }));
     const panneau = await screen.findByRole("dialog");
-    expect(panneau).toHaveTextContent("On n'a pas pu afficher tes notifications. Repasse dans un moment.");
+    expect(panneau).toHaveTextContent(apo("On n'a pas pu afficher tes notifications. Repasse dans un moment."));
     expect(within(panneau).queryAllByRole("link")).toHaveLength(0);
     unmount();
     render(<Cloche contenu={VIDE} erreur />);
@@ -201,6 +202,6 @@ describe("confirmation avant « Retirer de mon historique »", () => {
     await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
     await waitFor(() => expect(origine).toHaveFocus());
     expect(screen.getByText("Mon message")).toBeInTheDocument();
-    expect(screen.getByText(new RegExp(Q.erreurs.envoi.avant.slice(0, 20).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(frEspace(Q.erreurs.envoi.avant).slice(0, 20).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")))).toBeInTheDocument();
   });
 });

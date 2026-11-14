@@ -38,14 +38,17 @@ export function FicheBonusVue({ bonus }: { bonus: FicheBonus }) {
   const cap = bonus.cap as NumeroCap;
   return (
     <article className={`space-y-6 ${COLONNE_LECTURE}`}>
-      <div className="space-y-2">
-        {/* v5 §4.3 : un bonus a pour parent la Bibliothèque. */}
+      {/* v5 §4.3 : un bonus a pour parent la Bibliothèque ; le titre suit le retour sans écart (relecture nav s24). */}
+      <div>
         <RetourDe chemin={`${ESPACE_ACCUEIL}/bonus/${bonus.id}`} />
-        <p className="text-xs font-semibold text-text-muted">{T.bonus.marque(cap)}</p>
-        <h1 className="font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-3xl">
+      <div className="space-y-2">
+        {/* Relecture des captures nav s24 (design 6, 7) : H1 de la taille des autres pages A, marque dessous. */}
+        <h1 className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl">
           {bonus.nature === "passage" ? T.fiche.titrePassage(bonus.titre) : bonus.titre}
         </h1>
+        <p className="text-xs font-semibold text-text-muted">{T.bonus.marque(cap)}</p>
         <p className="text-sm text-text-secondary">{T.bonus.duree(bonus.dureeMinutes)}</p>
+      </div>
       </div>
       <div className="space-y-6 rounded-lg border border-border bg-background-card p-4 md:p-6">
         {bonus.nature === "passage" ? (

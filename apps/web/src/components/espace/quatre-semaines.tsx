@@ -1,5 +1,6 @@
 "use client";
 
+import { frEspace } from "@/lib/fr-typo";
 import { forwardRef, useEffect, useRef } from "react";
 import Link from "next/link";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
@@ -58,7 +59,7 @@ export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeARepre
               className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 border-t border-border py-2 text-sm text-text-secondary max-e300:grid-cols-1"
             >
               <b className="whitespace-nowrap font-semibold text-text-primary">{frPonctuation(l.semaine)}</b>
-              <span>{frPonctuation(l.texte)}</span>
+              <span>{frEspace(frPonctuation(l.texte))}</span>
             </li>
           ))}
         </ol>
@@ -68,7 +69,7 @@ export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeARepre
           <p className="text-xs font-semibold text-text-muted">{etape.enCours ? E.enCours : E.conseillee}</p>
           <h3 className="font-display text-xl font-bold text-text-primary">{etape.titreParcours}</h3>
           {etape.enCours && <p className="text-sm text-text-secondary">{P.etapeSurTotal(etape.ordre, etape.total)}</p>}
-          <p className="text-base text-text-primary [overflow-wrap:anywhere]">{etape.titreEtape}</p>
+          <p className="text-base text-text-primary [overflow-wrap:anywhere]">{frEspace(etape.titreEtape)}</p>
           <Link
             ref={ref}
             href={etape.href}

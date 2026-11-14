@@ -48,10 +48,10 @@ function lireOrigineGardee(): OrigineResolue | null {
 export function PremierPas({
   origine,
   entrees,
-  avecBandeau = false,
 }: {
   origine: OrigineResolue | null;
   entrees: readonly EntreeDisponible[];
+  /** Bandeau du favori au-dessus : ne change plus la hauteur de la carte (relecture nav s24, ux F6c). */
   avecBandeau?: boolean;
 }) {
   const [pas, setPas] = useState(() => choisirPremierPas(origine, null, entrees, T.premierPas.sceneParDefaut));
@@ -73,9 +73,10 @@ export function PremierPas({
       aria-labelledby="premier-pas-titre"
       data-source={pas.source}
       className={cn(
+        // Relecture des captures nav s24 (ux F6c) : plus de hauteur minimale (trou de 130 px à 375 entre la scène
+        // et la durée) ; la carte du jour vient en tête et le bouton reste au premier écran.
         "flex flex-col rounded-lg border border-border bg-background-card p-6 lg:p-6",
-        avecBandeau ? "max-sm:min-h-[calc(100svh-29.5rem)]" : "max-sm:min-h-[calc(100svh-22.75rem)]",
-        "max-e300:min-h-0 max-e300:p-3",
+        "max-e300:p-3",
       )}
     >
       <div>

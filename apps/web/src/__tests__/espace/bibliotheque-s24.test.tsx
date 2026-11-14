@@ -20,6 +20,7 @@ import poele from "@/lib/espace/fixtures/situation-coloc-la-poele.json";
 import reprise from "@/lib/espace/fixtures/situation-reprise-lettre-w46.json";
 // Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
 import { frEspace } from "@/lib/fr-typo";
+import { apo } from "../helpers/typo-espace";
 
 jest.mock("next/navigation", () => ({ useRouter: () => ({ refresh: jest.fn(), push: jest.fn() }), usePathname: () => "/" }));
 
@@ -75,7 +76,8 @@ describe("liste de fiches", () => {
       />,
     );
     const [a, b] = screen.getAllByRole("link");
-    expect(a).toHaveTextContent("Comment c'est construit : Le faux secretVoir");
+    expect(a).toHaveTextContent(apo("Comment c'est construit : Le faux secret"));
+    expect(a).not.toHaveTextContent("Voir");
     expect(b).toHaveTextContent("Bonus du cap 3 · Tu avances bienTitre · 6 minFait");
   });
 });
@@ -117,7 +119,7 @@ describe("coin « Humour noir, fait bien »", () => {
     global.fetch = jest.fn(async () => ({ ok: false }) as Response) as unknown as typeof fetch;
     render(<CoinHumourNoir lignesInitiales={null} />);
     await act(async () => fireEvent.click(screen.getByRole("button", { name: N.entrer })));
-    expect(screen.getByRole("status")).toHaveTextContent(C.echec);
+    expect(screen.getByRole("status")).toHaveTextContent(apo(C.echec));
     expect(screen.queryByRole("link")).toBeNull();
   });
 });

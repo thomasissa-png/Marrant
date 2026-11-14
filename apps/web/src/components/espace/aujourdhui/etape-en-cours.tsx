@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { frEspace } from "@/lib/fr-typo";
 import { buttonVariants } from "@/components/ui/button";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
@@ -22,7 +23,7 @@ export function EtapeEnCours({ etape }: { etape: EtapeAReprendre }) {
         {etape.titreParcours}
       </h2>
       {etape.enCours && <p className="text-sm text-text-secondary">{P.etapeSurTotal(etape.ordre, etape.total)}</p>}
-      <p className="text-base text-text-primary [overflow-wrap:anywhere]">{etape.titreEtape}</p>
+      <p className="text-base text-text-primary [overflow-wrap:anywhere]">{frEspace(etape.titreEtape)}</p>
       <Link href={etape.href} className={buttonVariants({ variant: "primary", className: "h-11 max-e300:h-auto max-e300:min-h-11" })}>
         {etape.enCours ? T.etape.reprendre : T.etape.commencerEtape1.replace("1", String(etape.ordre))}
       </Link>
