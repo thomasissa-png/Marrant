@@ -1,0 +1,116 @@
+# Captures entete (2026-11-14T21:44, http://localhost:5400)
+
+- visiteur-accueil-375.png : / (haut), HTTP 200, hauteur 8355px
+- visiteur-vannes-375.png : /vannes (haut), HTTP 200, hauteur 5753px
+- visiteur-mon-espace-375.png : /mon-espace (haut), HTTP 200, hauteur 812px
+- visiteur-menu-accueil-375.png : / (menu), HTTP 200, hauteur 8873px
+- visiteur-menu-mon-espace-375.png : /mon-espace (menu) ÉCHEC locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: /menu/i }).first()[2
+- visiteur-menu-situation-375.png : /mon-espace/fiche/situation/coloc-la-poele (menu) ÉCHEC locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: /menu/i }).first()[2
+- visiteur-accueil-768.png : / (haut), HTTP 200, hauteur 6056px
+- visiteur-vannes-768.png : /vannes (haut), HTTP 200, hauteur 3654px
+- visiteur-mon-espace-768.png : /mon-espace (haut), HTTP 200, hauteur 900px
+- visiteur-menu-accueil-768.png : / (menu), HTTP 200, hauteur 6470px
+- visiteur-menu-mon-espace-768.png : /mon-espace (menu) ÉCHEC locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: /menu/i }).first()[2
+- visiteur-menu-situation-768.png : /mon-espace/fiche/situation/coloc-la-poele (menu) ÉCHEC locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: /menu/i }).first()[2
+- visiteur-accueil-1280.png : / (haut), HTTP 200, hauteur 5231px
+- visiteur-vannes-1280.png : /vannes (haut), HTTP 200, hauteur 3134px
+- visiteur-mon-espace-1280.png : /mon-espace (haut), HTTP 200, hauteur 900px
+- visiteur-accueil-1456.png : / (haut), HTTP 200, hauteur 5231px
+- visiteur-vannes-1456.png : /vannes (haut), HTTP 200, hauteur 3134px
+- visiteur-mon-espace-1456.png : /mon-espace (haut), HTTP 200, hauteur 900px
+- visiteur-accueil-1920.png : / (haut), HTTP 200, hauteur 5231px
+- visiteur-vannes-1920.png : /vannes (haut), HTTP 200, hauteur 3134px
+- visiteur-mon-espace-1920.png : /mon-espace (haut), HTTP 200, hauteur 900px
+- gratuit-accueil-375.png : / (haut), HTTP 200, hauteur 8419px
+- gratuit-vannes-375.png : /vannes (haut), HTTP 200, hauteur 5753px
+- gratuit-mon-espace-375.png : /mon-espace (haut), HTTP 200, hauteur 3419px
+- gratuit-menu-accueil-375.png : / (menu), HTTP 200, hauteur 9041px
+- gratuit-menu-mon-espace-375.png : /mon-espace (menu), HTTP 200, hauteur 3989px
+- gratuit-menu-situation-375.png : /mon-espace/fiche/situation/coloc-la-poele (menu), HTTP 200, hauteur 3989px
+- gratuit-accueil-768.png : / (haut), HTTP 200, hauteur 6056px
+- gratuit-vannes-768.png : /vannes (haut), HTTP 200, hauteur 3654px
+- gratuit-mon-espace-768.png : /mon-espace (haut), HTTP 200, hauteur 2810px
+- gratuit-menu-accueil-768.png : / (menu), HTTP 200, hauteur 6470px
+- gratuit-menu-mon-espace-768.png : /mon-espace (menu), HTTP 200, hauteur 3172px
+- gratuit-menu-situation-768.png : /mon-espace/fiche/situation/coloc-la-poele (menu), HTTP 200, hauteur 3172px
+- gratuit-compte-768.png : /vannes (compte), HTTP 200, hauteur 3654px
+- gratuit-accueil-1280.png : / (haut), HTTP 200, hauteur 5231px
+- gratuit-vannes-1280.png : /vannes (haut), HTTP 200, hauteur 3134px
+- gratuit-mon-espace-1280.png : /mon-espace (haut), HTTP 200, hauteur 2620px
+- gratuit-compte-1280.png : /vannes (compte), HTTP 200, hauteur 3134px
+- gratuit-accueil-1456.png : / (haut), HTTP 200, hauteur 5231px
+- gratuit-vannes-1456.png : /vannes (haut), HTTP 200, hauteur 3134px
+- gratuit-mon-espace-1456.png : /mon-espace (haut), HTTP 200, hauteur 2620px
+- gratuit-compte-1456.png : /vannes (compte), HTTP 200, hauteur 3134px
+- gratuit-accueil-1920.png : / (haut), HTTP 200, hauteur 5231px
+- gratuit-vannes-1920.png : /vannes (haut), HTTP 200, hauteur 3134px
+- gratuit-mon-espace-1920.png : /mon-espace (haut), HTTP 200, hauteur 2620px
+- gratuit-compte-1920.png : /vannes (compte), HTTP 200, hauteur 3134px
+- en-cours-accueil-375.png : / (haut), HTTP 200, hauteur 7372px
+- en-cours-vannes-375.png : /vannes (haut), HTTP 200, hauteur 6154px
+- en-cours-mon-espace-375.png : /mon-espace (haut), HTTP 200, hauteur 3395px
+- en-cours-menu-accueil-375.png : / (menu), HTTP 200, hauteur 8087px
+- en-cours-menu-mon-espace-375.png : /mon-espace (menu), HTTP 200, hauteur 4110px
+- en-cours-menu-situation-375.png : /mon-espace/fiche/situation/coloc-la-poele (menu), HTTP 200, hauteur 3105px
+- en-cours-cloche-375.png : /mon-espace (cloche), HTTP 200, hauteur 3395px
+- en-cours-accueil-768.png : / (haut), HTTP 200, hauteur 5112px
+- en-cours-vannes-768.png : /vannes (haut), HTTP 200, hauteur 3718px
+- en-cours-mon-espace-768.png : /mon-espace (haut), HTTP 200, hauteur 2521px
+- en-cours-menu-accueil-768.png : / (menu), HTTP 200, hauteur 5698px
+- en-cours-menu-mon-espace-768.png : /mon-espace (menu), HTTP 200, hauteur 3107px
+- en-cours-menu-situation-768.png : /mon-espace/fiche/situation/coloc-la-poele (menu), HTTP 200, hauteur 2340px
+- en-cours-cloche-768.png : /mon-espace (cloche), HTTP 200, hauteur 2521px
+- en-cours-compte-768.png : /vannes (compte), HTTP 200, hauteur 3718px
+- en-cours-accueil-1280.png : / (haut), HTTP 200, hauteur 4327px
+- en-cours-vannes-1280.png : /vannes (haut), HTTP 200, hauteur 3101px
+- en-cours-mon-espace-1280.png : /mon-espace (haut), HTTP 200, hauteur 1875px
+- en-cours-cloche-1280.png : /mon-espace (cloche), HTTP 200, hauteur 1875px
+- en-cours-compte-1280.png : /vannes (compte), HTTP 200, hauteur 3101px
+- en-cours-accueil-1456.png : / (haut), HTTP 200, hauteur 4327px
+- en-cours-vannes-1456.png : /vannes (haut), HTTP 200, hauteur 3101px
+- en-cours-mon-espace-1456.png : /mon-espace (haut), HTTP 200, hauteur 1875px
+- en-cours-cloche-1456.png : /mon-espace (cloche), HTTP 200, hauteur 1875px
+- en-cours-compte-1456.png : /vannes (compte), HTTP 200, hauteur 3101px
+- en-cours-accueil-1920.png : / (haut), HTTP 200, hauteur 4327px
+- en-cours-vannes-1920.png : /vannes (haut), HTTP 200, hauteur 3101px
+- en-cours-mon-espace-1920.png : /mon-espace (haut), HTTP 200, hauteur 1875px
+- en-cours-cloche-1920.png : /mon-espace (cloche), HTTP 200, hauteur 1875px
+- en-cours-compte-1920.png : /vannes (compte), HTTP 200, hauteur 3101px
+- nouvel-accueil-375.png : / (haut), HTTP 200, hauteur 7142px
+- nouvel-vannes-375.png : /vannes (haut), HTTP 200, hauteur 6154px
+- nouvel-mon-espace-375.png : /mon-espace (haut), HTTP 200, hauteur 2887px
+- nouvel-menu-accueil-375.png : / (menu), HTTP 200, hauteur 7857px
+- nouvel-menu-mon-espace-375.png : /mon-espace (menu), HTTP 200, hauteur 3602px
+- nouvel-menu-situation-375.png : /mon-espace/fiche/situation/coloc-la-poele (menu), HTTP 200, hauteur 3075px
+- nouvel-cloche-375.png : /mon-espace (cloche), HTTP 200, hauteur 2887px
+- nouvel-accueil-768.png : / (haut), HTTP 200, hauteur 4902px
+- nouvel-vannes-768.png : /vannes (haut), HTTP 200, hauteur 3718px
+- nouvel-mon-espace-768.png : /mon-espace (haut), HTTP 200, hauteur 2144px
+- nouvel-menu-accueil-768.png : / (menu), HTTP 200, hauteur 5488px
+- nouvel-menu-mon-espace-768.png : /mon-espace (menu), HTTP 200, hauteur 2730px
+- nouvel-menu-situation-768.png : /mon-espace/fiche/situation/coloc-la-poele (menu), HTTP 200, hauteur 2334px
+- nouvel-cloche-768.png : /mon-espace (cloche), HTTP 200, hauteur 2144px
+- nouvel-compte-768.png : /vannes (compte), HTTP 200, hauteur 3718px
+- nouvel-accueil-1280.png : / (haut), HTTP 200, hauteur 4117px
+- nouvel-vannes-1280.png : /vannes (haut), HTTP 200, hauteur 3101px
+- nouvel-mon-espace-1280.png : /mon-espace (haut), HTTP 200, hauteur 1594px
+- nouvel-cloche-1280.png : /mon-espace (cloche), HTTP 200, hauteur 1594px
+- nouvel-compte-1280.png : /vannes (compte), HTTP 200, hauteur 3101px
+- nouvel-accueil-1456.png : / (haut), HTTP 200, hauteur 4117px
+- nouvel-vannes-1456.png : /vannes (haut), HTTP 200, hauteur 3101px
+- nouvel-mon-espace-1456.png : /mon-espace (haut), HTTP 200, hauteur 1594px
+- nouvel-cloche-1456.png : /mon-espace (cloche), HTTP 200, hauteur 1594px
+- nouvel-compte-1456.png : /vannes (compte), HTTP 200, hauteur 3101px
+- nouvel-accueil-1920.png : / (haut), HTTP 200, hauteur 4117px
+- nouvel-vannes-1920.png : /vannes (haut), HTTP 200, hauteur 3101px
+- nouvel-mon-espace-1920.png : /mon-espace (haut), HTTP 200, hauteur 1594px
+- nouvel-cloche-1920.png : /mon-espace (cloche), HTTP 200, hauteur 1594px
+- nouvel-compte-1920.png : /vannes (compte), HTTP 200, hauteur 3101px
