@@ -206,6 +206,25 @@ it("menu mobile de l'abonné : les 5 liens du site en une colonne, « Mon profil
   const sortie = within(menu).getByRole("button", { name: "Déconnexion" });
   expect(sortie.className).toMatch(/\bjustify-start\b/);
   expect(sortie.querySelector("svg")).not.toBeNull();
+  // s25 (relecture tour 2, design F2, ux 3 et 5) : même graisse que les liens du site, sans le semi-gras du bouton.
+  expect(sortie.className).toMatch(/\bfont-medium\b/);
+  expect(sortie.className).not.toMatch(/\bfont-semibold\b/);
+  // Un seul pas de 44 px : liens du site en `min-h-11`, colonne sans interstice.
+  expect(within(menu).getByRole("link", { name: "Parcours" }).className).toMatch(/\bmin-h-11\b/);
+  expect(menu.querySelector("[data-liens-site]")?.parentElement?.className).not.toMatch(/\bgap-/);
+});
+
+it("menu mobile du visiteur : « Connexion » à gauche, même graisse que les liens du site (s25, tour 2, design F1 et F2)", async () => {
+  drapeau.__ESPACE_OUVERT__ = true;
+  useSession.mockReturnValue(SESSIONS.visiteur);
+  render(<EnTeteUniversel />);
+  await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+  const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
+  const connexion = within(menu).getByRole("link", { name: "Connexion" });
+  expect(connexion.className).toMatch(/\bjustify-start\b/);
+  expect(connexion.className).toMatch(/\bfont-medium\b/);
+  expect(connexion.className).not.toMatch(/\bfont-semibold\b/);
+  expect(connexion.className).toMatch(/\bmt-4\b/);
 });
 
 const vide = (nonLues = 0) => ({ nonLues, reponses: [], nouveautes: [], lettre: null });

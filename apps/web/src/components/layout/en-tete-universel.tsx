@@ -125,8 +125,13 @@ export function EnTeteUniversel() {
         {/* s25 (relecture design F1) : barre ancrée à gauche, le premier lien au même x pour les 3 états à chaque
             largeur ; le vide se loge entre les liens et la recherche (ou les actions sous 1280 px). */}
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-2 px-3 min-[360px]:px-4 sm:gap-4 md:px-6 xl:px-8">
-          {/* §6 (ROUVRE) : le logo de l'abonné mène à « Aujourd'hui ». */}
-          <Link href={etat === "abonne" ? ESPACE_ACCUEIL : "/"} className="flex min-h-11 shrink-0 items-center gap-2">
+          {/* §6 (ROUVRE) : le logo de l'abonné mène à « Aujourd'hui ». s25 (relecture tour 2, design F5, ux 7) : même
+              anneau violet arrondi que les autres contrôles ; `-mx-1 px-1` donne 4 px d'air à l'anneau sans
+              déplacer le texte d'un pixel. */}
+          <Link
+            href={etat === "abonne" ? ESPACE_ACCUEIL : "/"}
+            className="-mx-1 flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+          >
             <span className="whitespace-nowrap font-display text-sm font-bold text-gradient min-[360px]:text-base min-[400px]:text-lg sm:text-xl">
               deviens-marrant.fr
             </span>
@@ -162,7 +167,10 @@ export function EnTeteUniversel() {
 
           <SearchBar className="hidden w-44 shrink-0 xl:ml-auto xl:block" onNavigate={() => setRechercheOuverte(false)} />
 
-          <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-3 xl:gap-3">
+          {/* s25 (relecture design tour 2, critère 2) : dès 1280 px, zone d'actions de largeur fixe (celle du visiteur,
+              la plus large : Connexion + offre, 274 px mesurés) et calée à droite : la recherche est au même x pour
+              les 3 comptes. */}
+          <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-3 xl:min-w-[17.5rem] xl:justify-end xl:gap-3">
             <button
               type="button"
               className={cn(ICONE, "hidden min-[440px]:flex xl:hidden")}

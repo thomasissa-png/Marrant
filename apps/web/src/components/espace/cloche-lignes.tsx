@@ -22,9 +22,14 @@ const Q = frEspaceProfond(TEXTES_QUESTIONS);
  * notifications. Repasse dans un moment. ». Toucher une ligne ferme le panneau (`onChoisir`).
  * s25 (relecture tour 1, design P4 et ux) : chaque ligne porte le chevron des lignes de « Dans ton espace »
  * (`dans-ton-espace.tsx`), signe visible qu'elle s'ouvre.
+ * s25 (relecture tour 2, design F3, F4 et piste, ux 7) : titre de groupe en `px-3`, sur la verticale du texte des
+ * lignes ; panneau sur fond élevé, donc survol `bg-border-hover` ; « Répondu le … » en `text-text-secondary`
+ * (`text-text-muted` : 5,10:1 sur `background-elevated` mais 4,04:1 sur la ligne survolée `border-hover`, sous
+ * 4,5:1 à 12 px ; `text-text-secondary` : 6,85:1 et 5,42:1, valeurs de `tailwind.config.ts`) ; phrase vide ou
+ * d'erreur sans `pt` et en `pb-1` : même air sous le texte du titre et au-dessus du bord bas (23 px mesurés).
  */
 const LIGNE =
-  "flex min-h-11 items-center justify-between gap-3 rounded-md px-3 py-2 text-sm text-text-primary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+  "flex min-h-11 items-center justify-between gap-3 rounded-md px-3 py-2 text-sm text-text-primary transition-colors hover:bg-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
 const Chevron = () => (
   <svg className="h-4 w-4 flex-none text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -35,7 +40,7 @@ const LIBELLE: Record<GenreNouveaute, string> = { carnet: C.lignes.carnet, situa
 function Groupe({ titre, cle, children }: { titre: string; cle: string; children: React.ReactNode }) {
   return (
     <section aria-labelledby={`cloche-${cle}`} className="mt-4 first:mt-0" data-groupe-cloche={cle}>
-      <h3 id={`cloche-${cle}`} className="text-sm text-text-secondary">
+      <h3 id={`cloche-${cle}`} className="px-3 text-sm text-text-secondary">
         {titre}
       </h3>
       <ul>{children}</ul>
@@ -44,9 +49,9 @@ function Groupe({ titre, cle, children }: { titre: string; cle: string; children
 }
 
 export function LignesCloche({ contenu, erreur = false, onChoisir }: { contenu: ContenuCloche | null; erreur?: boolean; onChoisir: () => void }) {
-  if (!contenu) return erreur ? <p className="py-3 text-sm text-text-secondary" data-cloche-erreur>{C.erreur}</p> : null;
+  if (!contenu) return erreur ? <p className="pb-1 text-sm text-text-secondary" data-cloche-erreur>{C.erreur}</p> : null;
   const { reponses, nouveautes, lettre } = contenu;
-  if (reponses.length + nouveautes.length === 0 && !lettre) return <p className="py-3 text-sm text-text-secondary">{T.cloche.vide}</p>;
+  if (reponses.length + nouveautes.length === 0 && !lettre) return <p className="pb-1 text-sm text-text-secondary">{T.cloche.vide}</p>;
   return (
     <div data-lignes-cloche>
       {reponses.length > 0 && (
@@ -56,7 +61,7 @@ export function LignesCloche({ contenu, erreur = false, onChoisir }: { contenu: 
               <Link href={r.href} className={LIGNE} onClick={onChoisir} data-ligne-cloche="reponse">
                 <span className="flex min-w-0 flex-col">
                   {Q.types[r.type].nom}
-                  <small className="text-xs text-text-muted">{Q.envois.reponduLe(dateCourte(r.reponduLe))}</small>
+                  <small className="text-xs text-text-secondary">{Q.envois.reponduLe(dateCourte(r.reponduLe))}</small>
                 </span>
                 <Chevron />
               </Link>

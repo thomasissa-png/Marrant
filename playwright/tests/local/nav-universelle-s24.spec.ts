@@ -477,9 +477,11 @@ test.describe("navigation universelle v5 (s24)", () => {
       await c.close();
     });
 
-    // s25 (relecture design tour 1, F1) : la barre ne saute plus d'un compte à l'autre, premier lien au même x.
-    test("barre : premier lien au même x pour visiteur, gratuit et abonné (1024, 1280, 1456, 1920 px)", async ({ browser }) => {
+    // s25 (relecture design tour 1, F1) : la barre ne saute plus d'un compte à l'autre, premier lien au même x ;
+    // tour 2 (design critère 2) : dès 1280 px, la recherche aussi (zone d'actions de largeur fixe, calée à droite).
+    test("barre : premier lien et recherche au même x pour visiteur, gratuit et abonné (1024, 1280, 1456, 1920 px)", async ({ browser }) => {
       const xs: Record<number, string[]> = {};
+      const recherche: Record<number, string[]> = {};
       for (const etat of ["visiteur", "FREE", "PREMIUM"] as const) {
         const c = await contexte(browser, etat);
         const page = await c.newPage();
@@ -489,12 +491,66 @@ test.describe("navigation universelle v5 (s24)", () => {
           await pret(page, etat);
           const premier = page.getByRole("banner").getByRole("navigation", { name: "Navigation principale" }).getByRole("link").first();
           (xs[largeur] ??= []).push(`${etat}=${Math.round((await premier.boundingBox())!.x)}`);
+          if (largeur >= 1280) {
+            const champ = page.getByRole("banner").locator("input").filter({ visible: true }).first();
+            (recherche[largeur] ??= []).push(`${etat}=${Math.round((await champ.boundingBox())!.x)}`);
+            expect(await page.evaluate(() => document.documentElement.scrollWidth), `débordement à ${largeur} px (${etat})`).toBe(largeur);
+          }
         }
         await c.close();
       }
       for (const [largeur, valeurs] of Object.entries(xs)) {
         noter(`premier lien ; ${largeur} px ; ${valeurs.join(" ; ")}`);
         expect(new Set(valeurs.map((v) => v.split("=")[1])).size, `premier lien à ${largeur} px : ${valeurs.join(", ")}`).toBe(1);
+      }
+      for (const [largeur, valeurs] of Object.entries(recherche)) {
+        noter(`recherche ; ${largeur} px ; ${valeurs.join(" ; ")}`);
+        expect(new Set(valeurs.map((v) => v.split("=")[1])).size, `recherche à ${largeur} px : ${valeurs.join(", ")}`).toBe(1);
+      }
+    });
+
+    // s25 (relecture tour 2, design F1 F2 et pistes, ux 3 et 5) : menu mobile, un seul pas de 44 px ; actions du compte
+    // et « Connexion » à gauche, même graisse et même couleur que les liens du site ; 16 px sous le bouton d'offre.
+    test("menu mobile à 375 px : pas de 44 px, actions alignées et de même graisse que les liens, 16 px sous l'offre", async ({ browser }) => {
+      for (const etat of ["visiteur", "FREE"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        await page.setViewportSize({ width: 375, height: 812 });
+        await page.goto("/vannes");
+        await pret(page, etat);
+        await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+        const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+        await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+        const lignes = await menu.evaluate((m) => {
+          // Début du contenu (icône ou texte) : bord gauche + filet + retrait.
+          const texte = (el: Element) => {
+            const cs = getComputedStyle(el);
+            return Math.round(el.getBoundingClientRect().left + parseFloat(cs.borderLeftWidth) + parseFloat(cs.paddingLeft));
+          };
+          const mesure = (el: Element) => {
+            const r = el.getBoundingClientRect();
+            const cs = getComputedStyle(el);
+            return { nom: (el as HTMLElement).innerText.trim(), y: Math.round(r.top), bas: Math.round(r.bottom), x: texte(el), graisse: cs.fontWeight, couleur: cs.color };
+          };
+          const site = Array.from(m.querySelectorAll("[data-liens-site] a")).map(mesure);
+          const offre = m.querySelector(`a[href*="/abonnement"]`)!.getBoundingClientRect();
+          const actions = Array.from(m.querySelectorAll("[data-actions-compte] > *, a[href*='/login']"))
+            .filter((e) => e.getBoundingClientRect().height > 0)
+            .map(mesure);
+          return { site, actions, offreBas: Math.round(offre.bottom) };
+        });
+        const pas = lignes.site.slice(1).map((l, i) => l.y - lignes.site[i].y);
+        expect(new Set(pas), `pas des liens du site (${etat}) : ${pas.join(", ")}`).toEqual(new Set([44]));
+        const pasActions = lignes.actions.slice(1).map((l, i) => l.y - lignes.actions[i].y);
+        for (const p of pasActions) expect(p, `pas des actions (${etat})`).toBe(44);
+        expect(lignes.actions[0].y - lignes.offreBas, `16 px sous le bouton d'offre (${etat})`).toBe(16);
+        const ref = lignes.site[0];
+        for (const a of lignes.actions) {
+          expect(a.x, `« ${a.nom} » aligné sur les liens (${etat})`).toBe(ref.x);
+          expect(a.graisse, `graisse de « ${a.nom} » (${etat})`).toBe(ref.graisse);
+          expect(a.couleur, `couleur de « ${a.nom} » (${etat})`).toBe(ref.couleur);
+        }
+        await c.close();
       }
     });
 

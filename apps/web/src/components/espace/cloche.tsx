@@ -5,6 +5,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { buttonVariants } from "@/components/ui/button";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { LignesCloche } from "@/components/espace/cloche-lignes";
+import { PANNEAU_ELEVE } from "@/components/layout/panneau-eleve";
 import type { ContenuCloche } from "@/lib/espace/cloche-types";
 import { TEXTES_ESPACE_NAVIGATION as T, nomCloche } from "@/config/textes/espace-navigation";
 import { cn } from "@/lib/utils";
@@ -22,7 +23,9 @@ import { cn } from "@/lib/utils";
  *   filet, sans voile ; bord droit sur la marge de la coque comme le menu du compte ; sous 768 px, toute la
  *   largeur de la coque, dès 768 px 320 px ; finition des cartes de l'accueil (`rounded-xl`, filet dégradé `h-1`
  *   en haut, `daily-content.tsx`), « Fermer » discret (ghost, 44 px) ; Échap, clic dehors et
- *   « Fermer » ferment, focus dans le panneau puis rendu au bouton (Radix Dialog) ;
+ *   « Fermer » ferment, focus dans le panneau puis rendu au bouton (Radix Dialog) ; s25 (relecture tour 2, design F4) :
+ *   couche au-dessus des cartes (`PANNEAU_ELEVE` : fond élevé, ombre portée nette, anneau fin), survols un cran
+ *   au-dessus du fond (`bg-border-hover`) ;
  * - ouvrir le panneau ne lit rien (la pastille reste tant que le fil n'est pas ouvert) ;
  * - le nom ne change jamais en direct : aucun `aria-live`, aucune relecture pendant la lecture d'une page ;
  *   le contenu est lu au montage et à chaque changement d'adresse (`ClocheEspace`), jamais à intervalles.
@@ -104,12 +107,12 @@ export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps
         <Dialog.Content
           aria-describedby={undefined}
           style={ancre}
-          className="fixed inset-x-3 top-[4.5rem] z-[70] max-h-[calc(100dvh-5.5rem)] overflow-y-auto rounded-xl border border-border bg-background-card p-4 shadow-xl focus:outline-none md:left-auto md:w-80 max-e300:px-3 max-e300:pt-3"
+          className={cn("fixed inset-x-3 top-[4.5rem] z-[70] max-h-[calc(100dvh-5.5rem)] overflow-y-auto rounded-xl border border-border p-4 focus:outline-none md:left-auto md:w-80 max-e300:px-3 max-e300:pt-3", PANNEAU_ELEVE)}
         >
           <div aria-hidden="true" className="-mx-4 -mt-4 mb-3 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary max-e300:-mx-3 max-e300:-mt-3" />
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <Dialog.Title className="font-display text-xl font-bold text-text-primary">{T.cloche.titre}</Dialog.Title>
-            <Dialog.Close className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 shrink-0")}>{T.cloche.fermer}</Dialog.Close>
+            <Dialog.Close className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 shrink-0 hover:bg-border-hover")}>{T.cloche.fermer}</Dialog.Close>
           </div>
           <LignesCloche contenu={contenu} erreur={erreur} onChoisir={() => setOuvert(false)} />
         </Dialog.Content>

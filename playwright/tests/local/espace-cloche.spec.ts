@@ -93,6 +93,19 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await expect(panneau.getByRole("heading", { name: frEspace(C.groupes.reponses) })).toBeVisible();
       await expect(ligne).toHaveAttribute("href", `/mon-espace/questions/${filId}`);
       expect((await ligne.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+      // s25 (relecture tour 2, design F3 et F4, ux 7) : titre de groupe sur la verticale du texte des lignes ;
+      // panneau un cran au-dessus des cartes (fond élevé, ombre, anneau) ; « Répondu le » en texte secondaire
+      // (le gris atténué passe sous 4,5:1 sur la ligne survolée).
+      const gauche = (el: Element) => {
+        const t = el.querySelector("span") ?? el;
+        const r = document.createRange();
+        r.selectNodeContents(t.firstChild ?? t);
+        return Math.round(r.getBoundingClientRect().left);
+      };
+      expect(await panneau.getByRole("heading", { name: frEspace(C.groupes.reponses) }).evaluate(gauche)).toBe(await ligne.evaluate(gauche));
+      expect(await panneau.evaluate((p) => getComputedStyle(p).backgroundColor)).toBe("rgb(42, 42, 42)");
+      expect(await panneau.evaluate((p) => getComputedStyle(p).boxShadow)).toMatch(/rgba\(0, 0, 0, 0\.6\)/);
+      expect(await ligne.locator("small").evaluate((e) => getComputedStyle(e).color)).toBe("rgb(179, 179, 179)");
       // s25 (relecture tour 1, design F5 et F6, ux) : sous l'en-tête (8 px sous son filet), largeur de la coque.
       // Panneau ouvert, l'en-tête est masqué aux lecteurs d'écran (modal) : lu par son attribut, pas par son rôle.
       const basEnTete = await page.locator("[data-en-tete-universel]").evaluate((h) => h.getBoundingClientRect().bottom);
@@ -163,6 +176,18 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await cloche.click();
       const panneau = page.getByRole("dialog", { name: frEspace(T.cloche.titre) });
       await expect(panneau.getByText(frEspace(T.cloche.vide))).toBeVisible();
+      // s25 (relecture design tour 2, piste) : même air au-dessus (sous le texte du titre) et en dessous (bord bas).
+      const air = await panneau.evaluate((p) => {
+        const boite = (el: Element) => {
+          const r = document.createRange();
+          r.selectNodeContents(el);
+          return r.getBoundingClientRect();
+        };
+        const titre = boite(p.querySelector("h2")!);
+        const phrase = boite(Array.from(p.querySelectorAll("p")).pop()!);
+        return { haut: Math.round(phrase.top - titre.bottom), bas: Math.round(p.getBoundingClientRect().bottom - phrase.bottom) };
+      });
+      expect(Math.abs(air.haut - air.bas), `air de l'état vide : ${air.haut} au-dessus, ${air.bas} en dessous`).toBeLessThanOrEqual(1);
       await capturer(page, "vide");
       await page.unroute("**/api/espace/cloche");
       await servir(page, {

@@ -23,10 +23,16 @@ import { cn } from "@/lib/utils";
  * couleur, `font-semibold`, `aria-current` et, s25 (relecture ux tour 1), filet gauche violet de 2 px lisible sans
  * la teinte : chaque ligne porte un filet transparent (`FILET`) et 2 px de padding gauche en moins, le texte ne
  * bouge pas d'une ligne à l'autre.
+ * s25 (relecture tour 2, design F1 F2 et pistes, ux critères 3 et 5) : un seul pas de 44 px dans toute la colonne
+ * (liens du site et actions en `min-h-11`, sans interstice, comme les 8 entrées), les séparateurs seuls portent
+ * l'air ; actions du compte et « Connexion » alignées à gauche, en `font-medium` et couleur des liens du site
+ * (`LIGNE_ACTION` écrase le `font-semibold` de `buttonVariants`) : le semi-gras reste réservé à la ligne allumée
+ * et au bouton d'offre ; 16 px entre le bouton d'offre et les actions en dessous.
  */
 const FILET = "border-l-2 border-transparent";
 const ALLUMEE = "rounded-l-none border-accent-primary bg-background-elevated text-accent-link font-semibold";
 const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary";
+const LIGNE_ACTION = cn(FILET, "h-11 w-full justify-start gap-2 pl-[10px] font-medium text-text-secondary hover:text-text-primary");
 
 interface Props {
   etat: EtatLecteur;
@@ -41,8 +47,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
   const allume = elementBarreAllume(pathname, etat);
   const ligne = etat === "abonne" ? ligneEspaceAllumee(pathname) : null;
   const plein = etat !== "abonne" && !masquerPlein;
-  const secondaire = (actif: boolean) =>
-    cn(buttonVariants({ variant: "ghost", size: "sm" }), FILET, "h-11 w-full justify-start gap-2 pl-[10px]", actif && ALLUMEE);
+  const secondaire = (actif: boolean) => cn(buttonVariants({ variant: "ghost", size: "sm" }), LIGNE_ACTION, actif && ALLUMEE);
   return (
     <nav
       className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 lg:hidden animate-slide-up"
@@ -88,7 +93,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
         </div>
       )}
 
-      <div className={cn("flex flex-col gap-2", etat === "abonne" && "pt-2")}>
+      <div className={cn("flex flex-col", etat === "abonne" && "pt-2")}>
         {/* s25 (relecture ux tour 1, spec §1 « de haut en bas ») : les liens du site en une colonne pour tous les
             comptes ; critère 5 : seules les 8 entrées de l'espace tiennent sans défilement, le reste peut être sous le pli. */}
         <div className="contents" data-liens-site>
@@ -99,7 +104,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
             onClick={onClose}
             aria-current={allume === l.href ? "page" : undefined}
             className={cn(
-              "rounded-lg py-3 pl-[10px] pr-3 text-sm font-medium transition-colors",
+              "flex min-h-11 items-center rounded-lg pl-[10px] pr-3 text-sm font-medium transition-colors",
               FILET,
               FOCUS,
               allume === l.href ? ALLUMEE : "text-text-secondary hover:bg-background-elevated hover:text-text-primary",
@@ -119,13 +124,13 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
           </Link>
         )}
         {etat === "visiteur" && (
-          <Link href={hrefs.login} onClick={onClose} className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-full min-[520px]:hidden")}>
+          <Link href={hrefs.login} onClick={onClose} className={cn(secondaire(false), "min-[520px]:hidden", plein && "mt-4")}>
             Connexion
           </Link>
         )}
         {etat !== "visiteur" && (
           // s25 (relecture tour 1, design F2, ux) : une colonne pour tous, actions à gauche avec icône, comme les liens.
-          <div className="flex flex-col gap-2 md:hidden" data-actions-compte>
+          <div className={cn("flex flex-col md:hidden", plein && "mt-4")} data-actions-compte>
             {etat === "gratuit" && (
               <Link href="/favoris" onClick={onClose} aria-current={allume === "compte" && pathname === "/favoris" ? "page" : undefined} className={secondaire(allume === "compte" && pathname === "/favoris")}>
                 <IconeFavoris className="h-4 w-4" />
@@ -139,7 +144,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
             <Button
               variant="ghost"
               size="sm"
-              className={cn(FILET, "h-11 w-full justify-start gap-2 pl-[10px]")}
+              className={LIGNE_ACTION}
               onClick={() => {
                 onClose();
                 signOut({ callbackUrl: "/" });

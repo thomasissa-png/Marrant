@@ -7,6 +7,7 @@ import { signOut } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
 import { IconeDeconnexion, IconeFavoris, IconeProfil } from "@/components/layout/header-icons";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
+import { PANNEAU_ELEVE } from "@/components/layout/panneau-eleve";
 import { cn } from "@/lib/utils";
 
 /**
@@ -24,6 +25,9 @@ import { cn } from "@/lib/utils";
  * s25 (relecture design tour 1, F5 à F7), `universel` seulement : panneau 8 px sous le filet de l'en-tête, bord
  * droit sur la marge de la coque (comme la cloche), finition des cartes de l'accueil (`rounded-xl`, filet dégradé
  * `h-1` en haut, `daily-content.tsx`).
+ * s25 (relecture design tour 2, F4 et F6), `universel` seulement : couche au-dessus des cartes (`PANNEAU_ELEVE`),
+ * lignes en `text-text-primary` comme « Dans ton espace » et la cloche (`ITEM_UNIVERSEL`), ligne active et
+ * séparateur en `border-hover`, visibles sur le fond élevé.
  * Sans `universel` : rendu inchangé (test d'inertie).
  */
 export interface VarianteUniverselle {
@@ -32,6 +36,8 @@ export interface VarianteUniverselle {
 }
 const ITEM =
   "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-secondary outline-none transition-colors data-[highlighted]:bg-background-elevated data-[highlighted]:text-text-primary";
+const ITEM_UNIVERSEL =
+  "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-primary outline-none transition-colors data-[highlighted]:bg-border-hover";
 
 /** Décalages Radix mesurés à l'ouverture : 8 px sous l'en-tête, bord droit sur la marge de la coque. */
 function mesurerPosition(bouton: HTMLElement): { side: number; align: number } {
@@ -44,6 +50,7 @@ function mesurerPosition(bouton: HTMLElement): { side: number; align: number } {
 
 export function AccountMenu({ universel }: { universel?: VarianteUniverselle } = {}) {
   const [position, setPosition] = useState({ side: 8, align: 0 });
+  const item = universel ? ITEM_UNIVERSEL : ITEM;
   return (
     <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger
@@ -65,28 +72,29 @@ export function AccountMenu({ universel }: { universel?: VarianteUniverselle } =
           align="end"
           sideOffset={universel ? position.side : 8}
           alignOffset={universel ? position.align : undefined}
-          className={cn(
-            "z-[60] min-w-[12rem] rounded-lg border border-border bg-background-card p-1 shadow-xl animate-fade-in",
-            universel && "overflow-hidden rounded-xl",
-          )}
+          className={
+            universel
+              ? cn("z-[60] min-w-[12rem] overflow-hidden rounded-xl border border-border p-1 animate-fade-in", PANNEAU_ELEVE)
+              : "z-[60] min-w-[12rem] rounded-lg border border-border bg-background-card p-1 shadow-xl animate-fade-in"
+          }
         >
           {universel && <div aria-hidden="true" className="-mx-1 -mt-1 mb-1 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />}
           {!universel?.sansFavoris && (
-            <DropdownMenu.Item asChild className={ITEM}>
+            <DropdownMenu.Item asChild className={item}>
               <Link href="/favoris">
                 <IconeFavoris className="h-4 w-4" />
                 Favoris
               </Link>
             </DropdownMenu.Item>
           )}
-          <DropdownMenu.Item asChild className={ITEM}>
+          <DropdownMenu.Item asChild className={item}>
             <Link href="/profil">
               <IconeProfil className="h-4 w-4" />
               Mon profil
             </Link>
           </DropdownMenu.Item>
-          <DropdownMenu.Separator className="my-1 h-px bg-border" />
-          <DropdownMenu.Item className={ITEM} onSelect={() => signOut({ callbackUrl: "/" })}>
+          <DropdownMenu.Separator className={cn("my-1 h-px", universel ? "bg-border-hover" : "bg-border")} />
+          <DropdownMenu.Item className={item} onSelect={() => signOut({ callbackUrl: "/" })}>
             <IconeDeconnexion className="h-4 w-4" />
             Déconnexion
           </DropdownMenu.Item>
