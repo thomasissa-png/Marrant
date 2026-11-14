@@ -11,7 +11,7 @@
  */
 
 export const TEXTES_AUJOURDHUI = {
-  titre: "Aujourd'hui",
+  titre: "Aujourd’hui", // lot D11c (revue d'harmonie, défaut 11) : apostrophe typographique, comme l'onglet de la barre
   premierPas: {
     eyebrow: "Ton premier pas", // (1)
     bouton: "Commencer", // (2)

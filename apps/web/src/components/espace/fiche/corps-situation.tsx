@@ -1,10 +1,15 @@
 "use client";
 
-import { TEXTES_CARTES as C } from "@/config/textes/espace-cartes";
-import { TEXTES_FICHE as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
+import { TEXTES_FICHE } from "@/config/textes/espace-bibliotheque";
 import { ETIQUETTE } from "@/components/espace/carte/styles";
 import { entreGuillemets } from "@/components/espace/carte/citation";
 import { ReponseDabord } from "@/components/espace/fiche/reponse-dabord";
+import { FINE, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const C = frEspaceProfond(TEXTES_CARTES);
+const T = frEspaceProfond(TEXTES_FICHE);
 
 type Replique = { texte: string; pourquoi: string; sansParole?: true };
 
@@ -23,7 +28,7 @@ export interface CorpsSituationProps {
 // Import 2 : retours à la ligne des textes à plusieurs paragraphes conservés (`\n` du lot).
 const PL = "whitespace-pre-line";
 /** Une réplique écrite comme un geste (« Le silence. ») s'affiche sans guillemets. */
-const phrase = (r: Replique) => (r.sansParole ? r.texte : `« ${r.texte} »`);
+const phrase = (r: Replique) => (r.sansParole ? r.texte : `«${FINE}${r.texte}${FINE}»`);
 
 const REGISTRES = ["sure", "joueuse", "risquee"] as const;
 
@@ -67,7 +72,7 @@ export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, 
               <h3 id="f-si-ca-dure" className="text-base font-semibold text-text-primary">
                 {siCaDure.titre}
               </h3>
-              <p className="text-base text-text-primary">« {siCaDure.texte} »</p>
+              <p className="text-base text-text-primary">«{FINE}{siCaDure.texte}{FINE}»</p>
               <p className={`${PL} text-sm text-text-secondary`}>{siCaDure.pourquoi}</p>
             </section>
           )}

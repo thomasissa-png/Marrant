@@ -18,6 +18,8 @@ import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import bonusFactice from "@/lib/espace/fixtures/bonus-factice-cap-2.json";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
+// Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
+import { frEspace } from "@/lib/fr-typo";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
@@ -112,9 +114,9 @@ describe("annonce de passage (critère 17, 3.0 point 3)", () => {
     const annonce = { cap: 2 as const, bonus: { cap: 2 as const, titre: "Le passage", href: "/mon-espace/bonus/b2" }, marques: [{ type: "CAP" as const, numero: 2 as const }, { type: "BONUS" as const, numero: 2 as const }] };
     const { container, rerender } = render(<AnnonceCap annonce={annonce} retour={() => retour} />);
     const region = container.querySelector('[aria-live="polite"]')!;
-    expect(region.textContent).toBe("Nouveau cap : Tu te lances. Un bonus s'ouvre dans la Bibliothèque : Le passage.");
+    expect(region.textContent).toBe(frEspace("Nouveau cap : Tu te lances. Un bonus s'ouvre dans la Bibliothèque : Le passage."));
     expect(within(region as HTMLElement).queryByRole("link")).toBeNull();
-    expect(screen.getByRole("link", { name: "Ouvrir le bonus : Le passage" })).toHaveAttribute("href", "/mon-espace/bonus/b2");
+    expect(screen.getByRole("link", { name: frEspace("Ouvrir le bonus : Le passage") })).toHaveAttribute("href", "/mon-espace/bonus/b2");
     act(() => {
       jest.advanceTimersByTime(60_000);
     });

@@ -311,6 +311,7 @@ const HACHAGES = {
     "lib/llms-content.ts": "87842325825ebad22546170ad053336d839587eca10f73a69897f5f7c7c1af0a",
     "app/(dashboard)/a-propos/page.tsx": "f1f0d3e995f8fa076431317ca77ab440b04c3d59b0fea9653951ceb21662c5d4",
     "app/(dashboard)/videos/page.tsx": "72ad20b9a6c91f5c8dad1237ba7cda6b5a4d9fc970cb68cf4255861ca63d66d9",
-    "app/(dashboard)/parcours/(liste)/page.tsx": "3e8bdc7487c1c1758a7cff480943f812086f39258f3777fb5c0cd4c06b4f0f2c",
+    // Lot D11c : colonne de l'abonné (`ColonneParcours`, code de mise en page seulement, aucun texte touché).
+    "app/(dashboard)/parcours/(liste)/page.tsx": "a90de15cb900fd832cca2c9b9cba0fca046fdca57d33e6d25602970cefcea4e2",
   } as Record<string, string>,
 };

@@ -2,10 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { buildTipSlug, buildVideoSlug } from "@/lib/catalogue-slug";
 import type { CategorieToucher } from "@/lib/espace/vanne";
 import { VanneToucher, type VanneAffichee } from "@/components/espace/aujourdhui/vanne-toucher";
+import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 
 /**
  * « Contenu du jour » de « Aujourd'hui » (décision C13, architecture 4.4) : vanne, conseil et vidéo
@@ -34,7 +38,9 @@ function Carte({ id, titre, children }: { id: string; titre: string; children: R
   );
 }
 
-const lienCarte = "inline-flex min-h-11 items-center text-accent-link underline underline-offset-2 hover:text-text-primary";
+// Lot D11c (revue d'harmonie, défaut 13) : cible de 44 px gardée, mais ses 10 px sous le texte rentrent dans la
+// marge de la carte (sinon ~34 px de vide sous le lien contre 24 au-dessus du titre).
+const lienCarte = "-mb-2.5 inline-flex min-h-11 items-center text-accent-link underline underline-offset-2 hover:text-text-primary";
 
 export function ContenuDuJour({ categories }: { categories: readonly CategorieToucher[] }) {
   const [etat, setEtat] = useState<Etat>({ statut: "chargement" });
@@ -89,14 +95,14 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
           </Carte>
           <Carte id="jour-conseil" titre={T.jour.conseil}>
             {etat.donnees.tip ? (
-              <Link href={`/conseils/${buildTipSlug(etat.donnees.tip)}`} className={lienCarte}>{etat.donnees.tip.title}</Link>
+              <Link href={`/conseils/${buildTipSlug(etat.donnees.tip)}`} className={lienCarte}>{frEspace(etat.donnees.tip.title)}</Link>
             ) : (
               <Link href="/conseils" className={lienCarte}>{T.jour.repli.conseils}</Link>
             )}
           </Carte>
           <Carte id="jour-video" titre={T.jour.video}>
             {etat.donnees.video ? (
-              <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={lienCarte}>{etat.donnees.video.title}</Link>
+              <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={lienCarte}>{frEspace(etat.donnees.video.title)}</Link>
             ) : (
               <Link href="/videos" className={lienCarte}>{T.jour.repli.videos}</Link>
             )}

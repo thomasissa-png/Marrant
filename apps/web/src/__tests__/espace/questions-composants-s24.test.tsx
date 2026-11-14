@@ -13,6 +13,8 @@ import { MesQuestions } from "@/components/espace/questions/mes-questions";
 import { preparerQuestion } from "@/components/espace/questions/prefill";
 import { TEXTES_QUESTIONS as Q, EMAIL_REPONSE_VALIDE } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
+// Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
+import { frEspace } from "@/lib/fr-typo";
 
 const fetchMock = jest.fn();
 beforeEach(() => {
@@ -55,10 +57,10 @@ const repondu: FilListe = {
 it("libellés validés : formulaire, types, délai, bouton ; aucun tiret cadratin dans les textes", () => {
   render(<MesQuestions initiaux={[attente]} lectureSeule={false} />);
   expect(screen.getByRole("heading", { name: "Écrire à l'équipe" })).toBeInTheDocument();
-  expect(screen.getByRole("group", { name: "C'est à propos de quoi ?" })).toBeInTheDocument();
+  expect(screen.getByRole("group", { name: frEspace("C'est à propos de quoi ?") })).toBeInTheDocument();
   expect(screen.getByRole("radio", { name: /Une question/ })).toBeChecked();
   expect(screen.getAllByRole("radio")).toHaveLength(3);
-  expect(screen.getByLabelText("Ton message")).toHaveAccessibleDescription(/Évite les noms : décris la scène\. L'équipe répond en général sous 1 à 2 jours ouvrés/);
+  expect(screen.getByLabelText("Ton message")).toHaveAccessibleDescription(/Évite les noms\s: décris la scène\. L'équipe répond en général sous 1 à 2 jours ouvrés/);
   expect(screen.getByRole("button", { name: "Envoyer à l'équipe" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "Mes envois" })).toBeInTheDocument();
   expect(screen.getByText("Envoyé le 10 novembre")).toBeInTheDocument();

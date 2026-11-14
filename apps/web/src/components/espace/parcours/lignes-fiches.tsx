@@ -1,9 +1,11 @@
 "use client";
 
 import { etapeDecoupee, type BlocReference } from "@/lib/espace/parcours-fiches";
-import { TEXTES_PARCOURS_ESPACE as P } from "@/config/textes/espace-caps";
+import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { QUIZ_TITRE, VANNES_ETAPE } from "@/config/textes/parcours";
-import { frTypoParcours } from "@/lib/fr-typo";
+import { frTypoParcours, frEspaceProfond } from "@/lib/fr-typo";
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
 
 /** Ancre d'une fiche dans l'étape : `fiche-N-M` (architecture v20 5.1). */
 export const ancreFiche = (etape: number, rang: number) => `fiche-${etape}-${rang}`;

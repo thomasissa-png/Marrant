@@ -1,8 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { TEXTES_QUOI_REPONDRE as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { BOUTON_SECONDAIRE, CARTE, LIEN } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 
 /**
  * Erreur de « Quoi répondre » (s24, lot D6) : rien n'est perdu, deux sorties sans texte neuf, « Réessayer »

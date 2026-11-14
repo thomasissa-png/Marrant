@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { TEXTES_CARTES as T } from "@/config/textes/espace-cartes";
+import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import type { CarteEtToi as Carte } from "@/lib/espace/rafale";
 import type { ReponseCarte } from "@/lib/espace/revision";
 import { appelEspace } from "@/components/espace/carte/appel";
@@ -13,6 +13,10 @@ import { GesteFiche } from "@/components/espace/carte/geste-fiche";
 import type { ApresReponse } from "@/components/espace/carte/carte-registre";
 import { CARTE, ETIQUETTE, nouvelleCle } from "@/components/espace/carte/styles";
 import { entreGuillemets } from "@/components/espace/carte/citation";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CARTES);
 
 /**
  * Carte « Et toi ? » (fiche du carnet, 2.2 ; maquette `carte-rafale.html`) : carte de production, sans

@@ -8,13 +8,19 @@ import { hrefFiche } from "@/lib/espace/premier-pas";
 import { lireRafale } from "@/lib/espace/cartes-serveur";
 import { marcheDeRepli, missionDeMarche, missionOuverte, missionsServiesValidees, type NumeroMarche } from "@/lib/espace/missions";
 import { lireRetoursMission } from "@/lib/espace/missions-serveur";
-import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
-import { TEXTES_CARTES as T, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
+import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
+import { TEXTES_CARTES, TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import { CarteRegistre } from "@/components/espace/carte/carte-registre";
 import { CarteEtToi } from "@/components/espace/carte/carte-et-toi";
 import { FournisseurCompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
 import { CARTE, LIEN } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const N = frEspaceProfond(TEXTES_ESPACE_NAVIGATION);
+const T = frEspaceProfond(TEXTES_CARTES);
+const M = frEspaceProfond(TEXTES_MISSION);
 
 /**
  * « S'entraîner » (s24, lot D5 ; architecture v20 2.2 à 2.4, 3.11 ; maquettes `carte-rafale.html` et
@@ -51,17 +57,20 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
 
   return (
     <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
-      <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{N.menuPlus.sEntrainer}</h1>
-      <p className="text-sm text-text-secondary">{T.accroche}</p>
+      {/* Lot D11c (revue d'harmonie, défaut 14) : titre puis sous-titre à 8 px, comme « Aujourd'hui ». */}
+      <div>
+        <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{N.menuPlus.sEntrainer}</h1>
+        <p className="mt-2 text-sm text-text-secondary">{T.accroche}</p>
+      </div>
       <FournisseurCompteARebours etat={etat.compteARebours}>
         {etat.cartes.map((c, i) => {
           const carte = etat.catalogue.get(c.carteId);
           if (!carte) return null;
           const ancre = `carte-${i + 1}`;
           return carte.genre === "registre" ? (
-            <CarteRegistre key={c.carteId} carte={carte} nouvelle={c.nouvelle} ancre={ancre} />
+            <CarteRegistre key={c.carteId} carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
           ) : (
-            <CarteEtToi key={c.carteId} carte={carte} nouvelle={c.nouvelle} ancre={ancre} />
+            <CarteEtToi key={c.carteId} carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
           );
         })}
       </FournisseurCompteARebours>
@@ -82,7 +91,7 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
       )}
       {mission && (
         <MissionCarte
-          mission={{ id: mission.id, marche: mission.marche, enonce: mission.enonce, suites: mission.suites }}
+          mission={{ id: mission.id, marche: mission.marche, enonce: mission.enonce, suites: frEspaceProfond(mission.suites) }}
           hrefAPlat={aPlat ? hrefFiche("a-plat", aPlat.id) : null}
         />
       )}

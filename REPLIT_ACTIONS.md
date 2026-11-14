@@ -73,6 +73,11 @@ Ce qui devient visible ou actif dès ce déploiement (hors interrupteur ; tout l
 - **Autres prérequis écrits dans les entrées** : @legal confirme que la mention « Usage du service » couvre les 6 événements du D9 ; plan de tags @data-analyst pour figer J7, J30, J60 (D9) ; « Motifs de résiliation » activés dans le portail Stripe (Thomas, lot 0) ; décision de Thomas sur l'export `BUILD_TARGET=mobile` (rouge, antérieur à s24, N-1 de la recette).
 - **Contre-recette @qa** des corrections D11b (Q-1, Q-2, Q-4, Q-5, Q-6, commit `534678f7`), CI verte dans les deux régimes.
 
+### À DÉPLOYER (s24), détail, voir l'entrée JOUR DU GO : lot D11c (harmonie de la préversion : revue `docs/design/harmonie-preversion-s24.md`), **NON COMMITÉ, NON DÉPLOYÉ, INTERRUPTEUR FERMÉ, SAUF la 404 du site : boutons l'un sous l'autre à 375 px, VISIBLE DÈS CE DÉPLOIEMENT**
+
+- Code seul : aucune variable d'environnement, aucun paquet, aucune migration. Ouvert seulement : largeur unique par type d'écran (Parcours et Profil de l'abonné sur l'axe de l'espace, `AxeEspace` ; visiteur inchangé, critère 11), onglet actif hors du fondu à 375 px, titre préfixé une fois, typographie insécable de l'espace (`frEspace`, affichage seul), Favoris (marge, indice), cloche ancrée dès 768 px, lien « retour » des fiches, coin Humour noir qui mène à la fiche demandée, `/abonnement` d'un abonné Premium vers `/mon-espace` (témoin `dm_arrivee_espace` de 10 s, chemin `/abonnement`, anti-boucle).
+- Fermé : seule la 404 (`app/not-found.tsx`) change à l'écran ; snapshot d'inertie inchangé (47/47, jamais `-u`).
+
 ### À DÉPLOYER (s24), détail, voir l'entrée JOUR DU GO : lot D11b (corrections de la recette D11, code et tests), **COMMITÉ, NON DÉPLOYÉ, INTERRUPTEUR FERMÉ** (consolidation du jour du go : Q-3, à part)
 
 - **Effet fermé** : aucun changement visible (inertie verte, snapshot jamais régénéré). Seules retouches hors espace : `middleware.ts` (ouvert seulement), `components/layout/header.tsx` (repère de chargement de l'en-tête abonné à 65 px, ouvert et Premium seulement), `cgu/page.tsx` (alinéa des bonus de l'article 3, ouvert ET 4 bonus publiés seulement), `tailwind.config.ts` (token `max-w-lecture`, 720 px).

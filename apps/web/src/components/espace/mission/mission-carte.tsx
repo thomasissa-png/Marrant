@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { TEXTES_CARTES, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
+import { TEXTES_CARTES as TEXTES_CARTES_BRUT, TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { RetourGeste } from "@/lib/espace/retours";
 import type { SuiteMission } from "@/lib/espace/missions";
 import { enonceAffiche } from "@/lib/espace/enonce-mission";
@@ -11,6 +11,11 @@ import { LigneRetour } from "@/components/espace/carte/ligne-retour";
 import { BOUTON_PRINCIPAL, CARTE, LIEN, nouvelleCle } from "@/components/espace/carte/styles";
 import { Marches } from "@/components/espace/mission/marches";
 import { preparerQuestion } from "@/components/espace/questions/prefill";
+import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const TEXTES_CARTES = frEspaceProfond(TEXTES_CARTES_BRUT);
+const M = frEspaceProfond(TEXTES_MISSION);
 
 export interface MissionVue {
   id: string;
@@ -70,7 +75,8 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
         {M.titresMarches[n]}
       </h2>
       <div className="space-y-2">
-        {enonceAffiche(mission.enonce).map((p) => (
+        {/* Lot D11c : typographie de l'espace APRÈS le retrait du préfixe « DÉFI XXX : » (sa forme d'origine). */}
+        {enonceAffiche(mission.enonce).map(frEspace).map((p) => (
           <p key={p} className="text-base text-text-primary">
             {p}
           </p>

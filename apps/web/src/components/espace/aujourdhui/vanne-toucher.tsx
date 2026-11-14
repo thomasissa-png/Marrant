@@ -2,10 +2,14 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { cn } from "@/lib/utils";
 import type { CategorieToucher } from "@/lib/espace/vanne";
 import { RepliquesCategorie } from "@/components/espace/aujourdhui/repliques-categorie";
+import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 
 /**
  * Vanne du contenu du jour et son toucher « Ce soir, c'est plutôt ? » (architecture v20 4.4,
@@ -116,9 +120,9 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
   return (
     <div className="space-y-3">
       <p className="text-base text-text-primary" data-vanne={vanne.id}>
-        {vanne.content}
+        {frEspace(vanne.content)}
       </p>
-      <p className="text-base font-semibold text-text-primary">{vanne.punchline}</p>
+      <p className="text-base font-semibold text-text-primary">{frEspace(vanne.punchline)}</p>
       {categories.length > 0 && (
         <>
           <p id="toucher-titre" className="text-xs text-text-muted">

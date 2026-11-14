@@ -1,8 +1,13 @@
 "use client";
 
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
-import { TEXTES_QUOI_REPONDRE as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
+import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { BOUTON_SECONDAIRE, CARTE } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
+const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 
 /**
  * Erreur de « Mes questions » (s24, lot D7) : rien n'est perdu (les envois sont en base), « Réessayer »

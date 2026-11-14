@@ -92,6 +92,10 @@ jest.mock("@/lib/auth", () => ({ authOptions: {} }));
 jest.mock("@/lib/rate-limit", () => ({ sharedRateLimit: jest.fn(async () => ({ allowed: true, remaining: 1, resetAt: 0 })), retryAfterSeconds: () => 1 }));
 const recordPractice = jest.fn();
 jest.mock("@/lib/progression", () => ({ ...jest.requireActual("@/lib/progression"), recordPractice: (...a: unknown[]) => recordPractice(...a) }));
+// Lot D11c : le carnet du mois réel n'est pas encore relu ; « en retard », la rafale ne sert une situation nouvelle
+// qu'un jour sur deux (2.3) et ces tests échouaient les jours impairs (13/11/2026 compris, déjà sur `main`).
+// Carnet à l'heure ici : la règle du jour sur deux a ses propres tests (moteur pur `rafale.ts`).
+jest.mock("@/lib/espace/carnet-cartes", () => ({ ...jest.requireActual("@/lib/espace/carnet-cartes"), carnetEnRetard: () => false }));
 jest.mock("@/data/espace/missions.json", () => jest.requireActual("@/lib/espace/fixtures/missions.json"));
 jest.mock("@/lib/espace/fiches", () => {
   const reel = jest.requireActual("@/lib/espace/fiches");

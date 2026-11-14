@@ -3,8 +3,12 @@ import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
 import { listerRepliques } from "@/lib/espace/repliques";
-import { TEXTES_REPLIQUES as R } from "@/config/textes/espace-repliques";
+import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { ListeRepliques } from "@/components/espace/repliques/liste-repliques";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const R = frEspaceProfond(TEXTES_REPLIQUES);
 
 /**
  * « Mes répliques » (s24, lot D5 ; architecture v20 2.7 ; maquette `mes-repliques.html`) : la plus

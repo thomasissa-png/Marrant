@@ -1,9 +1,11 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
 import { UpgradeToast } from "@/components/profil/upgrade-toast";
 import { ReprendreParcours } from "@/components/home/reprendre-parcours";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { HistoriqueProfil } from "@/components/espace/profil/historique-profil";
+import { AxeEspace } from "@/components/espace/axe-espace";
 
 export const metadata: Metadata = {
   title: "Mon profil | Progression & Statistiques",
@@ -23,8 +25,10 @@ export default function ProfilPage({
 }: {
   searchParams: { upgrade?: string };
 }) {
+  // Lot D11c (revue d'harmonie, défaut 3) : ouvert, l'abonné lit son profil dans la colonne de l'espace.
+  const Colonne = ESPACE_CLIENT_PUBLIE ? AxeEspace : Fragment;
   return (
-    <>
+    <Colonne>
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">
           Mon profil
@@ -43,6 +47,6 @@ export default function ProfilPage({
       <ProfilDashboard />
 
       {ESPACE_CLIENT_PUBLIE && <HistoriqueProfil />}
-    </>
+    </Colonne>
   );
 }

@@ -1,7 +1,11 @@
 import Link from "next/link";
-import { TEXTES_FICHE as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_FICHE } from "@/config/textes/espace-bibliotheque";
 import type { FicheDeType } from "@/lib/espace/fiches";
 import { LIEN } from "@/components/espace/carte/styles";
+import { NBSP, FINE, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_FICHE);
 
 const H2 = "text-base font-semibold text-text-primary";
 // Import 2 : retours à la ligne des textes à plusieurs paragraphes conservés (`\n` du lot).
@@ -23,7 +27,7 @@ export function Bloc({ id, titre, children }: { id: string; titre: string; child
  * Import 2 : forme « récit » (C1b fiche 7), exemple et essais affichés tels qu'écrits, guillemets compris.
  */
 export function CorpsConstruction({ c }: { c: FicheDeType<"construction">["contenu"] }) {
-  const cite = (t: string) => (c.forme === "recit" ? t : `« ${t} »`);
+  const cite = (t: string) => (c.forme === "recit" ? t : `«${FINE}${t}${FINE}»`);
   return (
     <>
       <Bloc id="f-schema" titre={T.schema}>
@@ -71,7 +75,7 @@ export function CorpsFormule({ c }: { c: FicheDeType<"formule">["contenu"] }) {
       <Bloc id="f-faites" titre={T.dejaFaites}>
         {faites.map((d) => (
           <p key={d.expression} className={P}>
-            « {d.expression} » <span aria-hidden="true">→</span> « {d.detournement} »
+            «{FINE}{d.expression}{FINE}»{NBSP}<span aria-hidden="true">→</span> «{FINE}{d.detournement}{FINE}»
           </p>
         ))}
       </Bloc>
@@ -79,10 +83,10 @@ export function CorpsFormule({ c }: { c: FicheDeType<"formule">["contenu"] }) {
         <ol className="list-decimal space-y-3 pl-5 text-base text-text-primary">
           {aToi.map((d) => (
             <li key={d.expression} className="space-y-1">
-              <p>« {d.expression} »</p>
+              <p>«{FINE}{d.expression}{FINE}»</p>
               <details>
                 <summary className="inline-flex min-h-11 cursor-pointer items-center text-sm text-accent-link underline underline-offset-2">{T.versionPossible}</summary>
-                <p className="text-base text-text-primary">« {d.detournement} »</p>
+                <p className="text-base text-text-primary">«{FINE}{d.detournement}{FINE}»</p>
               </details>
             </li>
           ))}
@@ -96,7 +100,7 @@ export function CorpsFormule({ c }: { c: FicheDeType<"formule">["contenu"] }) {
       </Bloc>
       {c.contreExemple && (
         <Bloc id="f-contre" titre={T.suiteSansDetour}>
-          <p className={P}>« {c.contreExemple.texte} »</p>
+          <p className={P}>«{FINE}{c.contreExemple.texte}{FINE}»</p>
           <p className="text-sm text-text-secondary">{c.contreExemple.pourquoi}</p>
         </Bloc>
       )}

@@ -1,5 +1,9 @@
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import { CARTE } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
 /**
  * Chargement de « Mes questions » (s24, lot D7) : le titre, puis deux cartes vides au gabarit de la page,

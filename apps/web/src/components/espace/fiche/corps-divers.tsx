@@ -1,7 +1,13 @@
-import { TEXTES_FICHE as T, TEXTES_FICHE_LIGNE as L } from "@/config/textes/espace-bibliotheque";
-import { TEXTES_CAPS } from "@/config/textes/espace-caps";
+import { TEXTES_FICHE, TEXTES_FICHE_LIGNE } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_CAPS as TEXTES_CAPS_BRUT } from "@/config/textes/espace-caps";
 import type { FicheDeType } from "@/lib/espace/fiches";
 import { Bloc } from "@/components/espace/fiche/corps-technique";
+import { FINE, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_FICHE);
+const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
+const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
 
 // Import 2 : retours à la ligne des textes à plusieurs paragraphes conservés (`\n` du lot).
 const P = "whitespace-pre-line text-base text-text-primary";
@@ -44,7 +50,7 @@ export function CorpsEcouter({ c }: { c: FicheDeType<"ecouter">["contenu"] }) {
       <Bloc id="f-citations" titre={F.citations}>
         <ul className="space-y-2 text-base text-text-primary">
           {c.citations.map((x) => (
-            <li key={x.texte}>« {x.texte} »</li>
+            <li key={x.texte}>«{FINE}{x.texte}{FINE}»</li>
           ))}
         </ul>
       </Bloc>

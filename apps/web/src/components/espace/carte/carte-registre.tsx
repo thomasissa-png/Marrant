@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { TEXTES_CARTES as T } from "@/config/textes/espace-cartes";
+import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import type { CarteRegistre as Carte } from "@/lib/espace/rafale";
 import type { ReponseCarte } from "@/lib/espace/revision";
 import type { RetourGeste } from "@/lib/espace/retours";
@@ -13,6 +13,10 @@ import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
 import { BOUTON_SECONDAIRE, CARTE, ETIQUETTE, nouvelleCle } from "@/components/espace/carte/styles";
 import { entreGuillemets } from "@/components/espace/carte/citation";
+import { FINE, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CARTES);
 
 type Registre = keyof Carte["repliques"];
 const REGISTRES: readonly Registre[] = ["sure", "joueuse", "risquee"];
@@ -94,7 +98,7 @@ export function CarteRegistre({ carte, nouvelle, ancre }: { carte: Carte; nouvel
                 className={`${BOUTON_SECONDAIRE} flex-col !items-start gap-1 text-left ${choix === g ? "border-2 border-accent-link bg-background-elevated" : ""}`}
               >
                 <b>{T.registres[g]}</b>
-                <span className="font-normal">« {carte.repliques[g]} »</span>
+                <span className="font-normal">«{FINE}{carte.repliques[g]}{FINE}»</span>
               </button>
             ))}
           </div>

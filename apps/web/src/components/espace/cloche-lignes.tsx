@@ -2,10 +2,16 @@
 
 import Link from "next/link";
 import type { ContenuCloche, GenreNouveaute } from "@/lib/espace/cloche-types";
-import { TEXTES_CLOCHE as C } from "@/config/textes/espace-cloche";
-import { TEXTES_ESPACE_NAVIGATION as T } from "@/config/textes/espace-navigation";
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { TEXTES_CLOCHE } from "@/config/textes/espace-cloche";
+import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import { dateCourte } from "@/components/espace/questions/appel";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const C = frEspaceProfond(TEXTES_CLOCHE);
+const T = frEspaceProfond(TEXTES_ESPACE_NAVIGATION);
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
 /**
  * Lignes du panneau de la cloche (lot D8 ; maquette `aujourdhui.html`, classes `.sh-g`, `.nrow`) : titre de

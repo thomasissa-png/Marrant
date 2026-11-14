@@ -1,9 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { TEXTES_CARTES as T } from "@/config/textes/espace-cartes";
+import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import type { ReponseCarte } from "@/lib/espace/revision";
 import { BoutonsReponse } from "@/components/espace/carte/boutons-reponse";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CARTES);
 
 /**
  * « Ta réponse d'abord », puis « Tu avais une réponse ? » (étalon E1.1, architecture 2.2) sur la page d'une

@@ -10,6 +10,8 @@
 //   contient donc que l'étape 1 complète et l'APERÇU des étapes 2+ (titre, ce
 //   qu'on apprend, format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
 //   via /api/parcours/by-slug après hydratation (plan vérifié en base).
+import { AxeEspace } from "@/components/espace/axe-espace";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import type { Metadata } from "next";
 import { fitDescription, fitTitle, NOT_FOUND_ROBOTS, websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
@@ -163,6 +165,15 @@ async function fetchInitialData(slug: string) {
   return { path: await toPublicPath(seedPath), progress: null };
 }
 
+/**
+ * Lot D11c (revue d'harmonie, défaut 3) : colonne centrée de 768 px pour tout lecteur ; interrupteur ouvert,
+ * l'abonné la voit sur l'axe de l'espace (`AxeEspace`, côté navigateur). Visiteur : même HTML (critère 11).
+ */
+function ColonneParcours({ children }: { children: React.ReactNode }) {
+  if (!ESPACE_CLIENT_PUBLIE) return <div className="mx-auto max-w-3xl">{children}</div>;
+  return <AxeEspace visiteur="mx-auto max-w-3xl">{children}</AxeEspace>;
+}
+
 export default async function ParcoursDetailPage({
   params,
 }: {
@@ -176,7 +187,7 @@ export default async function ParcoursDetailPage({
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <ColonneParcours>
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
@@ -212,6 +223,6 @@ export default async function ParcoursDetailPage({
             : null
         }
       />
-    </div>
+    </ColonneParcours>
   );
 }

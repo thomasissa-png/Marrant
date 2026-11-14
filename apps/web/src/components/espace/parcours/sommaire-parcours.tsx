@@ -1,9 +1,11 @@
 "use client";
 
-import { TEXTES_PARCOURS_ESPACE as P } from "@/config/textes/espace-caps";
+import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { frTypoParcours } from "@/lib/fr-typo";
+import { frTypoParcours, frEspaceProfond } from "@/lib/fr-typo";
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
 
 /**
  * Page d'un parcours, abonné, interrupteur ouvert (s24, lot D4 ; architecture v20 5.1) : barre globale

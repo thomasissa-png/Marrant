@@ -29,7 +29,7 @@ Les textes de la question et de la réponse de l'équipe sont marqués « test �
 2. **Le menu « Plus »** : S'entraîner, Favoris, Mes répliques, Lettres, Articles, Quiz d'humour.
 3. **La cloche** (en haut à droite) : avec l'abonné en cours, « L'équipe t'a répondu » ; ouvrir la question fait tomber la pastille.
 4. **Le profil** : `/profil`, avec la carte de l'abonnement.
-5. **L'abonnement** : pour un abonné, la gestion est dans la carte du profil. `/abonnement` renvoie un compte Premium vers `/vannes` (règle existante du site) ; `/resiliation` répond 404 (son propre interrupteur est fermé).
+5. **L'abonnement** : pour un abonné, la gestion est dans la carte du profil. `/abonnement` renvoie un compte Premium vers « Aujourd'hui » (`/mon-espace`, lot D11c, espace ouvert ; fermé : `/vannes`) ; `/resiliation` répond 404 (son propre interrupteur est fermé).
 6. **Une situation** : `/mon-espace/fiche/situation/coloc-la-poele` (celle qui porte la réplique de l'abonné en cours).
 7. **Un jeu** : `/mon-espace/fiche/jeu/quelle-replique-1`.
 8. **Une mission** : `/mon-espace/s-entrainer#mission`.
@@ -37,7 +37,8 @@ Les textes de la question et de la réponse de l'équipe sont marqués « test �
 10. **Le coin humour noir** : Bibliothèque, bloc « Humour noir, fait bien », bouton « Entrer », puis par exemple `/mon-espace/fiche/humour-noir/hn-qui-est-dans-la-piece`.
 
 Toutes ces pages ont été ouvertes par un navigateur automatique avec les deux comptes : réponse 200, pas
-d'écran d'erreur, pas d'erreur JavaScript.
+d'écran d'erreur, pas d'erreur JavaScript. Build en place depuis le 14/11 : lot D11c (captures et mesures :
+`docs/captures/s24-preversion-2/INDEX.md`).
 
 ## Ce qui est simulé
 

@@ -26,11 +26,23 @@ export async function idsFaits(userId: string, ids: readonly string[]): Promise<
   return new Set(lignes.map((l) => l.ficheId));
 }
 
+/** Minuscules sans accents, pour comparer un titre à un préfixe. */
+const neutre = (t: string) => t.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().trim();
+
+/**
+ * Titre préfixé, sauf si le titre porte déjà le préfixe (lot D11c, revue d'harmonie défaut 2 : les fiches de
+ * vocabulaire s'appellent déjà « Vocabulaire : … », d'où « Vocabulaire : Vocabulaire : … »). Donnée intacte.
+ */
+export function titrePrefixe(titre: string, prefixe?: string): string {
+  if (!prefixe || neutre(titre).startsWith(neutre(prefixe))) return titre;
+  return `${prefixe} : ${titre}`;
+}
+
 /** Ligne d'une fiche ; `prefixe` : « Comment c'est construit », etc. (maquette `bibliotheque.html`). */
 export function ligneDeFiche(fiche: Fiche, faits: ReadonlySet<string>, prefixe?: string): LigneFiche {
   return {
     id: fiche.id,
-    titre: prefixe ? `${prefixe} : ${fiche.titre}` : fiche.titre,
+    titre: titrePrefixe(fiche.titre, prefixe),
     href: hrefFiche(fiche.type, fiche.id),
     minutes: fiche.dureeMinutes,
     fait: faits.has(fiche.id),

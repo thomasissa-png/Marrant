@@ -2,8 +2,12 @@
 
 import { useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
 /**
  * Confirmation avant « Retirer de mon historique » (décision de Thomas du 13/11 ; textes : reco A de

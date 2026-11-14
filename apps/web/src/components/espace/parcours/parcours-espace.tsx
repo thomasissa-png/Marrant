@@ -10,7 +10,11 @@ import { AnnonceCap, type AnnonceApi } from "@/components/espace/annonce-cap";
 import { QuatreSemaines } from "@/components/espace/quatre-semaines";
 import { TonCap } from "@/components/espace/ton-cap";
 import { TesBonus } from "@/components/espace/tes-bonus";
-import { TEXTES_PARCOURS_ESPACE as P } from "@/config/textes/espace-caps";
+import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
 
 export interface EtatCapsApi {
   xp: number;

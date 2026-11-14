@@ -23,14 +23,16 @@ export default function NotFound() {
       <p className="mt-4 max-w-md text-lg text-text-secondary">
         Cette page n’existe pas, ou plus. Les vannes, elles, sont toujours là.
       </p>
-      <div className="mt-8 flex gap-4">
-        <Link href="/">
-          <Button variant="primary" size="lg">
+      {/* Lot D11c (revue d'harmonie, défaut 6) : à 375 px, l'un sous l'autre et de même largeur (chaque libellé
+          sur une ligne) ; côte à côte dès 640 px. Emoji gardé (décision de Thomas). */}
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+        <Link href="/" className="w-full sm:w-auto">
+          <Button variant="primary" size="lg" className="w-full">
             Retour à l’accueil
           </Button>
         </Link>
-        <Link href="/vannes">
-          <Button variant="outline" size="lg">
+        <Link href="/vannes" className="w-full sm:w-auto">
+          <Button variant="outline" size="lg" className="w-full">
             Voir les vannes
           </Button>
         </Link>

@@ -1,8 +1,13 @@
 import Link from "next/link";
+import { LienRetour } from "@/components/espace/lien-retour";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
-import { TEXTES_LETTRES as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_LETTRES } from "@/config/textes/espace-bibliotheque";
 import type { LettreArchive, LettreLue } from "@/lib/espace/lettres";
 import { CARTE, LIEN } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_LETTRES);
 
 export const hrefLettre = (numero: string) => `${ESPACE_ACCUEIL}/lettres/${numero}`;
 
@@ -17,7 +22,8 @@ export function ArchiveLettres({ lettres }: { lettres: readonly LettreArchive[] 
     return (
       <div className={`${CARTE} flex flex-col items-start gap-2`} data-testid="lettres-vide">
         <p className="text-base text-text-primary">{T.vide}</p>
-        <Link href={ESPACE_ACCUEIL} className={LIEN}>
+        {/* Lot D11c (revue d'harmonie, défaut 13) : cible de 44 px gardée, ses 12 px sous le texte dans la marge. */}
+        <Link href={ESPACE_ACCUEIL} className={`${LIEN} -mb-3`}>
           {T.allerAujourdhui}
         </Link>
       </div>
@@ -65,9 +71,7 @@ function avecLiens(texte: string): React.ReactNode[] {
 export function LettreVue({ lettre }: { lettre: LettreLue }) {
   return (
     <article aria-labelledby="lettre-titre" className="flex flex-col gap-4">
-      <Link href={`${ESPACE_ACCUEIL}/lettres`} className={`${LIEN} self-start`}>
-        {T.titre}
-      </Link>
+      <LienRetour href={`${ESPACE_ACCUEIL}/lettres`}>{T.titre}</LienRetour>
       <p className="text-sm text-text-secondary">{lettre.titre}</p>
       <h1 id="lettre-titre" className="font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-3xl">
         {lettre.objet}

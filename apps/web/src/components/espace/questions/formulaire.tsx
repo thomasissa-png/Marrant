@@ -1,11 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import { TYPES_QUESTION, type FilListe, type TypeQuestion } from "@/lib/espace/questions-types";
 import { BOUTON_PRINCIPAL, CARTE, nouvelleCle } from "@/components/espace/carte/styles";
 import { envoyerMessage, erreurLocale, MessageErreur, type Erreur } from "@/components/espace/questions/appel";
 import { prendrePrefill } from "@/components/espace/questions/prefill";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
 /**
  * « Écrire à l'équipe » (maquette `mes-questions.html`, carte de gauche) : le type en un geste (« Une

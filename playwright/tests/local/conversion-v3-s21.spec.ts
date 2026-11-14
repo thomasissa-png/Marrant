@@ -102,9 +102,9 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
     expect(favoris.map((f) => f.jokeId)).toEqual([vanne.id]);
     if (ESPACE_OUVERT) await expect(page.getByRole("status").filter({ hasText: "dans tes favoris" })).toHaveText(/^Ta vanne est dans tes favoris\./);
     else await expect(page.getByTestId("bienvenue-texte")).toHaveText(/^Ta vanne est dans tes favoris\./);
-    // Le reste de /abonnement* renvoie toujours un compte Premium vers /vannes.
+    // Le reste de /abonnement* renvoie un compte Premium vers /vannes ; lot D11c : espace ouvert, vers « Aujourd'hui ».
     await page.goto("/abonnement?src=header");
-    await expect(page).toHaveURL(/\/vannes$/);
+    await expect(page).toHaveURL(ESPACE_OUVERT ? /\/mon-espace$/ : /\/vannes$/);
   });
 
   // QA conversion s21 (m4) : T2, T3 et T5 jusqu'au retour de paiement, avec la success_url exacte.

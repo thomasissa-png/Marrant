@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { buttonVariants } from "@/components/ui/button";
 import { appelEspace } from "@/components/espace/carte/appel";
@@ -18,7 +18,8 @@ import { cn } from "@/lib/utils";
  * - pastille = point plein de 12 px, bordure de 2 px couleur du fond, sans chiffre, sans
  *   animation, réservée aux réponses de l'équipe ; couleur : token `accent-link` (le violet de la
  *   décision E5, `tailwind.config.ts`, plan §0 écart 6 ; contraste 7:1 sur le fond de page), jamais de hex ici ;
- * - panneau : feuille basse sur téléphone, fenêtre dès 768 px ; Échap, clic dehors et
+ * - panneau : feuille basse sur téléphone ; dès 768 px (lot D11c, revue d'harmonie défaut 9), panneau ancré sous
+ *   la cloche, bord droit aligné sur elle, 8 px sous l'en-tête, sans voile, comme « Plus » et le menu du compte ; Échap, clic dehors et
  *   « Fermer » ferment, focus dans le panneau puis rendu au bouton (Radix Dialog) ;
  * - ouvrir le panneau ne lit rien (la pastille reste tant que le fil n'est pas ouvert) ;
  * - le nom ne change jamais en direct : aucun `aria-live`, aucune relecture pendant la lecture d'une page ;
@@ -43,18 +44,39 @@ const IconeCloche = () => (
   </svg>
 );
 
+/** Dès 768 px : position du panneau sous la cloche (bord droit aligné, décalage de 8 px comme le menu du compte). */
+function ancrer(bouton: HTMLElement | null): CSSProperties | undefined {
+  if (!bouton || typeof window === "undefined" || typeof window.matchMedia !== "function") return undefined;
+  if (!window.matchMedia("(min-width: 768px)").matches) return undefined;
+  const r = bouton.getBoundingClientRect();
+  const haut = Math.round(r.bottom + 8);
+  return { top: haut, right: Math.round(window.innerWidth - r.right), maxHeight: window.innerHeight - haut - 16 };
+}
+
 export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps) {
   const [ouvert, setOuvert] = useState(false);
+  const bouton = useRef<HTMLButtonElement>(null);
+  const [ancre, setAncre] = useState<CSSProperties | undefined>(undefined);
   const nonLues = contenu?.nonLues ?? 0;
+
+  useEffect(() => {
+    if (!ouvert) return;
+    const suivre = () => setAncre(ancrer(bouton.current));
+    window.addEventListener("resize", suivre);
+    return () => window.removeEventListener("resize", suivre);
+  }, [ouvert]);
+
   return (
     <Dialog.Root
       open={ouvert}
       onOpenChange={(o) => {
+        if (o) setAncre(ancrer(bouton.current));
         setOuvert(o);
         if (o) onOuvrir?.();
       }}
     >
       <Dialog.Trigger
+        ref={bouton}
         aria-label={nomCloche(nonLues)}
         className="group relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary aria-expanded:bg-background-elevated aria-expanded:text-text-primary"
       >
@@ -68,10 +90,11 @@ export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps
         )}
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/60" />
+        <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/60 md:hidden" />
         <Dialog.Content
           aria-describedby={undefined}
-          className="fixed inset-x-0 bottom-0 z-[70] max-h-[calc(100dvh-1rem)] overflow-y-auto rounded-t-lg border border-border bg-background-card p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] focus:outline-none md:inset-x-auto md:bottom-auto md:left-1/2 md:top-1/2 md:w-full md:max-w-md md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-lg md:p-6 max-e300:px-3 max-e300:pt-3"
+          style={ancre}
+          className="fixed inset-x-0 bottom-0 z-[70] max-h-[calc(100dvh-1rem)] overflow-y-auto rounded-t-lg border border-border bg-background-card p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] focus:outline-none md:inset-x-auto md:bottom-auto md:w-80 md:rounded-lg md:pb-4 md:shadow-xl max-e300:px-3 max-e300:pt-3"
         >
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <Dialog.Title className="font-display text-xl font-bold text-text-primary">{T.cloche.titre}</Dialog.Title>

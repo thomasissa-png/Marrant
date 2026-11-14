@@ -102,3 +102,51 @@ export function frTypo(text: string): string {
       .replace(ESPACE_AVANT_TIRET, NBSP)
   );
 }
+
+// Lot D11c (revue d'harmonie de la préversion s24, défauts 7, 8 et 11) : espace fine insécable (U+202F).
+export const FINE = String.fromCharCode(0x202f);
+const BLANC = `[ ${NBSP}${FINE}]+`;
+const AVANT_PONCTUATION_HAUTE = new RegExp(`${BLANC}([;:!?])`, "g");
+const APRES_GUILLEMET_OUVRANT = new RegExp(`«${BLANC}`, "g");
+const AVANT_GUILLEMET_FERMANT = new RegExp(`${BLANC}»`, "g");
+const AVANT_CHEVRON_OU_FLECHE = new RegExp(`${BLANC}([›→])`, "g");
+
+/**
+ * Typographie de l'espace client (lot D11c) : seules les espaces changent, aucun mot, aucune apostrophe.
+ * Fine insécable (U+202F) avant « ; : ! ? », après « « » et avant « » » (la même des deux côtés du guillemet :
+ * une insécable pleine avant « » » faisait « «Et toi, tu fais quoi ? » », dissymétrique à l'œil) ;
+ * insécable (U+00A0) avant « › » et « → ».
+ * N'ajoute jamais d'espace là où il n'y en a pas (« 10:30 », « https: »). Idempotente. Rendu seulement :
+ * la donnée (JSON de l'espace, base) reste intacte.
+ */
+export function frEspace(text: string): string {
+  return text
+    .replace(AVANT_PONCTUATION_HAUTE, `${FINE}$1`)
+    .replace(APRES_GUILLEMET_OUVRANT, `«${FINE}`)
+    .replace(AVANT_GUILLEMET_FERMANT, `${FINE}»`)
+    .replace(AVANT_CHEVRON_OU_FLECHE, `${NBSP}$1`);
+}
+
+/** Clés jamais retouchées par `frEspaceProfond` (adresses, identifiants, valeurs techniques). */
+const CLES_TECHNIQUES = new Set(["id", "cle", "type", "href", "slug", "url", "src", "lien", "adresse", "email", "ancre", "theme", "registre", "contexteId", "videoId"]);
+
+/**
+ * `frEspace` sur chaque texte d'un objet (fiche, carte, textes de l'interface), fonctions comprises (leur
+ * résultat texte). Retourne une copie : l'objet d'origine (donnée importée, config) n'est pas modifié.
+ */
+export function frEspaceProfond<T>(valeur: T): T {
+  return profond(valeur, "") as T;
+}
+
+function profond(v: unknown, cle: string): unknown {
+  if (typeof v === "string") return CLES_TECHNIQUES.has(cle) ? v : frEspace(v);
+  if (typeof v === "function") {
+    const f = v as (...a: unknown[]) => unknown;
+    return (...a: unknown[]) => profond(f(...a), cle);
+  }
+  if (Array.isArray(v)) return v.map((x) => profond(x, cle));
+  if (v && typeof v === "object" && !("$$typeof" in v) && Object.getPrototypeOf(v) === Object.prototype) {
+    return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, profond(x, k)]));
+  }
+  return v;
+}

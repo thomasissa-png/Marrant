@@ -11,11 +11,16 @@ import { COOKIE_COIN, coinEntre } from "@/lib/espace/humour-noir";
 import { envoyeesSiBesoin, fichesVisibles } from "@/lib/espace/lettres";
 import { idsFaits, ligneDeBonus, ligneDeFiche } from "@/lib/espace/lignes-fiches";
 import type { Fiche } from "@/lib/espace/fiches-schema";
-import { TEXTES_BIBLIOTHEQUE as T } from "@/config/textes/espace-bibliotheque";
-import { TEXTES_CAPS } from "@/config/textes/espace-caps";
+import { TEXTES_BIBLIOTHEQUE } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_CAPS as TEXTES_CAPS_BRUT } from "@/config/textes/espace-caps";
 import { BlocBibliotheque, BlocVannes } from "@/components/espace/bloc-bibliotheque";
 import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { ListeFiches } from "@/components/espace/liste-fiches";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
+const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
 
 /**
  * Bibliothèque (s24, lot D6 ; architecture v20 6.2, 6.3, 3.12, 3.13 ; maquette `bibliotheque.html`) : trois

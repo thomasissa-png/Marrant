@@ -1,7 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TEXTES_API } from "@/config/textes/compte";
-import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_QUOI_REPONDRE as TEXTES_QUOI_REPONDRE_BRUT } from "@/config/textes/espace-bibliotheque";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const TEXTES_QUOI_REPONDRE = frEspaceProfond(TEXTES_QUOI_REPONDRE_BRUT);
 
 /**
  * « Mon profil », état d'erreur (s24, lot D10, espace ouvert seulement) : le compte n'a pas pu être lu.

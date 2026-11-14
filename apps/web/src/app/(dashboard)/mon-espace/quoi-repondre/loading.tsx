@@ -1,5 +1,9 @@
-import { TEXTES_QUOI_REPONDRE as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { CARTE } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 
 /**
  * Chargement de « Quoi répondre » (s24, lot D6) : le titre, puis des lignes vides au gabarit de la liste,

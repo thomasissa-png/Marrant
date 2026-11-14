@@ -16,6 +16,8 @@ import { MissionCarte, type MissionVue } from "@/components/espace/mission/missi
 import { PRENDS_TON_TEMPS_MS } from "@/components/espace/carte/boutons-reponse";
 import { TEXTES_CARTES as T, TEXTES_GESTE as G, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
 import { TEXTES_REPLIQUES as R } from "@/config/textes/espace-repliques";
+// Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
+import { frEspace } from "@/lib/fr-typo";
 
 const NOTE = "Ma version à moi, jamais avant la réponse";
 const carte = cartesDesSituations([ficheSchema.parse(situationPoele) as Extract<Fiche, { type: "situation" }>])[0];
@@ -58,7 +60,7 @@ describe("carte « Quel registre ? » en révision", () => {
     await attendre();
     expect(screen.getByTestId("replique-derniere-fois")).toHaveTextContent(`${T.repliqueDerniereFois}${NOTE}`);
     expect(JSON.parse(String(appels[0].init?.body))).toMatchObject({ reponse: "OUI", compteARebours: null });
-    expect(screen.getByRole("heading", { name: T.laquelle })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: frEspace(T.laquelle) })).toBeInTheDocument();
   });
 
   it("choix, règle « Ici : la joueuse. », puis geste, « Ton retour » et note pré-remplie", async () => {
@@ -110,7 +112,7 @@ describe("« Ma réplique à moi »", () => {
     expect(screen.getByRole("status")).toHaveTextContent(G.note.enregistree);
     fireEvent.click(screen.getByRole("button", { name: G.note.supprimer }));
     act(() => jest.runOnlyPendingTimers());
-    expect(screen.getByRole("group", { name: G.note.confirmer })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: frEspace(G.note.confirmer) })).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: G.note.supprimer })).toHaveLength(1);
     fireEvent.click(screen.getByRole("button", { name: G.note.supprimer }));
     await attendre();
@@ -135,12 +137,12 @@ describe("« Mes répliques »", () => {
 
   it("modifier (la réplique n'est pas affichée deux fois), confirmer, supprimée", async () => {
     render(<ListeRepliques initiales={[ligne]} lectureSeule={false} />);
-    expect(screen.getByRole("link", { name: ligne.titre })).toHaveAttribute("href", ligne.href);
+    expect(screen.getByRole("link", { name: frEspace(ligne.titre) })).toHaveAttribute("href", ligne.href);
     fireEvent.click(screen.getByRole("button", { name: R.modifier }));
     expect(screen.queryByText(`« ${NOTE} »`)).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: R.annuler }));
     fireEvent.click(screen.getByRole("button", { name: R.supprimer }));
-    expect(screen.getByRole("group", { name: R.confirmer })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: frEspace(R.confirmer) })).toBeInTheDocument();
     fireEvent.click(screen.getAllByRole("button", { name: R.supprimer })[0]);
     await attendre();
     expect(screen.getByRole("status")).toHaveTextContent(R.supprimee);

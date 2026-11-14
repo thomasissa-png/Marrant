@@ -2,12 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { TEXTES_BILAN as B } from "@/config/textes/espace-bibliotheque";
-import { TEXTES_CARTES as C } from "@/config/textes/espace-cartes";
+import { TEXTES_BILAN } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import type { FicheDeType } from "@/lib/espace/fiches";
 import type { RenvoiBilan } from "@/lib/espace/bilan-renvoi";
 import { BOUTON_SECONDAIRE, CARTE, ETIQUETTE, LIEN } from "@/components/espace/carte/styles";
 import { ReponseDabord } from "@/components/espace/fiche/reponse-dabord";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const B = frEspaceProfond(TEXTES_BILAN);
+const C = frEspaceProfond(TEXTES_CARTES);
 
 type Element = FicheDeType<"bilan">["contenu"]["elements"][number];
 type Laquelle = Extract<Element, { forme: "laquelle" }>;

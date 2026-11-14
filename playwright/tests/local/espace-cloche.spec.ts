@@ -10,7 +10,7 @@ import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
  * Espace client, lot D8 (s24, plan §3) : contenu du panneau de la cloche (maquette `aujourdhui.html#cloche=…`,
  * architecture 2.9) et confirmation avant « Retirer de mon historique » (décision de Thomas du 13/11).
  * Fermé (CI) : aucune cloche, route 404. Ouvert (`E2E_ESPACE_OUVERT=1`) : pastille et nom au singulier pour
- * une réponse posée en base ; feuille basse à 375 px, fenêtre centrée à 1280 px ; Échap, clic dehors et
+ * une réponse posée en base ; feuille basse à 375 px, panneau ancré sous la cloche à 1280 px (D11c) ; Échap, clic dehors et
  * « Fermer » ferment, focus rendu au bouton, focus piégé ; ouvrir le panneau ne lit rien (rechargement) ;
  * ouvrir le fil éteint la pastille et retire la ligne ; état vide et nouveautés (contenu servi par une route
  * simulée : le carnet du mois rend l'état vide impossible en novembre) ; confirmation du retrait au clavier.
@@ -121,12 +121,18 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await page.reload();
       await expect(page.getByRole("banner").getByRole("button", { name: nomCloche(1) })).toBeVisible();
       expect((await requete<{ lu: Date | null }>(`SELECT "ouvertParAbonneLe" AS lu FROM "EquipeFil" WHERE id = $1`, [filId]))[0].lu).toBeNull();
-      // Fenêtre centrée sur ordinateur.
+      // Lot D11c (revue d'harmonie, défaut 9) : sur ordinateur, panneau ancré sous la cloche (bord droit aligné,
+      // 8 px dessous), sans voile, comme « Plus » et le menu du compte.
       await page.setViewportSize({ width: 1280, height: 900 });
-      await page.getByRole("banner").getByRole("button", { name: nomCloche(1) }).click();
+      const clocheBureau = page.getByRole("banner").getByRole("button", { name: nomCloche(1) });
+      // Mesurée avant l'ouverture : panneau ouvert, le reste de la page est masqué aux lecteurs d'écran (modal).
+      const bouton = (await clocheBureau.boundingBox())!;
+      await clocheBureau.click();
       const fenetre = (await panneau.boundingBox())!;
-      expect(Math.abs(fenetre.x + fenetre.width / 2 - 640)).toBeLessThanOrEqual(2);
-      expect(Math.abs(fenetre.y + fenetre.height / 2 - 450)).toBeLessThanOrEqual(2);
+      expect(Math.abs(fenetre.x + fenetre.width - (bouton.x + bouton.width))).toBeLessThanOrEqual(1);
+      expect(Math.abs(fenetre.y - (bouton.y + bouton.height + 8))).toBeLessThanOrEqual(1);
+      expect(fenetre.width).toBe(320);
+      expect(await page.locator(".bg-black\\/60").filter({ visible: true }).count()).toBe(0);
       // Ouvrir le fil : la ligne disparaît, la pastille s'éteint.
       const ouvert = page.waitForResponse((r) => r.url().endsWith(`/api/espace/questions/${filId}/ouvert`) && r.status() === 200);
       await panneau.getByRole("link", { name: new RegExp(Q.types.SITUATION.nom) }).click();

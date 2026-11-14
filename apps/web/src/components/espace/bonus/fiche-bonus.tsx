@@ -1,7 +1,11 @@
-import { TEXTES_CAPS as T } from "@/config/textes/espace-caps";
+import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import type { FicheBonus } from "@/lib/espace/fiches-schema";
 import type { NumeroCap } from "@/lib/espace/caps";
 import { GrilleOuiNon } from "@/components/espace/bonus/grille-oui-non";
+import { FINE, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CAPS);
 
 const SECTION = "space-y-2";
 const TITRE = "text-base font-semibold text-text-primary";
@@ -78,7 +82,7 @@ export function FicheBonusVue({ bonus }: { bonus: FicheBonus }) {
             <Section id="b-citations" titre={T.fiche.citations}>
               <ul className={`space-y-2 ${CORPS}`}>
                 {bonus.contenu.citations.map((c) => (
-                  <li key={c.texte}>« {c.texte} »</li>
+                  <li key={c.texte}>«{FINE}{c.texte}{FINE}»</li>
                 ))}
               </ul>
             </Section>

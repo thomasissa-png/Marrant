@@ -1,9 +1,13 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
-import { TEXTES_CARTES as T } from "@/config/textes/espace-cartes";
+import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import { DELAI_MOITIE, DELAI_RIEN, REPONSES_CARTE, type ReponseCarte } from "@/lib/espace/revision";
 import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CARTES);
 
 /** « Prends ton temps » : 3 secondes avant que les trois boutons s'activent (2.2, sans compte à rebours). */
 export const PRENDS_TON_TEMPS_MS = 3_000;

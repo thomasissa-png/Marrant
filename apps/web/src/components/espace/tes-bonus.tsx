@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { TEXTES_CAPS as T } from "@/config/textes/espace-caps";
+import { TEXTES_CAPS } from "@/config/textes/espace-caps";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CAPS);
 
 /**
  * Raccourci « Tes bonus » (niveaux-xp-s24.md 3.0, 5.4 ; maquette `parcours.html#bonus`) : juste après

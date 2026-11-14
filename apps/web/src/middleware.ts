@@ -22,6 +22,19 @@ const ABONNEMENT_DEPUIS_FAVORIS = buildAbonnementUrl("/favoris", "monthly", "fav
 // `/onboarding` sans session : distincte de `onboarding` (bouton du quiz d'accueil, compte connecté).
 const ABONNEMENT_DEPUIS_ONBOARDING = buildAbonnementUrl(null, "monthly", "onboarding-visiteur");
 
+/** Lot D11c : témoin du saut /abonnement → « Aujourd'hui » (anti-boucle, voir plus bas). */
+export const TEMOIN_ARRIVEE_ESPACE = "dm_arrivee_espace";
+
+/**
+ * Navigation de page (barre d'adresse, lien sans JS, redirection de document) : `Sec-Fetch-Mode: navigate`, ou
+ * client sans cet en-tête. Les requêtes RSC et les préchargements de `Link` sont des `fetch` (mode `cors`) ; Next
+ * retire leurs en-têtes propres (`RSC`, `Next-Router-Prefetch`) avant le middleware, d'où ce critère.
+ */
+function estNavigationDePage(req: NextRequest): boolean {
+  const mode = req.headers.get("sec-fetch-mode");
+  return (mode === null || mode === "navigate") && req.headers.get("purpose") !== "prefetch" && req.headers.get("sec-purpose") !== "prefetch";
+}
+
 // Routes qui passent par withAuth (auth + premium checks)
 const AUTH_ROUTES = ["/profil", "/favoris", "/onboarding", "/abonnement"];
 
@@ -47,6 +60,18 @@ const authMiddleware = withAuth(
     // de retour doit pouvoir ajouter le favori mémorisé, poser la bienvenue et ramener à la page d'origine
     // (elle redirige d'elle-même vers une destination interdite de /abonnement : pas de boucle).
     if (path.startsWith("/abonnement") && path !== "/abonnement/success" && token?.plan === "PREMIUM") {
+      // Lot D11c (décision du 12/11 sur l'arrivée) : espace ouvert, l'abonné arrive sur « Aujourd'hui ».
+      // Garde-fou de boucle : un jeton qui dit encore PREMIUM (plan relu toutes les 5 min) alors que la base
+      // ne le dit plus ferait /abonnement → /mon-espace → (garde) /abonnement… Le témoin de 10 s, posé à ce
+      // saut et limité à /abonnement, fait retomber le second passage sur la règle d'avant (`/vannes`).
+      // Témoin posé seulement par une navigation de page : le préchargement d'un lien vers /abonnement (`Link` de
+      // Next, en-tête et pied de page) le posait aussi, et un vrai clic dans les 10 s retombait sur `/vannes` (vu sur
+      // la préversion). Une boucle en navigation côté client finit en navigation de page, qui le pose.
+      if (ESPACE_CLIENT_PUBLIE && !req.cookies.get(TEMOIN_ARRIVEE_ESPACE)) {
+        const res = NextResponse.redirect(new URL(ESPACE_ACCUEIL, req.url));
+        if (estNavigationDePage(req)) res.cookies.set(TEMOIN_ARRIVEE_ESPACE, "1", { httpOnly: true, sameSite: "lax", path: "/abonnement", maxAge: 10 });
+        return res;
+      }
       return NextResponse.redirect(new URL("/vannes", req.url));
     }
 

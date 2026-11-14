@@ -1,6 +1,10 @@
 import Link from "next/link";
-import { TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
+import { TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { NumeroMarche } from "@/lib/espace/missions";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const M = frEspaceProfond(TEXTES_MISSION);
 
 /**
  * Mission ouverte, état 4 d'« Aujourd'hui » (architecture v20 4.4) : un lien secondaire, jamais l'action

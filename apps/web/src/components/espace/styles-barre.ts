@@ -20,6 +20,9 @@ export const CLASSE_ACCROCHE_FIN = "pointer-events-none absolute inset-0 snap-en
 export const CLASSE_SOULIGNEMENT =
   "absolute inset-x-[var(--app-onglet-pad,0.75rem)] bottom-0 h-0.5 bg-accent-primary max-e300:inset-x-[var(--app-onglet-pad,0.5rem)]";
 
+/** Largeur du fondu droit et de son chevron (`w-10`, 40 px) : l'entrée courante s'arrête avant (lot D11c). */
+export const LARGEUR_FONDU_DROIT = 40;
+
 /** Partie visible visée de l'entrée coupée au bord droit (architecture 6.2, règle c de @ux). */
 export const INDICE_MIN = 16;
 export const INDICE_MAX = 24;

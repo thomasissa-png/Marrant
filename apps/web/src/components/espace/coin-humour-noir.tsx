@@ -1,12 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { TEXTES_COIN as T } from "@/config/textes/espace-bibliotheque";
-import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
+import { useRouter } from "next/navigation";
+import { TEXTES_COIN } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_CARTES as TEXTES_CARTES_BRUT } from "@/config/textes/espace-cartes";
 import type { LigneFiche } from "@/lib/espace/lignes-fiches";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { BOUTON_SECONDAIRE, CARTE } from "@/components/espace/carte/styles";
 import { ListeFiches } from "@/components/espace/liste-fiches";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_COIN);
+const TEXTES_CARTES = frEspaceProfond(TEXTES_CARTES_BRUT);
 
 /**
  * Coin « Humour noir, fait bien » (s24, lot D6 ; architecture v20 3.12, étalon E6, maquette
@@ -16,8 +22,12 @@ import { ListeFiches } from "@/components/espace/liste-fiches";
  * Après « Entrer », le focus va au titre du coin ; « Sortir » oublie l'état et rend le focus à « Entrer ».
  * Échec : rien ne change, la phrase d'échec est annoncée (`role="status"`). Entré sans rien à montrer
  * (reste du D6) : « Rien à lire dans ce coin, et rien n'y est caché. », avec « Sortir » toujours affiché.
+ * Lot D11c (revue d'harmonie, défaut 16) : seuil affiché à l'adresse d'une fiche du coin (`versFiche`) :
+ * après « Entrer », la page se recharge côté serveur (témoin posé) et montre CETTE fiche, sans second
+ * « Voir ». Sans `versFiche` (Bibliothèque), la liste du coin, comme avant.
  */
-export function CoinHumourNoir({ lignesInitiales }: { lignesInitiales: LigneFiche[] | null }) {
+export function CoinHumourNoir({ lignesInitiales, versFiche = false }: { lignesInitiales: LigneFiche[] | null; versFiche?: boolean }) {
+  const router = useRouter();
   const [lignes, setLignes] = useState<LigneFiche[] | null>(lignesInitiales);
   const [occupe, setOccupe] = useState(false);
   const [echec, setEchec] = useState(false);
@@ -38,6 +48,12 @@ export function CoinHumourNoir({ lignesInitiales }: { lignesInitiales: LigneFich
     setOccupe(false);
     setEchec(!res);
     if (!res) return;
+    if (entre && versFiche) {
+      // Même adresse, rendue de nouveau par le serveur : la fiche demandée remplace le seuil.
+      setOccupe(true);
+      router.refresh();
+      return;
+    }
     focus.current = entre ? "titre" : "entrer";
     setLignes(entre ? res.lignes : null);
   };

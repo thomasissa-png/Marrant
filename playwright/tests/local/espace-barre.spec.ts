@@ -16,7 +16,8 @@ const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
 const LARGEURS = [320, 375, 768, 1024, 1280, 1536];
 const DEUX_CENTS_POUR_CENT = 188;
 const MOT_DE_PASSE = "E2e-espace-barre-D2";
-const PAGES = ["/parcours", "/carnet", "/vannes", "/favoris", "/profil"];
+// Lot D11c : Bibliothèque ajoutée (courante en 4e position, celle qui passait sous le fondu à 375 px).
+const PAGES = ["/parcours", "/carnet", "/vannes", "/favoris", "/profil", "/mon-espace/bibliotheque"];
 
 async function compte(browser: import("@playwright/test").Browser, plan: "FREE" | "PREMIUM"): Promise<Cookie[]> {
   const email = `e2e-espace-d2-${plan.toLowerCase()}-${Date.now().toString(36)}@example.com`;
@@ -47,6 +48,8 @@ async function mesurer(page: Page) {
         visible,
         coupeeAGauche: i > 0 && b.left < gaucheVue - 1 && b.right > gaucheVue + 1,
         coupeeADroite: b.left < r.right - 1 && b.right > r.right + 1,
+        // Lot D11c : distance du bord droit de l'entrée au bord droit de la liste (le fondu droit fait 40 px).
+        avantBord: r.right - b.right,
         texteTronque: o.scrollWidth > o.clientWidth + 1,
       };
     });
@@ -129,6 +132,8 @@ test.describe("espace client, barre de rubriques (s24, lot D2)", () => {
             expect(e.texteTronque, `« ${e.texte} » tronquée, ${ici}`).toBe(false);
             expect(e.hauteur, `« ${e.texte} » : cible de 44 px, ${ici}`).toBeGreaterThanOrEqual(44);
             if (e.courante) expect(e.visible, `« ${e.texte} » courante entière, ${ici}`).toBeGreaterThanOrEqual(e.largeur - 1);
+            // Lot D11c (revue d'harmonie, défaut 1) : jamais sous le fondu droit et son chevron (« Bibliothèqu › »).
+            if (e.courante && m.indiceVisible) expect(e.avantBord, `« ${e.texte} » courante sous le fondu, ${ici}`).toBeGreaterThanOrEqual(40 - 1);
           }
           // Indice de suite : chevron et fondu ; sous 300 px (200 %), la coupure de l'entrée suivante seule (maquette).
           if (largeur >= 320) expect(m.indiceVisible, `indice de suite ${m.suiteADroite ? "absent" : "allumé en fin de course"}, ${ici}`).toBe(m.suiteADroite);

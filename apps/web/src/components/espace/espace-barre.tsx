@@ -5,7 +5,7 @@ import Link from "next/link";
 import { TEXTES_ESPACE_NAVIGATION as T } from "@/config/textes/espace-navigation";
 import { RUBRIQUES, rubriqueActive } from "@/components/espace/rubriques";
 import { MenuPlus } from "@/components/espace/menu-plus";
-import { CLASSE_ACCROCHE_FIN, CLASSE_ONGLET, CLASSE_SOULIGNEMENT, margeIndice } from "@/components/espace/styles-barre";
+import { CLASSE_ACCROCHE_FIN, CLASSE_ONGLET, CLASSE_SOULIGNEMENT, LARGEUR_FONDU_DROIT, margeIndice } from "@/components/espace/styles-barre";
 import { cn } from "@/lib/utils";
 
 /**
@@ -104,7 +104,11 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
       const { gauche, droite } = position(l, a);
       const bas = droite - l.clientWidth;
       const haut = gauche - p;
-      l.scrollLeft = Math.round(bornes.find((b) => b >= bas - 0.5 && b <= haut + 0.5) ?? haut);
+      // Lot D11c (revue d'harmonie, défaut 1) : l'entrée courante s'arrête avant le fondu droit et son chevron
+      // (« Bibliothèqu › » à 375 px). D'abord un arrêt qui la laisse hors du fondu, sinon l'arrêt d'avant.
+      const horsFondu = droite - (l.clientWidth - LARGEUR_FONDU_DROIT);
+      const dans = (min: number) => bornes.find((b) => b >= min - 0.5 && b <= haut + 0.5);
+      l.scrollLeft = Math.round(dans(horsFondu) ?? dans(bas) ?? haut);
     } else {
       l.scrollLeft = 0;
     }

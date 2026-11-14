@@ -1,10 +1,14 @@
 import Link from "next/link";
-import { TEXTES_QUOI_REPONDRE as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { POUR_QUOI_FAIRE, UNIVERS } from "@/lib/espace/fiches-schema";
 import { hrefFiltre, type FiltresSituations } from "@/lib/espace/quoi-repondre";
 import { puce } from "@/components/espace/carte/styles";
 import { Coche } from "@/components/espace/carte/coche";
 import { FiltresReplies } from "@/components/espace/filtres-replies";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 
 /**
  * Filtres de « Quoi répondre » (s24, lot D6 ; architecture v20 3.3) : « Où et avec qui ? » (12 univers

@@ -4,9 +4,13 @@ import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { prisma } from "@/lib/prisma";
 import { garderEspace } from "@/lib/espace/garde";
 import { listerLettres } from "@/lib/espace/lettres";
-import { TEXTES_LETTRES as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_LETTRES } from "@/config/textes/espace-bibliotheque";
 import { ArchiveLettres } from "@/components/espace/archive-lettres";
 import { compterAnonyme } from "@/lib/espace/compteurs";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_LETTRES);
 
 /**
  * « Lettres » (s24, lot D6 ; architecture v20 2.8, ligne de « Plus », groupe « Le reste ») : toutes les

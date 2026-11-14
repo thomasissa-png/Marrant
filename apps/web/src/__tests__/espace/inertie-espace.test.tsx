@@ -193,6 +193,13 @@ describe("garde-fou de construction", () => {
     "app/(dashboard)/cgu/page.tsx",
     "config/textes/paiement.ts",
     "lib/analytics/espace-lecture.ts",
+    // D11c (revue d'harmonie, défaut 3) : colonne de l'abonné sur l'axe de l'espace (`AxeEspace`), montée
+    // seulement ouvert ; fermé, la même `div` centrée qu'avant (et ouvert, la même pour un visiteur, critère 11).
+    // `parcours/(liste)/page.tsx` et `profil/page.tsx`, déjà listés, sont touchés de nouveau pour la même raison.
+    "app/(dashboard)/parcours/[slug]/page.tsx",
+    // D11c (revue d'harmonie, défaut 5) : rangée d'onglets de Favoris avec marge et indice de défilement,
+    // ouvert seulement ; fermé, classes d'avant (snapshot `favoris` inchangé).
+    "components/favoris/favoris-list.tsx",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

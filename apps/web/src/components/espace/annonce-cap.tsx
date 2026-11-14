@@ -2,10 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { TEXTES_CAPS as T } from "@/config/textes/espace-caps";
+import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import type { MarqueAnnonce, NumeroCap } from "@/lib/espace/caps";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CAPS);
 
 export interface AnnonceApi {
   cap: NumeroCap | null;

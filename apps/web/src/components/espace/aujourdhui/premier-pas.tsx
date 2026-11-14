@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import {
   CLE_ORIGINE,
   CLE_QUIZ,
@@ -13,6 +13,10 @@ import {
   type OrigineResolue,
 } from "@/lib/espace/premier-pas";
 import { cn } from "@/lib/utils";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 
 /**
  * « Ton premier pas » (architecture 4.4 état 1, maquette `aujourdhui.html#etat=pas`) : la seule

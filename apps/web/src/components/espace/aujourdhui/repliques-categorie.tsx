@@ -1,9 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TEXTES_REPLIQUES as R } from "@/config/textes/espace-repliques";
+import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import type { CategorieToucher } from "@/lib/espace/vanne";
 import { appelEspace } from "@/components/espace/carte/appel";
+import { FINE, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const R = frEspaceProfond(TEXTES_REPLIQUES);
 
 /**
  * « Tes répliques à toi pour {catégorie} » (architecture v20 2.7 et 4.4, maquette `mes-repliques.html#cat=`) :
@@ -29,7 +33,7 @@ export function RepliquesCategorie({ categorie, libelle }: { categorie: Categori
       <ul className="space-y-1">
         {textes.map((t) => (
           <li key={t} className="text-sm text-text-primary">
-            « {t} »
+            «{FINE}{t}{FINE}»
           </li>
         ))}
       </ul>

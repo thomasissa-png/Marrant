@@ -9,8 +9,8 @@ import { lireAise } from "@/lib/espace/aise";
 import { categoriesProposees } from "@/lib/espace/vanne";
 import { lireDrapeauFavori } from "@/lib/favori-apres-paiement";
 import { BIENVENUE_PREMIUM } from "@/config/textes/abonnement-vente";
-import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
-import { frTypo } from "@/lib/fr-typo";
+import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
+import { frEspace, frEspaceProfond, frTypo } from "@/lib/fr-typo";
 import { PremierPas } from "@/components/espace/aujourdhui/premier-pas";
 import { ContenuDuJour } from "@/components/espace/aujourdhui/contenu-du-jour";
 import { QuestionAise } from "@/components/espace/aujourdhui/question-aise";
@@ -24,6 +24,8 @@ import { missionOuverte, missionsServiesValidees } from "@/lib/espace/missions";
 import { lireRetoursMission } from "@/lib/espace/missions-serveur";
 import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { cn } from "@/lib/utils";
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 
 /**
  * « Aujourd'hui », accueil de l'espace (s24, lot D3 ; architecture v20 4.2 et 4.4, décisions C9,
@@ -59,7 +61,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   const idsEntrees = new Set(Object.values(ENTREES_QUIZ));
   const entrees: EntreeDisponible[] = situations
     .filter((f) => idsEntrees.has(f.id))
-    .map((f) => ({ id: f.id, titre: f.titre, minutes: f.dureeMinutes }));
+    .map((f) => ({ id: f.id, titre: frEspace(f.titre), minutes: f.dureeMinutes }));
 
   const [origine, fait, aise, categories, mois] = await Promise.all([
     resoudreOrigine(lireOrigine(param("depuis"))),
@@ -81,7 +83,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
     marcheMission = missionOuverte(missionsServiesValidees(), retours)?.marche ?? null;
   }
   const cartes = (rafale?.cartes ?? []).map((c, i) => ({
-    titre: rafale?.catalogue.get(c.carteId)?.titre ?? "",
+    titre: frEspace(rafale?.catalogue.get(c.carteId)?.titre ?? ""),
     href: `/mon-espace/s-entrainer#carte-${i + 1}`,
     nouvelle: c.nouvelle,
     autreContexte: c.autreContexte === true,
@@ -91,7 +93,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
     <div className="pb-12">
       <div className="mb-6 max-e300:mb-2">
         <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
-        {rafale && rafale.cetteSemaine > 0 && <p className="mt-1 text-sm text-text-secondary">{T.repere(rafale.cetteSemaine)}</p>}
+        {rafale && rafale.cetteSemaine > 0 && <p className="mt-2 text-sm text-text-secondary">{T.repere(rafale.cetteSemaine)}</p>}
       </div>
       {favori && (
         <p role="status" className="mb-6 rounded-md border border-border bg-background-light px-4 py-3 text-sm text-text-secondary">

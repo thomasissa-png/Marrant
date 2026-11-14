@@ -4,7 +4,11 @@ import { useState } from "react";
 import type { FilListe } from "@/lib/espace/questions-types";
 import { ListeEnvois, type Envoi } from "@/components/espace/questions/liste-envois";
 import { FilEnvoi } from "@/components/espace/questions/fil";
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
 /** Un fil seul, ouvert à l'arrivée (lien de la cloche) ; retiré : « Question retirée de ton historique. » */
 export function FilOuvert({ fil: initial }: { fil: FilListe }) {

@@ -1,11 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
 import { CARTE } from "@/components/espace/carte/styles";
 import { EtatVideQuestions } from "@/components/espace/questions/etat-vide";
 import { FilEnvoi } from "@/components/espace/questions/fil";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
 export type Envoi = FilListe | { id: string; retire: true };
 

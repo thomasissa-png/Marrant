@@ -13,6 +13,8 @@ import { ArchiveLettres } from "@/components/espace/archive-lettres";
 import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { FicheVue } from "@/components/espace/fiche";
 import { TEXTES_BIBLIOTHEQUE as B, TEXTES_COIN as C, TEXTES_LETTRES as L, TEXTES_QUOI_REPONDRE as Q } from "@/config/textes/espace-bibliotheque";
+// Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
+import { frEspace } from "@/lib/fr-typo";
 
 jest.mock("next/navigation", () => ({ useRouter: () => ({ refresh: jest.fn(), push: jest.fn() }), usePathname: () => "/mon-espace" }));
 
@@ -37,7 +39,7 @@ describe("« Quoi répondre » : filtres repliés sous 640 px", () => {
     expect(summary).toHaveTextContent("Filtrer les cartes");
     expect(summary.className).toContain("min-h-11");
     // Titres H2 conservés, puces toujours dans le DOM (clavier et lecteur d'écran une fois ouvert).
-    expect(within(details[0]).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([Q.filtreOu, Q.filtrePour]);
+    expect(within(details[0]).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual([frEspace(Q.filtreOu), frEspace(Q.filtrePour)]);
     expect(details[0].querySelectorAll("a[data-filtre]")).toHaveLength(17);
     fireEvent.click(summary);
     expect(details[0].open).toBe(true);

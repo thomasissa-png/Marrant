@@ -8,10 +8,14 @@ import { chargeursFiches } from "@/lib/espace/fiches";
 import { envoyeesSiBesoin, fichesVisibles } from "@/lib/espace/lettres";
 import { idsFaits, ligneDeFiche } from "@/lib/espace/lignes-fiches";
 import { filtrerSituations, lireFiltres } from "@/lib/espace/quoi-repondre";
-import { TEXTES_QUOI_REPONDRE as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { FiltresSituations } from "@/components/espace/filtres-situations";
 import { ListeFiches } from "@/components/espace/liste-fiches";
 import { BOUTON_SECONDAIRE, CARTE, LIEN } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 
 /**
  * « Quoi répondre » (s24, lot D6 ; architecture v20 3.3, 3.8, 6.2, 6.3) : les situations et « Quand ça

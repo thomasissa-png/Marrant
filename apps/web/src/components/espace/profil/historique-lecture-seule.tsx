@@ -1,9 +1,14 @@
 import type { FilListe } from "@/lib/espace/questions-types";
 import type { RepliqueListee } from "@/lib/espace/repliques";
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
-import { TEXTES_REPLIQUES as R } from "@/config/textes/espace-repliques";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
+import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { MesQuestions } from "@/components/espace/questions/mes-questions";
 import { ListeRepliques } from "@/components/espace/repliques/liste-repliques";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
+const R = frEspaceProfond(TEXTES_REPLIQUES);
 
 /**
  * « Mon profil » d'un ancien abonné, espace ouvert (s24, lot D10 ; architecture v20 2.6 et 2.7, décision

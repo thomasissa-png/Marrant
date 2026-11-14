@@ -1,7 +1,11 @@
-import { TEXTES_CAPS as T } from "@/config/textes/espace-caps";
+import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import { SERIE } from "@/config/textes/parcours";
 import { NUMEROS_CAPS, type NumeroCap } from "@/lib/espace/caps";
 import { cn } from "@/lib/utils";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CAPS);
 
 /**
  * Carte compacte « Ton cap » (niveaux-xp-s24.md 3.0 ; architecture v20 4.4 ; maquette

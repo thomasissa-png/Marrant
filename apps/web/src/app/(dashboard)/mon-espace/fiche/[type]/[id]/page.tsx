@@ -12,10 +12,15 @@ import { lireRetour } from "@/lib/espace/fiche-fait";
 import { lireReplique } from "@/lib/espace/repliques";
 import { lettresEnvoyees } from "@/lib/espace/lettres";
 import { COOKIE_COIN, coinEntre } from "@/lib/espace/humour-noir";
-import { TEXTES_BIBLIOTHEQUE, TEXTES_LETTRES } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_BIBLIOTHEQUE as TEXTES_BIBLIOTHEQUE_BRUT, TEXTES_LETTRES as TEXTES_LETTRES_BRUT } from "@/config/textes/espace-bibliotheque";
 import { FicheVue } from "@/components/espace/fiche";
 import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { hrefLettre } from "@/components/espace/archive-lettres";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const TEXTES_BIBLIOTHEQUE = frEspaceProfond(TEXTES_BIBLIOTHEQUE_BRUT);
+const TEXTES_LETTRES = frEspaceProfond(TEXTES_LETTRES_BRUT);
 
 /**
  * Page d'une fiche de l'espace (s24, lot D6 ; adresse unique `hrefFiche`, une seule porte par fiche,
@@ -60,14 +65,15 @@ export default async function FichePage({ params }: { params: Params }) {
     return (
       <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
         <h1 className="sr-only">{TEXTES_BIBLIOTHEQUE.titre}</h1>
-        <CoinHumourNoir lignesInitiales={null} />
+        <CoinHumourNoir lignesInitiales={null} versFiche />
       </div>
     );
   }
   const [retour, replique] = fiche.geste ? await Promise.all([lireRetour(userId, fiche.id), lireReplique(userId, fiche.id)]) : [null, null];
   return (
     <div className="pb-12 lg:max-w-lecture">
-      <FicheVue fiche={fiche} retour={retour} replique={replique} lettre={lettre} />
+      {/* Lot D11c : typographie de l'espace sur le contenu de la fiche, à l'affichage seulement (JSON intact). */}
+      <FicheVue fiche={frEspaceProfond(fiche)} retour={retour} replique={replique} lettre={lettre} />
     </div>
   );
 }

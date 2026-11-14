@@ -21,6 +21,7 @@ import { PRENDS_TON_TEMPS_MS } from "@/components/espace/carte/boutons-reponse";
 import { CartesDuJour } from "@/components/espace/aujourdhui/cartes-du-jour";
 import { TEXTES_CARTES as T, TEXTES_COMPTE_A_REBOURS as C, TEXTES_GESTE as G } from "@/config/textes/espace-cartes";
 import { TEXTES_AUJOURDHUI as A } from "@/config/textes/espace-aujourdhui";
+import { frEspace } from "@/lib/fr-typo";
 
 type Situation = Extract<Fiche, { type: "situation" }>;
 const fiche1129 = parseCarnets([carnetNovembre])[0].fiches.find((f) => f.id === "2026-11-29")!;
@@ -59,8 +60,9 @@ describe("11-29 : citation intérieure au second niveau (section F des correctio
     const carte = { ...carteRegistre, scene: { ...carteRegistre.scene, onTeDit: "Tu as dit « jamais » hier." } };
     render(<CarteRegistre carte={carte} nouvelle ancre="carte-1" />);
     expect(screen.getByText("« Tu as dit “jamais” hier. »")).toBeInTheDocument();
-    expect(entreGuillemets("Rien à citer.")).toBe("« Rien à citer. »");
-    expect(entreGuillemets("A « b » c")).toBe("« A “b” c »");
+    // Lot D11c : guillemets liés au texte (fine insécable après «, insécable avant »).
+    expect(entreGuillemets("Rien à citer.")).toBe(frEspace("« Rien à citer. »"));
+    expect(entreGuillemets("A « b » c")).toBe(frEspace("« A “b” c »"));
   });
 });
 

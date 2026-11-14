@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { TEXTES_CAPS as T } from "@/config/textes/espace-caps";
+import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import { cn } from "@/lib/utils";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CAPS);
 
 /**
  * « Ta grille » (architecture 2.4, étalon E4, maquette `bonus.html`) : trois questions, « Oui » ou

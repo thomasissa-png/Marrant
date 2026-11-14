@@ -2,12 +2,17 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { TEXTES_REPLIQUES as R } from "@/config/textes/espace-repliques";
-import { TEXTES_GESTE as G } from "@/config/textes/espace-cartes";
+import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
+import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
 import type { RepliqueListee } from "@/lib/espace/repliques";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CARTE } from "@/components/espace/carte/styles";
+import { FINE, frEspace, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const R = frEspaceProfond(TEXTES_REPLIQUES);
+const G = frEspaceProfond(TEXTES_GESTE);
 
 type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
 
@@ -68,10 +73,10 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
                 {r.titre &&
                   (r.href && !lectureSeule ? (
                     <Link href={r.href} className="inline-flex min-h-11 items-center font-semibold text-accent-link underline underline-offset-2">
-                      {r.titre}
+                      {frEspace(r.titre)}
                     </Link>
                   ) : (
-                    <p className="font-semibold text-text-primary">{r.titre}</p>
+                    <p className="font-semibold text-text-primary">{frEspace(r.titre)}</p>
                   ))}
                 {enEdition ? (
                   <form
@@ -106,7 +111,7 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
                     </div>
                   </form>
                 ) : (
-                  <p className="text-base text-text-primary">« {r.texte} »</p>
+                  <p className="text-base text-text-primary">«{FINE}{r.texte}{FINE}»</p>
                 )}
                 {enConfirmation ? (
                   <div role="group" aria-labelledby={`q-${r.ficheId}`} className="space-y-2">

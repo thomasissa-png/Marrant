@@ -19,8 +19,23 @@ import { buildLoginUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { Reassurance } from "@/components/ui/reassurance";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { RangeeOnglets } from "@/components/espace/rangee-onglets";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
+
+/**
+ * Lot D11c (revue d'harmonie, défaut 5) : interrupteur de l'espace ouvert, rangée avec marge et indice de suite
+ * (`RangeeOnglets`) ; fermé, la rangée d'avant au caractère près (snapshot d'inertie `favoris`).
+ */
+function RangeeFavoris({ children }: { children: React.ReactNode }) {
+  if (ESPACE_CLIENT_PUBLIE) return <RangeeOnglets label="Type de favoris">{children}</RangeeOnglets>;
+  return (
+    <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Type de favoris">
+      {children}
+    </div>
+  );
+}
 
 const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: string; emptyDesc: string; ctaLabel: string; ctaHref: string }[] = [
   {
@@ -231,7 +246,7 @@ export function FavorisList() {
     <>
       {/* Tabs with counts */}
       {/* Revue visuelle s21 (T2-07) : une ligne qui défile sous 1 024 px (plus d'onglet seul sur la 2e ligne). */}
-      <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Type de favoris">
+      <RangeeFavoris>
         {TABS.map((tab) => (
           <Button
             key={tab.value}
@@ -250,7 +265,7 @@ export function FavorisList() {
             )}
           </Button>
         ))}
-      </div>
+      </RangeeFavoris>
 
       {isLoading ? (
         <div className="grid gap-4">

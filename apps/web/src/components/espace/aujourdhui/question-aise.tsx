@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import type { ReponseAise } from "@/lib/espace/aise";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 
 /**
  * « Où veux-tu être plus à l'aise ? » (décision C9) : élément SECONDAIRE, une seule fois, après le

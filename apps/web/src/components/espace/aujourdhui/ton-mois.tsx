@@ -1,8 +1,13 @@
-import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { SERIE } from "@/config/textes/parcours";
-import { TEXTES_CAPS } from "@/config/textes/espace-caps";
+import { TEXTES_CAPS as TEXTES_CAPS_BRUT } from "@/config/textes/espace-caps";
 import { NUMEROS_CAPS, type NumeroCap } from "@/lib/espace/caps";
 import { cn } from "@/lib/utils";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_AUJOURDHUI);
+const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
 
 /**
  * « Ton mois » (architecture 4.4) : seul endroit de « Aujourd'hui » où la série figure ; à partir de

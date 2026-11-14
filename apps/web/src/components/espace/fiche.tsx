@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TEXTES_BILAN, TEXTES_FICHE as T, TEXTES_FICHE_LIGNE as L } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_BILAN as TEXTES_BILAN_BRUT, TEXTES_FICHE, TEXTES_FICHE_LIGNE } from "@/config/textes/espace-bibliotheque";
 import type { Fiche } from "@/lib/espace/fiches-schema";
 import type { RetourGeste } from "@/lib/espace/retours";
 import { CARTE, ETIQUETTE, LIEN } from "@/components/espace/carte/styles";
@@ -10,11 +10,38 @@ import { CorpsEcouter, CorpsJeu, CorpsLimite, CorpsSeance } from "@/components/e
 import { BilanParcours } from "@/components/espace/fiche/bilan-parcours";
 import { renvoiDeBilan } from "@/lib/espace/bilan-renvoi";
 import { HREF_ENTREE_COIN } from "@/lib/espace/humour-noir";
+import { LienRetour } from "@/components/espace/lien-retour";
+import { ESPACE_ACCUEIL } from "@/config/espace-client";
+import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const TEXTES_BILAN = frEspaceProfond(TEXTES_BILAN_BRUT);
+const T = frEspaceProfond(TEXTES_FICHE);
+const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
 
 /** Nom d'un lien vers le catalogue : la rubrique publique existante de son adresse (aucun texte neuf). */
 function nomDuLien(href: string): string {
   const r = href.split("/")[1] as keyof typeof T.rubriquesCatalogue;
   return T.rubriquesCatalogue[r] ?? href;
+}
+
+/**
+ * Liste parente d'une fiche (lot D11c, lien « retour ») : la porte de sa rubrique dans la barre
+ * (`rubriques.ts`), sauf jeu et séance, rangés sous « Plus » mais listés dans les étapes des parcours.
+ */
+function parente(type: Fiche["type"]): { href: string; label: string } {
+  switch (type) {
+    case "situation":
+    case "a-plat":
+      return { href: `${ESPACE_ACCUEIL}/quoi-repondre`, label: N.rubriques.quoiRepondre };
+    case "bilan":
+    case "jeu":
+    case "seance":
+      return { href: "/parcours", label: N.rubriques.parcours };
+    default:
+      return { href: `${ESPACE_ACCUEIL}/bibliotheque`, label: N.rubriques.bibliotheque };
+  }
 }
 
 function Corps({ fiche }: { fiche: Fiche }) {
@@ -97,7 +124,9 @@ export function FicheVue({
   return (
     <article className="flex flex-col gap-6" data-fiche-type={fiche.type}>
       <div className="space-y-2">
-        {!bilan && <p className={ETIQUETTE}>{T.types[fiche.type]}</p>}
+        <LienRetour href={parente(fiche.type).href}>{parente(fiche.type).label}</LienRetour>
+        {/* Étiquette de type gardée quand elle dit autre chose que la liste parente (« Formules à détourner »). */}
+        {!bilan && T.types[fiche.type] !== parente(fiche.type).label && <p className={ETIQUETTE}>{T.types[fiche.type]}</p>}
         <h1 id="fiche-titre" className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl max-e300:text-2xl">
           {bilan ? TEXTES_BILAN.h1 : fiche.titre}
         </h1>

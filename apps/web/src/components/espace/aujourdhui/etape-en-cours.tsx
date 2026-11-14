@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
-import { TEXTES_PARCOURS_ESPACE as P } from "@/config/textes/espace-caps";
+import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_AUJOURDHUI);
+const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
 
 /**
  * « Étape en cours » (ou « Étape conseillée »), état 3 d'« Aujourd'hui » (architecture v20 4.4 : la rafale

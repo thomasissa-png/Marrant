@@ -193,6 +193,13 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       expect(await page.content()).not.toContain("Qui est dans la pièce");
       await page.setViewportSize({ width: 188, height: 406 });
       expect(await debordement(page)).toBeLessThanOrEqual(188 + 1);
+      // Lot D11c (revue d'harmonie, défaut 16) : « Entrer » depuis l'adresse d'une fiche du coin mène à CETTE fiche,
+      // sans second « Voir » ; depuis la Bibliothèque, la liste (ci-dessus).
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.getByRole("button", { name: N.entrer }).click();
+      await expect(page.getByRole("heading", { level: 1, name: "Qui est dans la pièce" })).toBeVisible();
+      await expect(page).toHaveURL(/\/mon-espace\/fiche\/humour-noir\/hn-qui-est-dans-la-piece$/);
+      await expect(page.locator("[data-coin]")).toHaveCount(0);
     });
 
     test("« Plus » : groupes « S'entraîner », « Mon contenu », « Le reste » ; Lettres vide sans lettre envoyée", async ({ browser, page }) => {

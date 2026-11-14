@@ -1,9 +1,13 @@
 "use client";
 
 import { createContext, useContext, useEffect, useId, useMemo, useState, type ReactNode } from "react";
-import { TEXTES_COMPTE_A_REBOURS as T } from "@/config/textes/espace-cartes";
+import { TEXTES_COMPTE_A_REBOURS } from "@/config/textes/espace-cartes";
 import { DUREES_COMPTE_A_REBOURS, type DureeCompteARebours, type EtatCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { BOUTON_SECONDAIRE, puce } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_COMPTE_A_REBOURS);
 
 /**
  * Compte à rebours facultatif sous « Ta réponse d'abord » (lot D5b, libellés validés du 13/11, règles

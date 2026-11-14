@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { AxeEspace } from "@/components/espace/axe-espace";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ParcoursContent } from "@/components/parcours/parcours-content";
@@ -52,6 +53,15 @@ export const metadata: Metadata = {
 /** Arbitrage @ux D4 n°1 (lot D5) : masque de l'introduction pour l'abonné, espace ouvert seulement. */
 const MasqueIntroduction = ESPACE_CLIENT_PUBLIE ? MasqueSiPremium : Fragment;
 
+/**
+ * Lot D11c (revue d'harmonie, défaut 3) : colonne centrée de 768 px pour tout lecteur ; interrupteur ouvert,
+ * l'abonné la voit sur l'axe de l'espace (`AxeEspace`, côté navigateur). Visiteur : même HTML (critère 11).
+ */
+function ColonneParcours({ children }: { children: React.ReactNode }) {
+  if (!ESPACE_CLIENT_PUBLIE) return <div className="mx-auto max-w-3xl">{children}</div>;
+  return <AxeEspace visiteur="mx-auto max-w-3xl">{children}</AxeEspace>;
+}
+
 export default async function ParcoursPage() {
   const stats = await getContentStatsRounded();
   const catalogue = getParcoursCatalogue();
@@ -78,7 +88,7 @@ export default async function ParcoursPage() {
   );
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <ColonneParcours>
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
@@ -150,6 +160,6 @@ export default async function ParcoursPage() {
       <section className="mt-12 border-t border-border pt-8">
         <FaqSection align="left" />
       </section>
-    </div>
+    </ColonneParcours>
   );
 }

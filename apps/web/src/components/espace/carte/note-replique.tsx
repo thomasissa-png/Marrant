@@ -1,10 +1,14 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { TEXTES_GESTE as G } from "@/config/textes/espace-cartes";
+import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const G = frEspaceProfond(TEXTES_GESTE);
 
 type Etat = "repos" | "limite" | "enregistree" | "echec" | "confirmer" | "supprimee";
 

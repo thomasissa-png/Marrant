@@ -1,10 +1,14 @@
 "use client";
 
 import { useId } from "react";
-import { TEXTES_GESTE as G } from "@/config/textes/espace-cartes";
+import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
 import { RETOURS_GESTE, type RetourGeste } from "@/lib/espace/retours";
 import { Coche } from "@/components/espace/carte/coche";
 import { puce } from "@/components/espace/carte/styles";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const G = frEspaceProfond(TEXTES_GESTE);
 
 /**
  * « Ton retour » (2.4, maquettes `carte-rafale.html` et `mission.html`) : trois puces à choix unique,

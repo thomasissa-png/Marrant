@@ -1,4 +1,8 @@
-import { TEXTES_CARTES as T } from "@/config/textes/espace-cartes";
+import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_CARTES);
 
 /** En-tête d'une carte : « Si tu as 5 minutes », étiquette « Nouvelle » ou « À revoir », titre (maquette). */
 export function EnTeteCarte({ id, titre, nouvelle }: { id: string; titre: string; nouvelle: boolean }) {

@@ -15,6 +15,8 @@ import { TEXTES_CLOCHE as C } from "@/config/textes/espace-cloche";
 import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
 import type { ContenuCloche } from "@/lib/espace/cloche-types";
 import type { FilListe } from "@/lib/espace/questions-types";
+// Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
+import { frEspace } from "@/lib/fr-typo";
 
 const fetchMock = jest.fn();
 beforeAll(() => {
@@ -156,7 +158,7 @@ describe("confirmation avant « Retirer de mon historique »", () => {
     render(<MesQuestions initiaux={[ATTENTE]} lectureSeule={false} />);
     const origine = screen.getByRole("button", { name: Q.envois.retirer });
     await u.click(origine);
-    const dialogue = await screen.findByRole("alertdialog", { name: Q.confirmationRetrait.question });
+    const dialogue = await screen.findByRole("alertdialog", { name: frEspace(Q.confirmationRetrait.question) });
     const annuler = within(dialogue).getByRole("button", { name: "Annuler" });
     const retirer = within(dialogue).getByRole("button", { name: "Retirer" });
     expect(annuler).toHaveFocus();

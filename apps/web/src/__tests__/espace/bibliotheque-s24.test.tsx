@@ -18,6 +18,8 @@ import humourNoir from "@/lib/espace/fixtures/humour-noir.json";
 import bilans from "@/lib/espace/fixtures/bilan-confiance.json";
 import poele from "@/lib/espace/fixtures/situation-coloc-la-poele.json";
 import reprise from "@/lib/espace/fixtures/situation-reprise-lettre-w46.json";
+// Lot D11c : rendu avec la typographie de l'espace (espaces insécables), noms accessibles compris.
+import { frEspace } from "@/lib/fr-typo";
 
 jest.mock("next/navigation", () => ({ useRouter: () => ({ refresh: jest.fn(), push: jest.fn() }), usePathname: () => "/" }));
 
@@ -148,7 +150,7 @@ describe("page d'une fiche et bilan du parcours", () => {
     fireEvent.click(within(carte).getByRole("button", { name: /^A/ }));
     const retour = within(carte).getByTestId("bilan-retour");
     expect(retour).toHaveTextContent(B.pasCelleLa);
-    expect(within(retour).getByRole("link", { name: B.deuxiemeTour("Énoncer la règle non écrite") })).toHaveAttribute("href", "/parcours/confiance#etape-1");
+    expect(within(retour).getByRole("link", { name: frEspace(B.deuxiemeTour("Énoncer la règle non écrite")) })).toHaveAttribute("href", "/parcours/confiance#etape-1");
     expect(within(carte).getByRole("button", { name: /^A/ })).toHaveAttribute("aria-pressed", "true");
     expect(within(carte).getByRole("button", { name: /^B/ })).toBeDisabled();
   });

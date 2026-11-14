@@ -1,12 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { TEXTES_CARTES, TEXTES_GESTE as G } from "@/config/textes/espace-cartes";
+import { TEXTES_CARTES as TEXTES_CARTES_BRUT, TEXTES_GESTE } from "@/config/textes/espace-cartes";
 import type { RetourGeste } from "@/lib/espace/retours";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { LigneRetour } from "@/components/espace/carte/ligne-retour";
 import { NoteReplique } from "@/components/espace/carte/note-replique";
 import { ETIQUETTE } from "@/components/espace/carte/styles";
+import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const TEXTES_CARTES = frEspaceProfond(TEXTES_CARTES_BRUT);
+const G = frEspaceProfond(TEXTES_GESTE);
 
 /**
  * Geste d'une fiche, puis « Ton retour », puis « Ma réplique à moi » (ordre de E1.1 et de 2.7, maquette
@@ -56,7 +61,7 @@ export function GesteFiche({
         </div>
         <p className="whitespace-pre-line text-base text-text-primary">
           {consigne}
-          {pourAllerPlusLoin ? ` Pour aller plus loin : ${pourAllerPlusLoin}` : ""}
+          {pourAllerPlusLoin ? frEspace(` Pour aller plus loin : ${pourAllerPlusLoin}`) : ""}
         </p>
         {grille && grille.length > 0 && (
           <ol className="list-decimal space-y-1 pl-5 text-base text-text-primary" data-testid="geste-grille">

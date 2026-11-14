@@ -3,8 +3,12 @@
 import Link from "next/link";
 import { QUESTION_EQUIPE_MAX } from "@/config/question-equipe";
 import { QUESTION_EQUIPE_TROP_COURT_MAX_S, type TexteAvecLien } from "@/config/textes/question-equipe-s22";
-import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
+import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
 /** Erreur affichée sous le champ : texte simple ou texte avec un lien (validés, `question-equipe-s22.ts`). */
 export type Erreur = string | TexteAvecLien | null;

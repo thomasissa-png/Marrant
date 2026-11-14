@@ -1,8 +1,12 @@
 import Link from "next/link";
-import { TEXTES_BIBLIOTHEQUE as T } from "@/config/textes/espace-bibliotheque";
+import { TEXTES_BIBLIOTHEQUE } from "@/config/textes/espace-bibliotheque";
 import type { LigneFiche } from "@/lib/espace/lignes-fiches";
 import { CARTE, LIEN } from "@/components/espace/carte/styles";
 import { ListeFiches } from "@/components/espace/liste-fiches";
+import { frEspaceProfond } from "@/lib/fr-typo";
+
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const T = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
 
 /** Un bloc de la Bibliothèque (maquette `bibliotheque.html`, `.card`) : titre de niveau 2 et contenu. */
 export function BlocBibliotheque({ id, titre, children }: { id: string; titre: string; children: React.ReactNode }) {

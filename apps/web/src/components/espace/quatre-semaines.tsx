@@ -2,12 +2,15 @@
 
 import { forwardRef, useEffect, useRef } from "react";
 import Link from "next/link";
-import { TEXTES_PARCOURS_ESPACE as P } from "@/config/textes/espace-caps";
-import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
+import { TEXTES_AUJOURDHUI as TEXTES_AUJOURDHUI_BRUT } from "@/config/textes/espace-aujourdhui";
 import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { frPonctuation } from "@/lib/fr-typo";
+import { frPonctuation, frEspaceProfond } from "@/lib/fr-typo";
+// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
+const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
+const TEXTES_AUJOURDHUI = frEspaceProfond(TEXTES_AUJOURDHUI_BRUT);
 
 const E = TEXTES_AUJOURDHUI.etape;
 
