@@ -1,6 +1,6 @@
-# Navigation universelle et gabarits de page (s24), v3
+# Navigation universelle et gabarits de page (s24), v5
 
-Principe : UN seul en-tête de 65 px sur toutes les pages du site, un seul lien « Mon espace » pour l'abonné, aucune seconde barre. Sources : `header.tsx`, `mobile-nav.tsx`, `footer.tsx`, `gabarit.ts`, `page-header.tsx`, les `page.tsx`, `docs/seo/point-etape-s20.md`, relectures des tours 1 et 2.
+Principe : UN seul en-tête de 65 px sur toutes les pages du site, un seul lien « Mon espace » pour l'abonné, aucune seconde barre. Sources : `header.tsx`, `mobile-nav.tsx`, `footer.tsx`, `gabarit.ts`, `page-header.tsx`, les `page.tsx`, `docs/seo/point-etape-s20.md`, relectures des tours 1 à 4.
 
 ## 0. Interrupteur
 
@@ -34,8 +34,8 @@ Largeurs (règles uniques ; estimé, à vérifier par `header-budget` : aucun é
 - 440 à 767 px : loupe en barre (`min-[440px]`), « Connexion » dès 520 px (visiteur), pas d'icône compte (elle est dans Menu), cloche à toutes les largeurs pour l'abonné ; bouton d'offre « Premium » seul sous 640 px, libellé complet dès 640 px ; « Mon espace » seulement dans Menu et par le logo.
 - 320 à 439 px : visiteur et inscrit gratuit logo, bouton d'offre court, Menu ; abonné logo, cloche, Menu ; la loupe est en tête du menu.
 - Menu mobile, un seul ordre : recherche (sous 440 px) ; abonné « Mon espace » suivi directement de ses 8 entrées ; Parcours, Vannes, Conseils, Vidéos, Articles ; La lettre (visiteur, inscrit gratuit) ; séparateur ; actions (visiteur : bouton d'offre, Connexion ; inscrit gratuit : bouton d'offre, Favoris, Mon profil, Déconnexion ; abonné : Mon profil, Déconnexion). Échap, croix et voile ferment ; le focus revient au bouton Menu.
-- Hiérarchie du menu abonné (tokens) : ligne « Mon espace » en `font-semibold text-text-primary`, masquée de 768 à 1023 px (`md:hidden`, elle est alors en barre) ; ses 8 entrées dans un bloc `ml-3 border-l border-border`, lignes de 44 px sans interstice, `pl-6 text-text-secondary` ; un séparateur `border-t border-border` (1 px) avant Parcours. Ligne active : `bg-background-elevated text-accent-link font-semibold`.
-- Hauteur : à 375 x 667 (fenêtre CSS, `100dvh`) : en-tête 65 + marge haute du panneau 16 + recherche 52 + Mon espace 44 + 8 x 44 (352) = 529 px, 138 px libres ; à 568 px de haut, 39 px libres. Les barres du navigateur sont comptées dans la fenêtre testée.
+- Hiérarchie du menu abonné (tokens) : au-dessus de 8 entrées, un parent toujours visible. Sous 768 px, ligne « Mon espace » = lien, `font-semibold text-text-primary`. De 768 à 1023 px (le lien est alors en barre), la même place porte un intitulé non cliquable, sans `href`, sans doublon de lien : `<p>` en `hidden md:block lg:hidden`, `text-sm font-semibold text-text-muted`. Les 8 entrées restent dans le menu à toutes ces largeurs, dans un bloc `ml-3 border-l border-border`, lignes de 44 px sans interstice, `pl-6 text-text-secondary` ; un séparateur `border-t border-border` (1 px) avant Parcours. Ligne active : `bg-background-elevated text-accent-link font-semibold`.
+- Hauteur : à 375 x 667 (fenêtre CSS, `100dvh`) : en-tête 65 + marge haute du panneau 16 + recherche 52 + Mon espace 44 + 8 x 44 (352) + séparateur 1 = 530 px, 137 px libres ; à 568 px de haut, 38 px libres. Les barres du navigateur sont comptées dans la fenêtre testée.
 
 ### État actif (barre et menu mobile)
 
@@ -49,7 +49,7 @@ Style : fond `bg-background-elevated`, texte `text-accent-link`, soulignement `b
 | `/vannes*`, `/conseils*`, `/videos*`, `/blog*` | le lien du même nom (abonné compris) |
 | `/lettre*` | La lettre (visiteur, inscrit gratuit) ; aucun pour l'abonné |
 | `/profil` | l'icône du compte |
-| Menu mobile abonné : la ligne du parent (§4.3) s'allume (Quoi répondre pour une situation, Carnet pour `/carnet/[mois]`), « Mon espace » seulement sur Aujourd'hui | ligne parente |
+| Menu mobile abonné : sur une rubrique de l'index (pages B de l'espace, S'entraîner, `/favoris`, `/carnet`), sa propre ligne s'allume ; sur une page A, la ligne de son parent (§4.3 : Quoi répondre pour une situation, Carnet pour `/carnet/[mois]`, Parcours pour un bilan) ; « Mon espace » seulement sur Aujourd'hui | la ligne indiquée |
 | Toute autre adresse (accueil, abonnement, quiz, glossaire, anatomie, blague du jour, à propos, légales, carnet du visiteur) | aucun |
 
 ## 2. Catégories : barre, espace, pied de page
@@ -78,7 +78,7 @@ Coque commune : `max-w-7xl`, marges 16 (375), 24 (768), 32 px (1280), centrée. 
 
 Rythme vertical : l'espace reprend celui du public tel qu'il est, sans rien ajouter au public. Haut et bas de page = le `py-8` de `main` (32 px, aucune marge de plus) ; `PageHeader` actuel (H1 `font-display font-bold text-3xl md:text-4xl`, intro `mt-3 md:mt-4 text-lg text-text-secondary max-w-3xl`, `mb-8 md:mb-10`) ; entre cartes de l'espace `gap-6`, entre sections de l'espace `space-y-12`. Les pages publiques gardent leurs valeurs et leurs fils d'Ariane.
 
-Aujourd'hui (C), à 1280 px : colonne 1 = carte du jour, colonne 2 = carte « Dans ton espace » (`min-w-0`), rien à droite de vide ; dessous « Contenu du jour » (vanne, conseil, vidéo) en `grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6`, la 3e carte en `md:col-span-2 xl:col-span-1`. À 375 : une colonne, carte du jour d'abord. À 768 : le bouton plein « Les cartes du jour » reste l'élément le plus visible ; l'index n'a ni bouton plein ni fond de carte par ligne. S'entraîner (C) : une carte par colonne, `gap-6`, mêmes colonnes que Aujourd'hui.
+Aujourd'hui (C), à 1280 px : colonne 1 = carte du jour, colonne 2 = carte « Dans ton espace » (`min-w-0`), rien à droite de vide ; dessous, séparé par `space-y-12` et un `h2`, « Contenu du jour » (vanne, conseil, vidéo) en `grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6`, la 3e carte en `md:col-span-2 xl:col-span-1`. À 375 : une colonne, carte du jour d'abord. À 768 : le bouton plein « Les cartes du jour » reste l'élément le plus visible ; l'index n'a ni bouton plein ni fond de carte par ligne. S'entraîner (C) : une carte par colonne, `gap-6`, mêmes colonnes que Aujourd'hui.
 
 ### Correspondance complète (toutes les `page.tsx`)
 
@@ -93,8 +93,8 @@ Aujourd'hui (C), à 1280 px : colonne 1 = carte du jour, colonne 2 = carte « Da
 
 Pas de seconde barre : elle ajoute 46 px (111 px collés en haut), cache ses entrées derrière un défilement, et Thomas l'a jugée « innavigable ».
 1. Aujourd'hui en 1 geste : « Mon espace » est un lien (dès 768 px en barre, sinon première ligne du menu) et le logo de l'abonné y mène.
-2. Index : carte « Dans ton espace », une ligne de 44 px par rubrique (libellé et chevron), dans cet ordre : Quoi répondre, Bibliothèque, Mes questions, S'entraîner, Mes répliques, Lettres, Favoris, Carnet. Une colonne de lignes. Même liste dans le menu mobile sous « Mon espace ». Le point violet n'est que sur la cloche (un fait, un signal).
-3. Retour, fixé par le type de page (sans état ni paramètre). Le parent règle aussi l'élément allumé (§1) :
+2. Index : carte « Dans ton espace », une ligne de 44 px par rubrique (libellé et chevron), dans cet ordre : Quoi répondre, Bibliothèque, Mes questions, S'entraîner, Mes répliques, Lettres, Favoris, Carnet. Une colonne de lignes. Même liste dans le menu mobile, sous « Mon espace » (lien sous 768 px, intitulé non cliquable de 768 à 1023 px). Le point violet n'est que sur la cloche (un fait, un signal).
+3. Retour, fixé par le type de page, sans état de session ni paramètre d'adresse (pour un bilan, le parcours se déduit de l'identifiant de la fiche, par exemple `bilan-repartie` vers `/parcours/repartie`). Le parent règle aussi l'allumage (§1) : dans le menu mobile, sa ligne ; en barre, l'élément qui le contient (Mon espace, ou Parcours pour un bilan) :
 
 | Page | « Retour : » |
 |---|---|
@@ -121,13 +121,13 @@ Les rubriques de l'index sont à 2 gestes de toute page : ordinateur Mon espace 
 5. Accès : pages B, C et Aujourd'hui à 2 clics de toute page depuis l'en-tête ou le pied ; pages A à 3. À 375 px, chaque rubrique de l'espace est à 2 touchers (Menu, ligne) sans défilement du menu, de 320 à 414 px de large pour une fenêtre CSS (`100dvh`, viewport Playwright) de 568 px au moins, marges et séparateur compris (§1).
 6. Aucun libellé coupé ni débordement de 320 à 1920 px, y compris 440 à 767 px ; `header-budget` mis à jour pour le nouvel état abonné (Mon espace, cloche), 6 largeurs plus 640 et 641 px (cas le plus serré, visiteur, ~12 px libres).
 7. Clavier complet (Tab, Échap), focus visible, cibles de 44 px, contrastes AA ; état actif visible sans dépendre de la teinte.
-8. États actifs conformes au tableau du §1, y compris `/favoris` (abonné et inscrit gratuit), `/carnet`, `/profil`, fiche « bilan », `/lettre` (abonné : aucun).
+8. États actifs conformes au tableau du §1 (barre et menu mobile), y compris `/favoris` (abonné et inscrit gratuit), `/carnet`, `/carnet/[mois]`, `/profil`, fiche « bilan », `/lettre` (abonné : aucun), et de 768 à 1023 px l'intitulé « Mon espace » non cliquable du menu.
 9. Mêmes URL, aucune redirection ; la barre visiteur change comme au §6 ; HTML serveur du visiteur sans code de l'espace.
 10. Conversion : bouton d'offre visible à toute largeur pour visiteur et inscrit gratuit, masqué sur /abonnement ; l'accueil vu par un abonné ne lui propose aucun achat (vérification sur capture, aucune modification attendue : `premium-cta.tsx` et `carte-premium-achat.tsx` gèrent déjà le Premium).
 11. Preuves : captures pages × 3 états × 3 largeurs, menus fermés et ouverts, dans `docs/captures/s24-nav-universelle/`.
 12. Mesure : événements « clic Mon espace », « clic index », « clic Menu », nommés par @data-analyst sur la convention du plan Umami existant.
-13. Chaque page A de l'espace renvoie à sa rubrique selon la table du §4.3 ; l'élément allumé de la barre est celui de ce parent (Mon espace, ou Parcours pour un bilan) et, dans le menu mobile, la ligne du parent s'allume. Aujourd'hui n'a pas de retour ; `/favoris` et `/carnet` gardent leurs repères publics.
-14. Aujourd'hui à 768 px (capture) : carte du jour et index côte à côte, « Les cartes du jour » est le bouton le plus visible, l'index ne pèse pas autant que l'action du jour.
+13. Chaque page A de l'espace renvoie à sa rubrique selon la table du §4.3 ; l'élément allumé de la barre est celui de ce parent (Mon espace, ou Parcours pour un bilan) et, dans le menu mobile, la ligne du parent s'allume (page A) ou la ligne de la rubrique elle-même (page de l'index). Aujourd'hui n'a pas de retour ; `/favoris` et `/carnet` gardent leurs repères publics.
+14. Aujourd'hui à 768 et à 1280 px (captures) : carte du jour et index côte à côte, « Les cartes du jour » est le bouton le plus visible, l'index ne pèse pas autant que l'action du jour ; à 1280, « Contenu du jour » est une section distincte (titre, `space-y-12`).
 
 ## 6. Écarts aux décisions passées (à confirmer par Thomas)
 
@@ -161,8 +161,11 @@ Les rubriques de l'index sont à 2 gestes de toute page : ordinateur Mon espace 
 | Design 1 carte du jour | Carte du jour et index côte à côte dès 768 px, « Contenu du jour » en 2 puis 3 colonnes, plus de limite à 768 px sur les cartes |
 | Design 2 plage 440 à 767 px | Règles du §1 (loupe, compte, cloche, bouton d'offre) ; icône compte dès 768 px (ROUVRE) |
 | R1 repères contradictoires | Gabarit C sans fil d'Ariane, Aujourd'hui sans retour, S'entraîner « Retour : Mon espace », `/favoris` et `/carnet` gardent leurs repères publics (§3, §4.3) |
-| Design : menu mobile sans hiérarchie | Tokens du §1 (`font-semibold`, `ml-3 border-l border-border`, `pl-6`, `border-t border-border`), ligne « Mon espace » masquée de 768 à 1023 px (doublon) |
-| Pistes du tour 3 (P9 à P12, reviewer, design) | P9 `/carnet/[mois]` et refonte de `rubriques.ts` ; P10 fenêtre CSS, marges comptées (529 px) ; P11 bilan vers `/parcours/[slug]` ; P12 critère 14 ; menu mobile allumé, « estimé » pour `header-budget` 640 et 641, vérification de l'accueil, S'entraîner en colonnes |
-| Pistes appliquées | Critère 3 « hors logo » ; `border-transparent` ; « Mon espace » en barre dès 768 px ; point violet sur la cloche seule ; lot @fullstack des 14 fichiers `lecture` |
+| Design tour 3 : menu mobile sans hiérarchie | Tokens du §1 (`font-semibold`, `ml-3 border-l border-border`, `pl-6`, `border-t border-border`) |
+| Design tour 4 : entrées orphelines de 768 à 1023 px (aussi elon P14, reviewer P2) | La ligne n'est plus masquée : de 768 à 1023 px, intitulé non cliquable `<p hidden md:block lg:hidden>` ; plus de lien dupliqué, parent visible, entrées gardées (§1) |
+| Reviewer T1 : ligne allumée du menu mobile | Règle du §1 (index : sa ligne ; page A : ligne du parent ; « Mon espace » seulement sur Aujourd'hui, `/favoris` et `/carnet` inclus), critères 8 et 13 alignés |
+| Pistes tour 3 : elon P9 à P12, reviewer P1 à P4, design | P9 `/carnet/[mois]` et refonte de `rubriques.ts` ; P10 fenêtre CSS, marges comptées ; P11 bilan vers `/parcours/[slug]` ; P12 critère 14 ; menu mobile allumé, « estimé » pour `header-budget` 640 et 641, vérification de l'accueil, S'entraîner en colonnes |
+| Pistes tour 4 : reviewer P1 à P4, elon P13, design | Titre v5 et « tours 1 à 4 » (reviewer P1, elon P13) ; bilan déduit de l'identifiant (reviewer P3) ; sources des pistes citées dans ce tableau (reviewer P4) ; 530 px avec séparateur et 38 px libres à 568 ; critère 14 étendu à 1280 px avec section distincte |
+| Pistes appliquées | Critère 3 « hors logo » ; `border-transparent` ; « Mon espace » en barre dès 768 px ; point violet sur la cloche seule ; lot @fullstack des 14 fichiers qui emploient `max-w-lecture` |
 
 À confirmer : site sombre seul (aucune bascule claire vue). Pas retenu : point sur le bouton Menu quand on est dans l'espace (non indispensable).
