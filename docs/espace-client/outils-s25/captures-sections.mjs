@@ -119,6 +119,7 @@ for (const compte of comptes) {
         if (action === "compte") await page.getByRole("banner").getByRole("button", { name: /compte/i }).first().click();
         if (action !== "page") await page.waitForTimeout(500);
         await page.screenshot({ path: join(dossier, fichier), fullPage: action === "page" });
+        if (action === "haut") await page.screenshot({ path: join(dossier, fichier.replace(".png", "-bandeau.png")), clip: { x: 0, y: 0, width: w, height: 96 } });
         const h = await page.evaluate(() => document.documentElement.scrollHeight);
         const deb = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
         lignes.push(`- ${fichier} : ${url} (${action}), HTTP ${r?.status?.()}, hauteur ${h}px${deb ? ", DÉBORDEMENT HORIZONTAL" : ""}`);
