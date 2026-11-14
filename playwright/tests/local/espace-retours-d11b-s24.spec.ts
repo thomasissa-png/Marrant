@@ -10,7 +10,7 @@ import { test, expect, localSeulement, requete, creerCompte, connecter, ESPACE_O
  *   répondu ») : connexion, puis retour sur CE fil, pas sur « Aujourd'hui » ;
  * - @ux D-5 : ancien abonné sur la même adresse : son historique en lecture seule (`/profil#mes-questions`) ;
  * - @ux D-3 : `?marche=3` toute essayée : une ligne et le lien vers la marche la plus proche qui a une mission ;
- * - @ux D-7 : après « Fait » sur une fiche, « Aujourd'hui » reste visible (barre de rubriques) ;
+ * - @ux D-7 : après « Fait » sur une fiche, « Aujourd'hui » reste visible (logo de l'abonné, navigation universelle v5) ;
  * - @ux D-1 : la semaine 4 du calendrier ne promet pas « Écouter, repérer » (aucune fiche publiée).
  */
 const MOT_DE_PASSE = "E2e-retours-d11b-2026!";
@@ -96,7 +96,9 @@ test.describe("@espace D11b : retours et états (ouvert)", () => {
     await page.goto("/mon-espace/fiche/situation/coloc-la-poele");
     await page.getByRole("button", { name: "Essayé, ça a marché" }).first().click();
     await expect(page.getByRole("button", { name: "Essayé, ça a marché" }).first()).toHaveAttribute("aria-pressed", "true", { timeout: 15_000 });
-    const aujourdhui = page.locator("[data-espace-barre]").getByRole("link", { name: "Aujourd’hui" });
+    // Navigation universelle v5 §4.1 : « Aujourd'hui » en un geste, le logo de l'abonné y mène.
+    const aujourdhui = page.getByRole("banner").getByRole("link", { name: "deviens-marrant.fr" });
+    await expect(aujourdhui).toHaveAttribute("href", "/mon-espace");
     await expect(aujourdhui).toBeInViewport();
     await aujourdhui.click();
     await expect(page).toHaveURL(/\/mon-espace$/);

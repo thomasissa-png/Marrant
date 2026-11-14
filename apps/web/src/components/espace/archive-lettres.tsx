@@ -71,7 +71,7 @@ function avecLiens(texte: string): React.ReactNode[] {
 export function LettreVue({ lettre }: { lettre: LettreLue }) {
   return (
     <article aria-labelledby="lettre-titre" className="flex flex-col gap-4">
-      <LienRetour href={`${ESPACE_ACCUEIL}/lettres`}>{T.titre}</LienRetour>
+      <LienRetour href={`${ESPACE_ACCUEIL}/lettres`} label={T.titre} />
       <p className="text-sm text-text-secondary">{lettre.titre}</p>
       <h1 id="lettre-titre" className="font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-3xl">
         {lettre.objet}

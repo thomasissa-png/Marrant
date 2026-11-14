@@ -32,7 +32,7 @@ async function capturer(page: Page, nom: string) {
     await page.setViewportSize({ width: l, height: h });
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(300);
-    // Page entière : la barre de rubriques collante ne recouvre pas le haut de la mission.
+    // Page entière : l’en-tête collant ne recouvre pas le haut de la mission.
     await page.screenshot({ path: join(CAPTURES, `${nom}-${l}.png`), fullPage: true });
   }
   await page.setViewportSize({ width: 375, height: 812 });

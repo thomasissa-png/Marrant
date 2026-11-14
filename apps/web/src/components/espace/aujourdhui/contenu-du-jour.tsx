@@ -26,10 +26,11 @@ type Daily = {
 type Etat = { statut: "chargement" } | { statut: "erreur" } | { statut: "ok"; donnees: Daily };
 
 const CARTE = "rounded-lg border border-border bg-background-card p-4 md:p-6";
+const TROISIEME = "md:col-span-2 xl:col-span-1";
 
-function Carte({ id, titre, children }: { id: string; titre: string; children: React.ReactNode }) {
+function Carte({ id, titre, children, className }: { id: string; titre: string; children: React.ReactNode; className?: string }) {
   return (
-    <article className={CARTE} aria-labelledby={id}>
+    <article className={className ? `${CARTE} ${className}` : CARTE} aria-labelledby={id}>
       <h3 id={id} className="text-base font-semibold text-text-primary">
         {titre}
       </h3>
@@ -60,13 +61,15 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
   }, []);
 
   return (
-    <section aria-labelledby="jour-titre" className="flex flex-col gap-4" data-etat={etat.statut}>
+    <section aria-labelledby="jour-titre" className="flex flex-col gap-4" data-etat={etat.statut} data-contenu-du-jour>
       <h2 id="jour-titre" className="font-display text-xl font-bold text-text-primary">
         {T.jour.titre}
       </h2>
+      {/* v5 §3 : 1 colonne, 2 dès 768 px, 3 dès 1280 px ; la 3e carte prend la ligne entière à 768. */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
       {etat.statut === "chargement" &&
         [0, 1, 2].map((i) => (
-          <div key={i} aria-hidden="true" className={`${CARTE} animate-pulse motion-reduce:animate-none`}>
+          <div key={i} aria-hidden="true" className={`${CARTE} animate-pulse motion-reduce:animate-none ${i === 2 ? TROISIEME : ""}`}>
             <div className="h-5 w-32 rounded bg-background-elevated" />
             <div className="mt-3 h-4 w-3/4 rounded bg-background-elevated" />
           </div>
@@ -79,7 +82,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
           <Carte id="jour-conseil" titre={T.jour.conseil}>
             <Link href="/conseils" className={lienCarte}>{T.jour.repli.conseils}</Link>
           </Carte>
-          <Carte id="jour-video" titre={T.jour.video}>
+          <Carte id="jour-video" titre={T.jour.video} className={TROISIEME}>
             <Link href="/videos" className={lienCarte}>{T.jour.repli.videos}</Link>
           </Carte>
         </>
@@ -100,7 +103,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
               <Link href="/conseils" className={lienCarte}>{T.jour.repli.conseils}</Link>
             )}
           </Carte>
-          <Carte id="jour-video" titre={T.jour.video}>
+          <Carte id="jour-video" titre={T.jour.video} className={TROISIEME}>
             {etat.donnees.video ? (
               <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={lienCarte}>{frEspace(etat.donnees.video.title)}</Link>
             ) : (
@@ -109,6 +112,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
           </Carte>
         </>
       )}
+      </div>
     </section>
   );
 }

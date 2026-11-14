@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/layout/page-header";
+import { RetourDe } from "@/components/espace/lien-retour";
 import { cookies } from "next/headers";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
@@ -56,11 +58,14 @@ export default async function BibliothequePage() {
   const entre = coinEntre(cookies().get(COOKIE_COIN)?.value);
 
   return (
-    <div className="flex flex-col gap-6 pb-12">
-      <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
-      <div className="grid max-w-lecture grid-cols-1 gap-6">
+    <div>
+      {/* v5 §3, gabarit B : pleine coque, blocs en 1 colonne puis 2 dès 768 px ; le long bloc des techniques
+          occupe la colonne de droite sur deux rangées, le coin passe sous les vannes (aucun trou). */}
+      <RetourDe chemin="/mon-espace/bibliotheque" />
+      <PageHeader title={T.titre} />
+      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
         <BlocVannes ecouter={[...lignes("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
-        <BlocBibliotheque id="bloc-techniques" titre={T.blocTechniques}>
+        <BlocBibliotheque id="bloc-techniques" titre={T.blocTechniques} className="md:row-span-2">
           <ListeFiches
             lignes={[...lignes("construction"), ...lignes("vocabulaire"), ...lignes("formule"), ...bonus.filter((b) => b.cap === 5).map(marque)]}
             labelledBy="bloc-techniques"

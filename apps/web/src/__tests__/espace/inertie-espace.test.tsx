@@ -200,6 +200,15 @@ describe("garde-fou de construction", () => {
     // D11c (revue d'harmonie, défaut 5) : rangée d'onglets de Favoris avec marge et indice de défilement,
     // ouvert seulement ; fermé, classes d'avant (snapshot `favoris` inchangé).
     "components/favoris/favoris-list.tsx",
+    // Navigation universelle v5 (s24) : en-tête unique et son menu mobile, chargés par `header.tsx` (déjà
+    // listé, touché de nouveau : il les monte à la place de l'ancienne barre) SEULEMENT interrupteur ouvert ;
+    // fermé, jamais rendus ni téléchargés (snapshots de l'en-tête inchangés).
+    "components/layout/en-tete-universel.tsx",
+    "components/layout/menu-mobile-universel.tsx",
+    // Touchés sans import de l'espace, rendu fermé inchangé : `account-menu.tsx` (variante `universel`, passée
+    // par l'en-tête unique seulement), `header-icons.tsx` (icône de l'ancien menu de compte abonné retirée),
+    // `parcours/[slug]/page.tsx`, `profil/page.tsx` (déjà listés : `AxeEspace` retiré, même colonne pour
+    // tous ; `parcours/(liste)/page.tsx`, figé par hachage, garde l'import d'un `AxeEspace` devenu neutre), `tailwind.config.ts` (`maxWidth.lecture` retiré, plus aucun emploi).
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

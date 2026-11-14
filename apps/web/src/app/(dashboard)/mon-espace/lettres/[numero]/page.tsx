@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
@@ -31,7 +32,7 @@ export default async function LettrePage({ params }: { params: { numero: string 
   const lettre = await lettreDeLaPage(params.numero);
   if (!lettre) notFound();
   return (
-    <div className="pb-12 lg:max-w-lecture">
+    <div className={COLONNE_LECTURE}>
       <LettreVue lettre={lettre} />
     </div>
   );

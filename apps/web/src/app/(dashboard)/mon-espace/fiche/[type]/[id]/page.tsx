@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
@@ -14,6 +15,7 @@ import { lettresEnvoyees } from "@/lib/espace/lettres";
 import { COOKIE_COIN, coinEntre } from "@/lib/espace/humour-noir";
 import { TEXTES_BIBLIOTHEQUE as TEXTES_BIBLIOTHEQUE_BRUT, TEXTES_LETTRES as TEXTES_LETTRES_BRUT } from "@/config/textes/espace-bibliotheque";
 import { FicheVue } from "@/components/espace/fiche";
+import { RetourDe } from "@/components/espace/lien-retour";
 import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { hrefLettre } from "@/components/espace/archive-lettres";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -63,7 +65,8 @@ export default async function FichePage({ params }: { params: Params }) {
   const { userId, fiche, lettre } = lu;
   if (estAuSeuil(fiche)) {
     return (
-      <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
+      <div className={`flex flex-col gap-6 ${COLONNE_LECTURE}`}>
+        <RetourDe chemin={`/mon-espace/fiche/${fiche.type}/${fiche.id}`} />
         <h1 className="sr-only">{TEXTES_BIBLIOTHEQUE.titre}</h1>
         <CoinHumourNoir lignesInitiales={null} versFiche />
       </div>
@@ -71,7 +74,7 @@ export default async function FichePage({ params }: { params: Params }) {
   }
   const [retour, replique] = fiche.geste ? await Promise.all([lireRetour(userId, fiche.id), lireReplique(userId, fiche.id)]) : [null, null];
   return (
-    <div className="pb-12 lg:max-w-lecture">
+    <div className={COLONNE_LECTURE}>
       {/* Lot D11c : typographie de l'espace sur le contenu de la fiche, à l'affichage seulement (JSON intact). */}
       <FicheVue fiche={frEspaceProfond(fiche)} retour={retour} replique={replique} lettre={lettre} />
     </div>

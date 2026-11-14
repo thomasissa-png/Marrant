@@ -1,4 +1,5 @@
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
+import { PageHeader } from "@/components/layout/page-header";
 import { CARTE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
@@ -11,8 +12,9 @@ const Q = frEspaceProfond(TEXTES_QUESTIONS);
  */
 export default function MesQuestionsChargement() {
   return (
-    <div className="flex flex-col gap-6 pb-12" aria-busy="true" data-etat="chargement">
-      <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{Q.titre}</h1>
+    <div className="flex flex-col gap-6 [&>header]:mb-2 md:[&>header]:mb-4" aria-busy="true" data-etat="chargement">
+      {/* v5 §3, gabarit B : en-tête de page du site (sa marge basse remplace le premier écart). */}
+      <PageHeader title={Q.titre} />
       {[0, 1].map((i) => (
         <div key={i} aria-hidden="true" className={`${CARTE} animate-pulse motion-reduce:animate-none`}>
           <div className="h-5 w-48 max-w-full rounded bg-background-elevated" />

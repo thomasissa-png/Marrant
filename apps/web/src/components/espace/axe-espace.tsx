@@ -1,22 +1,12 @@
-"use client";
-
 import type { ReactNode } from "react";
-import { useSession } from "next-auth/react";
 
 /**
- * Colonne de lecture de l'espace sur une page partagée avec le site public (lot D11c, revue d'harmonie
- * défaut 3) : à 1280 px, l'abonné Premium voit la page sur le même axe que le reste de l'espace
- * (`lg:max-w-lecture`, collée à la marge gauche de l'en-tête et de la barre). Tout autre lecteur garde
- * la classe d'avant (`visiteur`) : même HTML serveur (la session n'est connue que dans le navigateur,
- * comme pour l'en-tête abonné), même page qu'interrupteur fermé (critère 11). Monté par les pages
- * seulement interrupteur ouvert.
+ * Ancienne colonne de l'abonné sur l'axe de l'espace (lot D11c, `lg:max-w-lecture` collé à gauche),
+ * supprimée par la navigation universelle v5 §3 : plus aucune colonne de 720 px à gauche, la page garde la
+ * même colonne pour tout lecteur (`visiteur`). Gardé comme simple enveloppe parce que
+ * `app/(dashboard)/parcours/(liste)/page.tsx` est figé par hachage (`profil-d10-s24.test.tsx`, textes NON
+ * touchés du §6) ; à retirer avec la retouche suivante autorisée de ce fichier.
  */
 export function AxeEspace({ visiteur, children }: { visiteur?: string; children: ReactNode }) {
-  const { data } = useSession();
-  const abonne = (data?.user as { plan?: string } | undefined)?.plan === "PREMIUM";
-  return (
-    <div className={abonne ? "lg:max-w-lecture" : visiteur} data-axe-espace={abonne ? "lecture" : undefined}>
-      {children}
-    </div>
-  );
+  return <div className={visiteur}>{children}</div>;
 }

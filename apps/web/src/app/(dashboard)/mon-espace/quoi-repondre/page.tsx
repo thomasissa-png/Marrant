@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/layout/page-header";
+import { RetourDe } from "@/components/espace/lien-retour";
 import Link from "next/link";
 import { ESPACE_CLIENT_PUBLIE, ESPACE_ACCUEIL } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
@@ -43,15 +45,18 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
   const faits = await idsFaits(userId, retenues.map((f) => f.id));
 
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
-      <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
+    <div>
+      {/* v5 §3, gabarit B : pleine coque, « Retour : Mon espace », en-tête de page du site. */}
+      <RetourDe chemin={BASE} />
+      <PageHeader title={T.titre} />
+      <div className="flex flex-col gap-6">
       <Link href="/carnet" className={`${BOUTON_SECONDAIRE} self-start`}>
         {T.carnet}
       </Link>
       <FiltresSituations base={BASE} filtres={filtres} />
       <section aria-label={T.titre} aria-live="polite" data-etat={retenues.length > 0 ? "liste" : "vide"}>
         {retenues.length > 0 ? (
-          <ListeFiches lignes={retenues.map((f) => ligneDeFiche(f, faits))} avecDuree />
+          <ListeFiches lignes={retenues.map((f) => ligneDeFiche(f, faits))} avecDuree deuxColonnes />
         ) : (
           <div className={CARTE} data-testid="quoi-repondre-vide">
             <p className="text-base text-text-primary">{T.vide}</p>
@@ -61,6 +66,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
           </div>
         )}
       </section>
+      </div>
     </div>
   );
 }

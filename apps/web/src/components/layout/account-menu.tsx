@@ -4,7 +4,7 @@ import Link from "next/link";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { signOut } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
-import { IconeDeconnexion, IconeEspace, IconeFavoris, IconeProfil } from "@/components/layout/header-icons";
+import { IconeDeconnexion, IconeFavoris, IconeProfil } from "@/components/layout/header-icons";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 import { cn } from "@/lib/utils";
 
@@ -16,24 +16,31 @@ import { cn } from "@/lib/utils";
  * ARIA. Le bouton prix (« Premium · 1,99 €/mois ») reste hors du menu.
  * Sous 1024 px, le menu mobile garde ces entrées à plat.
  *
- * s24 (espace client, lot D2) : `espace` n'est passé que par l'en-tête abonné de l'espace,
- * monté seulement interrupteur `ESPACE_CLIENT_PUBLIE` ouvert. Il donne « Mon espace », « Mon
- * profil », « Déconnexion » (« Favoris » vit dans le menu « Plus » de la barre : aucune
- * rubrique deux fois) et le nom accessible de l'en-tête abonné. Sans `espace` : rendu inchangé.
+ * s24 (navigation universelle v5, §1) : `universel` n'est passé que par l'en-tête unique, monté
+ * seulement interrupteur `ESPACE_CLIENT_PUBLIE` ouvert. `sansFavoris` (abonné : « Mon profil »,
+ * « Déconnexion » ; « Favoris » est dans l'index de « Mon espace ») ; `actif` : icône allumée sur
+ * `/profil` (et `/favoris` pour le compte gratuit), même style que les liens de la barre, `aria-current`.
+ * Sans `universel` : rendu inchangé (test d'inertie).
  */
-export interface EntreesEspace {
-  nom: string;
-  monEspace: { href: string; label: string };
+export interface VarianteUniverselle {
+  sansFavoris: boolean;
+  actif: boolean;
 }
 const ITEM =
   "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-secondary outline-none transition-colors data-[highlighted]:bg-background-elevated data-[highlighted]:text-text-primary";
 
-export function AccountMenu({ espace }: { espace?: EntreesEspace } = {}) {
+export function AccountMenu({ universel }: { universel?: VarianteUniverselle } = {}) {
   return (
     <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger
-        aria-label={espace ? espace.nom : TEXTES_CONNEXION.menuCompte}
-        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-11 shrink-0 px-0 data-[state=open]:bg-background-elevated")}
+        aria-label={TEXTES_CONNEXION.menuCompte}
+        aria-current={universel?.actif ? "page" : undefined}
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "h-11 w-11 shrink-0 px-0 data-[state=open]:bg-background-elevated",
+          universel && "rounded-b-none border-b-2",
+          universel && (universel.actif ? "border-accent-primary bg-background-elevated text-accent-link" : "border-transparent"),
+        )}
       >
         <IconeProfil />
       </DropdownMenu.Trigger>
@@ -43,14 +50,7 @@ export function AccountMenu({ espace }: { espace?: EntreesEspace } = {}) {
           sideOffset={8}
           className="z-[60] min-w-[12rem] rounded-lg border border-border bg-background-card p-1 shadow-xl animate-fade-in"
         >
-          {espace ? (
-            <DropdownMenu.Item asChild className={ITEM}>
-              <Link href={espace.monEspace.href}>
-                <IconeEspace className="h-4 w-4" />
-                {espace.monEspace.label}
-              </Link>
-            </DropdownMenu.Item>
-          ) : (
+          {!universel?.sansFavoris && (
             <DropdownMenu.Item asChild className={ITEM}>
               <Link href="/favoris">
                 <IconeFavoris className="h-4 w-4" />

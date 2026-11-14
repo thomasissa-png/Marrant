@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/layout/page-header";
+import { RetourDe } from "@/components/espace/lien-retour";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { prisma } from "@/lib/prisma";
@@ -30,8 +32,10 @@ export default async function LettresPage() {
   const lettres = await listerLettres(prisma);
   await compterAnonyme({ cle: "ouverture", valeur: "archive-lettres" });
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
-      <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
+    <div>
+      {/* v5 §3, gabarit B. */}
+      <RetourDe chemin="/mon-espace/lettres" />
+      <PageHeader title={T.titre} />
       <ArchiveLettres lettres={lettres} />
     </div>
   );

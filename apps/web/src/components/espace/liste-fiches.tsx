@@ -14,10 +14,24 @@ const T = frEspaceProfond(TEXTES_FICHE_LIGNE);
  * couleur seule). Sous 300 px, le statut passe sous le titre. `avecDuree` : « {n} min » après le titre
  * (anatomie 2.7, durée affichée ; toujours pour un bonus, comme la maquette).
  */
-export function ListeFiches({ lignes, avecDuree = false, labelledBy }: { lignes: readonly LigneFiche[]; avecDuree?: boolean; labelledBy?: string }) {
+/**
+ * `deuxColonnes` (v5 §3, gabarit B des pages neuves de l'espace) : 1 colonne, 2 dès 768 px, quand la liste
+ * prend la pleine coque (Quoi répondre) ; une liste dans un bloc de la Bibliothèque reste en 1 colonne.
+ */
+export function ListeFiches({
+  lignes,
+  avecDuree = false,
+  labelledBy,
+  deuxColonnes = false,
+}: {
+  lignes: readonly LigneFiche[];
+  avecDuree?: boolean;
+  labelledBy?: string;
+  deuxColonnes?: boolean;
+}) {
   if (lignes.length === 0) return null;
   return (
-    <ul className="flex flex-col gap-2" aria-labelledby={labelledBy}>
+    <ul className={cn("grid grid-cols-1 gap-2", deuxColonnes && "md:grid-cols-2 md:gap-x-6")} aria-labelledby={labelledBy}>
       {lignes.map((l) => (
         <li key={l.id}>
           <Link

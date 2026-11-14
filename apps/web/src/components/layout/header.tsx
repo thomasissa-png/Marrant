@@ -32,22 +32,12 @@ const AccountMenu = dynamic(() => import("@/components/layout/account-menu").the
 });
 
 /**
- * s24 (espace client, lot D2) : en-tête abonné et barre de rubriques de l'espace, chargés
- * côté navigateur seulement, pour l'abonné (session Premium) et SEULEMENT interrupteur
- * `ESPACE_CLIENT_PUBLIE` ouvert. Fermé : rien de ceci n'est rendu ni téléchargé, l'en-tête
- * ci-dessous reste celui de la production (test d'inertie). Pendant le chargement, un repère
- * de même hauteur (en-tête 65 px + barre 46 px, sans saut).
+ * s24 (navigation universelle v5) : interrupteur `ESPACE_CLIENT_PUBLIE` ouvert, l'en-tête unique du site
+ * (visiteur, compte gratuit, abonné ; `en-tete-universel.tsx`) remplace celui-ci. Rendu serveur compris
+ * (HTML du visiteur) ; fermé, ce module n'est jamais chargé et l'en-tête ci-dessous reste celui de la
+ * production (test d'inertie). Ni seconde barre ni menu « Plus ».
  */
-const EspaceBarreClient = dynamic(() => import("@/components/espace/espace-barre-client"), {
-  ssr: false,
-  loading: () => (
-    <div aria-hidden="true" className="sticky top-0 z-50">
-      {/* Lot D11b : `box-content`, 64 px plus la bordure = 65 px comme l'en-tête réel (avant : 64, saut de 1 px). */}
-      <div className="box-content h-16 border-b border-border bg-background/95" />
-      <div className="box-content h-11 border-b border-border bg-background pt-px" />
-    </div>
-  ),
-});
+const EnTeteUniversel = dynamic(() => import("@/components/layout/en-tete-universel").then((m) => m.EnTeteUniversel));
 
 /**
  * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à
@@ -140,9 +130,8 @@ export function Header() {
 
   const closeMobileSearch = () => setIsMobileSearchOpen(false);
 
-  // s24 (lot D2) : abonné, interrupteur ouvert : l'en-tête de l'espace et sa barre remplacent
-  // les onglets (ils y migrent, aucune rubrique deux fois). Après tous les hooks.
-  if (ESPACE_CLIENT_PUBLIE && isPremium) return <EspaceBarreClient pathname={pathname} />;
+  // s24 (navigation universelle v5) : interrupteur ouvert, l'en-tête unique pour tous. Après tous les hooks.
+  if (ESPACE_CLIENT_PUBLIE) return <EnTeteUniversel />;
 
   return (
     <>

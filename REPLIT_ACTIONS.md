@@ -93,6 +93,13 @@ Ce qui devient visible ou actif dès ce déploiement (hors interrupteur ; tout l
 - **Autres prérequis écrits dans les entrées** : @legal confirme que la mention « Usage du service » couvre les 6 événements du D9 ; plan de tags @data-analyst pour figer J7, J30, J60 (D9) ; « Motifs de résiliation » activés dans le portail Stripe (Thomas, lot 0) ; décision de Thomas sur l'export `BUILD_TARGET=mobile` (rouge, antérieur à s24, N-1 de la recette).
 - **Contre-recette @qa** des corrections D11b (Q-1, Q-2, Q-4, Q-5, Q-6, commit `534678f7`), CI verte dans les deux régimes.
 
+### À DÉPLOYER (s24), détail, voir l'entrée JOUR DU GO : navigation universelle (spec `docs/ux/navigation-universelle-s24.md` v5, validée 10/10), **NON COMMITÉ, NON DÉPLOYÉ, INTERRUPTEUR FERMÉ : rien ne change en ligne**
+
+- Interrupteur ouvert seulement : un seul en-tête (`components/layout/en-tete-universel.tsx` et `menu-mobile-universel.tsx`) pour visiteur, compte gratuit et abonné ; « Mon espace » (abonné) en barre dès 768 px et en tête du menu mobile avec ses 8 entrées ; logo de l'abonné vers `/mon-espace` ; plus de barre de rubriques ni de menu « Plus » (fichiers supprimés) ; index « Dans ton espace » dans Aujourd'hui ; « Retour : {parent} » par type de page (`components/espace/rubriques.ts`, refondu) ; gabarits A, B, C centrés, `maxWidth.lecture` retiré de `tailwind.config.ts`.
+- Fermé : en-tête, pied, `/profil`, `/favoris`, `/parcours` identiques (47 instantanés d'inertie, jamais régénérés ; hachages des textes en ligne inchangés).
+- Non fait : ligne « Blague du jour » du pied (`footer.tsx` est figé par hachage, attend un go) ; événements Umami « clic Mon espace », « clic index », « clic Menu » (à nommer par @data-analyst).
+- Aucune variable, aucun paquet, aucune migration.
+
 ### À DÉPLOYER (s24), détail, voir l'entrée JOUR DU GO : lot D11c (harmonie de la préversion : revue `docs/design/harmonie-preversion-s24.md`), **NON COMMITÉ, NON DÉPLOYÉ, INTERRUPTEUR FERMÉ, SAUF la 404 du site : boutons l'un sous l'autre à 375 px, VISIBLE DÈS CE DÉPLOIEMENT**
 
 - Code seul : aucune variable d'environnement, aucun paquet, aucune migration. Ouvert seulement : largeur unique par type d'écran (Parcours et Profil de l'abonné sur l'axe de l'espace, `AxeEspace` ; visiteur inchangé, critère 11), onglet actif hors du fondu à 375 px, titre préfixé une fois, typographie insécable de l'espace (`frEspace`, affichage seul), Favoris (marge, indice), cloche ancrée dès 768 px, lien « retour » des fiches, coin Humour noir qui mène à la fiche demandée, `/abonnement` d'un abonné Premium vers `/mon-espace` (témoin `dm_arrivee_espace` de 10 s, chemin `/abonnement`, anti-boucle).

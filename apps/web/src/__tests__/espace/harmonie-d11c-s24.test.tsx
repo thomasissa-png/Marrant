@@ -51,9 +51,9 @@ describe("frEspace", () => {
 });
 
 describe("LienRetour", () => {
-  it("lien vers la liste parente, chevron décoratif, nom = nom de la liste", () => {
-    render(<LienRetour href="/mon-espace/bibliotheque">Bibliothèque</LienRetour>);
-    const lien = screen.getByRole("link", { name: "Bibliothèque" });
+  it("lien vers la liste parente, chevron décoratif, nom « Retour : {liste} » (navigation universelle v5 §4.3)", () => {
+    render(<LienRetour href="/mon-espace/bibliotheque" label="Bibliothèque" />);
+    const lien = screen.getByRole("link", { name: /^Retour\s:\sBibliothèque$/ });
     expect(lien).toHaveAttribute("href", "/mon-espace/bibliotheque");
     expect(lien.className).toContain("min-h-11");
     expect(lien.querySelector("svg")).toHaveAttribute("aria-hidden", "true");

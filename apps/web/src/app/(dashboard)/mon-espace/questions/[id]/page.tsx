@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import { LienRetour } from "@/components/espace/lien-retour";
 import { notFound } from "next/navigation";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
@@ -29,9 +30,9 @@ export default async function FilQuestionPage({ params }: { params: { id: string
   const fil = FORMAT_CLE.test(params.id) ? await lireFil(userId, params.id) : null;
   if (!fil) notFound();
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
+    <div className={`flex flex-col gap-6 ${COLONNE_LECTURE}`}>
       <div>
-        <LienRetour href="/mon-espace/questions">{Q.titre}</LienRetour>
+        <LienRetour href="/mon-espace/questions" label={Q.titre} />
         <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{Q.types[fil.type].nom}</h1>
       </div>
       <FilOuvert fil={fil} />

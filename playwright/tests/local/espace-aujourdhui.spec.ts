@@ -124,11 +124,12 @@ test.describe("espace client, « Aujourd'hui » (s24, lot D3)", () => {
       expect(JSON.stringify(compteurs)).not.toMatch(/user|email|id/i);
     });
 
-    test("ancres : la barre réserve sa hauteur en haut de page (revue D2, point e)", async ({ page }) => {
+    test("ancres : plus de barre sous l'en-tête (navigation universelle v5), aucune réserve en haut de page", async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/parcours/repartie");
-      await expect(page.locator("[data-espace-barre]")).toBeVisible();
-      await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop)).toMatch(/^4[56]px$/);
+      await expect(page.locator("header")).toHaveCount(1);
+      await expect(page.locator("[data-espace-barre]")).toHaveCount(0);
+      expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop)).toMatch(/^(auto|0px)$/);
     });
 
     test("page de succès : pas de « Continuer » sans preuve ; puis « Continuer » vers « Aujourd'hui », renonciation à 44 px", async ({ page }) => {

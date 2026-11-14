@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/layout/page-header";
+import { RetourDe } from "@/components/espace/lien-retour";
 import Link from "next/link";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
@@ -32,7 +34,7 @@ const M = frEspaceProfond(TEXTES_MISSION);
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return ESPACE_CLIENT_PUBLIE ? { title: N.menuPlus.sEntrainer } : METADONNEES_404;
+  return ESPACE_CLIENT_PUBLIE ? { title: N.index.sEntrainer } : METADONNEES_404;
 }
 
 const lireMarche = (v: unknown): NumeroMarche | null => {
@@ -56,12 +58,12 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
   const sansCarte = etat.cartes.every((c) => !etat.catalogue.get(c.carteId));
 
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
-      {/* Lot D11c (revue d'harmonie, défaut 14) : titre puis sous-titre à 8 px, comme « Aujourd'hui ». */}
-      <div>
-        <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{N.menuPlus.sEntrainer}</h1>
-        <p className="mt-2 text-sm text-text-secondary">{T.accroche}</p>
-      </div>
+    <div>
+      {/* v5 §3, gabarit C : « Retour : Mon espace », en-tête de page du site, une carte par colonne
+          (1 colonne, 2 dès 768 px, `gap-6`), mêmes colonnes que « Aujourd'hui ». */}
+      <RetourDe chemin="/mon-espace/s-entrainer" />
+      <PageHeader title={N.index.sEntrainer} lead={T.accroche} />
+      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
       <FournisseurCompteARebours etat={etat.compteARebours}>
         {etat.cartes.map((c, i) => {
           const carte = etat.catalogue.get(c.carteId);
@@ -95,6 +97,7 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
           hrefAPlat={aPlat ? hrefFiche("a-plat", aPlat.id) : null}
         />
       )}
+      </div>
     </div>
   );
 }

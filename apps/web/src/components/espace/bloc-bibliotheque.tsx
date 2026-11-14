@@ -9,9 +9,9 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 const T = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
 
 /** Un bloc de la Bibliothèque (maquette `bibliotheque.html`, `.card`) : titre de niveau 2 et contenu. */
-export function BlocBibliotheque({ id, titre, children }: { id: string; titre: string; children: React.ReactNode }) {
+export function BlocBibliotheque({ id, titre, children, className }: { id: string; titre: string; children: React.ReactNode; className?: string }) {
   return (
-    <section aria-labelledby={id} className={CARTE}>
+    <section aria-labelledby={id} className={className ? `${CARTE} ${className}` : CARTE}>
       <h2 id={id} className="font-display text-xl font-bold text-text-primary">
         {titre}
       </h2>

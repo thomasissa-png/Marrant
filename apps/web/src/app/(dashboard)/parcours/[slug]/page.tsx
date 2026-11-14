@@ -10,7 +10,6 @@
 //   contient donc que l'étape 1 complète et l'APERÇU des étapes 2+ (titre, ce
 //   qu'on apprend, format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
 //   via /api/parcours/by-slug après hydratation (plan vérifié en base).
-import { AxeEspace } from "@/components/espace/axe-espace";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import type { Metadata } from "next";
 import { fitDescription, fitTitle, NOT_FOUND_ROBOTS, websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
@@ -166,12 +165,11 @@ async function fetchInitialData(slug: string) {
 }
 
 /**
- * Lot D11c (revue d'harmonie, défaut 3) : colonne centrée de 768 px pour tout lecteur ; interrupteur ouvert,
- * l'abonné la voit sur l'axe de l'espace (`AxeEspace`, côté navigateur). Visiteur : même HTML (critère 11).
+ * Colonne centrée de 768 px pour tout lecteur (gabarit A ou B public, navigation universelle v5 §3 :
+ * l'axe de 720 px collé à gauche de l'abonné, lot D11c, est supprimé). Fermé comme ouvert, même HTML.
  */
 function ColonneParcours({ children }: { children: React.ReactNode }) {
-  if (!ESPACE_CLIENT_PUBLIE) return <div className="mx-auto max-w-3xl">{children}</div>;
-  return <AxeEspace visiteur="mx-auto max-w-3xl">{children}</AxeEspace>;
+  return <div className="mx-auto max-w-3xl">{children}</div>;
 }
 
 export default async function ParcoursDetailPage({

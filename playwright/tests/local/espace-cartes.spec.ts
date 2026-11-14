@@ -50,7 +50,7 @@ async function capturer(page: Page, nom: string, cible?: string) {
     if (cible) {
       await page.locator(cible).first().evaluate((e) => {
         e.scrollIntoView({ block: "start", behavior: "instant" });
-        const fixes = Array.from(document.querySelectorAll("header, [data-espace-barre]"))
+        const fixes = Array.from(document.querySelectorAll("header"))
           .filter((x) => ["sticky", "fixed"].includes(getComputedStyle(x).position))
           .reduce((b, x) => Math.max(b, x.getBoundingClientRect().bottom), 0);
         window.scrollBy({ top: -(fixes + 16), behavior: "instant" });

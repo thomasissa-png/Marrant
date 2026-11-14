@@ -11,6 +11,7 @@ import { BilanParcours } from "@/components/espace/fiche/bilan-parcours";
 import { renvoiDeBilan } from "@/lib/espace/bilan-renvoi";
 import { HREF_ENTREE_COIN } from "@/lib/espace/humour-noir";
 import { LienRetour } from "@/components/espace/lien-retour";
+import { parentEspace } from "@/components/espace/rubriques";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -27,21 +28,11 @@ function nomDuLien(href: string): string {
 }
 
 /**
- * Liste parente d'une fiche (lot D11c, lien « retour ») : la porte de sa rubrique dans la barre
- * (`rubriques.ts`), sauf jeu et séance, rangés sous « Plus » mais listés dans les étapes des parcours.
+ * Parent d'une fiche (« Retour : … », v5 §4.3) : la rubrique de l'index de son type, ou le parcours
+ * d'origine pour un bilan (déduit de l'identifiant). Table unique dans `rubriques.ts`.
  */
-function parente(type: Fiche["type"]): { href: string; label: string } {
-  switch (type) {
-    case "situation":
-    case "a-plat":
-      return { href: `${ESPACE_ACCUEIL}/quoi-repondre`, label: N.rubriques.quoiRepondre };
-    case "bilan":
-    case "jeu":
-    case "seance":
-      return { href: "/parcours", label: N.rubriques.parcours };
-    default:
-      return { href: `${ESPACE_ACCUEIL}/bibliotheque`, label: N.rubriques.bibliotheque };
-  }
+function parente(fiche: Fiche): { href: string; label: string } {
+  return parentEspace(`${ESPACE_ACCUEIL}/fiche/${fiche.type}/${fiche.id}`) ?? { href: ESPACE_ACCUEIL, label: N.monEspace };
 }
 
 function Corps({ fiche }: { fiche: Fiche }) {
@@ -121,12 +112,13 @@ export function FicheVue({
   lettre: { titre: string; href: string } | null;
 }) {
   const bilan = fiche.type === "bilan";
+  const parent = parente(fiche);
   return (
     <article className="flex flex-col gap-6" data-fiche-type={fiche.type}>
       <div className="space-y-2">
-        <LienRetour href={parente(fiche.type).href}>{parente(fiche.type).label}</LienRetour>
+        <LienRetour href={parent.href} label={parent.label} />
         {/* Étiquette de type gardée quand elle dit autre chose que la liste parente (« Formules à détourner »). */}
-        {!bilan && T.types[fiche.type] !== parente(fiche.type).label && <p className={ETIQUETTE}>{T.types[fiche.type]}</p>}
+        {!bilan && T.types[fiche.type] !== parent.label && <p className={ETIQUETTE}>{T.types[fiche.type]}</p>}
         <h1 id="fiche-titre" className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl max-e300:text-2xl">
           {bilan ? TEXTES_BILAN.h1 : fiche.titre}
         </h1>

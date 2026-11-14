@@ -18,12 +18,12 @@ import { TonMois } from "@/components/espace/aujourdhui/ton-mois";
 import { CartesDuJour } from "@/components/espace/aujourdhui/cartes-du-jour";
 import { EtapeEnCours } from "@/components/espace/aujourdhui/etape-en-cours";
 import { MissionLien } from "@/components/espace/aujourdhui/mission-lien";
+import { DansTonEspace } from "@/components/espace/aujourdhui/dans-ton-espace";
 import { lireRafale, type EtatRafale } from "@/lib/espace/cartes-serveur";
 import { lireEtapeAReprendre } from "@/lib/espace/etape-serveur";
 import { missionOuverte, missionsServiesValidees } from "@/lib/espace/missions";
 import { lireRetoursMission } from "@/lib/espace/missions-serveur";
 import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
-import { cn } from "@/lib/utils";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 
@@ -89,31 +89,33 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
     autreContexte: c.autreContexte === true,
   }));
 
+  // v5 §3, gabarit C : pleine coque, aucun retour ni fil d'Ariane. À 768 px et plus, colonne 1 = carte du
+  // jour (et ce qui l'accompagne), colonne 2 = « Dans ton espace » ; dessous, « Contenu du jour », section
+  // distincte (`space-y-12`). À 375 px, une colonne, carte du jour d'abord.
   return (
-    <div className="pb-12">
-      <div className="mb-6 max-e300:mb-2">
-        <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
+    <div>
+      <header className="mb-8 md:mb-10">
+        <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">{T.titre}</h1>
         {rafale && rafale.cetteSemaine > 0 && <p className="mt-2 text-sm text-text-secondary">{T.repere(rafale.cetteSemaine)}</p>}
-      </div>
+      </header>
       {favori && (
         <p role="status" className="mb-6 rounded-md border border-border bg-background-light px-4 py-3 text-sm text-text-secondary">
           {frTypo(BIENVENUE_PREMIUM.favori[favori])}
         </p>
       )}
-      <div className={cn("flex flex-col gap-6", mois.montrer ? "lg:grid lg:grid-cols-3 lg:items-start" : "lg:max-w-lecture")}>
-        <div className="flex flex-col gap-6 lg:col-span-2">
-          {!fait && <PremierPas origine={origine} entrees={entrees} avecBandeau={Boolean(favori)} />}
-          {rafale && rafale.fini && etape && <EtapeEnCours etape={etape} />}
-          {rafale && <CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} />}
-          {marcheMission && <MissionLien marche={marcheMission} />}
-          {fait && !aise && <QuestionAise />}
-          <ContenuDuJour categories={categories} />
-        </div>
-        {mois.montrer && (
-          <div className="flex flex-col gap-6">
-            <TonMois serie={mois.serie} cap={mois.cap} />
+      <div className="space-y-12">
+        <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2" data-aujourdhui-grille>
+          <div className="flex min-w-0 flex-col gap-6" data-carte-du-jour>
+            {!fait && <PremierPas origine={origine} entrees={entrees} avecBandeau={Boolean(favori)} />}
+            {rafale && rafale.fini && etape && <EtapeEnCours etape={etape} />}
+            {rafale && <CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} />}
+            {marcheMission && <MissionLien marche={marcheMission} />}
+            {fait && !aise && <QuestionAise />}
+            {mois.montrer && <TonMois serie={mois.serie} cap={mois.cap} />}
           </div>
-        )}
+          <DansTonEspace />
+        </div>
+        <ContenuDuJour categories={categories} />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 /**
- * Lot D2 de l'espace client (s24, `docs/espace-client/plan-developpement-s24.md` §3) :
- * barre de rubriques, en-tête abonné (loupe, cloche, compte), menu « Plus ».
- * Interrupteur OUVERT seulement ici, par un mock (jamais dans le code livré) ; fermé, le
- * test d'inertie (`inertie-espace.test.tsx`) garde l'en-tête de la production.
+ * Navigation universelle (s24, `docs/ux/navigation-universelle-s24.md` v5) : en-tête unique pour visiteur,
+ * compte gratuit et abonné, index de « Mon espace », retours par type de page, élément allumé, cloche.
+ * Interrupteur OUVERT seulement ici, par un mock (jamais dans le code livré) ; fermé, le test d'inertie
+ * (`inertie-espace.test.tsx`) garde l'en-tête de la production.
  */
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
@@ -23,11 +23,10 @@ jest.mock("next/navigation", () => ({
 jest.mock("next-auth/react", () => ({ useSession: jest.fn(), signOut: jest.fn() }));
 
 import { Header } from "@/components/layout/header";
-import EspaceBarreClient from "@/components/espace/espace-barre-client";
+import { EnTeteUniversel } from "@/components/layout/en-tete-universel";
 import { Cloche } from "@/components/espace/cloche";
-import { RUBRIQUES, MENU_PLUS, rubriqueActive } from "@/components/espace/rubriques";
+import { INDEX_ESPACE, elementBarreAllume, ligneEspaceAllumee, parentEspace } from "@/components/espace/rubriques";
 import { TEXTES_ESPACE_NAVIGATION as T, nomCloche } from "@/config/textes/espace-navigation";
-import { margeIndice } from "@/components/espace/styles-barre";
 
 const drapeau = globalThis as { __ESPACE_OUVERT__?: boolean };
 const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
@@ -37,6 +36,7 @@ const SESSIONS = {
   gratuit: { data: { user: { id: "u1", plan: "FREE" } }, status: "authenticated" },
   abonne: { data: { user: { id: "u2", plan: "PREMIUM" } }, status: "authenticated" },
 } as const;
+const SITE = ["Parcours", "Vannes", "Conseils", "Vidéos", "Articles"];
 
 beforeAll(() => {
   // jsdom : ni ResizeObserver ni document.fonts ; Radix a besoin de ResizeObserver.
@@ -46,6 +46,7 @@ beforeAll(() => {
     disconnect() {}
   }
   Object.assign(globalThis, { ResizeObserver: RO });
+  global.fetch = jest.fn(async () => ({ ok: false, json: async () => ({}) })) as unknown as typeof fetch;
 });
 beforeEach(() => {
   drapeau.__ESPACE_OUVERT__ = false;
@@ -56,161 +57,122 @@ afterAll(() => {
   drapeau.__ESPACE_OUVERT__ = false;
 });
 
-describe("interrupteur et sessions (critères 2 et 20 du brief)", () => {
-  it.each(Object.keys(SESSIONS))("fermé, %s : en-tête d'origine, ni barre ni cloche", async (etat) => {
+const liensBarre = () =>
+  within(screen.getByRole("navigation", { name: "Navigation principale" }))
+    .getAllByRole("link")
+    .map((a) => a.textContent);
+
+describe("interrupteur (§0)", () => {
+  it.each(Object.keys(SESSIONS))("fermé, %s : en-tête d'origine (onglet Accueil), ni « Mon espace » ni cloche", async (etat) => {
     useSession.mockReturnValue(SESSIONS[etat as keyof typeof SESSIONS]);
     const { container } = render(<Header />);
     await act(async () => {});
-    expect(screen.getByRole("navigation", { name: "Navigation principale" })).toBeInTheDocument();
-    expect(screen.queryByRole("navigation", { name: T.monEspace })).toBeNull();
-    expect(container.innerHTML).not.toMatch(/Notifications|data-espace-barre|data-en-tete-espace/);
+    expect(liensBarre()[0]).toBe("Accueil");
+    expect(container.innerHTML).not.toMatch(/Notifications|data-en-tete-universel|Mon espace/);
+  });
+});
+
+describe("en-tête unique, interrupteur ouvert (§1)", () => {
+  beforeEach(() => {
+    drapeau.__ESPACE_OUVERT__ = true;
   });
 
-  it.each(["visiteur", "gratuit"] as const)("ouvert, %s : ni barre ni cloche", async (etat) => {
-    drapeau.__ESPACE_OUVERT__ = true;
-    useSession.mockReturnValue(SESSIONS[etat]);
-    const { container } = render(<Header />);
+  it("visiteur : Parcours en premier, « La lettre » en dernier, Connexion, bouton d'offre, logo vers l'accueil", async () => {
+    render(<EnTeteUniversel />);
     await act(async () => {});
-    expect(screen.getByRole("navigation", { name: "Navigation principale" })).toBeInTheDocument();
-    expect(container.innerHTML).not.toMatch(/Notifications|data-espace-barre|data-en-tete-espace/);
+    expect(liensBarre()).toEqual([...SITE, "La lettre"]);
+    expect(screen.getByRole("link", { name: "deviens-marrant.fr" })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: "Connexion" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /^Premium, 1,99/ })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /^Notifications/ })).toBeNull();
   });
 
-  it("ouvert, abonné : en-tête de l'espace et barre (chargés côté navigateur), plus d'onglets d'origine", async () => {
-    drapeau.__ESPACE_OUVERT__ = true;
+  it("compte gratuit : mêmes liens, pas de Connexion, bouton d'offre", async () => {
+    useSession.mockReturnValue(SESSIONS.gratuit);
+    render(<EnTeteUniversel />);
+    await act(async () => {});
+    expect(liensBarre()).toEqual([...SITE, "La lettre"]);
+    expect(screen.queryByRole("link", { name: "Connexion" })).toBeNull();
+    expect(screen.getByRole("link", { name: /^Premium, 1,99/ })).toBeInTheDocument();
+  });
+
+  it("abonné : « Mon espace » puis 5 liens, logo vers Aujourd'hui, cloche, aucun bouton d'offre", async () => {
     useSession.mockReturnValue(SESSIONS.abonne);
-    usePathname.mockReturnValue("/parcours");
-    render(<Header />);
-    const barre = await screen.findByRole("navigation", { name: T.monEspace });
-    expect(within(barre).getByRole("link", { name: T.rubriques.parcours })).toHaveAttribute("aria-current", "page");
-    expect(screen.queryByRole("navigation", { name: "Navigation principale" })).toBeNull();
-    expect(screen.queryByRole("button", { name: "Menu" })).toBeNull();
-    expect(screen.getByRole("button", { name: nomCloche(0) })).toBeInTheDocument();
+    usePathname.mockReturnValue("/mon-espace/quoi-repondre");
+    render(<EnTeteUniversel />);
+    expect(await screen.findByRole("button", { name: nomCloche(0) })).toBeInTheDocument();
+    expect(liensBarre()).toEqual([T.monEspace, ...SITE]);
+    expect(screen.getByRole("link", { name: T.monEspace })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: "deviens-marrant.fr" })).toHaveAttribute("href", "/mon-espace");
+    expect(screen.queryByRole("link", { name: /^Premium, 1,99/ })).toBeNull();
+  });
+
+  it("menu mobile de l'abonné : « Mon espace », ses 8 entrées, puis les liens du site ; Échap rend le focus", async () => {
+    useSession.mockReturnValue(SESSIONS.abonne);
+    usePathname.mockReturnValue("/mon-espace/fiche/situation/coloc-la-poele");
+    render(<EnTeteUniversel />);
+    const bouton = screen.getByRole("button", { name: "Menu" });
+    await userEvent.click(bouton);
+    const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
+    const liens = within(menu).getAllByRole("link").map((a) => a.textContent);
+    expect(liens.slice(0, 10)).toEqual([T.monEspace, ...INDEX_ESPACE.map((e) => e.label), "Parcours"]);
+    expect(within(menu).getByRole("link", { name: T.index.quoiRepondre })).toHaveAttribute("aria-current", "page");
+    expect(menu.querySelector("p")?.textContent).toBe(T.monEspace);
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByRole("navigation", { name: "Navigation mobile" })).toBeNull();
+    expect(bouton).toHaveFocus();
   });
 });
 
-describe("barre de rubriques", () => {
-  it("6 entrées au plus, libellés = espace-navigation.ts, dans l'ordre de C1", () => {
-    render(<EspaceBarreClient pathname="/mon-espace" />);
-    const barre = screen.getByRole("navigation", { name: T.monEspace });
-    const entrees = Array.from(barre.querySelectorAll<HTMLElement>("a, button"));
-    expect(entrees.length).toBeLessThanOrEqual(6);
-    expect(entrees.map((e) => e.textContent?.trim())).toEqual([
-      T.rubriques.aujourdhui,
-      T.rubriques.parcours,
-      T.rubriques.quoiRepondre,
-      T.rubriques.bibliotheque,
-      T.rubriques.mesQuestions,
-      T.rubriques.plus,
-    ]);
+describe("retour par type de page (§4.3)", () => {
+  it.each([
+    ["/mon-espace/fiche/situation/coloc-la-poele", T.index.quoiRepondre, "/mon-espace/quoi-repondre"],
+    ["/mon-espace/fiche/a-plat/x", T.index.quoiRepondre, "/mon-espace/quoi-repondre"],
+    ["/mon-espace/fiche/jeu/quelle-replique-1", T.index.sEntrainer, "/mon-espace/s-entrainer"],
+    ["/mon-espace/fiche/seance/x", T.index.sEntrainer, "/mon-espace/s-entrainer"],
+    ["/mon-espace/fiche/construction/x", T.index.bibliotheque, "/mon-espace/bibliotheque"],
+    ["/mon-espace/fiche/humour-noir/x", T.index.bibliotheque, "/mon-espace/bibliotheque"],
+    ["/mon-espace/bonus/x", T.index.bibliotheque, "/mon-espace/bibliotheque"],
+    ["/mon-espace/fiche/bilan/bilan-repartie", "Répartie", "/parcours/repartie"],
+    ["/mon-espace/lettres/2026-W46", T.index.lettres, "/mon-espace/lettres"],
+    ["/mon-espace/questions/abc", T.index.mesQuestions, "/mon-espace/questions"],
+    ["/mon-espace/quoi-repondre", T.monEspace, "/mon-espace"],
+    ["/mon-espace/s-entrainer", T.monEspace, "/mon-espace"],
+  ])("%s : « Retour : %s »", (chemin, label, href) => {
+    expect(parentEspace(chemin)).toMatchObject({ label, href });
+  });
+
+  it.each(["/mon-espace", "/favoris", "/carnet", "/carnet/2026-11", "/parcours"])("%s : aucun retour ajouté", (chemin) => {
+    expect(parentEspace(chemin)).toBeNull();
+  });
+});
+
+describe("élément allumé (§1)", () => {
+  it.each([
+    ["/mon-espace", "abonne", "monEspace"],
+    ["/mon-espace/fiche/bilan/bilan-repartie", "abonne", "/parcours"],
+    ["/carnet/2026-11", "abonne", "monEspace"],
+    ["/favoris", "abonne", "monEspace"],
+    ["/favoris", "gratuit", "compte"],
+    ["/profil", "abonne", "compte"],
+    ["/lettre", "abonne", null],
+    ["/lettre", "visiteur", "/lettre"],
+    ["/blog/x", "abonne", "/blog"],
+    ["/carnet", "visiteur", null],
+    ["/", "visiteur", null],
+  ] as const)("barre, %s (%s) : %s", (chemin, etat, attendu) => {
+    expect(elementBarreAllume(chemin, etat)).toBe(attendu);
   });
 
   it.each([
-    ["/mon-espace", T.rubriques.aujourdhui],
-    ["/parcours/repartie", T.rubriques.parcours],
-    ["/mon-espace/quoi-repondre", T.rubriques.quoiRepondre],
-    ["/carnet", T.rubriques.quoiRepondre],
-    ["/mon-espace/bibliotheque", T.rubriques.bibliotheque],
-    ["/vannes/theme/boulot", T.rubriques.bibliotheque],
-    ["/mon-espace/questions/abc", T.rubriques.mesQuestions],
-    ["/mon-espace/repliques", T.rubriques.plus],
-    ["/favoris", T.rubriques.plus],
-  ])("%s : « %s » porte aria-current=page, une seule entrée", (chemin, libelle) => {
-    render(<EspaceBarreClient pathname={chemin} />);
-    const barre = screen.getByRole("navigation", { name: T.monEspace });
-    const courantes = barre.querySelectorAll('[aria-current="page"]');
-    expect(courantes).toHaveLength(1);
-    expect(courantes[0].textContent?.trim()).toBe(libelle);
-  });
-
-  it.each(["/", "/profil", "/adresse-inexistante"])("%s : aucune entrée courante", (chemin) => {
-    expect(rubriqueActive(chemin)).toBeNull();
-  });
-
-  it("« Aujourd'hui » est la première entrée, épinglée, et prend le focus au clavier", async () => {
-    render(<EspaceBarreClient pathname="/mon-espace/questions" />);
-    const aujourdhui = screen.getByRole("link", { name: T.rubriques.aujourdhui });
-    expect(aujourdhui.className).toMatch(/sticky/);
-    aujourdhui.focus();
-    expect(aujourdhui).toHaveFocus();
-    await userEvent.keyboard("{ArrowRight}");
-    expect(screen.getByRole("link", { name: T.rubriques.parcours })).toHaveFocus();
-  });
-
-  it("menu « Plus » : 3 groupes, 6 lignes dans l'ordre, Échap rend le focus", async () => {
-    render(<EspaceBarreClient pathname="/mon-espace" />);
-    const plus = screen.getByRole("button", { name: T.rubriques.plus });
-    expect(plus).toHaveAttribute("aria-haspopup", "menu");
-    plus.focus();
-    await userEvent.keyboard("{Enter}");
-    const menu = await screen.findByRole("menu", { name: T.menuPlus.nom });
-    expect(within(menu).getAllByRole("menuitem").map((m) => m.textContent)).toEqual(
-      MENU_PLUS.flatMap((g) => g.lignes.map((l) => l.label)),
-    );
-    expect(menu.textContent).toContain(T.menuPlus.groupeMonContenu);
-    expect(menu.textContent).toContain(T.menuPlus.groupeLeReste);
-    await userEvent.keyboard("{Escape}");
-    expect(screen.queryByRole("menu")).toBeNull();
-    expect(plus).toHaveFocus();
-  });
-});
-
-describe("indice de suite (margeIndice)", () => {
-  /** Partie visible de la première entrée qui passe le bord, marge `x` appliquée. */
-  const coupe = (largeurs: number[], zone: number, x: number) => {
-    let g = 0;
-    for (const w of largeurs) {
-      if (g + w + 2 * x > zone) return zone - g;
-      g += w + 2 * x;
-    }
-    return null;
-  };
-  // Largeurs relevées à 375 et 320 px (Chromium, Inter 14 px, marge de 12 px).
-  const A_375 = [101, 84, 120, 108, 122, 72];
-
-  it("tout tient : aucune marge ajoutée", () => {
-    expect(margeIndice([100, 100, 100], 400, 12)).toBe(0);
-  });
-  it.each([
-    [355, 12],
-    [308, 12],
-  ])("zone de %i px : l'entrée coupée au bord montre de 16 à 24 px", (zone, base) => {
-    const x = margeIndice(A_375, zone, base);
-    const visible = coupe(A_375, zone, x) ?? 0;
-    expect(visible).toBeGreaterThanOrEqual(16);
-    expect(visible).toBeLessThanOrEqual(24);
-    expect(x).toBeGreaterThanOrEqual(-4);
-    expect(x).toBeLessThanOrEqual(8);
-  });
-  it("marge finale jamais sous 8 px (le fondu de gauche, 8 px, ne touche pas le texte)", () => {
-    for (let zone = 280; zone <= 760; zone += 7) expect(12 + margeIndice(A_375, zone, 12)).toBeGreaterThanOrEqual(8);
-  });
-  it("l'entrée courante tient entière à côté de « Aujourd'hui » avant l'indice", () => {
-    const x = margeIndice([80, 66, 98, 86, 100, 60], 188, 8, 2);
-    expect(80 + 98 + 4 * x).toBeLessThanOrEqual(188);
-  });
-});
-
-describe("en-tête abonné", () => {
-  it("menu de compte : « Mon espace », « Mon profil », « Déconnexion » (Favoris dans « Plus »)", async () => {
-    render(<EspaceBarreClient pathname="/mon-espace" />);
-    await userEvent.click(screen.getByRole("button", { name: T.compte.nom }));
-    const menu = await screen.findByRole("menu");
-    expect(within(menu).getAllByRole("menuitem").map((m) => m.textContent?.trim())).toEqual([T.monEspace, "Mon profil", "Déconnexion"]);
-    expect(within(menu).getByRole("menuitem", { name: T.monEspace })).toHaveAttribute("href", "/mon-espace");
-  });
-
-  it("recherche : loupe de 44 px qui ouvre un champ, Échap ferme et rend le focus", async () => {
-    render(<EspaceBarreClient pathname="/mon-espace" />);
-    const loupe = screen.getByRole("button", { name: T.recherche.ouvrir });
-    expect(loupe.className).toMatch(/\bh-11\b/);
-    expect(loupe.className).toMatch(/\bw-11\b/);
-    await userEvent.click(loupe);
-    expect(loupe).toHaveAttribute("aria-expanded", "true");
-    expect(screen.getByRole("combobox", { name: "Rechercher" })).toHaveFocus();
-    await userEvent.keyboard("{Escape}");
-    await userEvent.keyboard("{Escape}");
-    expect(document.getElementById("recherche-espace")).toBeNull();
-    expect(loupe).toHaveFocus();
+    ["/mon-espace", "monEspace"],
+    ["/mon-espace/bibliotheque", "bibliotheque"],
+    ["/mon-espace/fiche/jeu/x", "sEntrainer"],
+    ["/carnet/2026-11", "carnet"],
+    ["/favoris", "favoris"],
+    ["/mon-espace/fiche/bilan/bilan-repartie", null],
+  ])("menu mobile de l'abonné, %s : %s", (chemin, attendu) => {
+    expect(ligneEspaceAllumee(chemin)).toBe(attendu);
   });
 });
 
@@ -274,8 +236,14 @@ describe("garde-fous de fichiers (plan §2 règles 7 et 8)", () => {
     expect(code).not.toMatch(/\b(IA|intelligence artificielle)\b/);
   });
 
-  it("chaque rubrique a un libellé du fichier de textes", () => {
-    const libelles = Object.values(T.rubriques) as string[];
-    for (const r of RUBRIQUES) expect(libelles).toContain(r.label);
+  it("chaque ligne de l'index a un libellé du fichier de textes", () => {
+    const libelles = Object.values(T.index) as string[];
+    for (const r of INDEX_ESPACE) expect(libelles).toContain(r.label);
+  });
+
+  it("ni barre de rubriques ni menu « Plus » : fichiers supprimés", () => {
+    for (const f of ["espace-barre.tsx", "espace-barre-client.tsx", "menu-plus.tsx", "styles-barre.ts", "en-tete-espace.tsx"]) {
+      expect(composants.some((c) => c.endsWith(`/${f}`))).toBe(false);
+    }
   });
 });

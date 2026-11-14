@@ -1,12 +1,14 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { parentEspace } from "@/components/espace/rubriques";
+import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
+import { frEspace } from "@/lib/fr-typo";
 
 /**
- * Lien « retour » des pages de détail de l'espace (lot D11c, revue d'harmonie défaut 10) : un seul
- * composant, en tête de page, vers la liste parente (Bibliothèque, Quoi répondre, Parcours, Mes questions,
- * Lettres). Texte secondaire, chevron gauche décoratif, cible de 44 px. Le nom du lien est celui de la liste.
+ * Lien « Retour : {parent} » des pages de l'espace (v5 §4.3) : un seul composant, en tête de page,
+ * aligné sur la colonne (gabarit A) ou sur le logo (gabarit B). Parent fixé par le type de page, jamais
+ * par l'historique. Texte secondaire, chevron gauche décoratif, cible de 44 px.
  */
-export function LienRetour({ href, children }: { href: string; children: ReactNode }) {
+export function LienRetour({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
@@ -16,7 +18,13 @@ export function LienRetour({ href, children }: { href: string; children: ReactNo
       <svg aria-hidden="true" className="h-4 w-4 flex-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
       </svg>
-      {children}
+      {frEspace(N.retour(label))}
     </Link>
   );
+}
+
+/** Retour de la page à l'adresse `chemin` (table du §4.3) ; rien pour Aujourd'hui et les pages publiques. */
+export function RetourDe({ chemin }: { chemin: string }) {
+  const parent = parentEspace(chemin);
+  return parent ? <LienRetour href={parent.href} label={parent.label} /> : null;
 }

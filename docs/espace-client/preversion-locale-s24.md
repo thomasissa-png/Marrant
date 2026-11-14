@@ -25,8 +25,10 @@ Les textes de la question et de la réponse de l'équipe sont marqués « test �
 
 ## Pages à visiter, dans l'ordre
 
-1. **La barre** : Aujourd'hui (`/mon-espace`), Parcours (`/parcours`), Quoi répondre, Bibliothèque, Mes questions.
-2. **Le menu « Plus »** : S'entraîner, Favoris, Mes répliques, Lettres, Articles, Quiz d'humour.
+1. **L'en-tête unique** (navigation universelle v5) : « Mon espace » (Aujourd'hui) puis Parcours, Vannes, Conseils,
+   Vidéos, Articles ; le logo mène aussi à Aujourd'hui. Plus de seconde barre ni de menu « Plus ».
+2. **L'index « Dans ton espace »** (carte d'Aujourd'hui, et sous « Mon espace » dans le menu mobile) : Quoi répondre,
+   Bibliothèque, Mes questions, S'entraîner, Mes répliques, Lettres, Favoris, Carnet.
 3. **La cloche** (en haut à droite) : avec l'abonné en cours, « L'équipe t'a répondu » ; ouvrir la question fait tomber la pastille.
 4. **Le profil** : `/profil`, avec la carte de l'abonnement.
 5. **L'abonnement** : pour un abonné, la gestion est dans la carte du profil. `/abonnement` renvoie un compte Premium vers « Aujourd'hui » (`/mon-espace`, lot D11c, espace ouvert ; fermé : `/vannes`) ; `/resiliation` répond 404 (son propre interrupteur est fermé).
@@ -37,8 +39,8 @@ Les textes de la question et de la réponse de l'équipe sont marqués « test �
 10. **Le coin humour noir** : Bibliothèque, bloc « Humour noir, fait bien », bouton « Entrer », puis par exemple `/mon-espace/fiche/humour-noir/hn-qui-est-dans-la-piece`.
 
 Toutes ces pages ont été ouvertes par un navigateur automatique avec les deux comptes : réponse 200, pas
-d'écran d'erreur, pas d'erreur JavaScript. Build en place depuis le 14/11 : lot D11c (captures et mesures :
-`docs/captures/s24-preversion-2/INDEX.md`).
+d'écran d'erreur, pas d'erreur JavaScript. Build en place depuis le 14/11 : navigation universelle v5 (captures et
+mesures : `docs/captures/s24-nav-universelle/INDEX.md` ; avant : lot D11c, `docs/captures/s24-preversion-2/INDEX.md`).
 
 ## Ce qui est simulé
 

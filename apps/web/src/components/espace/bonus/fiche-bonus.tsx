@@ -3,6 +3,9 @@ import type { FicheBonus } from "@/lib/espace/fiches-schema";
 import type { NumeroCap } from "@/lib/espace/caps";
 import { GrilleOuiNon } from "@/components/espace/bonus/grille-oui-non";
 import { FINE, frEspaceProfond } from "@/lib/fr-typo";
+import { COLONNE_LECTURE } from "@/components/layout/gabarit";
+import { RetourDe } from "@/components/espace/lien-retour";
+import { ESPACE_ACCUEIL } from "@/config/espace-client";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_CAPS);
@@ -34,8 +37,10 @@ function Section({ id, titre, children }: { id: string; titre: string; children:
 export function FicheBonusVue({ bonus }: { bonus: FicheBonus }) {
   const cap = bonus.cap as NumeroCap;
   return (
-    <article className="max-w-lecture space-y-6">
+    <article className={`space-y-6 ${COLONNE_LECTURE}`}>
       <div className="space-y-2">
+        {/* v5 §4.3 : un bonus a pour parent la Bibliothèque. */}
+        <RetourDe chemin={`${ESPACE_ACCUEIL}/bonus/${bonus.id}`} />
         <p className="text-xs font-semibold text-text-muted">{T.bonus.marque(cap)}</p>
         <h1 className="font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-3xl">
           {bonus.nature === "passage" ? T.fiche.titrePassage(bonus.titre) : bonus.titre}

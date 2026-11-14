@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { PageHeader } from "@/components/layout/page-header";
 import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { BOUTON_SECONDAIRE, CARTE, LIEN } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -15,8 +16,9 @@ const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
  */
 export default function QuoiRepondreErreur({ reset }: { error: Error; reset: () => void }) {
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture" data-etat="erreur">
-      <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
+    <div className="flex flex-col gap-6 [&>header]:mb-2 md:[&>header]:mb-4" data-etat="erreur">
+      {/* v5 §3, gabarit B : en-tête de page du site (sa marge basse remplace le premier écart). */}
+      <PageHeader title={T.titre} />
       <div className={CARTE}>
         <div className="flex flex-wrap gap-3" role="group" aria-label={T.titre}>
           <button type="button" className={BOUTON_SECONDAIRE} onClick={reset}>

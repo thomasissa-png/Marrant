@@ -83,7 +83,8 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/mon-espace/quoi-repondre");
       await expect(page.getByRole("heading", { level: 1, name: Q.titre })).toBeVisible();
-      await expect(page.locator('a[aria-current="page"]', { hasText: NAV.rubriques.quoiRepondre })).toHaveCount(1);
+      // Navigation universelle v5 §4.3 : page B de l'espace, « Retour : Mon espace ».
+      await expect(page.locator("main [data-lien-retour]")).toHaveText(new RegExp(`^Retour\\s:\\s${NAV.monEspace}$`));
       await expect(page.locator('[data-fiche="coloc-la-poele"]')).toBeVisible();
       await expect(page.locator('[data-fiche="apres-l-expose"]')).toHaveCount(0);
       await capturer(page, "quoi-repondre-liste");
@@ -144,7 +145,8 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await capturer(page, "fiche-situation");
       await page.goto("/mon-espace/fiche/bilan/bilan-confiance");
       await expect(page.getByRole("heading", { level: 1, name: B.h1 })).toBeVisible();
-      await expect(page.locator('a[aria-current="page"]', { hasText: NAV.rubriques.parcours })).toHaveCount(1);
+      // Navigation universelle v5 §4.3 : le bilan renvoie au parcours d'origine (allumage « Parcours »).
+      await expect(page.locator("main [data-lien-retour]")).toHaveAttribute("href", "/parcours/confiance");
       const carte = page.locator('[data-bilan="laquelle"]').first();
       await capturer(page, "bilan-avant");
       // Reste du D6 (arbitrage @ux D6 n°2) : à 200 %, options lisibles, aucun débordement.
@@ -202,7 +204,7 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await expect(page.locator("[data-coin]")).toHaveCount(0);
     });
 
-    test("« Plus » : groupes « S'entraîner », « Mon contenu », « Le reste » ; Lettres vide sans lettre envoyée", async ({ browser, page }) => {
+    test("index « Dans ton espace » (ancien menu « Plus ») ; Lettres vide sans lettre envoyée", async ({ browser, page }) => {
       await page.context().addCookies((await compte(browser)).cookies);
       await page.setViewportSize({ width: 1280, height: 900 });
       await page.goto("/mon-espace/lettres");
@@ -213,12 +215,11 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await expect(page.getByRole("link", { name: L.allerAujourdhui })).toHaveAttribute("href", "/mon-espace");
       await capturer(page, "lettres-vide", CAPTURES_D5B);
       await page.setViewportSize({ width: 1280, height: 900 });
-      await page.getByRole("button", { name: NAV.rubriques.plus }).click();
-      const menu = page.getByRole("menu", { name: NAV.menuPlus.nom });
-      await expect(menu.getByRole("menuitem", { name: NAV.menuPlus.sEntrainer })).toBeVisible();
-      for (const g of [NAV.menuPlus.groupeMonContenu, NAV.menuPlus.groupeLeReste]) await expect(menu.getByText(g, { exact: true })).toBeVisible();
-      for (const l of [NAV.menuPlus.favoris, NAV.menuPlus.mesRepliques, NAV.menuPlus.lettres]) await expect(menu.getByRole("menuitem", { name: l })).toBeVisible();
-      await capturer(page, "menu-plus");
+      // Navigation universelle v5 §4.2 : plus de menu « Plus », ses lignes sont dans l'index de « Aujourd'hui ».
+      await page.goto("/mon-espace");
+      const index = page.locator("[data-index-espace]");
+      for (const l of [NAV.index.sEntrainer, NAV.index.favoris, NAV.index.mesRepliques, NAV.index.lettres]) await expect(index.getByRole("link", { name: l })).toBeVisible();
+      await capturer(page, "index-espace");
     });
   });
 });

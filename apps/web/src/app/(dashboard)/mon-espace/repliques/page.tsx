@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/layout/page-header";
+import { RetourDe } from "@/components/espace/lien-retour";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
@@ -27,8 +29,10 @@ export default async function MesRepliquesPage() {
   const { userId } = await garderEspace("/mon-espace/repliques");
   const repliques = await listerRepliques(userId, { acces: "ouvert", userId });
   return (
-    <div className="flex flex-col gap-6 pb-12 lg:max-w-lecture">
-      <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{R.titre}</h1>
+    <div>
+      {/* v5 §3, gabarit B. */}
+      <RetourDe chemin="/mon-espace/repliques" />
+      <PageHeader title={R.titre} />
       <ListeRepliques initiales={repliques} lectureSeule={false} />
     </div>
   );

@@ -1,58 +1,44 @@
 /**
- * Textes de la navigation de l'espace client Premium (s24, lot D2 du plan
- * `docs/espace-client/plan-developpement-s24.md`) : barre de rubriques, menu « Plus »,
- * cloche (coque), recherche et menu de compte de l'en-tête abonné.
+ * Textes de la navigation de l'espace client Premium dans l'en-tête unique du site (s24,
+ * `docs/ux/navigation-universelle-s24.md` v5) : lien « Mon espace », index (carte « Dans ton espace »
+ * et menu mobile), liens « Retour : … », cloche.
  *
- * Sources, mot pour mot (aucun texte neuf) :
- * - rubriques et menu « Plus » : décision C1 de Thomas (`docs/founder-preferences.md`,
- *   12/11) et architecture v20 §6.2 ; « Mon espace » : décision Q2 = A ;
- * - noms accessibles (« Notifications », « Rechercher », « Menu du compte », « Plus de
- *   rubriques ») et lignes de la cloche : `docs/copy/libelles-espace-e5-s24.md` lignes 10 à 12 ;
- * - noms de la cloche au singulier et au pluriel, « Fermer » : maquette validée
- *   `docs/espace-client/etalons/e5/aujourdhui.html` ; état vide : architecture v20 §2.9 ;
- * « Mon profil » et « Déconnexion » restent ceux du menu de compte existant (`account-menu.tsx`).
+ * Sources, mot pour mot :
+ * - « Mon espace » : décision Q2 = A (`docs/founder-preferences.md`) ;
+ * - lignes de l'index : rubriques et lignes de l'ancien menu « Plus » (décision C1, architecture v20 §6.2),
+ *   « Carnet » de l'en-tête abonné actuel ; « S’entraîner » en apostrophe typographique (règle du texte
+ *   visible du site, `typographie-s21.spec.ts`) ;
+ * - « Dans ton espace » et « Retour : {parent} » : spécification v5 §3 et §4.3 (libellés nouveaux, signalés) ;
+ * - noms et lignes de la cloche : `docs/copy/libelles-espace-e5-s24.md` lignes 10 à 12, maquette
+ *   `docs/espace-client/etalons/e5/aujourdhui.html`, état vide : architecture v20 §2.9.
  * Contrôle automatique : zéro tiret cadratin, zéro émoji (`__tests__/espace/navigation-espace-s24.test.tsx`).
  */
 
 export const TEXTES_ESPACE_NAVIGATION = {
-  /** Nom de la région de la barre (architecture 6.2 règle a) et entrée du menu de compte (Q2 = A). */
+  /** Lien de la barre (dès 768 px), première ligne du menu mobile, intitulé de 768 à 1023 px. */
   monEspace: "Mon espace",
-  rubriques: {
-    /** Lot D10 : apostrophe typographique, règle du texte visible du site (`typographie-s21.spec.ts`,
-     *  verdict @design s21 décision 4) : la barre s'affiche aussi sur les pages publiques de l'abonné. */
-    aujourdhui: "Aujourd’hui",
-    parcours: "Parcours",
+  /** Repli du retour d'un bilan dont le parcours n'est plus publié. */
+  parcours: "Parcours",
+  index: {
+    /** Titre de la carte d'index de « Aujourd'hui » (v5 §3). */
+    titre: "Dans ton espace",
     quoiRepondre: "Quoi répondre",
     bibliotheque: "Bibliothèque",
     mesQuestions: "Mes questions",
-    plus: "Plus",
-  },
-  menuPlus: {
-    /** Nom accessible du menu (libellés E5, ligne 12). */
-    nom: "Plus de rubriques",
-    sEntrainer: "S'entraîner",
-    groupeMonContenu: "Mon contenu",
-    favoris: "Favoris",
+    sEntrainer: "S’entraîner",
     mesRepliques: "Mes répliques",
-    groupeLeReste: "Le reste",
     lettres: "Lettres",
-    articles: "Articles",
-    quiz: "Quiz d'humour",
+    favoris: "Favoris",
+    carnet: "Carnet",
   },
+  /** Lien de retour des pages de l'espace (v5 §4.3). */
+  retour: (parent: string) => `Retour : ${parent}`,
   cloche: {
     /** Titre du panneau (libellés E5, ligne 10). */
     titre: "Notifications",
     fermer: "Fermer",
     /** État vide du panneau (architecture 2.9). */
     vide: "Rien de nouveau. Reviens quand tu veux.",
-  },
-  recherche: {
-    ouvrir: "Rechercher",
-    fermer: "Fermer",
-  },
-  compte: {
-    /** Nom accessible du bouton du menu de compte de l'en-tête abonné (libellés E5, ligne 12). */
-    nom: "Menu du compte",
   },
 } as const;
 

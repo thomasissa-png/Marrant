@@ -46,11 +46,11 @@ async function capturer(page: Page, nom: string, cible?: string) {
   for (const [l, h, suffixe] of [[320, 700, "320"], [375, 812, "375"], [768, 1024, "768"], [1280, 900, "1280"], [188, 406, "375-200pc"]] as const) {
     await page.setViewportSize({ width: l, height: h });
     await page.waitForTimeout(300);
-    // En-tête et barre de l'espace fixes : la cible passe sous eux, on remonte de leur hauteur.
+    // En-tête fixe : la cible passe dessous, on remonte de sa hauteur.
     if (cible) {
       await page.locator(cible).first().evaluate((e) => {
         e.scrollIntoView({ block: "start", behavior: "instant" });
-        const fixes = Array.from(document.querySelectorAll("header, [data-espace-barre]"))
+        const fixes = Array.from(document.querySelectorAll("header"))
           .filter((x) => ["sticky", "fixed"].includes(getComputedStyle(x).position))
           .reduce((b, x) => Math.max(b, x.getBoundingClientRect().bottom), 0);
         window.scrollBy({ top: -(fixes + 16), behavior: "instant" });
