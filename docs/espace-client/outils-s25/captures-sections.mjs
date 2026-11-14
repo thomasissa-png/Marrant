@@ -33,7 +33,7 @@ const SECTIONS = {
       ["cloche-vide", "/mon-espace", "cloche-vide"],
       ["focus-menu", "/vannes", "focus"],
     ],
-    largeurs: [320, 375, 600, 768, 1280, 1456, 1920],
+    largeurs: [320, 375, 440, 520, 600, 640, 641, 768, 1024, 1280, 1456, 1920],
   },
   aujourdhui: { comptes: ["en-cours", "nouvel"], pages: [["aujourdhui", "/mon-espace", "page"]] },
   "quoi-repondre": { comptes: ["en-cours", "nouvel"], pages: [["quoi-repondre", "/mon-espace/quoi-repondre", "page"]] },
