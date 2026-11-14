@@ -30,7 +30,10 @@ const SECTIONS = {
       ["menu-situation", "/mon-espace/fiche/situation/coloc-la-poele", "menu"],
       ["cloche", "/mon-espace", "cloche"],
       ["compte", "/vannes", "compte"],
+      ["cloche-vide", "/mon-espace", "cloche-vide"],
+      ["focus-menu", "/vannes", "focus"],
     ],
+    largeurs: [320, 375, 600, 768, 1280, 1456, 1920],
   },
   aujourdhui: { comptes: ["en-cours", "nouvel"], pages: [["aujourdhui", "/mon-espace", "page"]] },
   "quoi-repondre": { comptes: ["en-cours", "nouvel"], pages: [["quoi-repondre", "/mon-espace/quoi-repondre", "page"]] },
@@ -48,6 +51,7 @@ const SECTIONS = {
 
 const def = SECTIONS[section];
 if (!def) throw new Error(`section inconnue : ${section} (${Object.keys(SECTIONS).join(", ")})`);
+const largeurs = process.env.LARGEURS ? LARGEURS : def.largeurs || LARGEURS;
 const comptes = (process.env.COMPTES ? process.env.COMPTES.split(",") : def.comptes);
 mkdirSync(dossier, { recursive: true });
 const etatDir = join(dossier, "..", ".etats"); // jetons de session de TEST, ignorés par git (.gitignore)
@@ -76,21 +80,39 @@ async function etat(compte) {
 const lignes = [`# Captures ${section} (${new Date().toISOString().slice(0, 16)}, ${BASE})`, ""];
 for (const compte of comptes) {
   const storageState = await etat(compte);
-  for (const w of LARGEURS) {
+  for (const w of largeurs) {
     const ctx = await browser.newContext({ viewport: { width: w, height: w < 768 ? 812 : 900 }, colorScheme: "dark", deviceScaleFactor: 1, storageState });
     const page = await ctx.newPage();
     const erreurs = [];
     page.on("pageerror", (e) => erreurs.push(e.message));
     for (const [nom, url, action] of def.pages) {
       if (action === "menu" && w >= 1024) continue;
-      if (action === "cloche" && !compte.match(/en-cours|nouvel/)) continue;
+      if (action === "focus" && ![375, 768, 1280].includes(w)) continue;
+      if (action.startsWith("cloche") && !compte.match(/en-cours|nouvel/)) continue;
+      if (action === "cloche-vide" && compte !== "nouvel") continue;
+      if (action === "cloche-vide") await page.route("**/api/espace/cloche", (route) => route.request().method() === "GET" ? route.fulfill({ json: { nonLues: 0, reponses: [], nouveautes: [], lettre: null } }) : route.continue());
+      else await page.unroute("**/api/espace/cloche").catch(() => {});
       if (action === "compte" && (compte === "visiteur" || w < 768)) continue;
       const r = await page.goto(BASE + url, { waitUntil: "networkidle", timeout: 45000 }).catch((e) => ({ status: () => "ERR " + e.message.slice(0, 60) }));
       await page.waitForTimeout(400);
       const fichier = `${compte}-${nom}-${w}.png`;
       try {
         if (action === "menu") await page.getByRole("button", { name: /menu/i }).first().click();
-        if (action === "cloche") await page.getByRole("banner").getByRole("button", { name: /^Notifications/ }).click();
+        if (action === "focus") {
+          // Tab jusqu'à chaque contrôle de l'en-tête, une capture par contrôle (focus clavier visible)
+          await page.goto(BASE + url, { waitUntil: "networkidle" });
+          let n = 0;
+          for (let i = 0; i < 25 && n < 6; i++) {
+            await page.keyboard.press("Tab");
+            const dansEntete = await page.evaluate(() => !!document.activeElement?.closest("header"));
+            if (!dansEntete) { if (n > 0) break; else continue; }
+            await page.waitForTimeout(150);
+            await page.screenshot({ path: join(dossier, `${compte}-focus-${String(++n).padStart(2, "0")}-${w}.png`), clip: { x: 0, y: 0, width: w, height: 120 } });
+          }
+          lignes.push(`- ${compte}-focus-*-${w}.png : ${url} (focus clavier, ${n} contrôles de l'en-tête)`);
+          continue;
+        }
+        if (action.startsWith("cloche")) await page.getByRole("banner").getByRole("button", { name: /^Notifications/ }).click();
         if (action === "compte") await page.getByRole("banner").getByRole("button", { name: /compte/i }).first().click();
         if (action !== "page") await page.waitForTimeout(500);
         await page.screenshot({ path: join(dossier, fichier), fullPage: action === "page" });
