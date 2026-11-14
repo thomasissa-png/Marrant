@@ -28,12 +28,14 @@ Ordre unique, de gauche à droite en barre et de haut en bas dans le menu mobile
 
 « La lettre » est gardée pour l'inscrit gratuit (page d'inscription et de lecture) et retirée pour l'abonné, qui la retrouve dans Mon espace (Lettres). Bouton d'offre masqué sur /abonnement (règle actuelle, inchangée).
 
-Largeurs (règles uniques, mesurées : aucun état ne déborde de 320 à 1280 px) :
+Largeurs (règles uniques ; estimé, à vérifier par `header-budget` : aucun état ne déborde de 320 à 1280 px) :
 - 1024 à 1279 px : comme 1280 ; recherche en loupe ; bouton d'offre au libellé court.
 - 768 à 1023 px : les liens du site passent dans Menu ; l'icône compte apparaît dès 768 ; « Mon espace » reste en barre (abonné). Visiteur : logo, loupe, Connexion, bouton d'offre, Menu. Inscrit gratuit : logo, loupe, bouton d'offre, compte, Menu. Abonné : logo, Mon espace, loupe, cloche, compte, Menu.
 - 440 à 767 px : loupe en barre (`min-[440px]`), « Connexion » dès 520 px (visiteur), pas d'icône compte (elle est dans Menu), cloche à toutes les largeurs pour l'abonné ; bouton d'offre « Premium » seul sous 640 px, libellé complet dès 640 px ; « Mon espace » seulement dans Menu et par le logo.
 - 320 à 439 px : visiteur et inscrit gratuit logo, bouton d'offre court, Menu ; abonné logo, cloche, Menu ; la loupe est en tête du menu.
-- Menu mobile, un seul ordre : recherche (sous 440 px) ; abonné « Mon espace » suivi directement de ses 8 entrées (lignes de 44 px, §4) ; Parcours, Vannes, Conseils, Vidéos, Articles ; La lettre (visiteur, inscrit gratuit) ; séparateur ; actions (visiteur : bouton d'offre, Connexion ; inscrit gratuit : bouton d'offre, Favoris, Mon profil, Déconnexion ; abonné : Mon profil, Déconnexion). À 375 x 667 les 8 entrées tiennent sans défilement (65 + 52 + 44 + 352 px). Échap, croix et voile ferment ; le focus revient au bouton Menu.
+- Menu mobile, un seul ordre : recherche (sous 440 px) ; abonné « Mon espace » suivi directement de ses 8 entrées ; Parcours, Vannes, Conseils, Vidéos, Articles ; La lettre (visiteur, inscrit gratuit) ; séparateur ; actions (visiteur : bouton d'offre, Connexion ; inscrit gratuit : bouton d'offre, Favoris, Mon profil, Déconnexion ; abonné : Mon profil, Déconnexion). Échap, croix et voile ferment ; le focus revient au bouton Menu.
+- Hiérarchie du menu abonné (tokens) : ligne « Mon espace » en `font-semibold text-text-primary`, masquée de 768 à 1023 px (`md:hidden`, elle est alors en barre) ; ses 8 entrées dans un bloc `ml-3 border-l border-border`, lignes de 44 px sans interstice, `pl-6 text-text-secondary` ; un séparateur `border-t border-border` (1 px) avant Parcours. Ligne active : `bg-background-elevated text-accent-link font-semibold`.
+- Hauteur : à 375 x 667 (fenêtre CSS, `100dvh`) : en-tête 65 + marge haute du panneau 16 + recherche 52 + Mon espace 44 + 8 x 44 (352) = 529 px, 138 px libres ; à 568 px de haut, 39 px libres. Les barres du navigateur sont comptées dans la fenêtre testée.
 
 ### État actif (barre et menu mobile)
 
@@ -47,6 +49,7 @@ Style : fond `bg-background-elevated`, texte `text-accent-link`, soulignement `b
 | `/vannes*`, `/conseils*`, `/videos*`, `/blog*` | le lien du même nom (abonné compris) |
 | `/lettre*` | La lettre (visiteur, inscrit gratuit) ; aucun pour l'abonné |
 | `/profil` | l'icône du compte |
+| Menu mobile abonné : la ligne du parent (§4.3) s'allume (Quoi répondre pour une situation, Carnet pour `/carnet/[mois]`), « Mon espace » seulement sur Aujourd'hui | ligne parente |
 | Toute autre adresse (accueil, abonnement, quiz, glossaire, anatomie, blague du jour, à propos, légales, carnet du visiteur) | aucun |
 
 ## 2. Catégories : barre, espace, pied de page
@@ -71,11 +74,11 @@ Coque commune : `max-w-7xl`, marges 16 (375), 24 (768), 32 px (1280), centrée. 
 | | A. Lecture | B. Liste ou grille | C. Tableau de bord |
 |---|---|---|---|
 | Contenu | colonne centrée 768 px (`COLONNE_LECTURE`) | pleine coque ; colonnes existantes conservées (vannes, conseils : 2) ; pages neuves de l'espace : 1 colonne, 2 dès 768 | pleine coque, `grid-cols-1 md:grid-cols-2 gap-6`, aucune carte limitée à 768 px (seuls les paragraphes le sont, `max-w-3xl`) |
-| Repères | public : repères actuels inchangés ; espace : « Retour : {parent} » (§4.3), aligné sur la colonne | idem, aligné sur le logo | aucun |
+| Repères | public : repères actuels inchangés ; espace : « Retour : {parent} » (§4.3), aligné sur la colonne | idem, aligné sur le logo | aucun fil d'Ariane ; Aujourd'hui sans retour ; S'entraîner porte « Retour : Mon espace » |
 
 Rythme vertical : l'espace reprend celui du public tel qu'il est, sans rien ajouter au public. Haut et bas de page = le `py-8` de `main` (32 px, aucune marge de plus) ; `PageHeader` actuel (H1 `font-display font-bold text-3xl md:text-4xl`, intro `mt-3 md:mt-4 text-lg text-text-secondary max-w-3xl`, `mb-8 md:mb-10`) ; entre cartes de l'espace `gap-6`, entre sections de l'espace `space-y-12`. Les pages publiques gardent leurs valeurs et leurs fils d'Ariane.
 
-Aujourd'hui (C), à 1280 px : colonne 1 = carte du jour, colonne 2 = carte « Dans ton espace » (`min-w-0`), rien à droite de vide ; dessous « Contenu du jour » (vanne, conseil, vidéo) en `grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6`, la 3e carte en `md:col-span-2 xl:col-span-1`. À 375 : une colonne, carte du jour d'abord.
+Aujourd'hui (C), à 1280 px : colonne 1 = carte du jour, colonne 2 = carte « Dans ton espace » (`min-w-0`), rien à droite de vide ; dessous « Contenu du jour » (vanne, conseil, vidéo) en `grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6`, la 3e carte en `md:col-span-2 xl:col-span-1`. À 375 : une colonne, carte du jour d'abord. À 768 : le bouton plein « Les cartes du jour » reste l'élément le plus visible ; l'index n'a ni bouton plein ni fond de carte par ligne. S'entraîner (C) : une carte par colonne, `gap-6`, mêmes colonnes que Aujourd'hui.
 
 ### Correspondance complète (toutes les `page.tsx`)
 
@@ -98,10 +101,14 @@ Pas de seconde barre : elle ajoute 46 px (111 px collés en haut), cache ses ent
 | `/mon-espace/fiche/situation/*`, `/fiche/a-plat/*` | Quoi répondre |
 | `/mon-espace/fiche/jeu/*`, `/fiche/seance/*` | S'entraîner |
 | `/mon-espace/fiche/construction`, `vocabulaire`, `formule`, `ecouter`, `humour-noir`, `/bonus/*` | Bibliothèque |
-| `/mon-espace/fiche/bilan/*` | Parcours (la liste), élément allumé : Parcours |
+| `/mon-espace/fiche/bilan/*` | {nom du parcours d'origine}, vers `/parcours/[slug]` ; élément allumé : Parcours |
 | `/mon-espace/lettres/[numero]` | Lettres |
 | `/mon-espace/questions/[id]` | Mes questions |
-| Pages B et C de l'espace, `/favoris`, `/carnet` (abonné) | Mon espace |
+| Pages B de l'espace (`/mon-espace/*` : Quoi répondre, Bibliothèque, Mes répliques, Lettres, Mes questions) et S'entraîner | Mon espace |
+| Aujourd'hui | aucun |
+| `/favoris`, `/carnet`, `/carnet/[mois]` | repères publics actuels, pour tous les états (page publique : rien n'est ajouté) ; pour l'abonné, parent d'état actif de `/carnet/[mois]` : Carnet |
+
+Lot @fullstack : `rubriques.ts` est aligné sur ce document (`/carnet` sort des portes de Quoi répondre et devient l'entrée « Carnet » ; `/vannes`, `/conseils`, `/videos` sortent des portes de Bibliothèque, car ces pages allument leur propre lien).
 
 Les rubriques de l'index sont à 2 gestes de toute page : ordinateur Mon espace puis ligne ; téléphone Menu puis ligne, sans défilement.
 
@@ -111,15 +118,16 @@ Les rubriques de l'index sont à 2 gestes de toute page : ordinateur Mon espace 
 2. Ouvert : à 375, 768, 1280 px, l'en-tête d'un même état est identique sur toutes les pages qui en ont un, hors lien courant allumé et bouton d'offre masqué sur /abonnement.
 3. Aucune seconde barre ; hors logo, aucun lien deux fois dans la barre et le menu ; abonné : « Mon espace » et 5 liens.
 4. À 1280 px aucun contenu collé à gauche avec vide à droite (Aujourd'hui compris) ; l'espace suit les valeurs du §3 (mesures en pixels) ; le haut des pages publiques ne change pas d'un pixel.
-5. Accès : pages B, C et Aujourd'hui à 2 clics de toute page depuis l'en-tête ou le pied ; pages A à 3. À 375 px, chaque rubrique de l'espace est à 2 touchers (Menu, ligne) sans défilement du menu, de 320 à 414 px de large et 568 px de haut au moins.
-6. Aucun libellé coupé ni débordement de 320 à 1920 px, y compris 440 à 767 px ; `header-budget` mis à jour pour le nouvel état abonné (Mon espace, cloche), 6 largeurs.
+5. Accès : pages B, C et Aujourd'hui à 2 clics de toute page depuis l'en-tête ou le pied ; pages A à 3. À 375 px, chaque rubrique de l'espace est à 2 touchers (Menu, ligne) sans défilement du menu, de 320 à 414 px de large pour une fenêtre CSS (`100dvh`, viewport Playwright) de 568 px au moins, marges et séparateur compris (§1).
+6. Aucun libellé coupé ni débordement de 320 à 1920 px, y compris 440 à 767 px ; `header-budget` mis à jour pour le nouvel état abonné (Mon espace, cloche), 6 largeurs plus 640 et 641 px (cas le plus serré, visiteur, ~12 px libres).
 7. Clavier complet (Tab, Échap), focus visible, cibles de 44 px, contrastes AA ; état actif visible sans dépendre de la teinte.
 8. États actifs conformes au tableau du §1, y compris `/favoris` (abonné et inscrit gratuit), `/carnet`, `/profil`, fiche « bilan », `/lettre` (abonné : aucun).
 9. Mêmes URL, aucune redirection ; la barre visiteur change comme au §6 ; HTML serveur du visiteur sans code de l'espace.
-10. Conversion : bouton d'offre visible à toute largeur pour visiteur et inscrit gratuit, masqué sur /abonnement ; l'accueil vu par un abonné ne lui propose aucun achat (à vérifier sur capture).
+10. Conversion : bouton d'offre visible à toute largeur pour visiteur et inscrit gratuit, masqué sur /abonnement ; l'accueil vu par un abonné ne lui propose aucun achat (vérification sur capture, aucune modification attendue : `premium-cta.tsx` et `carte-premium-achat.tsx` gèrent déjà le Premium).
 11. Preuves : captures pages × 3 états × 3 largeurs, menus fermés et ouverts, dans `docs/captures/s24-nav-universelle/`.
 12. Mesure : événements « clic Mon espace », « clic index », « clic Menu », nommés par @data-analyst sur la convention du plan Umami existant.
-13. Chaque page A de l'espace renvoie à sa rubrique selon la table du §4.3, et l'élément allumé de la barre est celui de ce parent.
+13. Chaque page A de l'espace renvoie à sa rubrique selon la table du §4.3 ; l'élément allumé de la barre est celui de ce parent (Mon espace, ou Parcours pour un bilan) et, dans le menu mobile, la ligne du parent s'allume. Aujourd'hui n'a pas de retour ; `/favoris` et `/carnet` gardent leurs repères publics.
+14. Aujourd'hui à 768 px (capture) : carte du jour et index côte à côte, « Les cartes du jour » est le bouton le plus visible, l'index ne pèse pas autant que l'action du jour.
 
 ## 6. Écarts aux décisions passées (à confirmer par Thomas)
 
@@ -152,6 +160,9 @@ Les rubriques de l'index sont à 2 gestes de toute page : ordinateur Mon espace 
 | N2 trois touchers sur téléphone | Menu mobile : « Mon espace » suivi des 8 entrées, tenue sans défilement calculée, critère 5 réécrit |
 | Design 1 carte du jour | Carte du jour et index côte à côte dès 768 px, « Contenu du jour » en 2 puis 3 colonnes, plus de limite à 768 px sur les cartes |
 | Design 2 plage 440 à 767 px | Règles du §1 (loupe, compte, cloche, bouton d'offre) ; icône compte dès 768 px (ROUVRE) |
+| R1 repères contradictoires | Gabarit C sans fil d'Ariane, Aujourd'hui sans retour, S'entraîner « Retour : Mon espace », `/favoris` et `/carnet` gardent leurs repères publics (§3, §4.3) |
+| Design : menu mobile sans hiérarchie | Tokens du §1 (`font-semibold`, `ml-3 border-l border-border`, `pl-6`, `border-t border-border`), ligne « Mon espace » masquée de 768 à 1023 px (doublon) |
+| Pistes du tour 3 (P9 à P12, reviewer, design) | P9 `/carnet/[mois]` et refonte de `rubriques.ts` ; P10 fenêtre CSS, marges comptées (529 px) ; P11 bilan vers `/parcours/[slug]` ; P12 critère 14 ; menu mobile allumé, « estimé » pour `header-budget` 640 et 641, vérification de l'accueil, S'entraîner en colonnes |
 | Pistes appliquées | Critère 3 « hors logo » ; `border-transparent` ; « Mon espace » en barre dès 768 px ; point violet sur la cloche seule ; lot @fullstack des 14 fichiers `lecture` |
 
 À confirmer : site sombre seul (aucune bascule claire vue). Pas retenu : point sur le bouton Menu quand on est dans l'espace (non indispensable).
