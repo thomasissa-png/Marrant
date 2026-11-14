@@ -1,120 +1,137 @@
-# Navigation universelle et gabarits de page (s24)
+# Navigation universelle et gabarits de page (s24), v2
 
-Principe : UN seul en-tête, 65 px de haut, sur toutes les pages, à toutes les largeurs. Aucune seconde barre. L'espace de l'abonné devient une entrée de ce menu, pas un autre site.
-Contexte lu : en-tête actuel (`header.tsx`), barre de l'espace (`espace-barre.tsx`), gabarit (`gabarit.ts`), décisions du 17-18/10 et du 12/11, captures de diagnostic. Le pied de page n'a pas été relu : sa liste est à confronter (§2).
+Principe : UN seul en-tête de 65 px sur toutes les pages du site, un seul lien « Mon espace » pour l'abonné, aucune seconde barre. Sources : `header.tsx`, `mobile-nav.tsx`, `footer.tsx`, `gabarit.ts`, `page-header.tsx`, liste des `page.tsx`, `docs/seo/point-etape-s20.md`, relectures de tour 1.
 
-## 1. Les trois états de lecteur
+## 0. Interrupteur
 
-Le visiteur et l'inscrit gratuit partagent la même base. Il n'y a plus de compte gratuit à créer (décision du 05/10) : l'état « inscrit gratuit » ne concerne que les 12 comptes existants.
+Tout part avec `ESPACE_CLIENT_PUBLIE`, pour tous les lecteurs, le même jour.
 
-### Ordinateur, 1280 px (logo, liens, recherche, actions)
+| Interrupteur | En-tête, pied, gabarits | Abonné |
+|---|---|---|
+| Fermé | Exactement ceux d'aujourd'hui (onglet Accueil, ordre actuel, « Carnet » dans la barre abonné, « Favoris » dans le menu de compte, mises en page actuelles) | Aucun changement |
+| Ouvert | Ceux de ce document, pour visiteur, inscrit gratuit et abonné | Nouvel état abonné (§1) |
 
-| Élément (de gauche à droite) | Visiteur | Inscrit gratuit | Abonné Premium |
+## 1. Les trois états de lecteur (interrupteur ouvert)
+
+Ordre unique, de gauche à droite, repris à l'identique dans le menu mobile : Parcours, Vannes, Conseils, Vidéos, Articles, La lettre.
+
+| Élément (1280 px) | Visiteur | Inscrit gratuit | Abonné Premium |
 |---|---|---|---|
-| Logo « deviens-marrant.fr » | lien vers l'accueil | idem | idem |
-| Menu déroulant « Mon espace » | absent | absent | présent, premier de la liste (§4) |
-| Liens | Parcours, Vannes, Conseils, Vidéos, Articles, La lettre | idem | Parcours, Vannes, Conseils, Vidéos, Articles (« La lettre » absente : l'abonné la reçoit chaque semaine et la relit dans Mon espace) |
+| Logo | lien vers l'accueil | idem | lien vers `/mon-espace` (écart, §6) |
+| « Mon espace » | absent | absent | lien direct vers Aujourd'hui, 1er de la liste |
+| Liens | Parcours, Vannes, Conseils, Vidéos, Articles, La lettre | idem | Parcours, Vannes, Conseils, Vidéos, Articles |
 | Recherche | champ de 176 px | idem | idem |
-| Cloche | absente | absente | icône, point violet si nouveauté, panneau déroulant |
-| Bouton d'offre | « Premium · 1,99 €/mois » (plein) | idem | absent |
-| « Connexion » | lien texte à gauche du bouton | absent | absent |
-| Menu du compte (icône bonhomme) | absent | Favoris, Mon profil, Déconnexion | Mon profil, Déconnexion |
+| Cloche | absente | absente | icône, point violet, panneau déroulant |
+| Bouton d'offre | « Premium » + prix (libellé `EN_TETE.bouton`, prix lu dans la config) | idem | absent |
+| « Connexion » | lien texte | absent | absent |
+| Icône compte | absente | Favoris, Mon profil, Déconnexion | Mon profil, Déconnexion |
 
-Le lien de la page en cours est surligné (même style qu'aujourd'hui). Sur les pages de paiement (/abonnement, /register) le bouton d'offre est masqué (règle existante, inchangée).
+« La lettre » est gardée pour l'inscrit gratuit (page d'inscription et de lecture) et retirée pour l'abonné, qui la retrouve dans Mon espace (Lettres). Pas de bouton d'offre sur /abonnement (règle actuelle, inchangée).
 
-### Tablette, 768 px (et jusqu'à 1023)
+- 1024 à 1279 px : comme 1280 ; recherche en loupe ; bouton d'offre en libellé court.
+- 768 px : logo, loupe, puis visiteur « Connexion », bouton d'offre, Menu ; inscrit gratuit bouton d'offre, compte, Menu ; abonné cloche, compte, Menu.
+- 375 px : visiteur et inscrit gratuit logo, bouton d'offre court, Menu ; abonné logo, cloche, Menu. Sous 440 px la loupe passe dans le menu, pour tous (une seule règle).
+- Menu mobile, un seul ordre sans groupe : recherche (sous 440 px), « Mon espace » (abonné), Parcours, Vannes, Conseils, Vidéos, Articles, La lettre (visiteur, inscrit gratuit), séparateur, puis actions : visiteur bouton d'offre et Connexion ; inscrit gratuit bouton d'offre, Favoris, Mon profil, Déconnexion ; abonné Mon profil, Déconnexion. Échap, croix et voile ferment ; le focus revient au bouton Menu.
 
-Le menu des liens passe dans le bouton « Menu ». Dans la barre, de gauche à droite : logo, loupe (ouvre le champ de recherche sous l'en-tête), puis :
-- visiteur : « Connexion » (lien), « Premium · 1,99 €/mois » (plein), Menu ;
-- inscrit gratuit : bouton d'offre, icône du compte, Menu ;
-- abonné : cloche, icône du compte, Menu (pas de bouton d'offre).
+### État actif (barre et menu mobile)
 
-De 1024 à 1279 px : comme à 1280 mais la recherche est une loupe et le bouton d'offre dit « Premium » (mesuré par le budget actuel).
+Style : fond `bg-background-elevated`, texte `text-accent-link`, soulignement `border-b-2 border-accent-primary` en barre (menu mobile : même fond, `font-semibold`), `aria-current`.
 
-### Téléphone, 375 px
+| Adresse | Élément allumé |
+|---|---|
+| `/mon-espace` et `/mon-espace/*` (hors fiche « bilan »), `/favoris`, `/carnet`, `/carnet/[mois]` (abonné) | Mon espace |
+| `/parcours`, `/parcours/*`, `/mon-espace/fiche/bilan/*` | Parcours |
+| `/vannes*`, `/conseils*`, `/videos*`, `/blog*`, `/lettre*` | le lien du même nom (abonné compris) |
+| `/profil` | l'icône du compte (même style) |
+| `/abonnement*`, `/quiz-humour`, pages légales, accueil | aucun |
 
-- Visiteur et inscrit gratuit : logo, « Premium » (plein, 44 px), Menu. « Connexion », recherche et compte sont dans le menu (sous 440 px la recherche est en tête du menu).
-- Abonné : logo, loupe, cloche, Menu. Le compte est dans le menu.
+## 2. Catégories : barre, espace, pied de page
 
-### Menu mobile (même contenu que le menu de bureau, mêmes mots, même ordre)
+Critère : intention de l'utilisateur, conversion, pages qui se positionnent. Données (Search Console 12/09 au 09/10, `point-etape-s20.md` §4, anciennes de 5 semaines) : l'article n°1 fait 368 clics sur 462 (79,7 %), `/vannes` 17 clics pour 1 366 impressions ; `/videos` inconnu de Google et `/parcours` non indexé à cette date. Donc Articles est la première porte Google ; l'ordre « Parcours en premier » repose sur la conversion (décision du 19/10), pas sur un trafic.
 
-Panneau sous l'en-tête, défilant, fermable par Échap, croix et clic sur le voile. Ordre :
-1. Champ de recherche (sous 440 px seulement).
-2. Abonné seulement : groupe « Mon espace » (Aujourd'hui, Quoi répondre, Bibliothèque, Mes questions, Lettres, Favoris, Mes répliques, S'entraîner, Quiz d'humour, Carnet), ouvert par défaut.
-3. Groupe « Parcours et contenus » : Parcours, Vannes, Conseils, Vidéos, Articles.
-4. Visiteur et inscrit gratuit : La lettre.
-5. Séparateur, puis visiteur : bouton « Premium · 1,99 €/mois » plein, « Connexion » ; inscrit gratuit : bouton plein, Favoris, Mon profil, Déconnexion ; abonné : Mon profil, Déconnexion.
-
-## 2. Catégories : menu principal, menu Mon espace ou pied de page
-
-Critère : une rubrique est dans la barre si l'utilisateur la cherche d'emblée ET si elle mène à la conversion ou à un contenu qui se positionne sur Google. Les adresses ne changent pas.
-
-| Rubrique | Où | Justification |
+| Rubrique | Où | Pourquoi |
 |---|---|---|
-| Parcours (/parcours) | Barre, 1er lien | C'est ce qu'on vend ; la conversion est la priorité (19/10) ; l'intention « apprendre à répondre » vient avant « picorer » |
-| Vannes, Conseils, Vidéos | Barre | Pages qui se positionnent, porte d'entrée gratuite, l'abonné y revient chaque jour |
-| Articles (/blog) | Barre | Premier trafic Google ; libellé « Articles » gardé (18/10) |
-| La lettre | Barre (visiteur, inscrit gratuit) | Décision du 17/10 ; absente pour l'abonné qui la reçoit |
-| Accueil | Logo seulement | Un onglet « Accueil » double le logo et coûte 70 px de largeur |
-| Aujourd'hui, Quoi répondre, Bibliothèque, Mes questions, S'entraîner, Mes répliques, Lettres, Carnet, Favoris, Quiz d'humour | Menu « Mon espace » | Usage d'abonné, jamais cherché par un visiteur |
-| Quiz d'humour, Blague du jour, Glossaire, Anatomie d'une vanne | Pied de page (et accueil pour le quiz) | Entrées ponctuelles : un quiz se fait une fois |
-| À propos, Intégrer la vanne du jour, mentions légales, CGU, confidentialité, rétractation, résiliation | Pied de page | Pages de confiance et de service, pas de navigation quotidienne |
-| Profil, déconnexion | Menu du compte | Réglages, pas contenu |
+| Parcours | Barre, 1er | C'est ce qui s'achète ; `[HYPOTHÈSE]` placer en premier augmente les clics vers l'offre (non mesurable : 5 clics « abonnement » en 28 j au 11/10) |
+| Vannes, Conseils, Vidéos | Barre | Portes gratuites, retour quotidien |
+| Articles | Barre | Première porte Google (chiffres ci-dessus) |
+| La lettre | Barre (visiteur, inscrit gratuit) | Décision du 17/10 |
+| Aujourd'hui, Quoi répondre, Bibliothèque, Mes questions, S'entraîner, Mes répliques, Lettres, Favoris, Carnet | Mon espace (index, §4) | Usage d'abonné |
+| Pied de page réel (`footer.tsx`) | Vannes, Conseils, Vidéos stand-up, Parcours, Comment devenir drôle, Articles, Glossaire, Quiz humour, Anatomie d’une vanne, Nos offres ; À propos, Mentions légales, CGU, Confidentialité, rétractation, résilier ; lettre, widget (si ouvert), réseaux | Inchangé, sauf une ligne ajoutée : « Blague du jour » (page jusqu'ici sans lien, §6) |
 
-Libellés : 1 à 2 mots, pas d'emoji, pas de tiret cadratin. Le visiteur compte 6 liens (au plus 7 avec le bouton) : pas d'autre entrée dans la barre sans en retirer une.
+Le Quiz humour (libellé du pied) reste hors de l'espace : un quiz se fait une fois, son entrée est le pied et l'accueil. Libellés courts, ni tiret cadratin ni emoji.
 
-## 3. Gabarits de page (3)
+## 3. Gabarits
 
-Tous : coque `max-w-7xl`, marges 16 px (375), 24 px (768), 32 px (1280), centrée. Le logo et le bord gauche des listes sont alignés. Titre de page (H1) en police du site, sous le fil d'Ariane, jamais de titre de page dans l'en-tête.
+Coque commune : `max-w-7xl`, marges 16 (375), 24 (768), 32 px (1280), centrée. Interdits : colonne de 720 px à gauche, menu latéral, bloc collé à gauche avec vide à droite. `maxWidth.lecture` (720 px) est supprimé du thème quand l'espace passe en A, B, C.
 
-| Gabarit | Largeur du contenu | Titre et repères |
-|---|---|---|
-| A. Lecture | colonne centrée de 768 px (`COLONNE_LECTURE`), tout bloc pleine colonne | Fil d'Ariane au-dessus (public : Accueil, section, page ; espace : « Mon espace » puis page) ; sur mobile, seulement « Retour : {parent} » ; H1 aligné sur la colonne |
-| B. Liste ou grille | pleine coque ; grille 1 colonne (375), 2 (768), 3 (1280) ; texte courant limité à 768 px | Fil d'Ariane ou lien retour ; H1 ; une phrase d'intro ; filtres sous l'intro, en ligne et repliables sur mobile |
-| C. Tableau de bord | pleine coque ; cartes en grille 1 colonne (375), 2 égales (768 et 1280) ; la carte du jour est pleine largeur en tête | Pas de fil d'Ariane (page d'accueil d'une zone) ; H1 puis une ligne de contexte |
+| | A. Lecture | B. Liste ou grille | C. Tableau de bord |
+|---|---|---|---|
+| Contenu | colonne centrée 768 px (`COLONNE_LECTURE`) | pleine coque ; colonnes existantes conservées (vannes, conseils : 2) ; pages neuves de l'espace : 1 colonne, 2 dès 768 | pleine coque, `grid-cols-1 md:grid-cols-2 gap-6` ; carte du jour pleine largeur, texte limité à 768 px |
+| Repères | fil d'Ariane ou « Retour : {parent} », alignés sur la colonne (pas sur le logo) | fil d'Ariane ou retour, aligné sur le logo | pas de fil d'Ariane |
 
-Interdits : colonne de 720 px collée à gauche, menu latéral, mini bloc collé au bord gauche avec un vide à droite.
+Parent de l'espace nommé partout « Mon espace » (fil d'Ariane, lien retour) ; la page porte le titre « Aujourd'hui ».
+Rythme vertical commun (un seul `PageHeader` : fil d'Ariane, H1, intro) : haut de page `pt-8`, `md:pt-10`, `xl:pt-12` ; fil d'Ariane puis H1 `mb-4` ; H1 `font-display font-bold text-3xl md:text-4xl` ; intro `mt-3 md:mt-4 text-lg text-text-secondary max-w-3xl` ; sous le `PageHeader` `mb-8 md:mb-10` ; entre cartes `gap-6` ; entre sections `space-y-12` ; bas de page `pb-16`.
 
-Correspondance (espace) : Aujourd'hui /mon-espace = C ; S'entraîner = C ; Profil /profil = C ; Quoi répondre, Bibliothèque, Mes répliques, Lettres, Mes questions (liste) = B ; une situation, une fiche (jeu, bilan, vocabulaire, humour noir), un bonus, une lettre, un fil de question = A.
-Correspondance (site) : accueil = hors gabarit (page de vente, inchangée) ; Vannes, Conseils, Vidéos, Articles, Parcours (liste), Glossaire, Favoris, thème de vannes, Carnet (liste) = B ; vanne, conseil, vidéo, article, parcours (étape), carnet du mois, Lettre, Abonnement, Quiz d'humour, Blague du jour, À propos, pages légales = A.
+### Correspondance complète (toutes les `page.tsx`)
+
+- Hors gabarit : accueil `/` (page de vente, inchangée).
+- A : `/a-propos`, `/blague-du-jour`, `/anatomie-vanne`, `/integrer-la-vanne-du-jour`, `/developers`, `/blog/[slug]`, `/blog/apercu/[slug]`, `/conseils/[slug]`, `/vannes/[slug]`, `/videos/[slug]`, `/parcours/[slug]`, `/carnet`, `/carnet/[mois]`, `/lettre`, `/lettre/confirmer`, `/lettre/desinscrire`, `/lettre/premium/arreter`, `/abonnement`, `/abonnement/success`, `/quiz-humour`, `/mentions-legales`, `/cgu`, `/confidentialite`, `/retractation`, `/resiliation`, `/resiliation/confirmee`, `/mon-espace/fiche/[type]/[id]`, `/mon-espace/bonus/[id]`, `/mon-espace/lettres/[numero]`, `/mon-espace/questions/[id]`.
+- B : `/vannes`, `/vannes/theme/[slug]`, `/conseils`, `/videos`, `/blog`, `/parcours`, `/glossaire`, `/favoris`, `/profil` (comme `gabarit.ts`), `/mon-espace/quoi-repondre`, `/mon-espace/bibliotheque`, `/mon-espace/repliques`, `/mon-espace/lettres`, `/mon-espace/questions`.
+- C : `/mon-espace` (Aujourd'hui), `/mon-espace/s-entrainer`.
+- Sans en-tête du site, comme aujourd'hui (groupe `(auth)`, démonstration contraire non faite) : `/login`, `/register`, `/forgot-password`, `/reset-password`, `/onboarding`.
+- Hors périmètre, inchangés : `/liens`, `/liens/[reseau]`, `/admin`, `/admin/ceo`, `/admin/social`, `/admin/questions`, widget intégrable, page neutre d'un bonus (404 du site).
 
 ## 4. Navigation interne de l'espace
 
-Pas de seconde barre. Démonstration : (1) la barre ajoute 46 px, soit 111 px collés en haut sur 667 px d'écran mobile (17 %) ; (2) 6 entrées défilantes cachent des rubriques au doigt (indice par fondu, accroche, chevron : une mécanique lourde pour un défaut de découverte) ; (3) elle a été rejetée par Thomas comme « innavigable » et rompt l'identité de l'en-tête. À la place, trois moyens complémentaires :
-1. Le menu déroulant « Mon espace » dans l'en-tête, sur chaque page. Contenu en 3 groupes : (sans titre) Aujourd'hui, Quoi répondre, Bibliothèque, Mes questions (avec point violet si réponse non lue) ; « S'entraîner » : S'entraîner, Mes répliques, Quiz d'humour ; « Mon contenu » : Favoris, Lettres, Carnet. « Parcours » reste dans la barre (une seule fois).
-2. Aujourd'hui est la page pivot : sous la carte du jour, une rangée de 4 cartes d'accès (Quoi répondre, Bibliothèque, Mes questions, Parcours) avec une phrase chacune.
-3. Chaque page de l'espace porte un lien retour (« Aujourd'hui » ou la rubrique parente) et le menu « Mon espace » garde l'entrée courante surlignée (aria-current).
-Chemins : toute page de l'espace est à 2 clics de n'importe où (ouvrir « Mon espace », choisir). Après connexion ou paiement : Aujourd'hui (C14 inchangé).
+Pas de seconde barre : elle ajoute 46 px (111 px collés en haut), cache ses entrées derrière un défilement, et Thomas l'a jugée « innavigable ».
+1. Aujourd'hui en 1 clic : « Mon espace » est un lien, et le logo de l'abonné y mène.
+2. Aujourd'hui sert de sommaire : sous la carte du jour, une carte « Dans ton espace » avec l'index, une ligne de 44 px par rubrique (libellé et chevron, rien d'autre) : Quoi répondre, Bibliothèque, Mes questions (point violet si réponse non lue), S'entraîner, Mes répliques, Lettres, Favoris, Carnet. Une colonne à 375, deux colonnes dès 768 (`gap-6` entre cartes, pas de rangée de cartes à phrases).
+3. Toute page de l'espace porte « Retour : Mon espace » (pages A) ou le fil d'Ariane (pages B).
+Chemins : Aujourd'hui 1 clic ; chaque rubrique 2 clics (Mon espace, puis index).
 
-## 5. Critères de réussite (relecture à l'aveugle, 10/10)
+## 5. Critères de réussite (relecture à l'aveugle)
 
-1. À 375, 768 et 1280 px, l'en-tête d'un même état est identique au pixel près (hauteur 65 px, éléments, positions) sur toutes les pages, accueil, parcours, espace, légales et connexion comprises.
-2. Aucune seconde barre sous l'en-tête, nulle part.
-3. Le visiteur voit exactement les 6 liens du §1 dans l'ordre, l'abonné « Mon espace » + 5 liens ; aucun lien deux fois dans la barre et le menu de l'espace.
-4. À 1280 px, aucun contenu n'est collé à gauche avec un vide à droite : chaque page suit A, B ou C, et le bord gauche du H1 des pages B et C est celui du logo.
-5. Toute page de la correspondance est atteignable en 2 clics depuis l'en-tête (3 depuis une page profonde).
-6. Aucun libellé coupé, aucun débordement, de 320 à 1920 px, dans les 3 états (le test `header-budget` est étendu aux 3 états).
-7. Clavier complet : Tab, flèches et Échap dans « Mon espace » et le menu mobile ; focus visible ; cibles de 44 px ; contraste AA ; le menu mobile garde le focus et le rend au bouton.
-8. Le lien de la page courante est signalé (surlignage et aria-current), y compris sur les pages publiques pour l'abonné.
-9. Pages d'espace : aucune ne dépend d'une barre pour être comprise (titre, lien retour, état vide expliqué).
-10. Visiteur et référencement inchangés : mêmes URL, mêmes liens dans le HTML serveur, aucune redirection ajoutée ; « Mon espace » et la cloche ne sont chargés que pour l'abonné.
-11. Trajet de conversion inchangé : bouton « Premium » visible à toutes les largeurs pour visiteur et inscrit gratuit, masqué sur les pages de paiement.
-12. Mesure : événements à ajouter pour clic dans « Mon espace » (entrée choisie) et clic sur le menu mobile, à confier à @data-analyst.
+1. Interrupteur fermé : aucune page ne change (comparaison de captures avant et après).
+2. Ouvert : à 375, 768, 1280 px, l'en-tête d'un même état est identique pages d'accueil, parcours, espace, légales comprises, hors lien courant surligné et bouton d'offre masqué sur les pages de paiement.
+3. Aucune seconde barre ; aucun lien deux fois dans la barre et le menu ; abonné : « Mon espace » et 5 liens.
+4. À 1280 px aucun contenu collé à gauche avec vide à droite ; le rythme du §3 est respecté sur toutes les pages (mesures en pixels).
+5. Accès : pages B, C et Aujourd'hui à 2 clics de toute page depuis l'en-tête ou le pied ; pages A à 3.
+6. Aucun libellé coupé ni débordement de 320 à 1920 px ; `header-budget` mis à jour pour le nouvel état abonné (Mon espace, cloche), 6 largeurs.
+7. Clavier complet (Tab, Échap), focus visible, cibles de 44 px, contrastes AA ; état actif visible sans dépendre de la teinte (soulignement).
+8. États actifs conformes au tableau du §1, y compris `/favoris`, `/carnet`, `/profil`, fiche « bilan ».
+9. Mêmes URL, aucune redirection ; la barre visiteur change comme au §6 ; HTML serveur du visiteur sans code de l'espace.
+10. Conversion : bouton d'offre visible à toute largeur pour visiteur et inscrit gratuit, masqué sur /abonnement et sur /register.
+11. Preuves : captures pages × 3 états × 3 largeurs, menus fermés et ouverts, dans `docs/captures/s24-nav-universelle/`.
+12. Mesure : événements « clic Mon espace », « clic index Aujourd'hui », « clic Menu », nommés par @data-analyst sur la convention du plan Umami existant.
 
 ## 6. Écarts aux décisions passées (à confirmer par Thomas)
 
-- [CHOIX UTILISATEUR] « ROUVRE : Q3 (12/11), barre de rubriques sous l'en-tête » remplacée par un menu déroulant « Mon espace » dans l'en-tête unique.
-- [CHOIX UTILISATEUR] « ROUVRE : Q11 (12/11), barre de l'espace sur les pages publiques pour l'abonné » remplacée par le même en-tête sur toutes les pages (l'abonné y retrouve « Mon espace » partout).
-- [CHOIX UTILISATEUR] « ROUVRE : C1 (12/11), barre Aujourd'hui, Parcours, Quoi répondre, Bibliothèque, Mes questions, Plus » : mêmes rubriques, mais Parcours passe dans la barre du site et « Plus » est supprimé (ses lignes sont réparties dans Mon espace).
-- [CHOIX UTILISATEUR] « ROUVRE : menu du site, onglet Accueil retiré (le logo le remplace) et Parcours placé en premier, avant Vannes. »
-- [CHOIX UTILISATEUR] « ROUVRE : l'onglet Carnet des abonnés (menu actuel) passe dans Mon espace. »
-- [CHOIX UTILISATEUR] « ROUVRE : Favoris quitte le menu du compte de l'abonné pour Mon espace (il reste dans le menu du compte de l'inscrit gratuit). »
-- [CHOIX UTILISATEUR] « ROUVRE : l'espace de l'abonné n'a plus sa propre colonne de 720 px collée à gauche : gabarits A, B et C. »
-- Non rouvert : « La lettre » dans le menu (17/10), « Articles » (18/10), conversion prioritaire, pas de compte gratuit (05/10), bouton d'offre « Premium · 1,99 €/mois », cloche à point violet (E5).
+- [CHOIX UTILISATEUR] « ROUVRE : Q3 (12/11), barre de rubriques sous l'en-tête » remplacée par un lien « Mon espace » dans l'en-tête et un index dans Aujourd'hui.
+- [CHOIX UTILISATEUR] « ROUVRE : Q11 (12/11), barre sur les pages publiques pour l'abonné » remplacée par le même en-tête partout.
+- [CHOIX UTILISATEUR] « ROUVRE : C1 (12/11), barre à 6 entrées dont « Plus » » : Parcours rejoint la barre du site, « Plus » disparaît, ses lignes vont dans l'index d'Aujourd'hui.
+- [CHOIX UTILISATEUR] « ROUVRE : Quiz d'humour quitte le menu de l'abonné » (reste au pied et à l'accueil).
+- [CHOIX UTILISATEUR] « ROUVRE : le logo de l'abonné mène à `/mon-espace`, pas à l'accueil » (interrupteur ouvert ; Googlebot n'est jamais abonné).
+- [CHOIX UTILISATEUR] « ROUVRE : menu du site, onglet Accueil retiré (le logo le remplace) et Parcours en premier. » Si Thomas préfère l'ordre actuel, seul cet écart tombe.
+- [CHOIX UTILISATEUR] « ROUVRE : « Carnet » et « Favoris » de l'abonné passent dans l'index de Mon espace » (interrupteur ouvert seulement).
+- [CHOIX UTILISATEUR] « ROUVRE : ajout de « Blague du jour » au pied de page. »
+- [CHOIX UTILISATEUR] « ROUVRE : l'espace abandonne sa colonne de 720 px à gauche (gabarits A, B, C). »
+- Non rouverts : « La lettre » (17/10), « Articles » (18/10), conversion prioritaire, pas de compte gratuit (05/10), pages `(auth)` sans en-tête, grilles publiques existantes.
 
-## Risques
+## 7. Faute dure, correction
 
-- Ordre « Parcours » en premier : peut déplacer des clics des Vannes (principal trafic), à mesurer sur 2 semaines.
-- Doublon de sens entre « Bibliothèque » (contenu neuf) et les liens Vannes, Conseils, Vidéos : à lever par un libellé d'aide dans le menu (« contenu réservé aux abonnés »).
-- « Mon espace » en menu coûte un clic de plus que la barre pour Aujourd'hui : compensé par le retour après connexion, la page pivot et les cartes d'accès.
-- Retirer la barre supprime du code et des tests (ancres, `scroll-padding`) : à planifier avec @fullstack.
+| Faute | Correction |
+|---|---|
+| D1 pages (auth) et correspondance incomplète | Comportement actuel gardé (pas d'en-tête sur les 5 pages `(auth)`, §3) ; liste exhaustive des `page.tsx` avec gabarit ou exclusion ; faux « règle existante » retiré |
+| D2 interrupteur absent | §0 : tout (visiteur compris) dépend de `ESPACE_CLIENT_PUBLIE` ; fermé, site inchangé, Carnet et Favoris compris |
+| D3 état actif hors /mon-espace, double nom | Tableau d'état actif du §1 ; parent nommé « Mon espace » partout |
+| D4 contradictions et critères faux | Un seul ordre sans groupe (§1) ; quiz hors espace ; critères 1, 5, 9 réécrits (§5) |
+| D5 gabarit B change les listes | Colonnes existantes conservées ; profil, favoris, glossaire en B et carnet en A comme `gabarit.ts` ; pas de grille changée |
+| D6 données non sourcées, pied non lu | Chiffres Search Console sourcés ; Parcours en premier marqué `[HYPOTHÈSE]` ; §2 aligné sur `footer.tsx` ; Blague du jour ajoutée (ROUVRE) |
+| FD1 Aujourd'hui en 2 clics, logo vers la vente | Lien direct, logo abonné vers `/mon-espace` (ROUVRE), menu déroulant supprimé, index dans Aujourd'hui, menu mobile court |
+| FD2 quiz contradictoire | Retiré de l'espace |
+| FD3 pied non lu | §2 recopie le pied réel ; libellé « Quiz humour » ; critère 5 « en-tête ou pied » |
+| Design 1 rythme vertical | Tableau du §3, en tokens |
+| Design 2 état actif de l'espace | Mon espace allumé sur toutes les adresses listées, fiches « bilan » vers Parcours (§1) |
+| Design 3 cartes d'Aujourd'hui | Index en une carte, 1 colonne à 375, 2 dès 768, carte du jour pleine largeur ; pas de rangée de 4 cartes |
+
+Pistes retenues : loupe dans le menu sous 440 px pour tous, suppression de `maxWidth.lecture`, soulignement actif, prix lu dans la config. À confirmer : site sombre seul (aucune bascule claire vue). Risque restant : un abonné n'a plus de lien vers l'accueil de vente, voulu.
