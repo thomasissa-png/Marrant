@@ -46,3 +46,34 @@ aucune clé, ses tâches ne peuvent rien joindre.
 
 Paiement non testable (aucune clé Stripe : abonnements posés directement en base). Textes de la
 réplique, de la question et de la réponse : factices, marqués « test ».
+
+## Page de test EN LIGNE (`page-de-test.sh`, Worker `marrant-preversion`)
+
+Met à jour https://marrant-preversion.thomas-issa.workers.dev après chaque section validée (demande de
+Thomas, s25). Ressources, comptes et suppression : entrée « PRÉVERSION DE TEST s24 » de `REPLIT_ACTIONS.md`.
+
+```bash
+bash docs/espace-client/outils-s25/page-de-test.sh             # synchro + build, AUCUN envoi (affiche la config)
+bash docs/espace-client/outils-s25/page-de-test.sh --envoyer   # idem + envoi + contrôles (ordre de Thomas)
+bash docs/espace-client/outils-s25/page-de-test.sh --controles # contrôles en ligne seuls
+```
+
+- **Copie** : `/root/marrant-preversion-en-ligne-s25/` (rsync de l'arbre de travail, y compris le non-commité ;
+  sans `.git`, `node_modules`, `.next`, `.open-next`, `.env*`). Polices, journaux, lecture en ligne :
+  `/root/marrant-preversion-en-ligne-s25-outils/`. `node_modules` = copie réelle de celui de la préversion
+  locale si même `package-lock`, sinon `npm ci` (jamais un lien : bundle faussé, incident s21).
+- **Dans la copie seulement** : interrupteur à `true` ; `wrangler.jsonc` régénéré depuis celui du dépôt
+  (name `marrant-preversion`, Hyperdrive `47335c15…`, R2 `marrant-preversion-next-cache`, 0 route,
+  `triggers.crons = []`, `preview_urls: false`, 9 variables factices relues sur la version en ligne ; toute
+  nouvelle clé dans la config du dépôt arrête le script) ; `robots.ts` = `Disallow: /` ; `worker.ts` n'exporte
+  plus que `fetch` et pose `X-Robots-Tag: noindex, nofollow` sur toute réponse ; `_headers` : même en-tête sur `/*`.
+- **Build** : `build:cf` en `env -i` (variables factices, Hyperdrive factice), base de build = base LOCALE
+  jetable `marrant_preview_s25` si joignable (pages prérendues avec les données de test), sinon factice.
+  Contrôle du bundle : aucune URL Neon, aucun motif de clé réelle. ~65 s à chaud (~80 s à froid).
+- **Comparaison** (lecture seule, API `GET`) : vars, bindings, secrets (noms), crons et compatibilité du
+  Worker en ligne contre la config générée.
+- **Envoi** (`--envoyer`) : garde juste avant (dossier = copie, `name` = `marrant-preversion`, aucune route,
+  0 cron, services, Hyperdrive et R2 attendus), puis `opennextjs-cloudflare deploy` avec `CLOUDFLARE_DM_TOKEN`
+  seulement. Les secrets de TEST du Worker ne sont pas touchés. Contrôles : `/login` 200, `X-Robots-Tag` sur
+  `/`, `/login`, `/mon-espace`, `robots.txt` = `Disallow: /`, 0 cron, connexion `abonne-en-cours@` puis
+  `/mon-espace` 200.
