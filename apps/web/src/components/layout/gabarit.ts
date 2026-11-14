@@ -12,6 +12,13 @@
  * Module sans dépendance : importable par les composants serveur et client.
  */
 
+/**
+ * Place du repère au-dessus du H1 (fil d'Ariane du site : une ligne de 20 px, 16 px dessous). Relecture des captures
+ * nav s24, tour 2 : le « Retour » de l'espace, et une place vide là où il n'y a pas de repère, prennent exactement
+ * cette hauteur ; le H1 est alors à la même hauteur sur toutes les pages (133 px du haut de la fenêtre).
+ */
+export const PLACE_REPERE = "mb-4 h-5";
+
 /** Colonne centrée des pages de lecture (768 px). */
 export const COLONNE_LECTURE = "mx-auto w-full max-w-3xl";
 

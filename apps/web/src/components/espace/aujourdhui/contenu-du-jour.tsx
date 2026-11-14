@@ -28,6 +28,20 @@ type Daily = {
 type Etat = { statut: "chargement" } | { statut: "erreur" } | { statut: "ok"; donnees: Daily };
 
 const CARTE = "rounded-lg border border-border bg-background-card p-4 md:p-6";
+
+/**
+ * Début du conseil, coupé à la fin d'une phrase (tour 2, reviewer P6 : plus de mot coupé par `line-clamp`) : les
+ * phrases entières tant qu'on reste sous 220 caractères, au moins la première.
+ */
+function extrait(texte: string): string {
+  const phrases = texte.replace(/\s+/g, " ").trim().match(/[^.!?…]+[.!?…]+(\s|$)|[^.!?…]+$/g) ?? [texte];
+  let sortie = "";
+  for (const p of phrases) {
+    if (sortie && (sortie + p).length > 220) break;
+    sortie += p;
+  }
+  return sortie.trim();
+}
 const TROISIEME = "md:col-span-2 xl:col-span-1";
 
 function Carte({ id, titre, children, className }: { id: string; titre: string; children: React.ReactNode; className?: string }) {
@@ -104,7 +118,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
                 {/* Relecture des captures nav s24 (design 5, ux F6b, reviewer FD4) : le début du conseil, comme
                     l'accueil du site, au lieu d'un lien seul dans une carte vide. */}
                 {etat.donnees.tip.content && (
-                  <p className="mb-3 line-clamp-4 text-sm leading-relaxed text-text-secondary">{frEspace(contenuAffiche(etat.donnees.tip.content))}</p>
+                  <p className="mb-3 text-sm leading-relaxed text-text-secondary">{frEspace(contenuAffiche(extrait(etat.donnees.tip.content)))}</p>
                 )}
                 <Link href={`/conseils/${buildTipSlug(etat.donnees.tip)}`} className={lienCarte}>{frEspace(etat.donnees.tip.title)}</Link>
               </>
@@ -117,7 +131,8 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
               <>
                 {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}
                 {etat.donnees.video.youtubeId && (
-                  <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                  // Tour 2 (reviewer P7) : à 768 px, la carte prend deux colonnes ; la vignette reste à 448 px.
+                  <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated md:max-w-md xl:max-w-none">
                     <YouTubePlayer youtubeId={etat.donnees.video.youtubeId} title={etat.donnees.video.title} />
                   </div>
                 )}

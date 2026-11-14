@@ -1,0 +1,87 @@
+Interrupteur FERMÉ, avant (commit cfee1a38, avant la navigation universelle) et après (code de travail du tour 3) : en-tête (65 px du haut) sur 5 pages, menu mobile ouvert, /mon-espace (404), et pages entières de /vannes, /carnet (3 états) et /favoris (abonné), à 375, 768 et 1280 px. Comparaison au pixel près (Pillow, ImageChops.difference).
+
+free-accueil-1280.png : identique
+free-accueil-375.png : identique
+free-accueil-768.png : identique
+free-carnet-1280.png : identique
+free-carnet-375.png : identique
+free-carnet-768.png : identique
+free-menu-vannes-375.png : identique
+free-menu-vannes-768.png : identique
+free-mon-espace-1280.png : identique
+free-mon-espace-375.png : identique
+free-mon-espace-768.png : identique
+free-page-entiere-carnet-1280.png : identique
+free-page-entiere-carnet-375.png : identique
+free-page-entiere-carnet-768.png : identique
+free-page-entiere-vannes-1280.png : identique
+free-page-entiere-vannes-375.png : identique
+free-page-entiere-vannes-768.png : identique
+free-parcours-1280.png : identique
+free-parcours-375.png : identique
+free-parcours-768.png : identique
+free-profil-1280.png : identique
+free-profil-375.png : identique
+free-profil-768.png : identique
+free-vannes-1280.png : identique
+free-vannes-375.png : identique
+free-vannes-768.png : identique
+premium-accueil-1280.png : identique
+premium-accueil-375.png : identique
+premium-accueil-768.png : identique
+premium-carnet-1280.png : identique
+premium-carnet-375.png : identique
+premium-carnet-768.png : identique
+premium-menu-vannes-375.png : identique
+premium-menu-vannes-768.png : identique
+premium-mon-espace-1280.png : identique
+premium-mon-espace-375.png : identique
+premium-mon-espace-768.png : identique
+premium-page-entiere-carnet-1280.png : identique
+premium-page-entiere-carnet-375.png : identique
+premium-page-entiere-carnet-768.png : identique
+premium-page-entiere-favoris-1280.png : identique
+premium-page-entiere-favoris-375.png : identique
+premium-page-entiere-favoris-768.png : identique
+premium-page-entiere-vannes-1280.png : identique
+premium-page-entiere-vannes-375.png : identique
+premium-page-entiere-vannes-768.png : identique
+premium-parcours-1280.png : différent, zone (1089, 12, 1100, 52)
+premium-parcours-375.png : identique
+premium-parcours-768.png : identique
+premium-profil-1280.png : identique
+premium-profil-375.png : identique
+premium-profil-768.png : identique
+premium-vannes-1280.png : identique
+premium-vannes-375.png : identique
+premium-vannes-768.png : identique
+visiteur-accueil-1280.png : identique
+visiteur-accueil-375.png : identique
+visiteur-accueil-768.png : identique
+visiteur-carnet-1280.png : identique
+visiteur-carnet-375.png : identique
+visiteur-carnet-768.png : identique
+visiteur-menu-vannes-375.png : identique
+visiteur-menu-vannes-768.png : identique
+visiteur-mon-espace-1280.png : identique
+visiteur-mon-espace-375.png : identique
+visiteur-mon-espace-768.png : identique
+visiteur-page-entiere-carnet-1280.png : identique
+visiteur-page-entiere-carnet-375.png : identique
+visiteur-page-entiere-carnet-768.png : identique
+visiteur-page-entiere-vannes-1280.png : identique
+visiteur-page-entiere-vannes-375.png : identique
+visiteur-page-entiere-vannes-768.png : identique
+visiteur-parcours-1280.png : identique
+visiteur-parcours-375.png : identique
+visiteur-parcours-768.png : identique
+visiteur-vannes-1280.png : identique
+visiteur-vannes-375.png : identique
+visiteur-vannes-768.png : identique
+
+77/78 paires identiques au pixel près
+
+Contre-épreuve de la seule paire différente (premium, /parcours, 1280 px, 7 pixels dans l'icône du compte) :
+3 captures avant et 3 après (`contre-epreuve-premium-parcours-1280/`). Deux rendus de l'icône existent, AVANT
+comme APRÈS (anticrénelage de l'icône chargée à la demande) : avant-1 = après-1 = après-3, avant-2 = avant-3 =
+après-2. Aucune différence de code : chaque capture avant a son double exact après.

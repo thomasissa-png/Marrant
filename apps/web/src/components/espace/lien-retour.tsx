@@ -2,6 +2,7 @@ import Link from "next/link";
 import { parentEspace } from "@/components/espace/rubriques";
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { frEspace } from "@/lib/fr-typo";
+import { PLACE_REPERE } from "@/components/layout/gabarit";
 
 /**
  * Lien « Retour : {parent} » des pages de l'espace (v5 §4.3) : un seul composant, en tête de page,
@@ -9,7 +10,10 @@ import { frEspace } from "@/lib/fr-typo";
  * par l'historique. Texte secondaire, chevron gauche décoratif, cible de 44 px.
  */
 export function LienRetour({ href, label }: { href: string; label: string }) {
+  // Relecture des captures nav s24, tour 2 : 36 px de haut comme le fil d'Ariane du site (`PLACE_REPERE`) ; la
+  // cible du lien garde 44 px (elle déborde de 12 px en haut et en bas, sans rien chevaucher).
   return (
+    <div className={`${PLACE_REPERE} flex items-center`}>
     <Link
       href={href}
       data-lien-retour
@@ -20,6 +24,7 @@ export function LienRetour({ href, label }: { href: string; label: string }) {
       </svg>
       {frEspace(N.retour(label))}
     </Link>
+    </div>
   );
 }
 

@@ -216,6 +216,13 @@ describe("garde-fou de construction", () => {
     "components/vannes/vannes-list.tsx",
     "components/carnet/carnet-fiche-card.tsx",
     "components/home/reprendre-parcours.tsx",
+    // Tour 2 des captures (ouvert seulement, fermé inchangé) : coque du site en colonne avec le pied en bas
+    // (`(dashboard)/layout.tsx`) ; place du repère au-dessus du titre de /favoris ; surtitre du carnet de l'abonné
+    // sous le titre (`carnet-page.tsx`) ; carte « Vanne du jour » de l'accueil (`daily-content.tsx`).
+    "app/(dashboard)/layout.tsx",
+    "app/(dashboard)/favoris/page.tsx",
+    "components/carnet/carnet-page.tsx",
+    "components/home/daily-content.tsx",
     // Touchés sans import de l'espace, rendu fermé inchangé : `account-menu.tsx` (variante `universel`, passée
     // par l'en-tête unique seulement), `header-icons.tsx` (icône de l'ancien menu de compte abonné retirée),
     // `parcours/[slug]/page.tsx`, `profil/page.tsx` (déjà listés : `AxeEspace` retiré, même colonne pour

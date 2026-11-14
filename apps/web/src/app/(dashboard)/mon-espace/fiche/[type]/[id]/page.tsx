@@ -65,9 +65,8 @@ export default async function FichePage({ params }: { params: Params }) {
   const { userId, fiche, lettre } = lu;
   if (estAuSeuil(fiche)) {
     return (
-      <div className={`flex flex-col gap-6 ${COLONNE_LECTURE}`}>
+      <div className={COLONNE_LECTURE}>
         <RetourDe chemin={`/mon-espace/fiche/${fiche.type}/${fiche.id}`} />
-        <h1 className="sr-only">{TEXTES_BIBLIOTHEQUE.titre}</h1>
         <CoinHumourNoir lignesInitiales={null} versFiche />
       </div>
     );

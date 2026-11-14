@@ -15,6 +15,21 @@ const T = frEspaceProfond(TEXTES_FICHE_LIGNE);
  * (anatomie 2.7, durée affichée ; toujours pour un bonus, comme la maquette).
  */
 /**
+ * Relecture des captures nav s24, tour 2 (ux N2, reviewer FD-B2) : à l'affichage seulement, « Vocabulaire : quand on
+ * te lance une pique » sous le titre « Vocabulaire » devient « Quand on te lance une pique » ; « Réunion : … » sous
+ * « Réunion et entretien » perd aussi son préfixe. Un préfixe qui ne commence pas le titre du groupe est gardé
+ * (« Fac : … » sous « Études et fac »). La donnée (titre de la fiche) ne change pas.
+ */
+const PREFIXE = /^([^:«»\n]{1,40}?)\s*:\s+([\s\S]+)$/;
+const norme = (t: string) => t.normalize("NFD").replace(/\p{M}/gu, "").replace(/’/g, "'").toLowerCase().trim();
+export function sansPrefixe(titre: string, groupe: string): string {
+  const m = PREFIXE.exec(titre);
+  if (!m || !norme(groupe).startsWith(norme(m[1]))) return titre;
+  const reste = m[2];
+  return reste.charAt(0).toLocaleUpperCase("fr") + reste.slice(1);
+}
+
+/**
  * `deuxColonnes` (v5 §3, gabarit B des pages neuves de l'espace) : 1 colonne, 2 dès 768 px, quand la liste
  * prend la pleine coque (Quoi répondre) ; une liste dans un bloc de la Bibliothèque reste en 1 colonne.
  */
@@ -23,11 +38,14 @@ export function ListeFiches({
   avecDuree = false,
   labelledBy,
   deuxColonnes = false,
+  groupe,
 }: {
   lignes: readonly LigneFiche[];
   avecDuree?: boolean;
   labelledBy?: string;
   deuxColonnes?: boolean;
+  /** Titre du groupe au-dessus de la liste : son nom n'est pas répété en tête de chaque ligne (`sansPrefixe`). */
+  groupe?: string;
 }) {
   if (lignes.length === 0) return null;
   return (
@@ -41,7 +59,7 @@ export function ListeFiches({
           >
             <span className="min-w-0 flex-1 text-sm text-text-primary [overflow-wrap:anywhere]">
               {l.marque && <small className="mb-0.5 block text-xs font-semibold text-accent-link">{frEspace(l.marque)}</small>}
-              {frEspace(l.titre)}
+              {frEspace(groupe ? sansPrefixe(l.titre, groupe) : l.titre)}
               {(avecDuree || l.marque) && <span className="text-text-secondary"> · {T.minutes(l.minutes)}</span>}
             </span>
             {/* Relecture des captures nav s24 (ux F1) : la ligne entière est le lien ; « Fait » quand c'est fait,

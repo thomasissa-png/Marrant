@@ -58,11 +58,24 @@ export function CoinHumourNoir({ lignesInitiales, versFiche = false }: { lignesI
     setLignes(entre ? res.lignes : null);
   };
 
+  // Relecture des captures nav s24, tour 2 (design F3, reviewer P4) : à l'adresse d'une fiche (`versFiche`), le nom
+  // du coin est le titre de la page (H1, hors de la carte, à la hauteur des autres pages) ; dans la Bibliothèque,
+  // le titre de la carte (H2), comme avant.
+  const classeTitre = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+  const titreDePage = versFiche ? (
+    <h1 id="coin-titre" ref={titre} tabIndex={-1} className={`mb-8 font-display text-3xl font-bold text-text-primary md:mb-10 md:text-4xl ${classeTitre}`}>
+      {T.titre}
+    </h1>
+  ) : null;
   return (
+    <>
+    {titreDePage}
     <section aria-labelledby="coin-titre" className={CARTE} data-coin={lignes ? "entre" : "seuil"}>
-      <h2 id="coin-titre" ref={titre} tabIndex={-1} className="font-display text-xl font-bold text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link">
-        {T.titre}
-      </h2>
+      {!versFiche && (
+        <h2 id="coin-titre" ref={titre} tabIndex={-1} className={`font-display text-xl font-bold text-text-primary ${classeTitre}`}>
+          {T.titre}
+        </h2>
+      )}
       <p className="text-base text-text-primary">{T.phrase}</p>
       {lignes === null ? (
         <button
@@ -79,7 +92,7 @@ export function CoinHumourNoir({ lignesInitiales, versFiche = false }: { lignesI
       ) : (
         <div id="coin-contenu" className="space-y-4">
           {lignes.length > 0 ? (
-            <ListeFiches lignes={lignes} avecDuree labelledBy="coin-titre" />
+            <ListeFiches lignes={lignes} labelledBy="coin-titre" />
           ) : (
             <p className="text-base text-text-secondary" data-testid="coin-vide">
               {T.vide}
@@ -96,5 +109,6 @@ export function CoinHumourNoir({ lignesInitiales, versFiche = false }: { lignesI
         </p>
       )}
     </section>
+    </>
   );
 }

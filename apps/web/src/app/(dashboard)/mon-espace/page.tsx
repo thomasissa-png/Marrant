@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PLACE_REPERE } from "@/components/layout/gabarit";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
@@ -95,9 +96,8 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   return (
     <div>
       {/* Relecture des captures nav s24 (design 7) : la place du « Retour » est réservée (Aujourd'hui n'en a pas),
-          le titre est à la même hauteur que sur toutes les autres pages de l'espace, dès 768 px (sous 768 px,
-          la carte du jour garde sa place au premier écran, N4). */}
-      <div aria-hidden="true" className="h-11 max-md:hidden" data-place-retour />
+          le titre est à la même hauteur que sur toutes les autres pages (36 px, la hauteur du fil d'Ariane du site). */}
+      <div aria-hidden="true" className={`${PLACE_REPERE} max-e300:hidden`} data-place-retour />
       <header className="mb-8 md:mb-10">
         <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">{T.titre}</h1>
         {rafale && rafale.cetteSemaine > 0 && <p className="mt-2 text-sm text-text-secondary">{T.repere(rafale.cetteSemaine)}</p>}

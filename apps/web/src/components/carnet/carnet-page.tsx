@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,11 @@ export function CarnetPage({
   src: string;
 }) {
   const autresMois = months.filter((m) => m !== view.mois);
+  const kicker = (
+    <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
+      Carnet {deCarnetMonth(view.mois)} · {view.totalFiches} situations
+    </p>
+  );
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -53,10 +59,11 @@ export function CarnetPage({
       </nav>
 
       <header className="mb-8 space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
-          Carnet {deCarnetMonth(view.mois)} · {view.totalFiches} situations
-        </p>
+        {/* Relecture des captures nav s24, tour 2 : interrupteur de l'espace ouvert et carnet de l'abonné, la
+            surtitre passe sous le titre (H1 juste sous le fil d'Ariane, à la hauteur des autres pages). */}
+        {!(ESPACE_CLIENT_PUBLIE && view.premium) && kicker}
         <h1 className="font-display text-3xl font-bold md:text-4xl">{frTypo(view.titre)}</h1>
+        {ESPACE_CLIENT_PUBLIE && view.premium && kicker}
         <p className="text-text-secondary">{frTypo(view.intro)}</p>
       </header>
 

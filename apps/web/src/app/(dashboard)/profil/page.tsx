@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PLACE_REPERE } from "@/components/layout/gabarit";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
 import { UpgradeToast } from "@/components/profil/upgrade-toast";
 import { ReprendreParcours } from "@/components/home/reprendre-parcours";
@@ -26,6 +27,8 @@ export default function ProfilPage({
   // Navigation universelle v5 §3 : gabarit B public pour tout lecteur (l'axe de l'espace du lot D11c est supprimé).
   return (
     <>
+      {/* Relecture des captures nav s24, tour 2 : ouvert seulement, place du repère au-dessus du titre. */}
+      {ESPACE_CLIENT_PUBLIE && <div aria-hidden="true" className={PLACE_REPERE} />}
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">
           Mon profil

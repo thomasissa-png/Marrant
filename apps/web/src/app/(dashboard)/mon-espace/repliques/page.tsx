@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import { PageHeader } from "@/components/layout/page-header";
 import { RetourDe } from "@/components/espace/lien-retour";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
@@ -29,8 +30,10 @@ export default async function MesRepliquesPage() {
   const { userId } = await garderEspace("/mon-espace/repliques");
   const repliques = await listerRepliques(userId, { acces: "ouvert", userId });
   return (
-    <div>
-      {/* v5 §3, gabarit B. */}
+    // Relecture des captures nav s24, tour 2 (design F2, F3) : gabarit B ; sans contenu, la page passe en colonne
+    // de lecture (retour, titre et état vide dans la même colonne de 768 px, jamais un titre à gauche et une carte
+    // centrée).
+    <div className={repliques.length === 0 ? COLONNE_LECTURE : undefined}>
       <RetourDe chemin="/mon-espace/repliques" />
       <PageHeader title={R.titre} />
       <ListeRepliques initiales={repliques} lectureSeule={false} />

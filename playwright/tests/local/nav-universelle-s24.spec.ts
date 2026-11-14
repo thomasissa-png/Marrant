@@ -443,10 +443,12 @@ test.describe("navigation universelle v5 (s24)", () => {
     });
 
     // Relecture des captures nav s24 : « Mon profil » à 2 gestes (Menu, ligne) sans défilement à 375 x 667 et 812.
-    test("abonné à 375 px : « Mon profil » et « Déconnexion » visibles dès l'ouverture du menu (667 et 812 px de haut)", async ({ browser }) => {
+    // Tour 2 (ux N1, reviewer FD-A) : plus de barre collée ; à 375 x 812, tout le menu tient sans défilement,
+    // « Articles » compris, avec « Mon profil » et « Déconnexion » à la suite.
+    test("abonné à 375 x 812 : tout le menu visible à l'ouverture, Articles, Mon profil et Déconnexion compris", async ({ browser }) => {
       const c = await contexte(browser, "PREMIUM");
       const page = await c.newPage();
-      for (const hauteur of [667, 812]) {
+      for (const hauteur of [812]) {
         await page.setViewportSize({ width: 375, height: hauteur });
         await page.goto("/vannes");
         await pret(page, "PREMIUM");
@@ -456,8 +458,34 @@ test.describe("navigation universelle v5 (s24)", () => {
         await expect(menu.getByRole("link", { name: "Mon profil" })).toBeInViewport({ ratio: 1 });
         await expect(menu.getByRole("button", { name: "Déconnexion" })).toBeInViewport({ ratio: 1 });
         await expect(menu.getByRole("link", { name: N.index.carnet, exact: true })).toBeInViewport({ ratio: 1 });
+        for (const lien of ["Parcours", "Vannes", "Conseils", "Vidéos", "Articles"]) await expect(menu.getByRole("link", { name: lien, exact: true })).toBeInViewport({ ratio: 1 });
+        expect(await menu.evaluate((el) => el.scrollHeight <= el.clientHeight), "menu sans défilement").toBe(true);
         await menu.getByRole("link", { name: "Mon profil" }).click();
         await expect(page).toHaveURL(/\/profil$/);
+      }
+      await c.close();
+    });
+
+    // Tour 2 (design F1) : le H1 à la même hauteur sur toutes les pages de l'espace et sur les pages publiques
+    // vues par l'abonné (favoris, profil, carnet, parcours), à ±0 px, à chaque largeur.
+    test("H1 à la même hauteur sur toutes les pages de l'abonné (375, 768, 1024, 1280 px)", async ({ browser }) => {
+      test.setTimeout(240_000);
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      const pages = [...ESPACE_PAGES, "/favoris", "/profil", "/carnet", "/parcours"];
+      for (const largeur of [375, 768, 1024, 1280]) {
+        await page.setViewportSize({ width: largeur, height: 900 });
+        const hauts: string[] = [];
+        for (const chemin of pages) {
+          await page.goto(chemin);
+          await pret(page, "PREMIUM");
+          const h1 = page.locator("main h1:not(.sr-only)").first();
+          await expect(h1).toBeVisible();
+          const haut = Math.round(await h1.evaluate((e) => e.getBoundingClientRect().top + window.scrollY));
+          hauts.push(`${chemin}=${haut}`);
+        }
+        noter(`H1 ; abonné ; ${largeur} px ; ${hauts.join(" ; ")}`);
+        expect(new Set(hauts.map((h) => h.split("=")[1])).size, `hauteurs du H1 à ${largeur} px : ${hauts.join(", ")}`).toBe(1);
       }
       await c.close();
     });

@@ -83,6 +83,10 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
       )}
 
       <div className={cn("flex flex-col gap-2", etat === "abonne" && "pt-2")}>
+        {/* Relecture des captures nav s24, tour 2 (ux N1, reviewer FD-A) : abonné, les 5 liens du site sur deux
+            colonnes (ordre de lecture gardé : Parcours, Vannes / Conseils, Vidéos / Articles), 104 px gagnés : à
+            375 x 812, tout le menu tient sans défilement, « Mon profil » et « Déconnexion » à la suite, dans le flux. */}
+        <div className={etat === "abonne" ? "grid grid-cols-2 gap-2" : "contents"} data-liens-site>
         {liens.map((l) => (
           <Link
             key={l.href}
@@ -98,6 +102,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
             {l.label}
           </Link>
         ))}
+        </div>
         {/* Abonné dès 768 px : plus aucune action dans le menu (compte en barre), pas de séparateur orphelin. */}
         <hr className={cn("my-2 border-border", etat === "abonne" && "md:hidden")} />
         {etat !== "abonne" && !masquerPlein && (
@@ -111,16 +116,9 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
           </Link>
         )}
         {etat !== "visiteur" && (
-          // Relecture des captures nav s24 : abonné, « Mon profil » et « Déconnexion » sur une ligne collée au bas du
-          // menu dès 640 px de haut (2 gestes, sans défilement ; sous 640, à la suite, le bloc « Mon espace » garde
-          // la place du critère 5 à 568 px).
-          <div
-            className={cn(
-              "flex gap-2 md:hidden",
-              etat === "abonne"
-                ? "-mx-4 bg-background px-4 py-2 [@media(min-height:640px)]:sticky [@media(min-height:640px)]:bottom-0 [@media(min-height:640px)]:border-t [@media(min-height:640px)]:border-border [&>*]:flex-1"
-                : "flex-col",
-            )}
+          // Abonné : « Mon profil » et « Déconnexion » sur une ligne, à la suite des liens (plus de barre collée qui
+          // cachait « Articles », relecture des captures nav s24, tour 2).
+          <div className={cn("flex gap-2 md:hidden", etat === "abonne" ? "[&>*]:flex-1" : "flex-col")}
             data-actions-compte
           >
             {etat === "gratuit" && (

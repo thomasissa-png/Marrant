@@ -63,7 +63,7 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
       {lectureSeule && <p className="text-sm text-text-secondary">{R.lectureSeule}</p>}
       {liste.length === 0 ? (
         // Relecture des captures nav s24 (design 4, ux F5) : état vide à sa largeur de lecture, avec une sortie.
-        <div className={`${CARTE} mx-auto flex max-w-2xl flex-col items-center gap-4 text-center md:p-8`} data-testid="repliques-vide">
+        <div className={`${CARTE} flex flex-col items-start gap-4 md:p-8`} data-testid="repliques-vide">
           <p className="text-base text-text-primary">{R.vide}</p>
           {!lectureSeule && (
             <Link href="/mon-espace/quoi-repondre" className={BOUTON_SECONDAIRE}>

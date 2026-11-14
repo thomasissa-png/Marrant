@@ -1,5 +1,6 @@
 "use client";
 
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { frTypo } from "@/lib/fr-typo";
 import { useEffect, useState } from "react";
@@ -164,7 +165,13 @@ export function DailyContent() {
         role="region"
         aria-labelledby="contenu-du-jour-titre"
         tabIndex={0}
-        className="-mx-4 flex snap-x snap-mandatory items-start gap-3 md:items-stretch overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className={
+          // Relecture des captures nav s24, tour 2 (design F5) : interrupteur de l'espace ouvert, cartes à la hauteur
+          // de leur contenu (la « Vanne du jour » gardait 180 px vides au-dessus de son pied). Fermé : d'aujourd'hui.
+          ESPACE_CLIENT_PUBLIE
+            ? "-mx-4 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+            : "-mx-4 flex snap-x snap-mandatory items-start gap-3 md:items-stretch overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        }
       >
         {/* Vanne du jour */}
         <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">

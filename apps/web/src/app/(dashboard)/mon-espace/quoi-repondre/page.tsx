@@ -74,7 +74,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
                 <h2 id={`lieu-${g.cle}`} className="font-display text-xl font-bold text-text-primary">
                   {g.titre} <span className="text-base font-normal text-text-secondary">({g.fiches.length})</span>
                 </h2>
-                <ListeFiches lignes={g.fiches.map((f) => ligneDeFiche(f, faits))} avecDuree deuxColonnes labelledBy={`lieu-${g.cle}`} />
+                <ListeFiches lignes={g.fiches.map((f) => ligneDeFiche(f, faits))} deuxColonnes labelledBy={`lieu-${g.cle}`} groupe={g.titre} />
               </section>
             ))}
           </div>

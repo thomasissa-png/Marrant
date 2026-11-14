@@ -125,8 +125,16 @@ export function FicheVue({
         </h1>
         {/* Étiquette de type gardée quand elle dit autre chose que la liste parente (« Formules à détourner ») ;
             sous le titre (relecture des captures nav s24, design 7 : H1 à la même hauteur sur toutes les fiches). */}
-        {!bilan && T.types[fiche.type] !== parent.label && <p className={ETIQUETTE}>{T.types[fiche.type]}</p>}
-        <p className="text-sm text-text-secondary">{L.minutes(fiche.dureeMinutes)}</p>
+        {/* Tour 2 (reviewer P2) : l'étiquette et la durée sur une seule ligne sous le titre (« Jeux · 5 min »). */}
+        <p className="text-sm text-text-secondary">
+          {!bilan && T.types[fiche.type] !== parent.label && (
+            <>
+              <span className={ETIQUETTE}>{T.types[fiche.type]}</span>
+              {" · "}
+            </>
+          )}
+          {L.minutes(fiche.dureeMinutes)}
+        </p>
         {fiche.accroche && <p className="text-base text-text-primary">{fiche.accroche}</p>}
         {lettre && (
           <Link href={lettre.href} className={LIEN}>

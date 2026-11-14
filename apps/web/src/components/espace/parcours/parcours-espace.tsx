@@ -1,5 +1,6 @@
 "use client";
 
+import { PLACE_REPERE } from "@/components/layout/gabarit";
 import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
@@ -76,10 +77,16 @@ export function ParcoursEspace() {
 
   if (!ESPACE_CLIENT_PUBLIE || !premium) return null;
 
+  // Relecture des captures nav s24, tour 2 (design F4) : la page de l'abonné a un titre (son fil d'Ariane et
+  // l'introduction publique sont masqués pour lui) ; place du repère au-dessus, H1 à la hauteur des autres pages.
   return (
+    <>
+    <div aria-hidden="true" className={`${PLACE_REPERE} max-e300:hidden`} />
+    {/* Le H1 « Parcours » était réservé aux lecteurs d'écran (lot D5) : il est maintenant visible. Sous 300 px
+        (200 % de texte), plus petit et plus serré, pour garder la liste dans les deux premiers écrans (N2). */}
+    <h1 className="mb-8 font-display text-3xl font-bold md:mb-10 md:text-4xl max-e300:mb-3 max-e300:text-2xl">{P.titrePage}</h1>
     <div className="mb-8 flex flex-col gap-6 max-e300:mb-3 max-e300:gap-2" aria-busy={etat === "attente" || undefined} data-testid="parcours-espace">
       {/* Arbitrage @ux D4 n°1 (lot D5) : l'introduction publique est masquée pour l'abonné ; il garde un h1. */}
-      <h1 className="sr-only">{P.titrePage}</h1>
       <AnnonceCap annonce={caps?.annonce ?? null} retour={() => reprendre.current} />
       <QuatreSemaines ref={reprendre} etape={caps?.etape ?? null} ecouterPublie={caps?.ecouterPublie === true} />
       {caps && (
@@ -90,5 +97,6 @@ export function ParcoursEspace() {
       )}
       <h2 className="font-display text-xl font-bold text-text-primary">{P.listeParcours}</h2>
     </div>
+    </>
   );
 }

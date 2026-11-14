@@ -73,7 +73,7 @@ export default async function BibliothequePage() {
           if (groupe.length === 0) return null;
           return (
             <BlocBibliotheque key={type} id={`groupe-${type}`} titre={T.prefixes[type]}>
-              <ListeFiches lignes={groupe} labelledBy={`groupe-${type}`} />
+              <ListeFiches lignes={groupe} labelledBy={`groupe-${type}`} groupe={T.prefixes[type]} />
             </BlocBibliotheque>
           );
         })}

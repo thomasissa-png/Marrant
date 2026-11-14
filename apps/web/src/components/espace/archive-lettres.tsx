@@ -3,7 +3,7 @@ import { LienRetour } from "@/components/espace/lien-retour";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { TEXTES_LETTRES } from "@/config/textes/espace-bibliotheque";
 import type { LettreArchive, LettreLue } from "@/lib/espace/lettres";
-import { CARTE, LIEN } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CARTE, LIEN } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -20,10 +20,10 @@ export const hrefLettre = (numero: string) => `${ESPACE_ACCUEIL}/lettres/${numer
 export function ArchiveLettres({ lettres }: { lettres: readonly LettreArchive[] }) {
   if (lettres.length === 0) {
     return (
-      <div className={`${CARTE} mx-auto flex max-w-2xl flex-col items-center gap-2 text-center md:p-8`} data-testid="lettres-vide">
+      <div className={`${CARTE} flex flex-col items-start gap-4 md:p-8`} data-testid="lettres-vide">
         <p className="text-base text-text-primary">{T.vide}</p>
-        {/* Lot D11c (revue d'harmonie, défaut 13) : cible de 44 px gardée, ses 12 px sous le texte dans la marge. */}
-        <Link href={ESPACE_ACCUEIL} className={`${LIEN} -mb-3`}>
+        {/* Relecture des captures nav s24, tour 2 (reviewer P11) : même sortie qu'un état vide de Mes répliques (bouton). */}
+        <Link href={ESPACE_ACCUEIL} className={BOUTON_SECONDAIRE}>
           {T.allerAujourdhui}
         </Link>
       </div>

@@ -27,6 +27,7 @@ import { EnTeteUniversel } from "@/components/layout/en-tete-universel";
 import { Cloche } from "@/components/espace/cloche";
 import { INDEX_ESPACE, elementBarreAllume, ligneEspaceAllumee, parentEspace } from "@/components/espace/rubriques";
 import { TEXTES_ESPACE_NAVIGATION as T, nomCloche } from "@/config/textes/espace-navigation";
+import { sansPrefixe } from "@/components/espace/liste-fiches";
 
 const drapeau = globalThis as { __ESPACE_OUVERT__?: boolean };
 const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
@@ -174,6 +175,31 @@ describe("élément allumé (§1)", () => {
   ])("menu mobile de l'abonné, %s : %s", (chemin, attendu) => {
     expect(ligneEspaceAllumee(chemin)).toBe(attendu);
   });
+});
+
+describe("nom du groupe non répété à chaque ligne (relecture des captures nav s24, tour 2)", () => {
+  it.each([
+    ["Vocabulaire : quand on te lance une pique", "Vocabulaire", "Quand on te lance une pique"],
+    ["Coloc : la poêle", "Coloc", "La poêle"],
+    ["Soirée : « Tu pars déjà ? »", "Soirée", "« Tu pars déjà ? »"],
+    ["Réunion : « On ne t'entend pas »", "Réunion et entretien", "« On ne t'entend pas »"],
+    ["Fac : l'exposé", "Études et fac", "Fac : l'exposé"],
+    ["Comment c'est construit : Le faux secret", "Comment c’est construit", "Le faux secret"],
+    ["Le faux secret", "Comment c'est construit", "Le faux secret"],
+  ])("%s sous « %s » : %s", (titre, groupe, attendu) => {
+    expect(sansPrefixe(titre, groupe)).toBe(attendu);
+  });
+});
+
+it("menu mobile de l'abonné : les 5 liens du site sur deux colonnes, « Mon profil » et « Déconnexion » dans le flux", async () => {
+  drapeau.__ESPACE_OUVERT__ = true;
+  useSession.mockReturnValue(SESSIONS.abonne);
+  render(<EnTeteUniversel />);
+  await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+  const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
+  expect(menu.querySelector("[data-liens-site]")?.className).toMatch(/grid-cols-2/);
+  expect(menu.querySelector("[data-actions-compte]")?.className).not.toMatch(/sticky/);
+  expect(within(menu).getByRole("link", { name: "Mon profil" })).toBeInTheDocument();
 });
 
 const vide = (nonLues = 0) => ({ nonLues, reponses: [], nouveautes: [], lettre: null });
