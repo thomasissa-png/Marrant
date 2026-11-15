@@ -33,6 +33,7 @@ const SECTIONS = {
       ["menu-profil", "/profil", "menu"],
       ["cloche", "/mon-espace", "cloche"],
       ["compte", "/vannes", "compte"],
+      ["compte-profil", "/profil", "compte"],
       ["cloche-vide", "/mon-espace", "cloche-vide"],
       ["focus-menu", "/vannes", "focus"],
     ],
