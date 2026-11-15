@@ -106,11 +106,15 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           ],
         })}
       />
-      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
-        <span className="mx-2">/</span>
-        <span className="text-text-secondary">Vannes</span>
-      </nav>
+      {/* Décision de Thomas du 15/11, interrupteur de l'espace ouvert : page de premier niveau, plus de fil d'Ariane
+          visible (la bande des rubriques montre la rubrique active) ; BreadcrumbList ci-dessus conservé. Fermé : inchangé. */}
+      {!ESPACE_CLIENT_PUBLIE && (
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
+          <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
+          <span className="mx-2">/</span>
+          <span className="text-text-secondary">Vannes</span>
+        </nav>
+      )}
       <PageHeader
         title={<>Vannes drôles à ressortir ce soir, pas trois jours plus tard</>}
         lead={
@@ -136,9 +140,14 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
       {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. Revue visuelle s21
           (R04) : masquées pour l'abonné, qui a déjà la rangée de filtres de la liste (une seule rangée
           visible) ; le HTML du serveur (sans session) les garde pour les moteurs. */}
-      <MasqueSiPremium>
-        <VannesThemeNav />
-      </MasqueSiPremium>
+      {/* Décision de Thomas du 14/11, interrupteur de l'espace ouvert : une seule rangée de catégories pour tous, celle
+          de la liste ; ces liens ne sont plus montrés au-dessus (les pages thème restent liées par le sitemap, les
+          articles et leurs propres pages). Fermé : comme avant. */}
+      {!ESPACE_CLIENT_PUBLIE && (
+        <MasqueSiPremium>
+          <VannesThemeNav />
+        </MasqueSiPremium>
+      )}
 
       <Suspense fallback={null}>
         <VannesList initialData={listPage} initialPage={page} />

@@ -1,6 +1,7 @@
 "use client";
 
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { CATEGORIES_VANNES } from "@/config/vannes-categories";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
@@ -47,23 +48,9 @@ interface Pagination {
   totalPages: number;
 }
 
-// Filtres regroupés par contexte d'usage (où tu sors la vanne)
-// Les groupes fusionnent les catégories DB proches pour simplifier le choix
-const CATEGORIES = [
-  { value: "", label: "Toutes" },
-  // Par contexte — où tu la sors
-  { value: "SITUATION,OBSERVATIONNEL,CULTUREL", label: "Vie quotidienne" },
-  { value: "BOULOT", label: "Boulot & Collègues" },
-  { value: "COUPLE,DATING", label: "Couple & Dating" },
-  { value: "SOIREES", label: "Soirées & Apéro" },
-  { value: "ECOLE", label: "École & Études" },
-  { value: "PARENTS", label: "Famille" },
-  { value: "RESEAUX_SOCIAUX,GAMING", label: "Digital & Gaming" },
-  // Par style — comment elle marche
-  { value: "AUTODERISION", label: "Autodérision" },
-  { value: "ABSURDE", label: "Absurde" },
-  { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
-];
+// Filtres regroupés par contexte d'usage (où tu sors la vanne) : `config/vannes-categories.ts` depuis s25 (mêmes
+// valeurs), partagés avec la sélection des vannes gratuites de l'API.
+const CATEGORIES = CATEGORIES_VANNES;
 
 // Labels pour les badges individuels sur chaque carte (DB enum → label lisible)
 const CATEGORY_LABELS: Record<string, string> = {
@@ -193,7 +180,9 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
     <>
       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
       {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
-      {limited ? null : (
+      {/* Décision de Thomas du 14/11, interrupteur de l'espace ouvert : une seule rangée pour tous (visiteur, compte
+          gratuit, abonné), « Toutes » active par défaut ; fermé, réservée à l'abonné comme avant. */}
+      {limited && !ESPACE_CLIENT_PUBLIE ? null : (
         // Relecture des captures nav s24 (design 9) : interrupteur de l'espace ouvert, dès 1 024 px un fondu de 64 px
         // au lieu de 24 annonce la suite de la rangée (une seule rangée gardée, décision T3-07 de la revue s21).
         <div

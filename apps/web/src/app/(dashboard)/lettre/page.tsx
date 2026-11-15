@@ -9,6 +9,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { AvecContact } from "@/components/lettre/avec-contact";
 import { lireApercuLettre } from "@/lib/lettre/apercu";
 import { frPonctuation } from "@/lib/fr-typo";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 /**
  * Page de la lettre mensuelle (s21, spec §1.4 et §5) : présentation, formulaire,
@@ -36,6 +37,20 @@ type Params = { statut?: string; mesure?: string; emplacement?: string };
 
 export default async function LettrePage({ searchParams }: { searchParams: Params }) {
   const statut = typeof searchParams.statut === "string" ? searchParams.statut : null;
+
+  // Décision de Thomas du 14/11, interrupteur de l'espace ouvert : « La lettre » est une seule section pour tous.
+  // L'abonné actif y lit l'archive de toutes les lettres envoyées (ex-`/mon-espace/lettres`, qui renvoie ici) ; le
+  // visiteur, le compte gratuit et l'ancien abonné gardent la page d'inscription ci-dessous. Une adresse de statut
+  // (confirmation, désinscription, lien invalide…) garde son écran pour tous. Fermé : aucune lecture de session,
+  // page d'aujourd'hui ; garde et archive chargées à la demande, jamais fermé.
+  if (ESPACE_CLIENT_PUBLIE && !statut) {
+    const { lireAccesEspace } = await import("@/lib/espace/garde");
+    if ((await lireAccesEspace()).acces === "ouvert") {
+      const { LettresAbonne } = await import("@/components/espace/lettres-abonne");
+      return <LettresAbonne />;
+    }
+  }
+
   if (!LETTRE_INSCRIPTIONS_OUVERTES && !(statut && (STATUTS_TOUJOURS as readonly string[]).includes(statut))) notFound();
 
   const apercu = LETTRE_INSCRIPTIONS_OUVERTES ? await lireApercuLettre() : { dernier: null };

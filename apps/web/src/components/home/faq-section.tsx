@@ -1,4 +1,7 @@
 import { faqs } from "@/lib/faqs";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { COLONNE_LECTURE, MESURE_TEXTE } from "@/components/layout/gabarit";
@@ -25,8 +28,13 @@ interface FaqSectionProps {
  * s21 (QA m3) : plus de « use client » ; rendue par le serveur (accueil, listes), sans JS.
  * (passe s12 : UX T19/T46, design T11).
  */
-export function FaqSection({ items = faqs, title = "Questions fréquentes", align = "center" }: FaqSectionProps = {}) {
+export function FaqSection({ items, title = "Questions fréquentes", align = "center" }: FaqSectionProps = {}) {
   const left = align === "left";
+  const liste = items ?? faqs;
+  // Décision de Thomas du 14/11, interrupteur de l'espace ouvert : dans la FAQ de /parcours (seule page qui prend la
+  // liste par défaut, sans `items`), la question du prix (« {prix}, c'est vraiment tout ? ») n'est pas montrée à
+  // l'abonné : masquée dans le navigateur, HTML serveur et données structurées inchangés. Fermé : rien ne change.
+  const prixMasqueAbonne = ESPACE_CLIENT_PUBLIE && items === undefined;
   return (
     <div className={left ? undefined : COLONNE_LECTURE}>
       <h2
@@ -39,7 +47,8 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes", alig
         {title}
       </h2>
       <div className="space-y-4">
-        {items.map((faq) => (
+        {liste.map((faq) => {
+          const details = (
           <details
             key={faq.question}
             className="group rounded-xl border border-border bg-background-card"
@@ -59,7 +68,13 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes", alig
             </summary>
             <p className={cn("px-4 pb-4 text-sm text-text-secondary", MESURE_TEXTE)}>{frTypo(faq.answer)}</p>
           </details>
-        ))}
+          );
+          return prixMasqueAbonne && faq.question.startsWith(PREMIUM_PRICE_LABEL) ? (
+            <MasqueSiPremium key={faq.question}>{details}</MasqueSiPremium>
+          ) : (
+            details
+          );
+        })}
       </div>
     </div>
   );

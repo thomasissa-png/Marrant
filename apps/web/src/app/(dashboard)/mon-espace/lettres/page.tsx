@@ -1,45 +1,26 @@
 import type { Metadata } from "next";
-import { COLONNE_LECTURE } from "@/components/layout/gabarit";
-import { PageHeader } from "@/components/layout/page-header";
-import { RetourDe } from "@/components/espace/lien-retour";
+import { permanentRedirect } from "next/navigation";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
-import { prisma } from "@/lib/prisma";
 import { garderEspace } from "@/lib/espace/garde";
-import { listerLettres } from "@/lib/espace/lettres";
-import { TEXTES_LETTRES } from "@/config/textes/espace-bibliotheque";
-import { ArchiveLettres } from "@/components/espace/archive-lettres";
-import { compterAnonyme } from "@/lib/espace/compteurs";
-import { frEspaceProfond } from "@/lib/fr-typo";
-
-// Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
-const T = frEspaceProfond(TEXTES_LETTRES);
 
 /**
- * « Lettres » (s24, lot D6 ; architecture v20 2.8, ligne de « Plus », groupe « Le reste ») : toutes les
- * lettres envoyées, à tout abonné actif, lettres antérieures à son abonnement comprises ; une lettre n'y
- * entre qu'à son premier envoi réussi. Rendu : SSR dynamique (jamais en cache, l'horloge décide). Garde EN
- * PREMIER : 404 interrupteur fermé, archive illisible. Lot D10 (architecture 7.7 point 6) : chaque affichage
- * ajoute 1 au compteur ANONYME `ouverture` / `archive-lettres` (aucun compte), awaité avant le rendu.
+ * Ancienne adresse de l'archive « Lettres » (s24, lot D6). Décision de Thomas du 14/11 : « La lettre » est une
+ * seule section pour tous, à `/lettre` (abonné actif : l'archive, `components/espace/lettres-abonne.tsx` ; visiteur
+ * et compte gratuit : l'inscription). Cette adresse y renvoie par une redirection permanente (308) : un seul
+ * contenu, aucune copie à tenir à jour. Même garde que tout `/mon-espace` (et que son layout), EN PREMIER :
+ * interrupteur fermé, 404 avant toute lecture, comme avant ; ouvert, sans session : connexion puis retour ici ;
+ * sans abonnement : `/abonnement`, comme toute adresse de l'espace ; abonné : `/lettre`. Les fiches
+ * `/mon-espace/lettres/[numero]` gardent leur adresse et leur contenu (leur retour mène à `/lettre`).
+ * Rendu : dynamique (redirection à la requête).
  */
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return ESPACE_CLIENT_PUBLIE ? { title: T.titre } : METADONNEES_404;
+  return ESPACE_CLIENT_PUBLIE ? {} : METADONNEES_404;
 }
 
 export default async function LettresPage() {
   await garderEspace("/mon-espace/lettres");
-  const lettres = await listerLettres(prisma);
-  await compterAnonyme({ cle: "ouverture", valeur: "archive-lettres" });
-  return (
-    // Relecture des captures nav s24, tour 2 (design F2, F3) : gabarit B ; sans contenu, la page passe en colonne
-    // de lecture (retour, titre et état vide dans la même colonne de 768 px, jamais un titre à gauche et une carte
-    // centrée).
-    <div className={lettres.length === 0 ? COLONNE_LECTURE : undefined}>
-      <RetourDe chemin="/mon-espace/lettres" />
-      <PageHeader title={T.titre} />
-      <ArchiveLettres lettres={lettres} />
-    </div>
-  );
+  permanentRedirect("/lettre");
 }

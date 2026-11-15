@@ -73,7 +73,8 @@ export function LettreVue({ lettre }: { lettre: LettreLue }) {
     <article aria-labelledby="lettre-titre" className="flex flex-col gap-4">
       {/* Relecture des captures nav s24 (design 6, 7) : H1 de la taille des autres pages A, juste sous le retour. */}
       <div>
-        <LienRetour href={`${ESPACE_ACCUEIL}/lettres`} label={T.titre} />
+        {/* Décision de Thomas du 14/11 : la liste des lettres est à `/lettre` (une seule section pour tous). */}
+        <LienRetour href="/lettre" label={T.titre} />
         <h1 id="lettre-titre" className="font-display text-3xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-4xl">
           {lettre.objet}
         </h1>
