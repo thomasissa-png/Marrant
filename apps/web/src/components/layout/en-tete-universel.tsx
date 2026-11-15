@@ -123,8 +123,9 @@ export function EnTeteUniversel() {
       {menuOuvert && <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={() => fermerMenu(true)} />}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md" data-en-tete-universel={etat}>
         {/* s25 (relecture design F1) : barre ancrée à gauche, le premier lien au même x pour les 3 états à chaque
-            largeur ; le vide se loge entre les liens et la recherche (ou les actions sous 1280 px). */}
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-2 px-3 min-[360px]:px-4 sm:gap-4 md:px-6 xl:px-8">
+            largeur ; le vide se loge entre les liens et la recherche (ou les actions sous 1280 px). Tour 3 (design,
+            faute dure) : 16 px dès 320 px, le logo sur la verticale de la recherche et des lignes du menu (`px-4`). */}
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-2 px-4 sm:gap-4 md:px-6 xl:px-8">
           {/* §6 (ROUVRE) : le logo de l'abonné mène à « Aujourd'hui ». s25 (relecture tour 2, design F5, ux 7) : même
               anneau violet arrondi que les autres contrôles ; `-mx-1 px-1` donne 4 px d'air à l'anneau sans
               déplacer le texte d'un pixel. */}

@@ -32,7 +32,8 @@ import { cn } from "@/lib/utils";
 const FILET = "border-l-2 border-transparent";
 const ALLUMEE = "rounded-l-none border-accent-primary bg-background-elevated text-accent-link font-semibold";
 const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary";
-const LIGNE_ACTION = cn(FILET, "h-11 w-full justify-start gap-2 pl-[10px] font-medium text-text-secondary hover:text-text-primary");
+// Tour 3 (relecture design, piste) : 9 px entre l'icône et le libellé, le texte des actions à 53 px comme les entrées du rail.
+const LIGNE_ACTION = cn(FILET, "h-11 w-full justify-start gap-[9px] pl-[10px] font-medium text-text-secondary hover:text-text-primary");
 
 interface Props {
   etat: EtatLecteur;

@@ -289,7 +289,12 @@ test.describe("En-tête : budget de largeur", () => {
           const ici = `${etatMobile} à ${largeur} px`;
           const m = await mesurer(page);
           const tries = [...m.controles].sort((x, y) => x.gauche - y.gauche);
-          lignes.push(`état=${etatMobile} ; largeur=${largeur} ; défilement=${m.scroll}/${m.fenetre} ; marge-droite=${(m.fenetre - Math.max(...m.controles.map((c) => c.droite))).toFixed(1)}px`);
+          // s25 (relecture design tour 3, faute dure) : texte du logo à 16 px sous 768 px (recherche et lignes du menu
+          // aussi), 24 px de 768 à 1023 ; l'écart entre les deux derniers contrôles est noté (bouton d'offre et Menu).
+          const logo = Math.round(await barre.locator("a").first().locator("span").evaluate((el) => el.getBoundingClientRect().left));
+          expect(logo, `texte du logo, ${ici}`).toBe(largeur < 768 ? 16 : 24);
+          const ecart = tries.length > 1 ? (tries[tries.length - 1].gauche - tries[tries.length - 2].droite).toFixed(1) : "-";
+          lignes.push(`état=${etatMobile} ; largeur=${largeur} ; défilement=${m.scroll}/${m.fenetre} ; logo=${logo}px ; écart-avant-Menu=${ecart}px ; marge-droite=${(m.fenetre - Math.max(...m.controles.map((c) => c.droite))).toFixed(1)}px`);
           expect(m.scroll, `défilement horizontal, ${ici}`).toBeLessThanOrEqual(m.fenetre);
           expect(m.barre.scroll, `barre plus large que sa boîte, ${ici}`).toBeLessThanOrEqual(m.barre.client);
           for (let i = 0; i < tries.length; i++) {

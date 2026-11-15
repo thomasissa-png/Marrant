@@ -554,6 +554,105 @@ test.describe("navigation universelle v5 (s24)", () => {
       }
     });
 
+    // s25 tour 3 (relecture ux, critère 4) : le compte ouvert n'a plus la forme d'un onglet actif ; bas carré et filet
+    // violet réservés à l'adresse (/profil ; /favoris du compte gratuit renvoie vers /abonnement, non mesurable ici),
+    // ouvert = cloche ouverte. Lu une fois les transitions de couleur finies.
+    test("compte ouvert : rendu de la cloche ouverte sur /vannes, forme active seulement sur /profil (1280 px)", async ({ browser }) => {
+      const forme = async (el: Element) => {
+        await Promise.all(el.getAnimations().map((a) => a.finished));
+        const cs = getComputedStyle(el);
+        return { bas: cs.borderBottomLeftRadius, haut: cs.borderTopLeftRadius, filet: cs.borderBottomColor, fond: cs.backgroundColor, texte: cs.color, h: el.getBoundingClientRect().height };
+      };
+      for (const etat of ["PREMIUM", "FREE"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        await page.setViewportSize({ width: 1280, height: 900 });
+        await page.goto("/vannes");
+        await pret(page, etat);
+        const compte = page.getByRole("banner").getByRole("button", { name: TEXTES_CONNEXION.menuCompte });
+        const ferme = await compte.evaluate(forme);
+        await compte.click();
+        await expect(compte).toHaveAttribute("data-state", "open");
+        await page.mouse.move(0, 400);
+        const ouvert = await compte.evaluate(forme);
+        noter(`compte ouvert ; ${etat} ; /vannes ; ${JSON.stringify(ouvert)}`);
+        expect(ouvert.bas, `bas arrondi, compte ouvert non actif (${etat})`).toBe(ouvert.haut);
+        expect(ouvert.bas).not.toBe("0px");
+        expect(ouvert.filet, `pas de filet violet, compte ouvert non actif (${etat})`).toBe("rgba(0, 0, 0, 0)");
+        expect(ouvert.h, "hauteur inchangée à l'ouverture").toBe(ferme.h);
+        expect(ouvert.fond, "fond de survol à l'ouverture").not.toBe(ferme.fond);
+        await expect(compte).not.toHaveAttribute("aria-current", "page");
+        if (etat === "PREMIUM") {
+          await page.keyboard.press("Escape");
+          // Panneau modal ouvert, l'en-tête est masqué aux lecteurs d'écran : bouton lu par son attribut.
+          const cloche = page.locator("[data-en-tete-universel] button[aria-label^='Notifications']");
+          await cloche.click();
+          await expect(cloche).toHaveAttribute("aria-expanded", "true");
+          await page.mouse.move(0, 400);
+          const clocheOuverte = await cloche.evaluate(forme);
+          noter(`cloche ouverte ; ${JSON.stringify(clocheOuverte)}`);
+          // Filet exclu : la cloche n'a pas de bordure (couleur calculée = celle du texte), le compte un filet transparent.
+          const sansFilet = ({ bas, haut, fond, texte }: typeof ouvert) => ({ bas, haut, fond, texte });
+          expect(sansFilet(ouvert), "compte ouvert rendu comme la cloche ouverte").toEqual(sansFilet(clocheOuverte));
+          await page.keyboard.press("Escape");
+        }
+        for (const chemin of ["/profil"]) {
+          await page.goto(chemin);
+          await pret(page, etat);
+          await expect(compte).toHaveAttribute("aria-current", "page");
+          const actif = await compte.evaluate(forme);
+          await compte.click();
+          await page.mouse.move(0, 400);
+          const actifOuvert = await compte.evaluate(forme);
+          noter(`compte actif ; ${etat} ; ${chemin} ; ${JSON.stringify(actif)} ; ouvert ${JSON.stringify(actifOuvert)}`);
+          for (const f of [actif, actifOuvert]) {
+            expect(f.bas, `bas carré, compte actif (${etat}, ${chemin})`).toBe("0px");
+            expect(f.filet, `filet violet, compte actif (${etat}, ${chemin})`).not.toBe("rgba(0, 0, 0, 0)");
+          }
+          await page.keyboard.press("Escape");
+        }
+        await c.close();
+      }
+    });
+
+    // s25 tour 3 (relecture design, piste) : texte des actions à icône (Favoris, Mon profil, Déconnexion) sur la
+    // verticale du texte des entrées du rail de l'espace (abonné), à 320 et 375 px.
+    test("menu mobile : texte des actions à icône aligné sur les entrées du rail (320, 375 px)", async ({ browser }) => {
+      const xs: Record<string, number[]> = {};
+      for (const etat of ["PREMIUM", "FREE"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [320, 375]) {
+          await page.setViewportSize({ width: largeur, height: 812 });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+          const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+          await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          const mesures = await menu.evaluate((m) => {
+            const texte = (el: Element) => {
+              const t = Array.from(el.childNodes).find((n) => n.nodeType === 3 && n.textContent?.trim());
+              const r = document.createRange();
+              r.selectNodeContents(t!);
+              return Math.round(r.getBoundingClientRect().left);
+            };
+            return {
+              rail: Array.from(m.querySelectorAll("[data-menu-espace] ul a")).map(texte),
+              actions: Array.from(m.querySelectorAll("[data-actions-compte] > *")).map((e) => `${(e as HTMLElement).innerText.trim()}=${texte(e)}`),
+            };
+          });
+          noter(`texte des actions ; ${etat} ; ${largeur} px ; rail=${[...new Set(mesures.rail)].join(",")} ; ${mesures.actions.join(" ; ")}`);
+          for (const a of mesures.actions) (xs[`${etat}-${largeur}`] ??= []).push(Number(a.split("=")[1]));
+          if (etat === "PREMIUM") xs[`rail-${largeur}`] = [...new Set(mesures.rail)];
+        }
+        await c.close();
+      }
+      for (const largeur of [320, 375]) {
+        expect(xs[`rail-${largeur}`], `rail à ${largeur} px`).toEqual([53]);
+        for (const etat of ["PREMIUM", "FREE"]) expect(new Set(xs[`${etat}-${largeur}`]), `actions ${etat} à ${largeur} px`).toEqual(new Set([53]));
+      }
+    });
+
     // Tour 2 (design F1) : le H1 à la même hauteur sur toutes les pages de l'espace et sur les pages publiques
     // vues par l'abonné (favoris, profil, carnet, parcours), à ±0 px, à chaque largeur.
     test("H1 à la même hauteur sur toutes les pages de l'abonné (375, 768, 1024, 1280 px)", async ({ browser }) => {

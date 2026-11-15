@@ -61,8 +61,14 @@ export function AccountMenu({ universel }: { universel?: VarianteUniverselle } =
         className={cn(
           buttonVariants({ variant: "ghost", size: "sm" }),
           "h-11 w-11 shrink-0 px-0 data-[state=open]:bg-background-elevated",
-          universel && "rounded-b-none border-b-2",
-          universel && (universel.actif ? "border-accent-primary bg-background-elevated text-accent-link" : "border-transparent"),
+          // s25 (relecture ux tour 3, critère 4) : bas carré et filet violet réservés à l'état actif (adresse) ; ouvert
+          // sans être actif, même rendu que la cloche ouverte (coins arrondis, fond de survol, texte principal). Le
+          // filet transparent garde la hauteur.
+          universel && "border-b-2",
+          universel &&
+            (universel.actif
+              ? "rounded-b-none border-accent-primary bg-background-elevated text-accent-link"
+              : "border-transparent data-[state=open]:text-text-primary"),
         )}
       >
         <IconeProfil />
