@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import { PANNEAU_ELEVE } from "@/components/layout/panneau-eleve";
 
 interface SearchResult {
   id: string;
@@ -34,11 +35,38 @@ const LISTBOX_ID = "search-results-listbox";
  * s25 (relecture ux tour 9, critère 7) : `enTete`, posé par l'en-tête unique (barre et `#mobile-search`) seulement :
  * mêmes cibles de 44 px que dans le menu (puces et bouton « Voir {type} », texte inchangé), même anneau. Le site fermé
  * (`header.tsx`) ne le pose pas : rien ne change.
+ * s25 (relectures en-tête tour 10, ux 4-A, 4-B et 7, design F1 à F4), `enTete` et `dansMenu` seulement :
+ * - un seul comportement : la liste s'ouvre à la frappe ou à la flèche bas, pas au focus, et se referme quand le
+ *   focus quitte la recherche ; les options (puces, résultats) sont hors de l'ordre de tabulation (`tabIndex={-1}`,
+ *   flèches et `aria-activedescendant`) : Tab depuis le champ va au contrôle suivant de la barre ou du menu ;
+ * - liste au fini des panneaux cloche et compte (`PANNEAU_ELEVE`, `rounded-xl`, filet dégradé de 4 px), 8 px sous le
+ *   filet de l'en-tête (barre et `#mobile-search`), alignée à droite du champ et plus large en barre (le champ garde
+ *   ses 176 px, décision du 15/11) ; puces sur `bg-border-hover` ;
+ * - anneau collé de l'en-tête (2 px `accent-link`, intérieur, sans décalage) ; option active lisible sans la teinte
+ *   (même anneau) ; `id` de la liste et des options propres à chaque instance (`useId`, trois instances montées).
  */
-const PUCE_MENU =
-  "inline-flex min-h-11 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
-/** Bouton « Voir {type} » à 44 px de cible en hauteur, largeur du texte (la liste de la barre fait 176 px). */
+const ANNEAU = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link";
+const PUCE_MENU = cn("inline-flex min-h-11 items-center", ANNEAU);
+/** Bouton « Voir {type} » à 44 px de cible en hauteur, largeur du texte. */
 const VOIR_44 = cn(PUCE_MENU, "rounded-md");
+/** Option active au clavier (focus restant au champ) : anneau intérieur, lisible sans la teinte. */
+const ACTIVE = "ring-2 ring-inset ring-accent-link";
+/**
+ * Liste de l'en-tête : 8 px sous le filet bas de l'en-tête, comme cloche et compte. Barre (dès 1280 px) : champ de
+ * 44 px à 10 px du haut d'une barre de 65 px (filet compris) : 54 + 19 = 73. `#mobile-search` (sous 1280 px) :
+ * `py-3` + filet de 1 px + 8 px = 21 px sous le champ. En barre, bord droit sur celui du champ, 320 px (puces sur
+ * 2 lignes ; à 288 px, 3 lignes).
+ */
+const PANNEAU_EN_TETE = cn(
+  "absolute top-full z-50 mt-[21px] w-full overflow-hidden rounded-xl border border-border animate-fade-in",
+  "xl:left-auto xl:right-0 xl:mt-[19px] xl:w-80",
+  PANNEAU_ELEVE,
+);
+const PANNEAU_MENU = cn("absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-border animate-fade-in", PANNEAU_ELEVE);
+/** Filet dégradé de 4 px en tête de liste, comme `account-menu.tsx` et les cartes de l'accueil. */
+function Filet({ className }: { className?: string }) {
+  return <div aria-hidden="true" className={cn("h-1 bg-gradient-to-r from-accent-primary to-accent-secondary", className)} />;
+}
 
 export function SearchBar({
   className,
@@ -51,7 +79,11 @@ export function SearchBar({
   dansMenu?: boolean;
   enTete?: boolean;
 }) {
-  const cibles44 = dansMenu || enTete;
+  const compact = dansMenu || enTete;
+  const uid = useId();
+  const listboxId = compact ? `recherche${uid}liste` : LISTBOX_ID;
+  const idOption = (i: number) => (compact ? `recherche${uid}option-${i}` : `search-item-${i}`);
+  const panneau = enTete ? PANNEAU_EN_TETE : PANNEAU_MENU;
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -156,20 +188,20 @@ export function SearchBar({
     }
   };
 
-  const activeItemId = activeIndex >= 0 ? `search-item-${activeIndex}` : undefined;
+  const activeItemId = activeIndex >= 0 ? idOption(activeIndex) : undefined;
   const showSuggestions = isOpen && query.length < 2;
   const showNoResults = isOpen && query.length >= 2 && results.length === 0 && !isLoading;
   const showResults = isOpen && results.length > 0;
-  // Dans le menu, une pression sur la liste laisse le focus au champ : la fermeture à la sortie du focus ne retire
+  // Dans l'en-tête, une pression sur la liste laisse le focus au champ : la fermeture à la sortie du focus ne retire
   // pas la puce avant son clic (Safari ne donne pas le focus aux boutons).
-  const garderFocus = dansMenu ? { onMouseDown: (e: React.MouseEvent) => e.preventDefault() } : {};
+  const garderFocus = compact ? { onMouseDown: (e: React.MouseEvent) => e.preventDefault() } : {};
 
   return (
     <div
       ref={ref}
       className={cn("relative", className)}
       onBlur={
-        dansMenu
+        compact
           ? (e) => {
               if (!ref.current?.contains(e.relatedTarget as Node | null)) {
                 setIsOpen(false);
@@ -195,19 +227,19 @@ export function SearchBar({
           role="combobox"
           aria-label="Rechercher"
           aria-expanded={isOpen}
-          aria-controls={LISTBOX_ID}
+          aria-controls={listboxId}
           aria-activedescendant={activeItemId}
           aria-autocomplete="list"
           placeholder="Rechercher..."
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
-            if (dansMenu && e.target.value.length < 2) setIsOpen(true);
+            if (compact && e.target.value.length < 2) setIsOpen(true);
           }}
           onKeyDown={handleKeyDown}
           className="pl-10"
           onFocus={() => {
-            if (dansMenu) return;
+            if (compact) return;
             if (results.length > 0 || query.length < 2) setIsOpen(true);
           }}
         />
@@ -221,26 +253,30 @@ export function SearchBar({
       {/* Suggestions (when input focused, no query yet) */}
       {showSuggestions && (
         <div
-          id={LISTBOX_ID}
+          id={listboxId}
           {...garderFocus}
           role="listbox"
           aria-label="Suggestions de recherche"
-          className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-3 shadow-xl animate-fade-in"
+          className={compact ? cn(panneau, "p-3") : "absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-3 shadow-xl animate-fade-in"}
         >
+          {compact && <Filet className="-mx-3 -mt-3 mb-3" />}
           <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-muted">Suggestions</p>
           <div className="flex flex-wrap gap-1.5">
             {SUGGESTIONS.map((s, i) => (
               <button
                 key={s}
-                id={`search-item-${i}`}
+                id={idOption(i)}
                 role="option"
                 aria-selected={activeIndex === i}
+                tabIndex={compact ? -1 : undefined}
                 className={cn(
                   "rounded-md px-2.5 py-1 text-sm transition-colors",
-                  cibles44 && PUCE_MENU,
+                  compact && PUCE_MENU,
                   activeIndex === i
-                    ? "bg-accent-primary/10 text-accent-link"
-                    : "bg-background-elevated text-text-secondary hover:bg-background-light hover:text-text-primary"
+                    ? cn("bg-accent-primary/10 text-accent-link", compact && ACTIVE)
+                    : compact
+                      ? "bg-border-hover text-text-secondary hover:text-text-primary"
+                      : "bg-background-elevated text-text-secondary hover:bg-background-light hover:text-text-primary"
                 )}
                 onClick={() => setQuery(s)}
                 onMouseEnter={() => setActiveIndex(i)}
@@ -255,22 +291,24 @@ export function SearchBar({
       {/* Grouped results */}
       {showResults && (
         <div
-          id={LISTBOX_ID}
+          id={listboxId}
           {...garderFocus}
           role="listbox"
           aria-label="Résultats de recherche"
-          className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card shadow-xl animate-fade-in"
+          className={compact ? panneau : "absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card shadow-xl animate-fade-in"}
         >
+          {compact && <Filet />}
           {grouped.map(({ type, items }) => {
             const meta = TYPE_META[type];
             return (
               <div key={type}>
-                <div className={cn("flex items-center justify-between px-4", cibles44 ? "pt-1" : "pt-3 pb-1")}>
-                  <span className={cn("text-xs font-semibold uppercase tracking-wider", meta.color)}>
+                <div className={cn("flex items-center justify-between px-4", compact ? "pt-1" : "pt-3 pb-1")}>
+                  {/* Fond élevé : « Conseils » en `accent-link` (`accent-secondary` #6D28D9 : 2:1 sur #2A2A2A). */}
+                  <span className={cn("text-xs font-semibold uppercase tracking-wider", compact && type === "TIP" ? "text-accent-link" : meta.color)}>
                     {meta.label}s ({items.length})
                   </span>
                   <button
-                    className={cn("text-xs text-text-muted hover:text-accent-link transition-colors", cibles44 && VOIR_44)}
+                    className={cn("text-xs text-text-muted hover:text-accent-link transition-colors", compact && VOIR_44)}
                     onClick={() => navigate(`${meta.href}?q=${encodeURIComponent(query)}`)}
                   >
                     Voir {meta.pluralLabel}
@@ -281,12 +319,16 @@ export function SearchBar({
                   return (
                     <button
                       key={`${result.type}-${result.id}`}
-                      id={`search-item-${idx}`}
+                      id={idOption(idx)}
                       role="option"
                       aria-selected={activeIndex === idx}
+                      tabIndex={compact ? -1 : undefined}
                       className={cn(
                         "flex w-full items-start gap-3 px-4 py-2.5 text-left transition-colors",
-                        activeIndex === idx ? "bg-background-elevated" : "hover:bg-background-elevated"
+                        // En-tête : `accent-primary/10` (#342F3E) garde le texte gris à 4,6:1 ; `border-hover` le baisserait à 4.
+                        compact
+                          ? activeIndex === idx && cn("bg-accent-primary/10", ACTIVE)
+                          : activeIndex === idx ? "bg-background-elevated" : "hover:bg-background-elevated"
                       )}
                       onClick={() => handleSelect(result)}
                       onMouseEnter={() => setActiveIndex(idx)}
@@ -314,12 +356,13 @@ export function SearchBar({
       {/* No results + suggestions */}
       {showNoResults && (
         <div
-          id={LISTBOX_ID}
+          id={listboxId}
           {...garderFocus}
           role="listbox"
           aria-label="Aucun résultat"
-          className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-4 shadow-xl animate-fade-in"
+          className={compact ? cn(panneau, "p-4") : "absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-4 shadow-xl animate-fade-in"}
         >
+          {compact && <Filet className="-mx-4 -mt-4 mb-4" />}
           <p className="text-center text-sm text-text-muted">
             Rien trouvé pour &laquo;&nbsp;{query}&nbsp;&raquo;. Essaie une de ces pistes&nbsp;:
           </p>
@@ -329,7 +372,7 @@ export function SearchBar({
                 key={s}
                 className={cn(
                   "rounded-md bg-background-elevated px-2.5 py-1 text-xs text-text-secondary transition-colors hover:bg-background-light hover:text-text-primary",
-                  cibles44 && PUCE_MENU,
+                  compact && cn(PUCE_MENU, "bg-border-hover hover:bg-border-hover"),
                 )}
                 onClick={() => setQuery(s)}
               >

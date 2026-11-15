@@ -1054,6 +1054,9 @@ test.describe("navigation universelle v5 (s24)", () => {
           await expect(ligne, `Tab depuis le champ ${ici}`).toBeFocused();
           await page.keyboard.press("Shift+Tab");
           await expect(champ).toBeFocused();
+          // Pointeur hors de la liste avant qu'elle s'ouvre (le clic de la largeur précédente l'a laissé sur l'emplacement
+          // d'une puce : Chrome la survole à l'apparition, survol = option active).
+          await page.mouse.move(0, 0);
           await page.keyboard.type("r");
           await expect(suggestions, `ouvertes à la frappe ${ici}`).toBeVisible();
           const puces = await suggestions.evaluate((l) => {
@@ -1069,12 +1072,16 @@ test.describe("navigation universelle v5 (s24)", () => {
             expect(p.h, `puce de 44 px, sur une ligne ${ici}`).toBe(44);
             expect(Math.min(p.g, p.d), `puce dans la liste ${ici}`).toBeGreaterThanOrEqual(12);
           }
-          await page.keyboard.press("Tab");
+          // Tour 10 (ux 4-A) : puces hors de l'ordre de tabulation (flèches et `aria-activedescendant`) ; Tab depuis le
+          // champ, liste ouverte, va à la ligne suivante et referme la liste. Flèche bas : anneau violet sur la puce active.
+          await page.keyboard.press("ArrowDown");
           const premiere = suggestions.getByRole("option").first();
-          await expect(premiere).toBeFocused();
+          await expect(premiere).toHaveAttribute("aria-selected", "true");
+          await expect(champ).toHaveAttribute("aria-activedescendant", (await premiere.getAttribute("id"))!);
           expect(await premiere.evaluate((e) => getComputedStyle(e).boxShadow), `anneau violet ${ici}`).toContain("rgb(167, 139, 250)");
-          for (let i = 0; i < 6; i++) await page.keyboard.press("Tab");
-          await expect(ligne, `après la dernière puce ${ici}`).toBeFocused();
+          expect(await suggestions.getByRole("option").evaluateAll((os) => os.map((o) => o.getAttribute("tabindex"))), `puces hors Tab ${ici}`).toEqual(Array(6).fill("-1"));
+          await page.keyboard.press("Tab");
+          await expect(ligne, `Tab depuis le champ, liste ouverte ${ici}`).toBeFocused();
           await expect(suggestions, `refermées hors de la recherche ${ici}`).toHaveCount(0);
           // Pression sur une puce : le focus reste au champ, la puce s'applique.
           await champ.focus();
@@ -1088,12 +1095,15 @@ test.describe("navigation universelle v5 (s24)", () => {
           await page.keyboard.press("Escape");
           await expect(menu).toHaveCount(0);
         }
-        // Barre dès 1280 px : suggestions ouvertes au focus ; puces à 44 px depuis le tour 9 (`enTete`, test dédié).
+        // Barre dès 1280 px : depuis le tour 10 (ux 4-A), même comportement que le menu (rien au focus, flèche bas
+        // ouvre) ; puces à 44 px depuis le tour 9 (`enTete`) ; Tab hors de la recherche : test « tour 10 ».
         await page.setViewportSize({ width: 1280, height: 900 });
         await page.goto("/vannes");
         await pret(page, etat);
         await page.getByRole("banner").getByRole("combobox").first().focus();
         const barre = page.getByRole("banner").getByRole("listbox", { name: "Suggestions de recherche" });
+        await expect(barre, `rien au focus en barre (${etat})`).toHaveCount(0);
+        await page.keyboard.press("ArrowDown");
         await expect(barre).toBeVisible();
         const hauteur = await barre.getByRole("option").first().evaluate((e) => e.getBoundingClientRect().height);
         expect(hauteur, `puces de la barre à 44 px (${etat})`).toBe(44);
@@ -1555,6 +1565,8 @@ test.describe("navigation universelle v5 (s24)", () => {
       const champ = page.getByRole("banner").getByRole("combobox").first();
       const hauteurs = (l: ReturnType<Page["getByRole"]>) => l.locator("button").evaluateAll((bs) => bs.map((b) => b.getBoundingClientRect().height));
       await champ.focus();
+      // Tour 10 (ux 4-A) : liste ouverte à la flèche bas, plus au focus.
+      await page.keyboard.press("ArrowDown");
       const suggestions = page.getByRole("banner").getByRole("listbox", { name: "Suggestions de recherche" });
       await expect(suggestions).toBeVisible();
       const hs = await hauteurs(suggestions);
@@ -1587,6 +1599,188 @@ test.describe("navigation universelle v5 (s24)", () => {
       const ha = await hauteurs(aucun);
       expect(ha.length).toBe(4);
       for (const h of ha) expect(h, "puce de relance").toBeGreaterThanOrEqual(44);
+      await c.close();
+    });
+
+    // s25 tour 10 (relectures ux 4-A, 4-B et pistes 7 ; design F1 à F4) : liste de suggestions de la barre et de la loupe.
+    // Rien au focus, Tab depuis le champ va au contrôle suivant de la barre et referme la liste ; liste alignée à droite du
+    // champ (176 px inchangés), 320 px, puces sur 2 lignes au plus, dans la coque ; fini des panneaux cloche et compte
+    // (fond élevé, rayon 12 px, filet de 4 px) ; 8 px sous le filet de l'en-tête ; anneau intérieur collé.
+    test("tour 10 : liste de suggestions de la barre, Tab, largeur, finition, anneau (1280 px, 3 comptes)", async ({ browser }) => {
+      const LIEN = "rgb(167, 139, 250)";
+      for (const etat of ["visiteur", "FREE", "PREMIUM"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        await page.setViewportSize({ width: 1280, height: 900 });
+        await page.goto("/vannes");
+        await pret(page, etat);
+        const barre = page.getByRole("banner");
+        const champ = barre.getByRole("combobox").first();
+        const liste = barre.getByRole("listbox", { name: "Suggestions de recherche" });
+        const ici = `(${etat}, 1280 px)`;
+        await champ.focus();
+        await expect(liste, `rien au focus ${ici}`).toHaveCount(0);
+        await page.keyboard.press("ArrowDown");
+        await expect(liste).toBeVisible();
+        await liste.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+        const m = await liste.evaluate((l, champId) => {
+          const r = l.getBoundingClientRect();
+          const ch = document.querySelector(`[aria-controls="${champId}"]`)!.getBoundingClientRect();
+          const coque = document.querySelector("header > div")!;
+          const sc = getComputedStyle(coque);
+          const cq = coque.getBoundingClientRect();
+          const en = document.querySelector("header")!.getBoundingClientRect();
+          const s = getComputedStyle(l);
+          const filet = l.firstElementChild as HTMLElement;
+          const tops = new Set(Array.from(l.querySelectorAll("[role='option']")).map((o) => Math.round(o.getBoundingClientRect().top)));
+          return {
+            gauche: r.left, droite: r.right, largeur: r.width, haut: r.top, champG: ch.left, champD: ch.right, champL: ch.width,
+            coqueG: cq.left + parseFloat(sc.paddingLeft), coqueD: cq.right - parseFloat(sc.paddingRight), filetEnTete: en.bottom,
+            fond: s.backgroundColor, rayon: s.borderTopLeftRadius, filetH: filet.getBoundingClientRect().height, filetImage: getComputedStyle(filet).backgroundImage,
+            lignes: tops.size, fenetre: window.innerWidth,
+          };
+        }, await champ.getAttribute("aria-controls"));
+        noter(`tour 10 ; liste de la barre ; ${ici} ; ${JSON.stringify(m)}`);
+        expect(m.champL, `champ à 176 px ${ici}`).toBe(176);
+        expect(Math.abs(m.droite - m.champD), `bord droit sur celui du champ ${ici}`).toBeLessThanOrEqual(0.5);
+        expect(m.largeur, `liste de 320 px ${ici}`).toBe(320);
+        expect(m.gauche, `dans la coque ${ici}`).toBeGreaterThanOrEqual(m.coqueG);
+        expect(m.droite, `dans la coque ${ici}`).toBeLessThanOrEqual(m.coqueD);
+        expect(m.lignes, `puces sur 2 lignes au plus ${ici}`).toBeLessThanOrEqual(2);
+        expect(m.haut - m.filetEnTete, `8 px sous le filet de l'en-tête ${ici}`).toBeGreaterThanOrEqual(8);
+        expect(m.fond, `fond élevé ${ici}`).toBe("rgb(42, 42, 42)");
+        expect(m.rayon, `rounded-xl ${ici}`).toBe("12px");
+        expect(m.filetH, `filet de 4 px ${ici}`).toBe(4);
+        expect(m.filetImage, `filet dégradé ${ici}`).toContain("linear-gradient");
+        // Option active (flèche bas) : anneau intérieur collé de 2 px, lisible sans la teinte ; options hors Tab.
+        const active = liste.getByRole("option").first();
+        await expect(active).toHaveAttribute("aria-selected", "true");
+        await expect(champ).toHaveAttribute("aria-activedescendant", (await active.getAttribute("id"))!);
+        const a = await active.evaluate(anneaux);
+        noter(`tour 10 ; puce active ; ${ici} ; ${JSON.stringify(a)}`);
+        expect(a.map((x) => [x.couleur, x.epaisseur, x.inset]), `un anneau collé ${ici}`).toEqual([[LIEN, 2, true]]);
+        expect(await liste.getByRole("option").evaluateAll((os) => os.map((o) => o.getAttribute("tabindex"))), `options hors Tab ${ici}`).toEqual(Array(6).fill("-1"));
+        // Tab depuis le champ : contrôle suivant de la barre, liste refermée.
+        const suivant = etat === "visiteur" ? barre.getByRole("link", { name: TEXTES_CONNEXION.lienConnexionMobile, exact: true }) : etat === "FREE" ? barre.locator("[data-en-tete-prix]") : barre.getByRole("button", { name: /^Notifications/ });
+        await page.keyboard.press("Tab");
+        await expect(suivant, `Tab depuis le champ ${ici}`).toBeFocused();
+        await expect(liste, `liste refermée ${ici}`).toHaveCount(0);
+        // « Voir {type} » au clavier : même anneau, collé.
+        const reponse = page.waitForResponse((r) => r.url().includes("/api/search"));
+        await champ.fill("re");
+        await reponse;
+        const resultats = barre.getByRole("listbox", { name: "Résultats de recherche" });
+        await expect(resultats).toBeVisible();
+        await page.keyboard.press("Tab");
+        const voir = resultats.getByRole("button", { name: /^Voir / }).first();
+        await expect(voir).toBeFocused();
+        expect((await voir.evaluate(anneaux)).map((x) => [x.couleur, x.epaisseur, x.inset]), `« Voir », anneau collé ${ici}`).toEqual([[LIEN, 2, true]]);
+        await c.close();
+      }
+    });
+
+    // s25 tour 10 (design F1) : sous la loupe (`#mobile-search`), la liste est posée 8 px sous le filet de l'en-tête.
+    test("tour 10 : liste sous la loupe, 8 px sous le filet de l'en-tête (440, 768, 1024 px)", async ({ browser }) => {
+      for (const etat of ["visiteur", "PREMIUM"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [440, 768, 1024]) {
+          await page.setViewportSize({ width: largeur, height: 900 });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          await page.getByRole("banner").getByRole("button", { name: "Rechercher", exact: true }).click();
+          const zone = page.locator("#mobile-search");
+          await zone.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          const champ = zone.getByRole("combobox");
+          await expect(champ).toBeFocused();
+          const liste = zone.getByRole("listbox", { name: "Suggestions de recherche" });
+          await expect(liste, `rien au focus (${etat}, ${largeur} px)`).toHaveCount(0);
+          await page.keyboard.press("ArrowDown");
+          await expect(liste).toBeVisible();
+          await liste.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          const m = await liste.evaluate((l) => ({ haut: l.getBoundingClientRect().top, filet: document.querySelector("header")!.getBoundingClientRect().bottom, lignes: new Set(Array.from(l.querySelectorAll("[role='option']")).map((o) => Math.round(o.getBoundingClientRect().top))).size }));
+          noter(`tour 10 ; liste sous la loupe ; ${etat} ; ${largeur} px ; ${JSON.stringify(m)}`);
+          expect(m.haut - m.filet, `8 px sous le filet (${etat}, ${largeur} px)`).toBeGreaterThanOrEqual(8);
+          expect(m.lignes, `puces sur 2 lignes au plus (${etat}, ${largeur} px)`).toBeLessThanOrEqual(2);
+        }
+        await c.close();
+      }
+    });
+
+    // s25 tour 10 (ux piste 7) : `id` de la liste et des options propres à chaque instance de la recherche (barre, loupe,
+    // menu), `aria-controls` et `aria-activedescendant` sur la liste et l'option de la même instance.
+    test("tour 10 : id uniques des listes de recherche, aria-controls cohérent (375, 768 px)", async ({ browser }) => {
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      for (const [largeur, ouvrir] of [[768, "Rechercher"], [375, "Menu"]] as const) {
+        await page.setViewportSize({ width: largeur, height: 812 });
+        await page.goto("/vannes");
+        await pret(page, "PREMIUM");
+        await page.getByRole("banner").getByRole("button", { name: ouvrir, exact: true }).click();
+        const champ = page.getByRole("combobox").filter({ visible: true });
+        await expect(champ).toHaveCount(1);
+        await champ.focus();
+        await page.keyboard.press("ArrowDown");
+        const m = await page.evaluate(() => {
+          const ids = Array.from(document.querySelectorAll("[id]")).map((e) => e.id);
+          const champs = Array.from(document.querySelectorAll("[role='combobox']")).map((e) => e.getAttribute("aria-controls"));
+          const visible = Array.from(document.querySelectorAll<HTMLElement>("[role='combobox']")).find((e) => e.getBoundingClientRect().width > 0)!;
+          const liste = document.getElementById(visible.getAttribute("aria-controls")!);
+          const active = document.getElementById(visible.getAttribute("aria-activedescendant") ?? "");
+          return { doublons: ids.filter((id, i) => ids.indexOf(id) !== i), champs, liste: liste?.getAttribute("role"), activeDansListe: !!active && !!liste?.contains(active), controle: visible.getAttribute("aria-controls") };
+        });
+        noter(`tour 10 ; id ; ${largeur} px ; ${JSON.stringify(m)}`);
+        expect(m.doublons, `aucun id en double (${largeur} px)`).toEqual([]);
+        expect(m.champs.length, `plusieurs instances montées (${largeur} px)`).toBeGreaterThanOrEqual(2);
+        expect(new Set(m.champs).size, `aria-controls distincts (${largeur} px)`).toBe(m.champs.length);
+        expect(m.liste, `aria-controls vise la liste ouverte (${largeur} px)`).toBe("listbox");
+        expect(m.activeDansListe, `option active dans cette liste (${largeur} px)`).toBe(true);
+      }
+      await c.close();
+    });
+
+    // s25 tour 10 (design F5) : dans le menu mobile, l'anneau des lignes commence au même x que celui de la recherche
+    // (filet transparent de 2 px retiré au focus et rendu en padding) ; le texte des lignes ne bouge pas au focus.
+    test("tour 10 : menu mobile, anneau des lignes au x de la recherche, texte immobile (375 px)", async ({ browser }) => {
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/vannes");
+      await pret(page, "PREMIUM");
+      await page.getByRole("banner").getByRole("button", { name: "Menu" }).focus();
+      await page.keyboard.press("Enter");
+      const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+      await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+      const champ = menu.getByRole("combobox");
+      await page.keyboard.press("Tab");
+      await expect(champ).toBeFocused();
+      const xChamp = await champ.evaluate((e) => e.getBoundingClientRect().left);
+      // Texte d'une ligne : premier nœud de texte non vide, mesuré par un Range.
+      const texte = (el: Element) => {
+        const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.textContent?.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP) });
+        const r = document.createRange();
+        r.selectNodeContents(w.nextNode()!);
+        return r.getBoundingClientRect().left;
+      };
+      const lignes = [
+        { nom: "Mon espace", el: menu.getByRole("link", { name: N.monEspace, exact: true }), x: xChamp },
+        { nom: "entrée du rail", el: menu.getByRole("link", { name: N.index.quoiRepondre, exact: true }), x: null },
+        { nom: "Parcours", el: menu.getByRole("link", { name: "Parcours", exact: true }), x: xChamp },
+        { nom: "Vannes (allumée)", el: menu.getByRole("link", { name: "Vannes", exact: true }), x: xChamp },
+      ];
+      for (const l of lignes) {
+        const avant = await l.el.evaluate(texte);
+        await tabJusqua(page, l.el);
+        await expect.poll(() => l.el.evaluate((e) => e.matches(":focus-visible"))).toBe(true);
+        const m = await l.el.evaluate((e) => ({ gauche: e.getBoundingClientRect().left, bord: getComputedStyle(e).borderLeftWidth }));
+        const apres = await l.el.evaluate(texte);
+        const a = await l.el.evaluate(anneaux);
+        noter(`tour 10 ; menu, anneau ; ${l.nom} ; champ=${xChamp} ; ${JSON.stringify(m)} ; texte ${avant} -> ${apres}`);
+        expect(m.bord, `filet retiré au focus (${l.nom})`).toBe("0px");
+        if (l.x !== null) expect(m.gauche, `anneau au x de la recherche (${l.nom})`).toBe(l.x);
+        expect(apres, `texte immobile (${l.nom})`).toBe(avant);
+        expect(a.map((x) => [x.epaisseur, x.inset]), `anneau intérieur de 2 px (${l.nom})`).toEqual([[2, true]]);
+      }
       await c.close();
     });
   });

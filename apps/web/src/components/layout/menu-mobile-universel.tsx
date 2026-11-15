@@ -42,7 +42,11 @@ const FILET = "border-l-2 border-transparent";
 const ALLUMEE = "rounded-l-none border-accent-primary bg-background-elevated text-accent-link font-semibold";
 // s25 (relecture design tour 7, F2) : anneau unique de l'en-tête (`panneau-eleve.ts`), intérieur dans le menu, coins
 // arrondis au focus même sur les lignes à coins gauches droits (rail, ligne allumée).
-const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link focus-visible:ring-offset-0 focus-visible:rounded-lg";
+// s25 (relecture design tour 10, F5) : au focus, le filet transparent de 2 px (`FILET`) est retiré et rendu en padding
+// (`pl-[10px]` + 2 = `pl-3`) : l'anneau commence au bord de la ligne (x = 16, comme celui de la recherche), le texte ne
+// bouge pas. Entrées du rail : `pl-[23px]` + 2 = `pl-[25px]` (`FOCUS_RAIL`).
+const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link focus-visible:ring-offset-0 focus-visible:rounded-lg focus-visible:border-l-0 focus-visible:pl-3";
+const FOCUS_RAIL = cn(FOCUS, "focus-visible:pl-[25px]");
 // Tour 3 (relecture design, piste) : 9 px entre l'icône et le libellé, le texte des actions à 53 px comme les entrées du rail.
 /** Air sous la ligne allumée amenée dans la vue à l'ouverture (relecture design tour 7, P1). */
 const MARGE_BASSE = 16;
@@ -131,7 +135,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
                     // Filet posé sur le rail (`-ml-px`) : la ligne allumée le recouvre, le texte reste à 24 px du rail.
                     "-ml-px flex h-11 items-center rounded-r-lg pl-[23px] pr-3 text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary",
                     FILET,
-                    FOCUS,
+                    FOCUS_RAIL,
                     ligne === e.cle && ALLUMEE,
                   )}
                 >
