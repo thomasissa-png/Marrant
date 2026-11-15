@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LettrePageInscription } from "@/components/lettre/lettre-page-inscription";
 import { LettreStatut } from "@/components/lettre/lettre-statut";
+import { LettreCorpsApercu } from "@/components/lettre/lettre-corps-apercu";
 import { LETTRE_EMPLACEMENTS, LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { AvecContact } from "@/components/lettre/avec-contact";
@@ -109,7 +110,13 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
             {TEXTES_LETTRE.page.dernierNumero}
           </h2>
           <p className="mt-2 font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
-          <div className="mt-2 whitespace-pre-line text-text-secondary">{frPonctuation(apercu.dernier.bodyText)}</div>
+          {/* v6 tour 2, point 8 (ouvert seulement) : plus de débordement à 375 px, adresses brutes en liens courts.
+              Fermé : inchangé (le même débordement y existe, correctif soumis à Thomas). */}
+          {ESPACE_CLIENT_PUBLIE ? (
+            <LettreCorpsApercu texte={apercu.dernier.bodyText} />
+          ) : (
+            <div className="mt-2 whitespace-pre-line text-text-secondary">{frPonctuation(apercu.dernier.bodyText)}</div>
+          )}
         </section>
       )}
     </div>

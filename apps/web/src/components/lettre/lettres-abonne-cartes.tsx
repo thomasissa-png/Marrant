@@ -18,19 +18,23 @@ const CARTE_LETTRE = cn(
  * « La lettre » vue par l'abonné actif à `/lettre` (décision de Thomas du 14/11), v6 tour 1, point 10 : même
  * lecture, même compteur anonyme et même état vide que l'ex-`LettresAbonne` (retiré à l'intégration), mais le H1 reprend le libellé
  * validé de la bande (« La lettre », `TEXTES_LETTRE.menu`) et chaque lettre envoyée est une carte à filet de
- * l'accueil (grille dès 768 px). Rendu serveur, appelé seulement par `app/(dashboard)/lettre/page.tsx`,
+ * l'accueil. v6 tour 2, point 9 : une colonne centrée `max-w-3xl` à toutes les largeurs (plus de tiers droit
+ * vide à 1280 et plus), H1 centré comme l'accueil, cartes deux par ligne dès 640 px, hauteur minimale pour
+ * éviter le trou avant le pied de page. Rendu serveur, appelé seulement par `app/(dashboard)/lettre/page.tsx`,
  * interrupteur ouvert, pour un abonné actif.
  */
 export async function LettresAbonneCartes() {
   const lettres = await listerLettres(prisma);
   await compterAnonyme({ cle: "ouverture", valeur: "archive-lettres" });
   return (
-    <div className={lettres.length === 0 ? COLONNE_LECTURE : undefined} data-lettres-abonne>
-      <PageHeader title={TEXTES_LETTRE.menu} />
+    <div className={cn(COLONNE_LECTURE, "min-h-[60vh]")} data-lettres-abonne>
+      <div className="text-center">
+        <PageHeader title={TEXTES_LETTRE.menu} />
+      </div>
       {lettres.length === 0 ? (
         <ArchiveLettres lettres={lettres} />
       ) : (
-        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-4 sm:grid-cols-2">
           {lettres.map((l) => (
             <li key={l.numero}>
               <Link href={hrefLettre(l.numero)} data-lettre={l.numero} className={CARTE_LETTRE}>

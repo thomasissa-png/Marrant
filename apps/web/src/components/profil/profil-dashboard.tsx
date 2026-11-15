@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CARTE_A_FILET, Card, CardContent, CardHeader, CardTitle, FiletCarte } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { progressionParcoursLabel } from "@/config/textes/accessibilite";
 import { StreakCounter } from "@/components/ui/streak-counter";
 import { useUserStore } from "@/stores/user-store";
-import { USER_LEVELS } from "@/lib/utils";
+import { USER_LEVELS, cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
 import Link from "next/link";
 import { buildLoginUrl } from "@/lib/auth-links";
@@ -164,8 +164,75 @@ export function ProfilDashboard() {
   const isPremium = user.plan === "PREMIUM";
   const parcoursEnCours = isPremium && parcoursProgress.some((p) => !p.completedAt && p.completedSteps < p.totalSteps);
 
+  // Prochaine étape : recommandation personnalisée. s17 tour 1 (UXV-1-09) : masquée quand
+  // un parcours est en cours, « Reprendre ton parcours » (en tête de page) suffit.
+  const prochaineEtape = (
+    !parcoursEnCours && (
+        <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
+          <CardHeader>
+            <CardTitle>Prochaine étape</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className={ESPACE_CLIENT_PUBLIE ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "grid gap-4 sm:grid-cols-2 lg:grid-cols-3"}>
+              {user.stats.tipsCompleted < 3 && (
+                <Link href="/conseils" className="group">
+                  <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                    <p className="font-semibold text-accent-link">Apprends les bases</p>
+                    <p className="mt-1 text-sm text-text-secondary">
+                      Commence par la répartie et le timing : les deux réflexes qui changent le plus vite une conversation.
+                    </p>
+                  </div>
+                </Link>
+              )}
+              {user.stats.jokesRead < 10 && (
+                <Link href="/vannes" className="group">
+                  <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                    <p className="font-semibold text-accent-link">Enrichis ton répertoire</p>
+                    <p className="mt-1 text-sm text-text-secondary">
+                      Pioche des vannes par situation et garde de côté celles que tu te vois déjà ressortir.
+                    </p>
+                  </div>
+                </Link>
+              )}
+              {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length === 0 && (
+                <Link href="/parcours" className="group">
+                  <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                    <p className="font-semibold text-accent-link">Lance-⁠toi dans un parcours</p>
+                    <p className="mt-1 text-sm text-text-secondary">
+                      Tu as les bases. Un parcours te donne un fil à suivre, une étape après l’autre.
+                    </p>
+                  </div>
+                </Link>
+              )}
+              {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length > 0 && (
+                <Link href="/conseils" className="group">
+                  <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                    <p className="font-semibold text-accent-link">Approfondis tes techniques</p>
+                    <p className="mt-1 text-sm text-text-secondary">
+                      Tu as les bases : passe aux conseils avancés, ceux qui font la différence entre drôle et vraiment drôle.
+                    </p>
+                  </div>
+                </Link>
+              )}
+              <Link href="/videos" className="group">
+                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                  <p className="font-semibold text-accent-link">Regarde les pros</p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    Décortique les techniques des meilleurs humoristes, puis pique-⁠leur ce qui te va.
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+        )
+  );
+
   return (
     <div className={grilleProfil()}>
+      {/* v6 tour 2, point 13 (interrupteur ouvert) : « Prochaine étape » en tête pour tous, nouvel abonné compris
+          (même ordre que pour un compte sans abonnement : l'action d'abord, les compteurs à zéro ensuite). Fermé : inchangé. */}
+      {ESPACE_CLIENT_PUBLIE && prochaineEtape}
       {isPremium && (
         <>
       {/* s24 lot D4 : espace ouvert, la carte « Ton cap » remplace la carte « Progression » (fermé : inchangé). */}
@@ -325,67 +392,8 @@ export function ProfilDashboard() {
         </>
       )}
 
-      {/* Prochaine étape : recommandation personnalisée. s17 tour 1 (UXV-1-09) : masquée quand
-          un parcours est en cours, « Reprendre ton parcours » (en tête de page) suffit. */}
-      {!parcoursEnCours && (
-      <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
-        <CardHeader>
-          <CardTitle>Prochaine étape</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className={ESPACE_CLIENT_PUBLIE ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "grid gap-4 sm:grid-cols-2 lg:grid-cols-3"}>
-            {user.stats.tipsCompleted < 3 && (
-              <Link href="/conseils" className="group">
-                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-link">Apprends les bases</p>
-                  <p className="mt-1 text-sm text-text-secondary">
-                    Commence par la répartie et le timing : les deux réflexes qui changent le plus vite une conversation.
-                  </p>
-                </div>
-              </Link>
-            )}
-            {user.stats.jokesRead < 10 && (
-              <Link href="/vannes" className="group">
-                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-link">Enrichis ton répertoire</p>
-                  <p className="mt-1 text-sm text-text-secondary">
-                    Pioche des vannes par situation et garde de côté celles que tu te vois déjà ressortir.
-                  </p>
-                </div>
-              </Link>
-            )}
-            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length === 0 && (
-              <Link href="/parcours" className="group">
-                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-link">Lance-⁠toi dans un parcours</p>
-                  <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases. Un parcours te donne un fil à suivre, une étape après l’autre.
-                  </p>
-                </div>
-              </Link>
-            )}
-            {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length > 0 && (
-              <Link href="/conseils" className="group">
-                <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-link">Approfondis tes techniques</p>
-                  <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases : passe aux conseils avancés, ceux qui font la différence entre drôle et vraiment drôle.
-                  </p>
-                </div>
-              </Link>
-            )}
-            <Link href="/videos" className="group">
-              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                <p className="font-semibold text-accent-link">Regarde les pros</p>
-                <p className="mt-1 text-sm text-text-secondary">
-                  Décortique les techniques des meilleurs humoristes, puis pique-⁠leur ce qui te va.
-                </p>
-              </div>
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
-      )}
+      {/* Prochaine étape, interrupteur fermé : à sa place d'avant (après les cartes Premium). */}
+      {!ESPACE_CLIENT_PUBLIE && prochaineEtape}
 
       {/* Abonnement (s16 reco 11 : formule, échéance, impayé, changer de formule) */}
       <AbonnementCard
@@ -397,7 +405,15 @@ export function ProfilDashboard() {
 
       {/* s22 : « Ta question à l'équipe », Premium seulement, sous la carte abonnement. Absente interrupteur fermé.
           s24 lot D10 (plan §6 T8) : espace ouvert, l'encadré devient une ligne de lien vers « Mes questions ». */}
-      {isPremium && (ESPACE_CLIENT_PUBLIE ? <LigneMesQuestions className="md:col-span-2" /> : <QuestionEquipeCard className="md:col-span-2" />)}
+      {/* v6 tour 2, point 13 : la ligne prend le cadre à filet des autres cartes du profil (`CARTE_A_FILET` + filet,
+          carte intérieure en `rounded-xl` : même rendu qu'une `Card filet`), sans titre nouveau. La ligne elle-même
+          (`components/espace/profil/ligne-mes-questions.tsx`) n'est pas touchée. */}
+      {isPremium && (ESPACE_CLIENT_PUBLIE ? (
+        <div className={cn("md:col-span-2", CARTE_A_FILET)} data-profil-questions-cadre="">
+          <FiletCarte />
+          <LigneMesQuestions className="rounded-xl" />
+        </div>
+      ) : <QuestionEquipeCard className="md:col-span-2" />)}
 
       {/* s21 : lettre de la semaine (Premium), sous la carte abonnement (spec US-H2). Absente interrupteur fermé. */}
       <LettreHebdoReglage className="md:col-span-2" />
