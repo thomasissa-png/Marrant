@@ -108,12 +108,12 @@ tailwind.config = {
   var iconDots = '<svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>';
 
   /* Rubriques de la spec v6 §1 : ordre unique pour les 3 états */
-  var G1 = [["Aujourd'hui","aujourdhui"],["Parcours",null],["Quoi répondre","apercu"],["Bibliothèque",null],["S’entraîner",null]];
+  var G1 = [["Aujourd’hui","aujourdhui"],["Parcours",null],["Quoi répondre","apercu"],["Bibliothèque",null],["S’entraîner",null]];
   var G2 = [["Vannes","vannes"],["Conseils",null],["Vidéos",null],["Articles",null],["La lettre",null]];
   var G3 = [["Favoris",null],["Carnet",null]];
   var PLUS = ["Mes questions","Mes répliques"];
-  var PRIO = ["Aujourd'hui","Vannes","Parcours","Quoi répondre","Conseils","Bibliothèque","S’entraîner","Vidéos","Articles","La lettre","Favoris","Carnet"];
-  var actif = {aujourdhui:"Aujourd'hui", vannes:"Vannes", apercu:"Quoi répondre"}[page];
+  var PRIO = ["Aujourd’hui","Vannes","Parcours","Quoi répondre","Conseils","Bibliothèque","S’entraîner","Vidéos","Articles","La lettre","Favoris","Carnet"];
+  var actif = {aujourdhui:"Aujourd’hui", vannes:"Vannes", apercu:"Quoi répondre"}[page];
   var rubParam = q.get("rub");
   var plusOn = rubParam==="plus";
   if(rubParam==="aucun" || plusOn){ actif = null; }
@@ -133,7 +133,7 @@ tailwind.config = {
     return G1.map(function(l){return chip(l,1);}).join('')+sp(1)+G2.map(function(l){return chip(l,2);}).join('')+sp(2)+G3.map(function(l){return chip(l,3);}).join('');
   }
   function dots(row){
-    return '<button type="button" aria-label="Plus" aria-haspopup="menu" aria-expanded="false"'+(plusOn?' aria-current="true"':'')+' data-row="'+(row?1:0)+'" class="plusbtn '+(plusOn?'on ':'')+(V==="d"?'ml-auto':'ml-1')+' inline-flex h-11 w-11 flex-none items-center justify-center '+(V==="b"?'rounded-full':'rounded-lg')+' text-text-secondary hover:text-text-primary">'+iconDots+'</button>';
+    return '<button type="button" aria-label="Plus" aria-haspopup="menu" aria-expanded="false"'+(plusOn?' aria-current="true"':'')+' data-row="'+(row?1:0)+'" class="plusbtn '+(plusOn?'on ':'')+'ml-1'+' inline-flex h-11 w-11 flex-none items-center justify-center '+(V==="b"?'rounded-full':'rounded-lg')+' text-text-secondary hover:text-text-primary">'+iconDots+'</button>';
   }
 
   var boutonOffre = abonne ? '' :
@@ -159,7 +159,7 @@ tailwind.config = {
   if(V==="b"){
     band = '<div class="py-2"><nav aria-label="Rubriques" class="'+wrapPad+'"><div id="rub" class="rub flex w-fit max-w-full items-center overflow-x-auto rounded-full bg-white/[.04] px-1">'+seq()+dots(false)+'</div></nav></div>';
   } else if(V==="d"){
-    band = '<div class="pb-2 md:pb-3 md:pt-1.5"><nav aria-label="Rubriques" class="'+wrapPad+'"><div id="rub" class="rub scroll-px-10 flex w-full items-center overflow-x-auto rounded-xl bg-background-light px-1">'+seq()+dots(false)+'</div></nav></div>';
+    band = '<div class="pb-2 md:pb-3 md:pt-1.5"><nav aria-label="Rubriques" class="'+wrapPad+'"><div class="flex w-full items-center rounded-xl bg-background-light px-1"><div id="rub" class="rub scroll-px-10 flex min-w-0 flex-1 items-center overflow-x-auto">'+seq()+'</div>'+dots(false)+'</div></nav></div>';
   } else {
     band = '<nav aria-label="Rubriques" class="'+wrapPad+(V==="c"?' xl:hidden':'')+'"><div id="rub" class="rub -mx-3 flex items-center overflow-x-auto">'+seq()+dots(false)+'</div></nav>';
   }
@@ -237,7 +237,7 @@ tailwind.config = {
         for(var dx=0; dx<=40; dx+=8){
           rub.scrollLeft = base+dx;
           var coupe = [].some.call(rub.querySelectorAll(".chip"), function(c){
-            var r = c.getBoundingClientRect(); return r.left < bord-24 && r.right > bord; });
+            var r = c.getBoundingClientRect(); return r.left < bord-8 && r.left >= bord-40 && r.right > bord; });
           if(coupe) break;
         }
       }
@@ -300,7 +300,7 @@ tailwind.config = {
       courant = b; b.setAttribute("aria-expanded","true");
       lignes(b.dataset.row==="1");
       var r = b.getBoundingClientRect();
-      menu.style.top = (r.bottom+4)+"px";
+      menu.style.top = (r.bottom+(V==="d"?8:4))+"px";
       var mw = menu.offsetWidth;
       menu.style.left = Math.max(8, Math.min(r.right-mw, innerWidth-mw-8))+"px";
     }
