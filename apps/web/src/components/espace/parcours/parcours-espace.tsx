@@ -82,8 +82,9 @@ export function ParcoursEspace() {
   return (
     <>
     {/* Le H1 « Parcours » était réservé aux lecteurs d'écran (lot D5) : il est maintenant visible. Sous 300 px
-        (200 % de texte), plus petit et plus serré, pour garder la liste dans les deux premiers écrans (N2). */}
-    <h1 className="mb-8 font-display text-3xl font-bold md:mb-10 md:text-4xl max-e300:mb-3 max-e300:text-2xl">{P.titrePage}</h1>
+        (200 % de texte), plus petit et plus serré, pour garder la liste dans les deux premiers écrans (N2). v6 tour 3
+        (arbitrage 1) : centré comme l'accueil et les rubriques de l'espace (rendu interrupteur ouvert seulement). */}
+    <h1 className="mb-8 text-center font-display text-3xl font-bold md:mb-10 md:text-4xl max-e300:mb-3 max-e300:text-2xl">{P.titrePage}</h1>
     <div className="mb-8 flex flex-col gap-6 max-e300:mb-3 max-e300:gap-2" aria-busy={etat === "attente" || undefined} data-testid="parcours-espace">
       {/* Arbitrage @ux D4 n°1 (lot D5) : l'introduction publique est masquée pour l'abonné ; il garde un h1. */}
       <AnnonceCap annonce={caps?.annonce ?? null} retour={() => reprendre.current} />

@@ -23,8 +23,11 @@ type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
  * résiliation, depuis « Mon profil ») : ni modification, la suppression reste. Cibles de 44 px.
  * v6 tour 3 (arbitrage 3) : `grille` (page « Mes répliques » seulement, interrupteur ouvert) : les répliques en grille
  * pleine coque (`md:grid-cols-2 xl:grid-cols-3`, cartes de même hauteur, actions en bas) ; l'état vide en colonne
- * centrée `mx-auto max-w-3xl`. Sans `grille` (historique en lecture seule du profil) : le rendu d'avant.
+ * centrée `mx-auto max-w-3xl`, comme une réplique seule (une carte de 389 px calée à gauche d'une grille de trois
+ * colonnes laissait les deux tiers vides, mesuré à 1280). Sans `grille` (historique du profil) : le rendu d'avant.
  */
+const GRILLE_REPLIQUES = "grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3";
+const COLONNE_CENTREE = "mx-auto flex w-full max-w-3xl flex-col gap-3";
 export function ListeRepliques({
   initiales,
   lectureSeule,
@@ -84,7 +87,7 @@ export function ListeRepliques({
           )}
         </div>
       ) : (
-        <ul className={grille ? "grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" : "flex flex-col gap-3"}>
+        <ul className={!grille ? "flex flex-col gap-3" : liste.length > 1 ? GRILLE_REPLIQUES : COLONNE_CENTREE}>
           {liste.map((r) => {
             const enEdition = mode?.ficheId === r.ficheId && mode.quoi === "modifier";
             const enConfirmation = mode?.ficheId === r.ficheId && mode.quoi === "confirmer";

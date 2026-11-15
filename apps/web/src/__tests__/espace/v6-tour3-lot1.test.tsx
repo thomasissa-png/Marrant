@@ -51,6 +51,12 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
     expect(lire(`app/(dashboard)/mon-espace/${f}`)).toContain("[&>header]:text-center");
   });
 
+  it("/parcours abonné (`ParcoursEspace`, rendu ouvert seulement) : H1 centré", () => {
+    const source = lire("components/espace/parcours/parcours-espace.tsx");
+    expect(source).toContain('<h1 className="mb-8 text-center font-display text-3xl');
+    expect(source).toContain("if (!ESPACE_CLIENT_PUBLIE || !premium) return null;");
+  });
+
   it("Aujourd'hui : l'en-tête de la page centré", () => {
     expect(lire("app/(dashboard)/mon-espace/page.tsx")).toContain('<header className="mb-8 text-center md:mb-10">');
   });
@@ -87,11 +93,16 @@ describe("point 2 : S'entraîner, cartes jumelles de même hauteur, carte seule 
 describe("point 3 : Mes répliques, grille pleine coque, état vide centré", () => {
   const r = { ficheId: "f1", texte: "Ma réplique", titre: null, href: null, modifieLe: "2026-11-15" };
 
-  it("page : grille ; liste en `md:grid-cols-2 xl:grid-cols-3`, cartes de même hauteur", () => {
-    render(<ListeRepliques initiales={[r]} lectureSeule={false} grille />);
+  it("page : grille dès deux répliques (`md:grid-cols-2 xl:grid-cols-3`, cartes de même hauteur)", () => {
+    render(<ListeRepliques initiales={[r, { ...r, ficheId: "f2" }]} lectureSeule={false} grille />);
     const ul = screen.getByRole("list");
     expect(classes(ul)).toEqual(expect.arrayContaining(["grid", "md:grid-cols-2", "xl:grid-cols-3"]));
     expect(classes(ul.querySelector("li"))).toEqual(expect.arrayContaining(["flex", "flex-col"]));
+  });
+
+  it("page, une seule réplique : colonne centrée `mx-auto max-w-3xl` (jamais une carte calée à gauche)", () => {
+    render(<ListeRepliques initiales={[r]} lectureSeule={false} grille />);
+    expect(classes(screen.getByRole("list"))).toEqual(expect.arrayContaining(["mx-auto", "max-w-3xl"]));
   });
 
   it("page, sans réplique : l'état vide en colonne centrée `mx-auto max-w-3xl`", () => {
