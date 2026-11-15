@@ -481,6 +481,38 @@ test.describe("navigation universelle v6 (s25)", () => {
       await c.close();
     });
 
+    // Intégration s25 (lots A et B) : la v5 réservait au-dessus du titre la place du « Retour : Mon espace » (ou du fil
+    // d'Ariane) pour que tous les H1 soient à la même hauteur ; la v6 retire retour, fil d'Ariane et place réservée sur
+    // les rubriques de premier niveau. Équivalent v6 : leurs H1 restent alignés entre eux, pour l'abonné (rubriques) et
+    // pour le visiteur (aperçus), à 375 et 1280 px. Visiteur, hors comparaison : /lettre (page d'inscription, `py-10`)
+    // et /carnet (surtitre du mois au-dessus du titre) ont leur propre en-tête de page, inchangé par la v6 (mesuré :
+    // +40 et +28 px) ; abonné, toutes les rubriques sont comparées.
+    test("§4 : H1 des rubriques de premier niveau à la même hauteur entre elles (abonné, visiteur ; 375 et 1280 px)", async ({ browser }) => {
+      const PREMIER_NIVEAU = ["/mon-espace", "/parcours", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/vannes", "/conseils", "/videos", "/blog", "/lettre", "/favoris", "/carnet", "/mon-espace/questions", "/mon-espace/repliques"];
+      for (const etat of ["PREMIUM", "visiteur"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [375, 1280]) {
+          await page.setViewportSize({ width: largeur, height: 900 });
+          const hauts: Record<string, number> = {};
+          for (const chemin of PREMIER_NIVEAU) {
+            await page.goto(chemin);
+            await pret(page, etat);
+            const h1 = page.locator("main h1").first();
+            await expect(h1, `${chemin} (${etat}, ${largeur} px)`).toBeVisible();
+            hauts[chemin] = await h1.evaluate((e) => Math.round((e.getBoundingClientRect().top + window.scrollY) * 10) / 10);
+          }
+          noter(`§4 ; H1 ; ${etat} ; ${largeur} px ; ${JSON.stringify(hauts)}`);
+          const reference = hauts["/mon-espace"];
+          for (const [chemin, haut] of Object.entries(hauts)) {
+            if (etat === "visiteur" && (chemin === "/lettre" || chemin === "/carnet")) continue;
+            expect(Math.abs(haut - reference), `H1 de ${chemin} à la hauteur de celui d'Aujourd'hui (${etat}, ${largeur} px)`).toBeLessThanOrEqual(1);
+          }
+        }
+        await c.close();
+      }
+    });
+
     test("critère 6 : clavier dans la bande, anneau `accent-link` intérieur de 2 px, rubrique amenée dans la vue (375 px)", async ({ browser }) => {
       const c = await contexte(browser, "visiteur");
       const page = await c.newPage();
@@ -997,78 +1029,90 @@ test.describe("navigation universelle v6 (s25)", () => {
     // s25 tour 10 (relectures ux 4-A, 4-B et pistes 7 ; design F1 à F4) : liste de suggestions de la barre et de la loupe.
     // Rien au focus, Tab depuis le champ va au contrôle suivant de la barre et referme la liste ; liste alignée à droite du
     // champ (176 px inchangés), 320 px, puces sur 2 lignes au plus, dans la coque ; fini des panneaux cloche et compte
-    // (fond élevé, rayon 12 px, filet de 4 px) ; 8 px sous le filet de l'en-tête ; anneau intérieur collé.
-    test("tour 10 : liste de suggestions de la barre, Tab, largeur, finition, anneau (1280 px, 3 comptes)", async ({ browser }) => {
+    // (fond élevé, rayon 12 px, filet de 4 px) ; anneau intérieur collé.
+    // v6 (intégration s25) : placement mesuré à toutes les largeurs où le champ est dans la rangée (768 à 1920 px) :
+    // 8 px sous la rangée du haut, par-dessus la bande des rubriques ; le reste (clavier, anneau, résultats) à 1280 px.
+    test("tour 10 : liste de suggestions de la barre, Tab, largeur, finition, anneau (768 à 1920 px, 3 comptes)", async ({ browser }) => {
       const LIEN = "rgb(167, 139, 250)";
       for (const etat of ["visiteur", "FREE", "PREMIUM"] as const) {
         const c = await contexte(browser, etat);
         const page = await c.newPage();
-        await page.setViewportSize({ width: 1280, height: 900 });
-        await page.goto("/vannes");
-        await pret(page, etat);
-        const barre = page.getByRole("banner");
-        const champ = barre.getByRole("combobox").first();
-        const liste = barre.getByRole("listbox", { name: "Suggestions de recherche" });
-        const ici = `(${etat}, 1280 px)`;
-        await champ.focus();
-        await expect(liste, `rien au focus ${ici}`).toHaveCount(0);
-        await page.keyboard.press("ArrowDown");
-        await expect(liste).toBeVisible();
-        await liste.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
-        const m = await liste.evaluate((l, champId) => {
-          const r = l.getBoundingClientRect();
-          const ch = document.querySelector(`[aria-controls="${champId}"]`)!.getBoundingClientRect();
-          const coque = document.querySelector("header > div")!;
-          const sc = getComputedStyle(coque);
-          const cq = coque.getBoundingClientRect();
-          const en = document.querySelector("header")!.getBoundingClientRect();
-          const s = getComputedStyle(l);
-          const filet = l.firstElementChild as HTMLElement;
-          const tops = new Set(Array.from(l.querySelectorAll("[role='option']")).map((o) => Math.round(o.getBoundingClientRect().top)));
-          return {
-            gauche: r.left, droite: r.right, largeur: r.width, haut: r.top, champG: ch.left, champD: ch.right, champL: ch.width,
-            coqueG: cq.left + parseFloat(sc.paddingLeft), coqueD: cq.right - parseFloat(sc.paddingRight), filetEnTete: en.bottom, rangee: cq.bottom,
-            fond: s.backgroundColor, rayon: s.borderTopLeftRadius, filetH: filet.getBoundingClientRect().height, filetImage: getComputedStyle(filet).backgroundImage,
-            lignes: tops.size, fenetre: window.innerWidth,
-          };
-        }, await champ.getAttribute("aria-controls"));
-        noter(`tour 10 ; liste de la barre ; ${ici} ; ${JSON.stringify(m)}`);
-        expect(m.champL, `champ à 176 px ${ici}`).toBe(176);
-        expect(Math.abs(m.droite - m.champD), `bord droit sur celui du champ ${ici}`).toBeLessThanOrEqual(0.5);
-        expect(m.largeur, `liste de 320 px ${ici}`).toBe(320);
-        expect(m.gauche, `dans la coque ${ici}`).toBeGreaterThanOrEqual(m.coqueG);
-        expect(m.droite, `dans la coque ${ici}`).toBeLessThanOrEqual(m.coqueD);
-        expect(m.lignes, `puces sur 2 lignes au plus ${ici}`).toBeLessThanOrEqual(2);
-        // v6 : le filet de l’en-tête est sous la bande ; la liste tombe du champ, 8 px au moins sous la rangée (au-dessus
-        // de la bande, en surimpression). Décalages de `search-bar.tsx` (v5) à revoir pour la v6 : hors du lot A.
-        expect(m.haut - m.rangee, `8 px sous la rangée ${ici}`).toBeGreaterThanOrEqual(8);
-        expect(m.fond, `fond élevé ${ici}`).toBe("rgb(42, 42, 42)");
-        expect(m.rayon, `rounded-xl ${ici}`).toBe("12px");
-        expect(m.filetH, `filet de 4 px ${ici}`).toBe(4);
-        expect(m.filetImage, `filet dégradé ${ici}`).toContain("linear-gradient");
-        // Option active (flèche bas) : anneau intérieur collé de 2 px, lisible sans la teinte ; options hors Tab.
-        const active = liste.getByRole("option").first();
-        await expect(active).toHaveAttribute("aria-selected", "true");
-        await expect(champ).toHaveAttribute("aria-activedescendant", (await active.getAttribute("id"))!);
-        const a = await active.evaluate(anneaux);
-        noter(`tour 10 ; puce active ; ${ici} ; ${JSON.stringify(a)}`);
-        expect(a.map((x) => [x.couleur, x.epaisseur, x.inset]), `un anneau collé ${ici}`).toEqual([[LIEN, 2, true]]);
-        expect(await liste.getByRole("option").evaluateAll((os) => os.map((o) => o.getAttribute("tabindex"))), `options hors Tab ${ici}`).toEqual(Array(6).fill("-1"));
-        // Tab depuis le champ : contrôle suivant de la barre, liste refermée.
-        const suivant = etat === "visiteur" ? barre.getByRole("link", { name: TEXTES_CONNEXION.lienConnexionMobile, exact: true }) : etat === "FREE" ? barre.locator("[data-en-tete-prix]") : barre.getByRole("button", { name: /^Notifications/ });
-        await page.keyboard.press("Tab");
-        await expect(suivant, `Tab depuis le champ ${ici}`).toBeFocused();
-        await expect(liste, `liste refermée ${ici}`).toHaveCount(0);
-        // « Voir {type} » au clavier : même anneau, collé.
-        const reponse = page.waitForResponse((r) => r.url().includes("/api/search"));
-        await champ.fill("re");
-        await reponse;
-        const resultats = barre.getByRole("listbox", { name: "Résultats de recherche" });
-        await expect(resultats).toBeVisible();
-        await page.keyboard.press("Tab");
-        const voir = resultats.getByRole("button", { name: /^Voir / }).first();
-        await expect(voir).toBeFocused();
-        expect((await voir.evaluate(anneaux)).map((x) => [x.couleur, x.epaisseur, x.inset]), `« Voir », anneau collé ${ici}`).toEqual([[LIEN, 2, true]]);
+        for (const largeur of [768, 1024, 1279, 1280, 1456, 1920]) {
+          await page.setViewportSize({ width: largeur, height: 900 });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          const barre = page.getByRole("banner");
+          const champ = barre.getByRole("combobox").first();
+          const liste = barre.getByRole("listbox", { name: "Suggestions de recherche" });
+          const ici = `(${etat}, ${largeur} px)`;
+          await champ.focus();
+          await expect(liste, `rien au focus ${ici}`).toHaveCount(0);
+          await page.keyboard.press("ArrowDown");
+          await expect(liste).toBeVisible();
+          await liste.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          const m = await liste.evaluate((l, champId) => {
+            const r = l.getBoundingClientRect();
+            const ch = document.querySelector(`[aria-controls="${champId}"]`)!.getBoundingClientRect();
+            const coque = document.querySelector("header > div")!;
+            const sc = getComputedStyle(coque);
+            const cq = coque.getBoundingClientRect();
+            const en = document.querySelector("header")!.getBoundingClientRect();
+            const s = getComputedStyle(l);
+            const filet = l.firstElementChild as HTMLElement;
+            const tops = new Set(Array.from(l.querySelectorAll("[role='option']")).map((o) => Math.round(o.getBoundingClientRect().top)));
+            // Par-dessus la bande : au milieu de la bande, sous la liste, l'élément visible est dans la liste.
+            const bande = document.querySelector("[data-bande-rubriques]")!.getBoundingClientRect();
+            const yBande = (bande.top + bande.bottom) / 2;
+            const dessus = yBande < r.bottom ? l.contains(document.elementFromPoint(r.left + r.width / 2, yBande)) : null;
+            return {
+              gauche: r.left, droite: r.right, largeur: r.width, haut: r.top, champG: ch.left, champD: ch.right, champL: ch.width,
+              coqueG: cq.left + parseFloat(sc.paddingLeft), coqueD: cq.right - parseFloat(sc.paddingRight), filetEnTete: en.bottom, rangee: cq.bottom,
+              bandeHaut: bande.top, dessus,
+              fond: s.backgroundColor, rayon: s.borderTopLeftRadius, filetH: filet.getBoundingClientRect().height, filetImage: getComputedStyle(filet).backgroundImage,
+              lignes: tops.size, fenetre: window.innerWidth,
+            };
+          }, await champ.getAttribute("aria-controls"));
+          noter(`tour 10 ; liste de la barre ; ${ici} ; ${JSON.stringify(m)}`);
+          expect(m.champL, `champ à 176 px ${ici}`).toBe(176);
+          expect(Math.abs(m.droite - m.champD), `bord droit sur celui du champ ${ici}`).toBeLessThanOrEqual(0.5);
+          expect(m.largeur, `liste de 320 px ${ici}`).toBe(320);
+          expect(m.gauche, `dans la coque ${ici}`).toBeGreaterThanOrEqual(m.coqueG);
+          expect(m.droite, `dans la coque ${ici}`).toBeLessThanOrEqual(m.coqueD);
+          expect(m.lignes, `puces sur 2 lignes au plus ${ici}`).toBeLessThanOrEqual(2);
+          // v6 : le filet de l’en-tête est sous la bande ; la liste tombe du champ, 8 px sous la rangée du haut, donc
+          // au-dessus du bas de la bande, posée par-dessus elle (surimpression).
+          expect(Math.abs(m.haut - m.rangee - 8), `8 px sous la rangée ${ici}`).toBeLessThanOrEqual(0.5);
+          expect(m.haut, `liste posée sur la bande, pas sous l'en-tête ${ici}`).toBeLessThan(m.filetEnTete);
+          expect(m.dessus, `liste par-dessus la bande ${ici}`).toBe(true);
+          expect(m.fond, `fond élevé ${ici}`).toBe("rgb(42, 42, 42)");
+          expect(m.rayon, `rounded-xl ${ici}`).toBe("12px");
+          expect(m.filetH, `filet de 4 px ${ici}`).toBe(4);
+          expect(m.filetImage, `filet dégradé ${ici}`).toContain("linear-gradient");
+          // Option active (flèche bas) : anneau intérieur collé de 2 px, lisible sans la teinte ; options hors Tab.
+          const active = liste.getByRole("option").first();
+          await expect(active).toHaveAttribute("aria-selected", "true");
+          await expect(champ).toHaveAttribute("aria-activedescendant", (await active.getAttribute("id"))!);
+          const a = await active.evaluate(anneaux);
+          noter(`tour 10 ; puce active ; ${ici} ; ${JSON.stringify(a)}`);
+          expect(a.map((x) => [x.couleur, x.epaisseur, x.inset]), `un anneau collé ${ici}`).toEqual([[LIEN, 2, true]]);
+          expect(await liste.getByRole("option").evaluateAll((os) => os.map((o) => o.getAttribute("tabindex"))), `options hors Tab ${ici}`).toEqual(Array(6).fill("-1"));
+          if (largeur !== 1280) continue;
+          // Tab depuis le champ : contrôle suivant de la barre, liste refermée.
+          const suivant = etat === "visiteur" ? barre.getByRole("link", { name: TEXTES_CONNEXION.lienConnexionMobile, exact: true }) : etat === "FREE" ? barre.locator("[data-en-tete-prix]") : barre.getByRole("button", { name: /^Notifications/ });
+          await page.keyboard.press("Tab");
+          await expect(suivant, `Tab depuis le champ ${ici}`).toBeFocused();
+          await expect(liste, `liste refermée ${ici}`).toHaveCount(0);
+          // « Voir {type} » au clavier : même anneau, collé.
+          const reponse = page.waitForResponse((r) => r.url().includes("/api/search"));
+          await champ.fill("re");
+          await reponse;
+          const resultats = barre.getByRole("listbox", { name: "Résultats de recherche" });
+          await expect(resultats).toBeVisible();
+          await page.keyboard.press("Tab");
+          const voir = resultats.getByRole("button", { name: /^Voir / }).first();
+          await expect(voir).toBeFocused();
+          expect((await voir.evaluate(anneaux)).map((x) => [x.couleur, x.epaisseur, x.inset]), `« Voir », anneau collé ${ici}`).toEqual([[LIEN, 2, true]]);
+        }
         await c.close();
       }
     });

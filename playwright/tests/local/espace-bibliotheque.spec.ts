@@ -5,6 +5,7 @@ import { test, expect, localSeulement, creerCompte, connecter, requete } from ".
 import { TEXTES_BIBLIOTHEQUE as BI, TEXTES_BILAN as B, TEXTES_COIN as N, TEXTES_LETTRES as L, TEXTES_QUOI_REPONDRE as Q } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CARTES as C } from "@/config/textes/espace-cartes";
 import { TEXTES_ESPACE_NAVIGATION as NAV } from "@/config/textes/espace-navigation";
+import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { frEspace } from "@/lib/fr-typo";
 
 /**
@@ -84,8 +85,12 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/mon-espace/quoi-repondre");
       await expect(page.getByRole("heading", { level: 1, name: frEspace(Q.titre) })).toBeVisible();
-      // Navigation universelle v5 §4.3 : page B de l'espace, « Retour : Mon espace ».
-      await expect(page.locator("main [data-lien-retour]")).toHaveText(new RegExp(`^Retour\\s:\\s${NAV.monEspace}$`));
+      // Navigation v6 §4 (remplace le « Retour : Mon espace » de la v5 §4.3) : plus de retour sur une rubrique de premier
+      // niveau ; la bande est le retour (Aujourd'hui à un toucher) et y allume « Quoi répondre ».
+      await expect(page.locator("main [data-lien-retour]")).toHaveCount(0);
+      const bandeQ = page.getByRole("navigation", { name: NAV.bande.nom });
+      await expect(bandeQ.getByRole("link", { name: NAV.index.quoiRepondre, exact: true })).toHaveAttribute("aria-current", "page");
+      await expect(bandeQ.getByRole("link", { name: NAV.bande.aujourdhui, exact: true })).toHaveAttribute("href", "/mon-espace");
       await expect(page.locator('[data-fiche="coloc-la-poele"]')).toBeVisible();
       await expect(page.locator('[data-fiche="apres-l-expose"]')).toHaveCount(0);
       await capturer(page, "quoi-repondre-liste");
@@ -206,7 +211,7 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await expect(page.locator("[data-coin]")).toHaveCount(0);
     });
 
-    test("index « Dans ton espace » (ancien menu « Plus ») ; Lettres vide sans lettre envoyée", async ({ browser, page }) => {
+    test("bande des rubriques (ex-index « Dans ton espace », ancien menu « Plus ») ; Lettres vide sans lettre envoyée", async ({ browser, page }) => {
       await page.context().addCookies((await compte(browser)).cookies);
       await page.setViewportSize({ width: 1280, height: 900 });
       await page.goto("/mon-espace/lettres");
@@ -217,10 +222,21 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await expect(page.getByRole("link", { name: frEspace(L.allerAujourdhui) })).toHaveAttribute("href", "/mon-espace");
       await capturer(page, "lettres-vide", CAPTURES_D5B);
       await page.setViewportSize({ width: 1280, height: 900 });
-      // Navigation universelle v5 §4.2 : plus de menu « Plus », ses lignes sont dans l'index de « Aujourd'hui ».
+      // Navigation v6 §4 (remplace l'index « Dans ton espace » de la v5 §4.2) : plus d'index sur « Aujourd'hui » ; ses
+      // lignes sont dans la bande des rubriques, toujours affichée : S'entraîner et Favoris en rubriques, Mes répliques
+      // sous « … », « Lettres » fusionnée avec « La lettre » (/lettre, décision du 14/11).
       await page.goto("/mon-espace");
-      const index = page.locator("[data-index-espace]");
-      for (const l of [NAV.index.sEntrainer, NAV.index.favoris, NAV.index.mesRepliques, NAV.index.lettres]) await expect(index.getByRole("link", { name: frEspace(l) })).toBeVisible();
+      await expect(page.locator("[data-index-espace]")).toHaveCount(0);
+      const bande = page.getByRole("navigation", { name: NAV.bande.nom });
+      for (const [l, href] of [[NAV.index.sEntrainer, "/mon-espace/s-entrainer"], [NAV.index.favoris, "/favoris"], [TEXTES_LETTRE.menu, "/lettre"]] as const) {
+        const lien = bande.getByRole("link", { name: l, exact: true });
+        await expect(lien).toBeVisible();
+        await expect(lien).toHaveAttribute("href", href);
+      }
+      await bande.getByRole("button", { name: NAV.bande.plus, exact: true }).click();
+      const repliques = bande.getByRole("list", { name: NAV.bande.listePlus }).getByRole("link", { name: NAV.index.mesRepliques, exact: true });
+      await expect(repliques).toBeVisible();
+      await expect(repliques).toHaveAttribute("href", "/mon-espace/repliques");
       await capturer(page, "index-espace");
     });
   });

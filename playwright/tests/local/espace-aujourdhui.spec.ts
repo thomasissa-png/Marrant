@@ -66,7 +66,14 @@ test.describe("espace client, « Aujourd'hui » (s24, lot D3)", () => {
       await expect(commencer).toBeInViewport({ ratio: 1 });
       expect((await commencer.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
       await expect(page.locator('section[data-etat="ok"], section[data-etat="erreur"]')).toHaveCount(1);
-      for (const haut of await hautsContenuDuJour(page)) expect(haut).toBeGreaterThanOrEqual(812);
+      // Navigation v6 §4 : l'index « Dans ton espace », qui tenait le contenu du jour sous le premier écran à 375 px, est
+      // retiré (la bande le remplace). Équivalent v6 de « contenu du jour dessous » : tout le contenu du jour reste sous la
+      // carte du premier pas (aucune de ses actions au-dessus ni à côté de « Commencer »), qui garde la seule action
+      // principale du premier écran (« Commencer » unique, ci-dessus).
+      const basPremierPas = await page.locator("[data-source]").first().evaluate((e) => e.getBoundingClientRect().bottom + window.scrollY);
+      const hauts = await hautsContenuDuJour(page);
+      expect(hauts.length, "contenu du jour rendu").toBeGreaterThan(0);
+      for (const haut of hauts) expect(haut, "contenu du jour sous la carte du premier pas").toBeGreaterThanOrEqual(basPremierPas);
       await expect(page.locator('[data-source="defaut"] h2')).toHaveText(frEspace(T.premierPas.sceneParDefaut));
     });
 
@@ -125,12 +132,21 @@ test.describe("espace client, « Aujourd'hui » (s24, lot D3)", () => {
       expect(JSON.stringify(compteurs)).not.toMatch(/user|email|id/i);
     });
 
-    test("ancres : plus de barre sous l'en-tête (navigation universelle v5), aucune réserve en haut de page", async ({ page }) => {
+    // Navigation v6 (remplace « plus de barre sous l'en-tête, aucune réserve » de la v5) : la bande des rubriques est
+    // dans le même bloc collant que l'en-tête (critère 3), l'ancienne barre de l'espace n'existe plus ; la réserve des
+    // ancres (`scroll-padding-top` de 8rem) couvre tout le bloc collant : une étape ouverte par ancre n'est jamais cachée.
+    test("ancres : bande des rubriques dans l'en-tête collant (v6), ancien bandeau absent, réserve des ancres sur le bloc", async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/parcours/repartie");
       await expect(page.locator("header")).toHaveCount(1);
       await expect(page.locator("[data-espace-barre]")).toHaveCount(0);
-      expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop)).toMatch(/^(auto|0px)$/);
+      await expect(page.locator("header [data-bande-rubriques]")).toHaveCount(1);
+      expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop)).toBe("128px");
+      const basBloc = await page.locator("header").evaluate((e) => e.getBoundingClientRect().bottom);
+      expect(basBloc, "bloc collant sous la réserve des ancres").toBeLessThanOrEqual(128);
+      await page.goto("/parcours/repartie#etape-2");
+      await expect.poll(() => page.evaluate(() => window.scrollY), { message: "défilé jusqu'à l'étape 2" }).toBeGreaterThan(0);
+      expect(await page.locator("#etape-2").evaluate((e) => e.getBoundingClientRect().top), "étape 2 sous le bloc collant").toBeGreaterThanOrEqual(basBloc);
     });
 
     test("page de succès : pas de « Continuer » sans preuve ; puis « Continuer » vers « Aujourd'hui », renonciation à 44 px", async ({ page }) => {
