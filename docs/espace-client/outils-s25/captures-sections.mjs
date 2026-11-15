@@ -113,13 +113,14 @@ for (const compte of comptes) {
           const bouton = action === "focus-menu" ? page.getByRole("button", { name: /menu/i }).first() : page.getByRole("banner").getByRole("button", { name: /^Notifications/ });
           await bouton.focus();
           await page.keyboard.press("Enter");
-          await page.waitForTimeout(400);
-          for (let k = 1; k <= 3; k++) {
+          await page.waitForTimeout(800);
+          const nTab = action === "focus-menu" ? 12 : 3;
+          for (let k = 1; k <= nTab; k++) {
             await page.keyboard.press("Tab");
             await page.waitForTimeout(150);
-            await page.screenshot({ path: join(dossier, fichier.replace(".png", `-${k}.png`)) });
+            await page.screenshot({ path: join(dossier, fichier.replace(".png", `-${String(k).padStart(2, "0")}.png`)) });
           }
-          lignes.push(`- ${fichier.replace(".png", "-{1,2,3}.png")} : ${url} (${action}, 3 Tab après ouverture au clavier)`);
+          lignes.push(`- ${fichier.replace(".png", "-NN.png")} : ${url} (${action}, ${nTab} Tab après ouverture au clavier)`);
           await page.keyboard.press("Escape");
           continue;
         }
