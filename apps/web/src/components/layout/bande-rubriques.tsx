@@ -93,9 +93,16 @@ export function BandeRubriques({ etat, pathname }: { etat: EtatLecteur; pathname
   }, [pathname, placer]);
   useAvantAffichage(() => placer(false), [verrou, placer]);
   useEffect(() => {
-    const surRedim = () => placer(false);
+    // Largeur seulement : sur téléphone, la barre d'adresse change la hauteur à chaque défilement de la page, et le
+    // défilement de la bande choisi par le lecteur doit tenir.
+    let largeur = window.innerWidth;
+    const surRedim = () => {
+      if (window.innerWidth === largeur) return;
+      largeur = window.innerWidth;
+      placer(false);
+    };
     window.addEventListener("resize", surRedim);
-    void document.fonts?.ready.then(surRedim);
+    void document.fonts?.ready.then(() => placer(false));
     return () => window.removeEventListener("resize", surRedim);
   }, [placer]);
 
