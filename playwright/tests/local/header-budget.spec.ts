@@ -174,8 +174,17 @@ test.describe("En-tête : budget de largeur", () => {
             });
             lignes.push(`état=${etat} ; largeur=${largeur} ; bande, place libre=${b.libre.toFixed(1)}px ; défile=${b.defile}`);
             expect(b.coupees, `rubrique tronquée, ${ici}`).toBe(0);
-            // Arbitrage du 15/11 : padding de 12 px gardé ; si la place manque (non-abonné, Chrome de la CI), la bande défile
-            // proprement : fondu droit, libellé coupé entamé sous le fondu, jamais tranché net en clair.
+            // s25 v6 tour 1 (relectures en-tête D1 et F1, spec §6.2) : à 1280 px et plus (coque de 1 216, identique à 1440,
+            // 1456, 1536 et 1920), la bande tient pour les 3 états, cadenas compris : aucun défilement, « Carnet » entier, au
+            // moins 80 px libres. Budget (`bande-rubriques.tsx`, chips `px-1.5`, séparateurs `mx-1`) : 95 px au pire cas
+            // (non-abonné) avec des libellés majorés de 4 px chacun, 143 px dans le Chromium local.
+            if (largeur >= 1280) {
+              expect(b.defile, `bande qui défile, ${ici}`).toBe(false);
+              expect(b.debutCoupe, `rubrique coupée par le bord, ${ici}`).toBeNull();
+              expect(b.libre, `place libre de la bande (plancher 80 px), ${ici}`).toBeGreaterThanOrEqual(80);
+            }
+            // En dessous (1024, 1100) : la bande défile proprement : fondu droit, libellé coupé entamé sous le fondu,
+            // jamais tranché net en clair.
             if (b.defile && !b.fin) {
               expect(b.fondu, `fondu droit, ${ici}`).toBeGreaterThanOrEqual(32);
               if (b.debutCoupe !== null) expect(b.debutCoupe, `libellé coupé sous le fondu, ${ici}`).toBeGreaterThanOrEqual(b.vue - b.fondu - 4);

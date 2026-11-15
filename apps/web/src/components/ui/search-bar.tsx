@@ -64,7 +64,12 @@ const PANNEAU_EN_TETE = cn(
   "md:left-auto md:right-0 md:mt-[18px] md:w-80",
   PANNEAU_ELEVE,
 );
-const PANNEAU_MENU = cn("absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-border animate-fade-in", PANNEAU_ELEVE);
+/**
+ * s25 v6 tour 1 (relectures en-tête D2 et F2) : dans le menu mobile, la liste est dans le flux (ni `absolute` ni
+ * z-index) : le menu grandit et défile (`max-h` + `overflow-y-auto` de `menu-mobile-universel.tsx`), rien n'est
+ * tranché par son bas ; les lignes suivantes (offre, Connexion, compte) descendent sous la liste.
+ */
+const PANNEAU_MENU = cn("relative mt-2 w-full overflow-hidden rounded-xl border border-border animate-fade-in", PANNEAU_ELEVE);
 /** Filet dégradé de 4 px en tête de liste, comme `account-menu.tsx` et les cartes de l'accueil. */
 function Filet({ className }: { className?: string }) {
   return <div aria-hidden="true" className={cn("h-1 bg-gradient-to-r from-accent-primary to-accent-secondary", className)} />;

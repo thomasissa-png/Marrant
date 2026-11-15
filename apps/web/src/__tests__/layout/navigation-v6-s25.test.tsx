@@ -89,6 +89,23 @@ describe("bande des rubriques, 3 états (§1, §2)", () => {
     });
   });
 
+  // s25 v6 tour 1 (relectures en-tête D1, F1 et piste P1) : bande resserrée pour que « Carnet » tienne à 1280+ chez le
+  // non-abonné (budget chiffré plus bas) ; cibles de 44 px gardées, texte inchangé ; cadenas à la couleur du libellé.
+  it("bande resserrée : chips `px-1.5` et 44 px de haut, séparateurs `mx-1`, soulignement aligné, cadenas `text-secondary`", async () => {
+    usePathname.mockReturnValue("/vannes");
+    render(<EnTeteUniversel />);
+    await act(async () => {});
+    for (const a of rubriques()) {
+      const c = a.className.split(" ");
+      expect(c).toEqual(expect.arrayContaining(["px-1.5", "h-11", "text-sm"]));
+      expect(c).not.toContain("px-3");
+    }
+    const actif = rubriques().find((a) => a.getAttribute("aria-current") === "page")!;
+    expect(actif.className.split(" ")).toContain("after:inset-x-1.5");
+    bande().querySelectorAll("[data-separateur]").forEach((sep) => expect(sep.className.split(" ")).toContain("mx-1"));
+    expect(rubriques()[0].querySelector("svg")!.getAttribute("class")).toContain("text-text-secondary");
+  });
+
   // Arbitrage du 15/11 (intégration s25) : pas de bande sur /abonnement et ses sous-adresses (pli de la page de conversion
   // validée en s21) ; la rangée reste ; /abonnementx n'est pas une sous-adresse. Fenêtre basse : bloc non collant.
   it.each(Object.keys(SESSIONS) as Etat[])("%s : bande absente de /abonnement et /abonnement/success, présente ailleurs ; bloc non collant sous 500 px de haut", async (etat) => {
@@ -189,6 +206,29 @@ describe("ce que la v6 retire (§4)", () => {
     expect(within(menu).getByRole("button", { name: "Déconnexion" })).toBeInTheDocument();
   });
 
+  // s25 v6 tour 1 (relectures en-tête D2 et F2) : suggestions de la recherche du menu (375, 320) dans le flux du menu,
+  // pas en surimpression tranchée par son bas : le menu grandit et défile ; les lignes suivantes passent dessous.
+  it.each(Object.keys(SESSIONS) as Etat[])("%s : suggestions de la recherche du menu dans le flux, avant les actions", async (etat) => {
+    useSession.mockReturnValue(SESSIONS[etat]);
+    render(<EnTeteUniversel />);
+    await act(async () => {});
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
+    const champ = within(menu).getByRole("combobox");
+    await userEvent.click(champ);
+    await userEvent.keyboard("{ArrowDown}");
+    const liste = within(menu).getByRole("listbox", { name: "Suggestions de recherche" });
+    expect(within(liste).getAllByRole("option")).toHaveLength(6);
+    const c = liste.className.split(" ");
+    expect(c).not.toContain("absolute");
+    expect(c.some((x) => /^z-/.test(x))).toBe(false);
+    expect(c).toContain("relative");
+    // Les actions (offre, Connexion, compte) suivent la liste dans le flux du menu.
+    const actions = within(menu).queryAllByRole("link").filter((a) => !a.closest("[data-rubriques-menu]"));
+    for (const a of actions) expect(liste.compareDocumentPosition(a) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(menu.className.split(" ")).toEqual(expect.arrayContaining(["overflow-y-auto"]));
+  });
+
   it.each([
     ["visiteur", "/vannes", "Vannes"],
     ["gratuit", "/mon-espace/repliques", "Mes répliques"],
@@ -248,21 +288,22 @@ describe("ce que la v6 retire (§4)", () => {
   });
 });
 
-/** Boîtes de la bande à partir des largeurs mesurées (séparateurs : 1 px et 6 px de chaque côté). */
+/** Boîtes de la bande à partir des largeurs mesurées (séparateurs : 1 px et 4 px de chaque côté, v6 tour 1). */
 function boites(largeurs: number[]): { boites: Boite[]; total: number } {
   const b: Boite[] = [];
   let x = 0;
   largeurs.forEach((w, i) => {
-    if (i === 5 || i === 10) x += 13;
+    if (i === 5 || i === 10) x += 9;
     b.push({ gauche: x, largeur: w });
     x += w;
   });
   return { boites: b, total: x + 8 };
 }
-// Largeurs des rubriques mesurées dans le Chromium local (Inter 14 px medium, `px-3`, s25, serveur ouvert, 375 à 1920 px) ;
-// non-abonné : cadenas de 14 px et 5 px d’écart sur les 5 premières et Favoris (+19 px).
-const SANS = [100.8, 83.9, 119.8, 107.6, 96.4, 73.7, 81.5, 70.3, 75.3, 78.2, 72.5, 69.2];
-const AVEC = [119.8, 102.9, 138.8, 126.6, 115.4, 73.7, 81.5, 70.3, 75.3, 78.2, 91.5, 69.2];
+// Largeurs des rubriques mesurées dans le Chromium local (Inter 14 px medium, s25, serveur ouvert, 375 à 1920 px), avec
+// `px-3` puis moins 12 px (`px-1.5`, v6 tour 1) ; non-abonné : cadenas de 14 px et 5 px d’écart sur les 5 premières et
+// Favoris (+19 px).
+const SANS = [88.8, 71.9, 107.8, 95.6, 84.4, 61.7, 69.5, 58.3, 63.3, 66.2, 60.5, 57.2];
+const AVEC = [107.8, 90.9, 126.8, 114.6, 103.4, 61.7, 69.5, 58.3, 63.3, 66.2, 79.5, 57.2];
 
 describe("placement d'arrivée de la bande (consigne du 15/11, relecture design D tour 4)", () => {
   it.each([
@@ -307,17 +348,13 @@ describe("placement d'arrivée de la bande (consigne du 15/11, relecture design 
     expect(placementBande({ boites: b, actif: 11, largeurVue: 1160, largeurTotale: total })).toBe(0);
   });
 
-  // Arbitrage du 15/11 : padding de 12 px gardé ; non-abonné à 1280 px (et sur un Chrome qui élargit les libellés), la
-  // bande défile proprement : chaque rubrique active entière, faute seulement aux bornes.
-  it.each([0, 8, 16])("non-abonné à 1280 px, libellés élargis de %i px en tout : défilement propre", (elargi) => {
-    const { boites: b, total } = boites(AVEC.map((w) => w + elargi / 12));
-    expect(total).toBeGreaterThan(1160);
-    for (let actif = 0; actif < b.length; actif++) {
-      const m = { boites: b, actif, largeurVue: 1160, largeurTotale: total };
-      const t = placementBande(m);
-      const f = fautes(m, t);
-      expect([actif, f.actifEntier]).toEqual([actif, true]);
-      if (f.dures > 0) expect([actif, t === 0 || Math.abs(t - (total - 1160)) < 1]).toEqual([actif, true]);
-    }
+  // s25 v6 tour 1 (relectures en-tête D1 et F1) : « Carnet » entier à 1280, 1456 et 1920 px (coque de 1 216, vue de
+  // 1 160) pour le non-abonné aussi, libellés majorés de 4 px chacun (Chrome de la CI) : au moins 80 px libres.
+  it.each([0, 4])("non-abonné à 1280 px et plus, libellés élargis de %i px chacun : tout tient, au moins 80 px libres", (elargi) => {
+    const { boites: b, total } = boites(AVEC.map((w) => w + elargi));
+    const libre = 1160 - (b[11].gauche + b[11].largeur);
+    expect(libre).toBeGreaterThanOrEqual(80);
+    expect(total).toBeLessThanOrEqual(1160);
+    for (let actif = 0; actif < b.length; actif++) expect(placementBande({ boites: b, actif, largeurVue: 1160, largeurTotale: total })).toBe(0);
   });
 });

@@ -87,7 +87,7 @@ const boiteContenu = (page: Page) =>
 
 /**
  * État de la bande : boîtes des rubriques relatives à la vue défilante, défilement, fondus (gauche, droit) lus sur la
- * bande, accroche. `t` : libellé (boîte moins `px-3`).
+ * bande, accroche. `t` : libellé (boîte moins `px-1.5`, v6 tour 1).
  */
 const bande = (page: Page) =>
   page.evaluate(() => {
@@ -104,7 +104,7 @@ const bande = (page: Page) =>
       accroche: getComputedStyle(d).scrollSnapType,
       chips: Array.from(d.querySelectorAll<HTMLElement>("[data-rubrique]")).map((a) => {
         const r = a.getBoundingClientRect();
-        return { nom: a.textContent!.trim(), l: r.left - v.left, r: r.right - v.left, tl: r.left - v.left + 12, tr: r.right - v.left - 12, actif: a.getAttribute("aria-current") === "page" };
+        return { nom: a.textContent!.trim(), l: r.left - v.left, r: r.right - v.left, tl: r.left - v.left + 6, tr: r.right - v.left - 6, actif: a.getAttribute("aria-current") === "page" };
       }),
     };
   });
@@ -578,6 +578,57 @@ test.describe("navigation universelle v6 (s25)", () => {
           await page.keyboard.press("Escape");
           await expect(menu).toHaveCount(0);
           await expect(bouton).toBeFocused();
+        }
+        await c.close();
+      }
+    });
+
+    // s25 v6 tour 1 (relectures en-tête D2 et F2) : suggestions de la recherche du menu dans le flux du menu (375, 320 px),
+    // jamais tranchées par son bas : 6 puces entières dans la vue du menu (après défilement s'il le faut), au-dessus des
+    // actions, panneau englobant (bord bas sous la dernière puce).
+    test("v6 tour 1 : suggestions de la recherche du menu entières, dans le flux, avant les actions (375 et 320 px, 3 états)", async ({ browser }) => {
+      for (const etat of ETATS) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [375, 320]) {
+          const ici = `(${etat}, ${largeur} px)`;
+          await page.setViewportSize({ width: largeur, height: 812 });
+          await page.goto("/conseils");
+          await pret(page, etat);
+          await page.getByRole("banner").getByRole("button", { name: "Menu", exact: true }).click();
+          const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+          await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          const champ = menu.getByRole("combobox");
+          await champ.focus();
+          await page.keyboard.press("ArrowDown");
+          const liste = menu.getByRole("listbox", { name: "Suggestions de recherche" });
+          await expect(liste, ici).toBeVisible();
+          await liste.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          expect(await liste.evaluate((el) => getComputedStyle(el).position), `liste dans le flux ${ici}`).not.toBe("absolute");
+          const options = liste.getByRole("option");
+          await expect(options, ici).toHaveCount(6);
+          for (const o of await options.all()) {
+            await o.evaluate((el) => el.scrollIntoView({ block: "nearest" }));
+            const m = await o.evaluate((el) => {
+              const nav = el.closest("nav")!.getBoundingClientRect();
+              const r = el.getBoundingClientRect();
+              const panneau = el.closest("[role=listbox]")!.getBoundingClientRect();
+              return { haut: r.top - nav.top, bas: nav.bottom - r.bottom, gauche: r.left - panneau.left, droite: panneau.right - r.right, sousPanneau: panneau.bottom - r.bottom, h: r.height };
+            });
+            noter(`v6 t1 ; suggestions du menu ; ${ici} ; ${JSON.stringify(m)}`);
+            expect(m.haut, `puce sous le haut du menu ${ici}`).toBeGreaterThanOrEqual(-0.5);
+            expect(m.bas, `puce au-dessus du bas du menu ${ici}`).toBeGreaterThanOrEqual(-0.5);
+            expect(Math.min(m.gauche, m.droite), `puce dans le panneau ${ici}`).toBeGreaterThanOrEqual(0);
+            expect(m.sousPanneau, `bord bas du panneau sous la puce ${ici}`).toBeGreaterThan(0);
+            expect(m.h, `puce de 44 px ${ici}`).toBeGreaterThanOrEqual(44);
+          }
+          // Actions (offre, Connexion, compte) sous la liste, sans chevauchement.
+          const basListe = await liste.evaluate((el) => el.getBoundingClientRect().bottom);
+          const hautsActions = await menu.locator("a, button").filter({ visible: true }).evaluateAll((els, b) =>
+            els.filter((e) => !e.closest("[role=listbox]") && !e.closest("[data-rubriques-menu]") && e.compareDocumentPosition(document.querySelector("[role=listbox]")!) & Node.DOCUMENT_POSITION_PRECEDING).map((e) => e.getBoundingClientRect().top - b),
+          basListe);
+          for (const h of hautsActions) expect(h, `action sous la liste ${ici}`).toBeGreaterThanOrEqual(-0.5);
+          await page.keyboard.press("Escape");
         }
         await c.close();
       }
