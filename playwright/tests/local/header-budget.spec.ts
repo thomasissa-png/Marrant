@@ -20,14 +20,19 @@ const HREF_PRIX = /^\/abonnement\?(returnTo=%2F[^&]*&)?src=header$/;
  */
 const LARGEURS = [1024, 1100, 1280, 1440, 1536, 1920];
 /**
- * s24 (navigation universelle v5) : serveur construit interrupteur `ESPACE_CLIENT_PUBLIE` ouvert
- * (copie jetable, jamais le code livré). Un seul en-tête pour les 3 états : visiteur et compte gratuit,
- * 6 liens (Parcours, Vannes, Conseils, Vidéos, Articles, La lettre) ; abonné, « Mon espace » et 5 liens,
- * cloche, compte, aucun bouton d'offre. Fermé : 7 onglets d'aujourd'hui (Accueil, Carnet pour l'abonné).
+ * s25 (navigation v6, `docs/ux/navigation-v6-menu-rubriques.md`) : serveur construit interrupteur
+ * `ESPACE_CLIENT_PUBLIE` ouvert (copie jetable, jamais le code livré). Un seul en-tête pour les 3 états : rangée sans
+ * liens du site (logo, recherche de 176 px dès 768 px, Connexion, bouton d'offre, cloche, compte, Menu sous 768 px),
+ * puis la bande des 12 rubriques, la même pour tous. Critères v5 retirés : liens du site et « Mon espace » en barre,
+ * loupe de 1024 à 1279 px, Menu de 768 à 1023 px. Fermé : 7 onglets d'aujourd'hui (Accueil, Carnet pour l'abonné).
  */
 const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
 type Etat = "visiteur" | PlanCompte;
 const ETATS: Etat[] = ["visiteur", "FREE", "PREMIUM"];
+/** Bande des rubriques (v6 §1), ordre unique. */
+const RUBRIQUES = ["Aujourd’hui", "Parcours", "Quoi répondre", "Bibliothèque", "S’entraîner", "Vannes", "Conseils", "Vidéos", "Articles", "La lettre", "Favoris", "Carnet"];
+/** Bouton Menu affiché (v6 §3) : sous 768 px ; visiteur, sous 520 px (au-delà il ne contiendrait que le bouton d'offre). */
+const menuAffiche = (etat: Etat, largeur: number) => (ESPACE_OUVERT ? largeur < (etat === "visiteur" ? 520 : 768) : largeur < 1024);
 const MOT_DE_PASSE = "E2e-en-tete-budget-42";
 /** Bouton prix de l'en-tête, nom accessible « Premium, 1,99 € par mois : voir l'offre » (trajet de conversion s21 §2). */
 const PRIX = /^Premium, 1,99\s€ par mois : voir l['’]offre$/;
@@ -114,7 +119,7 @@ test.describe("En-tête : budget de largeur", () => {
           await page.setViewportSize({ width: largeur, height: 800 });
           await page.goto("/conseils");
           const barre = page.getByRole("banner");
-          await expect(barre.getByRole("navigation", { name: "Navigation principale" })).toBeVisible();
+          await expect(barre.getByRole("navigation", { name: ESPACE_OUVERT ? TEXTES_ESPACE_NAVIGATION.bande.nom : "Navigation principale" })).toBeVisible();
           const m = await mesurer(page);
           const ici = `${etat} à ${largeur} px`;
           const plusADroite = Math.max(...m.controles.map((c) => c.droite));
@@ -147,26 +152,33 @@ test.describe("En-tête : budget de largeur", () => {
             );
           }
 
-          // Onglets : 7, tous visibles (« La lettre » ou « Carnet » compris). Ouvert : 6 (v5 §1 ; abonné :
-          // « Mon espace » et 5 liens), sans « Accueil ».
-          const onglets = barre.getByRole("navigation", { name: "Navigation principale" }).getByRole("link");
-          await expect(onglets).toHaveCount(ESPACE_OUVERT ? 6 : 7);
+          // Onglets : 7, tous visibles (« La lettre » ou « Carnet » compris). Ouvert (v6) : la bande des 12 rubriques,
+          // aucun libellé coupé dans sa rubrique ; place libre de la bande notée (v6 §1, plancher visé : 80 px).
           if (ESPACE_OUVERT) {
-            await expect(onglets).toHaveText(
-              etat === "PREMIUM"
-                ? [TEXTES_ESPACE_NAVIGATION.monEspace, "Parcours", "Vannes", "Conseils", "Vidéos", "Articles"]
-                : ["Parcours", "Vannes", "Conseils", "Vidéos", "Articles", "La lettre"],
-            );
+            await expect(barre.getByRole("navigation", { name: "Navigation principale" })).toHaveCount(0);
+            const rubriques = barre.locator("[data-rubrique]");
+            await expect(rubriques).toHaveText(RUBRIQUES);
+            const b = await barre.locator("[data-defilement]").evaluate((d) => ({
+              libre: d.clientWidth - (d.lastElementChild!.getBoundingClientRect().right - d.getBoundingClientRect().left + d.scrollLeft),
+              coupees: Array.from(d.querySelectorAll<HTMLElement>("[data-rubrique]")).filter((a) => a.scrollWidth > a.clientWidth + 1).length,
+            }));
+            lignes.push(`état=${etat} ; largeur=${largeur} ; bande, place libre=${b.libre.toFixed(1)}px`);
+            expect(b.coupees, `rubrique tronquée, ${ici}`).toBe(0);
             if (etat === "PREMIUM") await expect(barre.getByRole("button", { name: nomCloche(0) })).toBeVisible();
+          } else {
+            const onglets = barre.getByRole("navigation", { name: "Navigation principale" }).getByRole("link");
+            await expect(onglets).toHaveCount(7);
+            for (const onglet of await onglets.all()) await expect(onglet).toBeVisible();
           }
-          for (const onglet of await onglets.all()) await expect(onglet).toBeVisible();
 
-          // Recherche : champ dès 1280 px (>= 160 px, texte d'aide entier), loupe avant.
+          // Recherche : champ dès 1280 px (>= 160 px, texte d'aide entier), loupe avant. Ouvert (v6) : champ de 176 px
+          // dès 768 px.
           const loupe = barre.getByRole("button", { name: "Rechercher" }).filter({ visible: true });
-          if (largeur >= 1280) {
+          if (largeur >= 1280 || ESPACE_OUVERT) {
             expect(m.recherche, `champ de recherche absent, ${ici}`).not.toBeNull();
             expect(m.recherche?.largeur ?? 0, `recherche trop étroite, ${ici}`).toBeGreaterThanOrEqual(160);
             expect(m.recherche?.aideEntiere, `« Rechercher... » coupé, ${ici}`).toBe(true);
+            if (ESPACE_OUVERT) expect(m.recherche?.largeur, `recherche à 176 px, ${ici}`).toBe(176);
             await expect(loupe).toHaveCount(0);
           } else {
             expect(m.recherche, `champ de recherche affiché trop tôt, ${ici}`).toBeNull();
@@ -184,7 +196,8 @@ test.describe("En-tête : budget de largeur", () => {
             await expect(prix).toHaveAttribute("href", HREF_PRIX);
             // Revue v3 m4 : libellé complet dès 1280 px, court de 1024 à 1279.
             // Trajet de conversion s21 : de 1 024 à 1 279 px, repli « Premium » (« Premium · 1,99 € » débordait).
-            expect(await prix.innerText()).toMatch(largeur >= 1280 ? /^Premium\s·\s1,99\s€\/mois$/ : /^Premium$/);
+            // Ouvert (v6) : la rangée n'a plus les liens du site, libellé complet dès 640 px.
+            expect(await prix.innerText()).toMatch(largeur >= 1280 || ESPACE_OUVERT ? /^Premium\s·\s1,99\s€\/mois$/ : /^Premium$/);
           } else {
             await expect(barre.getByRole("link", { name: PRIX })).toHaveCount(0);
           }
@@ -207,7 +220,7 @@ test.describe("En-tête : budget de largeur", () => {
             await page.setViewportSize({ width: largeur, height: 800 });
             await page.goto("/conseils");
             const barre = page.getByRole("banner");
-            await expect(barre.getByRole("button", { name: "Menu" })).toBeVisible();
+            await expect(barre.getByRole("button", { name: "Menu" })).toBeVisible({ visible: menuAffiche("FREE", largeur) });
             const ici = `compte FREE à ${largeur} px`;
             const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
             await expect(prix).toHaveCount(1);
@@ -234,10 +247,8 @@ test.describe("En-tête : budget de largeur", () => {
           await page.keyboard.press("Enter");
           const menu = page.getByRole("menu");
           await expect(menu).toBeVisible();
-          // Ouvert (v5 §1) : l'abonné n'a plus « Favoris » (index de « Mon espace »).
-          await expect(menu.getByRole("menuitem")).toHaveText(
-            ESPACE_OUVERT && etat === "PREMIUM" ? ["Mon profil", "Déconnexion"] : ["Favoris", "Mon profil", "Déconnexion"],
-          );
+          // Ouvert (v6 §4) : « Favoris » vit dans la bande, plus dans le menu du compte (abonné et compte gratuit).
+          await expect(menu.getByRole("menuitem")).toHaveText(ESPACE_OUVERT ? ["Mon profil", "Déconnexion"] : ["Favoris", "Mon profil", "Déconnexion"]);
           const boite = await menu.boundingBox();
           expect((boite?.x ?? 0) + (boite?.width ?? 0)).toBeLessThanOrEqual(1024);
           for (const item of await menu.getByRole("menuitem").all()) {
@@ -251,7 +262,7 @@ test.describe("En-tête : budget de largeur", () => {
     });
   }
 
-  // Navigation universelle v5 : abonné, en-tête unique (cloche, compte, « Mon espace »), 3 états de la cloche.
+  // Navigation v6 : en-tête unique (cloche, compte, bande des rubriques), 3 états de la cloche.
   test.describe("état abonné, en-tête unique (espace ouvert)", () => {
     test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
     let cookies: Cookie[] = [];
@@ -267,8 +278,9 @@ test.describe("En-tête : budget de largeur", () => {
       await context.addCookies(cookies);
     });
 
-    // v5 §5 critères 6 et 10 : 3 états x largeurs de téléphone et de tablette (640 et 641 px compris), rien ne
-    // déborde, aucun libellé coupé, bouton d'offre visible (visiteur, compte gratuit) ou absent (abonné).
+    // v5 §5 critères 6 et 10, gardés en v6 : 3 états x largeurs de téléphone et de tablette (640 et 641 px compris),
+    // rien ne déborde dans la rangée, aucun libellé coupé, bouton d'offre visible (visiteur, compte gratuit) ou absent
+    // (abonné) ; v6 : Menu sous 768 px (visiteur : sous 520), compte dès 768, recherche de 176 px dès 768, bande en dessous.
     for (const etatMobile of ["visiteur", "FREE", "PREMIUM"] as const) {
       test(`3 états, 320 à 1023 px : aucun débordement (${etatMobile})`, async ({ browser }, testInfo) => {
         const contexte = await browser.newContext();
@@ -284,7 +296,7 @@ test.describe("En-tête : budget de largeur", () => {
           await page.setViewportSize({ width: largeur, height: 800 });
           await page.goto("/conseils");
           const barre = page.getByRole("banner");
-          await expect(barre.getByRole("button", { name: "Menu" })).toBeVisible();
+          await expect(barre.getByRole("button", { name: "Menu" })).toBeVisible({ visible: menuAffiche(etatMobile, largeur) });
           if (etatMobile === "PREMIUM") await expect(barre.getByRole("button", { name: nomCloche(0) })).toBeVisible();
           const ici = `${etatMobile} à ${largeur} px`;
           const m = await mesurer(page);
@@ -306,9 +318,12 @@ test.describe("En-tête : budget de largeur", () => {
           }
           const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
           await expect(prix).toHaveCount(etatMobile === "PREMIUM" ? 0 : 1);
-          if (etatMobile !== "PREMIUM") expect(await prix.innerText()).toMatch(largeur < 640 || largeur >= 1024 ? /^Premium$/ : /^Premium\s·\s1,99\s€\/mois$/);
-          const monEspace = barre.getByRole("link", { name: TEXTES_ESPACE_NAVIGATION.monEspace, exact: true }).filter({ visible: true });
-          await expect(monEspace).toHaveCount(etatMobile === "PREMIUM" && largeur >= 768 ? 1 : 0);
+          if (etatMobile !== "PREMIUM") expect(await prix.innerText()).toMatch(largeur < 640 ? /^Premium$/ : /^Premium\s·\s1,99\s€\/mois$/);
+          await expect(barre.getByRole("link", { name: TEXTES_ESPACE_NAVIGATION.monEspace, exact: true })).toHaveCount(0);
+          const champ = Array.from([m.recherche]).filter(Boolean);
+          expect(champ.length, `champ de recherche dès 768 px, ${ici}`).toBe(largeur >= 768 ? 1 : 0);
+          if (largeur >= 768) expect(m.recherche?.largeur, `recherche à 176 px, ${ici}`).toBe(176);
+          await expect(barre.locator("[data-rubrique]"), `bande, ${ici}`).toHaveText(RUBRIQUES);
           const compte = barre.getByRole("button", { name: TEXTES_CONNEXION.menuCompte }).filter({ visible: true });
           await expect(compte).toHaveCount(etatMobile !== "visiteur" && largeur >= 768 ? 1 : 0);
         }
@@ -372,7 +387,7 @@ test.describe("En-tête : budget de largeur", () => {
       await page.setViewportSize({ width: largeur, height: 800 });
       await page.goto("/conseils");
       const barre = page.getByRole("banner");
-      await expect(barre.getByRole("button", { name: "Menu" })).toBeVisible();
+      await expect(barre.getByRole("button", { name: "Menu" })).toBeVisible({ visible: menuAffiche("visiteur", largeur) });
       const ici = `visiteur à ${largeur} px`;
       const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
       const m = await mesurer(page);
@@ -417,8 +432,9 @@ test.describe("En-tête : budget de largeur", () => {
     if (process.env.E2E_MESURES_EN_TETE) appendFileSync(process.env.E2E_MESURES_EN_TETE, `${lignes.join("\n")}\n`);
   });
 
-  test("loupe de 1024 à 1279 px : ouvre et ferme le panneau de recherche", async ({ page }) => {
-    await page.setViewportSize({ width: 1100, height: 800 });
+  // Fermé : loupe de 1024 à 1279 px ; ouvert (v6) : loupe de 440 à 767 px (champ dans la rangée dès 768).
+  test(`loupe de ${ESPACE_OUVERT ? "440 à 767" : "1024 à 1279"} px : ouvre et ferme le panneau de recherche`, async ({ page }) => {
+    await page.setViewportSize({ width: ESPACE_OUVERT ? 640 : 1100, height: 800 });
     await page.goto("/conseils");
     const loupe = page.getByRole("banner").getByRole("button", { name: "Rechercher" }).filter({ visible: true });
     await loupe.click();

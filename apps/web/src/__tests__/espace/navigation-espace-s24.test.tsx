@@ -3,6 +3,9 @@
  * compte gratuit et abonné, index de « Mon espace », retours par type de page, élément allumé, cloche.
  * Interrupteur OUVERT seulement ici, par un mock (jamais dans le code livré) ; fermé, le test d'inertie
  * (`inertie-espace.test.tsx`) garde l'en-tête de la production.
+ * s25, navigation v6 : les critères de la v5 que la bande des rubriques remplace (liens du site et « Mon espace » en
+ * barre, index du menu mobile, « Retour : Mon espace », élément de barre allumé) sont retirés d'ici ; la v6 est
+ * couverte par `__tests__/layout/navigation-v6-s25.test.tsx`.
  */
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
@@ -25,7 +28,7 @@ jest.mock("next-auth/react", () => ({ useSession: jest.fn(), signOut: jest.fn() 
 import { Header } from "@/components/layout/header";
 import { EnTeteUniversel } from "@/components/layout/en-tete-universel";
 import { Cloche } from "@/components/espace/cloche";
-import { INDEX_ESPACE, elementBarreAllume, ligneEspaceAllumee, parentEspace } from "@/components/espace/rubriques";
+import { RUBRIQUES } from "@/components/espace/rubriques";
 import { TEXTES_ESPACE_NAVIGATION as T, nomCloche } from "@/config/textes/espace-navigation";
 import { sansPrefixe } from "@/components/espace/liste-fiches";
 
@@ -37,7 +40,6 @@ const SESSIONS = {
   gratuit: { data: { user: { id: "u1", plan: "FREE" } }, status: "authenticated" },
   abonne: { data: { user: { id: "u2", plan: "PREMIUM" } }, status: "authenticated" },
 } as const;
-const SITE = ["Parcours", "Vannes", "Conseils", "Vidéos", "Articles"];
 
 beforeAll(() => {
   // jsdom : ni ResizeObserver ni document.fonts ; Radix a besoin de ResizeObserver.
@@ -73,110 +75,6 @@ describe("interrupteur (§0)", () => {
   });
 });
 
-describe("en-tête unique, interrupteur ouvert (§1)", () => {
-  beforeEach(() => {
-    drapeau.__ESPACE_OUVERT__ = true;
-  });
-
-  it("visiteur : Parcours en premier, « La lettre » en dernier, Connexion, bouton d'offre, logo vers l'accueil", async () => {
-    render(<EnTeteUniversel />);
-    await act(async () => {});
-    expect(liensBarre()).toEqual([...SITE, "La lettre"]);
-    expect(screen.getByRole("link", { name: "deviens-marrant.fr" })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("link", { name: "Connexion" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /^Premium, 1,99/ })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /^Notifications/ })).toBeNull();
-  });
-
-  it("compte gratuit : mêmes liens, pas de Connexion, bouton d'offre", async () => {
-    useSession.mockReturnValue(SESSIONS.gratuit);
-    render(<EnTeteUniversel />);
-    await act(async () => {});
-    expect(liensBarre()).toEqual([...SITE, "La lettre"]);
-    expect(screen.queryByRole("link", { name: "Connexion" })).toBeNull();
-    expect(screen.getByRole("link", { name: /^Premium, 1,99/ })).toBeInTheDocument();
-  });
-
-  it("abonné : « Mon espace » puis 5 liens, logo vers Aujourd'hui, cloche, aucun bouton d'offre", async () => {
-    useSession.mockReturnValue(SESSIONS.abonne);
-    usePathname.mockReturnValue("/mon-espace/quoi-repondre");
-    render(<EnTeteUniversel />);
-    expect(await screen.findByRole("button", { name: nomCloche(0) })).toBeInTheDocument();
-    expect(liensBarre()).toEqual([T.monEspace, ...SITE]);
-    expect(screen.getByRole("link", { name: T.monEspace })).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("link", { name: "deviens-marrant.fr" })).toHaveAttribute("href", "/mon-espace");
-    expect(screen.queryByRole("link", { name: /^Premium, 1,99/ })).toBeNull();
-  });
-
-  it("menu mobile de l'abonné : « Mon espace », ses 8 entrées, puis les liens du site ; Échap rend le focus", async () => {
-    useSession.mockReturnValue(SESSIONS.abonne);
-    usePathname.mockReturnValue("/mon-espace/fiche/situation/coloc-la-poele");
-    render(<EnTeteUniversel />);
-    const bouton = screen.getByRole("button", { name: "Menu" });
-    await userEvent.click(bouton);
-    const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
-    const liens = within(menu).getAllByRole("link").map((a) => a.textContent);
-    expect(liens.slice(0, 10)).toEqual([T.monEspace, ...INDEX_ESPACE.map((e) => e.label), "Parcours"]);
-    expect(within(menu).getByRole("link", { name: T.index.quoiRepondre })).toHaveAttribute("aria-current", "page");
-    expect(menu.querySelector("p")?.textContent).toBe(T.monEspace);
-    await userEvent.keyboard("{Escape}");
-    expect(screen.queryByRole("navigation", { name: "Navigation mobile" })).toBeNull();
-    expect(bouton).toHaveFocus();
-  });
-});
-
-describe("retour par type de page (§4.3)", () => {
-  it.each([
-    ["/mon-espace/fiche/situation/coloc-la-poele", T.index.quoiRepondre, "/mon-espace/quoi-repondre"],
-    ["/mon-espace/fiche/a-plat/x", T.index.quoiRepondre, "/mon-espace/quoi-repondre"],
-    ["/mon-espace/fiche/jeu/quelle-replique-1", T.index.sEntrainer, "/mon-espace/s-entrainer"],
-    ["/mon-espace/fiche/seance/x", T.index.sEntrainer, "/mon-espace/s-entrainer"],
-    ["/mon-espace/fiche/construction/x", T.index.bibliotheque, "/mon-espace/bibliotheque"],
-    ["/mon-espace/fiche/humour-noir/x", T.index.bibliotheque, "/mon-espace/bibliotheque"],
-    ["/mon-espace/bonus/x", T.index.bibliotheque, "/mon-espace/bibliotheque"],
-    ["/mon-espace/fiche/bilan/bilan-repartie", "Répartie", "/parcours/repartie"],
-    ["/mon-espace/lettres/2026-W46", T.index.lettres, "/mon-espace/lettres"],
-    ["/mon-espace/questions/abc", T.index.mesQuestions, "/mon-espace/questions"],
-    ["/mon-espace/quoi-repondre", T.monEspace, "/mon-espace"],
-    ["/mon-espace/s-entrainer", T.monEspace, "/mon-espace"],
-  ])("%s : « Retour : %s »", (chemin, label, href) => {
-    expect(parentEspace(chemin)).toMatchObject({ label, href });
-  });
-
-  it.each(["/mon-espace", "/favoris", "/carnet", "/carnet/2026-11", "/parcours"])("%s : aucun retour ajouté", (chemin) => {
-    expect(parentEspace(chemin)).toBeNull();
-  });
-});
-
-describe("élément allumé (§1)", () => {
-  it.each([
-    ["/mon-espace", "abonne", "monEspace"],
-    ["/mon-espace/fiche/bilan/bilan-repartie", "abonne", "/parcours"],
-    ["/carnet/2026-11", "abonne", "monEspace"],
-    ["/favoris", "abonne", "monEspace"],
-    ["/favoris", "gratuit", "compte"],
-    ["/profil", "abonne", "compte"],
-    ["/lettre", "abonne", null],
-    ["/lettre", "visiteur", "/lettre"],
-    ["/blog/x", "abonne", "/blog"],
-    ["/carnet", "visiteur", null],
-    ["/", "visiteur", null],
-  ] as const)("barre, %s (%s) : %s", (chemin, etat, attendu) => {
-    expect(elementBarreAllume(chemin, etat)).toBe(attendu);
-  });
-
-  it.each([
-    ["/mon-espace", "monEspace"],
-    ["/mon-espace/bibliotheque", "bibliotheque"],
-    ["/mon-espace/fiche/jeu/x", "sEntrainer"],
-    ["/carnet/2026-11", "carnet"],
-    ["/favoris", "favoris"],
-    ["/mon-espace/fiche/bilan/bilan-repartie", null],
-  ])("menu mobile de l'abonné, %s : %s", (chemin, attendu) => {
-    expect(ligneEspaceAllumee(chemin)).toBe(attendu);
-  });
-});
-
 describe("nom du groupe non répété à chaque ligne (relecture des captures nav s24, tour 2)", () => {
   it.each([
     ["Vocabulaire : quand on te lance une pique", "Vocabulaire", "Quand on te lance une pique"],
@@ -189,29 +87,6 @@ describe("nom du groupe non répété à chaque ligne (relecture des captures na
   ])("%s sous « %s » : %s", (titre, groupe, attendu) => {
     expect(sansPrefixe(titre, groupe)).toBe(attendu);
   });
-});
-
-// s25 (relecture tour 1) : spec §1 « de haut en bas », une colonne pour tous ; actions alignées à gauche, avec icône.
-it("menu mobile de l'abonné : les 5 liens du site en une colonne, « Mon profil » et « Déconnexion » à gauche dans le flux", async () => {
-  drapeau.__ESPACE_OUVERT__ = true;
-  useSession.mockReturnValue(SESSIONS.abonne);
-  render(<EnTeteUniversel />);
-  await userEvent.click(screen.getByRole("button", { name: "Menu" }));
-  const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
-  expect(menu.querySelector("[data-liens-site]")?.className).not.toMatch(/grid/);
-  const actions = menu.querySelector("[data-actions-compte]");
-  expect(actions?.className).not.toMatch(/sticky/);
-  expect(actions?.className).toMatch(/flex-col/);
-  expect(within(menu).getByRole("link", { name: "Mon profil" })).toBeInTheDocument();
-  const sortie = within(menu).getByRole("button", { name: "Déconnexion" });
-  expect(sortie.className).toMatch(/\bjustify-start\b/);
-  expect(sortie.querySelector("svg")).not.toBeNull();
-  // s25 (relecture tour 2, design F2, ux 3 et 5) : même graisse que les liens du site, sans le semi-gras du bouton.
-  expect(sortie.className).toMatch(/\bfont-medium\b/);
-  expect(sortie.className).not.toMatch(/\bfont-semibold\b/);
-  // Un seul pas de 44 px : liens du site en `min-h-11`, colonne sans interstice.
-  expect(within(menu).getByRole("link", { name: "Parcours" }).className).toMatch(/\bmin-h-11\b/);
-  expect(menu.querySelector("[data-liens-site]")?.parentElement?.className).not.toMatch(/\bgap-/);
 });
 
 it("menu mobile du visiteur : « Connexion » à gauche, même graisse que les liens du site (s25, tour 2, design F1 et F2)", async () => {
@@ -287,9 +162,9 @@ describe("garde-fous de fichiers (plan §2 règles 7 et 8)", () => {
     expect(code).not.toMatch(/\b(IA|intelligence artificielle)\b/);
   });
 
-  it("chaque ligne de l'index a un libellé du fichier de textes", () => {
-    const libelles = Object.values(T.index) as string[];
-    for (const r of INDEX_ESPACE) expect(libelles).toContain(r.label);
+  it("chaque rubrique de l'espace dans la bande a un libellé du fichier de textes", () => {
+    const libelles = [...Object.values(T.index), T.bande.aujourdhui, T.parcours] as string[];
+    for (const r of RUBRIQUES.filter((x) => x.groupe === 1 || x.groupe === "plus")) expect(libelles).toContain(r.label);
   });
 
   it("ni barre de rubriques ni menu « Plus » : fichiers supprimés", () => {

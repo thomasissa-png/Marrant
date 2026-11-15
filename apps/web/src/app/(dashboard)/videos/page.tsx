@@ -1,3 +1,4 @@
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import type { Metadata } from "next";
 import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
@@ -100,11 +101,14 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
           ],
         })}
       />
-      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
-        <span className="mx-2">/</span>
-        <span className="text-text-secondary">Vidéos</span>
-      </nav>
+      {/* Navigation v6 : fil d'Ariane visible retiré au premier niveau (la bande montre la rubrique), BreadcrumbList gardé. */}
+      {!ESPACE_CLIENT_PUBLIE && (
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
+          <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
+          <span className="mx-2">/</span>
+          <span className="text-text-secondary">Vidéos</span>
+        </nav>
+      )}
       <PageHeader
         title={<>Apprends à être drôle en piquant leur mécanique aux meilleurs humoristes</>}
         lead={

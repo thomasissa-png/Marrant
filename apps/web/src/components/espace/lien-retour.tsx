@@ -28,7 +28,12 @@ export function LienRetour({ href, label }: { href: string; label: string }) {
   );
 }
 
-/** Retour de la page à l'adresse `chemin` (table du §4.3) ; rien pour Aujourd'hui et les pages publiques. */
+/**
+ * Retour de la page à l'adresse `chemin` (table du §4.3) ; rien pour Aujourd'hui et les pages publiques.
+ * s25, navigation v6 (§4) : rien non plus pour les rubriques de premier niveau de la bande (Quoi répondre,
+ * Bibliothèque, S'entraîner, Mes questions, Mes répliques) : la bande est le retour, « Retour : Mon espace » disparaît.
+ * `/mon-espace/lettres` ramène à « La lettre ». Règles dans `parentEspace` (`rubriques.ts`).
+ */
 export function RetourDe({ chemin }: { chemin: string }) {
   const parent = parentEspace(chemin);
   return parent ? <LienRetour href={parent.href} label={parent.label} /> : null;

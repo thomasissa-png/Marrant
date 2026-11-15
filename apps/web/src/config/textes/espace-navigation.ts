@@ -11,6 +11,11 @@
  * - « Dans ton espace » et « Retour : {parent} » : spécification v5 §3 et §4.3 (libellés nouveaux, signalés) ;
  * - noms et lignes de la cloche : `docs/copy/libelles-espace-e5-s24.md` lignes 10 à 12, maquette
  *   `docs/espace-client/etalons/e5/aujourdhui.html`, état vide : architecture v20 §2.9.
+ * s25 (navigation v6, `docs/ux/navigation-v6-menu-rubriques.md`, maquette D validée par Thomas le 15/11) : bande
+ * des rubriques (`bande`). Libellés des rubriques repris de l'index v5 et des liens du site, inchangés ; nouveaux,
+ * validés par Thomas le 15/11 (« pour les points je suis ta reco ») : nom accessible « Plus » du bouton « … » et
+ * suffixe « rubrique Premium » des rubriques payantes pour le non-abonné. « Dans ton espace » (index d'Aujourd'hui)
+ * retiré : la bande le remplace.
  * Contrôle automatique : zéro tiret cadratin, zéro émoji (`__tests__/espace/navigation-espace-s24.test.tsx`).
  */
 
@@ -20,8 +25,6 @@ export const TEXTES_ESPACE_NAVIGATION = {
   /** Repli du retour d'un bilan dont le parcours n'est plus publié. */
   parcours: "Parcours",
   index: {
-    /** Titre de la carte d'index de « Aujourd'hui » (v5 §3). */
-    titre: "Dans ton espace",
     quoiRepondre: "Quoi répondre",
     bibliotheque: "Bibliothèque",
     mesQuestions: "Mes questions",
@@ -30,6 +33,18 @@ export const TEXTES_ESPACE_NAVIGATION = {
     lettres: "Lettres",
     favoris: "Favoris",
     carnet: "Carnet",
+  },
+  /** Bande des rubriques (v6 §1, §2, §5). */
+  bande: {
+    /** Nom de la navigation (`aria-label`). */
+    nom: "Rubriques",
+    aujourdhui: "Aujourd’hui",
+    /** Bouton « … » : nom accessible (décision C1 du 12/11, validé le 15/11). */
+    plus: "Plus",
+    /** Nom de la liste ouverte par « … ». */
+    listePlus: "Plus de rubriques",
+    /** Nom accessible d'une rubrique payante pour le non-abonné (validé le 15/11). */
+    premium: (rubrique: string) => `${rubrique}, rubrique Premium`,
   },
   /** Lien de retour des pages de l'espace (v5 §4.3). */
   retour: (parent: string) => `Retour : ${parent}`,

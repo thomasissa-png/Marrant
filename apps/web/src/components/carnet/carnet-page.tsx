@@ -50,13 +50,16 @@ export function CarnetPage({
 
   return (
     <div className="mx-auto max-w-3xl">
-      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
-        <span className="mx-2">/</span>
-        <Link href="/carnet" className="hover:text-text-primary max-md:py-3.5">Carnet</Link>
-        <span className="mx-2">/</span>
-        <span className="text-text-secondary">{formatCarnetMonth(view.mois)}</span>
-      </nav>
+      {/* Navigation v6 : fil d'Ariane visible retiré sur /carnet (premier niveau), gardé sur /carnet/<mois>. */}
+      {!(ESPACE_CLIENT_PUBLIE && returnTo === "/carnet") && (
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
+          <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
+          <span className="mx-2">/</span>
+          <Link href="/carnet" className="hover:text-text-primary max-md:py-3.5">Carnet</Link>
+          <span className="mx-2">/</span>
+          <span className="text-text-secondary">{formatCarnetMonth(view.mois)}</span>
+        </nav>
+      )}
 
       <header className="mb-8 space-y-3">
         {/* Relecture des captures nav s24, tour 2 : interrupteur de l'espace ouvert et carnet de l'abonné, la

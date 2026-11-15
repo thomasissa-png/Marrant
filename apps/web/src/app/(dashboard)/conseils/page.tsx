@@ -1,3 +1,4 @@
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import type { Metadata } from "next";
 import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
@@ -104,11 +105,14 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
           ],
         })}
       />
-      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
-        <span className="mx-2">/</span>
-        <span className="text-text-secondary">Conseils</span>
-      </nav>
+      {/* Navigation v6 : fil d'Ariane visible retiré au premier niveau (la bande montre la rubrique), BreadcrumbList gardé. */}
+      {!ESPACE_CLIENT_PUBLIE && (
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
+          <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
+          <span className="mx-2">/</span>
+          <span className="text-text-secondary">Conseils</span>
+        </nav>
+      )}
       <PageHeader
         title={<>Comment avoir de la répartie et devenir plus drôle</>}
         lead={

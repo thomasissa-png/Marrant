@@ -67,11 +67,14 @@ export default async function ParcoursPage() {
   const catalogue = getParcoursCatalogue();
   const introduction = (
     <>
-      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
-        <span className="mx-2">/</span>
-        <span className="text-text-secondary">Parcours</span>
-      </nav>
+      {/* Navigation v6 : fil d'Ariane visible retiré au premier niveau (la bande montre la rubrique), BreadcrumbList gardé. */}
+      {!ESPACE_CLIENT_PUBLIE && (
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
+          <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
+          <span className="mx-2">/</span>
+          <span className="text-text-secondary">Parcours</span>
+        </nav>
+      )}
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">
           {/* v3 M6 : espace insécable avant « : » (jamais en début de ligne). */}

@@ -1,35 +1,65 @@
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { PREMIUM_PARCOURS } from "@/config/premium";
 import { TEXTES_ESPACE_NAVIGATION as T } from "@/config/textes/espace-navigation";
+import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 
 /**
- * Navigation de l'espace dans l'en-tête unique du site (s24, `docs/ux/navigation-universelle-s24.md` v5,
- * §1, §4) : index de « Mon espace » (8 rubriques, carte « Dans ton espace » et menu mobile), parent de
- * chaque page (« Retour : … », §4.3) et élément allumé (barre et menu mobile, tableau du §1).
+ * Navigation v6 (s25, `docs/ux/navigation-v6-menu-rubriques.md`, maquette D validée le 15/11) : liste de la bande
+ * des rubriques (§1, ordre unique pour les 3 états), rubrique allumée (§4, une seule fonction pour tous les états)
+ * et parent de chaque page de détail de l'espace (« Retour : … », gardé sur les pages A ; supprimé sur les pages de
+ * premier niveau, la bande est le retour).
  * Tout est fixé par l'adresse seule : ni état de session, ni paramètre d'adresse.
  * Module sans dépendance serveur : importable par l'en-tête (client) et les pages (serveur).
  */
-export type CleIndex = "quoiRepondre" | "bibliotheque" | "mesQuestions" | "sEntrainer" | "mesRepliques" | "lettres" | "favoris" | "carnet";
+export type CleRubrique =
+  | "aujourdhui"
+  | "parcours"
+  | "quoiRepondre"
+  | "bibliotheque"
+  | "sEntrainer"
+  | "vannes"
+  | "conseils"
+  | "videos"
+  | "articles"
+  | "lettre"
+  | "favoris"
+  | "carnet"
+  | "mesQuestions"
+  | "mesRepliques";
 
-export interface EntreeIndex {
-  cle: CleIndex;
+/** 1 : espace Premium ; 2 : gratuit pour tous ; 3 : raccourcis ; « plus » : liste du bouton « … ». */
+export type GroupeRubrique = 1 | 2 | 3 | "plus";
+
+export interface Rubrique {
+  cle: CleRubrique;
   href: string;
   label: string;
+  groupe: GroupeRubrique;
 }
 
-/** Index de « Mon espace », dans l'ordre du §4.2 (une colonne de lignes de 44 px). */
-export const INDEX_ESPACE: readonly EntreeIndex[] = [
-  { cle: "quoiRepondre", href: `${ESPACE_ACCUEIL}/quoi-repondre`, label: T.index.quoiRepondre },
-  { cle: "bibliotheque", href: `${ESPACE_ACCUEIL}/bibliotheque`, label: T.index.bibliotheque },
-  { cle: "mesQuestions", href: `${ESPACE_ACCUEIL}/questions`, label: T.index.mesQuestions },
-  { cle: "sEntrainer", href: `${ESPACE_ACCUEIL}/s-entrainer`, label: T.index.sEntrainer },
-  { cle: "mesRepliques", href: `${ESPACE_ACCUEIL}/repliques`, label: T.index.mesRepliques },
-  { cle: "lettres", href: `${ESPACE_ACCUEIL}/lettres`, label: T.index.lettres },
-  { cle: "favoris", href: "/favoris", label: T.index.favoris },
-  { cle: "carnet", href: "/carnet", label: T.index.carnet },
+/** Bande des rubriques, dans l'ordre du §1 (mêmes adresses pour tous : le non-abonné y trouve l'aperçu). */
+export const RUBRIQUES: readonly Rubrique[] = [
+  { cle: "aujourdhui", href: ESPACE_ACCUEIL, label: T.bande.aujourdhui, groupe: 1 },
+  { cle: "parcours", href: "/parcours", label: T.parcours, groupe: 1 },
+  { cle: "quoiRepondre", href: `${ESPACE_ACCUEIL}/quoi-repondre`, label: T.index.quoiRepondre, groupe: 1 },
+  { cle: "bibliotheque", href: `${ESPACE_ACCUEIL}/bibliotheque`, label: T.index.bibliotheque, groupe: 1 },
+  { cle: "sEntrainer", href: `${ESPACE_ACCUEIL}/s-entrainer`, label: T.index.sEntrainer, groupe: 1 },
+  { cle: "vannes", href: "/vannes", label: "Vannes", groupe: 2 },
+  { cle: "conseils", href: "/conseils", label: "Conseils", groupe: 2 },
+  { cle: "videos", href: "/videos", label: "Vidéos", groupe: 2 },
+  { cle: "articles", href: "/blog", label: LIBELLE_SECTION_ARTICLES, groupe: 2 },
+  { cle: "lettre", href: "/lettre", label: TEXTES_LETTRE.menu, groupe: 2 },
+  { cle: "favoris", href: "/favoris", label: T.index.favoris, groupe: 3 },
+  { cle: "carnet", href: "/carnet", label: T.index.carnet, groupe: 3 },
+  { cle: "mesQuestions", href: `${ESPACE_ACCUEIL}/questions`, label: T.index.mesQuestions, groupe: "plus" },
+  { cle: "mesRepliques", href: `${ESPACE_ACCUEIL}/repliques`, label: T.index.mesRepliques, groupe: "plus" },
 ];
 
-const entree = (cle: CleIndex) => INDEX_ESPACE.find((e) => e.cle === cle) as EntreeIndex;
+/** Rubrique payante (cadenas et nom « {rubrique}, rubrique Premium » pour le non-abonné, §2). */
+export const estPremium = (r: Rubrique) => r.groupe === 1 || r.groupe === "plus";
+
+const rubrique = (cle: CleRubrique) => RUBRIQUES.find((r) => r.cle === cle) as Rubrique;
 
 /** Page exacte ou sous-page (`/blog/<slug>` garde « Articles »). Même règle que `isActivePath` du site. */
 export function sousAdresse(pathname: string | null, href: string): boolean {
@@ -37,8 +67,8 @@ export function sousAdresse(pathname: string | null, href: string): boolean {
   return pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
 }
 
-/** Types de fiche rangés par rubrique (§4.3 ; `a-plat`, `jeu`, `seance` comme dans la v5 §7, FD4). */
-const FICHES_PAR_RUBRIQUE: Record<string, CleIndex> = {
+/** Types de fiche rangés par rubrique (§4 ; `a-plat`, `jeu`, `seance` comme dans la v5 §7, FD4). */
+const FICHES_PAR_RUBRIQUE: Record<string, CleRubrique> = {
   situation: "quoiRepondre",
   "a-plat": "quoiRepondre",
   jeu: "sEntrainer",
@@ -60,63 +90,50 @@ export function parcoursDuBilan(idFiche: string): { slug: string; nom: string } 
 export interface Parent {
   href: string;
   label: string;
-  /** Ligne du menu mobile allumée sur cette page (§1 : page A, la ligne de son parent). */
-  ligne: CleIndex | "parcours" | "monEspace";
 }
 
 /**
- * Parent d'une page de l'espace (« Retour : {label} », §4.3), ou `null` : Aujourd'hui, pages publiques
- * (`/favoris`, `/carnet` gardent leurs repères publics), adresse inconnue.
+ * Parent d'une page de l'espace (« Retour : {label} »), ou `null`. v6 §4 : gardé sur les pages A (fiches, bonus,
+ * question, lettre), qui ramènent à leur liste ; rien sur Aujourd'hui ni sur les rubriques de la bande (la bande est
+ * le retour). `/mon-espace/lettres` (308 vers `/lettre` depuis le lot C) et ses lettres ramènent à « La lettre ».
  */
 export function parentEspace(pathname: string | null): Parent | null {
   if (!pathname || !pathname.startsWith(`${ESPACE_ACCUEIL}/`)) return null;
   const [, , section, type, id] = pathname.split("/");
-  const versIndex = (cle: CleIndex): Parent => ({ href: entree(cle).href, label: entree(cle).label, ligne: cle });
+  const vers = (cle: CleRubrique): Parent => ({ href: rubrique(cle).href, label: rubrique(cle).label });
   if (section === "fiche") {
     if (type === "bilan") {
       const p = id ? parcoursDuBilan(decodeURIComponent(id)) : null;
-      return p ? { href: `/parcours/${p.slug}`, label: p.nom, ligne: "parcours" } : { href: "/parcours", label: T.parcours, ligne: "parcours" };
+      return p ? { href: `/parcours/${p.slug}`, label: p.nom } : vers("parcours");
     }
     const cle = type ? FICHES_PAR_RUBRIQUE[type] : undefined;
-    return cle ? versIndex(cle) : null;
+    return cle ? vers(cle) : null;
   }
-  if (section === "bonus" && type) return versIndex("bibliotheque");
-  if (section === "lettres" && type) return versIndex("lettres");
-  if (section === "questions" && type) return versIndex("mesQuestions");
-  // Pages B de l'espace et S'entraîner (C) : « Retour : Mon espace ».
-  const rubrique = INDEX_ESPACE.find((e) => e.href === `${ESPACE_ACCUEIL}/${section}`);
-  if (rubrique && !type) return { href: ESPACE_ACCUEIL, label: T.monEspace, ligne: rubrique.cle };
+  if (section === "bonus" && type) return vers("bibliotheque");
+  // Lot C (s25) : `/mon-espace/lettres` renvoie en 308 vers `/lettre`, qui sert l'archive à l'abonné.
+  if (section === "lettres") return vers("lettre");
+  if (section === "questions" && type) return vers("mesQuestions");
   return null;
-}
-
-/**
- * Ligne allumée du menu mobile de l'abonné (§1) : sur une rubrique de l'index, sa propre ligne ; sur une
- * page A, la ligne de son parent ; « Mon espace » seulement sur Aujourd'hui. `null` : aucune ligne de
- * l'espace (les liens du site s'allument par leur adresse).
- */
-export function ligneEspaceAllumee(pathname: string | null): CleIndex | "monEspace" | null {
-  if (!pathname) return null;
-  if (pathname === ESPACE_ACCUEIL) return "monEspace";
-  if (sousAdresse(pathname, "/carnet")) return "carnet";
-  if (pathname === "/favoris") return "favoris";
-  const parent = parentEspace(pathname);
-  if (!parent || parent.ligne === "parcours") return null;
-  return parent.ligne;
 }
 
 export type EtatLecteur = "visiteur" | "gratuit" | "abonne";
 
-/** Élément de la barre allumé (§1) : « monEspace », « compte », l'adresse d'un lien du site, ou `null`. */
-export function elementBarreAllume(pathname: string | null, etat: EtatLecteur): string | null {
+/**
+ * Rubrique allumée (v6 §4, une seule fonction pour les 3 états) : la clé d'une rubrique de la bande (une rubrique du
+ * groupe « plus » allume « … »), « compte » sur `/profil`, `null` ailleurs (accueil, abonnement, pages hors rubrique).
+ */
+export function rubriqueAllumee(pathname: string | null): CleRubrique | "compte" | null {
   if (!pathname) return null;
-  if (etat === "abonne") {
-    if (sousAdresse(pathname, `${ESPACE_ACCUEIL}/fiche/bilan`)) return "/parcours";
-    if (sousAdresse(pathname, ESPACE_ACCUEIL) || sousAdresse(pathname, "/carnet") || pathname === "/favoris") return "monEspace";
-    if (sousAdresse(pathname, "/lettre")) return null;
+  if (pathname === "/profil") return "compte";
+  if (pathname === ESPACE_ACCUEIL) return "aujourdhui";
+  if (sousAdresse(pathname, ESPACE_ACCUEIL)) {
+    const [, , section, type] = pathname.split("/");
+    if (section === "fiche") return type === "bilan" ? "parcours" : (type && FICHES_PAR_RUBRIQUE[type]) || null;
+    if (section === "bonus") return "bibliotheque";
+    if (section === "lettres") return "lettre";
   }
-  if (pathname === "/profil" || (etat === "gratuit" && pathname === "/favoris")) return "compte";
-  for (const href of ["/parcours", "/vannes", "/conseils", "/videos", "/blog", "/lettre"]) {
-    if (sousAdresse(pathname, href)) return href;
+  for (const r of RUBRIQUES) {
+    if (r.cle !== "aujourdhui" && sousAdresse(pathname, r.href)) return r.cle;
   }
   return null;
 }
