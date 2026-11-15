@@ -28,11 +28,12 @@ export default function ProfilPage({
     <>
       {/* v6 tour 1, point 13 : plus de place du repère au-dessus du titre (la bande des rubriques est le repère),
           H1 à la même hauteur que les autres rubriques. Fermé : rien n'était rendu ici, HTML inchangé. */}
-      <div className="mb-8">
+      {/* v6 tour 3, point 1 (ouvert seulement) : H1 et sous-titre centrés comme le hero de l'accueil. */}
+      <div className={ESPACE_CLIENT_PUBLIE ? "mb-8 text-center" : "mb-8"}>
         <h1 className="font-display text-3xl font-bold md:text-4xl">
           Mon profil
         </h1>
-        <p className="mt-2 text-text-secondary">
+        <p className={ESPACE_CLIENT_PUBLIE ? "mx-auto mt-2 max-w-2xl text-text-secondary" : "mt-2 text-text-secondary"}>
           Ta progression, tes stats, ton parcours vers la l&#233;gende.
         </p>
       </div>

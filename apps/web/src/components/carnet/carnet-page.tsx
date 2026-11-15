@@ -43,9 +43,9 @@ export function CarnetPage({
   src: string;
 }) {
   const autresMois = months.filter((m) => m !== view.mois);
-  // v6 tour 1, point 11 : sommaire et carnets précédents en tête, interrupteur ouvert et carnet de l'abonné seulement.
+  // v6 tour 1, point 11 : sommaire en tête, interrupteur ouvert et carnet de l'abonné seulement. v6 tour 3, point 9 :
+  // « Les carnets précédents » descend après les fiches (fin de page), il ne coiffe plus les fiches du mois.
   const sommaire = ESPACE_CLIENT_PUBLIE && view.premium;
-  const archives = autresMois.length > 0 ? <CarnetsPrecedents mois={autresMois} className="mb-8" /> : null;
   const kicker = (
     <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
       Carnet {deCarnetMonth(view.mois)} · {view.totalFiches} situations
@@ -65,38 +65,35 @@ export function CarnetPage({
         </nav>
       )}
 
-      <header className="mb-8 space-y-3">
-        {/* Relecture des captures nav s24, tour 2 : interrupteur de l'espace ouvert et carnet de l'abonné, la
-            surtitre passe sous le titre (H1 juste sous le fil d'Ariane, à la hauteur des autres pages). */}
-        {!(ESPACE_CLIENT_PUBLIE && view.premium) && kicker}
+      {/* v6 tour 3 (points 1 et 9), interrupteur ouvert : en-tête centré comme le hero de l'accueil, sur-titre
+          AU-DESSUS du H1 pour tous les comptes (le tour 2 le passait sous le titre chez l'abonné). Fermé : inchangé. */}
+      <header className={ESPACE_CLIENT_PUBLIE ? "mb-8 space-y-3 text-center" : "mb-8 space-y-3"}>
+        {kicker}
         <h1 id={sommaire ? "carnet-titre" : undefined} className="font-display text-3xl font-bold md:text-4xl">{frTypo(view.titre)}</h1>
-        {ESPACE_CLIENT_PUBLIE && view.premium && kicker}
-        <p className="text-text-secondary">{frTypo(view.intro)}</p>
+        <p className={ESPACE_CLIENT_PUBLIE ? "mx-auto max-w-2xl text-text-secondary" : "text-text-secondary"}>{frTypo(view.intro)}</p>
       </header>
 
       {/* v6 tour 1, point 11 (interrupteur ouvert, abonné) : sommaire des fiches en tête (ancres `fiche-<id>`
-          existantes, titres des fiches, aucun texte nouveau), puis « Les carnets précédents » remontés dessous. */}
+          existantes, titres des fiches, aucun texte nouveau). Tour 3, point 9 : liens soulignés en permanence
+          (signal de clic visible sans survol), 2 colonnes dès `sm`, cible 44 px. */}
       {sommaire && (
-        <>
-          <nav aria-labelledby="carnet-titre" className="mb-8" data-carnet-sommaire="">
-            <ol className="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
-              {view.fiches.map((fiche) => (
-                <li key={fiche.id} className="flex min-w-0 gap-2 text-sm text-text-muted">
-                  <span aria-hidden="true" className="inline-flex min-h-11 items-center tabular-nums">
-                    {view.numeros[fiche.id]}.
-                  </span>
-                  <a
-                    href={`#fiche-${fiche.id}`}
-                    className="inline-flex min-h-11 min-w-0 items-center text-text-secondary underline-offset-2 [overflow-wrap:anywhere] hover:text-text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
-                  >
-                    {frTypo(fiche.titre)}
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-          {archives}
-        </>
+        <nav aria-labelledby="carnet-titre" className="mb-8" data-carnet-sommaire="">
+          <ol className="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
+            {view.fiches.map((fiche) => (
+              <li key={fiche.id} className="flex min-w-0 gap-2 text-sm text-text-muted">
+                <span aria-hidden="true" className="inline-flex min-h-11 items-center tabular-nums">
+                  {view.numeros[fiche.id]}.
+                </span>
+                <a
+                  href={`#fiche-${fiche.id}`}
+                  className="inline-flex min-h-11 min-w-0 items-center text-text-secondary underline decoration-text-muted underline-offset-4 [overflow-wrap:anywhere] hover:text-text-primary hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+                >
+                  {frTypo(fiche.titre)}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
       )}
 
       <div className="space-y-6">
@@ -135,7 +132,7 @@ export function CarnetPage({
         </>
       )}
 
-      {!sommaire && view.premium && autresMois.length > 0 && <CarnetsPrecedents mois={autresMois} className="mt-10" />}
+      {view.premium && autresMois.length > 0 && <CarnetsPrecedents mois={autresMois} className="mt-10" />}
     </div>
   );
 }

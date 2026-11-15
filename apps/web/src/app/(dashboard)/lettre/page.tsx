@@ -11,6 +11,7 @@ import { AvecContact } from "@/components/lettre/avec-contact";
 import { lireApercuLettre } from "@/lib/lettre/apercu";
 import { frPonctuation } from "@/lib/fr-typo";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { Card } from "@/components/ui/card";
 
 /**
  * Page de la lettre mensuelle (s21, spec §1.4 et §5) : présentation, formulaire,
@@ -109,13 +110,19 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
           <h2 id="lettre-dernier" className="text-sm font-medium uppercase tracking-wider text-text-muted">
             {TEXTES_LETTRE.page.dernierNumero}
           </h2>
-          <p className="mt-2 font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
           {/* v6 tour 2, point 8 (ouvert seulement) : plus de débordement à 375 px, adresses brutes en liens courts.
+              v6 tour 3, point 10 (ouvert seulement) : objet et corps dans une carte à filet de l'accueil.
               Fermé : inchangé (le même débordement y existe, correctif soumis à Thomas). */}
           {ESPACE_CLIENT_PUBLIE ? (
-            <LettreCorpsApercu texte={apercu.dernier.bodyText} />
+            <Card filet className="mt-3 p-5 hover:border-border sm:p-6" data-lettre-apercu="">
+              <p className="font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
+              <LettreCorpsApercu texte={apercu.dernier.bodyText} />
+            </Card>
           ) : (
-            <div className="mt-2 whitespace-pre-line text-text-secondary">{frPonctuation(apercu.dernier.bodyText)}</div>
+            <>
+              <p className="mt-2 font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
+              <div className="mt-2 whitespace-pre-line text-text-secondary">{frPonctuation(apercu.dernier.bodyText)}</div>
+            </>
           )}
         </section>
       )}

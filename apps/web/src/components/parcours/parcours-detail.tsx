@@ -594,11 +594,13 @@ export function ParcoursDetail({
           <span className="text-text-secondary">{frTypoTexte(path.title)}</span>
         </nav>
 
-        <div className="flex items-center gap-3">
+        {/* v6 tour 3, point 1 (ouvert seulement) : en-tête centré comme le hero de l'accueil (icône, H1, niveau et
+            rythme) ; le fil d'Ariane et l'argumentaire gardent leur alignement. Fermé : inchangé. */}
+        <div className={ESPACE_CLIENT_PUBLIE ? "flex flex-col items-center gap-2 text-center" : "flex items-center gap-3"}>
           <span className="text-4xl" aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
           <div>
             <h1 className="font-display text-3xl font-bold">{frTypoTexte(path.title)}</h1>
-            <div className="mt-1 flex flex-wrap items-center gap-2">
+            <div className={ESPACE_CLIENT_PUBLIE ? "mt-1 flex flex-wrap items-center justify-center gap-2" : "mt-1 flex flex-wrap items-center gap-2"}>
               <Badge variant="primary">{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
               {/* s19 (N1 @ux rendu) : le rythme promis par le hub et la meta, repris dans l'en-tête ;
                   durée et rythme forment un seul bloc (jamais « · » seul en bout ou en début de ligne). */}

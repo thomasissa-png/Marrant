@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useSession } from "next-auth/react";
 import { CARTE_A_FILET, Card, CardContent, CardHeader, CardTitle, FiletCarte } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -70,6 +70,27 @@ interface ParcoursProgress {
  * implicite prend la largeur minimale d'un enfant insécable et les cartes débordent à 290 px. Fermé : inchangé.
  */
 const grilleProfil = () => (ESPACE_CLIENT_PUBLIE ? "grid grid-cols-1 gap-6 md:grid-cols-2" : "grid gap-6 md:grid-cols-2");
+
+/**
+ * v6 tour 3, point 5 (interrupteur ouvert seulement) : dès `lg`, les cartes courtes vont deux par ligne, de même
+ * hauteur (`items-stretch`) ; le `md:col-span-2` que portent les cartes est neutralisé dans le groupe (sélecteur
+ * plus précis). Carte seule en fin de groupe : centrée, à la largeur de ses voisines (aucune demi-carte vide). Les
+ * cartes longues (« Prochaine étape », « Mes parcours », suppression du compte) restent en pleine largeur.
+ */
+const GROUPE_COURT = cn(
+  "grid grid-cols-1 gap-6 md:col-span-2 lg:grid-cols-2 lg:items-stretch [&>*:nth-child(n)]:col-span-1",
+  "lg:[&>:last-child:nth-child(odd)]:col-span-2 lg:[&>:last-child:nth-child(odd)]:mx-auto lg:[&>:last-child:nth-child(odd)]:w-[calc(50%-0.75rem)]",
+);
+
+/** Groupe de cartes courtes ouvert ; fermé, un simple fragment (HTML d'avant au caractère près). */
+function GroupeCourt({ children }: { children: ReactNode }) {
+  if (!ESPACE_CLIENT_PUBLIE) return <>{children}</>;
+  return (
+    <div className={GROUPE_COURT} data-profil-groupe="">
+      {children}
+    </div>
+  );
+}
 
 export function ProfilDashboard() {
   const { status } = useSession();
@@ -235,6 +256,8 @@ export function ProfilDashboard() {
       {ESPACE_CLIENT_PUBLIE && prochaineEtape}
       {isPremium && (
         <>
+      {/* v6 tour 3, point 5 (ouvert) : « Ton cap » et « Statistiques » côte à côte dès `lg`. Fermé : fragment. */}
+      <GroupeCourt>
       {/* s24 lot D4 : espace ouvert, la carte « Ton cap » remplace la carte « Progression » (fermé : inchangé). */}
       {ESPACE_CLIENT_PUBLIE ? (
         // Arbitrage @ux D4 n°2 (lot D5) : la carte « Série » est retirée espace ouvert, « Ton cap » prend la largeur.
@@ -322,6 +345,7 @@ export function ProfilDashboard() {
           </div>
         </CardContent>
       </Card>
+      </GroupeCourt>
 
       {/* Parcours en cours */}
       <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
@@ -387,13 +411,19 @@ export function ProfilDashboard() {
         </CardContent>
       </Card>
 
-      {/* s17 tour 1 (UXV-1-02, DES-1-08) : rappel juste sous « Mes parcours » (rien si le compte n'y a pas droit). */}
-      <RappelParcoursToggle className="md:col-span-2" />
+      {/* s17 tour 1 (UXV-1-02, DES-1-08) : rappel juste sous « Mes parcours » (rien si le compte n'y a pas droit).
+          v6 tour 3, point 5 : ouvert, il ouvre le groupe des cartes courtes ci-dessous (même place, sous « Mes parcours »). */}
+      {!ESPACE_CLIENT_PUBLIE && <RappelParcoursToggle className="md:col-span-2" />}
         </>
       )}
 
       {/* Prochaine étape, interrupteur fermé : à sa place d'avant (après les cartes Premium). */}
       {!ESPACE_CLIENT_PUBLIE && prochaineEtape}
+
+      {/* v6 tour 3, point 5 (ouvert) : rappel, abonnement, question à l'équipe, lettre et prénom deux par ligne dès
+          `lg`. Fermé : fragment, cartes à leur place d'avant. */}
+      <GroupeCourt>
+      {ESPACE_CLIENT_PUBLIE && isPremium && <RappelParcoursToggle className="md:col-span-2" />}
 
       {/* Abonnement (s16 reco 11 : formule, échéance, impayé, changer de formule) */}
       <AbonnementCard
@@ -411,7 +441,8 @@ export function ProfilDashboard() {
       {isPremium && (ESPACE_CLIENT_PUBLIE ? (
         <div className={cn("md:col-span-2", CARTE_A_FILET)} data-profil-questions-cadre="">
           <FiletCarte />
-          <LigneMesQuestions className="rounded-xl" />
+          {/* v6 tour 3, point 5 : la carte intérieure suit la hauteur de sa voisine de ligne (`h-full`). */}
+          <LigneMesQuestions className="h-full rounded-xl" />
         </div>
       ) : <QuestionEquipeCard className="md:col-span-2" />)}
 
@@ -420,6 +451,7 @@ export function ProfilDashboard() {
 
       {/* s21 concision (18/10) : prénom renseigné après coup (plus demandé à l'inscription). */}
       <PrenomCard key={user.id} prenom={user.name} />
+      </GroupeCourt>
 
       {/* s16 reco 5 : suppression du compte en libre-service */}
       <SupprimerCompteCard

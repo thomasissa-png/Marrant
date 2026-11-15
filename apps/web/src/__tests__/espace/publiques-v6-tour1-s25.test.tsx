@@ -170,7 +170,8 @@ describe("point 11 : carnet de l'abonné, sommaire en tête", () => {
     <CarnetPage view={carnetViewForPlan(courant, plan)} months={mois} returnTo="/carnet" src="carnet" />
   );
 
-  it("ouvert, abonné : sommaire des fiches (ancres existantes) puis carnets précédents, avant les fiches", () => {
+  // v6 tour 3, point 9 : « Les carnets précédents » descend APRÈS les fiches (il ne coiffe plus les fiches du mois).
+  it("ouvert, abonné : sommaire des fiches (ancres existantes), fiches, puis carnets précédents en fin de page", () => {
     ouvrir(true);
     const { container } = render(page("PREMIUM"));
     const sommaire = container.querySelector("[data-carnet-sommaire]") as HTMLElement;
@@ -183,9 +184,11 @@ describe("point 11 : carnet de l'abonné, sommaire en tête", () => {
       expect(container.querySelector(`[id="${cible}"]`)).not.toBeNull();
     }
     const archives = container.querySelector('[aria-labelledby="carnet-archives"]') as HTMLElement;
-    const premiereFiche = container.querySelector('[id^="fiche-"]') as HTMLElement;
-    expect(sommaire.compareDocumentPosition(archives) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(archives.compareDocumentPosition(premiereFiche) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const fiches = container.querySelectorAll('[id^="fiche-"]');
+    const premiereFiche = fiches[0] as HTMLElement;
+    const derniereFiche = fiches[fiches.length - 1] as HTMLElement;
+    expect(sommaire.compareDocumentPosition(premiereFiche) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(derniereFiche.compareDocumentPosition(archives) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(premiereFiche.querySelector(":scope > [data-filet]")).not.toBeNull();
   });
 
@@ -263,6 +266,7 @@ describe("point 13 : profil", () => {
   it("ouvert : plus de place réservée au-dessus du H1", () => {
     ouvrir(true);
     const html = renderToStaticMarkup(<ProfilPage searchParams={{}} />);
-    expect(html.startsWith('<div class="mb-8"><h1')).toBe(true);
+    // v6 tour 3, point 1 : en-tête centré comme le hero de l'accueil.
+    expect(html.startsWith('<div class="mb-8 text-center"><h1')).toBe(true);
   });
 });

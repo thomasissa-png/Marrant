@@ -315,6 +315,8 @@ const HACHAGES = {
     // Lot D11c : colonne de l'abonné (`ColonneParcours`, code de mise en page seulement, aucun texte touché).
     // Navigation v6 (s25, lot A) : fil d'Ariane visible sous l'interrupteur, aucun texte touché.
     // v6 tour 1, lot 2 (point 12) : grille « Explore aussi » et cartes à filet sous l'interrupteur, aucun texte touché.
-    "app/(dashboard)/parcours/(liste)/page.tsx": "b13e19da03c9b88de13ef71337df3eea629f0e67b2b1026de194455e8a652328",
+    // v6 tour 3, lot 2 (points 1 et 12) : en-tête centré, page sur la coque et colonne centrée des blocs autres que
+    // la liste des cartes, sous l'interrupteur ; aucun texte touché.
+    "app/(dashboard)/parcours/(liste)/page.tsx": "71ffc28d58d4f4874b46f44bc3663ccb9242b9323f7290fe35a116fdd321b0de",
   } as Record<string, string>,
 };

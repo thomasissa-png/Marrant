@@ -241,8 +241,11 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
     ? reprise?.slug ?? (userProgress[PARCOURS_PAR_DEFAUT]?.done ? null : PARCOURS_PAR_DEFAUT)
     : null;
   const parcoursEntame = enteteEspace ||(statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0));
+  // v6 tour 3, point 12 (ouvert seulement) : la page occupe la coque ; reprise et quiz gardent la colonne centrée
+  // de 768 px, la liste des cartes passe en deux colonnes dès `lg` (dernière carte seule : pleine largeur).
+  const colonne = ESPACE_CLIENT_PUBLIE ? "mx-auto max-w-3xl" : undefined;
   const quizOrientation = (
-    <div className={parcoursEntame ? "mt-10" : "mb-10"}>
+    <div className={cn(parcoursEntame ? "mt-10" : "mb-10", colonne)}>
       <h2 className="mb-4 font-display text-xl font-bold">
         Quel parcours est fait pour toi ?
       </h2>
@@ -260,7 +263,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
     <>
       {/* Reprise pour la personne qui a un parcours en cours (UX-11) */}
       {!enteteEspace && reprise && userProgress[reprise.slug]?.nextStep && (
-        <div className="mb-8 rounded-lg border border-accent-primary/40 bg-accent-primary/5 p-4 text-center">
+        <div className={cn("mb-8 rounded-lg border border-accent-primary/40 bg-accent-primary/5 p-4 text-center", colonne)}>
           <Link
             href={`/parcours/${reprise.slug}?src=hub#etape-${userProgress[reprise.slug].nextStep}`}
             className={buttonVariants({ variant: "primary" })}
@@ -284,7 +287,14 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
       {!parcoursEntame && quizOrientation}
 
       {/* Parcours cards */}
-      <div className="flex flex-col gap-6">
+      <div
+        className={
+          ESPACE_CLIENT_PUBLIE
+            ? "grid gap-6 lg:grid-cols-2 lg:[&>:last-child:nth-child(odd)]:col-span-2"
+            : "flex flex-col gap-6"
+        }
+        data-parcours-cartes={ESPACE_CLIENT_PUBLIE ? "" : undefined}
+      >
         {parcours.map((p) => {
           // QA-07 : total réel, bonus de fin compris.
           const totalXp = totalParcoursXp(p.modules.map((m) => ({ moduleXp: m.xp })));
@@ -295,7 +305,12 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           const etape1Slug = statut !== "premium" && !isDone && progressValue === 0 && isParcoursSlug(p.slug) ? p.slug : null;
           const progressMax = prog ? prog.total : p.modules.length;
           return (
-            <Card key={p.title} className="p-4 sm:p-6" id={`parcours-${p.slug}`} filet={ESPACE_CLIENT_PUBLIE}>
+            <Card
+              key={p.title}
+              className={ESPACE_CLIENT_PUBLIE ? "flex flex-col p-4 sm:p-6" : "p-4 sm:p-6"}
+              id={`parcours-${p.slug}`}
+              filet={ESPACE_CLIENT_PUBLIE}
+            >
               <CardHeader className="pb-2">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <Badge variant="primary">{p.difficulty}</Badge>
@@ -319,7 +334,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   {frTypoTexte(p.persona)}
                 </p>
               </CardHeader>
-              <CardContent>
+              <CardContent className={ESPACE_CLIENT_PUBLIE ? "flex flex-1 flex-col" : undefined}>
                 <p className="mb-4 text-pretty text-text-secondary">{frTypoTexte(stripEmDashes(p.description))}</p>
 
                 {/* Testimonial */}
@@ -383,7 +398,9 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   </ol>
                 </details>
 
-                <div className="flex flex-col gap-2">
+                {/* v6 tour 3, point 12 : cartes jumelles de même hauteur, le bloc du bouton reste en fin de carte
+                    (`mt-auto`) ; forme et place du bouton inchangées (cta-forme-place-s21 §1.3). */}
+                <div className={ESPACE_CLIENT_PUBLIE ? "mt-auto flex flex-col gap-2" : "flex flex-col gap-2"}>
                   {/* s21 B15 (froid) : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous. */}
                   <Button
                     // v6 tour 1, point 12 (interrupteur ouvert, abonné) : un seul plein, celui du parcours en cours
