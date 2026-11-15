@@ -130,6 +130,13 @@ for (const compte of comptes) {
           await page.screenshot({ path: join(dossier, fichier) });
           lignes.push(`- ${fichier} : ${url} (liste de suggestions ouverte au clavier)`);
           await page.keyboard.press("Escape");
+          // Tab depuis le champ fraîchement focalisé : le focus doit quitter la recherche (pas de piège dans la liste)
+          await champ.focus();
+          await page.waitForTimeout(300);
+          await page.keyboard.press("Tab");
+          await page.waitForTimeout(300);
+          await page.screenshot({ path: join(dossier, fichier.replace(".png", "-tab.png")) });
+          lignes.push(`- ${fichier.replace(".png", "-tab.png")} : ${url} (focus sur le champ puis Tab)`);
           continue;
         }
         if (action === "focus-retour") {
