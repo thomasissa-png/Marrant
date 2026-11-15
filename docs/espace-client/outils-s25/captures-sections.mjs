@@ -36,6 +36,9 @@ const SECTIONS = {
       ["compte-profil", "/profil", "compte"],
       ["cloche-vide", "/mon-espace", "cloche-vide"],
       ["focus-menu", "/vannes", "focus"],
+      ["menu-court", "/mon-espace", "menu-568"],
+      ["focus-dans-menu", "/mon-espace", "focus-menu"],
+      ["focus-dans-cloche", "/mon-espace", "focus-cloche"],
     ],
     largeurs: [320, 375, 440, 520, 600, 640, 641, 768, 1024, 1280, 1456, 1920],
   },
@@ -92,6 +95,9 @@ for (const compte of comptes) {
     for (const [nom, url, action] of def.pages) {
       if (action === "menu" && w >= 1024) continue;
       if (action === "focus" && ![375, 768, 1280].includes(w)) continue;
+      if (action === "menu-568" && ![320, 375].includes(w)) continue;
+      if (action === "focus-menu" && ![375, 768].includes(w)) continue;
+      if (action === "focus-cloche" && (![375, 1280].includes(w) || !compte.match(/en-cours|nouvel/))) continue;
       if (action.startsWith("cloche") && !compte.match(/en-cours|nouvel/)) continue;
       if (action === "cloche-vide" && compte !== "nouvel") continue;
       if (action === "cloche-vide") await page.route("**/api/espace/cloche", (route) => route.request().method() === "GET" ? route.fulfill({ json: { nonLues: 0, reponses: [], nouveautes: [], lettre: null } }) : route.continue());
@@ -101,7 +107,22 @@ for (const compte of comptes) {
       await page.waitForTimeout(400);
       const fichier = `${compte}-${nom}-${w}.png`;
       try {
-        if (action === "menu") await page.getByRole("button", { name: /menu/i }).first().click();
+        if (action === "menu-568") { await page.setViewportSize({ width: w, height: 568 }); await page.waitForTimeout(200); }
+        if (action === "menu" || action === "menu-568") await page.getByRole("button", { name: /menu/i }).first().click();
+        if (action === "focus-menu" || action === "focus-cloche") {
+          const bouton = action === "focus-menu" ? page.getByRole("button", { name: /menu/i }).first() : page.getByRole("banner").getByRole("button", { name: /^Notifications/ });
+          await bouton.focus();
+          await page.keyboard.press("Enter");
+          await page.waitForTimeout(400);
+          for (let k = 1; k <= 3; k++) {
+            await page.keyboard.press("Tab");
+            await page.waitForTimeout(150);
+            await page.screenshot({ path: join(dossier, fichier.replace(".png", `-${k}.png`)) });
+          }
+          lignes.push(`- ${fichier.replace(".png", "-{1,2,3}.png")} : ${url} (${action}, 3 Tab après ouverture au clavier)`);
+          await page.keyboard.press("Escape");
+          continue;
+        }
         if (action === "focus") {
           // Tab jusqu'à chaque contrôle de l'en-tête, une capture par contrôle (focus clavier visible)
           await page.goto(BASE + url, { waitUntil: "networkidle" });
@@ -120,6 +141,7 @@ for (const compte of comptes) {
         if (action === "compte") await page.getByRole("banner").getByRole("button", { name: /compte/i }).first().click();
         if (action !== "page") await page.waitForTimeout(500);
         await page.screenshot({ path: join(dossier, fichier), fullPage: action === "page" });
+        if (action === "menu-568") await page.setViewportSize({ width: w, height: w < 768 ? 812 : 900 });
         if (action === "haut") await page.screenshot({ path: join(dossier, fichier.replace(".png", "-bandeau.png")), clip: { x: 0, y: 0, width: w, height: 96 } });
         const h = await page.evaluate(() => document.documentElement.scrollHeight);
         const deb = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
