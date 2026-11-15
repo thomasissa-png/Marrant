@@ -51,23 +51,14 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
   test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
   test.setTimeout(180_000);
 
-  test("aperçu (visiteur) : deux colonnes dès 1024 px, offre collée au bord droit de la coque ; une colonne dessous", async ({ page }) => {
+  // v6 tour 2 (arbitrage 1) : les deux colonnes sont abandonnées ; la mise en page de l'aperçu est vérifiée par
+  // `espace-v6-tour2-lot1.spec.ts`. Reste ici : « Connexion » de 44 px et les captures.
+  test("aperçu (visiteur) : « Connexion » de 44 px à toutes les largeurs", async ({ page }) => {
     for (const [rubrique, adresse] of APERCUS) {
       for (const largeur of [...ETROITES, ...LARGES]) {
         await page.setViewportSize({ width: largeur, height: 900 });
         await page.goto(adresse);
-        const coque = await boite(page.locator(`[data-apercu="${rubrique}"]`));
-        const exemple = await boite(page.locator(`[data-apercu="${rubrique}"] article`));
-        const offre = await boite(page.locator("[data-apercu-offre]"));
         const ou = `${rubrique} à ${largeur} px`;
-        if (largeur >= 1024) {
-          expect(offre.gauche, `offre à droite de l'exemple, ${ou}`).toBeGreaterThanOrEqual(exemple.droite + 16);
-          expect(Math.abs(offre.haut - exemple.haut), `offre en haut, ${ou}`).toBeLessThanOrEqual(2);
-          expect(Math.abs(coque.droite - offre.droite), `aucun vide à droite, ${ou}`).toBeLessThanOrEqual(1);
-          expect(Math.abs(coque.gauche - exemple.gauche), `exemple aligné sur la coque, ${ou}`).toBeLessThanOrEqual(1);
-        } else {
-          expect(offre.haut, `offre sous l'exemple, ${ou}`).toBeGreaterThanOrEqual(exemple.bas);
-        }
         const connexion = page.locator("[data-apercu-offre]").getByRole("link", { name: TEXTES_APERCU.connexion });
         expect((await boite(connexion)).hauteur, `« Connexion » 44 px, ${ou}`).toBeGreaterThanOrEqual(44);
         await capturer(page, `visiteur-apercu-${rubrique}`, largeur);
@@ -137,6 +128,7 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
     await expect(sommaire.locator("svg")).toHaveCount(1);
     await capturer(page, "nouvel-fiche-jeu", 1280);
 
+    // v6 tour 2 (point 6) : titre aligné sur le logo, la carte calée à gauche sous le titre (même bord).
     await page.goto("/mon-espace/repliques");
     const vide = page.getByTestId("repliques-vide");
     const titre = await boite(page.getByRole("heading", { level: 1 }));

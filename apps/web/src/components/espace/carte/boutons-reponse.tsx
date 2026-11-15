@@ -3,7 +3,8 @@
 import { useEffect, useId, useState } from "react";
 import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import { DELAI_MOITIE, DELAI_RIEN, REPONSES_CARTE, type ReponseCarte } from "@/lib/espace/revision";
-import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
+import { Coche } from "@/components/espace/carte/coche";
+import { puce } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -19,6 +20,9 @@ export const PRENDS_TON_TEMPS_MS = 3_000;
  * « Rien » disent quand la carte reviendra (première vue seulement) ; « Oui » n'a aucune ligne.
  * Compte à rebours (lot D5b, `compte-a-rebours.tsx`) : quand il est lancé, il remplace « Prends ton
  * temps » (texte masqué, boutons actifs : deux consignes ne se contredisent pas) ; il ne bloque jamais.
+ * v6 tour 2 (point 2) : même langue que les puces « Ton retour » de la même fiche (`puce`, bord `border-input`
+ * 3,33:1 sur carte, texte `text-primary`, 44 px, focus visible, coche et contour de 2 px sur le choix). Pendant
+ * « Prends ton temps », plus d'aspect éteint : seul le texte au-dessus dit d'attendre (`aria-disabled` gardé).
  */
 export function BoutonsReponse({
   reponse,
@@ -53,7 +57,7 @@ export function BoutonsReponse({
             <button
               key={r}
               type="button"
-              className={`${BOUTON_SECONDAIRE} w-full [overflow-wrap:anywhere] ${reponse === r ? "border-2 border-accent-link bg-background-elevated" : ""}`}
+              className={`${puce(reponse === r)} w-full justify-center [overflow-wrap:anywhere] disabled:cursor-default aria-disabled:cursor-default`}
               aria-pressed={reponse === r}
               aria-disabled={attente && !reponse ? true : undefined}
               disabled={reponse !== null}
@@ -62,6 +66,7 @@ export function BoutonsReponse({
                 onRepondre(r);
               }}
             >
+              {reponse === r && <Coche />}
               {T.reponses[r]}
             </button>
           ))}

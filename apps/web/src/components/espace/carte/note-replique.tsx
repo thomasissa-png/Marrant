@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
@@ -34,6 +34,14 @@ export function NoteReplique({ ficheId, initiale }: { ficheId: string; initiale:
   const annuler = useRef<HTMLButtonElement>(null);
   const supprimer = useRef<HTMLButtonElement>(null);
   const id = useId();
+
+  // v6 tour 2 (point 3) : le champ grandit avec le texte (96 px au moins), rien de coupé ni à faire défiler.
+  useEffect(() => {
+    const el = champ.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight + el.offsetHeight - el.clientHeight}px`;
+  }, [texte]);
 
   const enregistrer = async () => {
     if (occupe || texte.trim() === "") return;
@@ -93,7 +101,7 @@ export function NoteReplique({ ficheId, initiale }: { ficheId: string; initiale:
           setTexte(garde);
           if (etat !== "confirmer") setEtat(aLaLimite ? "limite" : "repos");
         }}
-        className="block w-full min-w-0 rounded-md border border-border-input bg-background-light px-3 py-2 text-base text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className="block min-h-24 w-full resize-none overflow-hidden min-w-0 rounded-md border border-border-input bg-background-light px-3 py-2 text-base text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
       />
       <div className="flex flex-wrap items-center gap-2">
         {etat !== "confirmer" && (

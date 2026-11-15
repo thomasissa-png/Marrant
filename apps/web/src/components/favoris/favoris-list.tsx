@@ -38,6 +38,12 @@ function RangeeFavoris({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * v6 tour 2 (point 12) : interrupteur ouvert, onglets et « Retirer » en cible de 44 px à toutes les largeurs (le
+ * `size="sm"` fait 32 px dès 768). « Partager » (`ShareButton`) a déjà sa cible de 44 px. Fermé : rien d'ajouté.
+ */
+const CIBLE_44 = ESPACE_CLIENT_PUBLIE ? " min-h-11" : "";
+
 const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: string; emptyDesc: string; ctaLabel: string; ctaHref: string }[] = [
   {
     value: "ALL",
@@ -214,7 +220,7 @@ export function FavorisList() {
             key={tab.value}
             variant={activeTab === tab.value ? "primary" : "ghost"}
             size="sm"
-            className="shrink-0 snap-start whitespace-nowrap"
+            className={`shrink-0 snap-start whitespace-nowrap${CIBLE_44}`}
             role="tab"
             aria-selected={activeTab === tab.value}
             onClick={() => setActiveTab(tab.value)}
@@ -299,7 +305,7 @@ export function FavorisList() {
                           size="sm"
                           onClick={(e) => { e.stopPropagation(); removeFavorite(fav.id); }}
                           aria-label="Retirer des favoris"
-                          className="text-text-muted hover:text-error"
+                          className={`text-text-muted hover:text-error${CIBLE_44}`}
                         >
                           Retirer
                         </Button>
@@ -386,7 +392,7 @@ export function FavorisList() {
                           size="sm"
                           onClick={(e) => { e.stopPropagation(); removeFavorite(fav.id); }}
                           aria-label="Retirer des favoris"
-                          className="text-text-muted hover:text-error"
+                          className={`text-text-muted hover:text-error${CIBLE_44}`}
                         >
                           Retirer
                         </Button>
@@ -446,7 +452,7 @@ export function FavorisList() {
                           size="sm"
                           onClick={() => removeFavorite(fav.id)}
                           aria-label="Retirer des favoris"
-                          className="text-text-muted hover:text-error"
+                          className={`text-text-muted hover:text-error${CIBLE_44}`}
                         >
                           Retirer
                         </Button>
@@ -502,6 +508,7 @@ export function FavorisList() {
                     size="sm"
                     onClick={() => removeFavorite(fav.id)}
                     aria-label="Retirer des favoris"
+                    className={CIBLE_44.trim() || undefined}
                   >
                     Retirer
                   </Button>

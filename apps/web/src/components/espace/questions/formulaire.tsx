@@ -60,12 +60,14 @@ export function FormulaireQuestion({ onEnvoye }: { onEnvoye: (fil: FilListe) => 
   const decrit = ["q-aide", "q-delai", erreur ? "q-erreur" : ""].filter(Boolean).join(" ");
 
   return (
-    <section className={`${CARTE} max-e300:p-3 [&_*]:[overflow-wrap:break-word]`} aria-labelledby="h-ecrire" data-formulaire-question>
-      <h2 id="h-ecrire" className="font-display text-xl font-bold text-text-primary">
+    // v6 tour 2 (point 7) : le titre hors de la carte, comme « Mes envois » à côté : les deux colonnes partent du
+    // même niveau (titre, puis carte).
+    <section className="min-w-0" aria-labelledby="h-ecrire" data-formulaire-question>
+      <h2 id="h-ecrire" className="mb-3 font-display text-xl font-bold text-text-primary">
         {Q.ecrire.titre}
       </h2>
       <form
-        className="flex flex-col gap-4"
+        className={`${CARTE} flex flex-col gap-4 !space-y-0 max-e300:p-3 [&_*]:[overflow-wrap:break-word]`}
         noValidate
         onSubmit={(e) => {
           e.preventDefault();

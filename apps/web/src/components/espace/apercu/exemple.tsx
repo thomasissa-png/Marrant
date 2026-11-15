@@ -100,7 +100,7 @@ export function ExempleRepliques({ fiche: brute }: { fiche: Fiche }) {
  */
 export function ExempleQuestions() {
   return (
-    <div className="space-y-4" data-apercu-fiche="questions-exemples">
+    <div className="space-y-3" data-apercu-fiche="questions-exemples">
       <h2 id="apercu-exemple" className="font-display text-xl font-bold leading-7 text-text-primary">
         {Q.envois.titre}
       </h2>
@@ -112,12 +112,13 @@ export function ExempleQuestions() {
 /**
  * Favoris : aucun favori d'abonné n'est montré. v6 tour 1 (arbitrage 3) : la première vanne et le premier conseil
  * gratuits du catalogue, présentés comme des favoris, en lecture seule. Sans eux (base indisponible), l'état vide
- * existant de la page (onglet « Tout »).
+ * existant de la page (onglet « Tout »). v6 tour 2 (arbitrage 1) : côte à côte dès `sm`, en `items-start` (aucune
+ * carte étirée à la hauteur de sa voisine).
  */
 export function ExempleFavoris({ exemples = null }: { exemples?: ExemplesFavoris | null }) {
   if (exemples) {
     return (
-      <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2" data-apercu-fiche="favoris-exemples">
+      <ul className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2" data-apercu-fiche="favoris-exemples">
         <FavoriVanneLecture vanne={exemples.vanne} />
         <FavoriConseilLecture conseil={exemples.conseil} />
       </ul>

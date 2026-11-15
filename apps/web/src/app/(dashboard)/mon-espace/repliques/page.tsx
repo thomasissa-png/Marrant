@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import { PageHeader } from "@/components/layout/page-header";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
@@ -40,10 +39,14 @@ export default async function MesRepliquesPage() {
     // Relecture des captures nav s24, tour 2 (design F2, F3) : gabarit B ; sans contenu, la page passe en colonne
     // de lecture (retour, titre et état vide dans la même colonne de 768 px, jamais un titre à gauche et une carte
     // centrée). v6 tour 1 (point 15) : l'état vide et la liste dans la même colonne de lecture (le titre ne change
-    // plus de place selon le compte ; plus de carte de réplique de 1 216 px presque vide).
-    <div className={COLONNE_LECTURE}>
+    // plus de place selon le compte ; plus de carte de réplique de 1 216 px presque vide). v6 tour 2 (point 6) : même
+    // coque et même gabarit que Mes questions (titre aligné sur le logo, comme l'aperçu) ; la liste garde sa
+    // largeur de lecture (`max-w-3xl`), calée à gauche sous le titre, jamais une colonne étroite centrée.
+    <div>
       <PageHeader title={R.titre} />
-      <ListeRepliques initiales={repliques} lectureSeule={false} />
+      <div className="w-full max-w-3xl">
+        <ListeRepliques initiales={repliques} lectureSeule={false} />
+      </div>
     </div>
   );
 }
