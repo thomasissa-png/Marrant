@@ -1323,5 +1323,109 @@ test.describe("navigation universelle v5 (s24)", () => {
         await c.close();
       }
     });
+
+    // s25 tour 8 (design 5 et 7) : lignes du menu du compte au rayon des lignes de la cloche et du menu mobile, la même
+    // classe `rounded-lg` (12 px dans `tailwind.config.ts`), ligne en cours sous l'anneau du clavier comprise.
+    test("tour 8 : lignes du compte au rayon des lignes de la cloche et du menu mobile (768, 1280 px)", async ({ browser }) => {
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      const barre = page.getByRole("banner");
+      const coins = (e: Element) => {
+        const cs = getComputedStyle(e);
+        return { nom: (e as HTMLElement).innerText.trim(), courant: e.getAttribute("aria-current"), hg: cs.borderTopLeftRadius, hd: cs.borderTopRightRadius, bd: cs.borderBottomRightRadius, bg: cs.borderBottomLeftRadius };
+      };
+      await page.setViewportSize({ width: 768, height: 900 });
+      await page.goto("/profil");
+      await pret(page, "PREMIUM");
+      await barre.getByRole("button", { name: "Menu" }).click();
+      const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+      await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+      const ligneMenu = await menu.getByRole("link", { name: "Vannes", exact: true }).evaluate(coins);
+      const rayon = ligneMenu.hg;
+      expect(rayon, "rounded-lg du thème : 0,75rem").toBe("12px");
+      await page.keyboard.press("Escape");
+      await expect(menu).toHaveCount(0);
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await barre.getByRole("button", { name: /^Notifications/ }).click();
+      const panneau = page.getByRole("dialog");
+      await expect(panneau).toBeVisible();
+      const ligneCloche = (await panneau.getByRole("link").count()) ? await panneau.getByRole("link").first().evaluate(coins) : null;
+      noter(`tour 8 ; rayons ; menu mobile=${JSON.stringify(ligneMenu)} ; cloche=${JSON.stringify(ligneCloche)}`);
+      if (ligneCloche) expect([ligneCloche.hg, ligneCloche.hd, ligneCloche.bd, ligneCloche.bg], "ligne de la cloche").toEqual([rayon, rayon, rayon, rayon]);
+      await page.keyboard.press("Escape");
+      await expect(panneau).toHaveCount(0);
+      const compte = barre.getByRole("button", { name: TEXTES_CONNEXION.menuCompte });
+      await compte.focus();
+      await page.keyboard.press("Enter");
+      const items = page.getByRole("menuitem");
+      await expect(items.first()).toBeFocused();
+      const lignes = await items.evaluateAll((els) =>
+        els.map((e) => {
+          const cs = getComputedStyle(e);
+          return { nom: (e as HTMLElement).innerText.trim(), focus: e === document.activeElement, courant: e.getAttribute("aria-current"), hg: cs.borderTopLeftRadius, hd: cs.borderTopRightRadius, bd: cs.borderBottomRightRadius, bg: cs.borderBottomLeftRadius };
+        }),
+      );
+      noter(`tour 8 ; rayons ; compte au clavier ; ${JSON.stringify(lignes)}`);
+      expect(lignes.some((l) => l.courant === "page"), "« Mon profil » en cours sur /profil").toBe(true);
+      for (const l of lignes) {
+        // Ligne en cours non focalisée : coins gauches droits sous le filet violet ; sinon, les 4 coins au rayon.
+        const gauche = l.courant === "page" && !l.focus ? "0px" : rayon;
+        expect([l.hg, l.hd, l.bd, l.bg], `${l.nom}${l.focus ? " (focus)" : ""}`).toEqual([gauche, rayon, rayon, gauche]);
+      }
+      const enCours = page.locator("[role='menuitem'][aria-current='page']");
+      for (let i = 0; i < 5 && !(await enCours.evaluate((e) => e === document.activeElement)); i++) await page.keyboard.press("ArrowDown");
+      await expect(enCours).toBeFocused();
+      await expect.poll(() => enCours.evaluate((e) => getComputedStyle(e).borderTopLeftRadius), { message: "ligne en cours sous l'anneau, coins au rayon" }).toBe(rayon);
+      const sousAnneau = await enCours.evaluate(coins);
+      noter(`tour 8 ; rayons ; ligne en cours au clavier ; ${JSON.stringify(sousAnneau)}`);
+      expect([sousAnneau.hg, sousAnneau.hd, sousAnneau.bd, sousAnneau.bg]).toEqual([rayon, rayon, rayon, rayon]);
+      await c.close();
+    });
+
+    // s25 tour 8 (ux critère 7) : champ de recherche de 44 px dans la barre (dès 1280 px, 176 px de large) et sous la
+    // loupe (`#mobile-search`, 440 à 1279 px) ; dans la barre, centré sur les liens (zone de contenu, comme le tour 5) ;
+    // loupe et texte (placeholder) au centre du champ.
+    test("tour 8 : recherche à 44 px dans la barre et sous la loupe, centrée (440 à 1920 px)", async ({ browser }) => {
+      for (const etat of ["visiteur", "FREE", "PREMIUM"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [440, 640, 768, 1024, 1279, 1280, 1456, 1920]) {
+          await page.setViewportSize({ width: largeur, height: 900 });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          const enBarre = largeur >= 1280;
+          if (!enBarre) {
+            await page.getByRole("banner").getByRole("button", { name: "Rechercher", exact: true }).click();
+            const zone = page.locator("#mobile-search");
+            await expect(zone).toBeVisible();
+            await zone.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          }
+          const m = await page.evaluate((barre) => {
+            const coque = document.querySelector("header > div")!;
+            const input = barre ? Array.from(coque.querySelectorAll("input")).find((i) => i.getBoundingClientRect().width > 0)! : document.querySelector<HTMLInputElement>("#mobile-search input")!;
+            const contenu = (el: Element) => {
+              const r = el.getBoundingClientRect();
+              const s = getComputedStyle(el);
+              return (r.top + parseFloat(s.borderTopWidth) + parseFloat(s.paddingTop) + r.bottom - parseFloat(s.borderBottomWidth) - parseFloat(s.paddingBottom)) / 2;
+            };
+            const r = input.getBoundingClientRect();
+            const loupe = input.parentElement!.querySelector("svg")!.getBoundingClientRect();
+            const liens = Array.from(coque.querySelectorAll("nav a")).filter((a) => a.getBoundingClientRect().width > 0).map(contenu);
+            return { h: r.height, l: r.width, haut: r.top, bas: r.bottom, centre: (r.top + r.bottom) / 2, texte: contenu(input), loupe: (loupe.top + loupe.bottom) / 2, liens };
+          }, enBarre);
+          const ici = `(${etat}, ${largeur} px, ${enBarre ? "barre" : "#mobile-search"})`;
+          noter(`tour 8 ; recherche ; ${ici} ; h=${m.h} ; l=${m.l} ; y=${m.haut}-${m.bas} ; centre=${m.centre} ; texte=${m.texte} ; loupe=${m.loupe} ; liens=${m.liens.join(",")}`);
+          expect(m.h, `44 px ${ici}`).toBe(44);
+          expect(Math.abs(m.loupe - m.centre), `loupe centrée ${ici}`).toBeLessThanOrEqual(0.5);
+          expect(Math.abs(m.texte - m.centre), `texte centré ${ici}`).toBeLessThanOrEqual(0.5);
+          if (enBarre) {
+            expect(m.l, `176 px ${ici}`).toBe(176);
+            expect([m.haut, m.bas], `de 10 à 54 dans la barre de 64 px ${ici}`).toEqual([10, 54]);
+            for (const l of m.liens) expect(Math.abs(l - m.texte), `centré sur les liens ${ici}`).toBeLessThanOrEqual(0.5);
+          }
+        }
+        await c.close();
+      }
+    });
   });
 });

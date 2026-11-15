@@ -38,6 +38,8 @@ import { cn } from "@/lib/utils";
  * en relief (`data-highlighted`) quand le menu est mené au clavier (`data-clavier` : dernière touche après le dernier geste
  * de pointeur). `:focus-visible` ne suffit pas : Radix donne le focus à la ligne survolée et empêche le `pointerdown` du
  * bouton, Chrome dessinerait l'anneau au survol à la souris. Ligne en cours : coins arrondis sous l'anneau.
+ * s25 (relecture design tour 8, critères 5 et 7) : lignes en `rounded-lg` (12 px dans `tailwind.config.ts`), la classe
+ * des lignes de la cloche (`cloche-lignes.tsx`) et du menu mobile, anneau de la ligne en cours compris.
  * Sans `universel` : rendu inchangé (test d'inertie).
  */
 export interface VarianteUniverselle {
@@ -48,9 +50,9 @@ export interface VarianteUniverselle {
 const ITEM =
   "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-secondary outline-none transition-colors data-[highlighted]:bg-background-elevated data-[highlighted]:text-text-primary";
 const ITEM_UNIVERSEL =
-  "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-primary outline-none transition-colors data-[highlighted]:bg-border-hover group-data-[clavier]/compte:data-[highlighted]:ring-2 group-data-[clavier]/compte:data-[highlighted]:ring-inset group-data-[clavier]/compte:data-[highlighted]:ring-accent-link";
+  "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-lg px-3 text-sm font-medium text-text-primary outline-none transition-colors data-[highlighted]:bg-border-hover group-data-[clavier]/compte:data-[highlighted]:ring-2 group-data-[clavier]/compte:data-[highlighted]:ring-inset group-data-[clavier]/compte:data-[highlighted]:ring-accent-link";
 const ITEM_COURANT =
-  "rounded-l-none border-l-2 border-accent-primary bg-background-card pl-[10px] font-semibold text-accent-link data-[highlighted]:text-text-primary group-data-[clavier]/compte:data-[highlighted]:rounded-md";
+  "rounded-l-none border-l-2 border-accent-primary bg-background-card pl-[10px] font-semibold text-accent-link data-[highlighted]:text-text-primary group-data-[clavier]/compte:data-[highlighted]:rounded-lg";
 
 /** Décalages Radix mesurés à l'ouverture : 8 px sous l'en-tête, bord droit sur la marge de la coque. */
 function mesurerPosition(bouton: HTMLElement): { side: number; align: number } {
