@@ -39,9 +39,10 @@ const LISTBOX_ID = "search-results-listbox";
  * - un seul comportement : la liste s'ouvre à la frappe ou à la flèche bas, pas au focus, et se referme quand le
  *   focus quitte la recherche ; les options (puces, résultats) sont hors de l'ordre de tabulation (`tabIndex={-1}`,
  *   flèches et `aria-activedescendant`) : Tab depuis le champ va au contrôle suivant de la barre ou du menu ;
- * - liste au fini des panneaux cloche et compte (`PANNEAU_ELEVE`, `rounded-xl`, filet dégradé de 4 px), 8 px sous le
- *   filet de l'en-tête (barre et `#mobile-search`), alignée à droite du champ et plus large en barre (le champ garde
- *   ses 176 px, décision du 15/11) ; puces sur `bg-border-hover` ;
+ * - liste au fini des panneaux cloche et compte (`PANNEAU_ELEVE`, `rounded-xl`, filet dégradé de 4 px), 8 px sous la
+ *   rangée du haut quand le champ y est (nav v6, dès 768 px), sous le filet de l'en-tête dans `#mobile-search`,
+ *   alignée à droite du champ et plus large en rangée (le champ garde ses 176 px, décision du 15/11) ; puces sur
+ *   `bg-border-hover` ;
  * - anneau collé de l'en-tête (2 px `accent-link`, intérieur, sans décalage) ; option active lisible sans la teinte
  *   (même anneau) ; `id` de la liste et des options propres à chaque instance (`useId`, trois instances montées).
  */
@@ -52,14 +53,15 @@ const VOIR_44 = cn(PUCE_MENU, "rounded-md");
 /** Option active au clavier (focus restant au champ) : anneau intérieur, lisible sans la teinte. */
 const ACTIVE = "ring-2 ring-inset ring-accent-link";
 /**
- * Liste de l'en-tête : 8 px sous le filet bas de l'en-tête, comme cloche et compte. Barre (dès 1280 px) : champ de
- * 44 px à 10 px du haut d'une barre de 65 px (filet compris) : 54 + 19 = 73. `#mobile-search` (sous 1280 px) :
- * `py-3` + filet de 1 px + 8 px = 21 px sous le champ. En barre, bord droit sur celui du champ, 320 px (puces sur
- * 2 lignes ; à 288 px, 3 lignes).
+ * Liste de l'en-tête. Nav v6, champ dans la rangée du haut dès 768 px (`en-tete-universel.tsx`) : champ de 44 px
+ * centré dans une rangée de 64 px sans filet (bas du champ à 54 px), liste 8 px sous la rangée : 54 + 18 = 72, posée
+ * par-dessus la bande des rubriques (z-50 dans le bloc collant) ; bord droit sur celui du champ, 320 px (puces sur
+ * 2 lignes ; à 288 px, 3 lignes), à toutes les largeurs de la rangée (768 à 1920 px). `#mobile-search` (sous 768 px,
+ * sous la bande) : `py-3` + filet de 1 px + 8 px = 21 px sous le champ, pleine largeur du champ.
  */
 const PANNEAU_EN_TETE = cn(
   "absolute top-full z-50 mt-[21px] w-full overflow-hidden rounded-xl border border-border animate-fade-in",
-  "xl:left-auto xl:right-0 xl:mt-[19px] xl:w-80",
+  "md:left-auto md:right-0 md:mt-[18px] md:w-80",
   PANNEAU_ELEVE,
 );
 const PANNEAU_MENU = cn("absolute top-full z-50 mt-2 w-full overflow-hidden rounded-xl border border-border animate-fade-in", PANNEAU_ELEVE);
