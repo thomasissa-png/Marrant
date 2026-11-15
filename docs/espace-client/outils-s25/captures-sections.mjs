@@ -42,7 +42,7 @@ const SECTIONS = {
       ["focus-dans-compte", "/vannes", "focus-compte"],
       ["focus-retour-menu", "/mon-espace", "focus-retour"],
     ],
-    largeurs: [320, 375, 440, 520, 600, 640, 641, 768, 1024, 1280, 1456, 1920],
+    largeurs: [290, 320, 375, 440, 520, 600, 640, 641, 768, 1024, 1280, 1456, 1920],
   },
   aujourdhui: { comptes: ["en-cours", "nouvel"], pages: [["aujourdhui", "/mon-espace", "page"]] },
   "quoi-repondre": { comptes: ["en-cours", "nouvel"], pages: [["quoi-repondre", "/mon-espace/quoi-repondre", "page"]] },
@@ -148,7 +148,7 @@ for (const compte of comptes) {
           // Tab jusqu'à chaque contrôle de l'en-tête, une capture par contrôle (focus clavier visible)
           await page.goto(BASE + url, { waitUntil: "networkidle" });
           let n = 0;
-          for (let i = 0; i < 25 && n < 6; i++) {
+          for (let i = 0; i < 25 && n < 9; i++) {
             await page.keyboard.press("Tab");
             const dansEntete = await page.evaluate(() => !!document.activeElement?.closest("header"));
             if (!dansEntete) { if (n > 0) break; else continue; }
