@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Maquette navigation v6 (local, ne pas déployer)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+/* Jetons recopiés de apps/web/tailwind.config.ts (couleurs, rayons, polices, écrans). */
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    screens: { e300:"300px", e360:"360px", e400:"400px", sm:"640px", md:"768px", lg:"1024px", xl:"1280px", "2xl":"1536px" },
+    extend: {
+      colors: {
+        background: { DEFAULT:"#0D0D0D", light:"#1A1A1A", card:"#1F1F1F", elevated:"#2A2A2A" },
+        accent: { primary:"#8B5CF6", "primary-hover":"#A78BFA", secondary:"#6D28D9", "secondary-hover":"#7C3AED", link:"#A78BFA" },
+        text: { primary:"#FFFFFF", secondary:"#B3B3B3", muted:"#9A9A9A" },
+        border: { DEFAULT:"#2A2A2A", hover:"#3A3A3A", input:"#707070" }
+      },
+      fontFamily: {
+        sans: ["Inter","system-ui","sans-serif"],
+        display: ["Plus Jakarta Sans","Inter","system-ui","sans-serif"]
+      },
+      borderRadius: { lg:"0.75rem", md:"0.5rem", sm:"0.25rem" }
+    }
+  }
+};
+</script>
+<style>
+  html{-webkit-font-smoothing:antialiased;scroll-padding-top:128px;color-scheme:dark}
+  body{background:#0D0D0D;color:#fff;font-family:Inter,system-ui,sans-serif}
+  :focus-visible{outline:2px solid #A78BFA;outline-offset:2px}
+  .rub::-webkit-scrollbar{display:none}
+  .rub{scrollbar-width:none}
+  .chip{position:relative;flex:none;display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 12px;border-radius:8px;color:#B3B3B3;font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none}
+  .chip:hover{color:#fff}
+  .chip[aria-current]{background:#2A2A2A;color:#A78BFA}
+  .chip[aria-current]::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2px;border-radius:2px;background:#8B5CF6}
+  .chip:focus-visible{outline-offset:-2px}
+  .chip svg{width:14px;height:14px;flex:none}
+  .sep{flex:none;width:1px;height:20px;margin:0 6px;background:#3A3A3A}
+  .filet{position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(to right,#A78BFA,#7C3AED)}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  var etat = ["visiteur","gratuit","abonne"].indexOf(q.get("etat"))>=0 ? q.get("etat") : "visiteur";
+  var page = ["aujourdhui","vannes","apercu"].indexOf(q.get("page"))>=0 ? q.get("page") : "vannes";
+  var abonne = etat==="abonne";
+  var OFFRE_LONG = "Premium · 1,99 €/mois"; /* texte réel du bouton d'en-tête (captures s25) */
+  var OFFRE_COURT = "Premium";
+  var lien = function(p){ return "?etat="+etat+"&page="+p; };
+
+  var lock = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>';
+  var iconSearch = '<svg aria-hidden="true" class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>';
+  var iconBell = '<svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg>';
+  var iconUser = '<svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>';
+  var iconMenu = '<svg aria-hidden="true" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>';
+  var iconDots = '<svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>';
+
+  /* Rubriques de la spec v6 §1 : ordre unique pour les 3 états */
+  var G1 = [["Aujourd'hui","aujourdhui"],["Parcours",null],["Quoi répondre","apercu"],["Bibliothèque",null],["S’entraîner",null]];
+  var G2 = [["Vannes","vannes"],["Conseils",null],["Vidéos",null],["Articles",null],["La lettre",null]];
+  var G3 = [["Favoris",null],["Carnet",null]];
+  var PLUS = ["Mes questions","Mes répliques"];
+  var actif = {aujourdhui:"Aujourd'hui", vannes:"Vannes", apercu:"Quoi répondre"}[page];
+
+  function chip(l, premium){
+    var cur = l[0]===actif ? ' aria-current="page"' : '';
+    var nom = premium && !abonne ? ' aria-label="'+l[0]+', rubrique Premium"' : '';
+    return '<a class="chip" href="'+(l[1]?lien(l[1]):'#')+'"'+cur+nom+'>'+l[0]+(premium && !abonne ? lock : '')+'</a>';
+  }
+
+  var boutonOffre = abonne ? '' :
+    '<a href="#" class="inline-flex h-11 items-center justify-center rounded-lg bg-accent-secondary-hover px-3 text-sm font-semibold text-white hover:bg-accent-secondary md:px-4"><span class="md:hidden">'+OFFRE_COURT+'</span><span class="hidden md:inline">'+OFFRE_LONG+'</span></a>';
+
+  var header =
+  '<header class="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">'+
+    '<div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 md:px-6 xl:px-8">'+
+      '<a href="'+(abonne?lien("aujourdhui"):'#')+'" class="flex min-h-[44px] items-center whitespace-nowrap bg-gradient-to-r from-accent-primary-hover to-accent-secondary-hover bg-clip-text font-display text-lg font-bold text-transparent sm:text-xl">deviens-marrant.fr</a>'+
+      '<div class="flex items-center gap-1 md:gap-3">'+
+        '<div class="relative hidden h-11 w-44 items-center gap-2 rounded-lg border border-border-input bg-background-light px-3 text-sm text-text-secondary md:flex">'+iconSearch+'<span>Rechercher...</span></div>'+
+        (etat==="visiteur" ? '<a href="#" class="hidden h-11 items-center px-3 text-sm font-medium text-text-secondary hover:text-text-primary md:inline-flex">Connexion</a>' : '')+
+        boutonOffre+
+        (abonne ? '<button type="button" aria-label="Notifications, aucune réponse non lue" class="relative inline-flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary hover:bg-background-elevated hover:text-text-primary">'+iconBell+'</button>' : '')+
+        (etat!=="visiteur" ? '<button type="button" aria-label="Menu du compte" class="hidden h-11 w-11 items-center justify-center rounded-lg text-text-secondary hover:bg-background-elevated hover:text-text-primary md:inline-flex">'+iconUser+'</button>' : '')+
+        '<button type="button" aria-label="Menu" class="inline-flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary hover:bg-background-elevated hover:text-text-primary md:hidden">'+iconMenu+'</button>'+
+      '</div>'+
+    '</div>'+
+    /* Bande des rubriques */
+    '<div class="border-t border-border/0">'+
+      '<nav aria-label="Rubriques" class="mx-auto max-w-7xl px-4 py-1 md:px-6 xl:px-8">'+
+        '<div id="rub" class="rub flex w-fit max-w-full items-center overflow-x-auto rounded-xl border border-border bg-background-card p-px pr-2">'+
+          G1.map(function(l){return chip(l,true);}).join('')+
+          '<span class="sep" role="separator" aria-hidden="true"></span>'+
+          G2.map(function(l){return chip(l,false);}).join('')+
+          '<span class="sep" role="separator" aria-hidden="true"></span>'+
+          G3.map(function(l){return chip(l,false);}).join('')+
+          '<button id="plus" type="button" aria-label="Plus" aria-haspopup="menu" aria-expanded="false" class="ml-1 inline-flex h-11 w-11 flex-none items-center justify-center rounded-lg text-text-secondary hover:bg-background-elevated hover:text-text-primary">'+iconDots+'</button>'+
+        '</div>'+
+      '</nav>'+
+    '</div>'+
+  '</header>'+
+  '<div id="menu-plus" role="menu" aria-label="Plus de rubriques" hidden class="fixed z-[60] min-w-[200px] rounded-lg border border-border bg-background-card p-1">'+
+    PLUS.map(function(n){ return '<a role="menuitem" href="#" class="flex h-11 items-center justify-between gap-3 rounded-md px-3 text-sm font-medium text-text-secondary hover:bg-background-elevated hover:text-text-primary">'+n+(abonne?'':'<span class="text-text-secondary" style="width:14px;height:14px">'+lock.replace('<svg','<svg style="width:14px;height:14px"')+'</span>')+'</a>'; }).join('')+
+  '</div>';
+
+  /* Contenus RÉELS : captures s25 (vannes, accueil), etalon e5/aujourdhui.html, situations.json */
+  var cats = ["Toutes","Vie quotidienne","Boulot & Collègues","Couple","Dating","Soirées & Apéro","Famille","Gaming","Autodérision"];
+  function carte(texte, hint){
+    return '<article class="rounded-xl border border-border bg-background-card p-5"><div class="flex items-center justify-between"><span class="rounded-full bg-accent-secondary/30 px-2.5 py-0.5 text-xs font-medium text-accent-link">Boulot &amp; Collègues</span></div>'+
+      '<p class="mt-4 text-base leading-relaxed text-text-primary">'+texte+'</p>'+
+      '<div class="mt-4 flex items-center gap-4 text-sm"><span class="font-semibold text-text-secondary">Révéler la chute</span><span class="text-text-muted">'+hint+'</span></div></article>';
+  }
+  var contenus = {
+    vannes:
+      '<nav aria-label="Fil d’Ariane" class="text-sm text-text-secondary">Accueil <span class="px-1">/</span> <span class="text-text-primary">Vannes</span></nav>'+
+      '<h1 class="mt-4 max-w-3xl font-display text-3xl font-bold leading-tight md:text-4xl">Vannes drôles à ressortir ce soir, pas trois jours plus tard</h1>'+
+      '<p class="mt-3 max-w-2xl text-base leading-7 text-text-secondary md:text-lg md:leading-8">Boulot, couple, soirées, famille, gaming : choisis ta situation, clique pour révéler la chute. Avec Premium, tu gardes tes préférées sous le coude. La théorie, c’est bien. Avoir une vanne prête au moment où tout le monde te regarde, c’est mieux.</p>'+
+      '<div class="mt-6 flex gap-2 overflow-x-auto pb-1 rub md:flex-wrap md:overflow-visible">'+cats.map(function(c,i){return '<a href="#" class="inline-flex h-11 flex-none items-center rounded-full px-4 text-sm font-medium '+(i===0?'bg-accent-secondary-hover text-white':'bg-background-elevated text-text-secondary hover:text-text-primary')+'">'+c+'</a>';}).join('')+'</div>'+
+      '<div class="mt-6 grid gap-4 md:grid-cols-2">'+
+        carte('Pour ta valise de départ, chacun a cotisé selon ses moyens. Moi, dix euros.','Clique pour la chute')+
+        carte('Mesdames, messieurs, le discours que vous avez demandé est momentanément indisponible.','Parie sur la chute, puis vérifie')+
+      '</div>',
+    aujourdhui:
+      '<h1 class="font-display text-3xl font-bold leading-tight md:text-4xl">Aujourd’hui</h1>'+
+      '<section class="relative mt-6 max-w-3xl overflow-hidden rounded-xl border border-border bg-background-card p-5 md:p-6" aria-labelledby="h-pas"><div class="filet"></div>'+
+        '<p class="text-xs font-semibold text-text-muted">Ton premier pas</p>'+
+        '<h2 id="h-pas" class="mt-3 font-display text-2xl font-bold leading-8">Quelqu’un te lance «&nbsp;Tiens, tu as changé quelque chose, non&nbsp;?&nbsp;»</h2>'+
+        '<div class="mt-5 flex items-center gap-4"><span class="text-sm text-text-secondary">5 min</span><a href="#" class="inline-flex h-11 items-center justify-center rounded-lg bg-accent-secondary-hover px-5 text-sm font-semibold text-white hover:bg-accent-secondary">Commencer</a></div>'+
+      '</section>',
+    apercu:
+      '<h1 class="font-display text-3xl font-bold leading-tight md:text-4xl">Quoi répondre</h1>'+
+      '<p class="mt-3 max-w-2xl text-base leading-7 text-text-secondary md:text-lg md:leading-8">Voici un exemple de cette rubrique. Elle est ouverte avec Premium. <span class="text-xs font-semibold text-text-muted">[À VALIDER PAR THOMAS]</span></p>'+
+      '<article class="relative mt-6 max-w-3xl overflow-hidden rounded-xl border border-border bg-background-card p-5 md:p-6"><div class="filet"></div>'+
+        '<h2 class="font-display text-xl font-bold leading-7">Coloc : la poêle</h2>'+
+        '<p class="mt-1 text-sm text-text-secondary">5 min</p>'+
+        '<p class="mt-4 text-base leading-7 text-text-secondary">Dimanche, 19 h, la coloc. Ton colocataire sort une poêle de l’évier et la tient du bout des doigts devant les deux autres, comme une pièce à conviction :</p>'+
+        '<blockquote class="mt-3 rounded-md border-l-2 border-accent-primary bg-background-light px-4 py-3 text-base leading-7 text-text-primary">Quelqu’un connaît le propriétaire de cette poêle ? Elle est là depuis jeudi.</blockquote>'+
+        '<p class="mt-3 text-base leading-7 text-text-secondary">Jeudi, c’était pâtes. Personne d’autre n’a cuisiné.</p>'+
+        '<blockquote class="mt-3 rounded-md border-l-2 border-accent-primary bg-background-light px-4 py-3 text-base leading-7 text-text-primary">Elle est à moi. Je la lave, et jeudi n’aura jamais existé.</blockquote>'+
+        '<p class="mt-3 text-sm leading-6 text-text-secondary">Tu reconnais tout de suite, avec un trait d’autodérision : tu proposes d’effacer l’affaire. Elle ne vise personne et se ferme toute seule : personne n’a besoin de répondre.</p>'+
+        '<div class="mt-6 border-t border-border pt-5"><a href="#" class="inline-flex h-11 items-center justify-center rounded-lg bg-accent-secondary-hover px-5 text-sm font-semibold text-white hover:bg-accent-secondary">'+OFFRE_LONG+'</a></div>'+
+      '</article>'
+  };
+
+  document.getElementById("app").innerHTML = header +
+    '<main class="mx-auto max-w-7xl px-4 pb-16 pt-8 md:px-6 xl:px-8">'+contenus[page]+'</main>';
+
+  /* Bande : rubrique active centrée à l'arrivée (bornes respectées), fondus aux bords */
+  var rub = document.getElementById("rub");
+  function fondu(){
+    var g = rub.scrollLeft>4, d = rub.scrollLeft < rub.scrollWidth-rub.clientWidth-4;
+    var m = "linear-gradient(to right,"+(g?"transparent 0,#000 24px":"#000 0")+","+(d?"#000 calc(100% - 24px),transparent 100%":"#000 100%")+")";
+    rub.style.webkitMaskImage = rub.style.maskImage = (g||d) ? m : "none";
+  }
+  function centrer(){
+    var a = rub.querySelector("[aria-current]");
+    if(a){ rub.scrollLeft = a.offsetLeft - (rub.clientWidth - a.offsetWidth)/2; }
+    fondu();
+  }
+  rub.addEventListener("scroll", fondu);
+  centrer();
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(centrer); }
+  window.addEventListener("load", centrer);
+
+  /* « … » : liste de 2 lignes, Échap ferme, focus rendu */
+  var btn = document.getElementById("plus"), menu = document.getElementById("menu-plus");
+  function ouvrir(o){
+    menu.hidden = !o; btn.setAttribute("aria-expanded", o?"true":"false");
+    if(o){ var r = btn.getBoundingClientRect(); menu.style.top = (r.bottom+4)+"px"; menu.style.left = Math.max(8, Math.min(r.right-200, innerWidth-208))+"px"; }
+  }
+  btn.addEventListener("click", function(){ ouvrir(menu.hidden); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && !menu.hidden){ ouvrir(false); btn.focus(); } });
+  if(q.get("menu")==="1"){ setTimeout(function(){ ouvrir(true); }, 50); }
+})();
+</script>
+</body>
+</html>
