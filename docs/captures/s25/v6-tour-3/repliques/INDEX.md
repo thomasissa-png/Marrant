@@ -1,0 +1,22 @@
+# Captures repliques (2026-11-15T22:04, http://localhost:5400)
+
+- visiteur-repliques-375.png : /mon-espace/repliques (page), HTTP 200, hauteur 1800px
+- visiteur-repliques-768.png : /mon-espace/repliques (page), HTTP 200, hauteur 1363px
+- visiteur-repliques-1280.png : /mon-espace/repliques (page), HTTP 200, hauteur 1173px
+- visiteur-repliques-1456.png : /mon-espace/repliques (page), HTTP 200, hauteur 1173px
+- visiteur-repliques-1920.png : /mon-espace/repliques (page), HTTP 200, hauteur 1173px
+- gratuit-repliques-375.png : /mon-espace/repliques (page), HTTP 200, hauteur 1800px
+- gratuit-repliques-768.png : /mon-espace/repliques (page), HTTP 200, hauteur 1363px
+- gratuit-repliques-1280.png : /mon-espace/repliques (page), HTTP 200, hauteur 1173px
+- gratuit-repliques-1456.png : /mon-espace/repliques (page), HTTP 200, hauteur 1173px
+- gratuit-repliques-1920.png : /mon-espace/repliques (page), HTTP 200, hauteur 1173px
+- en-cours-repliques-375.png : /mon-espace/repliques (page), HTTP 200, hauteur 1519px
+- en-cours-repliques-768.png : /mon-espace/repliques (page), HTTP 200, hauteur 1139px
+- en-cours-repliques-1280.png : /mon-espace/repliques (page), HTTP 200, hauteur 949px
+- en-cours-repliques-1456.png : /mon-espace/repliques (page), HTTP 200, hauteur 949px
+- en-cours-repliques-1920.png : /mon-espace/repliques (page), HTTP 200, hauteur 949px
+- nouvel-repliques-375.png : /mon-espace/repliques (page), HTTP 200, hauteur 1475px
+- nouvel-repliques-768.png : /mon-espace/repliques (page), HTTP 200, hauteur 1111px
+- nouvel-repliques-1280.png : /mon-espace/repliques (page), HTTP 200, hauteur 921px
+- nouvel-repliques-1456.png : /mon-espace/repliques (page), HTTP 200, hauteur 921px
+- nouvel-repliques-1920.png : /mon-espace/repliques (page), HTTP 200, hauteur 921px
