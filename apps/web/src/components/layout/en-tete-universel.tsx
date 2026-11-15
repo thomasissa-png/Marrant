@@ -129,9 +129,7 @@ export function EnTeteUniversel() {
         {/* s25 (relecture design F1) : barre ancrée à gauche, le premier lien au même x pour les 3 états à chaque
             largeur ; le vide se loge entre les liens et la recherche (ou les actions sous 1280 px). Tour 3 (design,
             faute dure) : 16 px dès 320 px, le logo sur la verticale de la recherche et des lignes du menu (`px-4`). */}
-        {/* Tour 4 (CI) : dès 1280 px, 12 px entre les blocs (`xl:gap-3`) et `xl:ml-9` sur la barre : premier lien au
-            même x qu'avant (logo + 12 + 36 = logo + 16 + 32). */}
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-2 px-4 sm:gap-4 md:px-6 xl:gap-3 xl:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-2 px-4 sm:gap-4 md:px-6 xl:px-8">
           {/* §6 (ROUVRE) : le logo de l'abonné mène à « Aujourd'hui ». s25 (relecture tour 2, design F5, ux 7) : même
               anneau violet arrondi que les autres contrôles ; `-mx-1 px-1` donne 4 px d'air à l'anneau sans
               déplacer le texte d'un pixel. */}
@@ -148,7 +146,7 @@ export function EnTeteUniversel() {
               collée au logo ; dès 1024, 32 px après le logo quel que soit le compte. */}
           <nav
             aria-label="Navigation principale"
-            className={cn("hidden shrink-0 items-center gap-1 lg:ml-8 xl:ml-9", etat === "abonne" ? "md:flex" : "lg:flex")}
+            className={cn("hidden shrink-0 items-center gap-1 lg:ml-8", etat === "abonne" ? "md:flex" : "lg:flex")}
           >
             {etat === "abonne" && (
               <Link
@@ -172,15 +170,14 @@ export function EnTeteUniversel() {
             ))}
           </nav>
 
-          {/* s25 tour 4 (CI en échec, recherche à 762, 764, 772 px) : le texte de graisse 500 à 700 (polices
-              variables) est rendu 1 à 8 px plus large par le Chromium de la CI qu'en local. Un `min-w` laissait la zone
-              d'actions grandir avec son contenu (visiteur : 282 px en CI pour 280) et la barre de l'abonné, sans marge,
-              repoussait la recherche (8 px). Désormais : zone d'actions de largeur FIXE (296 px, contenu le plus large
-              274 px en local, 282 en CI) et recherche de 160 px ; la rangée garde ≥ 12 px de marge en CI pour les
-              3 comptes, la recherche est au même x quel que soit le rendu des polices. */}
-          <SearchBar className="hidden w-40 shrink-0 xl:ml-auto xl:block" onNavigate={() => setRechercheOuverte(false)} />
+          {/* s25 tour 4 bis : recherche de 176 px (spec v5 §1). La CI (Chrome 145) rend les graisses 500 à 700 des
+              polices variables 1 à 8 px plus larges qu'en local : une zone d'actions de largeur fixe (même x de la
+              recherche pour les 3 comptes, piste design tour 2) ne tient plus dans la coque (1216 px utiles de 1280 à
+              1920 px) avec la recherche à 176 px. La zone prend donc la largeur de son contenu, 16 px après la
+              recherche (`xl:ml-0`) : la recherche change de x selon le compte, la rangée tient avec marge. */}
+          <SearchBar className="hidden w-44 shrink-0 xl:ml-auto xl:block" onNavigate={() => setRechercheOuverte(false)} />
 
-          <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-0 xl:w-[18.5rem] xl:justify-end xl:gap-3">
+          <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-0 xl:gap-3">
             <button
               type="button"
               className={cn(ICONE, "hidden min-[440px]:flex xl:hidden")}
