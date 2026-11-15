@@ -37,7 +37,29 @@ const AccountMenu = dynamic(() => import("@/components/layout/account-menu").the
  * (HTML du visiteur) ; fermé, ce module n'est jamais chargé et l'en-tête ci-dessous reste celui de la
  * production (test d'inertie). Ni seconde barre ni menu « Plus ».
  */
-const EnTeteUniversel = dynamic(() => import("@/components/layout/en-tete-universel").then((m) => m.EnTeteUniversel));
+const EnTeteUniversel = dynamic(() => import("@/components/layout/en-tete-universel").then((m) => m.EnTeteUniversel), {
+  loading: () => <EnTeteEnAttente />,
+});
+
+/**
+ * s25 (QA, CI `e2e-local (ouvert)`, abonnement-pli-s21 à 320 px : CLS 0,23 une fois sur quatre). Le HTML du serveur
+ * contient l'en-tête, mais tant que son morceau JS n'est pas arrivé, React ne l'hydrate pas (frontière `dynamic`
+ * en attente). Si la session répond avant (`useSession` : chargement puis visiteur, contexte au-dessus de
+ * l'en-tête), React jette le HTML du serveur de cette frontière et montre son repli : il était vide, l'en-tête
+ * disparaissait ~15 ms et `main` remontait de 65 px puis redescendait. Deux parades, ouvert seulement :
+ * - le morceau est demandé dès l'évaluation de ce module, avant l'hydratation (plus tôt que le rendu) ;
+ * - le repli garde la boîte de l'en-tête (même barre de 65 px, collante, même fond) : plus aucun saut.
+ * Fermé : ni téléchargement ni rendu (le repli n'est jamais monté), en-tête d'aujourd'hui inchangé.
+ */
+if (ESPACE_CLIENT_PUBLIE && typeof window !== "undefined") void import("@/components/layout/en-tete-universel");
+
+function EnTeteEnAttente() {
+  return (
+    <header aria-hidden="true" className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
+      <div className="h-16" />
+    </header>
+  );
+}
 
 /**
  * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à
