@@ -12,6 +12,8 @@ import { garderEspace } from "@/lib/espace/garde";
  * interrupteur fermé, 404 avant toute lecture, comme avant ; ouvert, sans session : connexion puis retour ici ;
  * sans abonnement : `/abonnement`, comme toute adresse de l'espace ; abonné : `/lettre`. Les fiches
  * `/mon-espace/lettres/[numero]` gardent leur adresse et leur contenu (leur retour mène à `/lettre`).
+ * v6 tour 2 (point 10) : ouvert, le middleware renvoie cette adresse à `/lettre` (308) pour tous, avant toute
+ * garde ; cette page ne reste qu'en filet (même destination).
  * Rendu : dynamique (redirection à la requête).
  */
 export const dynamic = "force-dynamic";

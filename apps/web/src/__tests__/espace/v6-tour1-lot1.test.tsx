@@ -61,15 +61,15 @@ describe("point 1 : la carte de l'espace parle la langue de l'accueil", () => {
   });
 });
 
-describe("point 2 : aperçu en deux colonnes dès `lg`, offre collante à droite", () => {
+// v6 tour 2 (arbitrage 1) : les deux colonnes du tour 1 sont abandonnées ; la mise en page est vérifiée dans
+// `v6-tour2-lot1.test.tsx`. Restent ici : l'offre hors de l'exemple, à filet, et ses deux liens.
+describe("point 2 : aperçu, offre hors de l'exemple (mise en page : v6 tour 2)", () => {
   it.each(["aujourdhui", "quoiRepondre", "bibliotheque", "sEntrainer", "mesQuestions", "mesRepliques", "favoris"] as const)("%s", (rubrique) => {
     const { container } = render(<ApercuRubrique rubrique={rubrique} visiteur />);
     const article = container.querySelector("article") as HTMLElement;
     const offre = container.querySelector("[data-apercu-offre]") as HTMLElement;
     expect(article.contains(offre)).toBe(false);
-    expect(classes(article.parentElement)).toEqual(expect.arrayContaining(["grid", "lg:grid-cols-12", "items-start"]));
-    expect(classes(article)).toContain("lg:col-span-7");
-    expect(classes(offre)).toEqual(expect.arrayContaining(["lg:col-span-5", "lg:sticky", "lg:top-32", "rounded-xl", "before:h-1"]));
+    expect(classes(offre)).toEqual(expect.arrayContaining(["rounded-xl", "before:h-1"]));
     const liens = within(offre).getAllByRole("link");
     expect(liens.map((l) => l.className)).toEqual([BOUTON_PRINCIPAL, expect.stringContaining("min-h-11")]);
     expect(liens[1].textContent).toBe(TEXTES_APERCU.connexion);
@@ -138,7 +138,8 @@ describe("points 14 et 15", () => {
   });
 
   it("Mes répliques : même colonne vide ou pleine, première réplique en bouton plein, « Supprimer » destructif", () => {
-    expect(lire("app/(dashboard)/mon-espace/repliques/page.tsx")).toContain("<div className={COLONNE_LECTURE}>");
+    // v6 tour 2 (point 6) : même coque que Mes questions, la liste garde sa largeur de lecture, calée à gauche.
+    expect(lire("app/(dashboard)/mon-espace/repliques/page.tsx")).toContain('<div className="w-full max-w-3xl">');
     const { unmount } = render(<ListeRepliques initiales={[]} lectureSeule={false} />);
     expect(within(screen.getByTestId("repliques-vide")).getByRole("link").className).toBe(BOUTON_PRINCIPAL);
     unmount();

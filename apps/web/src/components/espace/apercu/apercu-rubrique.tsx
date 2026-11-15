@@ -36,10 +36,11 @@ function Exemple({ rubrique, favoris }: { rubrique: RubriqueApercu; favoris: Exe
  * être connecté). Jamais un mur, jamais une redirection, aucune fenêtre ni second appel à l'action.
  * Rendu serveur, sans appel à l'API de l'espace (rien ne s'enregistre depuis un aperçu).
  *
- * v6 tour 1 (arbitrage 2) : dès `lg`, deux colonnes dans la coque, l'exemple à gauche (7/12), le bloc d'offre
- * existant à droite (5/12) dans une carte à filet, collante ; titre et sous-titre au-dessus, alignés sur la coque.
- * Sous `lg`, une colonne : l'exemple puis l'offre. Favoris (arbitrage 3) : deux contenus réels en lecture seule,
- * présentés comme des favoris (pas de carte autour : ce sont déjà des cartes).
+ * v6 tour 2 (arbitrage 1, Thomas 15/11) : plus de deux colonnes (colonne d'offre vide à 1280+). À toutes les
+ * largeurs, une colonne centrée `mx-auto max-w-3xl` : titre et sous-titre centrés (langue de l'accueil), l'exemple,
+ * puis la carte d'offre pleine largeur de la colonne, contenu centré ; plus de `sticky`. Favoris (arbitrage 3) :
+ * deux contenus réels en lecture seule côte à côte, présentés comme des favoris ; Mes questions : le titre puis la
+ * carte des exemples. Ces deux-là sans carte autour (ce sont déjà des cartes : un seul filet).
  */
 export function ApercuRubrique({
   rubrique,
@@ -52,31 +53,25 @@ export function ApercuRubrique({
   favoris?: ExemplesFavoris | null;
 }) {
   const adresse = ADRESSES_APERCU[rubrique];
-  const favorisReels = rubrique === "favoris" && favoris !== null;
+  // Déjà des cartes (favoris réels, exemples de Mes questions) : pas de carte autour, un seul filet.
+  const sansCadre = (rubrique === "favoris" && favoris !== null) || rubrique === "mesQuestions";
   return (
-    <div data-apercu={rubrique}>
+    <div className="mx-auto max-w-3xl" data-apercu={rubrique}>
       {/* Nav v6 : ni retour ni place réservée au-dessus du titre (la bande est le repère), comme les rubriques. */}
-      <header>
+      <header className="text-center">
         <h1 id="apercu-titre" className="font-display text-3xl font-bold leading-tight text-text-primary md:text-4xl">
           {TEXTES_APERCU.titres[rubrique]}
         </h1>
-        <p className="mt-3 max-w-2xl text-base leading-7 text-text-secondary md:text-lg md:leading-8">{frEspace(TEXTES_APERCU.sousTitre)}</p>
+        <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-text-secondary md:text-lg md:leading-8">{frEspace(TEXTES_APERCU.sousTitre)}</p>
       </header>
-      <div className="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
+      <div className="mt-6 flex flex-col gap-6">
         <article
-          aria-labelledby={favorisReels ? "apercu-titre" : "apercu-exemple"}
-          className={
-            favorisReels
-              ? "min-w-0 lg:col-span-7"
-              : `${CADRE_CARTE} min-w-0 space-y-4 p-5 [overflow-wrap:anywhere] md:p-6 lg:col-span-7`
-          }
+          aria-labelledby={sansCadre && rubrique === "favoris" ? "apercu-titre" : "apercu-exemple"}
+          className={sansCadre ? "min-w-0" : `${CADRE_CARTE} min-w-0 space-y-4 p-5 [overflow-wrap:anywhere] md:p-6`}
         >
           <Exemple rubrique={rubrique} favoris={favoris} />
         </article>
-        <div
-          className={`${CADRE_CARTE} flex flex-wrap items-center gap-x-6 gap-y-2 p-5 md:p-6 lg:sticky lg:top-32 lg:col-span-5`}
-          data-apercu-offre
-        >
+        <div className={`${CADRE_CARTE} flex flex-wrap items-center justify-center gap-x-6 gap-y-2 p-5 md:p-6`} data-apercu-offre>
           <Link
             href={buildAbonnementUrl(adresse, "monthly", sourceApercu(rubrique))}
             aria-label={TEXTES_APERCU.offre.nomAccessible}

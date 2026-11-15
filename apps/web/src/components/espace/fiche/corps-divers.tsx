@@ -100,6 +100,43 @@ export function CorpsJeu({ c, id, ouvert = false }: { c: FicheDeType<"jeu">["con
  * Import 2 (C6c) : « Pour qui, quand », « Il te faut » avant les étapes ; la grille du bilan en liste ;
  * « Tu produis », « Une version possible », « Renvois » après (ordre du lot).
  */
+/**
+ * v6 tour 2 (point 4) : une consigne « intro, retour à la ligne, 1. … 2. … » (étape « Observation ») est rendue
+ * en liste numérotée, texte inchangé (`seances.json` non réécrit : seul le découpage change). Numérotation
+ * vérifiée (1, 2, 3… sans trou) ; sinon `null` et la consigne reste un paragraphe, comme avant.
+ */
+export function decouperConsigneNumerotee(consigne: string): { intro: string; items: string[] } | null {
+  const coupure = consigne.indexOf("\n");
+  if (coupure < 0) return null;
+  const morceaux = consigne
+    .slice(coupure + 1)
+    .trim()
+    .split(/\s+(?=\d+\.\s)/);
+  if (morceaux.length < 2) return null;
+  const items: string[] = [];
+  for (const [i, m] of morceaux.entries()) {
+    const n = /^(\d+)\.\s+([\s\S]+)$/.exec(m);
+    if (!n || Number(n[1]) !== i + 1) return null;
+    items.push(n[2]);
+  }
+  return { intro: consigne.slice(0, coupure), items };
+}
+
+function ConsigneEtape({ consigne }: { consigne: string }) {
+  const liste = decouperConsigneNumerotee(consigne);
+  if (!liste) return <p className={P}>{consigne}</p>;
+  return (
+    <>
+      <p className={P}>{liste.intro}</p>
+      <ol className="list-decimal space-y-1 pl-5 text-base text-text-primary" data-testid="seance-liste">
+        {liste.items.map((q) => (
+          <li key={q}>{q}</li>
+        ))}
+      </ol>
+    </>
+  );
+}
+
 export function CorpsSeance({ c }: { c: FicheDeType<"seance">["contenu"] }) {
   const S = T.seance;
   const version = c.versionPossible.precision ? `${S.versionPossible} (${c.versionPossible.precision})` : S.versionPossible;
@@ -115,7 +152,7 @@ export function CorpsSeance({ c }: { c: FicheDeType<"seance">["contenu"] }) {
         {c.etapes.map((e) => (
           <li key={e.nom}>
             <Bloc id={`f-${e.nom}`} titre={`${T.etapesSeance[e.nom]} · ${L.minutes(e.minutes)}`}>
-              <p className={P}>{e.consigne}</p>
+              <ConsigneEtape consigne={e.consigne} />
               {e.grille && (
                 <ol className="list-decimal space-y-1 pl-5 text-base text-text-primary" data-testid="seance-grille">
                   {e.grille.map((q) => (

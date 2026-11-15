@@ -25,6 +25,9 @@ const ABONNEMENT_DEPUIS_FAVORIS = buildAbonnementUrl("/favoris", "monthly", "fav
 // `/onboarding` sans session : distincte de `onboarding` (bouton du quiz d'accueil, compte connecté).
 const ABONNEMENT_DEPUIS_ONBOARDING = buildAbonnementUrl(null, "monthly", "onboarding-visiteur");
 
+/** v6 tour 2 (point 10) : ancienne adresse de l'archive des lettres, 308 vers `/lettre` (interrupteur ouvert). */
+export const ANCIENNE_ARCHIVE_LETTRES = `${ESPACE_ACCUEIL}/lettres`;
+
 /** Lot D11c : témoin du saut /abonnement → « Aujourd'hui » (anti-boucle, voir plus bas). */
 export const TEMOIN_ARRIVEE_ESPACE = "dm_arrivee_espace";
 
@@ -160,6 +163,13 @@ export default async function middleware(req: NextRequest) {
     (req.nextUrl.pathname === ESPACE_ACCUEIL || req.nextUrl.pathname.startsWith(`${ESPACE_ACCUEIL}/`) || req.nextUrl.pathname === PAGE_ADMIN_QUESTIONS)
   ) {
     return NextResponse.rewrite(new URL("/_espace-ferme", req.url));
+  }
+
+  // v6 tour 2 (point 10) : ouvert seulement, l'ancienne archive `/mon-espace/lettres` renvoie à `/lettre` (308)
+  // pour TOUS, visiteur et compte gratuit compris : plus de garde de l'espace (connexion, /abonnement) avant.
+  // Fermé : la réécriture vers la 404 ci-dessus passe avant, comme aujourd'hui.
+  if (ESPACE_CLIENT_PUBLIE && req.nextUrl.pathname === ANCIENNE_ARCHIVE_LETTRES) {
+    return NextResponse.redirect(new URL("/lettre", req.url), 308);
   }
 
   // Lot D11b (Q-1) : ouvert, l'adresse demandée sous /mon-espace est transmise au layout de l'espace

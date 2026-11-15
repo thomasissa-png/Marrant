@@ -1,0 +1,155 @@
+import { randomBytes } from "node:crypto";
+import type { Locator, Page } from "@playwright/test";
+import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } from "../support/base-locale";
+import type { RubriqueApercu } from "@/config/textes/espace-apercu";
+
+/**
+ * Navigation v6, tour 2, lot 1 (espace), en vrai navigateur, interrupteur OUVERT seulement (`E2E_ESPACE_OUVERT=1`) :
+ * plan `docs/espace-client/travail-en-cours/plan-corrections-v6-tour-2.md`, points 1 à 7, 10 et 12.
+ * - aperçu : une colonne centrée de 768 px au plus, titre centré, l'offre sous l'exemple, pleine largeur, jamais
+ *   collante ; Mes questions : un seul filet ; Favoris : deux contenus côte à côte dès 640 px ;
+ * - fiche situation : « Oui / À moitié / Rien » de 44 px, bord `#707070`, texte blanc ; « Ma réplique à moi » de
+ *   96 px au moins, 200 caractères visibles en entier à 375 px ;
+ * - séance : les 10 phrases de « Observation » en liste numérotée ;
+ * - S'entraîner : texte des cartes pleine ligne en mesure de lecture ; Mes questions : deux titres au même niveau ;
+ *   Mes répliques : titre au même bord que Mes questions ; Favoris abonné : onglets de 44 px ;
+ * - /mon-espace/lettres : 308 vers /lettre pour le visiteur, le compte gratuit et l'abonné.
+ * Captures de contrôle : `E2E_CAPTURES_V6T2=<dossier>`.
+ */
+const MOT_DE_PASSE = "E2e-v6-tour2-lot1!";
+const CAPTURES = process.env.E2E_CAPTURES_V6T2;
+const LARGEURS = [375, 768, 1280, 1456, 1920];
+const APERCUS: [RubriqueApercu, string][] = [
+  ["aujourdhui", "/mon-espace"],
+  ["quoiRepondre", "/mon-espace/quoi-repondre"],
+  ["bibliotheque", "/mon-espace/bibliotheque"],
+  ["sEntrainer", "/mon-espace/s-entrainer"],
+  ["mesQuestions", "/mon-espace/questions"],
+  ["mesRepliques", "/mon-espace/repliques"],
+  ["favoris", "/favoris"],
+];
+
+const boite = async (l: Locator) => {
+  const b = await l.boundingBox();
+  if (!b) throw new Error("élément invisible");
+  return { gauche: b.x, droite: b.x + b.width, haut: b.y, bas: b.y + b.height, largeur: b.width, hauteur: b.height };
+};
+
+async function capturer(page: Page, nom: string, largeur: number) {
+  if (CAPTURES) await page.screenshot({ path: `${CAPTURES}/${nom}-${largeur}.png`, fullPage: true });
+}
+
+async function nouveauCompte(page: Page, plan: "FREE" | "PREMIUM") {
+  const email = `e2e-v6t2-${Date.now().toString(36)}-${randomBytes(2).toString("hex")}@example.com`;
+  await creerCompte(email, MOT_DE_PASSE, plan);
+  await connecter(page, email, MOT_DE_PASSE);
+}
+
+test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
+  localSeulement();
+  test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
+  test.setTimeout(240_000);
+
+  test("aperçu (visiteur) : une colonne centrée, titre centré, offre sous l'exemple, rien de collant", async ({ page }) => {
+    for (const [rubrique, adresse] of APERCUS) {
+      for (const largeur of LARGEURS) {
+        await page.setViewportSize({ width: largeur, height: 900 });
+        await page.goto(adresse);
+        const ou = `${rubrique} à ${largeur} px`;
+        const racine = page.locator(`[data-apercu="${rubrique}"]`);
+        const coque = await boite(racine);
+        const exemple = await boite(racine.locator("article"));
+        const offre = await boite(page.locator("[data-apercu-offre]"));
+        const ecran = await page.evaluate(() => document.documentElement.clientWidth);
+        expect(coque.largeur, `colonne de 768 px au plus, ${ou}`).toBeLessThanOrEqual(768);
+        expect(Math.abs(coque.gauche - (ecran - coque.droite)), `colonne centrée, ${ou}`).toBeLessThanOrEqual(2);
+        expect(offre.haut, `offre sous l'exemple, ${ou}`).toBeGreaterThanOrEqual(exemple.bas);
+        expect(Math.abs(offre.largeur - coque.largeur), `offre pleine largeur, ${ou}`).toBeLessThanOrEqual(1);
+        expect(await page.locator("[data-apercu-offre]").evaluate((e) => getComputedStyle(e).position), `jamais collante, ${ou}`).toBe("static");
+        expect(await racine.locator("h1").evaluate((e) => getComputedStyle(e).textAlign), `titre centré, ${ou}`).toBe("center");
+        if (rubrique === "mesQuestions") {
+          const imbriques = await racine.evaluate((r) => {
+            const filets = Array.from(r.querySelectorAll("*")).filter((e) => getComputedStyle(e, "::before").height === "4px");
+            return filets.filter((f) => filets.some((g) => g !== f && g.contains(f))).length;
+          });
+          expect(imbriques, `un seul filet, ${ou}`).toBe(0);
+        }
+        const favoris = racine.locator("[data-favori-lecture]");
+        if (rubrique === "favoris" && largeur >= 640 && (await favoris.count()) === 2) {
+          const [a, b] = [await boite(favoris.nth(0)), await boite(favoris.nth(1))];
+          expect(Math.abs(a.haut - b.haut), `favoris côte à côte, ${ou}`).toBeLessThanOrEqual(1);
+        }
+        await capturer(page, `visiteur-apercu-${rubrique}`, largeur);
+      }
+    }
+  });
+
+  test("/mon-espace/lettres : 308 vers /lettre pour le visiteur, le compte gratuit et l'abonné", async ({ browser }) => {
+    for (const plan of [null, "FREE", "PREMIUM"] as const) {
+      const contexte = await browser.newContext();
+      const page = await contexte.newPage();
+      if (plan) await nouveauCompte(page, plan);
+      const reponse = await page.request.get("/mon-espace/lettres", { maxRedirects: 0 });
+      expect(reponse.status(), `compte ${plan ?? "visiteur"}`).toBe(308);
+      expect(new URL(reponse.headers()["location"], "http://x").pathname).toBe("/lettre");
+      await contexte.close();
+    }
+  });
+
+  test("abonné neuf : fiche, séance, S'entraîner, Mes questions, Mes répliques, Favoris", async ({ page }) => {
+    await nouveauCompte(page, "PREMIUM");
+    for (const largeur of [375, 1280]) {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      const ou = `${largeur} px`;
+      await page.goto("/mon-espace/fiche/situation/coloc-la-poele");
+      const boutons = page.locator("main [role=group] button[aria-pressed]");
+      await expect(boutons).toHaveCount(3);
+      for (const b of await boutons.all()) {
+        expect((await boite(b)).hauteur, `réponse de 44 px, ${ou}`).toBeGreaterThanOrEqual(44);
+        const style = await b.evaluate((e) => ({ bord: getComputedStyle(e).borderTopColor, texte: getComputedStyle(e).color }));
+        expect(style, `réponse lisible, ${ou}`).toEqual({ bord: "rgb(112, 112, 112)", texte: "rgb(255, 255, 255)" });
+      }
+      await page.waitForTimeout(3_100);
+      await boutons.first().click();
+      const champ = page.locator("main textarea").first();
+      await expect(champ).toBeVisible();
+      expect((await boite(champ)).hauteur, `champ de 96 px, ${ou}`).toBeGreaterThanOrEqual(96);
+      await champ.fill("Une réplique assez longue pour remplir plusieurs lignes à 375 px, avec un témoin, une chute et encore un peu de texte pour arriver à deux cents caractères en tout, sans rien couper du tout ici.".slice(0, 200));
+      const coupe = await champ.evaluate((t) => t.scrollHeight - t.clientHeight);
+      expect(coupe, `rien de coupé, ${ou}`).toBeLessThanOrEqual(1);
+      await capturer(page, "nouvel-fiche-situation", largeur);
+
+      await page.goto("/mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes");
+      await expect(page.getByTestId("seance-liste").locator("li")).toHaveCount(10);
+      await capturer(page, "nouvel-fiche-seance", largeur);
+    }
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/mon-espace/s-entrainer");
+    for (const p of await page.locator("main .md\\:col-span-2 p").all()) {
+      if (await p.isVisible()) expect((await boite(p)).largeur, "mesure de lecture").toBeLessThanOrEqual(720);
+    }
+    await capturer(page, "nouvel-s-entrainer", 1280);
+
+    for (const largeur of [1280, 1920]) {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/mon-espace/questions");
+      const ecrire = await boite(page.locator("#h-ecrire"));
+      const envois = await boite(page.locator("#h-envois"));
+      expect(Math.abs(ecrire.haut - envois.haut), `titres au même niveau, ${largeur} px`).toBeLessThanOrEqual(1);
+      const titreQuestions = await boite(page.getByRole("heading", { level: 1 }));
+      await page.goto("/mon-espace/repliques");
+      const titreRepliques = await boite(page.getByRole("heading", { level: 1 }));
+      expect(Math.abs(titreRepliques.gauche - titreQuestions.gauche), `même bord que Mes questions, ${largeur} px`).toBeLessThanOrEqual(1);
+      await capturer(page, "nouvel-repliques", largeur);
+    }
+
+    for (const largeur of [375, 768, 1280]) {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/favoris");
+      for (const onglet of await page.getByRole("tab").all()) {
+        expect((await boite(onglet)).hauteur, `onglet de 44 px, ${largeur} px`).toBeGreaterThanOrEqual(44);
+      }
+    }
+  });
+});

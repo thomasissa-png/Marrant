@@ -32,6 +32,13 @@ const M = frEspaceProfond(TEXTES_MISSION);
  * autre marche, jamais un verrou). Rendu : SSR dynamique (données de l'abonné, jamais en cache). Garde
  * EN PREMIER : 404 interrupteur fermé ; nav v6, aperçu pour le visiteur et l'inscrit gratuit.
  */
+/**
+ * v6 tour 2 (point 5) : une carte qui prend la ligne entière garde une mesure de lecture (`max-w-prose`, environ
+ * 65 caractères) sur ses textes et ses groupes de boutons ; la carte, elle, reste pleine largeur. Les cartes
+ * jumelles restent en `items-start` (hauteur de leur contenu, haut aligné), comme avant.
+ */
+const MESURE_PLEINE_LIGNE = "[&_[role=group]]:max-w-prose [&_h2]:max-w-prose [&_li]:max-w-prose [&_p]:max-w-prose";
+
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -80,7 +87,7 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
           // Nombre impair de cartes : la dernière prend la ligne entière (aucune colonne vide à côté).
           const seuleSurSaLigne = i === derniere && montrables % 2 === 1;
           return (
-            <div key={c.carteId} className={seuleSurSaLigne ? "min-w-0 md:col-span-2" : "min-w-0"}>
+            <div key={c.carteId} className={seuleSurSaLigne ? `min-w-0 md:col-span-2 ${MESURE_PLEINE_LIGNE}` : "min-w-0"}>
               {carte.genre === "registre" ? (
                 <CarteRegistre carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
               ) : (
@@ -107,7 +114,7 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
       )}
       {/* Relecture des captures nav s24 (design 2) : la mission prend la ligne entière, aucun vide à droite. */}
       {mission && (
-        <div className="md:col-span-2">
+        <div className={`md:col-span-2 ${MESURE_PLEINE_LIGNE}`}>
         <MissionCarte
           mission={{ id: mission.id, marche: mission.marche, enonce: mission.enonce, suites: frEspaceProfond(mission.suites) }}
           hrefAPlat={aPlat ? hrefFiche("a-plat", aPlat.id) : null}
