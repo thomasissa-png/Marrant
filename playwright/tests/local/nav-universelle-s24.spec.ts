@@ -946,5 +946,179 @@ test.describe("navigation universelle v5 (s24)", () => {
       }
       await c.close();
     });
+
+    /** Menu ouvert et animation finie. */
+    async function ouvrirMenu(page: Page) {
+      await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+      const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+      await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+      return menu;
+    }
+
+    // s25 tour 6 (relecture design, D1 faute dure) : le menu suit la marge de la coque à chaque palier. Logo, séparateur
+    // et bouton d'offre sur une verticale ; texte des lignes, « Mon espace » et rail de l'espace 12 px plus loin (±0,5 px).
+    test("tour 6 : menu sur la verticale du logo (375, 640, 768, 1023 px ; abonné, gratuit)", async ({ browser }) => {
+      for (const etat of ["PREMIUM", "FREE"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [375, 640, 768, 1023]) {
+          await page.setViewportSize({ width: largeur, height: 900 });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          const menu = await ouvrirMenu(page);
+          const m = await menu.evaluate((nav) => {
+            const vis = (el: Element) => el.getClientRects().length > 0;
+            const texte = (el: Element) => {
+              const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.textContent!.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP) });
+              const r = document.createRange();
+              r.selectNodeContents(w.nextNode()!);
+              return r.getBoundingClientRect().left;
+            };
+            const monEspace = Array.from(nav.querySelectorAll("[data-menu-espace] > a, [data-menu-espace] > p")).find(vis);
+            const offre = Array.from(nav.querySelectorAll("a[aria-label]")).find(vis);
+            return {
+              logo: texte(document.querySelector("header > div > a")!),
+              separateurs: Array.from(nav.querySelectorAll("hr")).filter(vis).map((h) => h.getBoundingClientRect().left),
+              lignes: Array.from(nav.querySelectorAll("[data-liens-site] a")).map(texte),
+              monEspace: monEspace ? texte(monEspace) : null,
+              rail: nav.querySelector("[data-menu-espace] ul")?.getBoundingClientRect().left ?? null,
+              offre: offre ? offre.getBoundingClientRect().left : null,
+            };
+          });
+          const ici = `(${etat}, ${largeur} px)`;
+          noter(`verticale du menu ; ${etat} ; ${largeur} px ; logo=${m.logo} ; séparateurs=${m.separateurs.join(",")} ; lignes=${[...new Set(m.lignes)].join(",")} ; Mon espace=${m.monEspace} ; rail=${m.rail} ; offre=${m.offre}`);
+          expect(m.logo, `logo ${ici}`).toBeCloseTo(largeur >= 768 ? 24 : 16, 0);
+          expect(m.separateurs.length, `séparateurs ${ici}`).toBeGreaterThan(0);
+          for (const x of m.separateurs) expect(Math.abs(x - m.logo), `séparateur sous le logo ${ici}`).toBeLessThanOrEqual(0.5);
+          for (const x of m.lignes) expect(Math.abs(x - m.logo - 12), `texte des lignes ${ici}`).toBeLessThanOrEqual(0.5);
+          if (etat === "PREMIUM") {
+            expect(Math.abs(m.monEspace! - m.logo - 12), `« Mon espace » ${ici}`).toBeLessThanOrEqual(0.5);
+            expect(Math.abs(m.rail! - m.logo - 12), `rail de l'espace ${ici}`).toBeLessThanOrEqual(0.5);
+          } else {
+            expect(Math.abs(m.offre! - m.logo), `bouton d'offre ${ici}`).toBeLessThanOrEqual(0.5);
+          }
+          await page.keyboard.press("Escape");
+        }
+        await c.close();
+      }
+    });
+
+    // s25 tour 6 (relecture design D3, ux 7 pistes 1 et 2) : dans le menu, suggestions fermées au focus du champ (Tab
+    // va à la ligne suivante), ouvertes à la frappe ; puces de 44 px en une rangée propre à 320 px, anneau violet ;
+    // refermées quand le focus quitte la recherche. Barre dès 1280 px : comportement d'avant (ouverture au focus).
+    test("tour 6 : recherche du menu, Tab vers la ligne suivante, puces de 44 px, anneau violet (320, 375 px)", async ({ browser }) => {
+      for (const etat of ["PREMIUM", "visiteur"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        const suivante = etat === "PREMIUM" ? N.monEspace : "Parcours";
+        for (const largeur of [320, 375]) {
+          await page.setViewportSize({ width: largeur, height: 812 });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          const bouton = page.getByRole("banner").getByRole("button", { name: "Menu" });
+          await bouton.focus();
+          await page.keyboard.press("Enter");
+          const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+          await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          const champ = menu.getByRole("combobox");
+          const ligne = menu.getByRole("link", { name: suivante, exact: true });
+          const suggestions = menu.getByRole("listbox", { name: "Suggestions de recherche" });
+          const ici = `(${etat}, ${largeur} px)`;
+          await page.keyboard.press("Tab");
+          await expect(champ, `champ ${ici}`).toBeFocused();
+          await expect(suggestions, `rien au focus ${ici}`).toHaveCount(0);
+          await page.keyboard.press("Tab");
+          await expect(ligne, `Tab depuis le champ ${ici}`).toBeFocused();
+          await page.keyboard.press("Shift+Tab");
+          await expect(champ).toBeFocused();
+          await page.keyboard.type("r");
+          await expect(suggestions, `ouvertes à la frappe ${ici}`).toBeVisible();
+          const puces = await suggestions.evaluate((l) => {
+            const bord = l.getBoundingClientRect();
+            return Array.from(l.querySelectorAll("[role='option']")).map((b) => {
+              const r = b.getBoundingClientRect();
+              return { h: r.height, g: r.left - bord.left, d: bord.right - r.right };
+            });
+          });
+          noter(`puces du menu ; ${etat} ; ${largeur} px ; ${puces.map((p) => p.h).join(",")}`);
+          expect(puces.length).toBe(6);
+          for (const p of puces) {
+            expect(p.h, `puce de 44 px, sur une ligne ${ici}`).toBe(44);
+            expect(Math.min(p.g, p.d), `puce dans la liste ${ici}`).toBeGreaterThanOrEqual(12);
+          }
+          await page.keyboard.press("Tab");
+          const premiere = suggestions.getByRole("option").first();
+          await expect(premiere).toBeFocused();
+          expect(await premiere.evaluate((e) => getComputedStyle(e).boxShadow), `anneau violet ${ici}`).toContain("rgb(139, 92, 246)");
+          for (let i = 0; i < 6; i++) await page.keyboard.press("Tab");
+          await expect(ligne, `après la dernière puce ${ici}`).toBeFocused();
+          await expect(suggestions, `refermées hors de la recherche ${ici}`).toHaveCount(0);
+          // Pression sur une puce : le focus reste au champ, la puce s'applique.
+          await champ.focus();
+          await page.keyboard.press("ArrowDown");
+          const recherche = page.waitForResponse((r) => r.url().includes("/api/search"));
+          await suggestions.getByRole("option", { name: "timing" }).click();
+          await expect(champ).toHaveValue("timing");
+          await recherche;
+          await expect(champ).toBeFocused();
+          await page.keyboard.press("Escape");
+          await page.keyboard.press("Escape");
+          await expect(menu).toHaveCount(0);
+        }
+        // Barre dès 1280 px : inchangée, suggestions ouvertes au focus, puces d'avant.
+        await page.setViewportSize({ width: 1280, height: 900 });
+        await page.goto("/vannes");
+        await pret(page, etat);
+        await page.getByRole("banner").getByRole("combobox").first().focus();
+        const barre = page.getByRole("banner").getByRole("listbox", { name: "Suggestions de recherche" });
+        await expect(barre).toBeVisible();
+        const hauteur = await barre.getByRole("option").first().evaluate((e) => e.getBoundingClientRect().height);
+        expect(hauteur, `puces de la barre inchangées (${etat})`).toBeLessThan(44);
+        await c.close();
+      }
+    });
+
+    // s25 tour 6 (relecture ux, critère 7 piste 3) : menu ouvert sous le voile, le focus y reste. Tab après le dernier
+    // élément revient au premier, Maj+Tab inversement ; Échap ferme et rend le focus au bouton Menu.
+    test("tour 6 : focus enfermé dans le menu ouvert (375, 768 px ; abonné, gratuit, visiteur)", async ({ browser }) => {
+      for (const etat of ["PREMIUM", "FREE", "visiteur"] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const largeur of [375, 768]) {
+          await page.setViewportSize({ width: largeur, height: 812 });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          const bouton = page.getByRole("banner").getByRole("button", { name: "Menu" });
+          await bouton.focus();
+          await page.keyboard.press("Enter");
+          const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+          await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          const n = await menu.evaluate(
+            (nav) =>
+              Array.from(nav.querySelectorAll<HTMLElement>("a[href], button, input, [tabindex]")).filter((e) => e.tabIndex >= 0 && e.getClientRects().length > 0).length,
+          );
+          const position = () =>
+            menu.evaluate((nav) => {
+              const liste = Array.from(nav.querySelectorAll<HTMLElement>("a[href], button, input, [tabindex]")).filter((e) => e.tabIndex >= 0 && e.getClientRects().length > 0);
+              return liste.indexOf(document.activeElement as HTMLElement);
+            });
+          const ici = `(${etat}, ${largeur} px)`;
+          const vus: number[] = [];
+          for (let i = 0; i < n + 2; i++) {
+            await page.keyboard.press("Tab");
+            vus.push(await position());
+          }
+          noter(`focus enfermé ; ${etat} ; ${largeur} px ; ${n} éléments ; Tab : ${vus.join(",")}`);
+          expect(vus, `Tab fait le tour du menu ${ici}`).toEqual([...Array.from({ length: n }, (_, i) => i), 0, 1]);
+          await page.keyboard.press("Shift+Tab");
+          await page.keyboard.press("Shift+Tab");
+          expect(await position(), `Maj+Tab depuis le premier ${ici}`).toBe(n - 1);
+          await page.keyboard.press("Escape");
+          await expect(menu).toHaveCount(0);
+          await expect(bouton).toBeFocused();
+        }
+        await c.close();
+      }
+    });
   });
 });

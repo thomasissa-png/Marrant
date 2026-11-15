@@ -112,7 +112,7 @@ export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps
           <div aria-hidden="true" className="-mx-4 -mt-4 mb-3 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary max-e300:-mx-3 max-e300:-mt-3" />
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <Dialog.Title className="font-display text-xl font-bold text-text-primary">{T.cloche.titre}</Dialog.Title>
-            <Dialog.Close className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 shrink-0 hover:bg-border-hover")}>{T.cloche.fermer}</Dialog.Close>
+            <Dialog.Close className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "-mr-3 h-11 shrink-0 hover:bg-border-hover max-e300:-mr-2 max-e300:pr-2")}>{T.cloche.fermer}</Dialog.Close>
           </div>
           <LignesCloche contenu={contenu} erreur={erreur} onChoisir={() => setOuvert(false)} />
         </Dialog.Content>

@@ -25,7 +25,16 @@ const SUGGESTIONS = ["timing", "répartie", "storytelling", "observation", "absu
 
 const LISTBOX_ID = "search-results-listbox";
 
-export function SearchBar({ className, onNavigate }: { className?: string; onNavigate?: () => void }) {
+/**
+ * s25 (relectures en-tête tour 6, design D3, ux 7 pistes 1 et 2) : `dansMenu`, posé par le menu mobile de l'en-tête
+ * unique seulement. Les suggestions ne s'ouvrent plus au simple focus (à la frappe, ou flèche bas) : Tab depuis le
+ * champ va à la ligne suivante du menu ; elles se referment quand le focus quitte la recherche ; puces de 44 px de
+ * cible et anneau de focus violet de 2 px comme le reste du menu. Sans `dansMenu` (site fermé, barre), rien ne change.
+ */
+const PUCE_MENU =
+  "inline-flex min-h-11 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
+
+export function SearchBar({ className, onNavigate, dansMenu = false }: { className?: string; onNavigate?: () => void; dansMenu?: boolean }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -134,9 +143,25 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
   const showSuggestions = isOpen && query.length < 2;
   const showNoResults = isOpen && query.length >= 2 && results.length === 0 && !isLoading;
   const showResults = isOpen && results.length > 0;
+  // Dans le menu, une pression sur la liste laisse le focus au champ : la fermeture à la sortie du focus ne retire
+  // pas la puce avant son clic (Safari ne donne pas le focus aux boutons).
+  const garderFocus = dansMenu ? { onMouseDown: (e: React.MouseEvent) => e.preventDefault() } : {};
 
   return (
-    <div ref={ref} className={cn("relative", className)}>
+    <div
+      ref={ref}
+      className={cn("relative", className)}
+      onBlur={
+        dansMenu
+          ? (e) => {
+              if (!ref.current?.contains(e.relatedTarget as Node | null)) {
+                setIsOpen(false);
+                setActiveIndex(-1);
+              }
+            }
+          : undefined
+      }
+    >
       <div className="relative">
         <svg
           className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted"
@@ -158,10 +183,14 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
           aria-autocomplete="list"
           placeholder="Rechercher..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            if (dansMenu && e.target.value.length < 2) setIsOpen(true);
+          }}
           onKeyDown={handleKeyDown}
           className="pl-10"
           onFocus={() => {
+            if (dansMenu) return;
             if (results.length > 0 || query.length < 2) setIsOpen(true);
           }}
         />
@@ -176,6 +205,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
       {showSuggestions && (
         <div
           id={LISTBOX_ID}
+          {...garderFocus}
           role="listbox"
           aria-label="Suggestions de recherche"
           className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-3 shadow-xl animate-fade-in"
@@ -190,6 +220,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
                 aria-selected={activeIndex === i}
                 className={cn(
                   "rounded-md px-2.5 py-1 text-sm transition-colors",
+                  dansMenu && PUCE_MENU,
                   activeIndex === i
                     ? "bg-accent-primary/10 text-accent-link"
                     : "bg-background-elevated text-text-secondary hover:bg-background-light hover:text-text-primary"
@@ -208,6 +239,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
       {showResults && (
         <div
           id={LISTBOX_ID}
+          {...garderFocus}
           role="listbox"
           aria-label="Résultats de recherche"
           className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card shadow-xl animate-fade-in"
@@ -266,6 +298,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
       {showNoResults && (
         <div
           id={LISTBOX_ID}
+          {...garderFocus}
           role="listbox"
           aria-label="Aucun résultat"
           className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-4 shadow-xl animate-fade-in"
@@ -277,7 +310,10 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
             {SUGGESTIONS.slice(0, 4).map((s) => (
               <button
                 key={s}
-                className="rounded-md bg-background-elevated px-2.5 py-1 text-xs text-text-secondary transition-colors hover:bg-background-light hover:text-text-primary"
+                className={cn(
+                  "rounded-md bg-background-elevated px-2.5 py-1 text-xs text-text-secondary transition-colors hover:bg-background-light hover:text-text-primary",
+                  dansMenu && PUCE_MENU,
+                )}
                 onClick={() => setQuery(s)}
               >
                 {s}

@@ -272,6 +272,47 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       }
     });
 
+    // s25 (relecture design tour 6, D2) : texte de « Fermer » sur le bord droit des chevrons des lignes (±0,5 px), cible de
+    // 44 px conservée, bouton (survol, anneau) à au moins 2 px du bord intérieur du panneau ; sous 300 px (`max-e300`) aussi.
+    test("tour 6 : « Fermer » aligné sur les chevrons des lignes (290, 320, 375, 768, 1280 px)", async ({ browser, page }) => {
+      await page.emulateMedia({ colorScheme: "dark" });
+      await page.context().addCookies((await compte(browser)).cookies);
+      await servir(page, {
+        nonLues: 1,
+        reponses: [{ id: "e2etour6", type: "SITUATION", reponduLe: new Date().toISOString(), href: "/mon-espace/questions/e2etour6" }],
+        nouveautes: [{ genre: "carnet", le: "2026-11-01", href: "/carnet/2026-11" }],
+        lettre: null,
+      });
+      const panneau = page.getByRole("dialog", { name: frEspace(T.cloche.titre) });
+      const fermer = panneau.getByRole("button", { name: frEspace(T.cloche.fermer) });
+      for (const [largeur, hauteur] of [[290, 700], [320, 700], [375, 812], [768, 1024], [1280, 900]] as const) {
+        await page.setViewportSize({ width: largeur, height: hauteur });
+        await page.goto("/vannes");
+        await page.getByRole("banner").getByRole("button", { name: /^Notifications/ }).click();
+        await expect(panneau.locator("[data-ligne-cloche]")).toHaveCount(2);
+        const m = await panneau.evaluate((p) => {
+          const bouton = Array.from(p.querySelectorAll("button")).find((b) => b.getAttribute("aria-hidden") !== "true")!;
+          const r = document.createRange();
+          r.selectNodeContents(bouton);
+          const bord = p.getBoundingClientRect();
+          const b = bouton.getBoundingClientRect();
+          return {
+            texte: r.getBoundingClientRect().right,
+            chevrons: Array.from(p.querySelectorAll("[data-ligne-cloche] svg")).map((s) => s.getBoundingClientRect().right),
+            air: bord.right - parseFloat(getComputedStyle(p).borderRightWidth) - b.right,
+            hauteur: b.height,
+          };
+        });
+        const ici = `(${largeur} px)`;
+        console.log(`« Fermer » ; ${largeur} px ; texte=${m.texte.toFixed(1)} ; chevrons=${m.chevrons.map((c) => c.toFixed(1)).join(",")} ; air=${m.air.toFixed(1)}`);
+        for (const c of m.chevrons) expect(Math.abs(m.texte - c), `texte de « Fermer » sur le bord des chevrons ${ici}`).toBeLessThanOrEqual(0.5);
+        expect(m.hauteur, `cible de « Fermer » ${ici}`).toBeGreaterThanOrEqual(44);
+        expect(m.air, `« Fermer » dans le panneau ${ici}`).toBeGreaterThanOrEqual(2);
+        await expect(fermer).toBeVisible();
+        await page.keyboard.press("Escape");
+      }
+    });
+
     test("« Retirer de mon historique » : confirmation au clavier, Échap = Annuler, effacement définitif en base", async ({ browser, page }) => {
       await page.emulateMedia({ colorScheme: "dark" });
       const { id, cookies } = await compte(browser);

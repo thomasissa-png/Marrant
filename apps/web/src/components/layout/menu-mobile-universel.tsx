@@ -72,15 +72,36 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
     nav.scrollTo({ top: Math.ceil(defilement), behavior: reduit ? "auto" : "smooth" });
   }, []);
 
+  // s25 (relecture ux tour 6, critère 7 piste 3) : menu ouvert sous un voile, le focus y reste enfermé. Tab sur le
+  // dernier élément visible revient au premier, Maj+Tab sur le premier va au dernier ; Échap ferme et rend le focus
+  // au bouton « Menu » (en-tête). Éléments relevés à chaque touche : suggestions de recherche ouvertes comprises.
+  const enfermerFocus = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key !== "Tab" || e.defaultPrevented) return;
+    const elements = Array.from(e.currentTarget.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), input:not([disabled]), [tabindex]")).filter(
+      (el) => el.tabIndex >= 0 && el.getClientRects().length > 0,
+    );
+    const premier = elements[0];
+    const dernier = elements[elements.length - 1];
+    if (!premier || !dernier) return;
+    if (e.shiftKey && document.activeElement === premier) {
+      e.preventDefault();
+      dernier.focus();
+    } else if (!e.shiftKey && document.activeElement === dernier) {
+      e.preventDefault();
+      premier.focus();
+    }
+  };
+
   return (
     <nav
       ref={menu}
-      className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 lg:hidden animate-slide-up"
+      onKeyDown={enfermerFocus}
+      className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 md:px-6 lg:hidden animate-slide-up"
       aria-label="Navigation mobile"
       data-menu-mobile={etat}
     >
       <div className="mb-2 min-[440px]:hidden">
-        <SearchBar className="w-full" onNavigate={onClose} />
+        <SearchBar className="w-full" onNavigate={onClose} dansMenu />
       </div>
 
       {etat === "abonne" && (
