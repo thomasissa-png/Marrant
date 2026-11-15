@@ -17,7 +17,7 @@ Remplace en partie `navigation-universelle-s24.md` (v5). Décision ferme de Thom
 
 ## 1. Structure : où vit la barre
 
-**Reco : bande sous l'en-tête, dans le même bloc sticky (114 px = 65 + 49), pleine coque `max-w-7xl`, sur toutes les pages qui ont l'en-tête (accueil et /abonnement compris).**
+**Reco : bande sous l'en-tête, dans le même bloc sticky (114 px = 65 + 49), pleine coque `max-w-7xl`, sur toutes les pages qui ont l'en-tête (accueil compris), sauf /abonnement et ses sous-adresses (arbitrage du 15/11, voir §2).**
 
 Pourquoi pas dans l'en-tête comme la référence : la référence n'a ni recherche, ni bouton d'offre, ni Connexion. Ici, à 1280 (coque 1216), visiteur : logo 188 + recherche 176 + Connexion 72 + bouton d'offre 174 + 3 écarts de 16 = 658, soit environ 558 px libres pour 12 rubriques de 90 px en moyenne : il en tiendrait 5 ou 6. La bande en offre 1216.
 
@@ -63,6 +63,8 @@ Même bande pour tous, mêmes adresses. Seul change le signalement du groupe 1 e
 | Groupes 2 et 3 | ouverts | ouverts (Favoris vit dans la bande, plus dans le menu du compte) | ouverts |
 | Clic groupe 1 | **page d'aperçu** de la rubrique (même adresse que celle de l'abonné) | idem | la rubrique |
 | « … » | 2 lignes avec cadenas, mêmes aperçus | idem | 2 rubriques |
+| Bande sur /abonnement et /abonnement/success (et toute sous-adresse de /abonnement) | **absente** (arbitrage du 15/11 : la page de conversion validée en s21 garde son pli ; le bouton d'offre y est déjà masqué), rangée du haut gardée | idem | idem |
+| Fenêtre de moins de 500 px de haut (`max-height: 499px`, 200 % de texte sur téléphone) | rangée et bande **non collantes** : le bloc défile avec la page, plus de réserve d'ancre (arbitrage du 15/11) ; au-dessus, inchangé | idem | idem |
 | En-tête | Connexion + bouton d'offre | bouton d'offre + compte | cloche + compte |
 
 **Pourquoi un cadenas par chip et pas un badge « Premium »** : un badge ajoute environ 50 px par chip (+250 px, déborde) ; le cadenas coûte 18 px, se lit seul, ne crie pas. Les 5 cadenas sont regroupés à gauche d'un séparateur : le visiteur comprend « à gauche c'est Premium, à droite c'est gratuit » sans légende. Nom accessible du chip : « {rubrique}, rubrique Premium » [À VALIDER PAR THOMAS : « rubrique Premium »].

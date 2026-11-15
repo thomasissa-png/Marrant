@@ -48,14 +48,15 @@ const EnTeteUniversel = dynamic(() => import("@/components/layout/en-tete-univer
  * l'en-tête), React jette le HTML du serveur de cette frontière et montre son repli : il était vide, l'en-tête
  * disparaissait ~15 ms et `main` remontait de 65 px puis redescendait. Deux parades, ouvert seulement :
  * - le morceau est demandé dès l'évaluation de ce module, avant l'hydratation (plus tôt que le rendu) ;
- * - le repli garde la boîte de l'en-tête (même barre de 65 px, collante, même fond) : plus aucun saut.
+ * - le repli garde la boîte de l'en-tête (même barre de 65 px, collante, même fond) : plus aucun saut ; comme
+ *   l'en-tête, il défile avec la page sur une fenêtre de moins de 500 px de haut (arbitrage du 15/11).
  * Fermé : ni téléchargement ni rendu (le repli n'est jamais monté), en-tête d'aujourd'hui inchangé.
  */
 if (ESPACE_CLIENT_PUBLIE && typeof window !== "undefined") void import("@/components/layout/en-tete-universel");
 
 function EnTeteEnAttente() {
   return (
-    <header aria-hidden="true" className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
+    <header aria-hidden="true" className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md [@media(max-height:499px)]:relative">
       <div className="h-16" />
     </header>
   );

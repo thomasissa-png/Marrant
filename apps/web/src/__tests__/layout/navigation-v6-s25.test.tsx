@@ -89,6 +89,26 @@ describe("bande des rubriques, 3 états (§1, §2)", () => {
     });
   });
 
+  // Arbitrage du 15/11 (intégration s25) : pas de bande sur /abonnement et ses sous-adresses (pli de la page de conversion
+  // validée en s21) ; la rangée reste ; /abonnementx n'est pas une sous-adresse. Fenêtre basse : bloc non collant.
+  it.each(Object.keys(SESSIONS) as Etat[])("%s : bande absente de /abonnement et /abonnement/success, présente ailleurs ; bloc non collant sous 500 px de haut", async (etat) => {
+    useSession.mockReturnValue(SESSIONS[etat]);
+    for (const [chemin, presente] of [["/abonnement", false], ["/abonnement/success", false], ["/abonnementx", true], ["/register", true], ["/vannes", true]] as const) {
+      usePathname.mockReturnValue(chemin);
+      const { unmount, container } = render(<EnTeteUniversel />);
+      await act(async () => {});
+      expect([chemin, screen.queryByRole("navigation", { name: T.bande.nom }) !== null]).toEqual([chemin, presente]);
+      const entete = container.querySelector("header[data-en-tete-universel]")!;
+      expect(entete.className).toContain("sticky");
+      expect(entete.className).toContain("[@media(max-height:499px)]:relative");
+      expect(screen.getByRole("link", { name: "deviens-marrant.fr" })).toBeInTheDocument();
+      // Réserve des ancres : 128 px sous le bloc collant, 0 quand il défile avec la page.
+      // Sans bande (/abonnement) : aucune réserve posée, comme le site fermé.
+      expect(container.querySelector("style")?.textContent).toBe(presente ? "html{scroll-padding-top:8rem}@media (max-height:499px){html{scroll-padding-top:0}}" : undefined);
+      unmount();
+    }
+  });
+
   it("« … » : Mes questions et Mes répliques, Échap ferme et rend le focus", async () => {
     render(<EnTeteUniversel />);
     const plus = within(bande()).getByRole("button", { name: T.bande.plus });

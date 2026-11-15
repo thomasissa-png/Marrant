@@ -157,7 +157,7 @@ test.describe("navigation universelle v6 (s25)", () => {
       return c;
     }
     const pagesDe = (etat: Etat) =>
-      etat === "PREMIUM" ? [...PUBLIQUES, "/profil", "/favoris", ...ESPACE_PAGES] : etat === "FREE" ? [...PUBLIQUES, "/profil", "/abonnement"] : [...PUBLIQUES, "/abonnement"];
+      etat === "PREMIUM" ? [...PUBLIQUES, "/profil", "/favoris", ...ESPACE_PAGES] : etat === "FREE" ? [...PUBLIQUES, "/profil"] : PUBLIQUES; // /abonnement : sans bande (arbitrage du 15/11, test dédié)
 
     for (const etat of ETATS) {
       test(`critère 1 : même bande, même ordre, mêmes adresses sur toutes les pages ; liens du site hors de la rangée (${etat})`, async ({ browser }) => {
@@ -183,13 +183,92 @@ test.describe("navigation universelle v6 (s25)", () => {
     }
 
     test("critère 5 : chaque rubrique est un lien dans le HTML serveur du visiteur, « … » compris", async ({ request }) => {
-      for (const chemin of ["/", "/vannes", "/abonnement"]) {
+      for (const chemin of ["/", "/vannes", "/parcours"]) {
         const html = await (await request.get(chemin)).text();
         const nav = html.slice(html.indexOf('aria-label="Rubriques"'), html.indexOf("</nav>", html.indexOf('aria-label="Rubriques"')));
         const liens = Array.from(nav.matchAll(/<a [^>]*href="([^"]+)"/g)).map((m) => m[1]);
         expect(liens, chemin).toEqual([...HREFS, "/mon-espace/questions", "/mon-espace/repliques"]);
         expect(nav, `cadenas du visiteur (${chemin})`).toContain("Aujourd’hui, rubrique Premium");
       }
+    });
+
+    // Arbitrage du 15/11 (intégration s25) : pas de bande sur /abonnement et ses sous-adresses, comme le bouton d'offre :
+    // la page de conversion validée en s21 garde son pli (`conversion-v3-s21`). La rangée du haut reste ; ailleurs, la bande.
+    test("arbitrage du 15/11 : bande absente de /abonnement et /abonnement/success (3 états, HTML serveur compris), présente ailleurs", async ({ browser, request }) => {
+      for (const chemin of ["/abonnement", "/abonnement?plan=annual", "/abonnement/success?session_id=cs_test&returnTo=%2Fparcours"]) {
+        const html = await (await request.get(chemin)).text();
+        expect(html, `HTML serveur sans bande (${chemin})`).not.toContain('aria-label="Rubriques"');
+        expect(html, `HTML serveur avec la rangée (${chemin})`).toContain("data-en-tete-universel");
+      }
+      expect(await (await request.get("/vannes")).text(), "HTML serveur de /vannes avec la bande").toContain('aria-label="Rubriques"');
+      for (const etat of ETATS) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        await page.route("**/api/stripe/status", (r) => r.fulfill({ json: { plan: "FREE" } }));
+        await page.route("**/api/stripe/verify-session", (r) => r.fulfill({ status: 400, json: {} }));
+        for (const largeur of [375, 1280]) {
+          await page.setViewportSize({ width: largeur, height: 800 });
+          // L'abonné qui ouvre /abonnement est renvoyé vers son contenu (middleware) : pour lui, /abonnement/success.
+          const chemins = etat === "PREMIUM" ? ["/abonnement/success?session_id=cs_test&returnTo=%2Fparcours", "/vannes"] : ["/abonnement", "/abonnement/success?session_id=cs_test&returnTo=%2Fparcours", "/vannes"];
+          for (const chemin of chemins) {
+            await page.goto(chemin);
+            await pret(page, etat);
+            const ici = `${chemin} (${etat}, ${largeur} px)`;
+            const barre = page.getByRole("banner");
+            await expect(barre.getByRole("link", { name: "deviens-marrant.fr" }), `rangée du haut gardée ${ici}`).toBeVisible();
+            const attendu = chemin === "/vannes" ? 1 : 0;
+            await expect(barre.getByRole("navigation", { name: N.bande.nom }), `bande ${ici}`).toHaveCount(attendu);
+            await expect(page.locator("[data-bande-rubriques]"), `bande ${ici}`).toHaveCount(attendu);
+            if (!attendu) {
+              expect(await barre.evaluate((e) => Math.round(e.getBoundingClientRect().height)), `rangée seule, 65 px ${ici}`).toBe(65);
+              // Comme le site fermé : aucune réserve d'ancre posée sur la page de conversion.
+              expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop), `réserve ${ici}`).toBe("auto");
+            }
+          }
+        }
+        await c.close();
+      }
+    });
+
+    // Arbitrage du 15/11 : fenêtre de moins de 500 px de haut (200 % de texte sur téléphone), rangée et bande défilent avec
+    // la page (plus collantes) et la réserve des ancres tombe à 0 ; au-dessus, bloc collant et réserve de 128 px. Les
+    // ancres arrivent juste sous ce qui couvre le haut (réserve + `scroll-margin` de la cible) dans les deux cas.
+    test("arbitrage du 15/11 : bloc d'en-tête non collant sous 500 px de haut (375 x 480, 188 x 406), collant au-dessus (375 x 812) ; ancres justes", async ({ browser }) => {
+      // Visiteur : mêmes positions pour tous les comptes ; ancre mesurée sur un article (voir plus bas).
+      const c = await contexte(browser, "visiteur");
+      const page = await c.newPage();
+      for (const [largeur, hauteur, collant] of [[375, 480, false], [188, 406, false], [375, 812, true], [1280, 500, true]] as const) {
+        const ici = `(${largeur} x ${hauteur})`;
+        await page.setViewportSize({ width: largeur, height: hauteur });
+        await page.goto("/parcours/repartie");
+        await pret(page, "visiteur");
+        const bloc = page.locator("header[data-en-tete-universel]");
+        await expect(bloc.locator("[data-bande-rubriques]"), `bande dans le bloc ${ici}`).toHaveCount(1);
+        expect(await bloc.evaluate((e) => getComputedStyle(e).position), `position ${ici}`).toBe(collant ? "sticky" : "relative");
+        const reserve = await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop);
+        expect(reserve, `réserve des ancres ${ici}`).toBe(collant ? "128px" : "0px");
+        await page.evaluate(() => window.scrollTo(0, 400));
+        await expect.poll(() => page.evaluate(() => window.scrollY), { message: `défilé ${ici}` }).toBeGreaterThan(0);
+        const haut = await bloc.evaluate((e) => e.getBoundingClientRect());
+        if (collant) expect(haut.top, `bloc resté en haut ${ici}`).toBe(0);
+        else expect(haut.bottom, `bloc parti avec la page ${ici}`).toBeLessThanOrEqual(0);
+        // Ancre : un intertitre d'article (page sans recalage d'arrivée, contrairement au parcours) arrive à
+        // (réserve + scroll-margin) du haut, jamais sous le bloc collant.
+        const ARTICLE = "/blog/comment-devenir-drole";
+        await page.goto(ARTICLE);
+        const id = await page.locator("main h2[id]").nth(2).getAttribute("id");
+        await page.goto(`${ARTICLE}#${id}`);
+        const mesure = () => page.locator(`[id="${id}"]`).evaluate((e) => ({ top: e.getBoundingClientRect().top, marge: parseFloat(getComputedStyle(e).scrollMarginTop) || 0, bloc: document.querySelector("header")!.getBoundingClientRect().bottom }));
+        // Défilement doux (`scroll-behavior: smooth`) : attendre la position finale.
+        await expect
+          .poll(async () => { const x = await mesure(); return Math.abs(x.top - (parseFloat(reserve) + x.marge)); }, { message: `intertitre à réserve + marge du haut ${ici}`, timeout: 10_000 })
+          .toBeLessThanOrEqual(2);
+        const m = await mesure();
+        noter(`arbitrage 15/11 ; ancre ; ${ici} ; ${JSON.stringify(m)}`);
+        if (collant) expect(m.top, `intertitre sous le bloc collant ${ici}`).toBeGreaterThanOrEqual(m.bloc);
+        else expect(m.top, `intertitre dans la fenêtre ${ici}`).toBeGreaterThanOrEqual(0);
+      }
+      await c.close();
     });
 
     test("§2 : cadenas de 14 px et « rubrique Premium » pour le non-abonné, aucun pour l'abonné ; mêmes couleurs que le texte (AA)", async ({ browser }) => {
@@ -223,7 +302,7 @@ test.describe("navigation universelle v6 (s25)", () => {
 
     test("§4 : rubrique allumée selon l'adresse (blanc, pastille, soulignement violet de 3 px), « … » sur Mes répliques, aucune sur l'accueil", async ({ browser }) => {
       const cas: Record<Etat, [string, string | null][]> = {
-        visiteur: [["/", null], ["/abonnement", null], ["/glossaire", null], ["/parcours", "Parcours"], ["/parcours/repartie", "Parcours"], ["/vannes", "Vannes"], ["/conseils", "Conseils"], ["/videos", "Vidéos"], ["/blog", "Articles"], ["/lettre", "La lettre"], ["/carnet", "Carnet"]],
+        visiteur: [["/", null], ["/glossaire", null], ["/parcours", "Parcours"], ["/parcours/repartie", "Parcours"], ["/vannes", "Vannes"], ["/conseils", "Conseils"], ["/videos", "Vidéos"], ["/blog", "Articles"], ["/lettre", "La lettre"], ["/carnet", "Carnet"]],
         FREE: [["/", null], ["/profil", null], ["/vannes", "Vannes"], ["/carnet", "Carnet"]],
         PREMIUM: [
           ["/mon-espace", "Aujourd’hui"], ["/mon-espace/quoi-repondre", "Quoi répondre"], ["/mon-espace/fiche/situation/coloc-la-poele", "Quoi répondre"],

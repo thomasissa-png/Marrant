@@ -114,6 +114,9 @@ export function EnTeteUniversel() {
   const prixHref = buildAbonnementUrl(pathname && pathname !== "/" ? pathname : null, "monthly", "header");
   const loginHref = buildLoginUrl({ callbackUrl: pathname });
   const pageChaude = sousAdresse(pathname, "/abonnement") || sousAdresse(pathname, "/register");
+  // Arbitrage du 15/11 (intégration s25) : pas de bande sur /abonnement et ses sous-adresses (/abonnement/success…),
+  // comme le bouton d'offre : la page de conversion validée en s21 garde son pli. La rangée du haut reste.
+  const sansBande = sousAdresse(pathname, "/abonnement");
   const ouvrirRecherche = () => {
     setRechercheOuverte(!rechercheOuverte);
     setMenuOuvert(false);
@@ -121,11 +124,15 @@ export function EnTeteUniversel() {
 
   return (
     <>
-      {/* v6 critère 3 : ancres et focus jamais cachés sous le bloc collant (rangée et bande, 121 px au plus). */}
-      <style>{"html{scroll-padding-top:8rem}"}</style>
+      {/* v6 critère 3 : ancres et focus jamais cachés sous le bloc collant (rangée et bande, 121 px au plus).
+          Arbitrage du 15/11 : fenêtre de moins de 500 px de haut (200 % de texte sur téléphone, paysage), le bloc
+          défile avec la page (`relative` : hors du flux collant, mais le menu mobile reste ancré sous lui) ; plus rien ne couvre le haut, donc plus de réserve.
+          Sans bande (/abonnement) : aucune réserve posée, la page de conversion se comporte comme aujourd'hui (même en-tête
+          de 65 px que le site fermé ; mesuré : sinon la FAQ prix arrive 64 px plus bas au clic, `conversion-v3-s21` M3). */}
+      {!sansBande && <style>{"html{scroll-padding-top:8rem}@media (max-height:499px){html{scroll-padding-top:0}}"}</style>}
       {menuOuvert && <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 md:hidden" onClick={() => fermerMenu(true)} />}
       <header
-        className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md"
+        className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md [@media(max-height:499px)]:relative"
         data-en-tete-universel={etat}
         onKeyDown={menuOuvert ? enfermerFocus : undefined}
       >
@@ -230,7 +237,7 @@ export function EnTeteUniversel() {
           />
         )}
 
-        <BandeRubriques etat={etat} pathname={pathname} />
+        {!sansBande && <BandeRubriques etat={etat} pathname={pathname} />}
 
         {rechercheOuverte && (
           <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 md:hidden animate-slide-up">
