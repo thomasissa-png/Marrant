@@ -28,14 +28,36 @@ export function lienSansParametres(brute: string): Lien | null {
   }
 }
 
+/** Fin de ligne qui empêche l'intertitre : ponctuation de phrase, guillemet ou parenthèse fermants. */
+const FIN_DE_PHRASE = /[.,;:!?…»)"]$/;
+/** Ligne qui porte une adresse : jamais un intertitre. */
+const PORTE_UNE_ADRESSE = /https?:\/\/|www\.|deviens-marrant\.fr/i;
+
+export type BlocLettre = { intertitre: string | null; lignes: string[] };
+
 /**
- * v6 tour 2, point 8 (interrupteur ouvert seulement, monté par `app/(dashboard)/lettre/page.tsx`) : corps du
- * dernier numéro sur /lettre. Les adresses brutes deviennent des liens dont le texte est l'adresse sans
- * paramètres ; le reste du texte est celui de la lettre, ponctuation française comprise (`frPonctuation`,
- * appliquée au texte seul pour ne jamais toucher une adresse). `min-w-0 [overflow-wrap:anywhere]` : aucun mot
- * ni lien ne fait déborder la page à 375 px.
+ * v6 tour 3, point 10 : une ligne est un intertitre si elle ouvre un paragraphe de plusieurs lignes, ne finit par
+ * aucune ponctuation (« La sûre », « Comment choisir ») et ne porte pas d'adresse. « Salut, », « À bientôt, », une
+ * ligne qui finit par « : » ou qui porte une adresse restent du texte.
  */
-export function LettreCorpsApercu({ texte }: { texte: string }) {
+export function estIntertitre(ligne: string, lignesDuParagraphe: number): boolean {
+  const l = ligne.trim();
+  return lignesDuParagraphe > 1 && l.length > 0 && !FIN_DE_PHRASE.test(l) && !PORTE_UNE_ADRESSE.test(l);
+}
+
+/** Découpe du corps en paragraphes (lignes vides), avec l'intertitre éventuel de chacun. Texte inchangé. */
+export function decouperCorps(texte: string): BlocLettre[] {
+  return texte
+    .split(/\n[ \t]*\n+/)
+    .map((p) => p.split("\n").filter((l) => l.trim().length > 0))
+    .filter((lignes) => lignes.length > 0)
+    .map((lignes) =>
+      estIntertitre(lignes[0], lignes.length) ? { intertitre: lignes[0].trim(), lignes: lignes.slice(1) } : { intertitre: null, lignes },
+    );
+}
+
+/** Texte d'une ligne avec ses adresses brutes rendues en liens courts (`lienSansParametres`). */
+function avecLiens(texte: string, cle: string): ReactNode[] {
   const morceaux: ReactNode[] = [];
   let curseur = 0;
   for (const m of texte.matchAll(ADRESSE)) {
@@ -46,16 +68,47 @@ export function LettreCorpsApercu({ texte }: { texte: string }) {
     if (!lien) continue;
     morceaux.push(frPonctuation(texte.slice(curseur, debut)));
     morceaux.push(
-      <a key={debut} href={lien.href} className="text-accent-link underline underline-offset-2" data-lettre-lien="">
+      <a key={`${cle}-${debut}`} href={lien.href} className="text-accent-link underline underline-offset-2" data-lettre-lien="">
         {lien.texte}
       </a>,
     );
     curseur = debut + brute.length;
   }
   morceaux.push(frPonctuation(texte.slice(curseur)));
+  return morceaux;
+}
+
+/**
+ * v6 tour 2, point 8 (interrupteur ouvert seulement, monté par `app/(dashboard)/lettre/page.tsx`) : corps du
+ * dernier numéro sur /lettre. Les adresses brutes deviennent des liens dont le texte est l'adresse sans
+ * paramètres ; le reste du texte est celui de la lettre, ponctuation française comprise (`frPonctuation`,
+ * appliquée au texte seul pour ne jamais toucher une adresse). `min-w-0 [overflow-wrap:anywhere]` : aucun mot
+ * ni lien ne fait déborder la page à 375 px. v6 tour 3, point 10 : paragraphes séparés par de l'espace (plus de
+ * `whitespace-pre-line` brut), mesure `max-w-prose`, intertitres repérés par `estIntertitre` (la carte à filet
+ * qui l'entoure est posée par la page).
+ */
+export function LettreCorpsApercu({ texte }: { texte: string }) {
   return (
-    <div className="mt-2 min-w-0 max-w-full whitespace-pre-line text-text-secondary [overflow-wrap:anywhere]" data-lettre-corps="">
-      {morceaux}
+    <div className="mt-4 min-w-0 max-w-prose space-y-4 text-text-secondary [overflow-wrap:anywhere]" data-lettre-corps="">
+      {decouperCorps(texte).map((bloc, i) => (
+        <div key={i}>
+          {bloc.intertitre && (
+            <h3 className="font-semibold text-text-primary" data-lettre-intertitre="">
+              {frPonctuation(bloc.intertitre)}
+            </h3>
+          )}
+          {bloc.lignes.length > 0 && (
+            <p className={bloc.intertitre ? "mt-1" : undefined}>
+              {bloc.lignes.map((ligne, j) => (
+                <span key={j}>
+                  {j > 0 && <br />}
+                  {avecLiens(ligne, `${i}-${j}`)}
+                </span>
+              ))}
+            </p>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

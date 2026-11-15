@@ -12,6 +12,10 @@ const PAS_DEFILEMENT = 320;
  * seule ligne T3-07) déborde dès 1 024 px. Des chevrons de 44 px, visibles dès `lg` et seulement du côté où il
  * reste des pastilles, la font défiler à la souris ; le fondu suit le même côté. Ils doublent le geste (Tab, doigt,
  * trackpad atteignent déjà chaque pastille) : `aria-hidden` et hors de l'ordre de tabulation, aucun libellé nouveau.
+ * v6 tour 3, point 8 : à 375 et 768, l'accroche `snap-start` des pastilles recalait « Toutes » sur le bord de
+ * l'écran (port d'accroche sans retrait). Retrait d'accroche égal au retrait de départ de la rangée
+ * (`scroll-px-4 md:scroll-px-6`, débord `-mx-*` gardé) : la première pastille s'aligne sur le bord des cartes.
+ * Composant monté interrupteur ouvert seulement (`vannes-list.tsx`).
  */
 export function RangeeDefilante({ children, label }: { children: ReactNode; label: string }) {
   const rangee = useRef<HTMLDivElement>(null);
@@ -46,6 +50,7 @@ export function RangeeDefilante({ children, label }: { children: ReactNode; labe
         ref={rangee}
         className={cn(
           RANGEE_CHIPS_UNE_LIGNE,
+          "scroll-px-4 md:scroll-px-6 lg:scroll-px-0",
           gauche && droite && "lg:[mask-image:linear-gradient(to_right,transparent,#000_64px,#000_calc(100%-64px),transparent)]",
           gauche && !droite && "lg:[mask-image:linear-gradient(to_right,transparent,#000_64px)]",
           !gauche && droite && "lg:[mask-image:linear-gradient(to_right,#000_calc(100%-64px),transparent)]",

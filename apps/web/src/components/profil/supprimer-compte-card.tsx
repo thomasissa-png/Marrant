@@ -88,7 +88,8 @@ export function SupprimerCompteCard({
       <CardHeader>
         <CardTitle>{T.titre}</CardTitle>
       </CardHeader>
-      <CardContent>
+      {/* v6 tour 3, point 5 (ouvert) : carte longue en pleine largeur, texte à la mesure de lecture (`max-w-prose`). */}
+      <CardContent className={ESPACE_CLIENT_PUBLIE ? "max-w-prose" : undefined}>
         <p className="text-sm text-text-secondary">{T.intro}</p>
         {/* s21, avis @legal lettre hebdo §6.3 : texte exact, publié avec l'ouverture des inscriptions. */}
         {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2 text-sm text-text-secondary">{frTypo(LETTRE_HEBDO_SUPPRESSION)}</p>}

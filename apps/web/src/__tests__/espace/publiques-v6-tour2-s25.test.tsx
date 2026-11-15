@@ -101,7 +101,8 @@ describe("point 8 : /lettre, corps du dernier numéro", () => {
   it("composant : liens courts, ponctuation finale hors du lien, aucun paramètre affiché, coupure partout", () => {
     const { container } = render(<LettreCorpsApercu texte={mockCorps} />);
     const corps = container.querySelector("[data-lettre-corps]") as HTMLElement;
-    expect(corps.className.split(" ")).toEqual(expect.arrayContaining(["min-w-0", "max-w-full", "[overflow-wrap:anywhere]"]));
+    // v6 tour 3, point 10 : mesure de lecture `max-w-prose` (remplace `max-w-full`), coupure partout gardée.
+    expect(corps.className.split(" ")).toEqual(expect.arrayContaining(["min-w-0", "max-w-prose", "[overflow-wrap:anywhere]"]));
     const liens = within(corps).getAllByRole("link");
     expect(liens.map((l) => [l.textContent, l.getAttribute("href")])).toEqual([
       ["deviens-marrant.fr/blog/rester-muet-en-groupe", "/blog/rester-muet-en-groupe"],
@@ -129,10 +130,12 @@ describe("point 8 : /lettre, corps du dernier numéro", () => {
 });
 
 describe("point 9 : archive des lettres de l'abonné", () => {
-  it("colonne centrée `max-w-3xl`, H1 centré, cartes deux par ligne dès 640 px, hauteur minimale", async () => {
+  // v6 tour 3, point 11 : plus de hauteur minimale (elle créait le vide avant le pied de page).
+  it("colonne centrée `max-w-3xl`, H1 centré, cartes deux par ligne dès 640 px, sans hauteur minimale", async () => {
     const { container } = render(<div dangerouslySetInnerHTML={{ __html: await serveur(LettresAbonneCartes()) }} />);
     const racine = container.querySelector("[data-lettres-abonne]") as HTMLElement;
-    expect(racine.className.split(" ")).toEqual(expect.arrayContaining(["mx-auto", "max-w-3xl", "min-h-[60vh]"]));
+    expect(racine.className.split(" ")).toEqual(expect.arrayContaining(["mx-auto", "max-w-3xl"]));
+    expect(racine.className).not.toContain("min-h-[60vh]");
     expect((racine.querySelector("h1") as HTMLElement).closest(".text-center")).not.toBeNull();
     const grille = racine.querySelector("ul") as HTMLElement;
     expect(grille.className).toContain("sm:grid-cols-2");

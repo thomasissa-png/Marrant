@@ -65,8 +65,13 @@ const MasqueIntroduction = ESPACE_CLIENT_PUBLIE ? MasqueSiPremium : Fragment;
  */
 function ColonneParcours({ children }: { children: React.ReactNode }) {
   if (!ESPACE_CLIENT_PUBLIE) return <div className="mx-auto max-w-3xl">{children}</div>;
-  return <AxeEspace visiteur="mx-auto max-w-3xl">{children}</AxeEspace>;
+  // v6 tour 3, point 12 : la page occupe la coque (liste des cartes en `lg:grid-cols-2`, `parcours-content.tsx`) ;
+  // en-tête, en-tête de l'abonné, « Explore aussi » et FAQ gardent la colonne centrée de 768 px (`colonne()`).
+  return <AxeEspace visiteur="w-full">{children}</AxeEspace>;
 }
+
+/** Colonne de lecture centrée des blocs autres que la liste des cartes, interrupteur ouvert seulement. */
+const colonne = () => (ESPACE_CLIENT_PUBLIE ? "mx-auto max-w-3xl" : undefined);
 
 export default async function ParcoursPage() {
   const stats = await getContentStatsRounded();
@@ -81,12 +86,13 @@ export default async function ParcoursPage() {
           <span className="text-text-secondary">Parcours</span>
         </nav>
       )}
-      <div className="mb-8">
+      {/* v6 tour 3, point 1 (ouvert seulement) : H1 et sous-titre centrés comme le hero de l'accueil. */}
+      <div className={ESPACE_CLIENT_PUBLIE ? "mx-auto mb-8 max-w-3xl text-center" : "mb-8"}>
         <h1 className="font-display text-3xl font-bold md:text-4xl">
           {/* v3 M6 : espace insécable avant « : » (jamais en début de ligne). */}
           Parcours humour&nbsp;: deviens drôle pas à pas
         </h1>
-        <p className="mt-2 text-text-secondary">
+        <p className={ESPACE_CLIENT_PUBLIE ? "mx-auto mt-2 max-w-2xl text-text-secondary" : "mt-2 text-text-secondary"}>
           {PARCOURS_COUNT} parcours pour progresser en humour, chacun taillé pour une
           situation : {listeFr(NOMS_PARCOURS)}. Compte
           15 à 20 min/semaine selon le parcours, soit moins qu’un épisode de
@@ -137,13 +143,17 @@ export default async function ParcoursPage() {
 
       {/* s24 lot D4 : en-tête de l'abonné (4 premières semaines, étape à reprendre, « Ton cap »), côté
           navigateur, seulement interrupteur de l'espace ouvert : fermé, HTML de la page inchangé. */}
-      {ESPACE_CLIENT_PUBLIE && <ParcoursEspace />}
+      {ESPACE_CLIENT_PUBLIE && (
+        <div className={colonne()}>
+          <ParcoursEspace />
+        </div>
+      )}
       <ParcoursContent parcours={catalogue} />
 
       <JsonLd data={buildFaqJsonLd(faqSectionFaqs)} />
 
       {/* Cross-linking SEO */}
-      <nav className="mt-12 border-t border-border pt-8">
+      <nav className={cn("mt-12 border-t border-border pt-8", colonne())}>
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
         {/* v6 tour 1, point 12 : interrupteur ouvert, deux colonnes quand l'abonné n'a que 2 cartes (Abonnement masqué),
             trois sinon ; cartes à filet de l'accueil. Fermé : inchangé. */}
@@ -171,7 +181,7 @@ export default async function ParcoursPage() {
       </nav>
 
       {/* FAQ */}
-      <section className="mt-12 border-t border-border pt-8">
+      <section className={cn("mt-12 border-t border-border pt-8", colonne())}>
         <FaqSection align="left" />
       </section>
     </ColonneParcours>
