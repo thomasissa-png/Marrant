@@ -138,8 +138,8 @@ describe("points 14 et 15", () => {
   });
 
   it("Mes répliques : même colonne vide ou pleine, première réplique en bouton plein, « Supprimer » destructif", () => {
-    // v6 tour 2 (point 6) : même coque que Mes questions, la liste garde sa largeur de lecture, calée à gauche.
-    expect(lire("app/(dashboard)/mon-espace/repliques/page.tsx")).toContain('<div className="w-full max-w-3xl">');
+    // v6 tour 3 (arbitrage 3, remplace le tour 2) : la liste en grille pleine coque, l'état vide centré.
+    expect(lire("app/(dashboard)/mon-espace/repliques/page.tsx")).toContain("<ListeRepliques initiales={repliques} lectureSeule={false} grille />");
     const { unmount } = render(<ListeRepliques initiales={[]} lectureSeule={false} />);
     expect(within(screen.getByTestId("repliques-vide")).getByRole("link").className).toBe(BOUTON_PRINCIPAL);
     unmount();

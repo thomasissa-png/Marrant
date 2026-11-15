@@ -119,8 +119,9 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   ].filter(Boolean);
   return (
     <div>
-      {/* Nav v6 (lot B) : plus de place réservée au-dessus du titre (ni retour ni repère : la bande l'est). */}
-      <header className="mb-8 md:mb-10">
+      {/* Nav v6 (lot B) : plus de place réservée au-dessus du titre (ni retour ni repère : la bande l'est). v6 tour 3
+          (arbitrage 1) : titre et repère centrés comme le hero de l'accueil et l'aperçu de la même adresse. */}
+      <header className="mb-8 text-center md:mb-10">
         <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">{T.titre}</h1>
         {rafale && rafale.cetteSemaine > 0 && <p className="mt-2 text-sm text-text-secondary">{T.repere(rafale.cetteSemaine)}</p>}
       </header>

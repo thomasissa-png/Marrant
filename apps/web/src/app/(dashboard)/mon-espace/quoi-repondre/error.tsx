@@ -16,7 +16,7 @@ const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
  */
 export default function QuoiRepondreErreur({ reset }: { error: Error; reset: () => void }) {
   return (
-    <div className="flex flex-col gap-6 [&>header]:mb-2 md:[&>header]:mb-4" data-etat="erreur">
+    <div className="flex flex-col gap-6 [&>header]:mb-2 [&>header]:text-center md:[&>header]:mb-4" data-etat="erreur">
       {/* v5 §3, gabarit B : en-tête de page du site (sa marge basse remplace le premier écart). */}
       <PageHeader title={T.titre} />
       <div className={CARTE}>

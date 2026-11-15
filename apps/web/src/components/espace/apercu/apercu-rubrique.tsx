@@ -7,7 +7,7 @@ import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo-meta";
 import { BOUTON_PRINCIPAL, CADRE_CARTE, LIEN } from "@/components/espace/carte/styles";
 import { ADRESSES_APERCU } from "@/components/espace/apercu/acces";
 import { ExempleFavoris, ExempleFiche, ExempleQuestions, ExempleRepliques } from "@/components/espace/apercu/exemple";
-import { ficheApercu } from "@/components/espace/apercu/exemples";
+import { categoriesQuoiRepondre, ficheApercu } from "@/components/espace/apercu/exemples";
 import type { ExemplesFavoris } from "@/components/espace/apercu/exemples-favoris";
 import { frEspace } from "@/lib/fr-typo";
 
@@ -27,6 +27,26 @@ function Exemple({ rubrique, favoris }: { rubrique: RubriqueApercu; favoris: Exe
   if (rubrique === "mesRepliques") return <ExempleRepliques fiche={ficheApercu("mesRepliques")} />;
   if (rubrique === "favoris") return <ExempleFavoris exemples={favoris} />;
   return <ExempleFiche fiche={ficheApercu(rubrique)} />;
+}
+
+/**
+ * v6 tour 3 (arbitrage 6) : sous l'exemple de « Quoi répondre », le catalogue en lecture seule, comme la liste de
+ * l'abonné le titre (« Coloc (4) ») : libellés et effectifs existants, aucun lien ni bouton, aucun texte nouveau.
+ */
+function CatalogueQuoiRepondre() {
+  const groupes = categoriesQuoiRepondre();
+  if (groupes.length === 0) return null;
+  return (
+    <div className={`${CADRE_CARTE} p-5 md:p-6`} data-apercu-catalogue>
+      <ul aria-label={TEXTES_APERCU.titres.quoiRepondre} className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
+        {groupes.map((g) => (
+          <li key={g.cle} className="text-base font-semibold text-text-primary">
+            {frEspace(g.titre)} <span className="font-normal text-text-secondary">({g.nombre})</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 /**
@@ -71,6 +91,7 @@ export function ApercuRubrique({
         >
           <Exemple rubrique={rubrique} favoris={favoris} />
         </article>
+        {rubrique === "quoiRepondre" && <CatalogueQuoiRepondre />}
         <div className={`${CADRE_CARTE} flex flex-wrap items-center justify-center gap-x-6 gap-y-2 p-5 md:p-6`} data-apercu-offre>
           <Link
             href={buildAbonnementUrl(adresse, "monthly", sourceApercu(rubrique))}

@@ -21,8 +21,19 @@ type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
  * liste ; « Modifier » (la réplique n'est pas affichée deux fois) ; « Supprimer » avec confirmation
  * (focus sur « Annuler ») ; « Supprimée » annoncé ; échec sans perte. Lecture seule (après la
  * résiliation, depuis « Mon profil ») : ni modification, la suppression reste. Cibles de 44 px.
+ * v6 tour 3 (arbitrage 3) : `grille` (page « Mes répliques » seulement, interrupteur ouvert) : les répliques en grille
+ * pleine coque (`md:grid-cols-2 xl:grid-cols-3`, cartes de même hauteur, actions en bas) ; l'état vide en colonne
+ * centrée `mx-auto max-w-3xl`. Sans `grille` (historique en lecture seule du profil) : le rendu d'avant.
  */
-export function ListeRepliques({ initiales, lectureSeule }: { initiales: RepliqueListee[]; lectureSeule: boolean }) {
+export function ListeRepliques({
+  initiales,
+  lectureSeule,
+  grille = false,
+}: {
+  initiales: RepliqueListee[];
+  lectureSeule: boolean;
+  grille?: boolean;
+}) {
   const [liste, setListe] = useState(initiales);
   const [mode, setMode] = useState<Mode>(null);
   const [brouillon, setBrouillon] = useState("");
@@ -63,7 +74,7 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
       {lectureSeule && <p className="text-sm text-text-secondary">{R.lectureSeule}</p>}
       {liste.length === 0 ? (
         // Relecture des captures nav s24 (design 4, ux F5) : état vide à sa largeur de lecture, avec une sortie.
-        <div className={`${CARTE} flex flex-col items-start gap-4 md:p-8`} data-testid="repliques-vide">
+        <div className={`${CARTE} flex flex-col items-start gap-4 md:p-8${grille ? " mx-auto w-full max-w-3xl" : ""}`} data-testid="repliques-vide">
           <p className="text-base text-text-primary">{R.vide}</p>
           {!lectureSeule && (
             // v6 tour 1 (point 15) : seule action de la page, en bouton plein.
@@ -73,12 +84,12 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
           )}
         </div>
       ) : (
-        <ul className="flex flex-col gap-3">
+        <ul className={grille ? "grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" : "flex flex-col gap-3"}>
           {liste.map((r) => {
             const enEdition = mode?.ficheId === r.ficheId && mode.quoi === "modifier";
             const enConfirmation = mode?.ficheId === r.ficheId && mode.quoi === "confirmer";
             return (
-              <li key={r.ficheId} className={CARTE} data-replique={r.ficheId}>
+              <li key={r.ficheId} className={grille ? `${CARTE} flex flex-col` : CARTE} data-replique={r.ficheId}>
                 {r.titre &&
                   (r.href && !lectureSeule ? (
                     <Link href={r.href} className="inline-flex min-h-11 items-center font-semibold text-accent-link underline underline-offset-2">
@@ -120,7 +131,8 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
                     </div>
                   </form>
                 ) : (
-                  <p className="text-base text-text-primary">«{FINE}{r.texte}{FINE}»</p>
+                  // v6 tour 3 : en grille, la réplique prend la hauteur libre (actions au bas des cartes d'une rangée).
+                  <p className={grille ? "flex-1 text-base text-text-primary" : "text-base text-text-primary"}>«{FINE}{r.texte}{FINE}»</p>
                 )}
                 {enConfirmation ? (
                   <div role="group" aria-labelledby={`q-${r.ficheId}`} className="space-y-2">

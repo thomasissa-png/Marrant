@@ -11,7 +11,7 @@ import type { DureeCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
 import type { ApresReponse } from "@/components/espace/carte/carte-registre";
-import { CARTE, ETIQUETTE, nouvelleCle } from "@/components/espace/carte/styles";
+import { ACTIONS_ENTRAINEMENT, ETIQUETTE, cadreEntrainement, nouvelleCle, texteEntrainement } from "@/components/espace/carte/styles";
 import { entreGuillemets } from "@/components/espace/carte/citation";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
@@ -25,7 +25,7 @@ const T = frEspaceProfond(TEXTES_CARTES);
  * APRÈS la réponse ; « Le pourquoi » du carnet. Aucun texte du carnet modifié, aucun texte neuf.
  * Servie pour les fiches relues du carnet (porte G5 franchie, `lib/espace/carnet-cartes.ts`).
  */
-export function CarteEtToi({ carte, nouvelle, ancre }: { carte: Carte; nouvelle: boolean; ancre: string }) {
+export function CarteEtToi({ carte, nouvelle, ancre, seule = false }: { carte: Carte; nouvelle: boolean; ancre: string; seule?: boolean }) {
   const cle = useRef(nouvelleCle());
   const [reponse, setReponse] = useState<ReponseCarte | null>(null);
   const [apres, setApres] = useState<ApresReponse | null>(null);
@@ -48,13 +48,16 @@ export function CarteEtToi({ carte, nouvelle, ancre }: { carte: Carte; nouvelle:
   );
 
   return (
-    <article id={ancre} aria-labelledby={titreId} className={CARTE} data-carte={carte.id}>
+    <article id={ancre} aria-labelledby={titreId} className={cadreEntrainement(seule)} data-carte={carte.id}>
+      <div className={texteEntrainement(seule)}>
       <EnTeteCarte id={titreId} titre={carte.titre} nouvelle={nouvelle} />
       <div className="space-y-2">
         <h3 className={ETIQUETTE}>{T.scene}</h3>
         <p className="text-base text-text-primary">{carte.scene}</p>
         <p className="text-base font-semibold text-text-primary">{entreGuillemets(carte.onTeDit)}</p>
       </div>
+      </div>
+      <div className={ACTIONS_ENTRAINEMENT}>
       <div className="space-y-1">
         <h3 className="text-base font-semibold text-text-primary">{T.reponseDabord}</h3>
         <p className="text-sm text-text-secondary">{T.consigne}</p>
@@ -83,6 +86,7 @@ export function CarteEtToi({ carte, nouvelle, ancre }: { carte: Carte; nouvelle:
       {reponse && apres && carte.exercice && (
         <GesteFiche ficheId={carte.ficheId} consigne={carte.exercice} retourInitial={apres.retour} repliqueInitiale={apres.replique} />
       )}
+      </div>
     </article>
   );
 }

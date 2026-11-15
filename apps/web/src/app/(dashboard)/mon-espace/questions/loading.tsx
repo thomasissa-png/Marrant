@@ -12,7 +12,7 @@ const Q = frEspaceProfond(TEXTES_QUESTIONS);
  */
 export default function MesQuestionsChargement() {
   return (
-    <div className="flex flex-col gap-6 [&>header]:mb-2 md:[&>header]:mb-4" aria-busy="true" data-etat="chargement">
+    <div className="flex flex-col gap-6 [&>header]:mb-2 [&>header]:text-center md:[&>header]:mb-4" aria-busy="true" data-etat="chargement">
       {/* v5 §3, gabarit B : en-tête de page du site (sa marge basse remplace le premier écart). */}
       <PageHeader title={Q.titre} />
       {[0, 1].map((i) => (

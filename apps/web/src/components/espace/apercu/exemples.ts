@@ -19,7 +19,10 @@
 import situations from "@/data/espace/situations.json";
 import constructions from "@/data/espace/constructions.json";
 import jeux from "@/data/espace/jeux.json";
-import { validerFichier, type Fiche, type TypeFiche } from "@/lib/espace/fiches-schema";
+import aPlat from "@/data/espace/a-plat.json";
+import { UNIVERS, validerFichier, type Fiche, type TypeFiche } from "@/lib/espace/fiches-schema";
+import type { FicheQuoiRepondre } from "@/lib/espace/quoi-repondre";
+import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { ENTREE_PAR_DEFAUT } from "@/lib/espace/premier-pas";
 import type { RubriqueApercu } from "@/config/textes/espace-apercu";
 
@@ -34,6 +37,23 @@ export const FICHES_APERCU: Record<Exclude<RubriqueApercu, "mesQuestions" | "fav
 };
 
 const SOURCES: Record<FicheApercu["type"], unknown> = { situation: situations, construction: constructions, jeu: jeux };
+
+/**
+ * v6 tour 3 (arbitrage 6) : le catalogue de « Quoi répondre » tel que la liste de l'abonné le range sans filtre
+ * (même ordre, mêmes libellés validés : un groupe par lieu, puis « Rattraper un faux pas » pour les fiches sans
+ * lieu) avec l'effectif de chaque groupe. Lecture des fichiers validés, sans base : les reprises de lettre (servies
+ * après l'envoi de leur lettre) ne sont jamais comptées ici.
+ */
+export function categoriesQuoiRepondre(): { cle: string; titre: string; nombre: number }[] {
+  const fiches = [...validerFichier("situation", situations), ...validerFichier("a-plat", aPlat)].filter(
+    (f): f is FicheQuoiRepondre => (f.type === "situation" || f.type === "a-plat") && !f.repriseDeLettre,
+  );
+  const T = TEXTES_QUOI_REPONDRE;
+  return [
+    ...UNIVERS.map((u) => ({ cle: u as string, titre: T.univers[u], nombre: fiches.filter((f) => f.univers === u).length })),
+    { cle: "sans-lieu", titre: T.pourQuoiFaire["rattraper-faux-pas"], nombre: fiches.filter((f) => !f.univers).length },
+  ].filter((g) => g.nombre > 0);
+}
 
 /** La fiche d'aperçu d'une rubrique ; lève une erreur si l'identifiant a disparu des données. */
 export function ficheApercu(rubrique: keyof typeof FICHES_APERCU): Fiche {

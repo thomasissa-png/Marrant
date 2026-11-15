@@ -61,8 +61,8 @@ describe("point 1 : aperçu en une colonne centrée, offre dessous", () => {
     expect(imbriques).toEqual([]);
   });
 
-  it("Favoris : les deux contenus réels côte à côte dès `sm`, en `items-start`", () => {
-    expect(lire("components/espace/apercu/exemple.tsx")).toContain('"grid grid-cols-1 items-start gap-4 sm:grid-cols-2"');
+  it("Favoris : les deux contenus réels l'un sous l'autre (v6 tour 3, arbitrage 4, remplace le côte à côte)", () => {
+    expect(lire("components/espace/apercu/exemple.tsx")).toContain('"grid grid-cols-1 gap-4" data-apercu-fiche="favoris-exemples"');
   });
 });
 
@@ -130,12 +130,11 @@ describe("point 4 : séance, étape « Observation » en liste numérotée, text
   });
 });
 
-describe("point 5 : S'entraîner, mesure de ligne des cartes pleine ligne", () => {
-  it("`max-w-prose` sur les textes des cartes qui prennent la ligne ; cartes jumelles en `items-start`", () => {
+describe("point 5 : S'entraîner, cartes pleine ligne (remplacé par le tour 3, arbitrage 2)", () => {
+  it("plus de mesure plafonnée ; cartes jumelles en `items-stretch` (`v6-tour3-lot1.test.tsx`)", () => {
     const page = lire("app/(dashboard)/mon-espace/s-entrainer/page.tsx");
-    expect(page).toContain('const MESURE_PLEINE_LIGNE = "[&_[role=group]]:max-w-prose [&_h2]:max-w-prose [&_li]:max-w-prose [&_p]:max-w-prose";');
-    expect(page.match(/\$\{MESURE_PLEINE_LIGNE\}/g)).toHaveLength(2);
-    expect(page).toContain('"grid grid-cols-1 items-start gap-6 md:grid-cols-2"');
+    expect(page).not.toContain("MESURE_PLEINE_LIGNE");
+    expect(page).toContain('"grid grid-cols-1 items-stretch gap-6 md:grid-cols-2"');
   });
 });
 

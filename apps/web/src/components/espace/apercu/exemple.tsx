@@ -21,8 +21,10 @@ const Q = frEspaceProfond(TEXTES_QUESTIONS);
 function Corps({ fiche }: { fiche: Fiche }) {
   switch (fiche.type) {
     case "situation":
+      // v6 tour 3 (arbitrage 6) : la fiche en entier, suite révélée ; ni porte ni boutons « Oui / À moitié / Rien ».
       return (
         <CorpsSituation
+          suiteOuverte
           premierePhrase={fiche.contenu.forme === "premiere-phrase"}
           scene={fiche.contenu.scene}
           repliques={fiche.contenu.repliques}
@@ -112,13 +114,13 @@ export function ExempleQuestions() {
 /**
  * Favoris : aucun favori d'abonné n'est montré. v6 tour 1 (arbitrage 3) : la première vanne et le premier conseil
  * gratuits du catalogue, présentés comme des favoris, en lecture seule. Sans eux (base indisponible), l'état vide
- * existant de la page (onglet « Tout »). v6 tour 2 (arbitrage 1) : côte à côte dès `sm`, en `items-start` (aucune
- * carte étirée à la hauteur de sa voisine).
+ * existant de la page (onglet « Tout »). v6 tour 3 (arbitrage 4) : l'un sous l'autre dans la colonne centrée, à
+ * toutes les largeurs (plus de `sm:grid-cols-2` : la vanne courte laissait un trou sous elle) ; l'offre dessous.
  */
 export function ExempleFavoris({ exemples = null }: { exemples?: ExemplesFavoris | null }) {
   if (exemples) {
     return (
-      <ul className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2" data-apercu-fiche="favoris-exemples">
+      <ul className="grid grid-cols-1 gap-4" data-apercu-fiche="favoris-exemples">
         <FavoriVanneLecture vanne={exemples.vanne} />
         <FavoriConseilLecture conseil={exemples.conseil} />
       </ul>
