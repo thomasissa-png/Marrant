@@ -243,7 +243,9 @@ test.describe("navigation universelle v6 (s25)", () => {
         await page.goto("/parcours/repartie");
         await pret(page, "visiteur");
         const bloc = page.locator("header[data-en-tete-universel]");
-        await expect(bloc.locator("[data-bande-rubriques]"), `bande dans le bloc ${ici}`).toHaveCount(1);
+        // Fenêtre basse : bande masquée (ses rubriques sont dans le menu, test suivant) ; au-dessus, dans le bloc.
+        if (collant) await expect(bloc.locator("[data-bande-rubriques]"), `bande dans le bloc ${ici}`).toBeVisible();
+        else await expect(bloc.locator("[data-bande-rubriques]"), `bande masquée ${ici}`).toBeHidden();
         expect(await bloc.evaluate((e) => getComputedStyle(e).position), `position ${ici}`).toBe(collant ? "sticky" : "relative");
         const reserve = await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop);
         expect(reserve, `réserve des ancres ${ici}`).toBe(collant ? "128px" : "0px");
@@ -269,6 +271,70 @@ test.describe("navigation universelle v6 (s25)", () => {
         else expect(m.top, `intertitre dans la fenêtre ${ici}`).toBeGreaterThanOrEqual(0);
       }
       await c.close();
+    });
+
+    // Arbitrage du 15/11 (200 % de texte) : sous 500 px de haut, bande MASQUÉE et ses rubriques dans le menu (même ordre,
+    // cadenas du non-abonné, page allumée), bouton Menu visible à toutes les largeurs et pour les 3 états (visiteur
+    // compris au-delà de 520 px) ; chaque rubrique en 2 touchers ; Échap ferme et rend le focus au bouton. Au-dessus de
+    // 500 px (375 x 812, 1280 x 500), la bande est là et le menu n'a pas de rubriques.
+    test("arbitrage du 15/11 : bande masquée et rubriques dans le Menu à 375 x 480 et 1280 x 480 ; bande là à 375 x 812 et 1280 x 500", async ({ browser }) => {
+      const ATTENDUES = [...ORDRE, "Mes questions", "Mes répliques"];
+      const ADRESSES = [...HREFS, "/mon-espace/questions", "/mon-espace/repliques"];
+      for (const etat of ETATS) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        for (const [largeur, hauteur] of [[375, 480], [1280, 480], [375, 812], [1280, 500]] as const) {
+          const basse = hauteur < 500;
+          const ici = `(${etat}, ${largeur} x ${hauteur})`;
+          await page.setViewportSize({ width: largeur, height: hauteur });
+          await page.goto("/vannes");
+          await pret(page, etat);
+          const barre = page.getByRole("banner");
+          const bouton = barre.getByRole("button", { name: "Menu", exact: true });
+          if (!basse) {
+            await expect(barre.getByRole("navigation", { name: N.bande.nom }), `bande visible ${ici}`).toBeVisible();
+            if (largeur >= 768) await expect(bouton, `pas de Menu ${ici}`).toBeHidden();
+            else {
+              await bouton.click();
+              await expect(page.getByRole("navigation", { name: "Navigation mobile" }).getByRole("list", { name: N.bande.nom }), `pas de rubriques dans le menu ${ici}`).toBeHidden();
+              await page.keyboard.press("Escape");
+            }
+            continue;
+          }
+          await expect(page.locator("[data-bande-rubriques]"), `bande masquée ${ici}`).toBeHidden();
+          await expect(barre.getByRole("navigation", { name: N.bande.nom }), `bande hors de l'arbre ${ici}`).toHaveCount(0);
+          await expect(bouton, `Menu visible ${ici}`).toBeVisible();
+          // 1er toucher : Menu.
+          await bouton.click();
+          const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+          const liste = menu.getByRole("list", { name: N.bande.nom });
+          await expect(liste, `rubriques dans le menu ${ici}`).toBeVisible();
+          const liens = liste.getByRole("link");
+          await expect(liens, `même ordre ${ici}`).toHaveText(ATTENDUES);
+          expect(await liens.evaluateAll((as) => as.map((a) => a.getAttribute("href"))), `mêmes adresses ${ici}`).toEqual(ADRESSES);
+          const noms = await liens.evaluateAll((as) => as.map((a) => [a.getAttribute("aria-label"), a.querySelector("svg") !== null]));
+          noms.forEach(([nom, cadenas], i) => {
+            const premium = etat !== "PREMIUM" && (i < 5 || i === 10 || i > 11);
+            expect([ATTENDUES[i], nom, cadenas], `cadenas ${ici}`).toEqual([ATTENDUES[i], premium ? N.bande.premium(ATTENDUES[i]) : null, premium]);
+          });
+          await expect(liste.locator("[aria-current='page']"), `page allumée ${ici}`).toHaveText("Vannes");
+          // Dès 768 px, recherche, offre et compte restent dans la rangée : le menu n'a que les rubriques.
+          if (largeur >= 768) {
+            await expect(menu.getByRole("link"), `menu réduit aux rubriques ${ici}`).toHaveCount(ATTENDUES.length);
+            await expect(menu.getByRole("button"), `aucune action en double ${ici}`).toHaveCount(0);
+          }
+          // Échap ferme et rend le focus au bouton.
+          await page.keyboard.press("Escape");
+          await expect(menu).toHaveCount(0);
+          await expect(bouton).toBeFocused();
+          // 2e toucher : la dernière rubrique (« Mes répliques »), atteinte et ouverte.
+          await bouton.click();
+          const derniere = page.getByRole("navigation", { name: "Navigation mobile" }).getByRole("list", { name: N.bande.nom }).getByRole("link").last();
+          await derniere.scrollIntoViewIfNeeded();
+          await Promise.all([page.waitForURL(/\/mon-espace\/repliques$/), derniere.click()]);
+        }
+        await c.close();
+      }
     });
 
     test("§2 : cadenas de 14 px et « rubrique Premium » pour le non-abonné, aucun pour l'abonné ; mêmes couleurs que le texte (AA)", async ({ browser }) => {

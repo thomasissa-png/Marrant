@@ -48,6 +48,12 @@ const Cloche = dynamic(() => import("@/components/espace/cloche").then((m) => m.
   loading: () => <span aria-hidden="true" className="h-11 w-11 shrink-0" />,
 });
 
+/**
+ * Menu (bouton, voile, panneau) : sous 768 px (visiteur : sous 520), et à toutes les largeurs quand la fenêtre fait
+ * moins de 500 px de haut (arbitrage du 15/11 : la bande y est masquée, ses rubriques passent dans le menu).
+ */
+const SANS_MENU = "[@media(min-width:768px)_and_(min-height:500px)]:hidden";
+
 const ICONE =
   "h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
 
@@ -130,7 +136,7 @@ export function EnTeteUniversel() {
           Sans bande (/abonnement) : aucune réserve posée, la page de conversion se comporte comme aujourd'hui (même en-tête
           de 65 px que le site fermé ; mesuré : sinon la FAQ prix arrive 64 px plus bas au clic, `conversion-v3-s21` M3). */}
       {!sansBande && <style>{"html{scroll-padding-top:8rem}@media (max-height:499px){html{scroll-padding-top:0}}"}</style>}
-      {menuOuvert && <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 md:hidden" onClick={() => fermerMenu(true)} />}
+      {menuOuvert && <div aria-hidden="true" className={cn("fixed inset-0 z-40 bg-black/60", SANS_MENU)} onClick={() => fermerMenu(true)} />}
       <header
         className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md [@media(max-height:499px)]:relative"
         data-en-tete-universel={etat}
@@ -206,7 +212,7 @@ export function EnTeteUniversel() {
             <button
               ref={boutonMenu}
               type="button"
-              className={cn(ICONE, "flex md:hidden", etat === "visiteur" && "min-[520px]:hidden")}
+              className={cn(ICONE, "flex", SANS_MENU, etat === "visiteur" && "[@media(min-width:520px)_and_(min-height:500px)]:hidden")}
               onClick={() => {
                 setMenuOuvert(!menuOuvert);
                 setRechercheOuverte(false);

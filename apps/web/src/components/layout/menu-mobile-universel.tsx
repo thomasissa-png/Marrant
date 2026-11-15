@@ -6,7 +6,9 @@ import { signOut } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
 import { IconeDeconnexion, IconeProfil } from "@/components/layout/header-icons";
-import type { EtatLecteur } from "@/components/espace/rubriques";
+import { RUBRIQUES, estPremium, rubriqueAllumee, type EtatLecteur } from "@/components/espace/rubriques";
+import { Cadenas } from "@/components/layout/bande-rubriques";
+import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { CHAMP } from "@/components/layout/panneau-eleve";
 import { EN_TETE } from "@/config/textes/cta-articles-accueil";
 import { cn } from "@/lib/utils";
@@ -20,6 +22,10 @@ import { cn } from "@/lib/utils";
  * réservé à la ligne allumée et au bouton d'offre), 16 px sous le bouton d'offre, filet gauche violet de 2 px sur la
  * ligne allumée (lisible sans la teinte), anneau `accent-link` intérieur (`panneau-eleve.ts`), indice de suite en bas
  * tant qu'il reste du contenu sous le pli. Focus enfermé et Échap : gérés par l'en-tête (`en-tete-universel.tsx`).
+ * Arbitrage du 15/11 : fenêtre de moins de 500 px de haut (200 % de texte sur téléphone), la bande est masquée et ses
+ * rubriques sont ici, en tête du menu (même ordre, mêmes groupes, cadenas et nom « rubrique Premium » du non-abonné,
+ * ligne de la page allumée) ; le menu s'ouvre alors à toutes les largeurs (dès 768 px, il ne contient que les
+ * rubriques : recherche, offre et compte sont dans la rangée). Au-dessus de 500 px, rien ne change.
  */
 const FILET = "border-l-2 border-transparent";
 const ALLUMEE = "rounded-l-none border-accent-primary bg-background-elevated text-accent-link font-semibold";
@@ -35,6 +41,31 @@ interface Props {
   hrefs: { prix: string; login: string };
   masquerPlein: boolean;
   onClose: () => void;
+}
+
+/** Rubriques de la bande, dans son ordre (groupes 1, 2, 3 puis « … »), visibles seulement sur fenêtre basse. */
+function RubriquesFenetreBasse({ etat, pathname, onClose }: { etat: EtatLecteur; pathname: string | null; onClose: () => void }) {
+  const allume = rubriqueAllumee(pathname);
+  const verrou = etat !== "abonne";
+  return (
+    <ul aria-label={N.bande.nom} className="mb-4 hidden flex-col border-b border-border pb-4 md:mb-0 md:border-b-0 md:pb-0 [@media(max-height:499px)]:flex" data-rubriques-menu>
+      {RUBRIQUES.map((r, i) => (
+        <li key={r.cle} className={cn(i > 0 && r.groupe !== RUBRIQUES[i - 1].groupe && "mt-2 border-t border-border pt-2")}>
+          <Link
+            href={r.href}
+            onClick={onClose}
+            data-rubrique-menu={r.cle}
+            aria-current={allume === r.cle ? "page" : undefined}
+            aria-label={verrou && estPremium(r) ? N.bande.premium(r.label) : undefined}
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }), LIGNE_ACTION, allume === r.cle && ALLUMEE)}
+          >
+            {r.label}
+            {verrou && estPremium(r) && <Cadenas />}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export function MenuMobileUniversel({ etat, pathname, hrefs, masquerPlein, onClose }: Props) {
@@ -60,7 +91,8 @@ export function MenuMobileUniversel({ etat, pathname, hrefs, masquerPlein, onClo
       ref={menu}
       // Surimpression sous tout le bloc collant (rangée, bande, filet), juste après la rangée dans le DOM (ordre du Tab).
       // Hauteur disponible : la fenêtre moins la rangée (64), la bande (52) et le filet de l’en-tête.
-      className="absolute inset-x-0 top-full max-h-[calc(100dvh-7.25rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 md:hidden animate-slide-up"
+      // Fenêtre basse : bande masquée, en-tête de 65 px qui défile avec la page ; menu à toutes les largeurs.
+      className="absolute inset-x-0 top-full max-h-[calc(100dvh-7.25rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 animate-slide-up [@media(max-height:499px)]:max-h-[calc(100dvh-4rem-1px)] [@media(min-width:768px)_and_(min-height:500px)]:hidden"
       aria-label="Navigation mobile"
       data-menu-mobile={etat}
       onScroll={majSuite}
@@ -69,9 +101,11 @@ export function MenuMobileUniversel({ etat, pathname, hrefs, masquerPlein, onClo
         <SearchBar className={cn("w-full", CHAMP)} onNavigate={onClose} dansMenu />
       </div>
 
+      <RubriquesFenetreBasse etat={etat} pathname={pathname} onClose={onClose} />
+
       <div className="flex flex-col">
         {plein && (
-          <Link href={hrefs.prix} onClick={onClose} aria-label={EN_TETE.nomAccessible} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "h-11 w-full")}>
+          <Link href={hrefs.prix} onClick={onClose} aria-label={EN_TETE.nomAccessible} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "h-11 w-full md:hidden")}>
             {EN_TETE.bouton}
           </Link>
         )}
@@ -81,7 +115,7 @@ export function MenuMobileUniversel({ etat, pathname, hrefs, masquerPlein, onClo
           </Link>
         )}
         {etat !== "visiteur" && (
-          <div className={cn("flex flex-col", plein && "mt-4")} data-actions-compte>
+          <div className={cn("flex flex-col md:hidden", plein && "mt-4")} data-actions-compte>
             <Link
               href="/profil"
               onClick={onClose}

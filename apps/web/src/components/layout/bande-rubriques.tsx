@@ -34,7 +34,8 @@ const REPOS = "text-text-secondary hover:text-text-primary hover:before:bg-white
 const ACTIF =
   "text-text-primary before:bg-background-elevated after:absolute after:inset-x-3 after:bottom-1 after:h-[3px] after:rounded-t-sm after:bg-accent-primary";
 
-const Cadenas = () => (
+/** Cadenas de 14 px du non-abonné, partagé avec le menu mobile (fenêtre basse). */
+export const Cadenas = () => (
   <svg aria-hidden="true" className="h-3.5 w-3.5 flex-none text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <rect x="4" y="11" width="16" height="10" rx="2" />
     <path d="M8 11V7a4 4 0 118 0v4" />
@@ -141,7 +142,9 @@ export function BandeRubriques({ etat, pathname }: { etat: EtatLecteur; pathname
   const nom = (r: Rubrique) => (verrou && estPremium(r) ? N.bande.premium(r.label) : undefined);
 
   return (
-    <div className="pb-2 md:pb-3" data-bande-rubriques>
+    // Arbitrage du 15/11 : fenêtre de moins de 500 px de haut (200 % de texte sur téléphone), bande masquée ; ses
+    // rubriques passent dans le menu mobile (`menu-mobile-universel.tsx`, même ordre, cadenas, état actif).
+    <div className="pb-2 md:pb-3 [@media(max-height:499px)]:hidden" data-bande-rubriques>
       <nav aria-label={N.bande.nom} className="mx-auto max-w-7xl px-4 md:px-6 xl:px-8">
         <div className="relative flex w-full items-center rounded-xl bg-background-light px-1">
           <div

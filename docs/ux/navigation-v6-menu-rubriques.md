@@ -64,7 +64,7 @@ Même bande pour tous, mêmes adresses. Seul change le signalement du groupe 1 e
 | Clic groupe 1 | **page d'aperçu** de la rubrique (même adresse que celle de l'abonné) | idem | la rubrique |
 | « … » | 2 lignes avec cadenas, mêmes aperçus | idem | 2 rubriques |
 | Bande sur /abonnement et /abonnement/success (et toute sous-adresse de /abonnement) | **absente** (arbitrage du 15/11 : la page de conversion validée en s21 garde son pli ; le bouton d'offre y est déjà masqué), rangée du haut gardée | idem | idem |
-| Fenêtre de moins de 500 px de haut (`max-height: 499px`, 200 % de texte sur téléphone) | rangée et bande **non collantes** : le bloc défile avec la page, plus de réserve d'ancre (arbitrage du 15/11) ; au-dessus, inchangé | idem | idem |
+| Fenêtre de moins de 500 px de haut (`max-height: 499px`, 200 % de texte sur téléphone) | bande **masquée**, ses rubriques dans le menu (même ordre, cadenas, page allumée ; bouton Menu à toutes les largeurs, 2 touchers, Échap) ; rangée **non collante**, plus de réserve d'ancre (arbitrages du 15/11) ; au-dessus, inchangé | idem | idem (sans cadenas) |
 | En-tête | Connexion + bouton d'offre | bouton d'offre + compte | cloche + compte |
 
 **Pourquoi un cadenas par chip et pas un badge « Premium »** : un badge ajoute environ 50 px par chip (+250 px, déborde) ; le cadenas coûte 18 px, se lit seul, ne crie pas. Les 5 cadenas sont regroupés à gauche d'un séparateur : le visiteur comprend « à gauche c'est Premium, à droite c'est gratuit » sans légende. Nom accessible du chip : « {rubrique}, rubrique Premium » [À VALIDER PAR THOMAS : « rubrique Premium »].

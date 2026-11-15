@@ -182,8 +182,38 @@ describe("ce que la v6 retire (§4)", () => {
     render(<EnTeteUniversel />);
     await userEvent.click(screen.getByRole("button", { name: "Menu" }));
     const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
-    expect(within(menu).getAllByRole("link").map((a) => a.textContent)).toEqual(["Mon profil"]);
+    // Arbitrage du 15/11 : les rubriques de la bande n'y sont qu'en fenêtre basse (masquées au-dessus de 500 px de haut).
+    const rubriquesMenu = menu.querySelector<HTMLElement>("[data-rubriques-menu]")!;
+    expect(rubriquesMenu.className.split(" ")).toEqual(expect.arrayContaining(["hidden", "[@media(max-height:499px)]:flex"]));
+    expect(within(menu).getAllByRole("link").filter((a) => !rubriquesMenu.contains(a)).map((a) => a.textContent)).toEqual(["Mon profil"]);
     expect(within(menu).getByRole("button", { name: "Déconnexion" })).toBeInTheDocument();
+  });
+
+  it.each([
+    ["visiteur", "/vannes", "Vannes"],
+    ["gratuit", "/mon-espace/repliques", "Mes répliques"],
+    ["abonne", "/mon-espace/quoi-repondre", "Quoi répondre"],
+  ] as const)("%s, fenêtre basse : rubriques de la bande dans le menu, même ordre, cadenas, page allumée", async (etat, chemin, actif) => {
+    useSession.mockReturnValue(SESSIONS[etat]);
+    usePathname.mockReturnValue(chemin);
+    render(<EnTeteUniversel />);
+    await act(async () => {});
+    // Bande masquée sous 500 px de haut ; bouton Menu présent aussi dès 768 px (et dès 520 pour le visiteur) dans ce cas.
+    expect(document.querySelector("[data-bande-rubriques]")!.className).toContain("[@media(max-height:499px)]:hidden");
+    const bouton = screen.getByRole("button", { name: "Menu" });
+    expect(bouton.className).toContain("[@media(min-width:768px)_and_(min-height:500px)]:hidden");
+    expect(bouton.className).not.toMatch(/(^| )(md|min-\[520px\]):hidden/);
+    await userEvent.click(bouton);
+    const liste = within(screen.getByRole("navigation", { name: "Navigation mobile" })).getByRole("list", { name: T.bande.nom });
+    const liens = within(liste).getAllByRole("link");
+    expect(liens.map((a) => a.textContent)).toEqual([...ORDRE, "Mes questions", "Mes répliques"]);
+    expect(liens.map((a) => a.getAttribute("href"))).toEqual([...HREFS, "/mon-espace/questions", "/mon-espace/repliques"]);
+    liens.forEach((a, i) => {
+      const premium = (i < 5 || i === 10 || i > 11) && etat !== "abonne";
+      expect(a.querySelector("svg") !== null).toBe(premium);
+      expect(a).toHaveAccessibleName(premium ? `${a.textContent}, rubrique Premium` : a.textContent!);
+    });
+    expect(liens.filter((a) => a.getAttribute("aria-current") === "page").map((a) => a.textContent)).toEqual([actif]);
   });
 
   it("Aujourd'hui : plus d'index « Dans ton espace »", () => {
