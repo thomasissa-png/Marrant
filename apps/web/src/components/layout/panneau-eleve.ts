@@ -15,5 +15,7 @@ export const PANNEAU_ELEVE = "bg-background-elevated shadow-2xl shadow-black/60 
  * `accent-primary` #8B5CF6 : 4,59 sur la page #0D0D0D, 3,89 sur la carte #1F1F1F, 3,39 sur l'élevé #2A2A2A, mais
  * 2,69 sur la ligne survolée du menu du compte (#3A3A3A, `data-highlighted`) : sous 3:1.
  * `accent-link` #A78BFA : 7,14 ; 6,06 ; 5,27 ; 4,18 : au-dessus de 3:1 partout.
+ * s25 (relecture ux tour 9, critère 7, WCAG 1.4.11) : contour du champ au repos en `border-input` #707070, 3,92:1 sur
+ * la page #0D0D0D (`border` #2A2A2A : 1,36:1) ; le focus (`input:focus`, plus spécifique) garde `accent-link`.
  */
-export const CHAMP = "[&_input:focus]:border-accent-link [&_input:focus]:ring-accent-link";
+export const CHAMP = "[&_input]:border-border-input [&_input:focus]:border-accent-link [&_input:focus]:ring-accent-link";

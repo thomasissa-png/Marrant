@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { signOut } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
@@ -63,6 +63,20 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
   const plein = etat !== "abonne" && !masquerPlein;
   const secondaire = (actif: boolean) => cn(buttonVariants({ variant: "ghost", size: "sm" }), LIGNE_ACTION, actif && ALLUMEE);
   const menu = useRef<HTMLElement>(null);
+  // s25 (relecture ux tour 9, critère 3) : indice de suite. Tant qu'il reste du contenu sous le pli (au-delà de la
+  // marge basse du menu), un fondu du fond du menu vers transparent couvre le bas du panneau ; il disparaît en bas.
+  const [suite, setSuite] = useState(false);
+  const majSuite = useCallback(() => {
+    const nav = menu.current;
+    if (!nav) return;
+    const reste = nav.scrollHeight - nav.scrollTop - nav.clientHeight;
+    setSuite(reste > parseFloat(getComputedStyle(nav).paddingBottom) + 1);
+  }, []);
+  useEffect(() => {
+    majSuite();
+    window.addEventListener("resize", majSuite);
+    return () => window.removeEventListener("resize", majSuite);
+  }, [majSuite]);
 
   // Ouverture : la ligne allumée sous le pli défile jusqu'à 16 px au-dessus du bord bas du menu. Mesures relatives au
   // menu : l'animation d'entrée (translation) les décale toutes deux d'autant. Abonné : spec v5 critère 5 (« Mon
@@ -89,6 +103,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
       className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 md:px-6 lg:hidden animate-slide-up"
       aria-label="Navigation mobile"
       data-menu-mobile={etat}
+      onScroll={majSuite}
     >
       <div className="mb-2 min-[440px]:hidden">
         <SearchBar className={cn("w-full", CHAMP)} onNavigate={onClose} dansMenu />
@@ -192,6 +207,16 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
           </div>
         )}
       </div>
+      {/* Indice de suite (tour 9) : collé au bas de la vue du menu (`sticky`, décalé de la marge basse), pleine largeur,
+          24 px, sans hauteur dans le flux (`-mt-6`) ; au-dessus du contenu mais sans cible (`pointer-events-none`). */}
+      <div
+        aria-hidden="true"
+        data-indice-suite={suite ? "visible" : "masque"}
+        className={cn(
+          "pointer-events-none sticky -bottom-[max(1rem,env(safe-area-inset-bottom))] -mx-4 -mt-6 h-6 bg-gradient-to-t from-background to-transparent transition-opacity duration-200 motion-reduce:transition-none md:-mx-6",
+          suite ? "opacity-100" : "opacity-0",
+        )}
+      />
     </nav>
   );
 }

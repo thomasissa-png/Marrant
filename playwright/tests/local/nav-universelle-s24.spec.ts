@@ -1088,7 +1088,7 @@ test.describe("navigation universelle v5 (s24)", () => {
           await page.keyboard.press("Escape");
           await expect(menu).toHaveCount(0);
         }
-        // Barre dès 1280 px : inchangée, suggestions ouvertes au focus, puces d'avant.
+        // Barre dès 1280 px : suggestions ouvertes au focus ; puces à 44 px depuis le tour 9 (`enTete`, test dédié).
         await page.setViewportSize({ width: 1280, height: 900 });
         await page.goto("/vannes");
         await pret(page, etat);
@@ -1096,7 +1096,7 @@ test.describe("navigation universelle v5 (s24)", () => {
         const barre = page.getByRole("banner").getByRole("listbox", { name: "Suggestions de recherche" });
         await expect(barre).toBeVisible();
         const hauteur = await barre.getByRole("option").first().evaluate((e) => e.getBoundingClientRect().height);
-        expect(hauteur, `puces de la barre inchangées (${etat})`).toBeLessThan(44);
+        expect(hauteur, `puces de la barre à 44 px (${etat})`).toBe(44);
         await c.close();
       }
     });
@@ -1426,6 +1426,168 @@ test.describe("navigation universelle v5 (s24)", () => {
         }
         await c.close();
       }
+    });
+
+    // s25 tour 9 (relecture ux, critère 3) : indice de suite du menu mobile. Fondu de 24 px au bas du panneau tant qu'il
+    // reste du contenu sous le pli (au-delà de la marge basse), absent en bas ; sans cible, la ligne dessous reste touchable.
+    test("tour 9 : indice de suite du menu mobile, présent sous le pli, absent en bas, cliquabilité intacte (375, 768 px)", async ({ browser }) => {
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      for (const [largeur, hauteur] of [[375, 812], [375, 568], [768, 568], [768, 1024]] as const) {
+        for (const chemin of ["/profil", "/mon-espace"]) {
+          await page.setViewportSize({ width: largeur, height: hauteur });
+          await page.goto(chemin);
+          await pret(page, "PREMIUM");
+          await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+          const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+          await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          await page.waitForTimeout(600);
+          const fondu = menu.locator("[data-indice-suite]");
+          const m = await menu.evaluate((nav) => {
+            const f = nav.querySelector<HTMLElement>("[data-indice-suite]")!;
+            const r = nav.getBoundingClientRect();
+            const rf = f.getBoundingClientRect();
+            const s = getComputedStyle(f);
+            return {
+              reste: nav.scrollHeight - nav.scrollTop - nav.clientHeight,
+              marge: parseFloat(getComputedStyle(nav).paddingBottom),
+              etat: f.dataset.indiceSuite,
+              opacite: s.opacity,
+              evenements: s.pointerEvents,
+              cache: f.getAttribute("aria-hidden"),
+              image: s.backgroundImage,
+              fondu: { haut: rf.top, bas: rf.bottom, g: rf.left, d: rf.right, h: rf.height },
+              nav: { bas: r.bottom, g: r.left, d: r.right },
+            };
+          });
+          const ici = `(abonné, ${chemin}, ${largeur} x ${hauteur})`;
+          noter(`tour 9 ; indice de suite ${ici} ; reste=${m.reste} ; état=${m.etat} ; fondu y=${m.fondu.haut}-${m.fondu.bas}`);
+          const attendu = m.reste > m.marge + 1;
+          if (largeur === 375) expect(attendu, `contenu sous le pli ${ici}`).toBe(true);
+          expect(m.etat, `fondu ${attendu ? "présent" : "absent"} ${ici}`).toBe(attendu ? "visible" : "masque");
+          expect(m.cache).toBe("true");
+          expect(m.evenements).toBe("none");
+          expect(m.image, `dégradé du fond de page vers transparent ${ici}`).toContain("rgb(13, 13, 13)");
+          if (attendu) {
+            await expect.poll(() => fondu.evaluate((f) => getComputedStyle(f).opacity)).toBe("1");
+            expect(m.fondu.h, `24 px ${ici}`).toBe(24);
+            expect(Math.abs(m.fondu.bas - m.nav.bas), `collé au bas du panneau ${ici}`).toBeLessThanOrEqual(0.5);
+            expect([m.fondu.g, m.fondu.d], `pleine largeur ${ici}`).toEqual([m.nav.g, m.nav.d]);
+            // Cible sous le fondu : touchable (contrôle de cible de Playwright, sans navigation).
+            const cible = menu.locator("a, button").filter({ visible: true });
+            const sous = await cible.evaluateAll((els, z) => els.findIndex((e) => { const r = e.getBoundingClientRect(); return r.top < z.bas && r.bottom > z.haut; }), m.fondu);
+            expect(sous, `une ligne sous le fondu ${ici}`).toBeGreaterThanOrEqual(0);
+            const ligne = cible.nth(sous);
+            const rl = (await ligne.boundingBox())!;
+            const y = Math.max(m.fondu.haut, rl.y) + (Math.min(m.fondu.bas, rl.y + rl.height) - Math.max(m.fondu.haut, rl.y)) / 2;
+            await ligne.click({ trial: true, position: { x: rl.width / 2, y: y - rl.y }, timeout: 2000 });
+            const touche = await page.evaluate(([x, yy]) => { const e = document.elementFromPoint(x, yy); return e?.closest("a, button")?.textContent?.trim() ?? null; }, [rl.x + rl.width / 2, y] as const);
+            expect(touche, `ligne touchable sous le fondu ${ici}`).toBe((await ligne.textContent())!.trim());
+          }
+          // En bas du menu : plus d'indice.
+          await menu.evaluate((nav) => nav.scrollTo({ top: nav.scrollHeight, behavior: "instant" }));
+          await expect(fondu, `absent en bas ${ici}`).toHaveAttribute("data-indice-suite", "masque");
+          await expect.poll(() => fondu.evaluate((f) => getComputedStyle(f).opacity)).toBe("0");
+          await page.keyboard.press("Escape");
+          await expect(menu).toHaveCount(0);
+        }
+      }
+      // prefers-reduced-motion : pas de transition.
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.setViewportSize({ width: 375, height: 568 });
+      await page.goto("/profil");
+      await pret(page, "PREMIUM");
+      await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+      const propriete = await page.locator("[data-indice-suite]").evaluate((f) => getComputedStyle(f).transitionProperty);
+      expect(propriete, "pas de transition (mouvement réduit, `motion-reduce:transition-none`)").toBe("none");
+      await c.close();
+    });
+
+    // s25 tour 9 (relecture ux, critère 7, WCAG 1.4.11) : contour du champ de recherche de l'en-tête et du menu au repos
+    // en `border-input` #707070, 3:1 au moins sur le fond voisin ; au focus, inchangé (`accent-link`).
+    test("tour 9 : contour du champ de recherche à 3:1 au moins (barre 1280, #mobile-search 768, menu 375)", async ({ browser }) => {
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      for (const lieu of ["barre", "loupe", "menu"] as const) {
+        await page.setViewportSize({ width: lieu === "barre" ? 1280 : lieu === "loupe" ? 768 : 375, height: 900 });
+        await page.goto("/vannes");
+        await pret(page, "PREMIUM");
+        const banniere = page.getByRole("banner");
+        if (lieu === "loupe") await banniere.getByRole("button", { name: "Rechercher", exact: true }).click();
+        if (lieu === "menu") await banniere.getByRole("button", { name: "Menu" }).click();
+        const champ = lieu === "barre" ? banniere.getByRole("combobox").first() : lieu === "loupe" ? page.locator("#mobile-search input") : page.getByRole("navigation", { name: "Navigation mobile" }).getByRole("combobox");
+        await expect(champ).toBeVisible();
+        // Au repos : la loupe donne le focus au champ, on le retire (Tab plus loin, par exemple).
+        await champ.evaluate((e) => e.blur());
+        await expect(champ, `au repos (${lieu})`).toHaveCSS("border-top-color", "rgb(112, 112, 112)");
+        const m = await champ.evaluate((input) => {
+          const rgb = (v: string) => (v.match(/[\d.]+/g) ?? []).map(Number);
+          const lum = ([r, g, b]: number[]) => [r, g, b].map((x) => { const v = x / 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((t, v, i) => t + v * [0.2126, 0.7152, 0.0722][i], 0);
+          // Fond voisin : premier ancêtre au fond non transparent, mélangé au fond de la page s'il est translucide.
+          const page = rgb(getComputedStyle(document.body).backgroundColor);
+          let fond = page;
+          for (let e = input.parentElement; e; e = e.parentElement) {
+            const f = rgb(getComputedStyle(e).backgroundColor);
+            const a = f.length > 3 ? f[3] : 1;
+            if (a > 0) { fond = [0, 1, 2].map((i) => f[i] * a + page[i] * (1 - a)); break; }
+          }
+          const bord = rgb(getComputedStyle(input).borderTopColor);
+          const [l1, l2] = [lum(bord), lum(fond)].sort((x, y) => y - x);
+          return { bord: getComputedStyle(input).borderTopColor, fond: fond.map(Math.round).join(","), ratio: (l1 + 0.05) / (l2 + 0.05) };
+        });
+        noter(`tour 9 ; contour du champ ; ${lieu} ; bord=${m.bord} ; fond=${m.fond} ; ratio=${m.ratio.toFixed(2)}`);
+        expect(m.bord, `border-input (${lieu})`).toBe("rgb(112, 112, 112)");
+        expect(m.ratio, `contour à 3:1 au moins (${lieu})`).toBeGreaterThanOrEqual(3);
+        await champ.focus();
+        await expect(champ, `focus inchangé (${lieu})`).toHaveCSS("border-top-color", "rgb(167, 139, 250)");
+      }
+      await c.close();
+    });
+
+    // s25 tour 9 (relecture ux, critère 7) : liste de la recherche de la barre (`enTete`) : puces et « Voir {type} » à 44 px
+    // de cible au moins, texte inchangé, anneau violet au clavier.
+    test("tour 9 : recherche de la barre, cibles de 44 px dans la liste ouverte (1280 px)", async ({ browser }) => {
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto("/vannes");
+      await pret(page, "PREMIUM");
+      const champ = page.getByRole("banner").getByRole("combobox").first();
+      const hauteurs = (l: ReturnType<Page["getByRole"]>) => l.locator("button").evaluateAll((bs) => bs.map((b) => b.getBoundingClientRect().height));
+      await champ.focus();
+      const suggestions = page.getByRole("banner").getByRole("listbox", { name: "Suggestions de recherche" });
+      await expect(suggestions).toBeVisible();
+      const hs = await hauteurs(suggestions);
+      noter(`tour 9 ; puces de la barre ; ${hs.join(",")}`);
+      expect(hs.length).toBe(6);
+      for (const h of hs) expect(h, "puce de suggestion").toBeGreaterThanOrEqual(44);
+      // Résultats : « Voir {type} » à 44 px, texte en text-xs.
+      let reponse = page.waitForResponse((r) => r.url().includes("/api/search"));
+      await champ.fill("re");
+      await reponse;
+      const resultats = page.getByRole("banner").getByRole("listbox", { name: "Résultats de recherche" });
+      await expect(resultats).toBeVisible();
+      const voir = resultats.getByRole("button", { name: /^Voir / });
+      expect(await voir.count()).toBeGreaterThan(0);
+      for (const b of await voir.all()) {
+        const m = await b.evaluate((e) => ({ h: e.getBoundingClientRect().height, taille: getComputedStyle(e).fontSize }));
+        noter(`tour 9 ; ${await b.textContent()} ; h=${m.h} ; police=${m.taille}`);
+        expect(m.h, "« Voir » à 44 px").toBeGreaterThanOrEqual(44);
+        expect(m.taille, "texte inchangé (text-xs)").toBe("12px");
+      }
+      await page.keyboard.press("Tab");
+      await expect(voir.first()).toBeFocused();
+      expect(await voir.first().evaluate((e) => getComputedStyle(e).boxShadow), "anneau violet").toContain("rgb(167, 139, 250)");
+      // Aucun résultat : puces de relance à 44 px.
+      reponse = page.waitForResponse((r) => r.url().includes("/api/search"));
+      await champ.fill("zzqxwv");
+      await reponse;
+      const aucun = page.getByRole("banner").getByRole("listbox", { name: "Aucun résultat" });
+      await expect(aucun).toBeVisible();
+      const ha = await hauteurs(aucun);
+      expect(ha.length).toBe(4);
+      for (const h of ha) expect(h, "puce de relance").toBeGreaterThanOrEqual(44);
+      await c.close();
     });
   });
 });

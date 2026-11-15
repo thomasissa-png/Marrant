@@ -206,7 +206,7 @@ export function EnTeteUniversel() {
               1920 px) avec la recherche à 176 px. La zone prend donc la largeur de son contenu, 16 px après la
               recherche (`xl:ml-0`) : la recherche change de x selon le compte, la rangée tient avec marge.
               s25 tour 8 (ux critère 7) : champ à 44 px de haut ici et dans `#mobile-search` (`Input` : `h-10` dès 768 px). */}
-          <SearchBar className={cn("hidden w-44 shrink-0 xl:ml-auto xl:block [&_input]:h-11", CHAMP)} onNavigate={() => setRechercheOuverte(false)} />
+          <SearchBar className={cn("hidden w-44 shrink-0 xl:ml-auto xl:block [&_input]:h-11", CHAMP)} onNavigate={() => setRechercheOuverte(false)} enTete />
 
           <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-0 xl:gap-3">
             <button
@@ -273,7 +273,7 @@ export function EnTeteUniversel() {
 
         {rechercheOuverte && (
           <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 xl:hidden animate-slide-up">
-            <SearchBar className={cn("w-full [&_input]:h-11", CHAMP)} onNavigate={() => setRechercheOuverte(false)} />
+            <SearchBar className={cn("w-full [&_input]:h-11", CHAMP)} onNavigate={() => setRechercheOuverte(false)} enTete />
           </div>
         )}
 

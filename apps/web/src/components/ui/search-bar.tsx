@@ -31,11 +31,27 @@ const LISTBOX_ID = "search-results-listbox";
  * champ va à la ligne suivante du menu ; elles se referment quand le focus quitte la recherche ; puces de 44 px de
  * cible et anneau de focus violet de 2 px comme le reste du menu (`accent-link` depuis le tour 7, `panneau-eleve.ts`).
  * Sans `dansMenu` (site fermé, barre), rien ne change.
+ * s25 (relecture ux tour 9, critère 7) : `enTete`, posé par l'en-tête unique (barre et `#mobile-search`) seulement :
+ * mêmes cibles de 44 px que dans le menu (puces et bouton « Voir {type} », texte inchangé), même anneau. Le site fermé
+ * (`header.tsx`) ne le pose pas : rien ne change.
  */
 const PUCE_MENU =
   "inline-flex min-h-11 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
+/** Bouton « Voir {type} » à 44 px de cible en hauteur, largeur du texte (la liste de la barre fait 176 px). */
+const VOIR_44 = cn(PUCE_MENU, "rounded-md");
 
-export function SearchBar({ className, onNavigate, dansMenu = false }: { className?: string; onNavigate?: () => void; dansMenu?: boolean }) {
+export function SearchBar({
+  className,
+  onNavigate,
+  dansMenu = false,
+  enTete = false,
+}: {
+  className?: string;
+  onNavigate?: () => void;
+  dansMenu?: boolean;
+  enTete?: boolean;
+}) {
+  const cibles44 = dansMenu || enTete;
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -221,7 +237,7 @@ export function SearchBar({ className, onNavigate, dansMenu = false }: { classNa
                 aria-selected={activeIndex === i}
                 className={cn(
                   "rounded-md px-2.5 py-1 text-sm transition-colors",
-                  dansMenu && PUCE_MENU,
+                  cibles44 && PUCE_MENU,
                   activeIndex === i
                     ? "bg-accent-primary/10 text-accent-link"
                     : "bg-background-elevated text-text-secondary hover:bg-background-light hover:text-text-primary"
@@ -249,12 +265,12 @@ export function SearchBar({ className, onNavigate, dansMenu = false }: { classNa
             const meta = TYPE_META[type];
             return (
               <div key={type}>
-                <div className="flex items-center justify-between px-4 pt-3 pb-1">
+                <div className={cn("flex items-center justify-between px-4", cibles44 ? "pt-1" : "pt-3 pb-1")}>
                   <span className={cn("text-xs font-semibold uppercase tracking-wider", meta.color)}>
                     {meta.label}s ({items.length})
                   </span>
                   <button
-                    className="text-xs text-text-muted hover:text-accent-link transition-colors"
+                    className={cn("text-xs text-text-muted hover:text-accent-link transition-colors", cibles44 && VOIR_44)}
                     onClick={() => navigate(`${meta.href}?q=${encodeURIComponent(query)}`)}
                   >
                     Voir {meta.pluralLabel}
@@ -313,7 +329,7 @@ export function SearchBar({ className, onNavigate, dansMenu = false }: { classNa
                 key={s}
                 className={cn(
                   "rounded-md bg-background-elevated px-2.5 py-1 text-xs text-text-secondary transition-colors hover:bg-background-light hover:text-text-primary",
-                  dansMenu && PUCE_MENU,
+                  cibles44 && PUCE_MENU,
                 )}
                 onClick={() => setQuery(s)}
               >
