@@ -29,7 +29,7 @@ command -v rsync >/dev/null || apt-get install -y rsync >/dev/null || { apt-get 
 command -v rsync >/dev/null || { echo "rsync absent et non installable" >&2; exit 1; }
 mkdir -p "$COPIE"
 CHANGES=$(rsync -ai --delete \
-  --exclude=/.git --exclude=node_modules --exclude=/apps/web/.next --exclude=/apps/web/.seed-compiled.js \
+  --exclude=/.git --exclude=/.claude/worktrees --exclude=node_modules --exclude=/apps/web/.next --exclude=/apps/web/.seed-compiled.js \
   --exclude=/playwright/playwright-report --exclude=/playwright/test-results --exclude="/$INTER" \
   "$DEPOT_SOURCE/" "$COPIE/" | grep -v '^\.d' || true)
 NB=$(printf '%s\n' "$CHANGES" | grep -c . || true)
