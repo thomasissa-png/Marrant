@@ -41,6 +41,7 @@ const SECTIONS = {
       ["focus-dans-cloche", "/mon-espace", "focus-cloche"],
       ["focus-dans-compte", "/vannes", "focus-compte"],
       ["focus-retour-menu", "/mon-espace", "focus-retour"],
+      ["recherche-ouverte", "/vannes", "recherche"],
     ],
     largeurs: [290, 320, 375, 440, 520, 600, 640, 641, 768, 1024, 1280, 1456, 1920],
   },
@@ -101,6 +102,7 @@ for (const compte of comptes) {
       if (action === "focus-menu" && ![375, 768].includes(w)) continue;
       if (action === "focus-compte" && (![768, 1280].includes(w) || compte === "visiteur")) continue;
       if (action === "focus-retour" && (w !== 375 || compte === "visiteur")) continue;
+      if (action === "recherche" && ![375, 768, 1280].includes(w)) continue;
       if (action === "focus-cloche" && (![375, 1280].includes(w) || !compte.match(/en-cours|nouvel/))) continue;
       if (action.startsWith("cloche") && !compte.match(/en-cours|nouvel/)) continue;
       if (action === "cloche-vide" && compte !== "nouvel") continue;
@@ -113,6 +115,23 @@ for (const compte of comptes) {
       try {
         if (action === "menu-568") { await page.setViewportSize({ width: w, height: 568 }); await page.waitForTimeout(200); }
         if (action === "menu" || action === "menu-568") await page.getByRole("button", { name: /menu/i }).first().click();
+        if (action === "recherche") {
+          // Liste de suggestions ouverte : champ de la barre (>= 1280), sinon loupe ou menu, puis flèche bas
+          if (w < 1280) {
+            const loupe = page.getByRole("banner").getByRole("button", { name: /recherch/i }).first();
+            if (await loupe.isVisible().catch(() => false)) await loupe.click();
+            else await page.getByRole("button", { name: /menu/i }).first().click();
+            await page.waitForTimeout(500);
+          }
+          const champ = page.locator('input[type="search"]:visible, input[placeholder^="Recherch"]:visible').first();
+          await champ.focus();
+          await page.keyboard.press("ArrowDown");
+          await page.waitForTimeout(500);
+          await page.screenshot({ path: join(dossier, fichier) });
+          lignes.push(`- ${fichier} : ${url} (liste de suggestions ouverte au clavier)`);
+          await page.keyboard.press("Escape");
+          continue;
+        }
         if (action === "focus-retour") {
           // Menu ouvert au clavier, puis Maj+Tab x4 : le focus doit passer par la croix, la cloche, le logo
           await page.getByRole("button", { name: /menu/i }).first().focus();
