@@ -1,0 +1,42 @@
+# Captures lettre (2026-11-15T19:56, http://localhost:5400)
+
+- visiteur-lettre-375.png : /lettre (page), HTTP 200, hauteur 5030px, DÉBORDEMENT HORIZONTAL
+- visiteur-lettres-espace-375.png : /mon-espace/lettres (page), HTTP 200, hauteur 812px
+- visiteur-lettre-768.png : /lettre (page), HTTP 200, hauteur 3294px
+- visiteur-lettres-espace-768.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- visiteur-lettre-1280.png : /lettre (page), HTTP 200, hauteur 3053px
+- visiteur-lettres-espace-1280.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- visiteur-lettre-1456.png : /lettre (page), HTTP 200, hauteur 3053px
+- visiteur-lettres-espace-1456.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- visiteur-lettre-1920.png : /lettre (page), HTTP 200, hauteur 3053px
+- visiteur-lettres-espace-1920.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- gratuit-lettre-375.png : /lettre (page), HTTP 200, hauteur 5030px, DÉBORDEMENT HORIZONTAL
+- gratuit-lettres-espace-375.png : /mon-espace/lettres (page), HTTP 200, hauteur 3419px
+- gratuit-lettre-768.png : /lettre (page), HTTP 200, hauteur 3294px
+- gratuit-lettres-espace-768.png : /mon-espace/lettres (page), HTTP 200, hauteur 2810px
+- gratuit-lettre-1280.png : /lettre (page), HTTP 200, hauteur 3053px
+- gratuit-lettres-espace-1280.png : /mon-espace/lettres (page), HTTP 200, hauteur 2620px
+- gratuit-lettre-1456.png : /lettre (page), HTTP 200, hauteur 3053px
+- gratuit-lettres-espace-1456.png : /mon-espace/lettres (page), HTTP 200, hauteur 2620px
+- gratuit-lettre-1920.png : /lettre (page), HTTP 200, hauteur 3053px
+- gratuit-lettres-espace-1920.png : /mon-espace/lettres (page), HTTP 200, hauteur 2620px
+- en-cours-lettre-375.png : /lettre (page), HTTP 200, hauteur 1473px
+- en-cours-lettres-espace-375.png : /mon-espace/lettres (page), HTTP 200, hauteur 1473px
+- en-cours-lettre-768.png : /lettre (page), HTTP 200, hauteur 1009px
+- en-cours-lettres-espace-768.png : /mon-espace/lettres (page), HTTP 200, hauteur 1009px
+- en-cours-lettre-1280.png : /lettre (page), HTTP 200, hauteur 900px
+- en-cours-lettres-espace-1280.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- en-cours-lettre-1456.png : /lettre (page), HTTP 200, hauteur 900px
+- en-cours-lettres-espace-1456.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- en-cours-lettre-1920.png : /lettre (page), HTTP 200, hauteur 900px
+- en-cours-lettres-espace-1920.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- nouvel-lettre-375.png : /lettre (page), HTTP 200, hauteur 1473px
+- nouvel-lettres-espace-375.png : /mon-espace/lettres (page), HTTP 200, hauteur 1473px
+- nouvel-lettre-768.png : /lettre (page), HTTP 200, hauteur 1009px
+- nouvel-lettres-espace-768.png : /mon-espace/lettres (page), HTTP 200, hauteur 1009px
+- nouvel-lettre-1280.png : /lettre (page), HTTP 200, hauteur 900px
+- nouvel-lettres-espace-1280.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- nouvel-lettre-1456.png : /lettre (page), HTTP 200, hauteur 900px
+- nouvel-lettres-espace-1456.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
+- nouvel-lettre-1920.png : /lettre (page), HTTP 200, hauteur 900px
+- nouvel-lettres-espace-1920.png : /mon-espace/lettres (page), HTTP 200, hauteur 900px
