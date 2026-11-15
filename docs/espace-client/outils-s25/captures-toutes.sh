@@ -3,7 +3,7 @@
 # Une sous-série par section : <dossier>/<section>/. Préversion locale 5400 démarrée, comptes remis à zéro.
 cd "$(dirname "$(readlink -f "$0")")"
 OUT="${1:?dossier de sortie}"
-SECTIONS="aujourdhui quoi-repondre bibliotheque s-entrainer questions repliques lettre favoris carnet parcours profil vannes fiches"
+SECTIONS="entete aujourdhui quoi-repondre bibliotheque s-entrainer questions repliques lettre favoris carnet parcours profil vannes fiches"
 mkdir -p "$OUT"
 # connexions d'abord (une fois), pour que les séries parallèles partagent les états
 LARGEURS=375 node captures-sections.mjs etalon "$OUT/_amorce" >/dev/null 2>&1
