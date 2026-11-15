@@ -96,10 +96,27 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
     autreContexte: c.autreContexte === true,
   }));
 
-  // v5 §3, gabarit C : pleine coque, aucun retour ni fil d'Ariane. À 768 px et plus, colonne 1 = carte du
-  // jour (et ce qui l'accompagne) ; colonne 2 vide depuis la nav v6 (index « Dans ton espace » retiré, la bande le
-  // remplace ; colonne à redessiner dans la section Aujourd'hui) ; dessous, « Contenu du jour », section distincte
-  // (`space-y-12`). À 375 px, une colonne, carte du jour d'abord.
+  // v6 tour 1 (point 4) : l'action du jour (premier pas ; étape à reprendre une fois la rafale faite ; sinon la
+  // rafale) en pleine coque, seule carte dominante ; dessous, ce qui l'accompagne (rafale faite, mission, question
+  // C9, « Ton mois ») côte à côte dès 768 px, le dernier impair sur la rangée entière (jamais une demi-rangée vide) ;
+  // puis « Contenu du jour », section distincte (`space-y-12`). À 375 px, une colonne, l'action du jour d'abord.
+  const etapeDominante = Boolean(rafale?.fini && etape);
+  const carteRafale = rafale && (
+    <CartesDuJour key="rafale" cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} principale={!etapeDominante} />
+  );
+  const principale = !fait ? (
+    <PremierPas origine={origine} entrees={entrees} avecBandeau={Boolean(favori)} />
+  ) : etapeDominante && etape ? (
+    <EtapeEnCours etape={etape} />
+  ) : (
+    carteRafale
+  );
+  const secondaires = [
+    etapeDominante ? carteRafale : null,
+    marcheMission ? <MissionLien key="mission" marche={marcheMission} /> : null,
+    fait && !aise ? <QuestionAise key="aise" /> : null,
+    mois.montrer ? <TonMois key="mois" serie={mois.serie} cap={mois.cap} /> : null,
+  ].filter(Boolean);
   return (
     <div>
       {/* Nav v6 (lot B) : plus de place réservée au-dessus du titre (ni retour ni repère : la bande l'est). */}
@@ -113,15 +130,15 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
         </p>
       )}
       <div className="space-y-12">
-        <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2" data-aujourdhui-grille>
-          <div className="flex min-w-0 flex-col gap-6" data-carte-du-jour>
-            {!fait && <PremierPas origine={origine} entrees={entrees} avecBandeau={Boolean(favori)} />}
-            {rafale && rafale.fini && etape && <EtapeEnCours etape={etape} />}
-            {rafale && <CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} />}
-            {marcheMission && <MissionLien marche={marcheMission} />}
-            {fait && !aise && <QuestionAise />}
-            {mois.montrer && <TonMois serie={mois.serie} cap={mois.cap} />}
+        <div className="flex flex-col gap-6" data-aujourdhui-grille>
+          <div className="min-w-0" data-carte-du-jour>
+            {principale}
           </div>
+          {secondaires.length > 0 && (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:[&>:last-child:nth-child(odd)]:col-span-2" data-aujourdhui-secondaires>
+              {secondaires}
+            </div>
+          )}
         </div>
         <ContenuDuJour categories={categories} />
       </div>

@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
-import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
+import { BOUTON_DESTRUCTIF, BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -56,7 +56,8 @@ export function ConfirmerRetrait({ desactive, onConfirmer, onRetire }: { desacti
         >
           <Dialog.Title className="text-base font-semibold text-text-primary">{Q.confirmationRetrait.question}</Dialog.Title>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button type="button" className={`${BOUTON_SECONDAIRE} max-e300:w-full`} aria-busy={enCours} onClick={() => void confirmer()}>
+            {/* v6 tour 1 (point 15) : l'action qui efface en style destructif, « Annuler » en secondaire. */}
+            <button type="button" className={`${BOUTON_DESTRUCTIF} max-e300:w-full`} aria-busy={enCours} onClick={() => void confirmer()}>
               {Q.confirmationRetrait.retirer}
             </button>
             <Dialog.Close ref={annuler} className={`${BOUTON_SECONDAIRE} max-e300:w-full`} disabled={enCours}>

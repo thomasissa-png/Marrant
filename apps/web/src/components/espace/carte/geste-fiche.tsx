@@ -28,6 +28,7 @@ export function GesteFiche({
   grille,
   retourInitial,
   repliqueInitiale,
+  separe = true,
 }: {
   ficheId: string;
   consigne: string;
@@ -35,6 +36,11 @@ export function GesteFiche({
   grille?: readonly string[] | null;
   retourInitial: RetourGeste | null;
   repliqueInitiale: string | null;
+  /**
+   * v6 tour 1 (point 5) : filet de séparation au-dessus du geste, utile sous le corps d'une carte de rafale ;
+   * `false` quand le geste est seul dans sa carte (« À toi » de la page de fiche : plus de trait orphelin).
+   */
+  separe?: boolean;
 }) {
   const [retour, setRetour] = useState<RetourGeste | null>(retourInitial);
   const [occupe, setOccupe] = useState(false);
@@ -53,7 +59,7 @@ export function GesteFiche({
   };
 
   return (
-    <section aria-label={G.aToi} className="space-y-4 border-t border-border pt-4" data-testid="geste-fiche">
+    <section aria-label={G.aToi} className={separe ? "space-y-4 border-t border-border pt-4" : "space-y-4"} data-testid="geste-fiche">
       <div className="space-y-1">
         <div className="flex flex-wrap items-center gap-2">
           <h3 className={ETIQUETTE}>{G.aToi}</h3>

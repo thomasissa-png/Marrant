@@ -8,6 +8,7 @@ import { TEXTES_AUJOURDHUI as TEXTES_AUJOURDHUI_BRUT } from "@/config/textes/esp
 import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 import { frPonctuation, frEspaceProfond } from "@/lib/fr-typo";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -42,7 +43,7 @@ export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeARepre
   }, []);
 
   return (
-    <section aria-labelledby="semaines-titre" className="rounded-lg border border-border bg-background-card p-4 md:p-6 max-e300:px-3 max-e300:py-2">
+    <section aria-labelledby="semaines-titre" className={`${CADRE_CARTE} p-4 md:p-6 max-e300:px-3 max-e300:py-2`}>
       <details ref={details} open onToggle={() => (touche.current ||= document.activeElement?.tagName === "SUMMARY")}>
         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary [&::-webkit-details-marker]:hidden">
           <h2 id="semaines-titre" className="font-display text-xl font-bold text-text-primary">

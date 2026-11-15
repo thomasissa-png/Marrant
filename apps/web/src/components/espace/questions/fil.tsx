@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
 import { appelEspace } from "@/components/espace/carte/appel";
-import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CARTE, nouvelleCle } from "@/components/espace/carte/styles";
+import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CARTE, SOMMAIRE_REPLIABLE, nouvelleCle } from "@/components/espace/carte/styles";
+import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
 import { dateCourte, envoyerMessage, erreurLocale, MessageErreur, type Erreur } from "@/components/espace/questions/appel";
 import { ConfirmerRetrait } from "@/components/espace/questions/confirmer-retrait";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -109,12 +110,14 @@ export function FilEnvoi({
           onToggle={(e) => {
             if ((e.currentTarget as HTMLDetailsElement).open) void ouvrir();
           }}
-          className="group"
+          className="group/repli"
         >
-          <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold text-accent-link group-open:text-text-primary">
-            <span>{Q.envois.reponduLe(dateCourte(derniereReponse.creeLe))}</span>
+          {/* v6 tour 1 (point 5) : la réponse de l'équipe s'ouvre par un vrai contrôle (bouton secondaire à chevron, 44 px). */}
+          <summary className={SOMMAIRE_REPLIABLE}>
+            {Q.envois.reponduLe(dateCourte(derniereReponse.creeLe))}
+            <ChevronRepli />
           </summary>
-          <div className="space-y-3 border-t border-border pt-3">
+          <div className="mt-3 space-y-3 border-t border-border pt-3">
             {fil.messages.map((m, i) => (
               <div key={`${m.creeLe}-${i}`}>
                 <p className={LABEL}>{m.auteur === "EQUIPE" ? Q.envois.reponseLe(dateCourte(m.creeLe)) : Q.envois.tonMessage}</p>

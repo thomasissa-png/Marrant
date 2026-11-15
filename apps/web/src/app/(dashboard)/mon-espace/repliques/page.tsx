@@ -39,8 +39,9 @@ export default async function MesRepliquesPage() {
   return (
     // Relecture des captures nav s24, tour 2 (design F2, F3) : gabarit B ; sans contenu, la page passe en colonne
     // de lecture (retour, titre et état vide dans la même colonne de 768 px, jamais un titre à gauche et une carte
-    // centrée).
-    <div className={repliques.length === 0 ? COLONNE_LECTURE : undefined}>
+    // centrée). v6 tour 1 (point 15) : l'état vide et la liste dans la même colonne de lecture (le titre ne change
+    // plus de place selon le compte ; plus de carte de réplique de 1 216 px presque vide).
+    <div className={COLONNE_LECTURE}>
       <PageHeader title={R.titre} />
       <ListeRepliques initiales={repliques} lectureSeule={false} />
     </div>

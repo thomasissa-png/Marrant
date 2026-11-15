@@ -9,6 +9,8 @@ import { CorpsConstruction, CorpsFormule, CorpsVocabulaire } from "@/components/
 import { CorpsJeu, CorpsSeance } from "@/components/espace/fiche/corps-divers";
 import { TEXTES_APERCU } from "@/config/textes/espace-apercu";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { FavoriConseilLecture, FavoriVanneLecture } from "@/components/espace/apercu/favoris-lecture";
+import type { ExemplesFavoris } from "@/components/espace/apercu/exemples-favoris";
 
 // Typographie de l'espace (espaces insécables), à l'affichage seulement : JSON et textes validés intacts.
 const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
@@ -35,7 +37,8 @@ function Corps({ fiche }: { fiche: Fiche }) {
     case "vocabulaire":
       return <CorpsVocabulaire c={fiche.contenu} />;
     case "jeu":
-      return <CorpsJeu c={fiche.contenu} id={fiche.id} />;
+      // v6 tour 1 (arbitrage 2) : dans l'aperçu, « Ce qu'on aurait pu dire » (la valeur du jeu) est ouvert.
+      return <CorpsJeu c={fiche.contenu} id={fiche.id} ouvert />;
     case "seance":
       return <CorpsSeance c={fiche.contenu} />;
     default:
@@ -106,8 +109,20 @@ export function ExempleQuestions() {
   );
 }
 
-/** Favoris : aucun favori d'abonné n'est montré. L'exemple est l'état vide existant de la page (onglet « Tout »). */
-export function ExempleFavoris() {
+/**
+ * Favoris : aucun favori d'abonné n'est montré. v6 tour 1 (arbitrage 3) : la première vanne et le premier conseil
+ * gratuits du catalogue, présentés comme des favoris, en lecture seule. Sans eux (base indisponible), l'état vide
+ * existant de la page (onglet « Tout »).
+ */
+export function ExempleFavoris({ exemples = null }: { exemples?: ExemplesFavoris | null }) {
+  if (exemples) {
+    return (
+      <ul className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2" data-apercu-fiche="favoris-exemples">
+        <FavoriVanneLecture vanne={exemples.vanne} />
+        <FavoriConseilLecture conseil={exemples.conseil} />
+      </ul>
+    );
+  }
   return (
     <div className="space-y-2" data-apercu-fiche="favoris-vide">
       <h2 id="apercu-exemple" className="font-display text-xl font-bold leading-7 text-text-primary">

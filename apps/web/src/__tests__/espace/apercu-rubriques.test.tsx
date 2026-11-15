@@ -37,6 +37,10 @@ const noter = jest.fn(async () => undefined);
 jest.mock("@/lib/mesure/evenements-espace", () => ({ noterEvenementEspace: (...a: unknown[]) => noter(...(a as [])) }));
 const listerFils = jest.fn(async () => []);
 jest.mock("@/lib/espace/questions", () => ({ listerFils: (...a: unknown[]) => listerFils(...(a as [])) }));
+// v6 tour 1 (arbitrage 3) : l'aperçu de Favoris lit la page 1 du catalogue ; base indisponible (`null`) par défaut.
+const getJokesPage = jest.fn(async (): Promise<unknown> => null);
+const getTipsPage = jest.fn(async (): Promise<unknown> => null);
+jest.mock("@/lib/catalogue-pages", () => ({ getJokesPage: () => getJokesPage(), getTipsPage: () => getTipsPage() }));
 
 import { EN_TETE_CHEMIN_ESPACE } from "@/config/espace-client";
 import { TEXTES_APERCU } from "@/config/textes/espace-apercu";
@@ -205,7 +209,7 @@ describe.each(PAGES)("page %s ouverte", (rubrique, page, fiche) => {
 });
 
 describe("Favoris (`/favoris`, hors /mon-espace)", () => {
-  it("visiteur : l'aperçu, l'état vide existant de la page, le bouton d'offre et « Connexion »", async () => {
+  it("visiteur, base indisponible : l'aperçu, l'état vide existant de la page, le bouton d'offre et « Connexion »", async () => {
     visiteur();
     render(await FavorisOuvert({ children: <p data-contenu-favoris /> }));
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Favoris");
@@ -213,6 +217,25 @@ describe("Favoris (`/favoris`, hors /mon-espace)", () => {
     expect(document.querySelector("[data-contenu-favoris]")).toBeNull();
     const liens = within(document.querySelector("[data-apercu-offre]") as HTMLElement).getAllByRole("link");
     expect(liens.map((l) => l.getAttribute("href"))).toEqual(["/abonnement?returnTo=%2Ffavoris&src=apercu-favoris", "/login?callbackUrl=%2Ffavoris"]);
+  });
+
+  it("v6 tour 1 (arbitrage 3) : la première vanne et le premier conseil gratuits du catalogue, en lecture seule", async () => {
+    const vanne = { id: "j1", content: "Le début", punchline: "La chute", category: "ABSURDE", type: "X", maturityLevel: 1, comedyTechnique: null, techniqueExplanation: null, howToApply: null };
+    const conseil = { id: "t1", title: "Le titre", content: "Le contenu.", category: "TIMING", difficulty: "DEBUTANT", example: "L'exemple.", exercise: "" };
+    getJokesPage.mockResolvedValueOnce({ items: [vanne, { ...vanne, id: "j2" }] });
+    getTipsPage.mockResolvedValueOnce({ items: [conseil] });
+    compte(GRATUIT);
+    render(await FavorisOuvert({ children: <p data-contenu-favoris /> }));
+    expect(screen.queryByText(TEXTES_APERCU.favorisVide.titre)).toBeNull();
+    const exemples = document.querySelector('[data-apercu-fiche="favoris-exemples"]') as HTMLElement;
+    expect(Array.from(exemples.querySelectorAll("[data-favori-lecture]")).map((e) => e.getAttribute("data-favori-lecture"))).toEqual(["vanne", "conseil"]);
+    expect(within(exemples).getByText("La chute")).toBeTruthy();
+    expect(within(exemples).getByText("Absurde")).toBeTruthy();
+    expect(within(exemples).getByText("Débutant")).toBeTruthy();
+    // Lecture seule : aucun bouton (ni « Retirer », ni partage), aucun lien ; un seul bouton d'offre dans la page.
+    expect(within(exemples).queryAllByRole("button")).toHaveLength(0);
+    expect(within(exemples).queryAllByRole("link")).toHaveLength(0);
+    expect(within(document.querySelector("[data-apercu-offre]") as HTMLElement).getAllByRole("link")).toHaveLength(1);
   });
 
   it("abonné et ancien abonné : la page d'avant (la liste montre déjà son mur Premium à l'ancien abonné)", async () => {

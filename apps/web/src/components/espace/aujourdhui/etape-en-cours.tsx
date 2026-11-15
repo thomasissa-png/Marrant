@@ -5,6 +5,7 @@ import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -17,9 +18,10 @@ const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
  */
 export function EtapeEnCours({ etape }: { etape: EtapeAReprendre }) {
   return (
-    <section aria-labelledby="etape-titre" className="space-y-2 rounded-lg border border-border bg-background-card p-4 md:p-6" data-testid="etape-en-cours">
+    // v6 tour 1 (point 4) : l'action du jour une fois la rafale faite, en pleine coque et dominante.
+    <section aria-labelledby="etape-titre" className={`${CADRE_CARTE} space-y-2 p-4 md:p-8`} data-testid="etape-en-cours">
       <p className="text-xs font-semibold text-text-muted">{etape.enCours ? T.etape.enCours : T.etape.conseillee}</p>
-      <h2 id="etape-titre" className="font-display text-xl font-bold text-text-primary">
+      <h2 id="etape-titre" className="font-display text-xl font-bold text-text-primary md:text-3xl">
         {etape.titreParcours}
       </h2>
       {etape.enCours && <p className="text-sm text-text-secondary">{P.etapeSurTotal(etape.ordre, etape.total)}</p>}
