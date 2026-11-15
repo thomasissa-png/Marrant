@@ -14,7 +14,8 @@ import { join } from "path";
 import { render, screen, within } from "@testing-library/react";
 
 jest.mock("@/config/espace-client", () => ({ ...jest.requireActual("@/config/espace-client"), ESPACE_CLIENT_PUBLIE: true }));
-jest.mock("@/lib/espace/garde", () => ({ garderEspace: async () => ({ userId: "u1" }) }));
+// Nav v6 (s25, lot B) : la page lit d'abord le lecteur (aperçu ou non) par `lireAccesEspace` ; ici l'abonné actif.
+jest.mock("@/lib/espace/garde", () => ({ garderEspace: async () => ({ userId: "u1" }), lireAccesEspace: async () => ({ acces: "ouvert", userId: "u1" }) }));
 const rafale = jest.fn();
 jest.mock("@/lib/espace/cartes-serveur", () => ({ lireRafale: (...a: unknown[]) => rafale(...a) }));
 const retours = jest.fn();

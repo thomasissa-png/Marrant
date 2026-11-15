@@ -93,8 +93,12 @@ describe("Q-1 : retour de connexion sur la page demandée", () => {
     getServerSession.mockResolvedValue(null);
     enTetes.set(EN_TETE_CHEMIN_ESPACE, FIL);
     await expect(MonEspaceLayout({ children: null })).rejects.toThrow(`NEXT_REDIRECT /login?callbackUrl=${encodeURIComponent(FIL)}`);
+    // Nav v6 (s25, lot B, accord de Thomas du 15/11) : interrupteur ouvert, la rubrique elle-même est une adresse
+    // d'aperçu : le visiteur la voit (sa page rend l'aperçu), plus de connexion forcée ni de garde.
     enTetes.set(EN_TETE_CHEMIN_ESPACE, "/mon-espace/questions");
-    await expect(MonEspaceLayout({ children: null })).rejects.toThrow("NEXT_REDIRECT /login?callbackUrl=%2Fmon-espace%2Fquestions");
+    noter.mockClear();
+    await expect(MonEspaceLayout({ children: null })).resolves.toBeTruthy();
+    expect(noter).not.toHaveBeenCalled();
   });
 
   it("layout : adresse absente ou hors espace = « Aujourd'hui » (jamais un retour externe)", async () => {
