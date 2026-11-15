@@ -27,16 +27,24 @@ const groupe = (g: Rubrique["groupe"]) => RUBRIQUES.filter((r) => r.groupe === g
 const GROUPES = [groupe(1), groupe(2), groupe(3)];
 const PLUS = groupe("plus");
 
-/** Pastille de 36 px dans une zone de 44 px (avant-plan `::before`), soulignement de 3 px (`::after`). */
+/**
+ * Pastille de 36 px dans une zone de 44 px (avant-plan `::before`), soulignement de 3 px (`::after`) aligné sur le
+ * contenu du chip (même retrait que son padding de 6 px).
+ * s25 v6 tour 1 (relectures en-tête D1 et F1) : « Carnet » coupé à 1280+ chez le non-abonné. Bande resserrée : chips
+ * `px-1.5`, séparateurs `mx-1` (1 + 8 px). Budget au pire cas (non-abonné, 6 cadenas de 14 + 5 px), libellés mesurés
+ * en Inter 500 14 px (741 px pour les 12, calé à ±1 px sur la capture à 1280) puis majorés de 4 px chacun (Chrome de
+ * la CI) : 789 + 12 x 12 + 6 x 19 + 2 x 9 = 1 065 px pour une vue de 1 160 (coque 1 216, moins `px-1` et « … » de
+ * 48) : 95 px libres (abonné : 209). Avec `px-2`, 47 px seulement, sous le plancher de 80 (`header-budget`).
+ */
 const ZONE =
   "relative isolate flex h-11 flex-none items-center rounded-lg text-sm font-medium transition-colors before:absolute before:inset-x-0 before:inset-y-1 before:-z-10 before:rounded-lg before:transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link motion-reduce:transition-none";
 const REPOS = "text-text-secondary hover:text-text-primary hover:before:bg-white/5";
 const ACTIF =
-  "text-text-primary before:bg-background-elevated after:absolute after:inset-x-3 after:bottom-1 after:h-[3px] after:rounded-t-sm after:bg-accent-primary";
+  "text-text-primary before:bg-background-elevated after:absolute after:inset-x-1.5 after:bottom-1 after:h-[3px] after:rounded-t-sm after:bg-accent-primary";
 
-/** Cadenas de 14 px du non-abonné, partagé avec le menu mobile (fenêtre basse). */
+/** Cadenas de 14 px du non-abonné, partagé avec le menu mobile (fenêtre basse) ; couleur du libellé (spec §2). */
 export const Cadenas = () => (
-  <svg aria-hidden="true" className="h-3.5 w-3.5 flex-none text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+  <svg aria-hidden="true" className="h-3.5 w-3.5 flex-none text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <rect x="4" y="11" width="16" height="10" rx="2" />
     <path d="M8 11V7a4 4 0 118 0v4" />
   </svg>
@@ -155,7 +163,7 @@ export function BandeRubriques({ etat, pathname }: { etat: EtatLecteur; pathname
           >
             {GROUPES.map((g, i) => (
               <Fragment key={i}>
-                {i > 0 && <span aria-hidden="true" data-separateur className="mx-1.5 h-5 w-px flex-none bg-border-hover" />}
+                {i > 0 && <span aria-hidden="true" data-separateur className="mx-1 h-5 w-px flex-none bg-border-hover" />}
                 {g.map((r) => (
                   <Link
                     key={r.cle}
@@ -163,7 +171,7 @@ export function BandeRubriques({ etat, pathname }: { etat: EtatLecteur; pathname
                     data-rubrique={r.cle}
                     aria-current={allume === r.cle ? "page" : undefined}
                     aria-label={nom(r)}
-                    className={cn(ZONE, "gap-[5px] whitespace-nowrap px-3", allume === r.cle ? ACTIF : REPOS)}
+                    className={cn(ZONE, "gap-[5px] whitespace-nowrap px-1.5", allume === r.cle ? ACTIF : REPOS)}
                   >
                     {r.label}
                     {verrou && estPremium(r) && <Cadenas />}

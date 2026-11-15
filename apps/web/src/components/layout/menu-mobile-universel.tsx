@@ -83,7 +83,14 @@ export function MenuMobileUniversel({ etat, pathname, hrefs, masquerPlein, onClo
   useEffect(() => {
     majSuite();
     window.addEventListener("resize", majSuite);
-    return () => window.removeEventListener("resize", majSuite);
+    // s25 v6 tour 1 (D2, F2) : la liste de la recherche est dans le flux du menu ; l'indice suit sa hauteur.
+    const nav = menu.current;
+    const suivi = typeof ResizeObserver !== "undefined" && nav ? new ResizeObserver(majSuite) : null;
+    if (nav) for (const enfant of Array.from(nav.children)) suivi?.observe(enfant);
+    return () => {
+      window.removeEventListener("resize", majSuite);
+      suivi?.disconnect();
+    };
   }, [majSuite]);
 
   return (
