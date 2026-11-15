@@ -10,7 +10,7 @@ import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
 export const TEXTES_REPLIQUES = {
   titre: TEXTES_ESPACE_NAVIGATION.index.mesRepliques,
   vide: "Tu n'as pas encore écrit de réplique. Elles apparaissent ici.", // 2.7
-  /** Relecture des captures nav s24 (ux F5) : sortie de l'état vide, vers « Quoi répondre ». Libellé NOUVEAU, à valider. */
+  /** Relecture des captures nav s24 (ux F5) : sortie de l'état vide, vers « Quoi répondre ». Libellé validé par Thomas le 14/11. */
   ecrirePremiere: "Écrire ma première réplique",
   modifier: "Modifier", // (28)
   annuler: "Annuler", // (28)
