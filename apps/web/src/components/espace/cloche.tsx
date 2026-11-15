@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
  *   en haut, `daily-content.tsx`), « Fermer » discret (ghost, 44 px) ; Échap, clic dehors et
  *   « Fermer » ferment, focus dans le panneau puis rendu au bouton (Radix Dialog) ; s25 (relecture tour 2, design F4) :
  *   couche au-dessus des cartes (`PANNEAU_ELEVE` : fond élevé, ombre portée nette, anneau fin), survols un cran
- *   au-dessus du fond (`bg-border-hover`) ;
+ *   au-dessus du fond (`bg-border-hover`) ; tour 7 (design F2) : anneau de focus unique de l'en-tête (`panneau-eleve.ts`) ;
  * - ouvrir le panneau ne lit rien (la pastille reste tant que le fil n'est pas ouvert) ;
  * - le nom ne change jamais en direct : aucun `aria-live`, aucune relecture pendant la lecture d'une page ;
  *   le contenu est lu au montage et à chaque changement d'adresse (`ClocheEspace`), jamais à intervalles.
@@ -92,7 +92,7 @@ export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps
       <Dialog.Trigger
         ref={bouton}
         aria-label={nomCloche(nonLues)}
-        className="group relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary aria-expanded:bg-background-elevated aria-expanded:text-text-primary"
+        className="group relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link aria-expanded:bg-background-elevated aria-expanded:text-text-primary"
       >
         <IconeCloche />
         {nonLues > 0 && (
@@ -112,7 +112,7 @@ export function Cloche({ contenu = null, erreur = false, onOuvrir }: ClocheProps
           <div aria-hidden="true" className="-mx-4 -mt-4 mb-3 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary max-e300:-mx-3 max-e300:-mt-3" />
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <Dialog.Title className="font-display text-xl font-bold text-text-primary">{T.cloche.titre}</Dialog.Title>
-            <Dialog.Close className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "-mr-3 h-11 shrink-0 hover:bg-border-hover max-e300:-mr-2 max-e300:pr-2")}>{T.cloche.fermer}</Dialog.Close>
+            <Dialog.Close className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "-mr-3 h-11 shrink-0 hover:bg-border-hover focus-visible:ring-accent-link focus-visible:ring-offset-0 max-e300:-mr-2 max-e300:pr-2")}>{T.cloche.fermer}</Dialog.Close>
           </div>
           <LignesCloche contenu={contenu} erreur={erreur} onChoisir={() => setOuvert(false)} />
         </Dialog.Content>

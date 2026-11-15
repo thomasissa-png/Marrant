@@ -9,6 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
 import { IconeProfil, IconeRecherche } from "@/components/layout/header-icons";
 import { MenuMobileUniversel } from "@/components/layout/menu-mobile-universel";
+import { CHAMP } from "@/components/layout/panneau-eleve";
 import { elementBarreAllume, sousAdresse, type EtatLecteur } from "@/components/espace/rubriques";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
@@ -65,17 +66,18 @@ export function liensDuSite(etat: EtatLecteur): LienNav[] {
  *  s25 (relecture design tour 4, critère 7) : anneau de focus entièrement arrondi comme logo, cloche, compte, Menu
  *  et Premium ; hors focus, forme inchangée (haut arrondi, bas droit sous le soulignement de l'actif).
  *  s25 (relecture design tour 5, critère 7) : `pt-0.5` compense le `border-b-2` (zone de contenu de 40 px centrée à
- *  22 px, comme Connexion, Premium et la recherche) : même ligne de base ; 44 px et soulignement inchangés. */
+ *  22 px, comme Connexion, Premium et la recherche) : même ligne de base ; 44 px et soulignement inchangés.
+ *  s25 (relecture design tour 7, F2) : anneau `accent-link` dans tout l'en-tête (ratios dans `panneau-eleve.ts`). */
 export const classeLienBarre = (actif: boolean) =>
   cn(
-    "flex h-11 items-center whitespace-nowrap rounded-t-lg border-b-2 px-1.5 pt-0.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-2",
+    "flex h-11 items-center whitespace-nowrap rounded-t-lg border-b-2 px-1.5 pt-0.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link xl:px-2",
     actif
       ? "border-accent-primary bg-background-elevated text-accent-link focus-visible:rounded-b-lg"
       : "border-transparent text-text-secondary hover:bg-background-elevated hover:text-text-primary focus-visible:rounded-lg",
   );
 
 const ICONE =
-  "h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
+  "h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
 
 export function EnTeteUniversel() {
   const [menuOuvert, setMenuOuvert] = useState(false);
@@ -115,6 +117,28 @@ export function EnTeteUniversel() {
     setMenuOuvert(false);
   }, [pathname]);
 
+  // s25 (relecture ux tour 6, critère 7 piste 3 ; tour 7, critère 7) : menu ouvert sous un voile, le focus reste dans
+  // l'en-tête, contrôles restés visibles au-dessus du voile compris (logo, cloche, compte, croix), dans l'ordre du DOM.
+  // Tab sur le dernier élément visible (dernière ligne du menu) revient au logo, Maj+Tab sur le logo va au dernier ;
+  // Maj+Tab depuis la première ligne du menu tombe naturellement sur la croix. Éléments relevés à chaque touche
+  // (suggestions de recherche ouvertes comprises), visibles et tabulables seulement. Échap : effet ci-dessus.
+  const enfermerFocus = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key !== "Tab" || e.defaultPrevented) return;
+    const elements = Array.from(e.currentTarget.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), input:not([disabled]), [tabindex]")).filter(
+      (el) => el.tabIndex >= 0 && el.getClientRects().length > 0,
+    );
+    const premier = elements[0];
+    const dernier = elements[elements.length - 1];
+    if (!premier || !dernier) return;
+    if (e.shiftKey && document.activeElement === premier) {
+      e.preventDefault();
+      dernier.focus();
+    } else if (!e.shiftKey && document.activeElement === dernier) {
+      e.preventDefault();
+      premier.focus();
+    }
+  };
+
   // Mêmes liens que l'en-tête d'aujourd'hui : retour sur la page courante, bouton masqué sur les pages chaudes.
   const prixHref = buildAbonnementUrl(pathname && pathname !== "/" ? pathname : null, "monthly", "header");
   const loginHref = buildLoginUrl({ callbackUrl: pathname });
@@ -127,7 +151,11 @@ export function EnTeteUniversel() {
   return (
     <>
       {menuOuvert && <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={() => fermerMenu(true)} />}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md" data-en-tete-universel={etat}>
+      <header
+        className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md"
+        data-en-tete-universel={etat}
+        onKeyDown={menuOuvert ? enfermerFocus : undefined}
+      >
         {/* s25 (relecture design F1) : barre ancrée à gauche, le premier lien au même x pour les 3 états à chaque
             largeur ; le vide se loge entre les liens et la recherche (ou les actions sous 1280 px). Tour 3 (design,
             faute dure) : 16 px dès 320 px, le logo sur la verticale de la recherche et des lignes du menu (`px-4`). */}
@@ -137,7 +165,7 @@ export function EnTeteUniversel() {
               déplacer le texte d'un pixel. */}
           <Link
             href={etat === "abonne" ? ESPACE_ACCUEIL : "/"}
-            className="-mx-1 flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+            className="-mx-1 flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
           >
             <span className="whitespace-nowrap font-display text-sm font-bold text-gradient min-[360px]:text-base min-[400px]:text-lg sm:text-xl">
               deviens-marrant.fr
@@ -177,7 +205,7 @@ export function EnTeteUniversel() {
               recherche pour les 3 comptes, piste design tour 2) ne tient plus dans la coque (1216 px utiles de 1280 à
               1920 px) avec la recherche à 176 px. La zone prend donc la largeur de son contenu, 16 px après la
               recherche (`xl:ml-0`) : la recherche change de x selon le compte, la rangée tient avec marge. */}
-          <SearchBar className="hidden w-44 shrink-0 xl:ml-auto xl:block" onNavigate={() => setRechercheOuverte(false)} />
+          <SearchBar className={cn("hidden w-44 shrink-0 xl:ml-auto xl:block", CHAMP)} onNavigate={() => setRechercheOuverte(false)} />
 
           <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-0 xl:gap-3">
             <button
@@ -193,7 +221,7 @@ export function EnTeteUniversel() {
             {etat === "visiteur" && (
               <Link
                 href={loginHref}
-                className="hidden h-11 min-w-[44px] items-center justify-center rounded-lg px-2 text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary min-[520px]:flex"
+                className="hidden h-11 min-w-[44px] items-center justify-center rounded-lg px-2 text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link min-[520px]:flex"
               >
                 {TEXTES_CONNEXION.lienConnexionMobile}
               </Link>
@@ -244,7 +272,7 @@ export function EnTeteUniversel() {
 
         {rechercheOuverte && (
           <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 xl:hidden animate-slide-up">
-            <SearchBar className="w-full" onNavigate={() => setRechercheOuverte(false)} />
+            <SearchBar className={cn("w-full", CHAMP)} onNavigate={() => setRechercheOuverte(false)} />
           </div>
         )}
 

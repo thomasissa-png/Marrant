@@ -29,10 +29,11 @@ const LISTBOX_ID = "search-results-listbox";
  * s25 (relectures en-tête tour 6, design D3, ux 7 pistes 1 et 2) : `dansMenu`, posé par le menu mobile de l'en-tête
  * unique seulement. Les suggestions ne s'ouvrent plus au simple focus (à la frappe, ou flèche bas) : Tab depuis le
  * champ va à la ligne suivante du menu ; elles se referment quand le focus quitte la recherche ; puces de 44 px de
- * cible et anneau de focus violet de 2 px comme le reste du menu. Sans `dansMenu` (site fermé, barre), rien ne change.
+ * cible et anneau de focus violet de 2 px comme le reste du menu (`accent-link` depuis le tour 7, `panneau-eleve.ts`).
+ * Sans `dansMenu` (site fermé, barre), rien ne change.
  */
 const PUCE_MENU =
-  "inline-flex min-h-11 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
+  "inline-flex min-h-11 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
 
 export function SearchBar({ className, onNavigate, dansMenu = false }: { className?: string; onNavigate?: () => void; dansMenu?: boolean }) {
   const [query, setQuery] = useState("");

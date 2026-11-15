@@ -33,6 +33,11 @@ import { cn } from "@/lib/utils";
  * allumé du menu mobile, lisible sans la teinte : filet gauche violet de 2 px, semi-gras, texte `accent-link` sur un
  * fond en creux (`background-card` : 6,1:1 ; sur `border-hover`, le violet tomberait à 4,2:1). Survolée, la ligne
  * passe au fond de survol en texte principal, comme les autres.
+ * s25 (relecture design tour 7, F1 et F2) : anneau de focus clavier des lignes, comme le reste de l'en-tête
+ * (règle unique documentée dans `panneau-eleve.ts`) : 2 px, intérieur (le panneau coupe l'extérieur), `accent-link`, sur la ligne
+ * en relief (`data-highlighted`) quand le menu est mené au clavier (`data-clavier` : dernière touche après le dernier geste
+ * de pointeur). `:focus-visible` ne suffit pas : Radix donne le focus à la ligne survolée et empêche le `pointerdown` du
+ * bouton, Chrome dessinerait l'anneau au survol à la souris. Ligne en cours : coins arrondis sous l'anneau.
  * Sans `universel` : rendu inchangé (test d'inertie).
  */
 export interface VarianteUniverselle {
@@ -43,9 +48,9 @@ export interface VarianteUniverselle {
 const ITEM =
   "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-secondary outline-none transition-colors data-[highlighted]:bg-background-elevated data-[highlighted]:text-text-primary";
 const ITEM_UNIVERSEL =
-  "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-primary outline-none transition-colors data-[highlighted]:bg-border-hover";
+  "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-primary outline-none transition-colors data-[highlighted]:bg-border-hover group-data-[clavier]/compte:data-[highlighted]:ring-2 group-data-[clavier]/compte:data-[highlighted]:ring-inset group-data-[clavier]/compte:data-[highlighted]:ring-accent-link";
 const ITEM_COURANT =
-  "rounded-l-none border-l-2 border-accent-primary bg-background-card pl-[10px] font-semibold text-accent-link data-[highlighted]:text-text-primary";
+  "rounded-l-none border-l-2 border-accent-primary bg-background-card pl-[10px] font-semibold text-accent-link data-[highlighted]:text-text-primary group-data-[clavier]/compte:data-[highlighted]:rounded-md";
 
 /** Décalages Radix mesurés à l'ouverture : 8 px sous l'en-tête, bord droit sur la marge de la coque. */
 function mesurerPosition(bouton: HTMLElement): { side: number; align: number } {
@@ -58,13 +63,28 @@ function mesurerPosition(bouton: HTMLElement): { side: number; align: number } {
 
 export function AccountMenu({ universel }: { universel?: VarianteUniverselle } = {}) {
   const [position, setPosition] = useState({ side: 8, align: 0 });
+  const [clavier, setClavier] = useState(false);
   const item = universel ? ITEM_UNIVERSEL : ITEM;
   const courant = (href: string) => universel?.actif === true && universel.courant === href;
   return (
     <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger
-        onPointerDown={universel ? (e) => setPosition(mesurerPosition(e.currentTarget)) : undefined}
-        onKeyDown={universel ? (e) => setPosition(mesurerPosition(e.currentTarget)) : undefined}
+        onPointerDown={
+          universel
+            ? (e) => {
+                setPosition(mesurerPosition(e.currentTarget));
+                setClavier(false);
+              }
+            : undefined
+        }
+        onKeyDown={
+          universel
+            ? (e) => {
+                setPosition(mesurerPosition(e.currentTarget));
+                setClavier(true);
+              }
+            : undefined
+        }
         aria-label={TEXTES_CONNEXION.menuCompte}
         aria-current={universel?.actif ? "page" : undefined}
         className={cn(
@@ -76,8 +96,10 @@ export function AccountMenu({ universel }: { universel?: VarianteUniverselle } =
           universel && "border-b-2",
           universel &&
             (universel.actif
-              ? "rounded-b-none border-accent-primary bg-background-elevated text-accent-link"
+              ? "rounded-b-none border-accent-primary bg-background-elevated text-accent-link focus-visible:rounded-b-lg"
               : "border-transparent data-[state=open]:text-text-primary"),
+          // s25 (relecture design tour 7, F2) : même anneau que la barre (2 px, `accent-link`, collé au bouton).
+          universel && "focus-visible:ring-accent-link focus-visible:ring-offset-0",
         )}
       >
         <IconeProfil />
@@ -87,9 +109,12 @@ export function AccountMenu({ universel }: { universel?: VarianteUniverselle } =
           align="end"
           sideOffset={universel ? position.side : 8}
           alignOffset={universel ? position.align : undefined}
+          data-clavier={universel && clavier ? "" : undefined}
+          onKeyDown={universel ? () => setClavier(true) : undefined}
+          onPointerMove={universel ? () => setClavier(false) : undefined}
           className={
             universel
-              ? cn("z-[60] min-w-[12rem] overflow-hidden rounded-xl border border-border p-1 animate-fade-in", PANNEAU_ELEVE)
+              ? cn("group/compte z-[60] min-w-[12rem] overflow-hidden rounded-xl border border-border p-1 animate-fade-in", PANNEAU_ELEVE)
               : "z-[60] min-w-[12rem] rounded-lg border border-border bg-background-card p-1 shadow-xl animate-fade-in"
           }
         >

@@ -8,6 +8,7 @@ import { SearchBar } from "@/components/ui/search-bar";
 import { IconeDeconnexion, IconeFavoris, IconeProfil } from "@/components/layout/header-icons";
 import { INDEX_ESPACE, elementBarreAllume, ligneEspaceAllumee, type EtatLecteur } from "@/components/espace/rubriques";
 import type { LienNav } from "@/components/layout/en-tete-universel";
+import { CHAMP } from "@/components/layout/panneau-eleve";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { EN_TETE } from "@/config/textes/cta-articles-accueil";
@@ -34,12 +35,18 @@ import { cn } from "@/lib/utils";
  * ligne portant `aria-current` sous le pli est amenée dans la vue (ux 2, défilement du menu seul, bloc « nearest »,
  * immédiat si `prefers-reduced-motion`) ; déjà visible, le menu ne bouge pas ; abonné, jamais au prix de « Mon
  * espace » et de ses 8 entrées (critère 5 de la spec).
+ * s25 (relecture ux tour 7, critère 7) : le focus enfermé du menu ouvert est géré par l'en-tête (`en-tete-universel.tsx`),
+ * contrôles de la barre restés visibles au-dessus du voile compris.
  */
 const FILET = "border-l-2 border-transparent";
 const ALLUMEE = "rounded-l-none border-accent-primary bg-background-elevated text-accent-link font-semibold";
-const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary";
+// s25 (relecture design tour 7, F2) : anneau unique de l'en-tête (`panneau-eleve.ts`), intérieur dans le menu, coins
+// arrondis au focus même sur les lignes à coins gauches droits (rail, ligne allumée).
+const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link focus-visible:ring-offset-0 focus-visible:rounded-lg";
 // Tour 3 (relecture design, piste) : 9 px entre l'icône et le libellé, le texte des actions à 53 px comme les entrées du rail.
-const LIGNE_ACTION = cn(FILET, "h-11 w-full justify-start gap-[9px] pl-[10px] font-medium text-text-secondary hover:text-text-primary");
+/** Air sous la ligne allumée amenée dans la vue à l'ouverture (relecture design tour 7, P1). */
+const MARGE_BASSE = 16;
+const LIGNE_ACTION = cn(FILET, FOCUS, "h-11 w-full justify-start gap-[9px] pl-[10px] font-medium text-text-secondary hover:text-text-primary");
 
 interface Props {
   etat: EtatLecteur;
@@ -57,51 +64,33 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
   const secondaire = (actif: boolean) => cn(buttonVariants({ variant: "ghost", size: "sm" }), LIGNE_ACTION, actif && ALLUMEE);
   const menu = useRef<HTMLElement>(null);
 
-  // Ouverture : la ligne allumée sous le pli défile jusqu'au bord bas du menu (bloc « nearest »). Mesures relatives
-  // au menu : l'animation d'entrée (translation) les décale toutes deux d'autant. Abonné : spec v5 critère 5 (« Mon
+  // Ouverture : la ligne allumée sous le pli défile jusqu'à 16 px au-dessus du bord bas du menu. Mesures relatives au
+  // menu : l'animation d'entrée (translation) les décale toutes deux d'autant. Abonné : spec v5 critère 5 (« Mon
   // espace » et ses 8 entrées sans défilement dès 568 px) prioritaire, le défilement ne dépasse pas la marge haute
-  // du menu ; au-delà, le menu reste en haut.
+  // du menu (rien au-dessus de « Mon espace » n'est coupé) ; s25 (relecture design tour 7, P1) : si la marge basse de
+  // 16 px ne tient pas sous ce plafond, le menu ne bouge pas (plus de ligne collée au bas de la fenêtre).
   useEffect(() => {
     const nav = menu.current;
     const ligneCourante = Array.from(nav?.querySelectorAll<HTMLElement>('[aria-current="page"]') ?? []).find((el) => el.getClientRects().length > 0);
     if (!nav || !ligneCourante) return;
     const defilement = ligneCourante.getBoundingClientRect().bottom - nav.getBoundingClientRect().top - nav.clientTop - nav.clientHeight;
+    if (defilement <= 0) return;
+    const cible = defilement + MARGE_BASSE;
     const plafond = nav.querySelector("[data-menu-espace]") ? parseFloat(getComputedStyle(nav).paddingTop) : Infinity;
-    if (defilement <= 0 || defilement > plafond) return;
+    if (cible > plafond) return;
     const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    nav.scrollTo({ top: Math.ceil(defilement), behavior: reduit ? "auto" : "smooth" });
+    nav.scrollTo({ top: Math.ceil(cible), behavior: reduit ? "auto" : "smooth" });
   }, []);
-
-  // s25 (relecture ux tour 6, critère 7 piste 3) : menu ouvert sous un voile, le focus y reste enfermé. Tab sur le
-  // dernier élément visible revient au premier, Maj+Tab sur le premier va au dernier ; Échap ferme et rend le focus
-  // au bouton « Menu » (en-tête). Éléments relevés à chaque touche : suggestions de recherche ouvertes comprises.
-  const enfermerFocus = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key !== "Tab" || e.defaultPrevented) return;
-    const elements = Array.from(e.currentTarget.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), input:not([disabled]), [tabindex]")).filter(
-      (el) => el.tabIndex >= 0 && el.getClientRects().length > 0,
-    );
-    const premier = elements[0];
-    const dernier = elements[elements.length - 1];
-    if (!premier || !dernier) return;
-    if (e.shiftKey && document.activeElement === premier) {
-      e.preventDefault();
-      dernier.focus();
-    } else if (!e.shiftKey && document.activeElement === dernier) {
-      e.preventDefault();
-      premier.focus();
-    }
-  };
 
   return (
     <nav
       ref={menu}
-      onKeyDown={enfermerFocus}
       className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 md:px-6 lg:hidden animate-slide-up"
       aria-label="Navigation mobile"
       data-menu-mobile={etat}
     >
       <div className="mb-2 min-[440px]:hidden">
-        <SearchBar className="w-full" onNavigate={onClose} dansMenu />
+        <SearchBar className={cn("w-full", CHAMP)} onNavigate={onClose} dansMenu />
       </div>
 
       {etat === "abonne" && (

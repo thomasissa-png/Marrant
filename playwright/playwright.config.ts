@@ -10,6 +10,7 @@ import path from "node:path";
  * - Projets `desktop` et `iphone-13` : suite `@smoke`, lecture seule, jouable en prod.
  * - Projet `local` : parcours qui écrivent (lettre, en-tête connecté), base jetable
  *   (`E2E_DATABASE_URL`) et faux Resend (`E2E_FAUX_RESEND_PORT`) ; jamais en prod.
+ * - Projet `local-compteurs` : tests d'un compteur commun à toute la base, seuls, après `local`.
  * - Projet `achat` : parcours complet avec Stripe en mode test. Skippé tout seul
  *   sans `STRIPE_TEST_SECRET_KEY` + `E2E_BASE_URL` d'un environnement de test.
  * - Chromium uniquement (WebKit non installé ici). `E2E_CHROMIUM_PATH` force un
@@ -18,6 +19,8 @@ import path from "node:path";
 const baseURL = process.env.E2E_BASE_URL?.replace(/\/$/, "") || "http://localhost:5000";
 const local = !process.env.E2E_BASE_URL;
 const chromiumPath = process.env.E2E_CHROMIUM_PATH;
+/** Tests qui lisent un compteur commun à toute la base : jamais en parallèle d'une autre spec (projet `local-compteurs`). */
+const COMPTEUR_GLOBAL = /cloche en compteur anonyme \(D10\)/;
 const launchOptions = chromiumPath && existsSync(chromiumPath) ? { executablePath: chromiumPath } : {};
 
 export default defineConfig({
@@ -61,6 +64,20 @@ export default defineConfig({
       name: "local",
       testMatch: /local\/.*\.spec\.ts/,
       fullyParallel: false,
+      grepInvert: COMPTEUR_GLOBAL,
+      use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 800 } },
+    },
+    {
+      // s25 tour 7 (CI instable, 12 s puis vert au 2e essai) : le compteur anonyme de la cloche (`EspaceCompteur`,
+      // aucun identifiant, un par jour) est commun à toute la base ; les autres specs locales ouvrent la cloche en
+      // parallèle (2 workers), et « +1 exactement » recevait leurs ouvertures (reproduit : 682 attendu, 690 lu).
+      // Ce test tourne donc seul, après le projet `local` (inclus par `npm run test:e2e:local`), assertion intacte.
+      name: "local-compteurs",
+      testMatch: /local\/espace-mesure-d9-s24\.spec\.ts/,
+      grep: COMPTEUR_GLOBAL,
+      dependencies: ["local"],
+      fullyParallel: false,
+      workers: 1,
       use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 800 } },
     },
     {
