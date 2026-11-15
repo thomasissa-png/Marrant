@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { TEXTES_FICHE } from "@/config/textes/espace-bibliotheque";
 import type { FicheDeType } from "@/lib/espace/fiches";
-import { LIEN } from "@/components/espace/carte/styles";
+import { LIEN, SOMMAIRE_REPLIABLE } from "@/components/espace/carte/styles";
+import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
 import { NBSP, FINE, frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -84,9 +85,13 @@ export function CorpsFormule({ c }: { c: FicheDeType<"formule">["contenu"] }) {
           {aToi.map((d) => (
             <li key={d.expression} className="space-y-1">
               <p>«{FINE}{d.expression}{FINE}»</p>
-              <details>
-                <summary className="inline-flex min-h-11 cursor-pointer items-center text-sm text-accent-link underline underline-offset-2">{T.versionPossible}</summary>
-                <p className="text-base text-text-primary">«{FINE}{d.detournement}{FINE}»</p>
+              {/* v6 tour 1 (point 5) : `summary` qui révèle du contenu = bouton secondaire à chevron, 44 px. */}
+              <details className="group/repli">
+                <summary className={SOMMAIRE_REPLIABLE}>
+                  {T.versionPossible}
+                  <ChevronRepli />
+                </summary>
+                <p className="pt-2 text-base text-text-primary">«{FINE}{d.detournement}{FINE}»</p>
               </details>
             </li>
           ))}

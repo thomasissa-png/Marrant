@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import type { ReponseAise } from "@/lib/espace/aise";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -41,7 +42,7 @@ export function QuestionAise() {
   };
 
   return (
-    <section aria-labelledby="aise-titre" className="rounded-lg border border-border bg-background-card p-4 md:p-6">
+    <section aria-labelledby="aise-titre" className={`${CADRE_CARTE} p-4 md:p-6`}>
       <h2 id="aise-titre" className="text-base font-semibold text-text-primary">
         {T.aise.question}
       </h2>

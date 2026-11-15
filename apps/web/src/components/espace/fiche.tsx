@@ -159,6 +159,7 @@ export function FicheVue({
             grille={fiche.geste.grille ?? null}
             retourInitial={retour}
             repliqueInitiale={replique}
+            separe={false}
           />
         </div>
       )}

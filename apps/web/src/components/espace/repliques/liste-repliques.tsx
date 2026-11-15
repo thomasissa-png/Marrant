@@ -7,7 +7,7 @@ import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
 import type { RepliqueListee } from "@/lib/espace/repliques";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
-import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CARTE } from "@/components/espace/carte/styles";
+import { BOUTON_DESTRUCTIF, BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CARTE } from "@/components/espace/carte/styles";
 import { FINE, frEspace, frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -66,7 +66,8 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
         <div className={`${CARTE} flex flex-col items-start gap-4 md:p-8`} data-testid="repliques-vide">
           <p className="text-base text-text-primary">{R.vide}</p>
           {!lectureSeule && (
-            <Link href="/mon-espace/quoi-repondre" className={BOUTON_SECONDAIRE}>
+            // v6 tour 1 (point 15) : seule action de la page, en bouton plein.
+            <Link href="/mon-espace/quoi-repondre" className={BOUTON_PRINCIPAL}>
               {R.ecrirePremiere}
             </Link>
           )}
@@ -127,7 +128,8 @@ export function ListeRepliques({ initiales, lectureSeule }: { initiales: Repliqu
                       {R.confirmer}
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      <button type="button" className={BOUTON_SECONDAIRE} aria-busy={occupe} onClick={() => void supprimer(r.ficheId)}>
+                      {/* v6 tour 1 (point 15) : « Supprimer » en style destructif, « Annuler » en secondaire. */}
+                      <button type="button" className={BOUTON_DESTRUCTIF} aria-busy={occupe} onClick={() => void supprimer(r.ficheId)}>
                         {R.supprimer}
                       </button>
                       <button ref={annuler} type="button" className={BOUTON_SECONDAIRE} onClick={() => setMode(null)}>

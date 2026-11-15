@@ -9,6 +9,7 @@ import { VanneToucher, type VanneAffichee } from "@/components/espace/aujourdhui
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -27,7 +28,15 @@ type Daily = {
 };
 type Etat = { statut: "chargement" } | { statut: "erreur" } | { statut: "ok"; donnees: Daily };
 
-const CARTE = "rounded-lg border border-border bg-background-card p-4 md:p-6";
+// v6 tour 1 (arbitrage 1) : les cartes de l'accueil (`home/daily-content.tsx`), filet compris.
+const CARTE = `${CADRE_CARTE} p-4 md:p-6`;
+
+/**
+ * v6 tour 1 (point 4), lecteur partagé (`ui/youtube-player`, hors de ce lot) réglé depuis sa carte : bouton de
+ * lecture aux couleurs du thème (fond sombre et filet clair, plus le rouge vif qui concurrençait le bouton plein
+ * de l'action du jour) ; titre incrusté de repli masqué (le titre est déjà le lien sous la vignette : une fois).
+ */
+const LECTEUR = "[&_button>div]:bg-background/80 [&_button>div]:ring-1 [&_button>div]:ring-white/40 [&_button_span_span]:hidden";
 
 /**
  * Début du conseil, coupé à la fin d'une phrase (tour 2, reviewer P6 : plus de mot coupé par `line-clamp`) : les
@@ -81,8 +90,9 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
       <h2 id="jour-titre" className="font-display text-xl font-bold text-text-primary">
         {T.jour.titre}
       </h2>
-      {/* v5 §3 : 1 colonne, 2 dès 768 px, 3 dès 1280 px ; la 3e carte prend la ligne entière à 768. */}
-      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {/* v5 §3 : 1 colonne, 2 dès 768 px, 3 dès 1280 px ; la 3e carte prend la ligne entière à 768.
+          v6 tour 1 (point 4) : cartes de même hauteur sur une rangée (`items-stretch`, plus de bas en escalier). */}
+      <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 xl:grid-cols-3">
       {etat.statut === "chargement" &&
         [0, 1, 2].map((i) => (
           <div key={i} aria-hidden="true" className={`${CARTE} animate-pulse motion-reduce:animate-none ${i === 2 ? TROISIEME : ""}`}>
@@ -131,8 +141,8 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
               <>
                 {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}
                 {etat.donnees.video.youtubeId && (
-                  // Tour 2 (reviewer P7) : à 768 px, la carte prend deux colonnes ; la vignette reste à 448 px.
-                  <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated md:max-w-md xl:max-w-none">
+                  // v6 tour 1 (point 4) : vignette sur toute la largeur de sa carte (à 768 px aussi, plus de vide à droite).
+                  <div className={`relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated ${LECTEUR}`}>
                     <YouTubePlayer youtubeId={etat.donnees.video.youtubeId} title={etat.donnees.video.title} />
                   </div>
                 )}

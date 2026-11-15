@@ -2,6 +2,8 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { cn } from "@/lib/utils";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -21,7 +23,21 @@ const Chevron = () => (
   </svg>
 );
 
-export function CartesDuJour({ cartes: toutes, href, fini: finiMoteur }: { cartes: readonly CarteDuJour[]; href: string; fini: boolean }) {
+/**
+ * v6 tour 1 (point 4) : `principale` (défaut) = l'action du jour en pleine coque (`md:p-8`, titre `md:text-3xl`,
+ * cartes en rangée dès 768 px) ; `false` une fois la rafale faite, quand l'étape à reprendre est l'action du jour.
+ */
+export function CartesDuJour({
+  cartes: toutes,
+  href,
+  fini: finiMoteur,
+  principale = true,
+}: {
+  cartes: readonly CarteDuJour[];
+  href: string;
+  fini: boolean;
+  principale?: boolean;
+}) {
   // Lot D11b (Q-6, @ux D-4) : une carte sans titre n'est jamais montrée, et une rafale sans carte
   // montrable (catalogue épuisé, tirage vide) rend l'état « C'est tout pour aujourd'hui », jamais un
   // bouton au sous-titre vide vers une page sans carte.
@@ -31,9 +47,9 @@ export function CartesDuJour({ cartes: toutes, href, fini: finiMoteur }: { carte
   const nouvelles = cartes.filter((c) => c.nouvelle && !c.autreContexte).length;
   const aRevoir = cartes.filter((c) => !c.nouvelle).length;
   return (
-    <section aria-labelledby="rafale-titre" className="space-y-3 rounded-lg border border-border bg-background-card p-4 md:p-6">
+    <section aria-labelledby="rafale-titre" className={cn(CADRE_CARTE, "space-y-3 p-4 md:p-6", principale && "md:p-8")}>
       <p className="text-sm text-text-secondary">{T.rafale.accroche}</p>
-      <h2 id="rafale-titre" className="font-display text-xl font-bold text-text-primary">
+      <h2 id="rafale-titre" className={cn("font-display text-xl font-bold text-text-primary", principale && "md:text-3xl")}>
         {T.rafale.titre}
       </h2>
       {fini ? (
@@ -44,7 +60,7 @@ export function CartesDuJour({ cartes: toutes, href, fini: finiMoteur }: { carte
             {T.rafale.bouton}
           </Link>
           <p className="text-sm text-text-secondary">{T.rafale.sousTitre(nouvelles, aRevoir, autres)}</p>
-          <ul className="flex flex-col gap-2">
+          <ul className={cn("flex flex-col gap-2", principale && "md:grid md:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]")}>
             {cartes.map((c) => (
               <li key={c.href}>
                 <Link

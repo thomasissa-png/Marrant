@@ -3,6 +3,8 @@ import { TEXTES_CAPS as TEXTES_CAPS_BRUT } from "@/config/textes/espace-caps";
 import type { FicheDeType } from "@/lib/espace/fiches";
 import { Bloc } from "@/components/espace/fiche/corps-technique";
 import { FINE, frEspaceProfond } from "@/lib/fr-typo";
+import { SOMMAIRE_REPLIABLE } from "@/components/espace/carte/styles";
+import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_FICHE);
@@ -63,7 +65,8 @@ export function CorpsEcouter({ c }: { c: FicheDeType<"ecouter">["contenu"] }) {
  * propre libellé, `reponsePiresReponses`). Les lignes sont affichées
  * telles qu'écrites dans le lot (guillemets compris) : l'écran n'en ajoute aucun.
  */
-export function CorpsJeu({ c, id }: { c: FicheDeType<"jeu">["contenu"]; id: string }) {
+/** v6 tour 1 (point 5) : `summary` en bouton secondaire à chevron ; `ouvert` (aperçu) = la réponse déjà visible. */
+export function CorpsJeu({ c, id, ouvert = false }: { c: FicheDeType<"jeu">["contenu"]; id: string; ouvert?: boolean }) {
   const R = T.reponsePiresReponses;
   const libelle = c.famille === "les-pires-reponses" ? (R.parJeu[id] ?? R.defaut) : T.ceQuOnAuraitPuDire;
   return (
@@ -76,8 +79,11 @@ export function CorpsJeu({ c, id }: { c: FicheDeType<"jeu">["contenu"]; id: stri
           ))}
         </ul>
       )}
-      <details className="space-y-2">
-        <summary className="inline-flex min-h-11 cursor-pointer items-center text-base font-semibold text-text-primary">{libelle}</summary>
+      <details className="group/repli space-y-2" open={ouvert || undefined}>
+        <summary className={SOMMAIRE_REPLIABLE}>
+          {libelle}
+          <ChevronRepli />
+        </summary>
         <ul className="space-y-1 text-base text-text-primary">
           {c.ceQuOnAuraitPuDire.map((x) => (
             <li key={x}>{x}</li>

@@ -2,6 +2,7 @@ import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import { SERIE } from "@/config/textes/parcours";
 import { NUMEROS_CAPS, type NumeroCap } from "@/lib/espace/caps";
 import { cn } from "@/lib/utils";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -33,7 +34,7 @@ export function TonCap({
     <section
       id="cap"
       aria-labelledby="ton-cap-titre"
-      className={cn("space-y-3 rounded-lg border border-border bg-background-card p-4 md:p-6 max-e300:space-y-1 max-e300:px-3 max-e300:py-2", className)}
+      className={cn(CADRE_CARTE, "space-y-3 p-4 md:p-6 max-e300:space-y-1 max-e300:px-3 max-e300:py-2", className)}
     >
       <h2 id="ton-cap-titre" className="font-display text-xl font-bold text-text-primary">
         {T.titre}

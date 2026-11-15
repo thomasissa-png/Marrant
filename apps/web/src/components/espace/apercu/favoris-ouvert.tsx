@@ -11,6 +11,11 @@ export async function FavorisOuvert({ children }: { children: React.ReactNode })
   const { lireLecteurApercu } = await import("@/components/espace/apercu/acces");
   const lecteur = await lireLecteurApercu();
   if (!lecteur) return <>{children}</>;
-  const { ApercuRubrique } = await import("@/components/espace/apercu/apercu-rubrique");
-  return <ApercuRubrique rubrique="favoris" visiteur={lecteur === "visiteur"} />;
+  // v6 tour 1 (arbitrage 3) : deux contenus réels du catalogue (gratuits), en lecture seule ; `null` = état vide.
+  const [{ ApercuRubrique }, { lireExemplesFavoris }] = await Promise.all([
+    import("@/components/espace/apercu/apercu-rubrique"),
+    import("@/components/espace/apercu/exemples-favoris"),
+  ]);
+  const favoris = await lireExemplesFavoris();
+  return <ApercuRubrique rubrique="favoris" visiteur={lecteur === "visiteur"} favoris={favoris} />;
 }

@@ -21,6 +21,7 @@ import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { Reassurance } from "@/components/ui/reassurance";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { RangeeOnglets } from "@/components/espace/rangee-onglets";
+import { DIFFICULTY_LABELS, DIFFICULTY_VARIANT, JOKE_CATEGORY_LABELS, TIP_CATEGORY_LABELS } from "@/components/favoris/libelles";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
 
@@ -75,45 +76,6 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
     ctaHref: "/videos",
   },
 ];
-
-const JOKE_CATEGORY_LABELS: Record<string, string> = {
-  AUTODERISION: "Autodérision",
-  SITUATION: "Vie quotidienne",
-  ABSURDE: "Absurde",
-  OBSERVATIONNEL: "Vie quotidienne",
-  JEUX_DE_MOTS: "Jeux de mots",
-  CULTUREL: "Vie quotidienne",
-  COUPLE: "Couple & Dating",
-  BOULOT: "Boulot & Collègues",
-  ECOLE: "École & Études",
-  GAMING: "Digital & Gaming",
-  RESEAUX_SOCIAUX: "Digital & Gaming",
-  DATING: "Couple & Dating",
-  SOIREES: "Soirées & Apéro",
-  PARENTS: "Famille",
-};
-
-const TIP_CATEGORY_LABELS: Record<string, string> = {
-  TIMING: "Timing",
-  AUTODERISION: "Autodérision",
-  OBSERVATION: "Observation",
-  REPARTIE: "Répartie",
-  STORYTELLING: "Storytelling",
-  ABSURDE: "Absurde",
-  JEUX_DE_MOTS: "Jeux de mots",
-};
-
-const DIFFICULTY_LABELS: Record<string, string> = {
-  DEBUTANT: "Débutant",
-  INTERMEDIAIRE: "Intermédiaire",
-  EXPERT: "Expert",
-};
-
-const DIFFICULTY_VARIANT: Record<string, "secondary" | "primary" | "error"> = {
-  DEBUTANT: "secondary",
-  INTERMEDIAIRE: "primary",
-  EXPERT: "error",
-};
 
 interface JokeData {
   content: string;
@@ -301,11 +263,13 @@ export function FavorisList() {
         // Revue visuelle s21 (R02, T3-06) : dès 768 px, vannes et conseils sur 2 colonnes (rangées remplies
         // dans l'ordre, trous comblés), la vidéo sur toute la rangée avec sa vignette bornée à gauche.
         // Relecture des captures nav s24 (design 3), interrupteur de l'espace ouvert seulement : 3 colonnes dès
-        // 1 024 px, cartes à la hauteur de leur contenu, même marge haute pour vannes, conseils et vidéos.
-        <div className={ESPACE_CLIENT_PUBLIE ? "grid items-start gap-4 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3" : "grid gap-4 md:grid-flow-row-dense md:grid-cols-2"}>
+        // 1 024 px, même marge haute pour vannes, conseils et vidéos. v6 tour 1 (point 14), ouvert seulement : colonnes
+        // égales, cartes d'une rangée à la même hauteur (plus de trou sous une vanne à côté d'un conseil déplié), plus
+        // de `col-span-2` isolé pour le dernier impair. Fermé : la grille d'avant (snapshot d'inertie `favoris`).
+        <div className={ESPACE_CLIENT_PUBLIE ? "grid items-stretch gap-4 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3" : "grid gap-4 md:grid-flow-row-dense md:grid-cols-2"}>
           {filtered.map((fav) => {
-            // Nombre impair de vannes et conseils : le dernier prend la rangée (plus de demi-rangée vide).
-            const seulSurSaRangee = fav.id === dernierCourtSeul ? (ESPACE_CLIENT_PUBLIE ? " md:col-span-2 lg:col-span-1" : " md:col-span-2") : "";
+            // Fermé : nombre impair de vannes et conseils, le dernier prend la rangée.
+            const seulSurSaRangee = !ESPACE_CLIENT_PUBLIE && fav.id === dernierCourtSeul ? " md:col-span-2" : "";
             if (fav.contentType === "JOKE" && fav.joke) {
               const joke = fav.joke as unknown as JokeData;
               const isRevealed = revealedJokes.has(fav.id);

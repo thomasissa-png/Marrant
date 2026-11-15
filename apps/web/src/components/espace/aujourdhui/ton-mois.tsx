@@ -4,6 +4,7 @@ import { TEXTES_CAPS as TEXTES_CAPS_BRUT } from "@/config/textes/espace-caps";
 import { NUMEROS_CAPS, type NumeroCap } from "@/lib/espace/caps";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -18,7 +19,7 @@ const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
  */
 export function TonMois({ serie, cap }: { serie: number; cap: NumeroCap }) {
   return (
-    <section aria-labelledby="mois-titre" className="space-y-3 rounded-lg border border-border bg-background-card p-4 md:p-6">
+    <section aria-labelledby="mois-titre" className={`${CADRE_CARTE} space-y-3 p-4 md:p-6`}>
       <h2 id="mois-titre" className="font-display text-xl font-bold text-text-primary">
         {T.mois.titre}
       </h2>

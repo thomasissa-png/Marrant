@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { NumeroMarche } from "@/lib/espace/missions";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const M = frEspaceProfond(TEXTES_MISSION);
@@ -14,7 +15,7 @@ const M = frEspaceProfond(TEXTES_MISSION);
  */
 export function MissionLien({ marche }: { marche: NumeroMarche }) {
   return (
-    <section aria-labelledby="mission-lien-titre" className="rounded-lg border border-border bg-background-card p-4 md:p-6" data-testid="mission-lien">
+    <section aria-labelledby="mission-lien-titre" className={`${CADRE_CARTE} p-4 md:p-6`} data-testid="mission-lien">
       <p id="mission-lien-titre" className="text-xs font-semibold text-text-muted">
         {M.titre} · {M.marche(marche)}
       </p>

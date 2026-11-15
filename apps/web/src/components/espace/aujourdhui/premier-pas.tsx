@@ -13,6 +13,7 @@ import {
   type OrigineResolue,
 } from "@/lib/espace/premier-pas";
 import { cn } from "@/lib/utils";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -75,23 +76,26 @@ export function PremierPas({
       className={cn(
         // Relecture des captures nav s24 (ux F6c) : plus de hauteur minimale (trou de 130 px à 375 entre la scène
         // et la durée) ; la carte du jour vient en tête et le bouton reste au premier écran.
-        "flex flex-col rounded-lg border border-border bg-background-card p-6 lg:p-6",
+        // v6 tour 1 (point 4) : carte de l'accueil (filet), pleine coque et dominante : dès 768 px, en bandeau
+        // (titre à gauche, durée et bouton à droite), `md:p-8`, titre `md:text-3xl`.
+        CADRE_CARTE,
+        "flex flex-col p-6 md:flex-row md:items-center md:justify-between md:gap-8 md:p-8",
         "max-e300:p-3",
       )}
     >
-      <div>
+      <div className="min-w-0">
         <p className="text-xs font-semibold text-text-muted">{T.premierPas.eyebrow}</p>
-        <h2 id="premier-pas-titre" className="mt-3 font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] lg:text-xl max-e300:mt-1 max-e300:text-base">
+        <h2 id="premier-pas-titre" className="mt-3 font-display text-2xl font-bold text-text-primary [overflow-wrap:anywhere] md:text-3xl max-e300:mt-1 max-e300:text-base">
           {pas.titre}
         </h2>
       </div>
-      <div className="mt-auto flex flex-col pt-4 max-e300:flex-row max-e300:flex-wrap max-e300:items-center max-e300:gap-2 max-e300:pt-1">
+      <div className="mt-auto flex flex-col pt-4 md:mt-0 md:flex-none md:items-end md:pt-0 max-e300:flex-row max-e300:flex-wrap max-e300:items-center max-e300:gap-2 max-e300:pt-1">
         {pas.minutes !== null && <p className="text-sm text-text-secondary">{T.premierPas.duree(pas.minutes)}</p>}
         <Link
           href={pas.href}
           className={cn(
             buttonVariants({ variant: "primary" }),
-            "mt-3 h-12 w-full whitespace-normal max-md:h-12 sm:w-auto sm:self-start sm:px-8 max-e300:mt-0 max-e300:h-11 max-e300:min-w-0 max-e300:flex-1",
+            "mt-3 h-12 w-full whitespace-normal max-md:h-12 sm:w-auto sm:self-start sm:px-8 md:self-end md:px-10 max-e300:mt-0 max-e300:h-11 max-e300:min-w-0 max-e300:flex-1",
           )}
         >
           {T.premierPas.bouton}
