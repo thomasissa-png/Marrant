@@ -39,6 +39,8 @@ const SECTIONS = {
       ["menu-court", "/mon-espace", "menu-568"],
       ["focus-dans-menu", "/mon-espace", "focus-menu"],
       ["focus-dans-cloche", "/mon-espace", "focus-cloche"],
+      ["focus-dans-compte", "/vannes", "focus-compte"],
+      ["focus-retour-menu", "/mon-espace", "focus-retour"],
     ],
     largeurs: [320, 375, 440, 520, 600, 640, 641, 768, 1024, 1280, 1456, 1920],
   },
@@ -97,6 +99,8 @@ for (const compte of comptes) {
       if (action === "focus" && ![375, 768, 1280].includes(w)) continue;
       if (action === "menu-568" && ![320, 375].includes(w)) continue;
       if (action === "focus-menu" && ![375, 768].includes(w)) continue;
+      if (action === "focus-compte" && (![768, 1280].includes(w) || compte === "visiteur")) continue;
+      if (action === "focus-retour" && (w !== 375 || compte === "visiteur")) continue;
       if (action === "focus-cloche" && (![375, 1280].includes(w) || !compte.match(/en-cours|nouvel/))) continue;
       if (action.startsWith("cloche") && !compte.match(/en-cours|nouvel/)) continue;
       if (action === "cloche-vide" && compte !== "nouvel") continue;
@@ -109,11 +113,26 @@ for (const compte of comptes) {
       try {
         if (action === "menu-568") { await page.setViewportSize({ width: w, height: 568 }); await page.waitForTimeout(200); }
         if (action === "menu" || action === "menu-568") await page.getByRole("button", { name: /menu/i }).first().click();
-        if (action === "focus-menu" || action === "focus-cloche") {
-          const bouton = action === "focus-menu" ? page.getByRole("button", { name: /menu/i }).first() : page.getByRole("banner").getByRole("button", { name: /^Notifications/ });
+        if (action === "focus-retour") {
+          // Menu ouvert au clavier, puis Maj+Tab x4 : le focus doit passer par la croix, la cloche, le logo
+          await page.getByRole("button", { name: /menu/i }).first().focus();
+          await page.keyboard.press("Enter");
+          await page.waitForTimeout(800);
+          for (let k = 1; k <= 4; k++) {
+            await page.keyboard.press("Shift+Tab");
+            await page.waitForTimeout(150);
+            await page.screenshot({ path: join(dossier, fichier.replace(".png", `-${String(k).padStart(2, "0")}.png`)) });
+          }
+          lignes.push(`- ${fichier.replace(".png", "-NN.png")} : ${url} (menu ouvert au clavier, 4 Maj+Tab)`);
+          await page.keyboard.press("Escape");
+          continue;
+        }
+        if (action === "focus-menu" || action === "focus-cloche" || action === "focus-compte") {
+          const bouton = action === "focus-menu" ? page.getByRole("button", { name: /menu/i }).first() : action === "focus-compte" ? page.getByRole("banner").getByRole("button", { name: /compte/i }).first() : page.getByRole("banner").getByRole("button", { name: /^Notifications/ });
           await bouton.focus();
           await page.keyboard.press("Enter");
           await page.waitForTimeout(800);
+          if (action === "focus-compte") await page.keyboard.press("ArrowDown").catch(() => {});
           const nTab = action === "focus-menu" ? 12 : 3;
           for (let k = 1; k <= nTab; k++) {
             await page.keyboard.press("Tab");
