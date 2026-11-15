@@ -207,7 +207,7 @@ test.describe("navigation universelle v6 (s25)", () => {
         );
         noter(`cadenas ; ${etat} ; ${JSON.stringify(m)}`);
         m.forEach((r, i) => {
-          const verrou = etat !== "PREMIUM" && i < 5;
+          const verrou = etat !== "PREMIUM" && (i < 5 || i === 10);
           expect(r.nom, `${ORDRE[i]} (${etat})`).toBe(verrou ? `${ORDRE[i]}, rubrique Premium` : ORDRE[i]);
           expect(r.svg, `${ORDRE[i]} (${etat})`).toEqual(verrou ? [14, "rgb(154, 154, 154)"] : null);
           expect(r.h, "cible de 44 px").toBe(44);
@@ -284,15 +284,17 @@ test.describe("navigation universelle v6 (s25)", () => {
               expect(actif.tl, `active hors du fondu gauche ${ici}`).toBeGreaterThanOrEqual(b.fg - 0.5);
               expect(actif.tr, `active hors du fondu droit ${ici}`).toBeLessThanOrEqual(b.vue - b.fd + 0.5);
             } else expect(b.scroll, `aucune rubrique : début de bande ${ici}`).toBe(0);
-            const enTete = actif?.nom === b.chips[0].nom || !actif;
+            // Bornes : rubrique active en tête (défilement 0) ou en fin de bande (défilement maximal), seule position qui la
+            // garde entière ; le libellé coupé de l'autre bord peut dépasser le fondu le plus long (cas de la maquette D).
+            const borne = !actif || actif.nom === b.chips[0].nom || actif.nom === b.chips[b.chips.length - 1].nom;
             const droite = b.chips.find((x) => x.l < b.vue && x.r > b.vue);
             if (b.fd > 0) {
               expect(droite, `un libellé entamé à droite, jamais un vide ${ici}`).toBeTruthy();
               expect(droite!.tl, `lettres visibles sous le fondu droit ${ici}`).toBeLessThanOrEqual(b.vue - 6);
-              if (!enTete) expect(droite!.tl, `partie visible sous le fondu droit ${ici}`).toBeGreaterThanOrEqual(b.vue - b.fd - 4);
+              if (!borne) expect(droite!.tl, `partie visible sous le fondu droit ${ici}`).toBeGreaterThanOrEqual(b.vue - b.fd - 4);
             }
             const gauche = b.chips.find((x) => x.l < 0 && x.r > 0);
-            if (gauche && b.fg > 0) expect(gauche.tr, `partie visible sous le fondu gauche ${ici}`).toBeLessThanOrEqual(b.fg + 4);
+            if (gauche && b.fg > 0 && !borne) expect(gauche.tr, `partie visible sous le fondu gauche ${ici}`).toBeLessThanOrEqual(b.fg + 4);
           }
         }
         await c.close();
@@ -425,7 +427,8 @@ test.describe("navigation universelle v6 (s25)", () => {
           noter(`menu mobile ${ici} ; ${liens.join(" | ")}`);
           expect(liens.map((t) => t.slice(0, 13)), ici).toEqual(attendu[etat].map((t) => t.slice(0, 13)));
           await expect(menu.getByRole("combobox"), `recherche dans le menu sous 440 px ${ici}`).toHaveCount(largeur < 440 ? 1 : 0);
-          const petites = await menu.locator("a, button").filter({ visible: true }).evaluateAll((els) => els.map((e) => e.getBoundingClientRect().height).filter((h) => h < 44));
+          await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+          const petites = await menu.locator("a, button").filter({ visible: true }).evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().height)).filter((h) => h < 44));
           expect(petites, `cibles de 44 px ${ici}`).toEqual([]);
           await page.keyboard.press("Escape");
           await expect(menu).toHaveCount(0);
@@ -728,6 +731,8 @@ test.describe("navigation universelle v6 (s25)", () => {
       expect(lienBarre.inset).toBe(true);
       // Cloche : bouton, puis « Fermer » et une ligne du panneau.
       const cloche = barre.getByRole("button", { name: /^Notifications/ });
+      // v6 : la bande suit la rangée dans le DOM ; retour au logo pour atteindre la cloche au clavier.
+      await barre.getByRole("link").first().focus();
       await tabJusqua(page, cloche);
       await verifier("cloche, bouton");
       await page.keyboard.press("Enter");
@@ -1022,7 +1027,7 @@ test.describe("navigation universelle v6 (s25)", () => {
           const tops = new Set(Array.from(l.querySelectorAll("[role='option']")).map((o) => Math.round(o.getBoundingClientRect().top)));
           return {
             gauche: r.left, droite: r.right, largeur: r.width, haut: r.top, champG: ch.left, champD: ch.right, champL: ch.width,
-            coqueG: cq.left + parseFloat(sc.paddingLeft), coqueD: cq.right - parseFloat(sc.paddingRight), filetEnTete: en.bottom,
+            coqueG: cq.left + parseFloat(sc.paddingLeft), coqueD: cq.right - parseFloat(sc.paddingRight), filetEnTete: en.bottom, rangee: cq.bottom,
             fond: s.backgroundColor, rayon: s.borderTopLeftRadius, filetH: filet.getBoundingClientRect().height, filetImage: getComputedStyle(filet).backgroundImage,
             lignes: tops.size, fenetre: window.innerWidth,
           };
@@ -1034,7 +1039,9 @@ test.describe("navigation universelle v6 (s25)", () => {
         expect(m.gauche, `dans la coque ${ici}`).toBeGreaterThanOrEqual(m.coqueG);
         expect(m.droite, `dans la coque ${ici}`).toBeLessThanOrEqual(m.coqueD);
         expect(m.lignes, `puces sur 2 lignes au plus ${ici}`).toBeLessThanOrEqual(2);
-        expect(m.haut - m.filetEnTete, `8 px sous le filet de l'en-tête ${ici}`).toBeGreaterThanOrEqual(8);
+        // v6 : le filet de l’en-tête est sous la bande ; la liste tombe du champ, 8 px au moins sous la rangée (au-dessus
+        // de la bande, en surimpression). Décalages de `search-bar.tsx` (v5) à revoir pour la v6 : hors du lot A.
+        expect(m.haut - m.rangee, `8 px sous la rangée ${ici}`).toBeGreaterThanOrEqual(8);
         expect(m.fond, `fond élevé ${ici}`).toBe("rgb(42, 42, 42)");
         expect(m.rayon, `rounded-xl ${ici}`).toBe("12px");
         expect(m.filetH, `filet de 4 px ${ici}`).toBe(4);

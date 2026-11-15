@@ -77,12 +77,12 @@ describe("bande des rubriques, 3 états (§1, §2)", () => {
     ["visiteur", true],
     ["gratuit", true],
     ["abonne", false],
-  ] as const)("%s : cadenas et « rubrique Premium » sur les 5 rubriques du groupe 1 : %s", async (etat, verrou) => {
+  ] as const)("%s : cadenas et « rubrique Premium » sur les 5 rubriques du groupe 1 et Favoris : %s", async (etat, verrou) => {
     useSession.mockReturnValue(SESSIONS[etat]);
     render(<EnTeteUniversel />);
     await act(async () => {});
     rubriques().forEach((a, i) => {
-      const premium = i < 5 && verrou;
+      const premium = (i < 5 || i === 10) && verrou;
       expect(a.querySelector("svg") !== null).toBe(premium);
       if (premium) expect(a).toHaveAccessibleName(`${ORDRE[i]}, rubrique Premium`);
       else expect(a).toHaveAccessibleName(ORDRE[i]);
@@ -210,9 +210,9 @@ function boites(largeurs: number[]): { boites: Boite[]; total: number } {
   return { boites: b, total: x + 8 };
 }
 // Largeurs des rubriques mesurées dans le Chromium local (Inter 14 px medium, `px-3`, s25, serveur ouvert, 375 à 1920 px) ;
-// non-abonné : cadenas de 14 px et 5 px d'écart sur les 5 premières.
+// non-abonné : cadenas de 14 px et 5 px d’écart sur les 5 premières et Favoris (+19 px).
 const SANS = [100.8, 83.9, 119.8, 107.6, 96.4, 73.7, 81.5, 70.3, 75.3, 78.2, 72.5, 69.2];
-const AVEC = [119.8, 102.9, 138.8, 126.6, 115.4, 73.7, 81.5, 70.3, 75.3, 78.2, 72.5, 69.2];
+const AVEC = [119.8, 102.9, 138.8, 126.6, 115.4, 73.7, 81.5, 70.3, 75.3, 78.2, 91.5, 69.2];
 
 describe("placement d'arrivée de la bande (consigne du 15/11, relecture design D tour 4)", () => {
   it.each([
@@ -251,8 +251,23 @@ describe("placement d'arrivée de la bande (consigne du 15/11, relecture design 
     expect(placementBande({ boites: b, actif: -1, largeurVue: 287, largeurTotale: total })).toBe(0);
   });
 
-  it("tout tient (1280 px) : aucun défilement", () => {
-    const { boites: b, total } = boites(AVEC);
+  it("abonné à 1280 px : tout tient, aucun défilement", () => {
+    const { boites: b, total } = boites(SANS);
+    expect(total).toBeLessThanOrEqual(1160);
     expect(placementBande({ boites: b, actif: 11, largeurVue: 1160, largeurTotale: total })).toBe(0);
+  });
+
+  // Arbitrage du 15/11 : padding de 12 px gardé ; non-abonné à 1280 px (et sur un Chrome qui élargit les libellés), la
+  // bande défile proprement : chaque rubrique active entière, faute seulement aux bornes.
+  it.each([0, 8, 16])("non-abonné à 1280 px, libellés élargis de %i px en tout : défilement propre", (elargi) => {
+    const { boites: b, total } = boites(AVEC.map((w) => w + elargi / 12));
+    expect(total).toBeGreaterThan(1160);
+    for (let actif = 0; actif < b.length; actif++) {
+      const m = { boites: b, actif, largeurVue: 1160, largeurTotale: total };
+      const t = placementBande(m);
+      const f = fautes(m, t);
+      expect([actif, f.actifEntier]).toEqual([actif, true]);
+      if (f.dures > 0) expect([actif, t === 0 || Math.abs(t - (total - 1160)) < 1]).toEqual([actif, true]);
+    }
   });
 });

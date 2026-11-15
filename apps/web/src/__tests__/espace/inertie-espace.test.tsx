@@ -235,6 +235,15 @@ describe("garde-fou de construction", () => {
     "app/api/jokes/route.ts",
     "app/(dashboard)/lettre/page.tsx",
     "components/home/faq-section.tsx",
+    // Navigation v6 (s25, lot A, maquette D validée le 15/11) : bande des rubriques, montée par l'en-tête unique
+    // (ouvert seulement : `header.tsx` rend l'en-tête d'aujourd'hui fermé) ; fil d'Ariane visible retiré au premier
+    // niveau ouvert seulement (fermé : le même `nav`, instantanés identiques). Tests :
+    // `__tests__/layout/navigation-v6-s25.test.tsx`, `playwright/tests/local/nav-universelle-s24.spec.ts`.
+    "components/layout/bande-rubriques.tsx",
+    "app/(dashboard)/blog/page.tsx",
+    "app/(dashboard)/conseils/page.tsx",
+    "app/(dashboard)/glossaire/page.tsx",
+    "app/(dashboard)/videos/page.tsx",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

@@ -105,7 +105,8 @@ export function placementBande(m: Mesure): number {
   for (let i = 0; i <= Math.ceil(max); i++) {
     const t = Math.min(i, max);
     const f = fautes(m, t);
-    const n = f.dures * 10000 + (f.sansIndiceGauche ? 50 : 0) + 3 * f.allongement + Math.abs(centre - t - m.largeurVue / 2);
+    // La rubrique active entière prime sur tout le reste (une faute de bord ne se paie jamais en la cachant).
+    const n = (f.actifEntier ? 0 : 1e6) + f.dures * 10000 + (f.sansIndiceGauche ? 50 : 0) + 3 * f.allongement + Math.abs(centre - t - m.largeurVue / 2);
     if (n < note) {
       note = n;
       meilleur = t;

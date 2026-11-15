@@ -218,14 +218,8 @@ export function EnTeteUniversel() {
           </div>
         </div>
 
-        <BandeRubriques etat={etat} pathname={pathname} />
-
-        {rechercheOuverte && (
-          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 md:hidden animate-slide-up">
-            <SearchBar className={cn("w-full [&_input]:h-11", CHAMP)} onNavigate={() => setRechercheOuverte(false)} enTete />
-          </div>
-        )}
-
+        {/* v6 : menu juste après la rangée dans le DOM (Tab depuis « Menu » entre dans le menu, pas dans la bande),
+            posé en surimpression sous tout le bloc collant (`menu-mobile-universel.tsx`, `absolute top-full`). */}
         {menuOuvert && (
           <MenuMobileUniversel
             etat={etat}
@@ -234,6 +228,14 @@ export function EnTeteUniversel() {
             masquerPlein={pageChaude}
             onClose={() => fermerMenu(false)}
           />
+        )}
+
+        <BandeRubriques etat={etat} pathname={pathname} />
+
+        {rechercheOuverte && (
+          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 md:hidden animate-slide-up">
+            <SearchBar className={cn("w-full [&_input]:h-11", CHAMP)} onNavigate={() => setRechercheOuverte(false)} enTete />
+          </div>
         )}
       </header>
     </>

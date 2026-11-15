@@ -310,8 +310,10 @@ const HACHAGES = {
     "components/layout/footer.tsx": "49483435a3a3d5ff80b2e33d17e6c22df5ceef6d2727d87f65f51ba97b94e319",
     "lib/llms-content.ts": "87842325825ebad22546170ad053336d839587eca10f73a69897f5f7c7c1af0a",
     "app/(dashboard)/a-propos/page.tsx": "f1f0d3e995f8fa076431317ca77ab440b04c3d59b0fea9653951ceb21662c5d4",
-    "app/(dashboard)/videos/page.tsx": "72ad20b9a6c91f5c8dad1237ba7cda6b5a4d9fc970cb68cf4255861ca63d66d9",
+    // Navigation v6 (s25, lot A) : fil d'Ariane visible sous l'interrupteur, aucun texte du §6 touché (fermé : même rendu).
+    "app/(dashboard)/videos/page.tsx": "ce6e78b031a751b78266911f6f227a7ce1c3480ffadd36e899bf8115be915552",
     // Lot D11c : colonne de l'abonné (`ColonneParcours`, code de mise en page seulement, aucun texte touché).
-    "app/(dashboard)/parcours/(liste)/page.tsx": "a90de15cb900fd832cca2c9b9cba0fca046fdca57d33e6d25602970cefcea4e2",
+    // Navigation v6 (s25, lot A) : fil d'Ariane visible sous l'interrupteur, aucun texte touché.
+    "app/(dashboard)/parcours/(liste)/page.tsx": "556f71f80d3c7bbc2f83beedf3636fc23d19bc37cdc71a7abd6967a98daecbab",
   } as Record<string, string>,
 };

@@ -58,8 +58,9 @@ export function MenuMobileUniversel({ etat, pathname, hrefs, masquerPlein, onClo
   return (
     <nav
       ref={menu}
-      // Hauteur disponible : la fenêtre moins la rangée (64), la bande (52) et le filet de l'en-tête.
-      className="max-h-[calc(100dvh-7.25rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 md:hidden animate-slide-up"
+      // Surimpression sous tout le bloc collant (rangée, bande, filet), juste après la rangée dans le DOM (ordre du Tab).
+      // Hauteur disponible : la fenêtre moins la rangée (64), la bande (52) et le filet de l’en-tête.
+      className="absolute inset-x-0 top-full max-h-[calc(100dvh-7.25rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 md:hidden animate-slide-up"
       aria-label="Navigation mobile"
       data-menu-mobile={etat}
       onScroll={majSuite}

@@ -56,8 +56,11 @@ export const RUBRIQUES: readonly Rubrique[] = [
   { cle: "mesRepliques", href: `${ESPACE_ACCUEIL}/repliques`, label: T.index.mesRepliques, groupe: "plus" },
 ];
 
-/** Rubrique payante (cadenas et nom « {rubrique}, rubrique Premium » pour le non-abonné, §2). */
-export const estPremium = (r: Rubrique) => r.groupe === 1 || r.groupe === "plus";
+/**
+ * Rubrique payante (cadenas et nom « {rubrique}, rubrique Premium » pour le non-abonné, §2). Favoris aussi (arbitrage
+ * de la session du 15/11 : `/favoris` est réservé à l'abonné par le middleware ; page d'aperçu au lot B).
+ */
+export const estPremium = (r: Rubrique) => r.groupe === 1 || r.groupe === "plus" || r.cle === "favoris";
 
 const rubrique = (cle: CleRubrique) => RUBRIQUES.find((r) => r.cle === cle) as Rubrique;
 

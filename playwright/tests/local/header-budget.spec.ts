@@ -158,12 +158,28 @@ test.describe("En-tête : budget de largeur", () => {
             await expect(barre.getByRole("navigation", { name: "Navigation principale" })).toHaveCount(0);
             const rubriques = barre.locator("[data-rubrique]");
             await expect(rubriques).toHaveText(RUBRIQUES);
-            const b = await barre.locator("[data-defilement]").evaluate((d) => ({
-              libre: d.clientWidth - (d.lastElementChild!.getBoundingClientRect().right - d.getBoundingClientRect().left + d.scrollLeft),
-              coupees: Array.from(d.querySelectorAll<HTMLElement>("[data-rubrique]")).filter((a) => a.scrollWidth > a.clientWidth + 1).length,
-            }));
-            lignes.push(`état=${etat} ; largeur=${largeur} ; bande, place libre=${b.libre.toFixed(1)}px`);
+            const b = await barre.locator("[data-defilement]").evaluate((d) => {
+              const v = d.getBoundingClientRect();
+              const chips = Array.from(d.querySelectorAll<HTMLElement>("[data-rubrique]")).map((a) => ({ l: a.getBoundingClientRect().left - v.left, r: a.getBoundingClientRect().right - v.left }));
+              const coupe = chips.find((c) => c.l < d.clientWidth && c.r > d.clientWidth);
+              return {
+                libre: d.clientWidth - (d.lastElementChild!.getBoundingClientRect().right - v.left + d.scrollLeft),
+                coupees: Array.from(d.querySelectorAll<HTMLElement>("[data-rubrique]")).filter((a) => a.scrollWidth > a.clientWidth + 1).length,
+                defile: d.scrollWidth > d.clientWidth,
+                fondu: Number((d.dataset.fondus ?? "0 0").split(" ")[1]),
+                debutCoupe: coupe ? coupe.l + 12 : null,
+                vue: d.clientWidth,
+                fin: d.scrollLeft >= d.scrollWidth - d.clientWidth - 0.5,
+              };
+            });
+            lignes.push(`état=${etat} ; largeur=${largeur} ; bande, place libre=${b.libre.toFixed(1)}px ; défile=${b.defile}`);
             expect(b.coupees, `rubrique tronquée, ${ici}`).toBe(0);
+            // Arbitrage du 15/11 : padding de 12 px gardé ; si la place manque (non-abonné, Chrome de la CI), la bande défile
+            // proprement : fondu droit, libellé coupé entamé sous le fondu, jamais tranché net en clair.
+            if (b.defile && !b.fin) {
+              expect(b.fondu, `fondu droit, ${ici}`).toBeGreaterThanOrEqual(32);
+              if (b.debutCoupe !== null) expect(b.debutCoupe, `libellé coupé sous le fondu, ${ici}`).toBeGreaterThanOrEqual(b.vue - b.fondu - 4);
+            }
             if (etat === "PREMIUM") await expect(barre.getByRole("button", { name: nomCloche(0) })).toBeVisible();
           } else {
             const onglets = barre.getByRole("navigation", { name: "Navigation principale" }).getByRole("link");
