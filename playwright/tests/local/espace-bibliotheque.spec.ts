@@ -215,7 +215,9 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       await page.context().addCookies((await compte(browser)).cookies);
       await page.setViewportSize({ width: 1280, height: 900 });
       await page.goto("/mon-espace/lettres");
-      await expect(page.getByRole("heading", { level: 1, name: frEspace(L.titre) })).toBeVisible();
+      // /mon-espace/lettres renvoie à /lettre (décision du 14/11) ; v6 tour 1 (point 10) : H1 « La lettre », libellé de
+      // la bande (`TEXTES_LETTRE.menu`).
+      await expect(page.getByRole("heading", { level: 1, name: TEXTES_LETTRE.menu, exact: true })).toBeVisible();
       await expect(page.locator("[data-lettre]")).toHaveCount(0);
       // Reste du D6 (arbitrage @ux D6 n°5, validé par Thomas) : état vide et sortie vers « Aujourd'hui ».
       await expect(page.getByText(frEspace(L.vide))).toBeVisible();

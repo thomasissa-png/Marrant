@@ -61,7 +61,18 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       await expect(droite).toBeVisible();
       expect(Math.round((await boite(droite)).height)).toBe(44);
       const derniere = rangee.getByRole("tab").last();
-      for (let i = 0; i < 6 && (await droite.isVisible()); i++) await droite.click();
+      // Défilement doux : attendre la fin de chaque pas avant de relire le chevron (il disparaît au bout de la rangée ;
+      // un clic lancé pendant sa disparition attendait un bouton démonté).
+      const finDuPas = () =>
+        rangee.evaluate((el) => new Promise<void>((ok) => {
+          let x = -1;
+          const lire = () => (el.scrollLeft === x ? ok() : ((x = el.scrollLeft), setTimeout(lire, 150)));
+          lire();
+        }));
+      for (let i = 0; i < 6 && (await droite.isVisible()); i++) {
+        await droite.click();
+        await finDuPas();
+      }
       await expect(droite).toBeHidden();
       await expect(main.locator('[data-chevron="gauche"]')).toBeVisible();
       const [r, d] = [await boite(rangee), await boite(derniere)];
@@ -125,8 +136,11 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       await expect(cartes.first()).toBeVisible();
       const boutons = page.locator("main [id^='parcours-'] button").filter({ hasText: /Commencer ce parcours|Continuer ce parcours|Revoir/ });
       await expect(boutons.first()).toBeVisible();
-      const fonds = await boutons.evaluateAll((els) => els.map((el) => getComputedStyle(el).backgroundColor));
-      expect(fonds.filter((f) => f !== "rgba(0, 0, 0, 0)")).toHaveLength(1);
+      // Le plein unique dépend du statut de l'abonné, connu après l'hydratation (session, progression) ; les boutons
+      // passent alors au contour avec une transition de couleur : lire l'état stable, pas un état intermédiaire.
+      await expect
+        .poll(() => boutons.evaluateAll((els) => els.map((el) => getComputedStyle(el).backgroundColor).filter((f) => f !== "rgba(0, 0, 0, 0)").length), { message: "un seul bouton plein dans la liste", timeout: 10_000 })
+        .toBe(1);
       const explore = page.getByRole("heading", { name: "Explore aussi" }).locator("xpath=following-sibling::div[1]/a");
       await expect(explore).toHaveCount(2);
       const [a, b] = [await boite(explore.nth(0)), await boite(explore.nth(1))];

@@ -354,7 +354,9 @@ test.describe("navigation universelle v6 (s25)", () => {
         m.forEach((r, i) => {
           const verrou = etat !== "PREMIUM" && (i < 5 || i === 10);
           expect(r.nom, `${ORDRE[i]} (${etat})`).toBe(verrou ? `${ORDRE[i]}, rubrique Premium` : ORDRE[i]);
-          expect(r.svg, `${ORDRE[i]} (${etat})`).toEqual(verrou ? [14, "rgb(154, 154, 154)"] : null);
+          // Spec v6 §2 : cadenas en `text-text-secondary` (#B3B3B3), la couleur du libellé (v6 tour 1, lot 3 ; avant
+          // `text-text-muted`, plus bas que le texte).
+          expect(r.svg, `${ORDRE[i]} (${etat})`).toEqual(verrou ? [14, "rgb(179, 179, 179)"] : null);
           expect(r.h, "cible de 44 px").toBe(44);
         });
         const plus = page.getByRole("button", { name: N.bande.plus, exact: true });

@@ -18,8 +18,11 @@ export const FONDU_GAUCHE = 16;
 export const FONDU_DROIT = 32;
 export const FONDU_GAUCHE_MAX = 48;
 export const FONDU_DROIT_MAX = 64;
-/** Marge interne d'une rubrique (`px-3`) : le libellé commence 12 px après le bord de sa boîte. */
-export const MARGE_LIBELLE = 12;
+/**
+ * Marge interne d'une rubrique (`px-1.5` depuis la v6 tour 1, avant `px-3`) : le libellé commence 6 px après le bord
+ * de sa boîte. Corrigé à l'intégration : resté à 12, le fondu gauche ne couvrait plus le libellé coupé par le bord.
+ */
+export const MARGE_LIBELLE = 6;
 /** Tolérance : quelques pixels de lettre au bord d'un fondu ne font pas un libellé coupé. */
 const TOLERANCE = 4;
 /** Lettres visibles minimales d'un libellé entamé (indice de suite). */
