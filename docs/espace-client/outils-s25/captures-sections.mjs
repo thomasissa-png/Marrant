@@ -56,7 +56,21 @@ const SECTIONS = {
   carnet: { comptes: ["visiteur", "en-cours", "nouvel"], pages: [["carnet", "/carnet", "page"]] },
   parcours: { comptes: ["visiteur", "gratuit", "en-cours", "nouvel"], pages: [["parcours", "/parcours", "page"], ["parcours-repartie", "/parcours/repartie", "page"]] },
   profil: { comptes: ["gratuit", "en-cours", "nouvel"], pages: [["profil", "/profil", "page"]] },
-  vannes: { comptes: ["visiteur", "gratuit", "en-cours"], pages: [["vannes", "/vannes", "page"]] },
+  vannes: { comptes: ["visiteur", "gratuit", "en-cours", "nouvel"], pages: [["vannes", "/vannes", "page"]] },
+  fiches: {
+    comptes: ["en-cours", "nouvel"],
+    pages: [
+      ["fiche-situation", "/mon-espace/fiche/situation/coloc-la-poele", "page"],
+      ["fiche-jeu", "/mon-espace/fiche/jeu/quelle-replique-1", "page"],
+      ["fiche-construction", "/mon-espace/fiche/construction/le-faux-secret", "page"],
+      ["fiche-vocabulaire", "/mon-espace/fiche/vocabulaire/vocabulaire-quand-on-te-lance-une-pique", "page"],
+      ["fiche-formule", "/mon-espace/fiche/formule/formules-proverbes", "page"],
+      ["fiche-a-plat", "/mon-espace/fiche/a-plat/a-plat-le-silence-apres-ta-vanne", "page"],
+      ["fiche-seance", "/mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes", "page"],
+      ["fiche-bilan", "/mon-espace/fiche/bilan/bilan-repartie", "page"],
+      ["fiche-humour-noir", "/mon-espace/fiche/humour-noir/hn-qui-est-dans-la-piece", "page"],
+    ],
+  },
 };
 
 const def = SECTIONS[section];
