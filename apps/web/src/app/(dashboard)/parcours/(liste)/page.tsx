@@ -21,6 +21,8 @@ import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { frTypoTexte } from "@/lib/fr-typo";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { ParcoursEspace } from "@/components/espace/parcours/parcours-espace";
+import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 // Rendu : Server Component statique (ISR du layout) ; progression et quiz côté client.
 // D8 (seo.md §6) : title « Cours d'humour en ligne » ; « première étape gratuite », jamais « cours gratuit ».
@@ -49,6 +51,10 @@ export const metadata: Metadata = {
   openGraph: websiteOpenGraph({ title: TITLE, description: DESCRIPTION, url: PAGE_URL }),
   twitter: websiteTwitter({ title: TITLE, description: DESCRIPTION }),
 };
+
+const CARTE_EXPLORE_FERME = "rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40";
+/** v6 tour 1, arbitrage 1 : interrupteur ouvert, cartes « Explore aussi » à filet (langue de l'accueil). */
+const carteExplore = () => (ESPACE_CLIENT_PUBLIE ? cn(CARTE_EXPLORE_FERME, CARTE_A_FILET) : CARTE_EXPLORE_FERME);
 
 /** Arbitrage @ux D4 n°1 (lot D5) : masque de l'introduction pour l'abonné, espace ouvert seulement. */
 const MasqueIntroduction = ESPACE_CLIENT_PUBLIE ? MasqueSiPremium : Fragment;
@@ -139,20 +145,25 @@ export default async function ParcoursPage() {
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
-        <div className="grid gap-4 sm:grid-cols-3">
+        {/* v6 tour 1, point 12 : interrupteur ouvert, deux colonnes quand l'abonné n'a que 2 cartes (Abonnement masqué),
+            trois sinon ; cartes à filet de l'accueil. Fermé : inchangé. */}
+        <div className={ESPACE_CLIENT_PUBLIE ? "grid gap-4 sm:grid-cols-2 sm:[&:has(>:nth-child(3))]:grid-cols-3" : "grid gap-4 sm:grid-cols-3"}>
           {/* s21 (revue v2 m-1) : source `parcours-liste`, suivie jusqu'à `checkout-ouvert`.
               QA v4 m-6 : masqué pour l'abonné (aucun prix pour lui). */}
           <MasqueSiPremium>
-            <Link href={buildAbonnementUrl(null, "monthly", "parcours-liste")} className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+            <Link href={buildAbonnementUrl(null, "monthly", "parcours-liste")} className={carteExplore()}>
+              {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
               <h3 className="font-display text-base font-bold text-text-primary">Abonnement {PREMIUM_PRICE_LABEL}</h3>
               <p className="mt-1 text-sm text-text-secondary">Premium : tous les parcours, vannes, conseils et vidéos.</p>
             </Link>
           </MasqueSiPremium>
-          <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+          <Link href="/conseils" className={carteExplore()}>
+            {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
             <h3 className="font-display text-base font-bold text-text-primary">Conseils de répartie</h3>
             <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes avec exemples et exercices.</p>
           </Link>
-          <Link href="/glossaire" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+          <Link href="/glossaire" className={carteExplore()}>
+            {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
             <h3 className="font-display text-base font-bold text-text-primary">Glossaire humour</h3>
             <p className="mt-1 text-sm text-text-secondary">Le vocabulaire des humoristes, expliqué sans jargon.</p>
           </Link>

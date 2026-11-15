@@ -24,6 +24,7 @@ import {
   type GesteFenetre,
 } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { Chargement } from "@/components/ui/chargement";
 import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 
@@ -127,7 +128,8 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
             </Link>
           )}
           {status !== "authenticated" && <LigneCompte />}
-          <Reassurance />
+          {/* v6 tour 1, point 9 : interrupteur ouvert, réassurance à gauche comme le titre et le prix. */}
+          <Reassurance className={ESPACE_CLIENT_PUBLIE ? "text-left" : undefined} />
         </div>
       </div>
     </Modal>

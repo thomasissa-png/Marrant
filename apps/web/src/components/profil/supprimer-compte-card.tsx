@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
@@ -83,7 +84,7 @@ export function SupprimerCompteCard({
   };
 
   return (
-    <Card className="md:col-span-2">
+    <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
       <CardHeader>
         <CardTitle>{T.titre}</CardTitle>
       </CardHeader>

@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { RAPPEL_PARCOURS_UI } from "@/config/textes/entrees-parcours";
 import { JOURS_SEMAINE, RAPPEL_PARCOURS_CONSENTEMENT } from "@/config/textes/parcours-emails";
 
@@ -111,6 +112,7 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
       aria-labelledby={`${checkboxId}-titre`}
       data-testid="rappel-parcours"
       className={cn("scroll-mt-24", className)}
+      filet={ESPACE_CLIENT_PUBLIE}
     >
       <CardHeader className="pb-2">
         <CardTitle id={`${checkboxId}-titre`}>{RAPPEL_PARCOURS_UI.titre}</CardTitle>

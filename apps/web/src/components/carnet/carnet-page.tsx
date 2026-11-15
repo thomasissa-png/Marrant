@@ -10,6 +10,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { frTypo } from "@/lib/fr-typo";
 import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
+import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
 import { sanitizeSignupSrc } from "@/lib/auth-links";
 
 /** Source de mesure du bouton E1 quand on arrive sur le carnet sans `?src=` (QA v2 MJ-1). */
@@ -42,6 +43,9 @@ export function CarnetPage({
   src: string;
 }) {
   const autresMois = months.filter((m) => m !== view.mois);
+  // v6 tour 1, point 11 : sommaire et carnets précédents en tête, interrupteur ouvert et carnet de l'abonné seulement.
+  const sommaire = ESPACE_CLIENT_PUBLIE && view.premium;
+  const archives = autresMois.length > 0 ? <CarnetsPrecedents mois={autresMois} className="mb-8" /> : null;
   const kicker = (
     <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
       Carnet {deCarnetMonth(view.mois)} · {view.totalFiches} situations
@@ -65,10 +69,35 @@ export function CarnetPage({
         {/* Relecture des captures nav s24, tour 2 : interrupteur de l'espace ouvert et carnet de l'abonné, la
             surtitre passe sous le titre (H1 juste sous le fil d'Ariane, à la hauteur des autres pages). */}
         {!(ESPACE_CLIENT_PUBLIE && view.premium) && kicker}
-        <h1 className="font-display text-3xl font-bold md:text-4xl">{frTypo(view.titre)}</h1>
+        <h1 id={sommaire ? "carnet-titre" : undefined} className="font-display text-3xl font-bold md:text-4xl">{frTypo(view.titre)}</h1>
         {ESPACE_CLIENT_PUBLIE && view.premium && kicker}
         <p className="text-text-secondary">{frTypo(view.intro)}</p>
       </header>
+
+      {/* v6 tour 1, point 11 (interrupteur ouvert, abonné) : sommaire des fiches en tête (ancres `fiche-<id>`
+          existantes, titres des fiches, aucun texte nouveau), puis « Les carnets précédents » remontés dessous. */}
+      {sommaire && (
+        <>
+          <nav aria-labelledby="carnet-titre" className="mb-8" data-carnet-sommaire="">
+            <ol className="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
+              {view.fiches.map((fiche) => (
+                <li key={fiche.id} className="flex min-w-0 gap-2 text-sm text-text-muted">
+                  <span aria-hidden="true" className="inline-flex min-h-11 items-center tabular-nums">
+                    {view.numeros[fiche.id]}.
+                  </span>
+                  <a
+                    href={`#fiche-${fiche.id}`}
+                    className="inline-flex min-h-11 min-w-0 items-center text-text-secondary underline-offset-2 [overflow-wrap:anywhere] hover:text-text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+                  >
+                    {frTypo(fiche.titre)}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+          {archives}
+        </>
+      )}
 
       <div className="space-y-6">
         {view.fiches.map((fiche) => (
@@ -106,26 +135,30 @@ export function CarnetPage({
         </>
       )}
 
-      {view.premium && autresMois.length > 0 && (
-        <section aria-labelledby="carnet-archives" className="mt-10">
-          <h2 id="carnet-archives" className="mb-3 font-display text-xl font-bold">
-            Les carnets précédents
-          </h2>
-          <ul className="flex flex-wrap gap-2">
-            {autresMois.map((m) => (
-              <li key={m}>
-                <Link
-                  href={`/carnet/${m}`}
-                  className={chipClass()}
-                >
-                  {formatCarnetMonth(m)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      {!sommaire && view.premium && autresMois.length > 0 && <CarnetsPrecedents mois={autresMois} className="mt-10" />}
     </div>
+  );
+}
+
+function CarnetsPrecedents({ mois, className }: { mois: string[]; className: string }) {
+  return (
+    <section aria-labelledby="carnet-archives" className={className}>
+      <h2 id="carnet-archives" className="mb-3 font-display text-xl font-bold">
+        Les carnets précédents
+      </h2>
+      <ul className="flex flex-wrap gap-2">
+        {mois.map((m) => (
+          <li key={m}>
+            <Link
+              href={`/carnet/${m}`}
+              className={chipClass()}
+            >
+              {formatCarnetMonth(m)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
@@ -137,7 +170,9 @@ export function CarnetPage({
 function CarnetPaywall({ returnTo, src, restantes }: { returnTo: string; src: string; restantes: number }) {
   return (
     // Revue visuelle s21 : même bloc d'appel que les murs des listes et les fiches (cadre, titre, bouton, REASS).
-    <div className={BLOC_APPEL}>
+    // v6 tour 1 (arbitrage 1, point 9), interrupteur ouvert : carte à filet, réassurance à gauche comme le bloc.
+    <div className={ESPACE_CLIENT_PUBLIE ? cn(BLOC_APPEL, CARTE_A_FILET) : BLOC_APPEL}>
+      {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
       <h3 className={TITRE_BLOC_APPEL}>{frTypo(CARNET_PAYWALL.titre(restantes))}</h3>
       <p className="mt-2 text-sm text-text-secondary">{frTypo(CARNET_PAYWALL.paragraphe)}</p>
       {/* s21 concision (18/10, étalon 4) : plus de liste d'avantages ici, elle vit sur /abonnement. */}
@@ -150,7 +185,7 @@ function CarnetPaywall({ returnTo, src, restantes }: { returnTo: string; src: st
           {frTypo(CARNET_PAYWALL.bouton)}
         </Link>
       </div>
-      <Reassurance />
+      <Reassurance className={ESPACE_CLIENT_PUBLIE ? "text-left" : undefined} />
     </div>
   );
 }

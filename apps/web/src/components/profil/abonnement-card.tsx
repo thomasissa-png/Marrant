@@ -10,6 +10,7 @@ import type { ParcoursPortail, useSubscriptionSummary } from "@/hooks/use-subscr
 import { formatEuros } from "@/config/premium";
 import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
 import { Reassurance } from "@/components/ui/reassurance";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
 import { PROFIL_ABONNEMENT_OFFRE as OFFRE } from "@/config/textes/cta-pages";
 import { frTypo } from "@/lib/fr-typo";
@@ -96,7 +97,7 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
     );
 
   return (
-    <Card ref={carteRef} id={ANCRE_ABONNEMENT} className="md:col-span-2 scroll-mt-24">
+    <Card ref={carteRef} id={ANCRE_ABONNEMENT} className={ESPACE_CLIENT_PUBLIE ? "md:col-span-2 scroll-mt-24 min-w-0" : "md:col-span-2 scroll-mt-24"} filet={ESPACE_CLIENT_PUBLIE}>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{T.titre}</CardTitle>
@@ -165,7 +166,8 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
             <Button variant="primary" size="sm" className="h-auto min-h-11 w-full whitespace-normal py-2 sm:w-auto" onClick={onCheckout} disabled={isCheckoutLoading}>
               {isCheckoutLoading ? "On t’emmène au paiement…" : frTypo(OFFRE.bouton)}
             </Button>
-            <Reassurance />
+            {/* v6 tour 1 (points 9 et 13), interrupteur ouvert : réassurance à gauche, comme la phrase et le bouton. */}
+            <Reassurance className={ESPACE_CLIENT_PUBLIE ? "text-left" : undefined} />
           </>
         )}
       </CardContent>

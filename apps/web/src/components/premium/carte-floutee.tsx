@@ -1,6 +1,12 @@
 "use client";
 
 import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+
+const CADRE =
+  "group relative flex h-24 w-full items-center justify-between overflow-hidden rounded-lg border border-border bg-gradient-to-b from-background-card to-background px-5 text-left transition-colors hover:border-accent-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
 
 /**
  * Carte floutée des murs /vannes, /conseils, /videos (revue visuelle s21, verdict @design R10) :
@@ -14,8 +20,10 @@ export function CarteFloutee({ onOuvrir }: { onOuvrir: () => void }) {
       type="button"
       onClick={onOuvrir}
       aria-label={CARTE_VERROUILLEE_LABEL}
-      className="group relative flex h-24 w-full items-center justify-between overflow-hidden rounded-lg border border-border bg-gradient-to-b from-background-card to-background px-5 text-left transition-colors hover:border-accent-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+      className={ESPACE_CLIENT_PUBLIE ? cn(CADRE, CARTE_A_FILET) : CADRE}
     >
+      {/* v6 tour 1, arbitrage 1 : interrupteur ouvert, filet de la carte de l'accueil. Fermé : inchangée. */}
+      {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
       {/* Revue visuelle s21 (T2-10) : barres à gauche, cadenas à droite (il ne se pose plus dessus). */}
       <span aria-hidden="true" className="flex w-2/3 flex-col gap-2.5">
         <span className="block h-3 w-full rounded-full bg-background-elevated/60 blur-[1px]" />

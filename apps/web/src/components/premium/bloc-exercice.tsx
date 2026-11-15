@@ -18,6 +18,7 @@ import {
   type FicheType,
 } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { useVuMesure } from "@/hooks/use-vu-mesure";
 import { signalerAcces } from "@/lib/mesure/signal-acces";
@@ -127,7 +128,8 @@ export function BlocExercice({ type, returnTo, parcours, ficheId }: BlocExercice
           {t.bouton}
         </Link>
       </div>
-      <Reassurance />
+      {/* v6 tour 1, point 9 : interrupteur ouvert, réassurance à gauche comme le bloc. Fermé : centrée. */}
+      <Reassurance className={ESPACE_CLIENT_PUBLIE ? "text-left" : undefined} />
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
       <div className="-mb-3 mt-1">
         <Link href={parcoursEtape1Href(parcours, "fiche")} className={LIEN_L2} data-fiche-cta="etape-1">

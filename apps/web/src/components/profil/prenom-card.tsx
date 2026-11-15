@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
@@ -52,7 +53,7 @@ export function PrenomCard({ prenom }: { prenom: string | null }) {
   };
 
   return (
-    <Card className="md:col-span-2" data-testid="profil-prenom">
+    <Card className={ESPACE_CLIENT_PUBLIE ? "min-w-0 md:col-span-2" : "md:col-span-2"} data-testid="profil-prenom" filet={ESPACE_CLIENT_PUBLIE}>
       <CardHeader>
         <CardTitle>{T.titre}</CardTitle>
       </CardHeader>

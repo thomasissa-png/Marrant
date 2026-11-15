@@ -23,6 +23,7 @@ import { FLECHE_CARTE_LIEN, FLECHE_CARTE_PASTILLE } from "@/components/ui/liens"
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 import { MurListe } from "@/components/premium/mur-liste";
+import { RangeeDefilante } from "@/components/vannes/rangee-defilante";
 import { CarteFloutee } from "@/components/premium/carte-floutee";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
@@ -176,32 +177,31 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
     !category && !searchQuery ? initialData?.totalPages ?? 0 : 0,
   );
 
+  const pastilles = CATEGORIES.map((cat) => (
+    <button
+      key={cat.value}
+      type="button"
+      role="tab"
+      aria-selected={category === cat.value}
+      onClick={() => handleCategoryChange(cat.value)}
+      className={chipClass(category === cat.value ? "active" : "idle")}
+    >
+      {cat.label}
+    </button>
+  ));
+
   return (
     <>
       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
       {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
       {/* Décision de Thomas du 14/11, interrupteur de l'espace ouvert : une seule rangée pour tous (visiteur, compte
           gratuit, abonné), « Toutes » active par défaut ; fermé, réservée à l'abonné comme avant. */}
-      {limited && !ESPACE_CLIENT_PUBLIE ? null : (
-        // Relecture des captures nav s24 (design 9) : interrupteur de l'espace ouvert, dès 1 024 px un fondu de 64 px
-        // au lieu de 24 annonce la suite de la rangée (une seule rangée gardée, décision T3-07 de la revue s21).
-        <div
-          className={cn("mb-6", RANGEE_CHIPS_UNE_LIGNE, ESPACE_CLIENT_PUBLIE && "lg:[mask-image:linear-gradient(to_right,#000_calc(100%-64px),transparent)]")}
-          role="tablist"
-          aria-label="Catégories de vannes"
-        >
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.value}
-              type="button"
-              role="tab"
-              aria-selected={category === cat.value}
-              onClick={() => handleCategoryChange(cat.value)}
-              className={chipClass(category === cat.value ? "active" : "idle")}
-            >
-              {cat.label}
-            </button>
-          ))}
+      {limited && !ESPACE_CLIENT_PUBLIE ? null : ESPACE_CLIENT_PUBLIE ? (
+        // v6 tour 1, point 8 : chevrons de 44 px dès 1 024 px quand la rangée déborde, fondu du côté qui continue.
+        <RangeeDefilante label="Catégories de vannes">{pastilles}</RangeeDefilante>
+      ) : (
+        <div className={cn("mb-6", RANGEE_CHIPS_UNE_LIGNE)} role="tablist" aria-label="Catégories de vannes">
+          {pastilles}
         </div>
       )}
 
@@ -214,7 +214,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       ) : showSkeleton ? (
         <div className="grid gap-4 md:grid-cols-2">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i} className="animate-pulse">
+            <Card key={i} className="animate-pulse" filet={ESPACE_CLIENT_PUBLIE}>
               <CardContent className="py-6">
                 <div className="h-4 w-1/4 rounded bg-background-elevated" />
                 <div className="mt-3 h-4 w-3/4 rounded bg-background-elevated" />
@@ -238,6 +238,8 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           {jokes.map((joke, index) => (
             <Card
               key={joke.id}
+              // v6 tour 1, arbitrage 1 : interrupteur ouvert, la carte à filet de l'accueil.
+              filet={ESPACE_CLIENT_PUBLIE}
               // Revue visuelle s21 (T2-02) : carte en colonne, rangée d'action en pied à la même place d'une carte à l'autre.
               // Règle commune aux trois murs : une dernière carte seule prend la rangée (vanne : texte court).
               className={`flex h-full cursor-pointer flex-col transition-colors hover:bg-background-light animate-stagger-in${
