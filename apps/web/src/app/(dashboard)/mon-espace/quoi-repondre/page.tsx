@@ -15,7 +15,7 @@ import { UNIVERS } from "@/lib/espace/fiches-schema";
 import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { FiltresSituations } from "@/components/espace/filtres-situations";
 import { ListeFiches } from "@/components/espace/liste-fiches";
-import { BOUTON_SECONDAIRE, CARTE, LIEN } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CARTE, EN_TETE_CENTRE, LIEN } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -63,7 +63,9 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
   return (
     <div>
       {/* v5 §3, gabarit B : pleine coque, en-tête de page du site ; plus de « Retour : Mon espace » (nav v6 : la bande est le retour). */}
-      <PageHeader title={T.titre} />
+      <div className={EN_TETE_CENTRE}>
+        <PageHeader title={T.titre} />
+      </div>
       <div className="flex flex-col gap-6">
       <Link href="/carnet" className={`${BOUTON_SECONDAIRE} self-start`}>
         {T.carnet}

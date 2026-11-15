@@ -23,6 +23,12 @@ export interface CorpsSituationProps {
   precision?: { titre: string; texte: string };
   /** Import 2 (C6a fiche 9) : « Si le blanc dure », après les trois répliques. */
   siCaDure?: { titre: string; texte: string; pourquoi: string };
+  /**
+   * v6 tour 3 (arbitrage 6) : aperçu Premium seulement. La suite est rendue d'emblée et la porte (« Ta réponse
+   * d'abord », « Avant de lire la suite », « Tu avais une réponse ? » et ses trois boutons) ne l'est pas : rien
+   * d'actif qui ne fait rien. Absent (fiche de l'abonné) : le rendu d'avant, inchangé.
+   */
+  suiteOuverte?: boolean;
 }
 
 // Import 2 : retours à la ligne des textes à plusieurs paragraphes conservés (`\n` du lot).
@@ -32,12 +38,17 @@ const phrase = (r: Replique) => (r.sansParole ? r.texte : `«${FINE}${r.texte}${
 
 const REGISTRES = ["sure", "joueuse", "risquee"] as const;
 
+/** La porte « Ta réponse d'abord » autour de la suite ; ouverte (aperçu seulement), la suite seule. */
+function Porte({ ouverte, premierePhrase, children }: { ouverte: boolean; premierePhrase: boolean; children: React.ReactNode }) {
+  return ouverte ? <>{children}</> : <ReponseDabord premierePhrase={premierePhrase}>{children}</ReponseDabord>;
+}
+
 /**
  * Corps d'une situation (« Quoi répondre », « Quand ça tombe à plat », situation du coin), étalon E1.1 :
  * la scène, « Ta réponse d'abord », puis, après « Tu avais une réponse ? », les trois répliques avec leur
  * pourquoi, « Comment choisir » et « L'erreur que tout le monde fait ». Le geste suit (page de la fiche).
  */
-export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, erreur, precision, siCaDure }: CorpsSituationProps) {
+export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, erreur, precision, siCaDure, suiteOuverte = false }: CorpsSituationProps) {
   return (
     <>
       <section aria-labelledby="f-scene" className="space-y-2">
@@ -56,7 +67,7 @@ export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, 
           <p className={`${PL} text-base text-text-primary`}>{precision.texte}</p>
         </section>
       )}
-      <ReponseDabord premierePhrase={premierePhrase}>
+      <Porte ouverte={suiteOuverte} premierePhrase={premierePhrase}>
         <div className="space-y-4" data-testid="fiche-suite">
           {REGISTRES.map((g) => (
             <section key={g} aria-labelledby={`f-${g}`} className="space-y-1">
@@ -94,7 +105,7 @@ export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, 
             </section>
           )}
         </div>
-      </ReponseDabord>
+      </Porte>
     </>
   );
 }

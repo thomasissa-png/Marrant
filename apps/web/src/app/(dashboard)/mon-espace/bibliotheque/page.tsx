@@ -17,6 +17,7 @@ import type { Fiche } from "@/lib/espace/fiches-schema";
 import { TEXTES_BIBLIOTHEQUE } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CAPS as TEXTES_CAPS_BRUT } from "@/config/textes/espace-caps";
 import { BlocBibliotheque, BlocVannes } from "@/components/espace/bloc-bibliotheque";
+import { EN_TETE_CENTRE } from "@/components/espace/carte/styles";
 import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { ListeFiches } from "@/components/espace/liste-fiches";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -70,7 +71,9 @@ export default async function BibliothequePage() {
           768 px (colonnes CSS : chaque carte à la hauteur de son contenu, aucun vide sous une colonne étirée) :
           vannes, coin « Humour noir », puis une carte par groupe de techniques, titrée par le préfixe validé
           (« Comment c'est construit », « Vocabulaire », « Formules à détourner ») au lieu de le répéter à chaque ligne. */}
-      <PageHeader title={T.titre} />
+      <div className={EN_TETE_CENTRE}>
+        <PageHeader title={T.titre} />
+      </div>
       <div className="gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid">
         <BlocVannes ecouter={[...lignesSansPrefixe("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
         {coin.length > 0 && <CoinHumourNoir lignesInitiales={entre ? coin.map((x) => ligneDeFiche(x, faits)) : null} />}

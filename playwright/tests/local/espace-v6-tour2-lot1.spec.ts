@@ -7,7 +7,7 @@ import type { RubriqueApercu } from "@/config/textes/espace-apercu";
  * Navigation v6, tour 2, lot 1 (espace), en vrai navigateur, interrupteur OUVERT seulement (`E2E_ESPACE_OUVERT=1`) :
  * plan `docs/espace-client/travail-en-cours/plan-corrections-v6-tour-2.md`, points 1 à 7, 10 et 12.
  * - aperçu : une colonne centrée de 768 px au plus, titre centré, l'offre sous l'exemple, pleine largeur, jamais
- *   collante ; Mes questions : un seul filet ; Favoris : deux contenus côte à côte dès 640 px ;
+ *   collante ; Mes questions : un seul filet ; Favoris : deux contenus l'un sous l'autre (tour 3) ;
  * - fiche situation : « Oui / À moitié / Rien » de 44 px, bord `#707070`, texte blanc ; « Ma réplique à moi » de
  *   96 px au moins, 200 caractères visibles en entier à 375 px ;
  * - séance : les 10 phrases de « Observation » en liste numérotée ;
@@ -81,9 +81,10 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
           expect(imbriques, `un seul filet, ${ou}`).toBe(0);
         }
         const favoris = racine.locator("[data-favori-lecture]");
-        if (rubrique === "favoris" && largeur >= 640 && (await favoris.count()) === 2) {
+        // v6 tour 3 (arbitrage 4, remplace le côte à côte du tour 2) : l'un sous l'autre à toutes les largeurs.
+        if (rubrique === "favoris" && (await favoris.count()) === 2) {
           const [a, b] = [await boite(favoris.nth(0)), await boite(favoris.nth(1))];
-          expect(Math.abs(a.haut - b.haut), `favoris côte à côte, ${ou}`).toBeLessThanOrEqual(1);
+          expect(b.haut, `favoris l'un sous l'autre, ${ou}`).toBeGreaterThanOrEqual(a.bas);
         }
         await capturer(page, `visiteur-apercu-${rubrique}`, largeur);
       }

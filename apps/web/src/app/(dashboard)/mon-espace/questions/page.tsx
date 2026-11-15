@@ -8,6 +8,7 @@ import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/ap
 import { listerFils } from "@/lib/espace/questions";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import { MesQuestions } from "@/components/espace/questions/mes-questions";
+import { EN_TETE_CENTRE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -38,7 +39,9 @@ export default async function MesQuestionsPage() {
   return (
     <div>
       {/* v5 §3, gabarit B. */}
-      <PageHeader title={Q.titre} />
+      <div className={EN_TETE_CENTRE}>
+        <PageHeader title={Q.titre} />
+      </div>
       <MesQuestions initiaux={fils} lectureSeule={false} />
     </div>
   );

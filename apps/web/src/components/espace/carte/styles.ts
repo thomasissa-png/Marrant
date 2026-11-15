@@ -36,6 +36,25 @@ export const CARTE = `min-w-0 space-y-4 ${CADRE_CARTE} p-4 md:p-6 [overflow-wrap
 export const SOMMAIRE_REPLIABLE =
   "inline-flex min-h-11 max-w-full cursor-pointer list-none items-center gap-2 rounded-lg border border-border-input px-3 py-2 text-sm font-semibold text-text-primary transition-colors hover:border-text-muted hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background [&::-webkit-details-marker]:hidden";
 
+/**
+ * v6 tour 3 (arbitrage 1, Thomas 15/11) : en-tête de page d'une rubrique (H1, sous-titre) centré comme le hero de
+ * l'accueil et l'aperçu de la même adresse (`text-center`, sous-titre `mx-auto`). Posé sur un conteneur autour de
+ * `PageHeader` (composant du site, inchangé) ou de l'en-tête de la page ; le contenu dessous garde sa grille.
+ * Interrupteur ouvert seulement (les pages de l'espace répondent 404 fermé ; `/favoris` le teste).
+ */
+export const EN_TETE_CENTRE = "text-center [&_header>p]:mx-auto";
+
+/**
+ * v6 tour 3 (arbitrage 2) : cartes de « S'entraîner » (rafale et mission), en deux blocs, le texte puis les
+ * actions. Jumelle (deux par ligne dès 768 px) : à la hauteur de sa voisine (`h-full`), le texte prend la place libre,
+ * les actions en bas. Seule sur sa ligne : pleine largeur, le texte à gauche et les actions à droite dès `lg` (plus
+ * de texte plafonné dans une carte de 1 216 px). Le cadre reste `CARTE`.
+ */
+export const cadreEntrainement = (seule: boolean) =>
+  seule ? `${CARTE} lg:grid lg:grid-cols-2 lg:gap-x-8 lg:space-y-0` : `${CARTE} flex h-full flex-col`;
+export const texteEntrainement = (seule: boolean) => (seule ? "min-w-0 space-y-4" : "min-w-0 flex-1 space-y-4");
+export const ACTIONS_ENTRAINEMENT = "min-w-0 space-y-4";
+
 export const ETIQUETTE = "text-xs font-semibold uppercase tracking-wide text-text-muted";
 
 export const LIEN = "inline-flex min-h-11 items-center text-sm text-accent-link underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
