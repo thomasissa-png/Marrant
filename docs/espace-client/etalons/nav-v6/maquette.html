@@ -1,7 +1,13 @@
 <!doctype html>
 <!--
   Maquette navigation v6 (local, ne pas déployer).
-  Paramètres : ?etat=visiteur|gratuit|abonne &page=aujourdhui|vannes|apercu &variante=a|b|c &menu=1 (ouvre le « … »)
+  Paramètres : ?etat=visiteur|gratuit|abonne &page=aujourdhui|vannes|apercu &variante=a|b|c|d &menu=1 (ouvre le « … »)
+    &rub=aucun (aucune rubrique allumée, cas de l'accueil) | &rub=plus (« … » allumé, cas de Mes questions et Mes répliques)
+  Variante D (synthèse des relectures design et UX, C abandonnée) : structure de A (bloc unique, un seul filet en bas)
+    + enveloppe de B en plus discret (conteneur arrondi sans bordure en background-light, pleine colonne de contenu,
+    « … » poussé à droite), séparateurs 1 px visibles entre les 3 groupes, actif = pastille background-elevated
+    ET soulignement violet de 3 px, chips 14 px medium avec survol et anneau de focus, zones de 44 px, fondus gauche
+    et droite quand ça défile, « … » avec panneau fini (bordure, ombre, rounded-xl, filet dégradé). Bloc de 109 px.
   Même base pour les 3 variantes : un seul niveau de navigation, mêmes rubriques, même ordre, mêmes états,
   cadenas pour le non-abonné, « … » (Mes questions, Mes répliques), contenu sous la bande identique.
   Variante A « un seul bloc » : en-tête (56 px) et bande (44 px) sur un même fond, un seul filet en bas.
@@ -64,6 +70,15 @@ tailwind.config = {
   .vb .chip{font-size:13px;line-height:20px;padding:0 14px;border-radius:9999px}
   .vb .chip[aria-current]::after{content:none}
   .vb .chip[aria-current]::before{content:"";position:absolute;inset:4px 0;z-index:-1;border-radius:9999px;background:rgba(139,92,246,.18)}
+  .plusbtn{position:relative;isolation:isolate}
+  .plusbtn.on{color:#fff}
+  .plusbtn.on::after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;border-radius:2px 2px 0 0;background:#8B5CF6}
+  /* D : pastille douce de 36 px dans une zone de 44 px, survol, actif en pastille elevated + soulignement de 3 px */
+  .vd .chip{border-radius:8px}
+  .vd .chip::before,.vd .plusbtn::before{content:"";position:absolute;inset:4px 0;z-index:-1;border-radius:8px;transition:background-color 150ms}
+  .vd .chip:hover::before,.vd .plusbtn:hover::before{background:rgba(255,255,255,.05)}
+  .vd .chip[aria-current]::before,.vd .plusbtn.on::before{background:#2A2A2A}
+  .vd .chip[aria-current]::after,.vd .plusbtn.on::after{left:12px;right:12px;bottom:4px;height:3px}
   .filet{position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(to right,#A78BFA,#7C3AED)}
   @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
@@ -75,7 +90,7 @@ tailwind.config = {
   var q = new URLSearchParams(location.search);
   var etat = ["visiteur","gratuit","abonne"].indexOf(q.get("etat"))>=0 ? q.get("etat") : "visiteur";
   var page = ["aujourdhui","vannes","apercu"].indexOf(q.get("page"))>=0 ? q.get("page") : "vannes";
-  var V = ["a","b","c"].indexOf(q.get("variante"))>=0 ? q.get("variante") : "a";
+  var V = ["a","b","c","d"].indexOf(q.get("variante"))>=0 ? q.get("variante") : "a";
   var abonne = etat==="abonne";
   document.body.className = "v"+V;
   var OFFRE_LONG = "Premium · 1,99 €/mois"; /* texte réel du bouton d'en-tête (captures s25) */
@@ -96,6 +111,9 @@ tailwind.config = {
   var PLUS = ["Mes questions","Mes répliques"];
   var PRIO = ["Aujourd'hui","Vannes","Parcours","Quoi répondre","Conseils","Bibliothèque","S’entraîner","Vidéos","Articles","La lettre","Favoris","Carnet"];
   var actif = {aujourdhui:"Aujourd'hui", vannes:"Vannes", apercu:"Quoi répondre"}[page];
+  var rubParam = q.get("rub");
+  var plusOn = rubParam==="plus";
+  if(rubParam==="aucun" || plusOn){ actif = null; }
   var SW = V==="b" ? 12 : 20; /* espace entre groupes, en px */
 
   function chip(l, g){
@@ -104,12 +122,15 @@ tailwind.config = {
     var nom = prem ? ' aria-label="'+l[0]+', rubrique Premium"' : '';
     return '<a class="chip" data-n="'+l[0]+'" data-g="'+g+'" href="'+(l[1]?lien(l[1]):'#')+'"'+cur+nom+'>'+l[0]+(prem ? lock : '')+'</a>';
   }
-  function sp(n){ return '<span class="sp" data-s="'+n+'" aria-hidden="true" style="flex:none;width:'+SW+'px"></span>'; }
+  function sp(n){
+    if(V==="d"){ return '<span class="sp" data-s="'+n+'" aria-hidden="true" style="flex:none;width:1px;height:20px;margin:0 6px;background:#3A3A3A"></span>'; }
+    return '<span class="sp" data-s="'+n+'" aria-hidden="true" style="flex:none;width:'+SW+'px"></span>';
+  }
   function seq(){
     return G1.map(function(l){return chip(l,1);}).join('')+sp(1)+G2.map(function(l){return chip(l,2);}).join('')+sp(2)+G3.map(function(l){return chip(l,3);}).join('');
   }
   function dots(row){
-    return '<button type="button" aria-label="Plus" aria-haspopup="menu" aria-expanded="false" data-row="'+(row?1:0)+'" class="plusbtn ml-1 inline-flex h-11 w-11 flex-none items-center justify-center '+(V==="b"?'rounded-full':'rounded-lg')+' text-text-secondary hover:text-text-primary">'+iconDots+'</button>';
+    return '<button type="button" aria-label="Plus" aria-haspopup="menu" aria-expanded="false"'+(plusOn?' aria-current="true"':'')+' data-row="'+(row?1:0)+'" class="plusbtn '+(plusOn?'on ':'')+(V==="d"?'ml-auto':'ml-1')+' inline-flex h-11 w-11 flex-none items-center justify-center '+(V==="b"?'rounded-full':'rounded-lg')+' text-text-secondary hover:text-text-primary">'+iconDots+'</button>';
   }
 
   var boutonOffre = abonne ? '' :
@@ -134,6 +155,8 @@ tailwind.config = {
   var band;
   if(V==="b"){
     band = '<div class="py-2"><nav aria-label="Rubriques" class="'+wrapPad+'"><div id="rub" class="rub flex w-fit max-w-full items-center overflow-x-auto rounded-full bg-white/[.04] px-1">'+seq()+dots(false)+'</div></nav></div>';
+  } else if(V==="d"){
+    band = '<div class="pb-2"><nav aria-label="Rubriques" class="'+wrapPad+'"><div id="rub" class="rub flex w-full items-center overflow-x-auto rounded-xl bg-background-light px-1">'+seq()+dots(false)+'</div></nav></div>';
   } else {
     band = '<nav aria-label="Rubriques" class="'+wrapPad+(V==="c"?' xl:hidden':'')+'"><div id="rub" class="rub -mx-3 flex items-center overflow-x-auto">'+seq()+dots(false)+'</div></nav>';
   }
@@ -143,7 +166,7 @@ tailwind.config = {
     '<div class="'+wrapPad+' flex h-14 items-center justify-between gap-2 '+(V==="c"?'xl:h-16 xl:gap-6':'')+'">'+logo+rowNav+actions+'</div>'+
     band+
   '</header>'+
-  '<div id="menu-plus" role="menu" aria-label="Plus de rubriques" hidden class="fixed z-[60] min-w-[200px] rounded-lg border border-border bg-background-card p-1"></div>';
+  '<div id="menu-plus" role="menu" aria-label="Plus de rubriques" hidden class="fixed z-[60] min-w-[200px] '+(V==="d"?'overflow-hidden rounded-xl border border-border bg-background-card p-1 pt-2 shadow-xl shadow-black/60':'rounded-lg border border-border bg-background-card p-1')+'"></div>';
 
   /* Contenus RÉELS : captures s25 (vannes, accueil), etalon e5/aujourdhui.html, situations.json */
   var cats = ["Toutes","Vie quotidienne","Boulot & Collègues","Couple","Dating","Soirées & Apéro","Famille","Gaming","Autodérision"];
@@ -171,7 +194,7 @@ tailwind.config = {
       '</section>',
     apercu:
       '<h1 class="font-display text-3xl font-bold leading-tight md:text-4xl">Quoi répondre</h1>'+
-      '<p class="mt-3 max-w-2xl text-base leading-7 text-text-secondary md:text-lg md:leading-8">Voici un exemple de cette rubrique. Elle est ouverte avec Premium. <span class="text-xs font-semibold text-text-muted">[À VALIDER PAR THOMAS]</span></p>'+
+      '<p class="mt-3 max-w-2xl text-base leading-7 text-text-secondary md:text-lg md:leading-8">Voici un exemple de cette rubrique. Elle est ouverte avec Premium. <!-- [À VALIDER PAR THOMAS] sous-titre proposé par la spec v6 §2 --></p>'+
       '<article class="relative mt-6 max-w-3xl overflow-hidden rounded-xl border border-border bg-background-card p-5 md:p-6"><div class="filet"></div>'+
         '<h2 class="font-display text-xl font-bold leading-7">Coloc : la poêle</h2>'+
         '<p class="mt-1 text-sm text-text-secondary">5 min</p>'+
@@ -198,7 +221,10 @@ tailwind.config = {
   function centrer(){
     if(!rub) return;
     var a = rub.querySelector("[aria-current]");
-    if(a){ rub.scrollLeft = a.offsetLeft - (rub.clientWidth - a.offsetWidth)/2; }
+    if(a){
+      var x = a.getBoundingClientRect().left - rub.getBoundingClientRect().left + rub.scrollLeft;
+      rub.scrollLeft = x - (rub.clientWidth - a.offsetWidth)/2;
+    }
     fondu();
   }
   if(rub){ rub.addEventListener("scroll", fondu); }
@@ -216,7 +242,7 @@ tailwind.config = {
     var btn = row.querySelector(".plusbtn");
     var avail = row.clientWidth - btn.offsetWidth - 4 - 2*SW;
     var par = {}; chips.forEach(function(c){ par[c.dataset.n]=c; });
-    var ordre = [actif].concat(PRIO.filter(function(n){return n!==actif;}));
+    var ordre = (actif ? [actif] : []).concat(PRIO.filter(function(n){return n!==actif;}));
     var used = 0, montre = {};
     for(var i=0;i<ordre.length;i++){
       var w = par[ordre[i]].offsetWidth;
@@ -239,7 +265,7 @@ tailwind.config = {
   var courant = null;
   function lignes(row){
     var liste = (row ? cache : []).concat(PLUS.map(function(n){ return [n,true,"#"]; }));
-    menu.innerHTML = liste.map(function(it){
+    menu.innerHTML = (V==="d" ? '<div class="filet"></div>' : '') + liste.map(function(it){
       var prem = it[1] && !abonne;
       return '<a role="menuitem" href="'+it[2]+'" class="flex h-11 items-center justify-between gap-3 rounded-md px-3 text-sm font-medium text-text-secondary hover:bg-background-elevated hover:text-text-primary">'+it[0]+
         (prem ? '<span style="width:12px;height:12px;color:#9A9A9A">'+lock.replace('<svg','<svg style="width:12px;height:12px"')+'</span>' : '')+'</a>';
@@ -253,7 +279,8 @@ tailwind.config = {
       lignes(b.dataset.row==="1");
       var r = b.getBoundingClientRect();
       menu.style.top = (r.bottom+4)+"px";
-      menu.style.left = Math.max(8, Math.min(r.right-200, innerWidth-208))+"px";
+      var mw = menu.offsetWidth;
+      menu.style.left = Math.max(8, Math.min(r.right-mw, innerWidth-mw-8))+"px";
     }
   }
   [].forEach.call(document.querySelectorAll(".plusbtn"), function(b){
