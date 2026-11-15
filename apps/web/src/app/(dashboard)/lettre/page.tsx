@@ -46,8 +46,9 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
   if (ESPACE_CLIENT_PUBLIE && !statut) {
     const { lireAccesEspace } = await import("@/lib/espace/garde");
     if ((await lireAccesEspace()).acces === "ouvert") {
-      const { LettresAbonne } = await import("@/components/espace/lettres-abonne");
-      return <LettresAbonne />;
+      // v6 tour 1, point 10 : H1 « La lettre » (libellé de la bande) et lettres envoyées en cartes à filet.
+      const { LettresAbonneCartes } = await import("@/components/lettre/lettres-abonne-cartes");
+      return <LettresAbonneCartes />;
     }
   }
 

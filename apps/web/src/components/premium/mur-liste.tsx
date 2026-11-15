@@ -8,6 +8,8 @@ import { LIEN_L2 } from "@/components/ui/liens";
 import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { MUR_LISTE, MUR_PARCOURS, type ListeMur } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
+import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 interface MurListeProps {
   liste: ListeMur;
@@ -41,9 +43,12 @@ export function MurListe({ liste }: MurListeProps) {
   return (
     <section
       aria-labelledby={`mur-liste-${liste}-titre`}
-      className={cn("mt-6", BLOC_APPEL)}
+      className={cn("mt-6", BLOC_APPEL, ESPACE_CLIENT_PUBLIE && CARTE_A_FILET)}
       data-mur-liste={liste}
     >
+      {/* v6 tour 1 (arbitrage 1, point 9), interrupteur ouvert : carte à filet de l'accueil, réassurance à gauche
+          comme le titre et le bouton du bloc. Fermé : inchangé. */}
+      {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
       <MurListeLimite liste={liste} />
       <h2 id={`mur-liste-${liste}-titre`} className={cn("mt-2", TITRE_BLOC_APPEL)}>
         {frTypo(t.titre)}
@@ -57,7 +62,7 @@ export function MurListe({ liste }: MurListeProps) {
           {t.bouton}
         </Link>
       </div>
-      <Reassurance />
+      <Reassurance className={ESPACE_CLIENT_PUBLIE ? "text-left" : undefined} />
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
       <div className="-mb-3 mt-1">
         <Link

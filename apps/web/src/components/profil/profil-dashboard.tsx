@@ -65,6 +65,12 @@ interface ParcoursProgress {
   completedAt: string | null;
 }
 
+/**
+ * v6 tour 1, point 13 : interrupteur ouvert, `grid-cols-1` (= `minmax(0, 1fr)`) sous 768 px ; sans lui, la piste
+ * implicite prend la largeur minimale d'un enfant insécable et les cartes débordent à 290 px. Fermé : inchangé.
+ */
+const grilleProfil = () => (ESPACE_CLIENT_PUBLIE ? "grid grid-cols-1 gap-6 md:grid-cols-2" : "grid gap-6 md:grid-cols-2");
+
 export function ProfilDashboard() {
   const { status } = useSession();
   const { user, isLoading, fetchUser } = useUserStore();
@@ -113,7 +119,7 @@ export function ProfilDashboard() {
 
   if (status === "unauthenticated") {
     return (
-      <Card>
+      <Card filet={ESPACE_CLIENT_PUBLIE}>
         <CardContent className="flex flex-col items-center py-12 text-center">
           <span className="text-4xl" role="img" aria-label="cadenas">
             🔒
@@ -138,9 +144,9 @@ export function ProfilDashboard() {
 
   if (isLoading || !user) {
     return (
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className={grilleProfil()}>
         {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i} className="animate-pulse">
+          <Card key={i} className="animate-pulse" filet={ESPACE_CLIENT_PUBLIE}>
             <CardContent className="py-8">
               <div className="h-6 w-1/3 rounded bg-background-elevated" />
               <div className="mt-4 h-4 w-2/3 rounded bg-background-elevated" />
@@ -159,7 +165,7 @@ export function ProfilDashboard() {
   const parcoursEnCours = isPremium && parcoursProgress.some((p) => !p.completedAt && p.completedSteps < p.totalSteps);
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className={grilleProfil()}>
       {isPremium && (
         <>
       {/* s24 lot D4 : espace ouvert, la carte « Ton cap » remplace la carte « Progression » (fermé : inchangé). */}
@@ -216,7 +222,7 @@ export function ProfilDashboard() {
       )}
 
       {/* Statistiques (s17 tour 1, DES-1-09 : pleine largeur, plus de trou dans la grille) */}
-      <Card className="md:col-span-2">
+      <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
         <CardHeader>
           <CardTitle>Statistiques</CardTitle>
         </CardHeader>
@@ -251,7 +257,7 @@ export function ProfilDashboard() {
       </Card>
 
       {/* Parcours en cours */}
-      <Card className="md:col-span-2">
+      <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Mes parcours</CardTitle>
@@ -286,10 +292,11 @@ export function ProfilDashboard() {
                     className="block group"
                   >
                     <div className={`rounded-lg border p-4 transition-colors ${isDone ? "border-accent-primary/30 bg-accent-primary/5" : "border-border group-hover:border-accent-primary"}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
+                      {/* v6 tour 1, point 13 : interrupteur ouvert, titre et « n/3 étapes » passent à la ligne à 290 et 320 px. */}
+                      <div className={ESPACE_CLIENT_PUBLIE ? "mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1" : "flex items-center justify-between mb-2"}>
+                        <div className={ESPACE_CLIENT_PUBLIE ? "flex min-w-0 items-center gap-2" : "flex items-center gap-2"}>
                           <span className="text-xl">{p.icon}</span>
-                          <span className="font-medium text-text-primary text-sm">{p.title}</span>
+                          <span className={ESPACE_CLIENT_PUBLIE ? "min-w-0 text-sm font-medium text-text-primary [overflow-wrap:anywhere]" : "font-medium text-text-primary text-sm"}>{p.title}</span>
                         </div>
                         {isDone ? (
                           <Badge variant="primary">Terminé</Badge>
@@ -321,12 +328,12 @@ export function ProfilDashboard() {
       {/* Prochaine étape : recommandation personnalisée. s17 tour 1 (UXV-1-09) : masquée quand
           un parcours est en cours, « Reprendre ton parcours » (en tête de page) suffit. */}
       {!parcoursEnCours && (
-      <Card className="md:col-span-2">
+      <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
         <CardHeader>
           <CardTitle>Prochaine étape</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={ESPACE_CLIENT_PUBLIE ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "grid gap-4 sm:grid-cols-2 lg:grid-cols-3"}>
             {user.stats.tipsCompleted < 3 && (
               <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">

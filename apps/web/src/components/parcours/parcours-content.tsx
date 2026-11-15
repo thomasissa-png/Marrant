@@ -23,6 +23,7 @@ import { LISTE_PARCOURS_CTA } from "@/config/textes/cta-pages";
 import { totalParcoursXp } from "@/lib/parcours-xp";
 import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 import { cn } from "@/lib/utils";
+import { PARCOURS_PAR_DEFAUT } from "@/lib/espace/premier-pas";
 
 // Les données arrivent du Server Component (app/(dashboard)/parcours/(liste)/page.tsx) :
 // le seed complet (quiz, vidéos, vannes) ne doit plus être embarqué côté client.
@@ -86,7 +87,7 @@ function OrientationQuiz({
 
   if (result) {
     return (
-      <Card className="p-4 text-center sm:p-6">
+      <Card className="p-4 text-center sm:p-6" filet={ESPACE_CLIENT_PUBLIE}>
         <CardContent>
           <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
           <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
@@ -106,7 +107,7 @@ function OrientationQuiz({
 
   const q = ORIENTATION_QUESTIONS[step];
   return (
-    <Card className="p-4 sm:p-6">
+    <Card className="p-4 sm:p-6" filet={ESPACE_CLIENT_PUBLIE}>
       <CardContent>
         <div className="mb-4 flex items-center justify-between">
           <Badge variant="primary">Question {step + 1}/{ORIENTATION_QUESTIONS.length}</Badge>
@@ -225,7 +226,10 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   // s24 lot D4 : espace ouvert, l'abonné a l'en-tête de l'espace (étape à reprendre) au-dessus de la liste :
   // pas de second « Reprendre », le quiz d'orientation passe sous la liste (fermé : inchangé).
   const enteteEspace = ESPACE_CLIENT_PUBLIE && statut === "premium";
-  const parcoursEntame = enteteEspace || (statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0));
+  const pleinUnique = enteteEspace
+    ? reprise?.slug ?? (userProgress[PARCOURS_PAR_DEFAUT]?.done ? null : PARCOURS_PAR_DEFAUT)
+    : null;
+  const parcoursEntame = enteteEspace ||(statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0));
   const quizOrientation = (
     <div className={parcoursEntame ? "mt-10" : "mb-10"}>
       <h2 className="mb-4 font-display text-xl font-bold">
@@ -280,7 +284,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           const etape1Slug = statut !== "premium" && !isDone && progressValue === 0 && isParcoursSlug(p.slug) ? p.slug : null;
           const progressMax = prog ? prog.total : p.modules.length;
           return (
-            <Card key={p.title} className="p-4 sm:p-6" id={`parcours-${p.slug}`}>
+            <Card key={p.title} className="p-4 sm:p-6" id={`parcours-${p.slug}`} filet={ESPACE_CLIENT_PUBLIE}>
               <CardHeader className="pb-2">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <Badge variant="primary">{p.difficulty}</Badge>
@@ -371,7 +375,10 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 <div className="flex flex-col gap-2">
                   {/* s21 B15 (froid) : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous. */}
                   <Button
-                    variant="primary"
+                    // v6 tour 1, point 12 (interrupteur ouvert, abonné) : un seul plein, celui du parcours en cours
+                    // ou, sans parcours entamé, du parcours conseillé ; les autres en contour (niveau 2). Le visiteur
+                    // et le compte gratuit gardent l'exception (b) de s21 : un plein par carte, vers l'étape 1.
+                    variant={enteteEspace && p.slug !== pleinUnique ? "outline-accent" : "primary"}
                     size="lg"
                     className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", CORPS_APPEL_MOBILE)}
                     onClick={() => handleCta(p.slug)}

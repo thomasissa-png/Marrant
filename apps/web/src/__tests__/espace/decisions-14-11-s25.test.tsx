@@ -50,7 +50,7 @@ import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import LettrePage from "@/app/(dashboard)/lettre/page";
 import AnciennesLettres from "@/app/(dashboard)/mon-espace/lettres/page";
 
-// Composant serveur asynchrone renvoyé par la page (`<LettresAbonne />`) : résolu ici, comme le ferait le serveur.
+// Composant serveur asynchrone renvoyé par la page (`<LettresAbonneCartes />`) : résolu ici, comme le ferait le serveur.
 async function rendrePage(params: Parameters<typeof LettrePage>[0]) {
   const el = (await LettrePage(params)) as React.ReactElement;
   const type = el.type as (p: unknown) => unknown;
@@ -93,7 +93,8 @@ describe("/lettre : une seule section", () => {
     lireAccesEspace.mockResolvedValue({ acces: "ouvert", userId: "u1" });
     listerLettres.mockResolvedValue(LETTRES);
     await rendrePage({ searchParams: {} });
-    expect(screen.getByRole("heading", { level: 1, name: "Lettres" })).toBeInTheDocument();
+    // v6 tour 1, point 10 : H1 « La lettre », libellé validé de la bande.
+    expect(screen.getByRole("heading", { level: 1, name: "La lettre" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Objet test/ })).toHaveAttribute("href", "/mon-espace/lettres/2026-W46");
     expect(screen.queryByTestId("inscription")).toBeNull();
     expect(screen.queryByRole("navigation", { name: /Ariane/ })).toBeNull();

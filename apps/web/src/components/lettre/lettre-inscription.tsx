@@ -41,6 +41,11 @@ interface LettreInscriptionProps {
   sansMesureVu?: boolean;
   /** `/lettre?statut=invalide|erreur` : formulaire affiché même avec une inscription en attente (QA s21 m1). */
   ignorerDrapeau?: boolean;
+  /**
+   * v6 tour 1, point 10 (interrupteur ouvert, page /lettre seulement) : la soumission est l'unique action de la
+   * page, donc le plein (exception (c) de `docs/design/cta-forme-place-s21.md` §1.3). Absent : `outline-accent`.
+   */
+  plein?: boolean;
   className?: string;
 }
 
@@ -64,6 +69,7 @@ export function LettreInscription({
   ouverteAuDepart = false,
   sansMesureVu = false,
   ignorerDrapeau = false,
+  plein = false,
   className,
 }: LettreInscriptionProps) {
   const { data: session, status } = useSession();
@@ -267,7 +273,7 @@ export function LettreInscription({
 
             <Button
               type="submit"
-              variant="outline-accent"
+              variant={plein ? "primary" : "outline-accent"}
               size="lg"
               aria-busy={occupe || undefined}
               // Revue visuelle s21 (décision 3) : même bouton que sur /lettre ; replié (fin d'étape 1),

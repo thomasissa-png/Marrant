@@ -25,7 +25,13 @@ export function CarnetFicheCard({
 }) {
   const blocTitre = "h3";
   return (
-    <Card className={c("space-y-4 p-4 hover:border-border sm:p-6", "space-y-6 p-5 hover:border-border sm:p-8")} id={`fiche-${fiche.id}`}>
+    // v6 tour 1 (arbitrage 1, point 11), interrupteur ouvert : carte à filet de l'accueil ; ancre visée par le
+    // sommaire, sous l'en-tête collant (`scroll-mt-24`).
+    <Card
+      className={c("space-y-4 p-4 hover:border-border sm:p-6", "scroll-mt-24 space-y-6 p-5 hover:border-border sm:p-8")}
+      id={`fiche-${fiche.id}`}
+      filet={ESPACE_CLIENT_PUBLIE}
+    >
       <header className="space-y-1">
         <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
           Situation {numero}

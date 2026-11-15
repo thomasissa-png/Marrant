@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { LETTRE_CONFIDENTIALITE_HREF, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES, LETTRE_HEBDO_PROFIL_ANCRE } from "@/config/lettre";
 import { LETTRE_HEBDO_LIGNE_REGLAGE as LIGNE, LETTRE_HEBDO_REGLAGE, LETTRE_HEBDO_UI as UI } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
@@ -121,6 +122,7 @@ export function LettreHebdoReglage({ className }: { className?: string }) {
       aria-labelledby={`${id}-titre`}
       data-testid="lettre-hebdo-profil"
       className={cn("scroll-mt-24 text-left", className)}
+      filet={ESPACE_CLIENT_PUBLIE}
     >
       <CardHeader className="pb-2">
         <CardTitle id={`${id}-titre`}>{UI.titre}</CardTitle>

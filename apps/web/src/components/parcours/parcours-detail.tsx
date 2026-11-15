@@ -480,7 +480,7 @@ export function ParcoursDetail({
     return (
       <div className="space-y-4" aria-busy="true">
         {Array.from({ length: 3 }).map((_, i) => (
-          <Card key={i} className="animate-pulse">
+          <Card key={i} className="animate-pulse" filet={ESPACE_CLIENT_PUBLIE}>
             <CardContent className="py-8">
               <div className="h-6 w-2/3 rounded bg-background-elevated" />
               <div className="mt-3 h-4 w-full rounded bg-background-elevated" />
@@ -493,7 +493,7 @@ export function ParcoursDetail({
 
   if (!path || fetchError) {
     return (
-      <Card>
+      <Card filet={ESPACE_CLIENT_PUBLIE}>
         <CardContent className="py-12 text-center">
           <p className="text-text-secondary">
             {fetchError
@@ -551,6 +551,8 @@ export function ParcoursDetail({
       : prochaineEtapeConseillee(lastValidation);
   // s19 (N2b) : étape à faire quand la date conseillée est passée (« La prochaine étape t'attend. »).
   const etapeAFaire = path.steps.find((s) => !completedSteps.includes(s.order)) ?? null;
+  // v6 tour 1, point 12 : même condition que le rendu de `SommaireParcours` plus bas (fermé : toujours faux).
+  const sommaireAffiche = espaceOuvert && progressionConnue;
 
   // s17 tour 2 (DES-2-11) : parcours terminé, l'argumentaire (intro, « Pour qui ? ») passe après la carte de fin.
   // s19 (N2 a @ux rendu) : abonné qui a déjà validé une étape, l'argumentaire passe après le programme.
@@ -612,7 +614,7 @@ export function ParcoursDetail({
       {/* DES-1-16 : carte resserrée (une ligne pour le visiteur).
           s19 (N6 @ux rendu) : parcours terminé, la carte de fin suffit (sauf chargement ou échec à signaler). */}
       {(!isPathCompleted || chargementPremium || echecPremium) && (
-      <Card className={isPremium ? "mb-8" : "mb-8 py-3"} aria-busy={chargementPremium || undefined}>
+      <Card className={isPremium ? "mb-8" : "mb-8 py-3"} aria-busy={chargementPremium || undefined} filet={ESPACE_CLIENT_PUBLIE}>
         <CardContent className={isPremium ? "py-2" : ""}>
           {isPremium ? (
             <>
@@ -679,7 +681,9 @@ export function ParcoursDetail({
               )}
               {/* s19 (N2b, S1 @ux rendu iter 2) : phrase validée cliquable vers l'étape à faire, numéro et titre
                   en second plan ; même ouverture que l'en-tête de l'étape (dépliée, calée sous la barre fixe). */}
-              {showRythme && !nextDate && etapeAFaire && (
+              {/* v6 tour 1, point 12 : interrupteur ouvert, abonné avec sommaire, le bouton « Reprendre » du sommaire est
+                  le seul chemin vers l'étape en cours ; la phrase reste, en texte simple (ligne ci-dessous). */}
+              {showRythme && !nextDate && etapeAFaire && !sommaireAffiche && (
                 <a
                   href={`#etape-${etapeAFaire.order}`}
                   onClick={(e) => {
@@ -698,7 +702,7 @@ export function ParcoursDetail({
                   </span>
                 </a>
               )}
-              {showRythme && !nextDate && !etapeAFaire && (
+              {showRythme && !nextDate && (!etapeAFaire || sommaireAffiche) && (
                 <p className="mt-2 text-sm text-text-secondary">{PROCHAINE_ETAPE_DISPONIBLE}</p>
               )}
               {/* s19 iter 4 (C @design) : -mb-3 sous 640 px, le lien de 44 px ne creuse plus 40 px sous la carte. */}

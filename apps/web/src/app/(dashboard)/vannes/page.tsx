@@ -16,6 +16,8 @@ import {
 } from "@/components/seo/json-ld";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { PageHeader } from "@/components/layout/page-header";
+import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { getJokesPage } from "@/lib/catalogue-pages";
 import { listCanonical, parsePageParam } from "@/lib/list-pagination";
 
@@ -52,6 +54,10 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
     ...pageShareMeta({ title, description, url }),
   };
 }
+
+const CARTE_SUITE_FERME = "rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40";
+/** v6 tour 1, arbitrage 1 : interrupteur ouvert, cartes « La suite » à filet (langue de l'accueil). Fermé : inchangées. */
+const carteSuite = () => (ESPACE_CLIENT_PUBLIE ? cn(CARTE_SUITE_FERME, CARTE_A_FILET) : CARTE_SUITE_FERME);
 
 const vannesFaqs = [
   {
@@ -160,9 +166,11 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
       </section>
 
       {/* Contenu SEO — pourquoi nos vannes */}
-      <section className="mt-12 border-t border-border pt-8">
+      {/* v6 tour 1, point 8 : interrupteur ouvert, deux colonnes dès 1 024 px (titre à gauche, texte à droite),
+          plus de vide à droite à 1 280 px et au-delà. Fermé : inchangé. */}
+      <section className={ESPACE_CLIENT_PUBLIE ? "mt-12 border-t border-border pt-8 lg:grid lg:grid-cols-3 lg:gap-8" : "mt-12 border-t border-border pt-8"}>
         <h2 className="font-display mb-4 text-xl font-bold">Pourquoi ces vannes sont différentes</h2>
-        <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
+        <div className={ESPACE_CLIENT_PUBLIE ? "max-w-3xl space-y-3 text-sm text-text-secondary lg:col-span-2 lg:max-w-none lg:text-base" : "max-w-3xl space-y-3 text-sm text-text-secondary"}>
           <p>
             Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-⁠Up</strong> : «&nbsp;est-⁠ce que je peux la sortir ce soir et faire rire ?&nbsp;» Si la réponse est non, elle n’est pas sur le site. Pas de blagues Carambar, pas de grille-⁠pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
           </p>
@@ -179,15 +187,18 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
       <nav className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">La suite, si tu as pris goût</h2>
         <div className="grid gap-4 sm:grid-cols-3">
-          <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+          <Link href="/conseils" className={carteSuite()}>
+            {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
             <h3 className="font-display text-base font-bold text-text-primary">Techniques de répartie</h3>
             <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
           </Link>
-          <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+          <Link href="/videos" className={carteSuite()}>
+            {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
             <h3 className="font-display text-base font-bold text-text-primary">Vidéos stand-⁠up analysées</h3>
             <p className="mt-1 text-sm text-text-secondary">Regarde comment les pros de la scène construisent leurs blagues.</p>
           </Link>
-          <Link href="/blog/timing-humour" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+          <Link href="/blog/timing-humour" className={carteSuite()}>
+            {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
             <h3 className="font-display text-base font-bold text-text-primary">Timing : bide ou carton, même vanne</h3>
             <p className="mt-1 text-sm text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-⁠il savoir combien de temps le tenir.</p>
           </Link>
