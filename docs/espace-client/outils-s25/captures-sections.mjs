@@ -132,10 +132,11 @@ for (const compte of comptes) {
           await bouton.focus();
           await page.keyboard.press("Enter");
           await page.waitForTimeout(800);
-          if (action === "focus-compte") await page.keyboard.press("ArrowDown").catch(() => {});
           const nTab = action === "focus-menu" ? 12 : 3;
+          // Menu du compte (Radix) : on navigue aux flèches ; capture 00 = juste après Entrée
+          if (action === "focus-compte") await page.screenshot({ path: join(dossier, fichier.replace(".png", "-00.png")) });
           for (let k = 1; k <= nTab; k++) {
-            await page.keyboard.press("Tab");
+            await page.keyboard.press(action === "focus-compte" ? "ArrowDown" : "Tab");
             await page.waitForTimeout(150);
             await page.screenshot({ path: join(dossier, fichier.replace(".png", `-${String(k).padStart(2, "0")}.png`)) });
           }
