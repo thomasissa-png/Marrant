@@ -61,11 +61,15 @@ export function liensDuSite(etat: EtatLecteur): LienNav[] {
   return etat !== "abonne" && LETTRE_INSCRIPTIONS_OUVERTES ? [...LIENS_SITE, LIEN_LETTRE] : [...LIENS_SITE];
 }
 
-/** État actif (§1) : fond, couleur et soulignement de 2 px ; tous les liens portent la bordure (pas de saut). */
+/** État actif (§1) : fond, couleur et soulignement de 2 px ; tous les liens portent la bordure (pas de saut).
+ *  s25 (relecture design tour 4, critère 7) : anneau de focus entièrement arrondi comme logo, cloche, compte, Menu
+ *  et Premium ; hors focus, forme inchangée (haut arrondi, bas droit sous le soulignement de l'actif). */
 export const classeLienBarre = (actif: boolean) =>
   cn(
     "flex h-11 items-center whitespace-nowrap rounded-t-lg border-b-2 px-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-2",
-    actif ? "border-accent-primary bg-background-elevated text-accent-link" : "border-transparent text-text-secondary hover:bg-background-elevated hover:text-text-primary",
+    actif
+      ? "border-accent-primary bg-background-elevated text-accent-link focus-visible:rounded-b-lg"
+      : "border-transparent text-text-secondary hover:bg-background-elevated hover:text-text-primary focus-visible:rounded-lg",
   );
 
 const ICONE =
@@ -125,7 +129,9 @@ export function EnTeteUniversel() {
         {/* s25 (relecture design F1) : barre ancrée à gauche, le premier lien au même x pour les 3 états à chaque
             largeur ; le vide se loge entre les liens et la recherche (ou les actions sous 1280 px). Tour 3 (design,
             faute dure) : 16 px dès 320 px, le logo sur la verticale de la recherche et des lignes du menu (`px-4`). */}
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-2 px-4 sm:gap-4 md:px-6 xl:px-8">
+        {/* Tour 4 (CI) : dès 1280 px, 12 px entre les blocs (`xl:gap-3`) et `xl:ml-9` sur la barre : premier lien au
+            même x qu'avant (logo + 12 + 36 = logo + 16 + 32). */}
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-start gap-2 px-4 sm:gap-4 md:px-6 xl:gap-3 xl:px-8">
           {/* §6 (ROUVRE) : le logo de l'abonné mène à « Aujourd'hui ». s25 (relecture tour 2, design F5, ux 7) : même
               anneau violet arrondi que les autres contrôles ; `-mx-1 px-1` donne 4 px d'air à l'anneau sans
               déplacer le texte d'un pixel. */}
@@ -142,7 +148,7 @@ export function EnTeteUniversel() {
               collée au logo ; dès 1024, 32 px après le logo quel que soit le compte. */}
           <nav
             aria-label="Navigation principale"
-            className={cn("hidden shrink-0 items-center gap-1 lg:ml-8", etat === "abonne" ? "md:flex" : "lg:flex")}
+            className={cn("hidden shrink-0 items-center gap-1 lg:ml-8 xl:ml-9", etat === "abonne" ? "md:flex" : "lg:flex")}
           >
             {etat === "abonne" && (
               <Link
@@ -166,12 +172,15 @@ export function EnTeteUniversel() {
             ))}
           </nav>
 
-          <SearchBar className="hidden w-44 shrink-0 xl:ml-auto xl:block" onNavigate={() => setRechercheOuverte(false)} />
+          {/* s25 tour 4 (CI en échec, recherche à 762, 764, 772 px) : le texte de graisse 500 à 700 (polices
+              variables) est rendu 1 à 8 px plus large par le Chromium de la CI qu'en local. Un `min-w` laissait la zone
+              d'actions grandir avec son contenu (visiteur : 282 px en CI pour 280) et la barre de l'abonné, sans marge,
+              repoussait la recherche (8 px). Désormais : zone d'actions de largeur FIXE (296 px, contenu le plus large
+              274 px en local, 282 en CI) et recherche de 160 px ; la rangée garde ≥ 12 px de marge en CI pour les
+              3 comptes, la recherche est au même x quel que soit le rendu des polices. */}
+          <SearchBar className="hidden w-40 shrink-0 xl:ml-auto xl:block" onNavigate={() => setRechercheOuverte(false)} />
 
-          {/* s25 (relecture design tour 2, critère 2) : dès 1280 px, zone d'actions de largeur fixe (celle du visiteur,
-              la plus large : Connexion + offre, 274 px mesurés) et calée à droite : la recherche est au même x pour
-              les 3 comptes. */}
-          <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-3 xl:min-w-[17.5rem] xl:justify-end xl:gap-3">
+          <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-0 xl:w-[18.5rem] xl:justify-end xl:gap-3">
             <button
               type="button"
               className={cn(ICONE, "hidden min-[440px]:flex xl:hidden")}
@@ -209,7 +218,7 @@ export function EnTeteUniversel() {
             {etat === "abonne" && <Cloche pathname={pathname} />}
             {etat !== "visiteur" && (
               <div className="hidden md:block">
-                <AccountMenu universel={{ sansFavoris: etat === "abonne", actif: allume === "compte" }} />
+                <AccountMenu universel={{ sansFavoris: etat === "abonne", actif: allume === "compte", courant: allume === "compte" ? pathname : null }} />
               </div>
             )}
             <button

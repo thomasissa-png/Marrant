@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
@@ -28,6 +29,11 @@ import { cn } from "@/lib/utils";
  * l'air ; actions du compte et « Connexion » alignées à gauche, en `font-medium` et couleur des liens du site
  * (`LIGNE_ACTION` écrase le `font-semibold` de `buttonVariants`) : le semi-gras reste réservé à la ligne allumée
  * et au bouton d'offre ; 16 px entre le bouton d'offre et les actions en dessous.
+ * s25 (relectures tour 4) : 8 entrées en `font-medium` comme les liens du site (design 4) et ligne allumée aux coins
+ * droits arrondis comme les autres (ux 3 et 5, `rounded-r-lg`, filet gauche droit sur le rail) ; à l'ouverture, la
+ * ligne portant `aria-current` sous le pli est amenée dans la vue (ux 2, défilement du menu seul, bloc « nearest »,
+ * immédiat si `prefers-reduced-motion`) ; déjà visible, le menu ne bouge pas ; abonné, jamais au prix de « Mon
+ * espace » et de ses 8 entrées (critère 5 de la spec).
  */
 const FILET = "border-l-2 border-transparent";
 const ALLUMEE = "rounded-l-none border-accent-primary bg-background-elevated text-accent-link font-semibold";
@@ -49,8 +55,26 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
   const ligne = etat === "abonne" ? ligneEspaceAllumee(pathname) : null;
   const plein = etat !== "abonne" && !masquerPlein;
   const secondaire = (actif: boolean) => cn(buttonVariants({ variant: "ghost", size: "sm" }), LIGNE_ACTION, actif && ALLUMEE);
+  const menu = useRef<HTMLElement>(null);
+
+  // Ouverture : la ligne allumée sous le pli défile jusqu'au bord bas du menu (bloc « nearest »). Mesures relatives
+  // au menu : l'animation d'entrée (translation) les décale toutes deux d'autant. Abonné : spec v5 critère 5 (« Mon
+  // espace » et ses 8 entrées sans défilement dès 568 px) prioritaire, le défilement ne dépasse pas la marge haute
+  // du menu ; au-delà, le menu reste en haut.
+  useEffect(() => {
+    const nav = menu.current;
+    const ligneCourante = Array.from(nav?.querySelectorAll<HTMLElement>('[aria-current="page"]') ?? []).find((el) => el.getClientRects().length > 0);
+    if (!nav || !ligneCourante) return;
+    const defilement = ligneCourante.getBoundingClientRect().bottom - nav.getBoundingClientRect().top - nav.clientTop - nav.clientHeight;
+    const plafond = nav.querySelector("[data-menu-espace]") ? parseFloat(getComputedStyle(nav).paddingTop) : Infinity;
+    if (defilement <= 0 || defilement > plafond) return;
+    const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    nav.scrollTo({ top: Math.ceil(defilement), behavior: reduit ? "auto" : "smooth" });
+  }, []);
+
   return (
     <nav
+      ref={menu}
       className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 lg:hidden animate-slide-up"
       aria-label="Navigation mobile"
       data-menu-mobile={etat}
@@ -79,7 +103,7 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
                   aria-current={ligne === e.cle ? "page" : undefined}
                   className={cn(
                     // Filet posé sur le rail (`-ml-px`) : la ligne allumée le recouvre, le texte reste à 24 px du rail.
-                    "-ml-px flex h-11 items-center pl-[23px] pr-3 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary",
+                    "-ml-px flex h-11 items-center rounded-r-lg pl-[23px] pr-3 text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary",
                     FILET,
                     FOCUS,
                     ligne === e.cle && ALLUMEE,

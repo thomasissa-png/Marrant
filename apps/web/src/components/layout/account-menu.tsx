@@ -28,16 +28,24 @@ import { cn } from "@/lib/utils";
  * s25 (relecture design tour 2, F4 et F6), `universel` seulement : couche au-dessus des cartes (`PANNEAU_ELEVE`),
  * lignes en `text-text-primary` comme « Dans ton espace » et la cloche (`ITEM_UNIVERSEL`), ligne active et
  * séparateur en `border-hover`, visibles sur le fond élevé.
+ * s25 (relecture ux tour 4, critère 7) : `courant` (adresse en cours quand `actif`) : la ligne de la page en cours
+ * (« Mon profil » sur `/profil`, « Favoris » sur `/favoris` du compte gratuit) porte `aria-current="page"` et le rendu
+ * allumé du menu mobile, lisible sans la teinte : filet gauche violet de 2 px, semi-gras, texte `accent-link` sur un
+ * fond en creux (`background-card` : 6,1:1 ; sur `border-hover`, le violet tomberait à 4,2:1). Survolée, la ligne
+ * passe au fond de survol en texte principal, comme les autres.
  * Sans `universel` : rendu inchangé (test d'inertie).
  */
 export interface VarianteUniverselle {
   sansFavoris: boolean;
   actif: boolean;
+  courant?: string | null;
 }
 const ITEM =
   "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-secondary outline-none transition-colors data-[highlighted]:bg-background-elevated data-[highlighted]:text-text-primary";
 const ITEM_UNIVERSEL =
   "flex min-h-11 w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 text-sm font-medium text-text-primary outline-none transition-colors data-[highlighted]:bg-border-hover";
+const ITEM_COURANT =
+  "rounded-l-none border-l-2 border-accent-primary bg-background-card pl-[10px] font-semibold text-accent-link data-[highlighted]:text-text-primary";
 
 /** Décalages Radix mesurés à l'ouverture : 8 px sous l'en-tête, bord droit sur la marge de la coque. */
 function mesurerPosition(bouton: HTMLElement): { side: number; align: number } {
@@ -51,6 +59,7 @@ function mesurerPosition(bouton: HTMLElement): { side: number; align: number } {
 export function AccountMenu({ universel }: { universel?: VarianteUniverselle } = {}) {
   const [position, setPosition] = useState({ side: 8, align: 0 });
   const item = universel ? ITEM_UNIVERSEL : ITEM;
+  const courant = (href: string) => universel?.actif === true && universel.courant === href;
   return (
     <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger
@@ -86,15 +95,15 @@ export function AccountMenu({ universel }: { universel?: VarianteUniverselle } =
         >
           {universel && <div aria-hidden="true" className="-mx-1 -mt-1 mb-1 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />}
           {!universel?.sansFavoris && (
-            <DropdownMenu.Item asChild className={item}>
-              <Link href="/favoris">
+            <DropdownMenu.Item asChild className={cn(item, courant("/favoris") && ITEM_COURANT)}>
+              <Link href="/favoris" aria-current={courant("/favoris") ? "page" : undefined}>
                 <IconeFavoris className="h-4 w-4" />
                 Favoris
               </Link>
             </DropdownMenu.Item>
           )}
-          <DropdownMenu.Item asChild className={item}>
-            <Link href="/profil">
+          <DropdownMenu.Item asChild className={cn(item, courant("/profil") && ITEM_COURANT)}>
+            <Link href="/profil" aria-current={courant("/profil") ? "page" : undefined}>
               <IconeProfil className="h-4 w-4" />
               Mon profil
             </Link>

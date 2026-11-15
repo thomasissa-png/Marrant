@@ -494,6 +494,24 @@ test.describe("navigation universelle v5 (s24)", () => {
           if (largeur >= 1280) {
             const champ = page.getByRole("banner").locator("input").filter({ visible: true }).first();
             (recherche[largeur] ??= []).push(`${etat}=${Math.round((await champ.boundingBox())!.x)}`);
+            // Tour 4 (CI : 762, 764, 772) : la position ne doit dépendre ni du contenu de la zone d'actions ni de la
+            // largeur rendue des libellés. Marge mesurée : contenu de la zone ≤ largeur − 8 px ; barre finie
+            // ≥ 20 px avant la recherche (12 px d'écart + 8 px de marge) ; rien au-delà de la marge de la coque.
+            const m = await page.evaluate(() => {
+              const coque = document.querySelector("header > div") as HTMLElement;
+              const zone = coque.lastElementChild as HTMLElement;
+              const visibles = Array.from(zone.children).filter((e) => e.getBoundingClientRect().width > 0);
+              const g = Math.min(...visibles.map((e) => e.getBoundingClientRect().left));
+              const d = Math.max(...visibles.map((e) => e.getBoundingClientRect().right));
+              const nav = coque.querySelector("nav")!.getBoundingClientRect();
+              const champ = Array.from(coque.querySelectorAll("input")).find((i) => i.getBoundingClientRect().width > 0)!;
+              const bordCoque = coque.getBoundingClientRect().right - parseFloat(getComputedStyle(coque).paddingRight);
+              return { zone: zone.getBoundingClientRect().width, contenu: d - g, droite: zone.getBoundingClientRect().right, bordCoque, avantRecherche: champ.getBoundingClientRect().left - nav.right };
+            });
+            noter(`zone d'actions ; ${etat} ; ${largeur} px ; zone=${m.zone} ; contenu=${m.contenu.toFixed(1)} ; barre→recherche=${m.avantRecherche.toFixed(1)}`);
+            expect(m.contenu, `contenu de la zone d'actions avec 8 px de marge (${etat}, ${largeur} px)`).toBeLessThanOrEqual(m.zone - 8);
+            expect(m.avantRecherche, `barre finie 20 px avant la recherche (${etat}, ${largeur} px)`).toBeGreaterThanOrEqual(20);
+            expect(m.droite, `zone d'actions dans la coque (${etat}, ${largeur} px)`).toBeLessThanOrEqual(m.bordCoque + 0.5);
             expect(await page.evaluate(() => document.documentElement.scrollWidth), `débordement à ${largeur} px (${etat})`).toBe(largeur);
           }
         }
@@ -650,6 +668,160 @@ test.describe("navigation universelle v5 (s24)", () => {
       for (const largeur of [320, 375]) {
         expect(xs[`rail-${largeur}`], `rail à ${largeur} px`).toEqual([53]);
         for (const etat of ["PREMIUM", "FREE"]) expect(new Set(xs[`${etat}-${largeur}`]), `actions ${etat} à ${largeur} px`).toEqual(new Set([53]));
+      }
+    });
+
+    // s25 tour 4 (relecture design, critères 4 et 7 ; ux 3 et 5) : 8 entrées de l'espace en graisse 500 comme les liens
+    // du site ; ligne allumée des 8 entrées aux mêmes coins que les autres lignes allumées (droits arrondis, gauche
+    // droit sur le rail) ; anneau de focus des liens de barre entièrement arrondi, forme hors focus inchangée.
+    test("tour 4 : graisse et coins des entrées de l'espace (375 px), focus arrondi des liens de barre (1280 px)", async ({ browser }) => {
+      const c = await contexte(browser, "PREMIUM");
+      const page = await c.newPage();
+      await page.setViewportSize({ width: 375, height: 812 });
+      const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+      const coins = (el: Element) => {
+        const cs = getComputedStyle(el);
+        return { hg: cs.borderTopLeftRadius, hd: cs.borderTopRightRadius, bd: cs.borderBottomRightRadius, bg: cs.borderBottomLeftRadius, graisse: cs.fontWeight };
+      };
+      const lignesAllumees: Record<string, ReturnType<typeof coins>> = {};
+      for (const [chemin, nom] of [["/mon-espace/fiche/situation/coloc-la-poele", N.index.quoiRepondre], ["/vannes", "Vannes"], ["/profil", "Mon profil"]] as const) {
+        await page.goto(chemin);
+        await pret(page, "PREMIUM");
+        await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+        await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+        const graisses = await menu.evaluate((m) =>
+          Array.from(m.querySelectorAll("[data-menu-espace] ul a")).map((a) => `${a.getAttribute("aria-current") ?? "-"}:${getComputedStyle(a).fontWeight}`),
+        );
+        expect(graisses).toHaveLength(8);
+        expect(new Set(graisses.filter((g) => g.startsWith("-"))), `entrées non allumées en 500 (${chemin})`).toEqual(new Set(["-:500"]));
+        lignesAllumees[chemin] = await menu.getByRole("link", { name: nom, exact: true }).evaluate(coins);
+      }
+      noter(`lignes allumées ; ${JSON.stringify(lignesAllumees)}`);
+      const rubrique = lignesAllumees["/mon-espace/fiche/situation/coloc-la-poele"];
+      expect(rubrique.graisse, "rubrique allumée en semi-gras").toBe("600");
+      for (const autre of [lignesAllumees["/vannes"], lignesAllumees["/profil"]]) {
+        expect({ hg: rubrique.hg, hd: rubrique.hd, bd: rubrique.bd, bg: rubrique.bg }, "mêmes coins que les autres lignes allumées").toEqual({ hg: autre.hg, hd: autre.hd, bd: autre.bd, bg: autre.bg });
+      }
+      expect(rubrique.hd).not.toBe("0px");
+      expect(rubrique.hg, "filet gauche droit").toBe("0px");
+
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto("/vannes");
+      await pret(page, "PREMIUM");
+      const barre = page.getByRole("banner").getByRole("navigation", { name: "Navigation principale" });
+      for (const nom of ["Parcours", "Vannes"]) {
+        const lien = barre.getByRole("link", { name: nom, exact: true });
+        const repos = await lien.evaluate(coins);
+        await lien.focus();
+        expect(await lien.evaluate((e) => e.matches(":focus-visible")), `focus visible (${nom})`).toBe(true);
+        const focus = await lien.evaluate(coins);
+        noter(`focus barre ; ${nom} ; repos=${JSON.stringify(repos)} ; focus=${JSON.stringify(focus)}`);
+        expect(repos.hg, `haut arrondi hors focus (${nom})`).not.toBe("0px");
+        expect([repos.hd], `haut arrondi hors focus (${nom})`).toEqual([repos.hg]);
+        expect([focus.hg, focus.hd, focus.bd, focus.bg], `anneau entièrement arrondi (${nom})`).toEqual([repos.hg, repos.hg, repos.hg, repos.hg]);
+        expect([repos.bg, repos.bd], `bas droit hors focus (${nom})`).toEqual(["0px", "0px"]);
+        await lien.blur();
+      }
+      await c.close();
+    });
+
+    // s25 tour 4 (relecture ux, critère 2) : à l'ouverture du menu, la ligne allumée sous le pli défile dans la vue
+    // (menu seul, bloc « nearest », immédiat si mouvement réduit) ; déjà visible, le menu ne bouge pas. Abonné : le
+    // critère 5 de la spec (« Mon espace » et ses 8 entrées sans défilement dès 568 px) prime ; le menu ne défile que
+    // si rien ne sort par le haut (à 812 px, « Mon profil » ; à 568 px, il reste en haut). Compte gratuit : sans
+    // bloc de l'espace, défilement libre (fenêtre de 480 px).
+    test("tour 4 : menu mobile, ligne allumée amenée dans la vue à l'ouverture (/profil à 375 x 812 et 568)", async ({ browser }) => {
+      const cas = [
+        { etat: "PREMIUM", hauteur: 812, chemin: "/profil", defile: true },
+        { etat: "PREMIUM", hauteur: 812, chemin: "/vannes", defile: false },
+        { etat: "PREMIUM", hauteur: 812, chemin: "/mon-espace", defile: false },
+        { etat: "PREMIUM", hauteur: 568, chemin: "/profil", defile: false },
+        { etat: "PREMIUM", hauteur: 568, chemin: "/vannes", defile: false },
+        { etat: "FREE", hauteur: 480, chemin: "/profil", defile: true },
+        { etat: "FREE", hauteur: 812, chemin: "/profil", defile: false },
+      ] as const;
+      for (const mouvement of ["no-preference", "reduce"] as const) {
+        for (const etat of ["PREMIUM", "FREE"] as const) {
+          const c = await browser.newContext({ colorScheme: "dark", reducedMotion: mouvement });
+          await c.addCookies(cookies[etat]);
+          const page = await c.newPage();
+          const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+          for (const { hauteur, chemin, defile } of cas.filter((k) => k.etat === etat)) {
+            await page.setViewportSize({ width: 375, height: hauteur });
+            await page.goto(chemin);
+            await pret(page, etat);
+            await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+            await expect(menu).toBeVisible();
+            // Deux images après l'ouverture : en mouvement réduit, la ligne est déjà en place.
+            const tot = await menu.evaluate(
+              (m) =>
+                new Promise<number>((ok) =>
+                  requestAnimationFrame(() => requestAnimationFrame(() => ok(Math.round(m.querySelector('[aria-current="page"]')!.getBoundingClientRect().bottom - m.getBoundingClientRect().bottom)))),
+                ),
+            );
+            await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+            await expect.poll(() => menu.evaluate((m) => m.scrollTop)).toBe(await menu.evaluate((m) => m.scrollTop));
+            const scrollTop = await menu.evaluate((m) => m.scrollTop);
+            noter(`ligne allumée à l'ouverture ; ${mouvement} ; ${etat} ; 375x${hauteur} ; ${chemin} ; scrollTop=${scrollTop} ; écart bas après 2 images=${tot}`);
+            if (defile) {
+              expect(scrollTop, `menu défilé (${etat}, ${chemin}, ${hauteur})`).toBeGreaterThan(0);
+              await expect(menu.locator('[aria-current="page"]')).toBeInViewport({ ratio: 1 });
+              if (mouvement === "reduce") expect(tot, "mouvement réduit : en place sans animation").toBeLessThanOrEqual(0);
+            } else {
+              expect(scrollTop, `menu immobile (${etat}, ${chemin}, ${hauteur})`).toBe(0);
+            }
+            if (etat === "PREMIUM") {
+              for (const libelle of [N.monEspace, ...Object.values(N.index).slice(1)]) {
+                await expect(menu.getByRole("link", { name: libelle, exact: true }), `critère 5 (${chemin}, ${hauteur})`).toBeInViewport({ ratio: 1 });
+              }
+            }
+            await page.keyboard.press("Escape");
+          }
+          await c.close();
+        }
+      }
+    });
+
+    // s25 tour 4 (relecture ux, critère 7) : dans le menu du compte, la ligne de la page en cours porte aria-current
+    // et le rendu allumé (texte accent-link, fond, filet, semi-gras), les autres non.
+    test("tour 4 : menu du compte, ligne de la page en cours annoncée et allumée (1280 px)", async ({ browser }) => {
+      const cas = [
+        { etat: "PREMIUM", chemin: "/profil", courant: "Mon profil" },
+        { etat: "FREE", chemin: "/profil", courant: "Mon profil" },
+        // « Favoris » allumé sur /favoris (compte gratuit) : branché dans le code, mais /favoris est réservé à l'abonné
+        // (middleware : compte gratuit renvoyé vers /abonnement), cas inatteignable ici.
+        { etat: "FREE", chemin: "/vannes", courant: null },
+        { etat: "PREMIUM", chemin: "/vannes", courant: null },
+      ] as const;
+      for (const { etat, chemin, courant } of cas) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        await page.setViewportSize({ width: 1280, height: 900 });
+        await page.goto(chemin);
+        await pret(page, etat);
+        await page.getByRole("banner").getByRole("button", { name: TEXTES_CONNEXION.menuCompte }).click();
+        await page.mouse.move(0, 600);
+        const items = page.getByRole("menuitem");
+        await expect(items.last()).toBeVisible();
+        const rendu = await items.evaluateAll((els) =>
+          els.map((e) => {
+            const cs = getComputedStyle(e);
+            return { nom: (e as HTMLElement).innerText.trim(), courant: e.getAttribute("aria-current"), texte: cs.color, fond: cs.backgroundColor, filet: cs.borderLeftWidth, graisse: cs.fontWeight };
+          }),
+        );
+        noter(`menu du compte ; ${etat} ; ${chemin} ; ${JSON.stringify(rendu)}`);
+        for (const r of rendu) {
+          if (r.nom === courant) {
+            expect(r.courant, `${r.nom} annoncé (${etat}, ${chemin})`).toBe("page");
+            expect(r.texte, "texte accent-link").toBe("rgb(167, 139, 250)");
+            expect(r.fond, "fond distinct").not.toBe("rgba(0, 0, 0, 0)");
+            expect([r.filet, r.graisse], "lisible sans la teinte : filet 2 px et semi-gras").toEqual(["2px", "600"]);
+          } else {
+            expect(r.courant, `${r.nom} non annoncé (${etat}, ${chemin})`).toBeNull();
+            expect(r.graisse).toBe("500");
+          }
+        }
+        await c.close();
       }
     });
 
