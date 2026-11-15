@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import { PageHeader } from "@/components/layout/page-header";
-import { RetourDe } from "@/components/espace/lien-retour";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
+import { lireLecteurApercu } from "@/components/espace/apercu/acces";
+import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { listerRepliques } from "@/lib/espace/repliques";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { ListeRepliques } from "@/components/espace/repliques/liste-repliques";
@@ -23,10 +24,16 @@ const R = frEspaceProfond(TEXTES_REPLIQUES);
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return ESPACE_CLIENT_PUBLIE ? { title: R.titre } : METADONNEES_404;
+  if (!ESPACE_CLIENT_PUBLIE) return METADONNEES_404;
+  // Nav v6 (lot B) : visiteur et inscrit gratuit, l'aperçu (`noindex, follow`) ; sinon la tête d'avant.
+  return (await lireLecteurApercu()) ? metadonneesApercu("mesRepliques") : { title: R.titre };
 }
 
 export default async function MesRepliquesPage() {
+  // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
+  // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
+  const lecteur = await lireLecteurApercu();
+  if (lecteur) return <ApercuRubrique rubrique="mesRepliques" visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/repliques");
   const repliques = await listerRepliques(userId, { acces: "ouvert", userId });
   return (
@@ -34,7 +41,6 @@ export default async function MesRepliquesPage() {
     // de lecture (retour, titre et état vide dans la même colonne de 768 px, jamais un titre à gauche et une carte
     // centrée).
     <div className={repliques.length === 0 ? COLONNE_LECTURE : undefined}>
-      <RetourDe chemin="/mon-espace/repliques" />
       <PageHeader title={R.titre} />
       <ListeRepliques initiales={repliques} lectureSeule={false} />
     </div>

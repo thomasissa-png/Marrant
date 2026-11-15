@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
-import { RetourDe } from "@/components/espace/lien-retour";
 import { cookies } from "next/headers";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { prisma } from "@/lib/prisma";
 import { garderEspace } from "@/lib/espace/garde";
+import { lireLecteurApercu } from "@/components/espace/apercu/acces";
+import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import { bonusOuverts } from "@/lib/espace/bonus";
 import { lireCapDeblocage } from "@/lib/espace/caps-serveur";
@@ -34,10 +35,16 @@ const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return ESPACE_CLIENT_PUBLIE ? { title: T.titre } : METADONNEES_404;
+  if (!ESPACE_CLIENT_PUBLIE) return METADONNEES_404;
+  // Nav v6 (lot B) : visiteur et inscrit gratuit, l'aperçu (`noindex, follow`) ; sinon la tête d'avant.
+  return (await lireLecteurApercu()) ? metadonneesApercu("bibliotheque") : { title: T.titre };
 }
 
 export default async function BibliothequePage() {
+  // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
+  // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
+  const lecteur = await lireLecteurApercu();
+  if (lecteur) return <ApercuRubrique rubrique="bibliotheque" visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/bibliotheque");
   const acces = { acces: "ouvert" as const, userId };
   const f = chargeursFiches;
@@ -63,7 +70,6 @@ export default async function BibliothequePage() {
           768 px (colonnes CSS : chaque carte à la hauteur de son contenu, aucun vide sous une colonne étirée) :
           vannes, coin « Humour noir », puis une carte par groupe de techniques, titrée par le préfixe validé
           (« Comment c'est construit », « Vocabulaire », « Formules à détourner ») au lieu de le répéter à chaque ligne. */}
-      <RetourDe chemin="/mon-espace/bibliotheque" />
       <PageHeader title={T.titre} />
       <div className="gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid">
         <BlocVannes ecouter={[...lignesSansPrefixe("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
