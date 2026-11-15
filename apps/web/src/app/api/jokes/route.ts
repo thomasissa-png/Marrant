@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { dedupeJokesByContent } from "@/lib/jokes-dedupe";
 import { FREE_JOKE_LIMIT } from "@/config/premium";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { selectionGratuite } from "@/config/vannes-categories";
 import { OFFRE_NOM } from "@/config/textes/offre";
 import { sansExerciceVanne } from "@/lib/champs-premium";
 
@@ -69,11 +71,25 @@ export async function GET(request: NextRequest) {
       select: { id: true, content: true },
       orderBy,
     });
-    const uniqueIds = dedupeJokesByContent(candidates).map((c) => c.id);
+    let uniqueIds = dedupeJokesByContent(candidates).map((c) => c.id);
     const total = uniqueIds.length;
 
+    // Décision de Thomas du 14/11, interrupteur de l'espace ouvert seulement : sans abonnement, les vannes
+    // ouvertes sont les FREE_JOKE_LIMIT de `selectionGratuite` (réparties sur les groupes de la rangée de
+    // catégories, choisies sur tout le catalogue actif) ; un filtre ou une recherche montre celles de cette
+    // sélection qui y répondent. Fermé : les FREE_JOKE_LIMIT plus récentes du filtre, comme aujourd'hui.
+    if (ESPACE_CLIENT_PUBLIE && !isPremium) {
+      const catalogue = await prisma.joke.findMany({
+        where: { isActive: true },
+        select: { id: true, content: true, category: true },
+        orderBy,
+      });
+      const ouvertes = new Set(selectionGratuite(dedupeJokesByContent(catalogue), FREE_JOKE_LIMIT).map((c) => c.id));
+      uniqueIds = uniqueIds.filter((id) => ouvertes.has(id));
+    }
+
     // FREE : limiter le total accessible
-    const accessibleTotal = isPremium ? total : Math.min(total, FREE_JOKE_LIMIT);
+    const accessibleTotal = isPremium ? total : Math.min(uniqueIds.length, FREE_JOKE_LIMIT);
     const effectiveLimit = Math.min(query.limit, accessibleTotal - (query.page - 1) * query.limit);
 
     if (effectiveLimit <= 0 && !isPremium) {

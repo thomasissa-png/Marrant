@@ -227,6 +227,14 @@ describe("garde-fou de construction", () => {
     // par l'en-tête unique seulement), `header-icons.tsx` (icône de l'ancien menu de compte abonné retirée),
     // `parcours/[slug]/page.tsx`, `profil/page.tsx` (déjà listés : `AxeEspace` retiré, même colonne pour
     // tous ; `parcours/(liste)/page.tsx`, figé par hachage, garde l'import d'un `AxeEspace` devenu neutre), `tailwind.config.ts` (`maxWidth.lecture` retiré, plus aucun emploi).
+    // Décisions de Thomas du 14/11 (s25, ouvert seulement, fermé inchangé, instantanés identiques) : vannes gratuites
+    // réparties sur les catégories (`api/jokes/route.ts`, règle dans le code, fermé : aucune requête de plus) ;
+    // « La lettre » une seule section, archive pour l'abonné (`lettre/page.tsx`, garde et archive chargées à la
+    // demande, fermé : aucune lecture de session) ; question du prix de la FAQ de /parcours masquée pour l'abonné
+    // (`faq-section.tsx`). Tests : `__tests__/api/decisions-14-11-s25.test.ts`, `__tests__/espace/decisions-14-11-s25.test.tsx`.
+    "app/api/jokes/route.ts",
+    "app/(dashboard)/lettre/page.tsx",
+    "components/home/faq-section.tsx",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,
