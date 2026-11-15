@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { PLACE_REPERE } from "@/components/layout/gabarit";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
+import { lireLecteurApercu } from "@/components/espace/apercu/acces";
+import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import { ENTREES_QUIZ, lireOrigine, type EntreeDisponible } from "@/lib/espace/premier-pas";
 import { lireMois, premierPasFait, resoudreOrigine } from "@/lib/espace/premier-pas-serveur";
@@ -19,7 +20,6 @@ import { TonMois } from "@/components/espace/aujourdhui/ton-mois";
 import { CartesDuJour } from "@/components/espace/aujourdhui/cartes-du-jour";
 import { EtapeEnCours } from "@/components/espace/aujourdhui/etape-en-cours";
 import { MissionLien } from "@/components/espace/aujourdhui/mission-lien";
-import { DansTonEspace } from "@/components/espace/aujourdhui/dans-ton-espace";
 import { lireRafale, type EtatRafale } from "@/lib/espace/cartes-serveur";
 import { lireEtapeAReprendre } from "@/lib/espace/etape-serveur";
 import { missionOuverte, missionsServiesValidees } from "@/lib/espace/missions";
@@ -32,8 +32,8 @@ const T = frEspaceProfond(TEXTES_AUJOURDHUI);
  * « Aujourd'hui », accueil de l'espace (s24, lot D3 ; architecture v20 4.2 et 4.4, décisions C9,
  * C13, C14 ; maquette `docs/espace-client/etalons/e5/aujourdhui.html`).
  * Rendu : SSR dynamique à chaque requête (données de l'abonné ; `force-dynamic` hérité du layout,
- * jamais en cache). Garde EN PREMIER (rendu partiel de Next) : 404 interrupteur fermé, connexion,
- * `/abonnement` sans abonnement actif.
+ * jamais en cache). Garde EN PREMIER (rendu partiel de Next) : 404 interrupteur fermé ; nav v6 : aperçu
+ * pour le visiteur et l'inscrit gratuit, à cette adresse (plus de connexion ni de `/abonnement`).
  * Quatre états (4.4, lot D5) : (1) aucune fiche faite : le premier pas, seule action principale ;
  * (2) rafale du jour pas faite : « Si tu as 5 minutes » ; (3) rafale faite : « Reprendre » l'étape en
  * cours (ou « Commencer l'étape 1 »), « C'est tout pour aujourd'hui » dessous ; (4) mission ouverte :
@@ -50,10 +50,16 @@ export const dynamic = "force-dynamic";
  * (`notFound()`). Sans cela, la présence de cette page donnerait le titre par défaut du site.
  */
 export async function generateMetadata(): Promise<Metadata> {
-  return ESPACE_CLIENT_PUBLIE ? {} : METADONNEES_404;
+  if (!ESPACE_CLIENT_PUBLIE) return METADONNEES_404;
+  // Nav v6 (lot B) : visiteur et inscrit gratuit, l'aperçu (`noindex, follow`) ; sinon la tête d'avant.
+  return (await lireLecteurApercu()) ? metadonneesApercu("aujourdhui") : {};
 }
 
 export default async function AujourdhuiPage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
+  // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
+  // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
+  const lecteur = await lireLecteurApercu();
+  if (lecteur) return <ApercuRubrique rubrique="aujourdhui" visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace");
   const param = (cle: string) => (typeof searchParams[cle] === "string" ? (searchParams[cle] as string) : null);
 
@@ -91,13 +97,12 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   }));
 
   // v5 §3, gabarit C : pleine coque, aucun retour ni fil d'Ariane. À 768 px et plus, colonne 1 = carte du
-  // jour (et ce qui l'accompagne), colonne 2 = « Dans ton espace » ; dessous, « Contenu du jour », section
-  // distincte (`space-y-12`). À 375 px, une colonne, carte du jour d'abord.
+  // jour (et ce qui l'accompagne) ; colonne 2 vide depuis la nav v6 (index « Dans ton espace » retiré, la bande le
+  // remplace ; colonne à redessiner dans la section Aujourd'hui) ; dessous, « Contenu du jour », section distincte
+  // (`space-y-12`). À 375 px, une colonne, carte du jour d'abord.
   return (
     <div>
-      {/* Relecture des captures nav s24 (design 7) : la place du « Retour » est réservée (Aujourd'hui n'en a pas),
-          le titre est à la même hauteur que sur toutes les autres pages (36 px, la hauteur du fil d'Ariane du site). */}
-      <div aria-hidden="true" className={`${PLACE_REPERE} max-e300:hidden`} data-place-retour />
+      {/* Nav v6 (lot B) : plus de place réservée au-dessus du titre (ni retour ni repère : la bande l'est). */}
       <header className="mb-8 md:mb-10">
         <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">{T.titre}</h1>
         {rafale && rafale.cetteSemaine > 0 && <p className="mt-2 text-sm text-text-secondary">{T.repere(rafale.cetteSemaine)}</p>}
@@ -117,7 +122,6 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
             {fait && !aise && <QuestionAise />}
             {mois.montrer && <TonMois serie={mois.serie} cap={mois.cap} />}
           </div>
-          <DansTonEspace />
         </div>
         <ContenuDuJour categories={categories} />
       </div>

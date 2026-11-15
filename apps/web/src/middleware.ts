@@ -15,6 +15,9 @@ import { PAGE_ADMIN_QUESTIONS } from "@/lib/espace/questions-chemins";
 // Routes PREMIUM-only (pas de version gratuite)
 const PREMIUM_ONLY_PATHS = ["/favoris"];
 
+/** Nav v6 (s25, lot B) : interrupteur ouvert, l'adresse exacte `/favoris` est l'aperçu de la rubrique pour tous. */
+const apercuFavoris = (path: string) => ESPACE_CLIENT_PUBLIE && path === "/favoris";
+
 // s21 (QA v3 m-1) : chaque redirection vers /abonnement porte sa propre source (mesure du
 // tunnel jusqu'à `checkout-ouvert`). Valeurs stables : le rapport du lundi les lit telles quelles.
 // `/favoris` : même source et même retour que le bouton du mur des favoris.
@@ -75,8 +78,9 @@ const authMiddleware = withAuth(
       return NextResponse.redirect(new URL("/vannes", req.url));
     }
 
-    // Favoris : PREMIUM uniquement
-    const isPremiumOnly = PREMIUM_ONLY_PATHS.some((p) => path.startsWith(p));
+    // Favoris : PREMIUM uniquement. Nav v6 (s25, lot B) : interrupteur ouvert, `/favoris` sert l'aperçu au
+    // non-abonné (la page décide, plan relu en base) : plus de redirection. Fermé : inchangé.
+    const isPremiumOnly = PREMIUM_ONLY_PATHS.some((p) => path.startsWith(p)) && !apercuFavoris(path);
     if (isPremiumOnly && token?.plan !== "PREMIUM") {
       return NextResponse.redirect(new URL(ABONNEMENT_DEPUIS_FAVORIS, req.url));
     }
@@ -91,7 +95,7 @@ const authMiddleware = withAuth(
         // Routes nécessitant une session (authentification)
         // (/onboarding : géré ci-dessus, redirection vers /abonnement et non /login.)
         const authRequiredPaths = ["/profil", "/favoris"];
-        if (authRequiredPaths.some((p) => path.startsWith(p))) {
+        if (authRequiredPaths.some((p) => path.startsWith(p)) && !apercuFavoris(path)) {
           return !!token;
         }
 

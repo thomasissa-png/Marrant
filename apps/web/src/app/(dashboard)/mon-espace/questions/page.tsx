@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
-import { RetourDe } from "@/components/espace/lien-retour";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
+import { lireLecteurApercu } from "@/components/espace/apercu/acces";
+import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { listerFils } from "@/lib/espace/questions";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import { MesQuestions } from "@/components/espace/questions/mes-questions";
@@ -22,16 +23,21 @@ const Q = frEspaceProfond(TEXTES_QUESTIONS);
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return ESPACE_CLIENT_PUBLIE ? { title: Q.titre } : METADONNEES_404;
+  if (!ESPACE_CLIENT_PUBLIE) return METADONNEES_404;
+  // Nav v6 (lot B) : visiteur et inscrit gratuit, l'aperçu (`noindex, follow`) ; sinon la tête d'avant.
+  return (await lireLecteurApercu()) ? metadonneesApercu("mesQuestions") : { title: Q.titre };
 }
 
 export default async function MesQuestionsPage() {
+  // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
+  // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
+  const lecteur = await lireLecteurApercu();
+  if (lecteur) return <ApercuRubrique rubrique="mesQuestions" visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/questions");
   const fils = await listerFils(userId);
   return (
     <div>
       {/* v5 §3, gabarit B. */}
-      <RetourDe chemin="/mon-espace/questions" />
       <PageHeader title={Q.titre} />
       <MesQuestions initiaux={fils} lectureSeule={false} />
     </div>

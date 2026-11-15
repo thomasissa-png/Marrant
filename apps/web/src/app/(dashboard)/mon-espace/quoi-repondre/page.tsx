@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
-import { RetourDe } from "@/components/espace/lien-retour";
 import Link from "next/link";
 import { ESPACE_CLIENT_PUBLIE, ESPACE_ACCUEIL } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { prisma } from "@/lib/prisma";
 import { garderEspace } from "@/lib/espace/garde";
+import { lireLecteurApercu } from "@/components/espace/apercu/acces";
+import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import { envoyeesSiBesoin, fichesVisibles } from "@/lib/espace/lettres";
 import { idsFaits, ligneDeFiche } from "@/lib/espace/lignes-fiches";
@@ -33,7 +34,9 @@ export const dynamic = "force-dynamic";
 const BASE = `${ESPACE_ACCUEIL}/quoi-repondre`;
 
 export async function generateMetadata(): Promise<Metadata> {
-  return ESPACE_CLIENT_PUBLIE ? { title: T.titre } : METADONNEES_404;
+  if (!ESPACE_CLIENT_PUBLIE) return METADONNEES_404;
+  // Nav v6 (lot B) : visiteur et inscrit gratuit, l'aperçu (`noindex, follow`) ; sinon la tête d'avant.
+  return (await lireLecteurApercu()) ? metadonneesApercu("quoiRepondre") : { title: T.titre };
 }
 
 /** Fiches rangées par lieu, dans l'ordre des filtres ; sans lieu : « Rattraper un faux pas ». */
@@ -45,6 +48,10 @@ function groupesParLieu(fiches: readonly FicheQuoiRepondre[]) {
 }
 
 export default async function QuoiRepondrePage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
+  // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
+  // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
+  const lecteur = await lireLecteurApercu();
+  if (lecteur) return <ApercuRubrique rubrique="quoiRepondre" visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace(BASE);
   const acces = { acces: "ouvert" as const, userId };
   const toutes = [...chargeursFiches.listerFiches("situation", acces), ...chargeursFiches.listerFiches("a-plat", acces)];
@@ -55,8 +62,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
 
   return (
     <div>
-      {/* v5 §3, gabarit B : pleine coque, « Retour : Mon espace », en-tête de page du site. */}
-      <RetourDe chemin={BASE} />
+      {/* v5 §3, gabarit B : pleine coque, en-tête de page du site ; plus de « Retour : Mon espace » (nav v6 : la bande est le retour). */}
       <PageHeader title={T.titre} />
       <div className="flex flex-col gap-6">
       <Link href="/carnet" className={`${BOUTON_SECONDAIRE} self-start`}>

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
-import { RetourDe } from "@/components/espace/lien-retour";
 import Link from "next/link";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
+import { lireLecteurApercu } from "@/components/espace/apercu/acces";
+import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import { hrefFiche } from "@/lib/espace/premier-pas";
 import { lireRafale } from "@/lib/espace/cartes-serveur";
@@ -29,12 +30,14 @@ const M = frEspaceProfond(TEXTES_MISSION);
  * `mission.html`) : la rafale du jour (au plus 3 cartes, l'une après l'autre dans la page, ancres
  * `#carte-N` depuis « Aujourd'hui ») puis la mission ouverte (une seule ; `?marche=n` pour consulter une
  * autre marche, jamais un verrou). Rendu : SSR dynamique (données de l'abonné, jamais en cache). Garde
- * EN PREMIER : 404 interrupteur fermé, connexion, `/abonnement` sans abonnement actif.
+ * EN PREMIER : 404 interrupteur fermé ; nav v6, aperçu pour le visiteur et l'inscrit gratuit.
  */
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return ESPACE_CLIENT_PUBLIE ? { title: N.index.sEntrainer } : METADONNEES_404;
+  if (!ESPACE_CLIENT_PUBLIE) return METADONNEES_404;
+  // Nav v6 (lot B) : visiteur et inscrit gratuit, l'aperçu (`noindex, follow`) ; sinon la tête d'avant.
+  return (await lireLecteurApercu()) ? metadonneesApercu("sEntrainer") : { title: N.index.sEntrainer };
 }
 
 const lireMarche = (v: unknown): NumeroMarche | null => {
@@ -43,6 +46,10 @@ const lireMarche = (v: unknown): NumeroMarche | null => {
 };
 
 export default async function SEntrainerPage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
+  // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
+  // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
+  const lecteur = await lireLecteurApercu();
+  if (lecteur) return <ApercuRubrique rubrique="sEntrainer" visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/s-entrainer");
   const acces = { acces: "ouvert" as const, userId };
   const [etat, retours] = await Promise.all([lireRafale(userId, acces), lireRetoursMission(userId)]);
@@ -61,9 +68,8 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
 
   return (
     <div>
-      {/* v5 §3, gabarit C : « Retour : Mon espace », en-tête de page du site, une carte par colonne
+      {/* v5 §3, gabarit C (nav v6 : plus de « Retour : Mon espace », la bande est le retour), en-tête de page du site, une carte par colonne
           (1 colonne, 2 dès 768 px, `gap-6`), mêmes colonnes que « Aujourd'hui ». */}
-      <RetourDe chemin="/mon-espace/s-entrainer" />
       <PageHeader title={N.index.sEntrainer} lead={T.accroche} />
       <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
       <FournisseurCompteARebours etat={etat.compteARebours}>
