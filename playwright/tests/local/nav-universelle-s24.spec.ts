@@ -763,9 +763,9 @@ test.describe("navigation universelle v5 (s24)", () => {
     // bloc de l'espace, défilement libre (fenêtre de 480 px).
     test("tour 4 : menu mobile, ligne allumée amenée dans la vue à l'ouverture (/profil à 375 x 812 et 568)", async ({ browser }) => {
       const cas = [
-        // Tour 7 (relecture design, P1) : 8 px manquent, + 16 px de marge basse = 24 px, au-delà du plafond de 16 px
-        // (marge haute du menu, critère 5) : le menu ne bouge plus.
-        { etat: "PREMIUM", hauteur: 812, chemin: "/profil", defile: false },
+        // Tour 7 bis (P1) : 8 px manquent ; 16 px d'air dépasseraient le plafond (marge haute de 16 px, critère 5) : le
+        // menu défile jusqu'à la ligne entière (8 px).
+        { etat: "PREMIUM", hauteur: 812, chemin: "/profil", defile: true },
         { etat: "PREMIUM", hauteur: 812, chemin: "/vannes", defile: false },
         { etat: "PREMIUM", hauteur: 812, chemin: "/mon-espace", defile: false },
         { etat: "PREMIUM", hauteur: 568, chemin: "/profil", defile: false },
@@ -799,13 +799,20 @@ test.describe("navigation universelle v5 (s24)", () => {
             if (defile) {
               expect(scrollTop, `menu défilé (${etat}, ${chemin}, ${hauteur})`).toBeGreaterThan(0);
               await expect(menu.locator('[aria-current="page"]')).toBeInViewport({ ratio: 1 });
-              // Tour 7 (relecture design, P1) : 16 px d'air sous la ligne allumée, ou le menu est en bas de sa course.
+              // Tour 7 bis (P1) : ligne entière d'abord ; 16 px d'air dessous sauf si le plafond (abonné, marge haute du
+              // menu) ou le bas de la course l'empêche (alors juste la ligne entière).
               const air = await menu.evaluate((m) => ({
                 sous: m.getBoundingClientRect().top + m.clientTop + m.clientHeight - m.querySelector('[aria-current="page"]')!.getBoundingClientRect().bottom,
                 enBas: Math.ceil(m.scrollTop) >= m.scrollHeight - m.clientHeight,
+                // Défilement qu'il faudrait pour 16 px d'air, au-delà du plafond (marge haute) chez l'abonné.
+                auPlafond:
+                  !!m.querySelector("[data-menu-espace]") &&
+                  m.scrollTop + 16 - (m.getBoundingClientRect().top + m.clientTop + m.clientHeight - m.querySelector('[aria-current="page"]')!.getBoundingClientRect().bottom) >
+                    parseFloat(getComputedStyle(m).paddingTop) + 0.5,
               }));
               noter(`ligne allumée à l'ouverture ; ${mouvement} ; ${etat} ; 375x${hauteur} ; ${chemin} ; air sous la ligne=${air.sous.toFixed(1)}`);
-              if (!air.enBas) expect(air.sous, `16 px sous la ligne allumée (${etat}, ${chemin}, ${hauteur})`).toBeGreaterThanOrEqual(16 - 0.5);
+              expect(air.sous, `ligne allumée entière (${etat}, ${chemin}, ${hauteur})`).toBeGreaterThanOrEqual(-0.5);
+              if (!air.enBas && !air.auPlafond) expect(air.sous, `16 px sous la ligne allumée (${etat}, ${chemin}, ${hauteur})`).toBeGreaterThanOrEqual(16 - 0.5);
               if (mouvement === "reduce") expect(tot, "mouvement réduit : en place sans animation").toBeLessThanOrEqual(0);
             } else {
               expect(scrollTop, `menu immobile (${etat}, ${chemin}, ${hauteur})`).toBe(0);
@@ -1217,7 +1224,21 @@ test.describe("navigation universelle v5 (s24)", () => {
       await expect(panneau).toBeVisible();
       await verifier("cloche, Fermer");
       await page.keyboard.press("Tab");
-      if (await panneau.getByRole("link").count()) await verifier("cloche, ligne");
+      if (await panneau.getByRole("link").count()) {
+        // Tour 7 bis : lignes de la cloche en `rounded-lg` comme le reste ; anneau extérieur non coupé par le panneau.
+        const ligne = await verifier("cloche, ligne");
+        expect(ligne.rayon, "ligne de la cloche arrondie comme les liens de la barre").toBe(lienBarre.rayon);
+        const air = await page.locator(":focus").evaluate((el) => {
+          const p = el.closest("[role='dialog']") as HTMLElement;
+          const r = el.getBoundingClientRect();
+          const b = p.getBoundingClientRect();
+          const haut = b.top + p.clientTop;
+          const gauche = b.left + p.clientLeft;
+          return { gauche: r.left - gauche, droite: gauche + p.clientWidth - r.right, haut: r.top - haut, bas: haut + p.clientHeight - r.bottom };
+        });
+        noter(`cloche ; ligne en focus ; air jusqu'au bord intérieur du panneau ; ${JSON.stringify(air)}`);
+        for (const [cote, v] of Object.entries(air)) expect(v, `anneau de 2 px non coupé (${cote})`).toBeGreaterThanOrEqual(2);
+      }
       await page.keyboard.press("Escape");
       await expect(panneau).toHaveCount(0);
       // Compte : bouton, puis lignes au clavier (ouverture Entrée, flèches, Tab).
@@ -1264,31 +1285,43 @@ test.describe("navigation universelle v5 (s24)", () => {
       await c.close();
     });
 
-    // s25 tour 7 (relecture design P1) : abonné sur /profil à 375 x 812 : 8 px manquent, la marge basse de 16 px
-    // dépasserait le plafond (marge haute du menu, critère 5) : le menu ne bouge pas, la recherche garde ses 16 px.
-    test("tour 7 : défilement du menu à l'ouverture, 16 px sous la ligne ou immobile (abonné, /profil, 375 x 812)", async ({ browser }) => {
-      const c = await contexte(browser, "PREMIUM");
-      const page = await c.newPage();
-      await page.setViewportSize({ width: 375, height: 812 });
-      await page.goto("/profil");
-      await pret(page, "PREMIUM");
-      await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
-      const menu = page.getByRole("navigation", { name: "Navigation mobile" });
-      await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
-      await page.waitForTimeout(400);
-      const m = await menu.evaluate((nav) => {
-        const r = nav.getBoundingClientRect();
-        const champ = nav.querySelector("input")!.getBoundingClientRect();
-        const ligne = nav.querySelector('[aria-current="page"]')!.getBoundingClientRect();
-        return { scrollTop: nav.scrollTop, margeHaute: champ.top - (r.top + nav.clientTop), sous: r.top + nav.clientTop + nav.clientHeight - ligne.bottom };
-      });
-      noter(`tour 7 ; défilement /profil 375x812 ; scrollTop=${m.scrollTop} ; marge haute recherche=${m.margeHaute.toFixed(1)} ; ligne sous le bas=${(-m.sous).toFixed(1)}`);
-      expect(m.scrollTop, "menu immobile").toBe(0);
-      expect(m.margeHaute, "recherche à 16 px du filet").toBeCloseTo(16, 0);
-      for (const libelle of [N.monEspace, ...Object.values(N.index).slice(1)]) {
-        await expect(menu.getByRole("link", { name: libelle, exact: true }), "critère 5").toBeInViewport({ ratio: 1 });
+    // s25 tour 7 bis (relecture design P1) : la ligne allumée entière prime sur l'air. Abonné sur /profil à 375 x 812 :
+    // 8 px manquent, 16 px d'air dépasseraient le plafond (marge haute de 16 px, critère 5) : défilement de 8 px, ligne
+    // entière, recherche à 8 px du filet. Gratuit sur /profil à 375 x 480 (sans plafond) : 16 px d'air.
+    test("tour 7 bis : défilement du menu à l'ouverture, ligne entière, 16 px d'air si le plafond le permet (375 px)", async ({ browser }) => {
+      for (const { etat, hauteur, defilement, air } of [
+        { etat: "PREMIUM", hauteur: 812, defilement: 8, air: 0 },
+        { etat: "FREE", hauteur: 480, defilement: null, air: 16 },
+      ] as const) {
+        const c = await contexte(browser, etat);
+        const page = await c.newPage();
+        await page.setViewportSize({ width: 375, height: hauteur });
+        await page.goto("/profil");
+        await pret(page, etat);
+        await page.getByRole("banner").getByRole("button", { name: "Menu" }).click();
+        const menu = page.getByRole("navigation", { name: "Navigation mobile" });
+        await menu.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+        await expect.poll(() => menu.evaluate((m) => m.scrollTop), { message: "défilement terminé" }).toBeGreaterThan(0);
+        await page.waitForTimeout(500);
+        const m = await menu.evaluate((nav) => {
+          const r = nav.getBoundingClientRect();
+          const haut = r.top + nav.clientTop;
+          const premier = nav.querySelector("input, a[href]")!.getBoundingClientRect();
+          const ligne = nav.querySelector('[aria-current="page"]')!.getBoundingClientRect();
+          return { scrollTop: nav.scrollTop, margeHaute: premier.top - haut, sous: haut + nav.clientHeight - ligne.bottom };
+        });
+        const ici = `(${etat}, 375 x ${hauteur})`;
+        noter(`tour 7 bis ; défilement /profil ${ici} ; scrollTop=${m.scrollTop} ; marge haute du premier élément=${m.margeHaute.toFixed(1)} ; air sous la ligne=${m.sous.toFixed(1)}`);
+        expect(m.sous, `ligne allumée entière ${ici}`).toBeGreaterThanOrEqual(air - 0.5);
+        if (defilement !== null) {
+          expect(m.scrollTop, `défilement ${ici}`).toBe(defilement);
+          expect(m.margeHaute, `recherche à 8 px du filet ${ici}`).toBeCloseTo(8, 0);
+          for (const libelle of [N.monEspace, ...Object.values(N.index).slice(1)]) {
+            await expect(menu.getByRole("link", { name: libelle, exact: true }), `critère 5 ${ici}`).toBeInViewport({ ratio: 1 });
+          }
+        }
+        await c.close();
       }
-      await c.close();
     });
   });
 });

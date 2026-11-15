@@ -29,9 +29,11 @@ const Q = frEspaceProfond(TEXTES_QUESTIONS);
  * s25 (relecture design tour 5, critère 5) : titre du panneau, titres de groupe, texte des lignes et phrase vide sur
  * une seule verticale, comme la carte « Dans ton espace » : titre de groupe sans `px` ; lignes en `-mx-3 px-3`
  * (fond de survol et anneau de focus à 4 px du bord du panneau) ; sous 300 px (panneau en `px-3`), `-mx-2 px-2`.
+ * s25 (relecture design tour 7 bis, F2) : coins `rounded-lg` comme les autres lignes de l'en-tête, anneau compris
+ * (extérieur : 4 px d'air sur les côtés, padding du panneau en haut et en bas, rien n'est coupé).
  */
 const LIGNE =
-  "-mx-3 flex min-h-11 items-center justify-between gap-3 rounded-md px-3 py-2 max-e300:-mx-2 max-e300:px-2 text-sm text-text-primary transition-colors hover:bg-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+  "-mx-3 flex min-h-11 items-center justify-between gap-3 rounded-lg px-3 py-2 max-e300:-mx-2 max-e300:px-2 text-sm text-text-primary transition-colors hover:bg-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
 const Chevron = () => (
   <svg className="h-4 w-4 flex-none text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

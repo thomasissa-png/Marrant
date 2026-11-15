@@ -67,17 +67,18 @@ export function MenuMobileUniversel({ etat, liens, pathname, hrefs, masquerPlein
   // Ouverture : la ligne allumée sous le pli défile jusqu'à 16 px au-dessus du bord bas du menu. Mesures relatives au
   // menu : l'animation d'entrée (translation) les décale toutes deux d'autant. Abonné : spec v5 critère 5 (« Mon
   // espace » et ses 8 entrées sans défilement dès 568 px) prioritaire, le défilement ne dépasse pas la marge haute
-  // du menu (rien au-dessus de « Mon espace » n'est coupé) ; s25 (relecture design tour 7, P1) : si la marge basse de
-  // 16 px ne tient pas sous ce plafond, le menu ne bouge pas (plus de ligne collée au bas de la fenêtre).
+  // du menu (rien au-dessus de « Mon espace » n'est coupé) ; s25 (relecture design tour 7 bis, P1) : la ligne entière
+  // prime sur l'air : 16 px d'air dessous si le plafond le permet, sinon juste la ligne entière (la recherche garde le
+  // reste de sa marge) ; si même la ligne entière dépasse le plafond, le menu ne bouge pas.
   useEffect(() => {
     const nav = menu.current;
     const ligneCourante = Array.from(nav?.querySelectorAll<HTMLElement>('[aria-current="page"]') ?? []).find((el) => el.getClientRects().length > 0);
     if (!nav || !ligneCourante) return;
     const defilement = ligneCourante.getBoundingClientRect().bottom - nav.getBoundingClientRect().top - nav.clientTop - nav.clientHeight;
     if (defilement <= 0) return;
-    const cible = defilement + MARGE_BASSE;
     const plafond = nav.querySelector("[data-menu-espace]") ? parseFloat(getComputedStyle(nav).paddingTop) : Infinity;
-    if (cible > plafond) return;
+    if (defilement > plafond) return;
+    const cible = defilement + MARGE_BASSE <= plafond ? defilement + MARGE_BASSE : defilement;
     const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     nav.scrollTo({ top: Math.ceil(cible), behavior: reduit ? "auto" : "smooth" });
   }, []);
