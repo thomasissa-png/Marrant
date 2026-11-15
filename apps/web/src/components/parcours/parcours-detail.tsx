@@ -150,10 +150,16 @@ export function ParcoursDetail({
   // passer par /abonnement. Compte déjà connecté : /abonnement, comme AuthCta.
   // Concision v5 : la source n'est portée qu'une fois, par /register (`src=parcours-etape`) ;
   // `getPostSignupRedirect` la reporte sur /abonnement après l'inscription (checkout-ouvert).
+  // v6 tour 2, point 14 (interrupteur ouvert) : compte connecté, plus de `finEtape1Href`. Le plein garde la même
+  // destination (`ValidationWall` retombe sur `href`, le même `abonnementHref`) et la ligne « D'abord ton compte, puis
+  // le paiement. » (`LigneCompte`, rendue seulement avec `finEtape1Href`), fausse pour lui, est masquée ; rien à la
+  // place. Fermé : inchangé.
   const finEtape1Href =
     statut === "visiteur"
       ? buildRegisterUrl({ callbackUrl: buildAbonnementUrl(`/parcours/${slug}`, "monthly"), src: "parcours-etape" })
-      : abonnementHref;
+      : ESPACE_CLIENT_PUBLIE
+        ? undefined
+        : abonnementHref;
 
   // T29 : quiz réussis gardés pendant l'onglet (détour par l'inscription).
   useEffect(() => {

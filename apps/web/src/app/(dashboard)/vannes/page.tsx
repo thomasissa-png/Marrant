@@ -59,11 +59,19 @@ const CARTE_SUITE_FERME = "rounded-lg border border-border bg-background-card p-
 /** v6 tour 1, arbitrage 1 : interrupteur ouvert, cartes « La suite » à filet (langue de l'accueil). Fermé : inchangées. */
 const carteSuite = () => (ESPACE_CLIENT_PUBLIE ? cn(CARTE_SUITE_FERME, CARTE_A_FILET) : CARTE_SUITE_FERME);
 
-const vannesFaqs = [
+/**
+ * v6 tour 2, point 11 : réponse validée par Thomas (`docs/copy/faq-vannes-filtres-v6-a-valider.md`), mot pour mot,
+ * interrupteur ouvert seulement (filtres ouverts à tous, plus de pages thème au-dessus de la liste). Fermé : la
+ * réponse d'aujourd'hui. Le même tableau nourrit l'affichage et le JSON-LD FAQ : les deux disent le même texte.
+ */
+const reponseTrouverVanne = () => (ESPACE_CLIENT_PUBLIE
+  ? "Choisis une catégorie dans les filtres de la liste. Chaque vanne est rangée par contexte, pour que tu trouves en 3 secondes celle qui colle à ta situation plutôt que celle qui jette un froid. Avec Premium, mets tes préférées en favoris : tu les auras sous la main le jour J."
+  : "Passe par les pages thème (boulot, couple, soirées, famille, gaming) ou, avec Premium, par les filtres. Chaque vanne est rangée par contexte, pour que tu trouves en 3 secondes celle qui colle à ta situation plutôt que celle qui jette un froid. Avec Premium, mets tes préférées en favoris : tu les auras sous la main le jour J.");
+
+const vannesFaqs = () => [
   {
     question: "Comment trouver la bonne vanne pour une situation ?",
-    answer:
-      "Passe par les pages thème (boulot, couple, soirées, famille, gaming) ou, avec Premium, par les filtres. Chaque vanne est rangée par contexte, pour que tu trouves en 3 secondes celle qui colle à ta situation plutôt que celle qui jette un froid. Avec Premium, mets tes préférées en favoris : tu les auras sous la main le jour J.",
+    answer: reponseTrouverVanne(),
   },
   {
     question: "Comment retenir une blague pour la ressortir au bon moment ?",
@@ -79,6 +87,7 @@ const vannesFaqs = [
 
 export default async function VannesPage({ searchParams }: ListPageProps) {
   const page = parsePageParam(searchParams.page);
+  const faqs = vannesFaqs();
   // Recherche `?q=` : filtrée côté client (API), pas de liste serveur à remplacer.
   const hasQuery = typeof searchParams.q === "string" && searchParams.q.length > 0;
   const [stats, listPage] = await Promise.all([
@@ -99,7 +108,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
         ])}
       />
       {/* FAQ balisée une seule fois (page 1), pas sur chaque page de pagination. */}
-      {page === 1 && <JsonLd data={buildFaqJsonLd(vannesFaqs)} />}
+      {page === 1 && <JsonLd data={buildFaqJsonLd(faqs)} />}
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: `${jokeLabel} vannes drôles à ressortir ce soir`,
@@ -121,19 +130,25 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           <span className="text-text-secondary">Vannes</span>
         </nav>
       )}
+      {/* v6 tour 2, point 11 (interrupteur ouvert) : page publique à hero, en-tête centré comme l'accueil (même H1 et
+          même chapô que `PageHeader`, chapô en colonne `max-w-2xl` centrée). Fermé : `PageHeader`, inchangé. */}
+      {ESPACE_CLIENT_PUBLIE ? (
+        <header className="mb-8 text-center md:mb-10" data-vannes-entete="">
+          <h1 className="font-display text-3xl font-bold md:text-4xl">Vannes drôles à ressortir ce soir, pas trois jours plus tard</h1>
+          <p className="mx-auto mt-3 max-w-2xl text-lg text-text-secondary md:mt-4">
+            {/* Relecture des captures nav s24 (ux F3) : la phrase de vente n'est plus montrée à l'abonné (masquée dans
+                le navigateur ; HTML serveur et visiteur inchangés). */}
+            Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique pour révéler la chute.{" "}
+            <MasqueSiPremium>{"Avec Premium, tu gardes tes préférées sous le coude. "}</MasqueSiPremium>
+            La théorie, c’est bien. Avoir une vanne prête au moment où tout le monde te regarde, c’est mieux.
+          </p>
+        </header>
+      ) : (
       <PageHeader
         title={<>Vannes drôles à ressortir ce soir, pas trois jours plus tard</>}
         lead={
-          // Relecture des captures nav s24 (ux F3) : interrupteur de l'espace ouvert, la phrase de vente n'est
-          // plus montrée à l'abonné (masquée dans le navigateur ; HTML serveur et visiteur inchangés). Fermé :
-          // le chapô d'aujourd'hui, au caractère près.
-          ESPACE_CLIENT_PUBLIE ? (
-            <>
-              Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique pour révéler la chute.{" "}
-              <MasqueSiPremium>{"Avec Premium, tu gardes tes préférées sous le coude. "}</MasqueSiPremium>
-              La théorie, c’est bien. Avoir une vanne prête au moment où tout le monde te regarde, c’est mieux.
-            </>
-          ) : (
+          // Fermé : le chapô d'aujourd'hui, au caractère près.
+          (
             <>
               Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique
               pour révéler la chute. Avec Premium, tu gardes tes préférées sous le coude. La
@@ -143,6 +158,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           )
         }
       />
+      )}
       {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. Revue visuelle s21
           (R04) : masquées pour l'abonné, qui a déjà la rangée de filtres de la liste (une seule rangée
           visible) ; le HTML du serveur (sans session) les garde pour les moteurs. */}
@@ -162,15 +178,16 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
       {/* FAQ SEO */}
       {/* Accordéon fermé (passe UX s12, T19) : le contenu reste dans le DOM pour le SEO. */}
       <section className="mt-12 border-t border-border pt-8">
-        <FaqSection items={vannesFaqs} align="left" />
+        {/* v6 tour 2, point 11 : interrupteur ouvert, FAQ en colonne centrée et titre centré (FAQ de l'accueil). */}
+        <FaqSection items={faqs} align={ESPACE_CLIENT_PUBLIE ? "center" : "left"} />
       </section>
 
       {/* Contenu SEO — pourquoi nos vannes */}
-      {/* v6 tour 1, point 8 : interrupteur ouvert, deux colonnes dès 1 024 px (titre à gauche, texte à droite),
-          plus de vide à droite à 1 280 px et au-delà. Fermé : inchangé. */}
-      <section className={ESPACE_CLIENT_PUBLIE ? "mt-12 border-t border-border pt-8 lg:grid lg:grid-cols-3 lg:gap-8" : "mt-12 border-t border-border pt-8"}>
-        <h2 className="font-display mb-4 text-xl font-bold">Pourquoi ces vannes sont différentes</h2>
-        <div className={ESPACE_CLIENT_PUBLIE ? "max-w-3xl space-y-3 text-sm text-text-secondary lg:col-span-2 lg:max-w-none lg:text-base" : "max-w-3xl space-y-3 text-sm text-text-secondary"}>
+      {/* v6 tour 2, point 11 : interrupteur ouvert, titre de section centré comme l'accueil et texte dans une colonne
+          `max-w-3xl` centrée (remplace les deux colonnes du tour 1 : plus de vide d'un seul côté). Fermé : inchangé. */}
+      <section className="mt-12 border-t border-border pt-8">
+        <h2 className={ESPACE_CLIENT_PUBLIE ? "font-display mb-4 text-center text-xl font-bold" : "font-display mb-4 text-xl font-bold"}>Pourquoi ces vannes sont différentes</h2>
+        <div className={ESPACE_CLIENT_PUBLIE ? "mx-auto max-w-3xl space-y-3 text-sm text-text-secondary lg:text-base" : "max-w-3xl space-y-3 text-sm text-text-secondary"}>
           <p>
             Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-⁠Up</strong> : «&nbsp;est-⁠ce que je peux la sortir ce soir et faire rire ?&nbsp;» Si la réponse est non, elle n’est pas sur le site. Pas de blagues Carambar, pas de grille-⁠pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
           </p>
@@ -185,7 +202,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">La suite, si tu as pris goût</h2>
+        <h2 className={ESPACE_CLIENT_PUBLIE ? "font-display mb-4 text-center text-xl font-bold" : "font-display mb-4 text-xl font-bold"}>La suite, si tu as pris goût</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/conseils" className={carteSuite()}>
             {ESPACE_CLIENT_PUBLIE && <FiletCarte />}

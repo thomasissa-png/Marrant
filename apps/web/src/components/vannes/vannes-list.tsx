@@ -353,11 +353,21 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       </ListResults>
 
       {/* s21 B7 : bloc de bas de liste (la limite en tête, revue visuelle s21), puis cartes floutées. */}
-      {limited && (jokes.length > 0 || page > 1) && <MurListe liste="vannes" />}
+      {/* v6 tour 2, point 11 (interrupteur ouvert) : contenu du bloc d'offre centré, comme le bloc d'offre de l'accueil
+          (titre, bouton, réassurance et lien gratuit ; la réassurance du bloc est forcée à gauche ouvert, d'où la
+          seconde classe). Le bloc lui-même (`components/premium/mur-liste.tsx`) n'est pas touché. Fermé : inchangé. */}
+      {limited && (jokes.length > 0 || page > 1) && (ESPACE_CLIENT_PUBLIE ? (
+        <div className="text-center [&_.text-left]:text-center" data-mur-centre="">
+          <MurListe liste="vannes" />
+        </div>
+      ) : (
+        <MurListe liste="vannes" />
+      ))}
 
       {/* Carte floutée (une seule, concision v5) : même cadre sur les trois murs (revue visuelle s21, R10),
-          sur toute la colonne de la liste, comme le mur au-dessus. */}
-      {limited && (jokes.length > 0 || page > 1) && (
+          sur toute la colonne de la liste, comme le mur au-dessus. v6 tour 2, point 11 : retirée interrupteur
+          ouvert (elle se lisait comme un chargement resté bloqué, sous la seule offre de la page). Fermé : inchangée. */}
+      {!ESPACE_CLIENT_PUBLIE && limited && (jokes.length > 0 || page > 1) && (
         <div className="mt-4 grid">
           {Array.from({ length: Math.min(1, Math.max(0, totalReal - jokes.length)) }).map((_, i) => (
             <CarteFloutee key={`locked-${i}`} onOuvrir={() => setPremiumOpen(true)} />

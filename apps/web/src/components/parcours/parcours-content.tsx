@@ -24,6 +24,17 @@ import { totalParcoursXp } from "@/lib/parcours-xp";
 import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 import { cn } from "@/lib/utils";
 import { PARCOURS_PAR_DEFAUT } from "@/lib/espace/premier-pas";
+import { SANS_COMPTE } from "@/config/textes/cta-articles-accueil";
+
+/**
+ * Ligne frontière d'une carte de /parcours. v6 tour 2, point 14 (interrupteur ouvert seulement, `connecte` vrai pour
+ * un compte connecté) : la phrase « Sans compte. », fausse pour lui, est masquée ; le reste de la ligne, vrai, est
+ * gardé tel quel ; rien d'écrit à la place. Fermé ou visiteur : la ligne entière, inchangée.
+ */
+export function frontiereListe(slug: Parameters<typeof LISTE_PARCOURS_CTA.frontiere>[0], connecte: boolean): string {
+  const ligne = LISTE_PARCOURS_CTA.frontiere(slug);
+  return connecte && ligne.startsWith(SANS_COMPTE) ? ligne.slice(SANS_COMPTE.length).trimStart() : ligne;
+}
 
 // Les données arrivent du Server Component (app/(dashboard)/parcours/(liste)/page.tsx) :
 // le seed complet (quiz, vidéos, vannes) ne doit plus être embarqué côté client.
@@ -391,7 +402,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                           ? "Continuer ce parcours"
                           : "Commencer ce parcours"}
                   </Button>
-                  {etape1Slug && <p className="text-xs text-text-muted">{LISTE_PARCOURS_CTA.frontiere(etape1Slug)}</p>}
+                  {etape1Slug && <p className="text-xs text-text-muted">{frontiereListe(etape1Slug, ESPACE_CLIENT_PUBLIE && statut !== "visiteur")}</p>}
                 </div>
               </CardContent>
             </Card>
