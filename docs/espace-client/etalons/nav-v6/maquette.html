@@ -159,7 +159,7 @@ tailwind.config = {
   if(V==="b"){
     band = '<div class="py-2"><nav aria-label="Rubriques" class="'+wrapPad+'"><div id="rub" class="rub flex w-fit max-w-full items-center overflow-x-auto rounded-full bg-white/[.04] px-1">'+seq()+dots(false)+'</div></nav></div>';
   } else if(V==="d"){
-    band = '<div class="pb-2 md:pb-3 md:pt-1.5"><nav aria-label="Rubriques" class="'+wrapPad+'"><div class="flex w-full items-center rounded-xl bg-background-light px-1"><div id="rub" class="rub scroll-px-10 flex min-w-0 flex-1 items-center overflow-x-auto">'+seq()+'</div>'+dots(false)+'</div></nav></div>';
+    band = '<div class="pb-2 md:pb-3 md:pt-1.5"><nav aria-label="Rubriques" class="'+wrapPad+'"><div class="flex w-full items-center rounded-xl bg-background-light px-1"><div id="rub" class="rub scroll-px-3 flex min-w-0 flex-1 items-center overflow-x-auto pr-2">'+seq()+'</div>'+dots(false)+'</div></nav></div>';
   } else {
     band = '<nav aria-label="Rubriques" class="'+wrapPad+(V==="c"?' xl:hidden':'')+'"><div id="rub" class="rub -mx-3 flex items-center overflow-x-auto">'+seq()+dots(false)+'</div></nav>';
   }
@@ -218,28 +218,50 @@ tailwind.config = {
   function fondu(){
     if(!rub) return;
     var g = rub.scrollLeft>4, d = rub.scrollLeft < rub.scrollWidth-rub.clientWidth-4;
-    var e = V==="d" ? 40 : 24;
-    var m = "linear-gradient(to right,"+(g?"transparent 0,#000 "+e+"px":"#000 0")+","+(d?"#000 calc(100% - "+e+"px),transparent 100%":"#000 100%")+")";
+    var eg = 24, ed = 24;
+    if(V==="d"){ eg = 16; ed = 32; g = rub.scrollLeft>0.5; }
+    var m = "linear-gradient(to right,"+(g?"transparent 0,#000 "+eg+"px":"#000 0")+","+(d?"#000 calc(100% - "+ed+"px),transparent 100%":"#000 100%")+")";
     rub.style.webkitMaskImage = rub.style.maskImage = (g||d) ? m : "none";
+    if(V==="d"){
+      /* un séparateur dont le groupe suivant est hors vue n'est pas laissé seul au bord : masqué (la place reste) */
+      var bR = rub.getBoundingClientRect().right;
+      [].forEach.call(rub.querySelectorAll(".sp"), function(s){
+        var n = s.nextElementSibling;
+        s.style.visibility = (n && n.getBoundingClientRect().left >= bR-8) ? "hidden" : "";
+      });
+    }
   }
   function centrer(){
     if(!rub) return;
     var a = rub.querySelector("[aria-current]");
-    if(a){
+    if(a && V!=="d"){
       var x = a.getBoundingClientRect().left - rub.getBoundingClientRect().left + rub.scrollLeft;
       rub.scrollLeft = x - (rub.clientWidth - a.offsetWidth)/2;
     }
     if(V==="d"){
-      /* Variante D : s'il reste du contenu à droite, un chip doit être visiblement entamé au bord (jamais un séparateur en dernier) */
-      var max = rub.scrollWidth - rub.clientWidth, base = rub.scrollLeft;
-      if(base < max-4){
-        var bord = rub.getBoundingClientRect().right;
-        for(var dx=0; dx<=40; dx+=8){
-          rub.scrollLeft = base+dx;
-          var coupe = [].some.call(rub.querySelectorAll(".chip"), function(c){
-            var r = c.getBoundingClientRect(); return r.left < bord-8 && r.left >= bord-40 && r.right > bord; });
-          if(coupe) break;
+      /* Variante D, règle d'arrivée : actif entier dès scrollLeft 0 s'il tient hors fondu droit (32 px) ; sinon on cale
+         sur le DÉBUT d'un chip (jamais un libellé à moitié lisible à gauche), actif entier, et le chip qui dépasse à droite
+         ne l'est que sous le fondu. */
+      rub.scrollLeft = 0;
+      var cw = rub.clientWidth, mx = rub.scrollWidth - cw;
+      if(a && mx > 0){
+        var cL = rub.getBoundingClientRect().left;
+        var pos = [].slice.call(rub.querySelectorAll(".chip")).map(function(c){ return [c.getBoundingClientRect().left - cL, c.offsetWidth, c]; });
+        var aL = a.getBoundingClientRect().left - cL, aR = aL + a.offsetWidth, t = 0;
+        if(aR > cw - 32){
+          var choix = null, repli = null;
+          for(var i=0;i<pos.length;i++){
+            if(pos[i][0] > aL) break;
+            var ps = pos[i][2].previousElementSibling;
+            var tt = Math.max(0, pos[i][0] - ((ps && ps.classList.contains("sp")) ? 4 : 12));
+            if(aR - tt > cw - 32) continue;
+            if(repli===null) repli = tt;
+            var ok = pos.every(function(p){ var l = p[0]-tt, r = l+p[1]; return !(r > cw && l < cw) || l >= cw-32; });
+            if(ok){ choix = tt; break; }
+          }
+          t = choix!==null ? choix : (repli!==null ? repli : mx);
         }
+        rub.scrollLeft = Math.min(t, mx);
       }
     }
     fondu();
@@ -300,7 +322,7 @@ tailwind.config = {
       courant = b; b.setAttribute("aria-expanded","true");
       lignes(b.dataset.row==="1");
       var r = b.getBoundingClientRect();
-      menu.style.top = (r.bottom+(V==="d"?8:4))+"px";
+      menu.style.top = (V==="d" ? document.querySelector("header").getBoundingClientRect().bottom+8 : r.bottom+4)+"px";
       var mw = menu.offsetWidth;
       menu.style.left = Math.max(8, Math.min(r.right-mw, innerWidth-mw-8))+"px";
     }
