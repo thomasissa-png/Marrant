@@ -22,14 +22,16 @@ const Q = frEspaceProfond(TEXTES_QUESTIONS);
  * notifications. Repasse dans un moment. ». Toucher une ligne ferme le panneau (`onChoisir`).
  * s25 (relecture tour 1, design P4 et ux) : chaque ligne porte le chevron des lignes de « Dans ton espace »
  * (`dans-ton-espace.tsx`), signe visible qu'elle s'ouvre.
- * s25 (relecture tour 2, design F3, F4 et piste, ux 7) : titre de groupe en `px-3`, sur la verticale du texte des
- * lignes ; panneau sur fond élevé, donc survol `bg-border-hover` ; « Répondu le … » en `text-text-secondary`
+ * s25 (relecture tour 2, design F3, F4 et piste, ux 7) : titre de groupe sur la verticale du texte des lignes ; panneau sur fond élevé, donc survol `bg-border-hover` ; « Répondu le … » en `text-text-secondary`
  * (`text-text-muted` : 5,10:1 sur `background-elevated` mais 4,04:1 sur la ligne survolée `border-hover`, sous
  * 4,5:1 à 12 px ; `text-text-secondary` : 6,85:1 et 5,42:1, valeurs de `tailwind.config.ts`) ; phrase vide ou
  * d'erreur sans `pt` et en `pb-1` : même air sous le texte du titre et au-dessus du bord bas (23 px mesurés).
+ * s25 (relecture design tour 5, critère 5) : titre du panneau, titres de groupe, texte des lignes et phrase vide sur
+ * une seule verticale, comme la carte « Dans ton espace » : titre de groupe sans `px` ; lignes en `-mx-3 px-3`
+ * (fond de survol et anneau de focus à 4 px du bord du panneau) ; sous 300 px (panneau en `px-3`), `-mx-2 px-2`.
  */
 const LIGNE =
-  "flex min-h-11 items-center justify-between gap-3 rounded-md px-3 py-2 text-sm text-text-primary transition-colors hover:bg-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+  "-mx-3 flex min-h-11 items-center justify-between gap-3 rounded-md px-3 py-2 max-e300:-mx-2 max-e300:px-2 text-sm text-text-primary transition-colors hover:bg-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
 const Chevron = () => (
   <svg className="h-4 w-4 flex-none text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -40,7 +42,7 @@ const LIBELLE: Record<GenreNouveaute, string> = { carnet: C.lignes.carnet, situa
 function Groupe({ titre, cle, children }: { titre: string; cle: string; children: React.ReactNode }) {
   return (
     <section aria-labelledby={`cloche-${cle}`} className="mt-4 first:mt-0" data-groupe-cloche={cle}>
-      <h3 id={`cloche-${cle}`} className="px-3 text-sm text-text-secondary">
+      <h3 id={`cloche-${cle}`} className="text-sm text-text-secondary">
         {titre}
       </h3>
       <ul>{children}</ul>

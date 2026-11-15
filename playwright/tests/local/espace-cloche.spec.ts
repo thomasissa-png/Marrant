@@ -211,6 +211,67 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await capturer(page, "nouveautes");
     });
 
+    // s25 (relecture design tour 5, critère 5) : titre « Notifications », titres de groupe, texte des lignes et phrase
+    // vide sur une seule verticale (±0,5 px), comme la carte « Dans ton espace » ; fond de survol et anneau de focus
+    // des lignes dans le panneau, avec au moins 2 px d'air jusqu'à son bord (rien de rogné).
+    test("tour 5 : titre, groupes, lignes et phrase vide sur une même verticale (320, 375, 768, 1280 px, survol et focus)", async ({ browser, page }) => {
+      await page.emulateMedia({ colorScheme: "dark" });
+      await page.context().addCookies((await compte(browser)).cookies);
+      const plein = {
+        nonLues: 1,
+        reponses: [{ id: "e2etour5", type: "SITUATION", reponduLe: new Date().toISOString(), href: "/mon-espace/questions/e2etour5" }],
+        nouveautes: [{ genre: "carnet", le: "2026-11-01", href: "/carnet/2026-11" }],
+        lettre: { numero: "2026-W46", titre: "La lettre du jeudi 12 novembre", href: "/mon-espace/lettres/2026-W46" },
+      };
+      const panneau = page.getByRole("dialog", { name: frEspace(T.cloche.titre) });
+      const verticales = () =>
+        panneau.evaluate((p) => {
+          const gauche = (el: Element) => {
+            const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.textContent!.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP) });
+            const r = document.createRange();
+            r.selectNodeContents(w.nextNode()!);
+            return r.getBoundingClientRect().left;
+          };
+          const bord = p.getBoundingClientRect();
+          const s = getComputedStyle(p);
+          const dedans = { g: bord.left + parseFloat(s.borderLeftWidth), d: bord.right - parseFloat(s.borderRightWidth) };
+          const lignes = Array.from(p.querySelectorAll("[data-ligne-cloche]"));
+          return {
+            titre: gauche(p.querySelector("h2")!),
+            autres: [...Array.from(p.querySelectorAll("h3")), ...lignes, ...Array.from(p.querySelectorAll("p"))].map((e) => ({ nom: e.textContent!.trim().slice(0, 24), x: gauche(e) })),
+            air: lignes.map((a) => Math.min(a.getBoundingClientRect().left - dedans.g, dedans.d - a.getBoundingClientRect().right)),
+            defile: p.scrollWidth - p.clientWidth,
+          };
+        });
+      for (const [regime, corps] of [["plein", plein], ["vide", { nonLues: 0, reponses: [], nouveautes: [], lettre: null }]] as const) {
+        await page.unroute("**/api/espace/cloche");
+        await servir(page, corps);
+        for (const [largeur, hauteur] of [[320, 700], [375, 812], [768, 1024], [1280, 900]] as const) {
+          await page.setViewportSize({ width: largeur, height: hauteur });
+          await page.goto("/vannes");
+          await page.getByRole("banner").getByRole("button", { name: /^Notifications/ }).click();
+          await expect(regime === "plein" ? panneau.locator("[data-ligne-cloche]") : panneau.getByText(frEspace(T.cloche.vide))).not.toHaveCount(0);
+          const m = await verticales();
+          const ici = `(${regime}, ${largeur} px)`;
+          expect(m.autres.length, `éléments mesurés ${ici}`).toBe(regime === "plein" ? 6 : 1);
+          for (const e of m.autres) expect(Math.abs(e.x - m.titre), `« ${e.nom} » sur la verticale du titre ${ici}`).toBeLessThanOrEqual(0.5);
+          expect(m.defile, `aucun défilement horizontal ${ici}`).toBe(0);
+          if (regime === "plein") {
+            for (const a of m.air) expect(a, `fond et anneau des lignes dans le panneau ${ici}`).toBeGreaterThanOrEqual(2);
+            const premiere = panneau.locator("[data-ligne-cloche]").first();
+            await premiere.hover();
+            await expect(premiere).toHaveCSS("background-color", "rgb(58, 58, 58)");
+            await page.mouse.move(0, 0);
+            await panneau.getByRole("button", { name: frEspace(T.cloche.fermer) }).focus();
+            await page.keyboard.press("Tab");
+            await expect(premiere).toBeFocused();
+            expect(await premiere.evaluate((e) => getComputedStyle(e).boxShadow), `anneau de focus ${ici}`).not.toBe("none");
+          }
+          await page.keyboard.press("Escape");
+        }
+      }
+    });
+
     test("« Retirer de mon historique » : confirmation au clavier, Échap = Annuler, effacement définitif en base", async ({ browser, page }) => {
       await page.emulateMedia({ colorScheme: "dark" });
       const { id, cookies } = await compte(browser);

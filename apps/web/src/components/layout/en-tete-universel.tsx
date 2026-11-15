@@ -63,10 +63,12 @@ export function liensDuSite(etat: EtatLecteur): LienNav[] {
 
 /** État actif (§1) : fond, couleur et soulignement de 2 px ; tous les liens portent la bordure (pas de saut).
  *  s25 (relecture design tour 4, critère 7) : anneau de focus entièrement arrondi comme logo, cloche, compte, Menu
- *  et Premium ; hors focus, forme inchangée (haut arrondi, bas droit sous le soulignement de l'actif). */
+ *  et Premium ; hors focus, forme inchangée (haut arrondi, bas droit sous le soulignement de l'actif).
+ *  s25 (relecture design tour 5, critère 7) : `pt-0.5` compense le `border-b-2` (zone de contenu de 40 px centrée à
+ *  22 px, comme Connexion, Premium et la recherche) : même ligne de base ; 44 px et soulignement inchangés. */
 export const classeLienBarre = (actif: boolean) =>
   cn(
-    "flex h-11 items-center whitespace-nowrap rounded-t-lg border-b-2 px-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-2",
+    "flex h-11 items-center whitespace-nowrap rounded-t-lg border-b-2 px-1.5 pt-0.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-2",
     actif
       ? "border-accent-primary bg-background-elevated text-accent-link focus-visible:rounded-b-lg"
       : "border-transparent text-text-secondary hover:bg-background-elevated hover:text-text-primary focus-visible:rounded-lg",
