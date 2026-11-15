@@ -747,11 +747,28 @@ test.describe("navigation universelle v6 (s25)", () => {
           }
         }
       }
-      // §3 : rythme de l'espace (H1 30/36 px, grille de « Aujourd'hui » en 2 colonnes à 24 px d'écart).
+      // §3 : rythme de l'espace (H1 30/36 px, 24 px d'écart dans « Aujourd'hui »). v6 tour 1 (point 4) : la grille de
+      // 2 colonnes devient une pile (action du jour en pleine coque, `flex-col gap-6`) puis les secondaires côte à côte
+      // (`md:grid-cols-2 gap-6`) : même écart de 24 px, mesuré entre éléments et entre colonnes.
       await page.setViewportSize({ width: 1280, height: 900 });
       await page.goto("/mon-espace");
       const grille = page.locator("[data-aujourdhui-grille]");
-      expect(await grille.evaluate((g) => getComputedStyle(g).columnGap)).toBe("24px");
+      const ecarts = await grille.evaluate((g) => {
+        const enfants = Array.from(g.children).map((e) => e.getBoundingClientRect());
+        const secondaires = g.querySelector("[data-aujourdhui-secondaires]");
+        const cartes = secondaires ? Array.from(secondaires.children).map((e) => e.getBoundingClientRect()) : [];
+        return {
+          rangee: getComputedStyle(g).rowGap,
+          entre: enfants.slice(1).map((r, i) => Math.round(r.top - enfants[i].bottom)),
+          colonnes: secondaires ? getComputedStyle(secondaires).columnGap : null,
+          entreColonnes: cartes.length > 1 && Math.round(cartes[1].top) === Math.round(cartes[0].top) ? Math.round(cartes[1].left - cartes[0].right) : null,
+        };
+      });
+      noter(`critère 4 ; écarts d'Aujourd'hui ; ${JSON.stringify(ecarts)}`);
+      expect(ecarts.rangee, "écart entre les éléments d'Aujourd'hui").toBe("24px");
+      for (const e of ecarts.entre) expect(e, "24 px entre les éléments d'Aujourd'hui").toBe(24);
+      if (ecarts.colonnes !== null) expect(ecarts.colonnes, "écart entre les secondaires").toBe("24px");
+      if (ecarts.entreColonnes !== null) expect(ecarts.entreColonnes, "24 px entre les secondaires côte à côte").toBe(24);
       expect(await page.locator("main h1").first().evaluate((h) => getComputedStyle(h).fontSize)).toBe("36px");
       await c.close();
     });

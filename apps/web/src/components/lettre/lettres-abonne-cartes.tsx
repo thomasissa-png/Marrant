@@ -16,7 +16,7 @@ const CARTE_LETTRE = cn(
 
 /**
  * « La lettre » vue par l'abonné actif à `/lettre` (décision de Thomas du 14/11), v6 tour 1, point 10 : même
- * lecture, même compteur anonyme et même état vide que `LettresAbonne` (espace), mais le H1 reprend le libellé
+ * lecture, même compteur anonyme et même état vide que l'ex-`LettresAbonne` (retiré à l'intégration), mais le H1 reprend le libellé
  * validé de la bande (« La lettre », `TEXTES_LETTRE.menu`) et chaque lettre envoyée est une carte à filet de
  * l'accueil (grille dès 768 px). Rendu serveur, appelé seulement par `app/(dashboard)/lettre/page.tsx`,
  * interrupteur ouvert, pour un abonné actif.

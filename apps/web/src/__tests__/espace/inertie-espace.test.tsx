@@ -244,6 +244,23 @@ describe("garde-fou de construction", () => {
     "app/(dashboard)/conseils/page.tsx",
     "app/(dashboard)/glossaire/page.tsx",
     "app/(dashboard)/videos/page.tsx",
+    // Corrections v6 tour 1 (s25, lot 2, pages publiques vues ouvertes) : chaque fichier lit l'interrupteur sous sa
+    // seule garde (`filet={ESPACE_CLIENT_PUBLIE}` sur `Card`, absent = carte d'avant au caractère près ; classes et
+    // filet ajoutés `ESPACE_CLIENT_PUBLIE ? … : <classe d'avant>` ; réassurance `text-left` ouvert seulement) ;
+    // `lettres-abonne-cartes.tsx` lit `lib/espace` et n'est chargé qu'à la demande par `lettre/page.tsx`, sous
+    // l'interrupteur et pour l'abonné actif. Fermé : instantanés identiques. Tests :
+    // `__tests__/espace/publiques-v6-tour1-s25.test.tsx`, `playwright/tests/local/publiques-v6-tour1-pages.spec.ts`.
+    "app/(dashboard)/profil/rappel-parcours-toggle.tsx",
+    "components/lettre/lettre-hebdo-reglage.tsx",
+    "components/lettre/lettre-page-inscription.tsx",
+    "components/lettre/lettres-abonne-cartes.tsx",
+    "components/premium/bloc-exercice.tsx",
+    "components/premium/carte-floutee.tsx",
+    "components/premium/mur-liste.tsx",
+    "components/premium/premium-modal.tsx",
+    "components/profil/abonnement-card.tsx",
+    "components/profil/prenom-card.tsx",
+    "components/profil/supprimer-compte-card.tsx",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

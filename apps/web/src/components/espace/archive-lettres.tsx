@@ -20,6 +20,7 @@ export const hrefLettre = (numero: string) => `${ESPACE_ACCUEIL}/lettres/${numer
 export function ArchiveLettres({ lettres }: { lettres: readonly LettreArchive[] }) {
   if (lettres.length === 0) {
     return (
+      // v6 tour 1 : carte à filet de l'accueil (`CARTE` repose sur `CADRE_CARTE` depuis le lot 1 : `rounded-xl`, filet).
       <div className={`${CARTE} flex flex-col items-start gap-4 md:p-8`} data-testid="lettres-vide">
         <p className="text-base text-text-primary">{T.vide}</p>
         {/* Relecture des captures nav s24, tour 2 (reviewer P11) : même sortie qu'un état vide de Mes répliques (bouton). */}

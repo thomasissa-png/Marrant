@@ -232,7 +232,7 @@ export function FavorisList() {
       {isLoading ? (
         <div className="grid gap-4">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Card key={i} className="animate-pulse">
+            <Card filet={ESPACE_CLIENT_PUBLIE} key={i} className="animate-pulse">
               <CardContent className="py-6">
                 <div className="h-4 w-1/3 rounded bg-background-elevated" />
                 <div className="mt-3 h-4 w-2/3 rounded bg-background-elevated" />
@@ -241,7 +241,7 @@ export function FavorisList() {
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <Card>
+        <Card filet={ESPACE_CLIENT_PUBLIE}>
           <CardContent className="flex flex-col items-center py-12 text-center">
             <span className="text-4xl" role="img" aria-label="favoris vides">
               {currentTab.emptyEmoji}
@@ -274,7 +274,7 @@ export function FavorisList() {
               const joke = fav.joke as unknown as JokeData;
               const isRevealed = revealedJokes.has(fav.id);
               return (
-                <Card
+                <Card filet={ESPACE_CLIENT_PUBLIE}
                   key={fav.id}
                   className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}`}
                   tabIndex={0}
@@ -357,7 +357,7 @@ export function FavorisList() {
               const tip = fav.tip as unknown as TipData;
               const isExpanded = expandedTips.has(fav.id);
               return (
-                <Card
+                <Card filet={ESPACE_CLIENT_PUBLIE}
                   key={fav.id}
                   className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}`}
                   tabIndex={0}
@@ -424,7 +424,7 @@ export function FavorisList() {
             if (fav.contentType === "VIDEO" && fav.video) {
               const video = fav.video as unknown as VideoData;
               return (
-                <Card key={fav.id} className={ESPACE_CLIENT_PUBLIE ? "overflow-hidden md:col-span-2 lg:col-span-3" : "overflow-hidden md:col-span-2"}>
+                <Card filet={ESPACE_CLIENT_PUBLIE} key={fav.id} className={ESPACE_CLIENT_PUBLIE ? "overflow-hidden md:col-span-2 lg:col-span-3" : "overflow-hidden md:col-span-2"}>
                   <CardContent className={ESPACE_CLIENT_PUBLIE ? undefined : "pt-4"}>
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -494,7 +494,7 @@ export function FavorisList() {
 
             // Fallback for unknown content type
             return (
-              <Card key={fav.id}>
+              <Card filet={ESPACE_CLIENT_PUBLIE} key={fav.id}>
                 <CardContent className="flex items-center justify-between pt-4">
                   <Badge variant="default">Favori</Badge>
                   <Button

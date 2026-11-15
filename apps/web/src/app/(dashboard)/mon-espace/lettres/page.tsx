@@ -6,7 +6,7 @@ import { garderEspace } from "@/lib/espace/garde";
 
 /**
  * Ancienne adresse de l'archive « Lettres » (s24, lot D6). Décision de Thomas du 14/11 : « La lettre » est une
- * seule section pour tous, à `/lettre` (abonné actif : l'archive, `components/espace/lettres-abonne.tsx` ; visiteur
+ * seule section pour tous, à `/lettre` (abonné actif : l'archive, `components/lettre/lettres-abonne-cartes.tsx` ; visiteur
  * et compte gratuit : l'inscription). Cette adresse y renvoie par une redirection permanente (308) : un seul
  * contenu, aucune copie à tenir à jour. Même garde que tout `/mon-espace` (et que son layout), EN PREMIER :
  * interrupteur fermé, 404 avant toute lecture, comme avant ; ouvert, sans session : connexion puis retour ici ;

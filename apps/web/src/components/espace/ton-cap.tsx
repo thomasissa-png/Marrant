@@ -23,12 +23,15 @@ export function TonCap({
   ecart,
   xp,
   className,
+  ligneQuiPasse = false,
 }: {
   cap: NumeroCap;
   serie: number;
   ecart: boolean;
   xp?: number;
   className?: string;
+  /** « Mon profil » (v6 tour 1) : série et cap passent à la ligne sur écran étroit (290, 320 px) au lieu de déborder. */
+  ligneQuiPasse?: boolean;
 }) {
   return (
     <section
@@ -40,14 +43,14 @@ export function TonCap({
         {T.titre}
       </h2>
       <div className="space-y-2 md:flex md:flex-wrap md:items-center md:gap-x-8 md:gap-y-3 md:space-y-0">
-        <p className="flex items-center gap-2 text-base text-text-primary max-e300:text-sm">
+        <p className={cn("flex items-center gap-2 text-base text-text-primary max-e300:text-sm", ligneQuiPasse && "min-w-0 flex-wrap")}>
           <svg className="h-5 w-5 flex-none text-accent-primary-hover max-e300:h-4 max-e300:w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
           </svg>
           <span>{serie > 0 ? SERIE.jours(serie) : T.serieZero}</span>
         </p>
-        <p className="text-base font-semibold text-text-primary max-e300:text-xs">
+        <p className={cn("text-base font-semibold text-text-primary max-e300:text-xs", ligneQuiPasse && "min-w-0 [overflow-wrap:anywhere]")}>
           <span aria-hidden="true">{T.capVisible(cap)}</span>
           <span className="sr-only">{T.capLu(cap)}</span>
         </p>

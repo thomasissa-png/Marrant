@@ -2,6 +2,7 @@ import type { Browser, BrowserContext, Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, adresseVisiteur, ESPACE_OUVERT } from "../support/base-locale";
 import { CATEGORIES_VANNES } from "@/config/vannes-categories";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
+import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 
 /**
  * Décisions de Thomas du 14/11 et du 15/11 (s25), espace ouvert seulement (fermé : rien ne change, contrôlé ici aussi) :
@@ -111,7 +112,8 @@ test.describe("décisions du 14/11 (s25)", () => {
       await page.goto("/lettre");
       const archive = page.locator("main [data-lettres-abonne]");
       await expect(archive).toBeVisible();
-      await expect(page.getByRole("heading", { level: 1, name: "Lettres" })).toBeVisible();
+      // v6 tour 1 (point 10) : H1 de l'abonné « La lettre », libellé validé de la bande (`TEXTES_LETTRE.menu`).
+      await expect(page.getByRole("heading", { level: 1, name: TEXTES_LETTRE.menu, exact: true })).toBeVisible();
       await expect(page.locator("main #lettre-titre-page")).toHaveCount(0);
       await expect(page.getByRole("navigation", { name: /Fil d.Ariane/ })).toHaveCount(0);
       await expect(archive.getByRole("link", { name: /Retour/ })).toHaveCount(0);

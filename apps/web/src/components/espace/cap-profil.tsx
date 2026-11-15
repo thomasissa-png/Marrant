@@ -32,7 +32,10 @@ export function CapProfil({ xp, serie, className }: { xp: number; serie: number;
       serie={caps?.serie ?? serie}
       ecart={caps?.ecart ?? false}
       xp={caps?.xp ?? xp}
-      className={className ? `h-full ${className}` : "h-full"}
+      // v6 tour 1 (relecture favoris-profil, point 6) : à 290 et 320 px, la carte ne déborde plus de la grille du
+      // profil (`min-w-0`) et la ligne de la série passe à la ligne (`ligneQuiPasse`).
+      className={className ? `h-full min-w-0 ${className}` : "h-full min-w-0"}
+      ligneQuiPasse
     />
   );
 }
