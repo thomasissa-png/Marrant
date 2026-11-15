@@ -33,6 +33,9 @@ test.describe("Murs de liste : lien de fiche de chaque carte @s21", () => {
     test(`/${rubrique} : le titre de la carte ouvre la fiche au clavier`, async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto(`/${rubrique}`);
+      // s25 (QA, CI e2e-local) : le client remplace la liste du serveur par celle du visiteur (mur). Un titre lu et
+      // focalisé avant ce remplacement disparaissait du DOM (focus perdu, « inactive »). Attendre le mur, comme /vannes.
+      await expect(page.locator(`[data-mur-liste="${rubrique}"]`)).toBeVisible();
       const premier = page.locator(`main a[href^="/${rubrique}/"]:not([href^="/${rubrique}/theme/"])`).first();
       await expect(premier).toBeVisible();
       const href = await premier.getAttribute("href");

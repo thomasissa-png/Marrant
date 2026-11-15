@@ -128,8 +128,12 @@ test.describe("espace client, cloche (s24, lot D8)", () => {
       await expect(panneau).toBeHidden();
       await expect(cloche).toBeFocused();
       await cloche.click();
-      // s25 : plus de voile sous 768 px ; le clic dehors est lu par Radix une fois le panneau monté.
+      // s25 : plus de voile sous 768 px ; le clic dehors est lu par Radix une fois le panneau monté. Radix
+      // (DismissableLayer) n'écoute le clic dehors qu'après un `setTimeout(0)` posé au montage : un clic plus rapide
+      // tombait avant l'écouteur, ignoré (une fois sur deux en CI, QA s25). On laisse passer deux images et ce délai,
+      // moins qu'un geste humain ; le premier clic dehors doit toujours fermer.
       await expect(panneau).toBeVisible();
+      for (let i = 0; i < 2; i++) await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 0))));
       await page.mouse.click(10, 10); // dehors
       await expect(panneau).toBeHidden();
       await expect(cloche).toBeFocused();

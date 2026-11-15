@@ -14,6 +14,16 @@ test.describe("Grilles des listes et des favoris @s21", () => {
   test("R01 /conseils : 2 colonnes à 1 280 px, rangée régulière ; 1 colonne à 375 px", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/conseils");
+    // s25 (QA, CI e2e-local) : le serveur rend le catalogue complet (filtres, 2 colonnes) ; le client le remplace
+    // par la liste du visiteur (mur de 3 cartes, filtres retirés : rangée remontée de 124 px). Mesurer avant ce
+    // remplacement comparait une carte d'avant et une d'après (« même rangée » à 124 px). Attendre le mur, puis la fin
+    // de l'entrée des cartes (`animate-stagger-in`, translateY de 12 px : écart de 1,27 px mesuré en pleine animation).
+    const mur = page.locator('[data-mur-liste="conseils"]');
+    const grillePosee = async () => {
+      await expect(mur).toBeVisible();
+      await page.locator('main [role="tabpanel"]').evaluate((g) => Promise.all(g.getAnimations({ subtree: true }).map((a) => a.finished)));
+    };
+    await grillePosee();
     const cartes = page.locator('main [role="tabpanel"] > *');
     await expect(cartes.first()).toBeVisible();
     expect(await cartes.count()).toBeGreaterThanOrEqual(2);
@@ -35,6 +45,7 @@ test.describe("Grilles des listes et des favoris @s21", () => {
 
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/conseils");
+    await grillePosee();
     const premiere = await cartes.first().boundingBox();
     const liste = await page.locator('main [role="tabpanel"]').boundingBox();
     expect(Math.abs((premiere?.width ?? 0) - (liste?.width ?? 0)), "une colonne à 375 px").toBeLessThanOrEqual(1);
