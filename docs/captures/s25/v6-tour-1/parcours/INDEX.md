@@ -1,0 +1,44 @@
+# Captures parcours (2026-11-15T17:48, http://localhost:5400)
+
+- visiteur-parcours-375.png : /parcours (page), HTTP 200, hauteur 7053px
+- visiteur-parcours-repartie-375.png : /parcours/repartie (page), HTTP 200, hauteur 5801px
+- visiteur-parcours-768.png : /parcours (page), HTTP 200, hauteur 5017px
+- visiteur-parcours-repartie-768.png : /parcours/repartie (page), HTTP 200, hauteur 3987px
+- visiteur-parcours-1280.png : /parcours (page), HTTP 200, hauteur 4678px
+- visiteur-parcours-repartie-1280.png : /parcours/repartie (page), HTTP 200, hauteur 3761px
+- visiteur-parcours-1456.png : /parcours (page), HTTP 200, hauteur 4678px
+- visiteur-parcours-repartie-1456.png : /parcours/repartie (page), HTTP 200, hauteur 3761px
+- visiteur-parcours-1920.png : /parcours (page), HTTP 200, hauteur 4678px
+- visiteur-parcours-repartie-1920.png : /parcours/repartie (page), HTTP 200, hauteur 3761px
+- gratuit-parcours-375.png : /parcours (page), HTTP 200, hauteur 7053px
+- gratuit-parcours-repartie-375.png : /parcours/repartie (page), HTTP 200, hauteur 5801px
+- gratuit-parcours-768.png : /parcours (page), HTTP 200, hauteur 5017px
+- gratuit-parcours-repartie-768.png : /parcours/repartie (page), HTTP 200, hauteur 3987px
+- gratuit-parcours-1280.png : /parcours (page), HTTP 200, hauteur 4678px
+- gratuit-parcours-repartie-1280.png : /parcours/repartie (page), HTTP 200, hauteur 3761px
+- gratuit-parcours-1456.png : /parcours (page), HTTP 200, hauteur 4678px
+- gratuit-parcours-repartie-1456.png : /parcours/repartie (page), HTTP 200, hauteur 3761px
+- gratuit-parcours-1920.png : /parcours (page), HTTP 200, hauteur 4678px
+- gratuit-parcours-repartie-1920.png : /parcours/repartie (page), HTTP 200, hauteur 3761px
+- en-cours-parcours-375.png : /parcours (page), HTTP ERR page.goto: Timeout 45000ms exceeded.
+Call log:
+[2m  - navig, hauteur 7683px
+- en-cours-parcours-repartie-375.png : /parcours/repartie (page), HTTP 200, hauteur 6380px
+- en-cours-parcours-768.png : /parcours (page), HTTP 200, hauteur 5615px
+- en-cours-parcours-repartie-768.png : /parcours/repartie (page), HTTP 200, hauteur 4512px
+- en-cours-parcours-1280.png : /parcours (page), HTTP 200, hauteur 5292px
+- en-cours-parcours-repartie-1280.png : /parcours/repartie (page), HTTP 200, hauteur 4310px
+- en-cours-parcours-1456.png : /parcours (page), HTTP 200, hauteur 5292px
+- en-cours-parcours-repartie-1456.png : /parcours/repartie (page), HTTP 200, hauteur 4310px
+- en-cours-parcours-1920.png : /parcours (page), HTTP 200, hauteur 5292px
+- en-cours-parcours-repartie-1920.png : /parcours/repartie (page), HTTP 200, hauteur 4310px
+- nouvel-parcours-375.png : /parcours (page), HTTP 200, hauteur 7365px
+- nouvel-parcours-repartie-375.png : /parcours/repartie (page), HTTP 200, hauteur 6140px
+- nouvel-parcours-768.png : /parcours (page), HTTP 200, hauteur 5427px
+- nouvel-parcours-repartie-768.png : /parcours/repartie (page), HTTP 200, hauteur 4348px
+- nouvel-parcours-1280.png : /parcours (page), HTTP 200, hauteur 5132px
+- nouvel-parcours-repartie-1280.png : /parcours/repartie (page), HTTP 200, hauteur 4122px
+- nouvel-parcours-1456.png : /parcours (page), HTTP 200, hauteur 5132px
+- nouvel-parcours-repartie-1456.png : /parcours/repartie (page), HTTP 200, hauteur 4122px
+- nouvel-parcours-1920.png : /parcours (page), HTTP 200, hauteur 5132px
+- nouvel-parcours-repartie-1920.png : /parcours/repartie (page), HTTP 200, hauteur 4122px

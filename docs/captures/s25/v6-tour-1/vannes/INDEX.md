@@ -1,0 +1,22 @@
+# Captures vannes (2026-11-15T17:48, http://localhost:5400)
+
+- visiteur-vannes-375.png : /vannes (page), HTTP 200, hauteur 5948px
+- visiteur-vannes-768.png : /vannes (page), HTTP 200, hauteur 3802px
+- visiteur-vannes-1280.png : /vannes (page), HTTP 200, hauteur 3184px
+- visiteur-vannes-1456.png : /vannes (page), HTTP 200, hauteur 3184px
+- visiteur-vannes-1920.png : /vannes (page), HTTP 200, hauteur 3184px
+- gratuit-vannes-375.png : /vannes (page), HTTP 200, hauteur 5948px
+- gratuit-vannes-768.png : /vannes (page), HTTP 200, hauteur 3802px
+- gratuit-vannes-1280.png : /vannes (page), HTTP 200, hauteur 3184px
+- gratuit-vannes-1456.png : /vannes (page), HTTP 200, hauteur 3184px
+- gratuit-vannes-1920.png : /vannes (page), HTTP 200, hauteur 3184px
+- en-cours-vannes-375.png : /vannes (page), HTTP 200, hauteur 6170px
+- en-cours-vannes-768.png : /vannes (page), HTTP 200, hauteur 3738px
+- en-cours-vannes-1280.png : /vannes (page), HTTP 200, hauteur 3121px
+- en-cours-vannes-1456.png : /vannes (page), HTTP 200, hauteur 3121px
+- en-cours-vannes-1920.png : /vannes (page), HTTP 200, hauteur 3121px
+- nouvel-vannes-375.png : /vannes (page), HTTP 200, hauteur 6170px
+- nouvel-vannes-768.png : /vannes (page), HTTP 200, hauteur 3738px
+- nouvel-vannes-1280.png : /vannes (page), HTTP 200, hauteur 3121px
+- nouvel-vannes-1456.png : /vannes (page), HTTP 200, hauteur 3121px
+- nouvel-vannes-1920.png : /vannes (page), HTTP 200, hauteur 3121px

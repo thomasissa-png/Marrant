@@ -1,0 +1,22 @@
+# Captures carnet (2026-11-15T17:47, http://localhost:5400)
+
+- visiteur-carnet-375.png : /carnet (page), HTTP 200, hauteur 3043px
+- visiteur-carnet-768.png : /carnet (page), HTTP 200, hauteur 2398px
+- visiteur-carnet-1280.png : /carnet (page), HTTP 200, hauteur 2183px
+- visiteur-carnet-1456.png : /carnet (page), HTTP 200, hauteur 2183px
+- visiteur-carnet-1920.png : /carnet (page), HTTP 200, hauteur 2183px
+- gratuit-carnet-375.png : /carnet (page), HTTP 200, hauteur 3043px
+- gratuit-carnet-768.png : /carnet (page), HTTP 200, hauteur 2398px
+- gratuit-carnet-1280.png : /carnet (page), HTTP 200, hauteur 2183px
+- gratuit-carnet-1456.png : /carnet (page), HTTP 200, hauteur 2183px
+- gratuit-carnet-1920.png : /carnet (page), HTTP 200, hauteur 2183px
+- en-cours-carnet-375.png : /carnet (page), HTTP 200, hauteur 33304px
+- en-cours-carnet-768.png : /carnet (page), HTTP 200, hauteur 25020px
+- en-cours-carnet-1280.png : /carnet (page), HTTP 200, hauteur 24417px
+- en-cours-carnet-1456.png : /carnet (page), HTTP 200, hauteur 24417px
+- en-cours-carnet-1920.png : /carnet (page), HTTP 200, hauteur 24417px
+- nouvel-carnet-375.png : /carnet (page), HTTP 200, hauteur 33304px
+- nouvel-carnet-768.png : /carnet (page), HTTP 200, hauteur 25020px
+- nouvel-carnet-1280.png : /carnet (page), HTTP 200, hauteur 24417px
+- nouvel-carnet-1456.png : /carnet (page), HTTP 200, hauteur 24417px
+- nouvel-carnet-1920.png : /carnet (page), HTTP 200, hauteur 24417px
