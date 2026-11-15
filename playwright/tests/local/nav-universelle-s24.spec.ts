@@ -249,8 +249,23 @@ test.describe("navigation universelle v6 (s25)", () => {
         expect(await bloc.evaluate((e) => getComputedStyle(e).position), `position ${ici}`).toBe(collant ? "sticky" : "relative");
         const reserve = await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop);
         expect(reserve, `réserve des ancres ${ici}`).toBe(collant ? "128px" : "0px");
-        await page.evaluate(() => window.scrollTo(0, 400));
-        await expect.poll(() => page.evaluate(() => window.scrollY), { message: `défilé ${ici}` }).toBeGreaterThan(0);
+        // Défilement immédiat (sans `scroll-behavior: smooth`), puis état stable : même défilement et même bloc sur deux
+        // images de suite (CI : mesure prise pendant un défilement doux ou un recalage de mise en page, 188 x 406).
+        await page.evaluate(() => window.scrollTo({ top: 400, behavior: "instant" }));
+        await expect
+          .poll(
+            () =>
+              bloc.evaluate(
+                (e) =>
+                  new Promise<boolean>((ok) => {
+                    const lire = () => `${window.scrollY} ${e.getBoundingClientRect().top} ${e.getBoundingClientRect().bottom}`;
+                    const avant = lire();
+                    requestAnimationFrame(() => requestAnimationFrame(() => ok(window.scrollY > 0 && lire() === avant)));
+                  }),
+              ),
+            { message: `défilé, état stable ${ici}` },
+          )
+          .toBe(true);
         const haut = await bloc.evaluate((e) => e.getBoundingClientRect());
         if (collant) expect(haut.top, `bloc resté en haut ${ici}`).toBe(0);
         else expect(haut.bottom, `bloc parti avec la page ${ici}`).toBeLessThanOrEqual(0);

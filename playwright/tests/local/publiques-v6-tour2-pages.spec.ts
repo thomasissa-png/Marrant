@@ -140,6 +140,13 @@ test.describe("v6 tour 2, lot 2 : pages publiques", () => {
       await expect(page.locator("main [id^='parcours-']").first()).toBeVisible();
       await expect.poll(async () => (await page.locator("main").innerText()).includes("Sans compte.")).toBe(false);
       await page.goto("/parcours/repartie");
+      // Fin de l'étape 1 : affichée quiz fini (compte neuf de la suite e2e ; le compte de la préversion l'a déjà fini).
+      for (let i = 0; i < 10 && !(await page.locator("[data-fin-etape-1]").isVisible()); i++) {
+        const options = page.locator('[role="group"][aria-labelledby^="quiz-q-"] button');
+        if ((await options.count()) === 0) break;
+        await options.first().click();
+        await page.getByRole("button", { name: /^(Question suivante|Voir le résultat)$/ }).click();
+      }
       const plein = page.locator("[data-fin-etape-1-cta='premium']");
       await expect(plein).toBeVisible();
       expect(await plein.getAttribute("href")).toMatch(/^\/abonnement/);

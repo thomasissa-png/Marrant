@@ -1,4 +1,4 @@
-import { test, expect, localSeulement } from "../support/base-locale";
+import { test, expect, localSeulement, ESPACE_OUVERT } from "../support/base-locale";
 import type { Page } from "@playwright/test";
 
 /**
@@ -80,6 +80,9 @@ test.describe("Boutons prix sur une ligne à 375 px @s21", () => {
   });
 
   test("fenêtre Premium ouverte depuis la carte floutée de /vannes", async ({ page }) => {
+    // v6 tour 2 (point 11, voulu) : en régime ouvert, la carte floutée sous l'offre de /vannes est retirée
+    // (`publiques-v6-tour2-pages.spec.ts` le vérifie) ; elle existe toujours en régime fermé.
+    test.skip(ESPACE_OUVERT, "régime fermé seulement (carte floutée retirée de /vannes en régime ouvert)");
     await page.goto("/vannes");
     await page.getByRole("button", { name: /Contenu Premium\s:\svoir l['’]offre/i }).first().click();
     await expect(page.getByRole("dialog")).toBeVisible();

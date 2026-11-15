@@ -1,4 +1,4 @@
-import { test, expect, localSeulement } from "../support/base-locale";
+import { test, expect, localSeulement, ESPACE_OUVERT } from "../support/base-locale";
 
 /**
  * Revue visuelle s21 (demande de Thomas, 18/10 : « des écarts comme ici […] sur PC et mobile ») :
@@ -8,7 +8,8 @@ import { test, expect, localSeulement } from "../support/base-locale";
  * Figé ici, en visiteur (liste limitée), à 375 et 1 280 px, pour /vannes, /conseils et /videos :
  * - bord gauche et largeur du mur = ceux de la liste (`[role="tabpanel"]`), à 1 px près ;
  * - la phrase de limite est DANS le mur, en tête (elle ne flotte plus seule sous la liste) ;
- * - la carte floutée (une seule, concision v5) a les mêmes bords que la liste.
+ * - la carte floutée (une seule, concision v5) a les mêmes bords que la liste (régime ouvert : aucune sur /vannes,
+ *   v6 tour 2).
  */
 const LISTES = ["vannes", "conseils", "videos"] as const;
 
@@ -42,7 +43,12 @@ test.describe("Murs des listes : alignés sur la colonne de la liste @s21", () =
         expect(yLimite, "limite au-dessus du titre du mur").toBeLessThan(yTitre);
 
         // Carte floutée : mêmes bords que la liste (avant : une carte seule dans une demi-rangée vide).
+        // v6 tour 2 (point 11, voulu) : régime ouvert, plus de carte floutée sous l'offre de /vannes.
         const floutees = page.getByRole("button", { name: /^Contenu premium/i }).filter({ visible: true });
+        if (ESPACE_OUVERT && liste === "vannes") {
+          await expect(floutees).toHaveCount(0);
+          return;
+        }
         await expect(floutees).toHaveCount(1);
         const f = await floutees.first().boundingBox();
         expect(Math.abs((f?.x ?? 0) - g.x), "carte floutée alignée à gauche").toBeLessThanOrEqual(1);

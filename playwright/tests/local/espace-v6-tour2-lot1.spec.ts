@@ -65,7 +65,13 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
         expect(Math.abs(coque.gauche - (ecran - coque.droite)), `colonne centrée, ${ou}`).toBeLessThanOrEqual(2);
         expect(offre.haut, `offre sous l'exemple, ${ou}`).toBeGreaterThanOrEqual(exemple.bas);
         expect(Math.abs(offre.largeur - coque.largeur), `offre pleine largeur, ${ou}`).toBeLessThanOrEqual(1);
-        expect(await page.locator("[data-apercu-offre]").evaluate((e) => getComputedStyle(e).position), `jamais collante, ${ou}`).toBe("static");
+        // Cadre à filet (`CADRE_CARTE`) en `relative` pour son filet : ni `sticky` ni `fixed`, sur elle comme sur ses parents.
+        const positions = await page.locator("[data-apercu-offre]").evaluate((e) => {
+          const p: string[] = [];
+          for (let x: Element | null = e; x && x !== document.body; x = x.parentElement) p.push(getComputedStyle(x).position);
+          return p;
+        });
+        expect(positions.filter((p) => p === "sticky" || p === "fixed"), `jamais collante, ${ou}`).toEqual([]);
         expect(await racine.locator("h1").evaluate((e) => getComputedStyle(e).textAlign), `titre centré, ${ou}`).toBe("center");
         if (rubrique === "mesQuestions") {
           const imbriques = await racine.evaluate((r) => {
@@ -102,7 +108,8 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
       await page.setViewportSize({ width: largeur, height: 900 });
       const ou = `${largeur} px`;
       await page.goto("/mon-espace/fiche/situation/coloc-la-poele");
-      const boutons = page.locator("main [role=group] button[aria-pressed]");
+      // Les trois réponses de « Tu avais une réponse ? » (la fiche a aussi les puces « Ton retour », même rôle).
+      const boutons = page.getByRole("group", { name: "Tu avais une réponse ?" }).locator("button[aria-pressed]");
       await expect(boutons).toHaveCount(3);
       for (const b of await boutons.all()) {
         expect((await boite(b)).hauteur, `réponse de 44 px, ${ou}`).toBeGreaterThanOrEqual(44);

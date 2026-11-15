@@ -125,6 +125,8 @@ describe("garde-fou de construction", () => {
     // D3 : /mon-espace/** réécrit vers la 404 naturelle interrupteur fermé.
     // D11b (Q-1), touché de nouveau : ouvert seulement, l'adresse demandée sous /mon-espace est transmise au
     // layout (en-tête `EN_TETE_CHEMIN_ESPACE`) ; fermé, la réécriture vers la 404 passe avant (testé).
+    // v6 tour 2 (point 10), touché de nouveau : ouvert seulement, `/mon-espace/lettres` en 308 vers `/lettre` pour
+    // tous les comptes ; fermé, la réécriture vers la 404 passe avant (`v6-tour2-lot1-middleware.test.ts`).
     "middleware.ts",
     // D4 : en-tête de l'abonné sur /parcours (4 premières semaines, « Ton cap »), monté seulement ouvert.
     "app/(dashboard)/parcours/(liste)/page.tsx",
@@ -199,6 +201,7 @@ describe("garde-fou de construction", () => {
     "app/(dashboard)/parcours/[slug]/page.tsx",
     // D11c (revue d'harmonie, défaut 5) : rangée d'onglets de Favoris avec marge et indice de défilement,
     // ouvert seulement ; fermé, classes d'avant (snapshot `favoris` inchangé).
+    // v6 tour 2 (point 12), touché de nouveau : onglets, « Partager » et « Retirer » en cibles de 44 px, ouvert seulement.
     "components/favoris/favoris-list.tsx",
     // Navigation universelle v5 (s24) : en-tête unique et son menu mobile, chargés par `header.tsx` (déjà
     // listé, touché de nouveau : il les monte à la place de l'ancienne barre) SEULEMENT interrupteur ouvert ;

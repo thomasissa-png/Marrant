@@ -357,4 +357,26 @@ describe("placement d'arrivée de la bande (consigne du 15/11, relecture design 
     expect(total).toBeLessThanOrEqual(1160);
     for (let actif = 0; actif < b.length; actif++) expect(placementBande({ boites: b, actif, largeurVue: 1160, largeurTotale: total })).toBe(0);
   });
+
+  // CI s25 (Chrome 145, libellés plus larges que le Chromium local) : abonné à 375 px sur /mon-espace, rubrique active
+  // en tête, défilement 0 imposé ; « Bibliothèque » commence 8 px avant le bord, 2 px de lettres seulement. La bande se
+  // resserre alors (marge gauche négative de r px sur chaque rubrique sauf la première, `bande-rubriques.tsx`).
+  it.each([3, 4, 5])("abonné à 375 px, libellés élargis de %i px : resserrement minimal qui rend 6 px de lettres sous le fondu droit", (elargi) => {
+    const { boites: b0, total: t0 } = boites(SANS.map((w) => w + elargi));
+    const vue = 287;
+    expect(fautes({ boites: b0, actif: 0, largeurVue: vue, largeurTotale: t0 }, placementBande({ boites: b0, actif: 0, largeurVue: vue, largeurTotale: t0 })).sansIndiceDroite).toBe(true);
+    let retenu = -1;
+    for (let r = 1; r <= 4 && retenu < 0; r++) {
+      const b = b0.map((x, i) => ({ gauche: x.gauche - r * i, largeur: x.largeur }));
+      const m = { boites: b, actif: 0, largeurVue: vue, largeurTotale: t0 - r * (b.length - 1) };
+      const t = placementBande(m);
+      if (!fautes(m, t).sansIndiceDroite) {
+        retenu = r;
+        expect(t).toBe(0);
+        const droite = b.find((x) => x.gauche < vue && x.gauche + x.largeur > vue)!;
+        expect(droite.gauche + 6).toBeLessThanOrEqual(vue - 6);
+      }
+    }
+    expect(retenu).toBeGreaterThan(0);
+  });
 });

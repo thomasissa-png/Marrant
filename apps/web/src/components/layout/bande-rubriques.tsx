@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { RUBRIQUES, estPremium, rubriqueAllumee, type EtatLecteur, type Rubrique } from "@/components/espace/rubriques";
-import { fondus, placementBande, type Boite } from "@/components/layout/placement-bande";
+import { fautes, fondus, placementBande, type Boite } from "@/components/layout/placement-bande";
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { cn } from "@/lib/utils";
 
@@ -59,6 +59,19 @@ function boites(el: HTMLElement): Boite[] {
   });
 }
 
+/**
+ * Resserrement de la bande (px retirés à chaque écart entre deux rubriques, marge gauche négative en style en ligne :
+ * padding, soulignement et cibles de 44 px inchangés). Règle 3 de `placement-bande.ts` (libellé entamé, 6 px de
+ * lettres au moins, sous le fondu droit) quand la rubrique active en tête impose le défilement 0 et que le bord tombe
+ * dans le padding du libellé suivant : avec k rubriques avant le bord, k x r px gagnés (12 px au plus à combler).
+ */
+const RESSERREMENT_MAX = 4;
+function resserrer(chips: HTMLElement[], r: number) {
+  chips.forEach((c, i) => {
+    c.style.marginLeft = i > 0 && r > 0 ? `-${r}px` : "";
+  });
+}
+
 /** Fondus (16 px à gauche si défilée, 32 px à droite s'il reste du contenu, allongés jusqu'au libellé coupé). */
 function masque(el: HTMLElement) {
   const { gauche: g, droit: d } = fondus(boites(el), el.scrollLeft, el.clientWidth, el.scrollWidth);
@@ -81,14 +94,32 @@ export function BandeRubriques({ etat, pathname }: { etat: EtatLecteur; pathname
   const placer = useCallback((anime: boolean) => {
     const el = defile.current;
     if (!el) return;
+    const chips = Array.from(el.querySelectorAll<HTMLElement>("[data-rubrique]"));
+    const actif = chips.findIndex((c) => c.hasAttribute("aria-current"));
+    // Positions mesurées à chaque passe (polices réelles, cadenas) ; resserrement seulement si aucune position ne laisse
+    // de libellé entamé à droite (CI s25 : Chrome 145, libellés plus larges, rubrique active en tête, défilement 0 imposé).
+    let t = 0;
+    let retenu = 0;
+    for (let r = 0; r <= RESSERREMENT_MAX; r++) {
+      resserrer(chips, r);
+      if (el.scrollWidth - el.clientWidth < 1) {
+        retenu = r;
+        t = 0;
+        break;
+      }
+      const m = { boites: boites(el), actif, largeurVue: el.clientWidth, largeurTotale: el.scrollWidth };
+      const position = placementBande(m);
+      if (r === 0) t = position;
+      if (!fautes(m, position).sansIndiceDroite) {
+        retenu = r;
+        t = position;
+        break;
+      }
+    }
+    resserrer(chips, retenu);
+    el.dataset.resserrement = String(retenu);
     masque(el);
     if (el.scrollWidth - el.clientWidth < 1) return;
-    const t = placementBande({
-      boites: boites(el),
-      actif: Array.from(el.querySelectorAll("[data-rubrique]")).findIndex((c) => c.hasAttribute("aria-current")),
-      largeurVue: el.clientWidth,
-      largeurTotale: el.scrollWidth,
-    });
     const reduit = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? true;
     el.scrollTo({ left: t, behavior: anime && !reduit ? "smooth" : "auto" });
     masque(el);

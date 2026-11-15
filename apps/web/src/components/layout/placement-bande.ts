@@ -13,6 +13,9 @@
  * la rubrique active reste entière, le fondu le plus long couvre ce qu'il peut (cas de la maquette D, « Quoi répondr »).
  * Préférences : pas de défilement si la rubrique active tient au début (Aujourd'hui collé au bord gauche) ; sinon la
  * rubrique active au plus près du centre ; un libellé entamé sous le fondu gauche quand la bande est défilée.
+ * Règle 3 sans position possible (rubrique active en tête, défilement 0 imposé, bord dans le padding du libellé
+ * suivant : polices plus larges, CI s25) : la bande se resserre de quelques pixels, sur mesures réelles
+ * (`resserrer` dans `bande-rubriques.tsx`, `fautes().sansIndiceDroite`).
  */
 export const FONDU_GAUCHE = 16;
 export const FONDU_DROIT = 32;
@@ -82,7 +85,7 @@ export function fondus(boites: readonly Boite[], t: number, vue: number, total: 
 }
 
 /** Fautes dures d'une position `t` (0 : aucune) et absence d'indice à gauche (préférence). */
-export function fautes({ boites, actif, largeurVue: vue, largeurTotale }: Mesure, t: number): { dures: number; actifEntier: boolean; sansIndiceGauche: boolean; allongement: number } {
+export function fautes({ boites, actif, largeurVue: vue, largeurTotale }: Mesure, t: number): { dures: number; actifEntier: boolean; sansIndiceGauche: boolean; sansIndiceDroite: boolean; allongement: number } {
   const e = fondus(boites, t, vue, largeurTotale);
   const a = boites[actif];
   let actifEntier = true;
@@ -94,7 +97,7 @@ export function fautes({ boites, actif, largeurVue: vue, largeurTotale }: Mesure
   const dures = Number(e.coupeDroite) + Number(e.coupeGauche) + Number(!e.entameDroite) + Number(!actifEntier);
   // Allongement des fondus au-delà de 16 et 32 px : un bord net (libellé coupé court) est préféré.
   const allongement = Math.max(0, e.gauche - FONDU_GAUCHE) + Math.max(0, e.droit - FONDU_DROIT);
-  return { dures, actifEntier, sansIndiceGauche: !e.entameGauche, allongement };
+  return { dures, actifEntier, sansIndiceGauche: !e.entameGauche, sansIndiceDroite: !e.entameDroite, allongement };
 }
 
 /** Défilement d'arrivée (px) : 0 si tout tient ou si l'actif tient au début, sinon la meilleure position. */

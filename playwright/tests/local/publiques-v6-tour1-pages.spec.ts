@@ -5,8 +5,8 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 /**
  * v6 tour 1, lot 2 (pages publiques vues en régime ouvert), plan `plan-corrections-v6-tour-1.md` :
  *  1. cartes à filet de l'accueil (vannes, carnet, lettre, parcours, profil) ;
- *  8. /vannes : chevrons de 44 px sur la rangée de catégories dès 1 024 px, bloc « Pourquoi » sur deux colonnes ;
- *  9. réassurance alignée sur le bord gauche de son bloc ;
+ *  8. /vannes : chevrons de 44 px sur la rangée de catégories dès 1 024 px (« Pourquoi » : centré depuis le tour 2) ;
+ *  9. réassurance alignée sur le bord gauche de son bloc (/profil ; /vannes : centrée depuis le tour 2) ;
  * 10. /lettre : formulaire en carte à filet, titre centré, bouton plein ; H1 « La lettre » pour l'abonné ;
  * 11. /carnet de l'abonné : sommaire en tête, carnets précédents dessous ;
  * 12. /parcours de l'abonné : un seul plein dans la liste, « Explore aussi » sur deux colonnes ;
@@ -40,9 +40,17 @@ const boite = async (l: Locator) => (await l.boundingBox())!;
 async function attendreFilet(carte: Locator) {
   const filet = carte.locator(":scope > [data-filet]");
   await expect(filet).toHaveCount(1);
-  const [b, f] = [await boite(carte), await boite(filet)];
-  expect(Math.round(f.height)).toBe(4);
-  expect(Math.abs(f.y - b.y)).toBeLessThanOrEqual(1);
+  // Carte et filet lus dans la même image, après les animations d'entrée finies (deux lectures séparées pendant la
+  // montée de la carte donnaient un écart de quelques pixels en CI).
+  const m = await carte.evaluate(async (el) => {
+    const finies = document.getAnimations().filter((a) => a.effect?.getComputedTiming().iterations !== Infinity);
+    await Promise.all(finies.map((a) => a.finished.catch(() => undefined)));
+    await new Promise((ok) => requestAnimationFrame(() => requestAnimationFrame(ok)));
+    const [b, f] = [el.getBoundingClientRect(), el.querySelector(":scope > [data-filet]")!.getBoundingClientRect()];
+    return { hauteur: f.height, ecart: Math.abs(f.top - b.top) };
+  });
+  expect(Math.round(m.hauteur)).toBe(4);
+  expect(m.ecart).toBeLessThanOrEqual(1);
 }
 
 test.describe("v6 tour 1, lot 2 : pages publiques", () => {
@@ -51,7 +59,9 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
   test.describe("interrupteur ouvert", () => {
     test.skip(!ESPACE_OUVERT, "serveur construit interrupteur ouvert seulement");
 
-    test("/vannes visiteur 1280 : filet, chevrons, « Pourquoi » sur deux colonnes, réassurance alignée", async ({ browser }) => {
+    // v6 tour 2 (point 11, voulu) : « Pourquoi » et la réassurance passent du rendu en deux colonnes et aligné à gauche du
+    // tour 1 au rendu centré de l'accueil ; le filet et les chevrons du tour 1 restent.
+    test("/vannes visiteur 1280 : filet, chevrons, « Pourquoi » centré sur une colonne, réassurance centrée", async ({ browser }) => {
       const { c, page } = await contexte(browser, "visiteur");
       await page.goto("/vannes");
       const main = page.locator("main");
@@ -77,17 +87,20 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       await expect(main.locator('[data-chevron="gauche"]')).toBeVisible();
       const [r, d] = [await boite(rangee), await boite(derniere)];
       expect(d.x + d.width).toBeLessThanOrEqual(r.x + r.width + 1);
-      // « Pourquoi ces vannes sont différentes » : titre et texte côte à côte dès 1 024 px.
+      // « Pourquoi ces vannes sont différentes » (tour 2) : titre centré, texte dessous dans une colonne centrée sur lui.
       const titre = main.getByRole("heading", { name: "Pourquoi ces vannes sont différentes" });
       const texte = titre.locator("xpath=following-sibling::div[1]");
-      expect((await boite(texte)).x).toBeGreaterThan((await boite(titre)).x + 100);
-      // Mur : réassurance sur le bord gauche du bouton.
+      expect(await titre.evaluate((el) => getComputedStyle(el).textAlign)).toBe("center");
+      const [bt, bx] = [await boite(titre), await boite(texte)];
+      expect(bx.y).toBeGreaterThanOrEqual(bt.y + bt.height - 1);
+      expect(Math.abs(bx.x + bx.width / 2 - (bt.x + bt.width / 2))).toBeLessThanOrEqual(2);
+      // Mur (tour 2) : réassurance centrée, sur l'axe du bouton.
       const mur = main.locator("[data-mur-liste]");
       await attendreFilet(mur);
       const [bouton, reass] = [await boite(mur.locator("[data-mur-cta='premium']")), await boite(mur.locator("[data-reassurance]"))];
       const texteReass = await mur.locator("[data-reassurance]").evaluate((el) => getComputedStyle(el).textAlign);
-      expect(texteReass).toBe("left");
-      expect(Math.abs(reass.x - bouton.x)).toBeLessThanOrEqual(1);
+      expect(texteReass).toBe("center");
+      expect(Math.abs(reass.x + reass.width / 2 - (bouton.x + bouton.width / 2))).toBeLessThanOrEqual(2);
       await c.close();
     });
 
