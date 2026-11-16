@@ -137,7 +137,7 @@ rsync -a --delete \
   --exclude=/.git --exclude=node_modules --exclude=/apps/web/.next --exclude=/apps/web/.open-next \
   --exclude=/apps/web/.wrangler --exclude='.env' --exclude='.env.*.local' --exclude='.env.local' \
   --exclude='.env.production' --exclude='.dev.vars*' --exclude=/playwright/playwright-report \
-  --exclude=/playwright/test-results --exclude=/docs/captures \
+  --exclude=/playwright/test-results --exclude=/docs/captures --exclude=/.claude/worktrees \
   "$DEPOT_SOURCE/" "$COPIE/"
 echo "  copie : commit de base $(git -C "$DEPOT_SOURCE" rev-parse --short HEAD) + arbre de travail ($(git -C "$DEPOT_SOURCE" status --porcelain | wc -l) entrée(s) non commitée(s))"
 sed -i "s/$LIGNE_FERMEE/export const ESPACE_CLIENT_PUBLIE: boolean = true;/" "$COPIE/$INTER"
