@@ -2,7 +2,7 @@ import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { cn } from "@/lib/utils";
 import { frEspace, frEspaceProfond, frPonctuation } from "@/lib/fr-typo";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
-import { META, TITRE_CARTE } from "@/components/espace/typo";
+import { ETIQUETTE, META } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -20,12 +20,16 @@ const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
  * v7 tour 8 (piste, colonne « Semaine n : » non alignée) : grille à 2 colonnes partagée par toutes les lignes (la liste
  * fixe les colonnes, chaque ligne les reprend en `subgrid`) : le libellé prend la largeur du plus long, le texte de
  * chaque semaine démarre sur une même verticale, et ses lignes repliées restent dans sa colonne.
+ * v7 tour 10 (relecture design du tour 9 : à côté d'« Étape conseillée », ce titre de 20 px démarrait 28 px plus haut
+ * que « Répartie », deux titres sur deux lignes différentes) : « Tes 4 premières semaines » passe en étiquette
+ * (`ETIQUETTE`, toujours le `h2` de la tuile), comme « Contenu du jour » dans l'extrait au tour 8. Sans texte neuf ni
+ * ligne vide : l'étiquette est sur la ligne de « Étape conseillée », la première semaine sur celle de « Répartie ».
  */
 export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: boolean; fige?: boolean }) {
   const lignes = ecouterPublie ? P.semaines.lignes : [...P.semaines.lignes.slice(0, 3), P.semaines.semaine4SansEcouter];
   return (
     <section aria-labelledby={fige ? undefined : "semaines-titre"} className={TUILE} data-semaines>
-      <h2 id={fige ? undefined : "semaines-titre"} className={TITRE_CARTE}>
+      <h2 id={fige ? undefined : "semaines-titre"} className={ETIQUETTE}>
         {P.semaines.titre}
       </h2>
       <ol className="mt-2 grid grid-cols-[max-content_1fr] gap-x-2 divide-y divide-border">

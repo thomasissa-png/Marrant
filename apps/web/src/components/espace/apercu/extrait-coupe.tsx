@@ -25,10 +25,20 @@ const INERTE = { inert: "" } as Record<string, string>;
  * v7 tour 9 : 128 px dès 1024 (64 avant). La preuve passée sous les pastilles du hero l'a raccourci de 59 px (bas à
  * 377 au lieu de 436 à 1280) : sans cet air, la phrase de fin tombait à y 848 et le bouton à 892, au premier écran
  * de 900 px. Avec 128 px : phrase à 912, bouton à 956 (1280, 1456, 1920), un seul bouton d'offre au premier écran.
+ * v7 tour 10 (faute 1 de la relecture design du tour 9 : ces 128 px se lisaient comme un trou) : la légende (E) monte
+ * AU-DESSUS de l'extrait, en tête de section (`META`, alignée à gauche comme le H1), et n'est plus répétée dessous.
+ * L'air passe à 64 px dès 1024 (`lg:mt-16`), plafond de la bande vide entre le hero et le premier élément de
+ * l'extrait ; 40 px sous la légende dès 1024 (`lg:mb-10`) gardent la phrase et le bouton de fin sous le pli à 900 px
+ * de haut. La légende reste plus près de ses tuiles que du hero : elle se lit comme leur titre. Sous 768 px, la légende
+ * prend deux lignes (40 px) : air ramené à 24 px au-dessus et 8 px dessous (`mt-6`, `mb-2`), pour que l'étiquette et le
+ * titre de la première tuile restent entiers au premier écran de 375 x 812 (16 px sous la légende à 768).
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
-    <div className="relative mt-8 md:mt-12 lg:mt-32" data-apercu-extrait={rubrique}>
+    <div className="relative mt-6 md:mt-12 lg:mt-16" data-apercu-extrait={rubrique}>
+      <p className={cn("mb-2 md:mb-4 lg:mb-10", META)} data-apercu-legende>
+        {frEspace(TEXTES_APERCU.sousTitre)}
+      </p>
       <div
         aria-hidden="true"
         {...INERTE}
@@ -44,7 +54,6 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
           {TEXTES_APERCU.offre.bouton}
         </Link>
       </div>
-      <p className={cn("mt-6 text-center", META)}>{frEspace(TEXTES_APERCU.sousTitre)}</p>
     </div>
   );
 }

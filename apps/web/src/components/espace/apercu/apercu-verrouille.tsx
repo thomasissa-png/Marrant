@@ -8,12 +8,12 @@ import { ExtraitCoupe } from "@/components/espace/apercu/extrait-coupe";
 /**
  * Aperçu verrouillé d'une rubrique Premium (refonte s25, spec UX §2, design §3) : le motif qui remplacera
  * `ApercuRubrique` rubrique par rubrique (pour l'instant, « Aujourd'hui » seulement ; les autres gardent leur aperçu).
- * Hero (A, B) puis extrait coupé (C), fin d'extrait (D) et légende (E). Une seule action : l'offre, deux boutons
+ * Hero (A, B) puis légende (E, en tête de l'extrait depuis le v7 tour 10), extrait coupé (C) et fin d'extrait (D). Une seule action : l'offre, deux boutons
  * identiques (hero, fin d'extrait) vers le même lien, source de mesure de la rubrique (`data-position` haut / fin).
  * Rendu serveur statique, sans appel à l'espace (rien ne s'enregistre depuis un aperçu). Squelette constant ;
  * variables : promesse, pastilles, contenu de l'extrait (blocs enveloppés de `TuileFermee`).
  * v7 tour 3 (piste) : la page finit sur sa légende, une ligne de texte : marge basse réduite (environ 100 px de noir
- * avant le pied au tour 2), le pied suit à l'espacement de la coque.
+ * avant le pied au tour 2), le pied suit à l'espacement de la coque. v7 tour 10 : la page finit sur le bouton de fin.
  */
 export function ApercuVerrouille({
   rubrique,

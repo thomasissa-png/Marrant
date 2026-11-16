@@ -109,9 +109,11 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
         g.textes.push(texte.slice(0, 30));
         groupes.set(cle, g);
         if (violet(cs.color).teinte) textesViolets.push(texte.slice(0, 30));
-        // Repère « Premium » visible : élément dessiné (pas `sr-only`, 1 px), hors phrases de la carte d'offre.
+        // Repère « Premium » visible : élément dessiné (pas `sr-only`, 1 px), hors phrases de la carte d'offre. v7 tour 10
+        // (relecture design du tour 9) : la légende validée monte en tête de l'extrait, au premier écran ; c'est une
+        // phrase d'appoint (`META`), pas un repère : hors compte, comme les phrases de la carte d'offre.
         const visible = r.width > 1 && r.height > 1 && cs.visibility !== "hidden";
-        if (visible && /Premium/.test(texte) && !el.closest("[data-apercu-offre] p")) premium.push(texte.slice(0, 30));
+        if (visible && /Premium/.test(texte) && !el.closest("[data-apercu-offre] p, [data-apercu-legende]")) premium.push(texte.slice(0, 30));
       }
       // v7 tour 9 : tout l'extrait de l'aperçu (hors écran compris), seul le bouton d'offre de fin peut être violet.
       const violetsExtrait: string[] = [];

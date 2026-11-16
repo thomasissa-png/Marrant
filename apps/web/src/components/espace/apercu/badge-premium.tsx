@@ -30,10 +30,13 @@ export function BadgePremium({ className }: { className?: string }) {
  * Verrou seul d'un bloc de l'extrait fermé (arbitrage du 16/11) : l'icône de la pastille, sans mot ni fond, gris
  * secondaire, en haut à droite du bloc, hors du flux et hors du contenu atténué. Décoratif (l'extrait est masqué
  * aux lecteurs d'écran ; la pastille du hero et la phrase lue portent le « fermé »).
+ * v7 tour 10 (relecture design du tour 9 : il flottait 3 px au-dessus de « 5 min ») : le verrou est centré dans une
+ * boîte de la hauteur de la première ligne des tuiles (`h-5`, 20 px, celle d'`ETIQUETTE` et de `META`) : même centre
+ * que l'étiquette et la durée.
  */
 export function VerrouSeul({ className }: { className?: string }) {
   return (
-    <span className={cn("absolute right-6 top-6 z-10 flex max-e300:right-4 max-e300:top-4", className)} aria-hidden="true" data-verrou-ferme>
+    <span className={cn("absolute right-6 top-6 z-10 flex h-5 items-center max-e300:right-4 max-e300:top-4", className)} aria-hidden="true" data-verrou-ferme>
       <Verrou />
     </span>
   );

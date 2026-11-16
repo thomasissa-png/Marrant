@@ -69,9 +69,9 @@ describe("faute 1 : rangée 2 de l'extrait lisible avant le fondu", () => {
 });
 
 describe("faute 2 : jamais deux boutons d'offre pleins au premier écran", () => {
-  it("48 px au-dessus de l'extrait, 128 dès 1024 (v7 tour 9), suite de 13,5 rem (échelle s25 ; fin contrôlée en vrai navigateur à 900 px)", () => {
+  it("48 px au-dessus de l'extrait, 64 dès 1024 sous la légende (v7 tour 10), suite de 13,5 rem (échelle s25 ; fin contrôlée en vrai navigateur à 900 px)", () => {
     render(<ApercuAujourdhui visiteur />);
-    expect(document.querySelector("[data-apercu-extrait]")?.className).toContain("lg:mt-32");
+    expect(document.querySelector("[data-apercu-extrait]")?.className).toContain("lg:mt-16");
     expect(document.querySelector("[data-apercu-suite]")?.className).toContain("h-[13.5rem]");
   });
 });

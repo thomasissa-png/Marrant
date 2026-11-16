@@ -25,7 +25,9 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  *   texte (60/40) ; v7 tour 6 (placement) : pastilles du hero à 24 px au plus sous la promesse à toutes les largeurs
  *   (plus calées sur le bas de l'offre : le vide passe sous elles) ; à 768, tuile « Vidéo du jour » en
  *   ligne de média, au plus 32 px de vide au-dessus et au-dessous du texte en face de la vignette (titre sur deux
- *   lignes) ; dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de ceux de ses voisines.
+ *   lignes) ; dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de ceux de ses voisines ;
+ * - v7 tour 10 (relecture design du tour 9) : légende en tête de l'extrait (une seule), au plus 64 px sous le hero à
+ *   900 px de haut ; verrou de Z1 centré sur « 5 min » ; « Tes 4 premières semaines » en étiquette, aligné sur « Étape conseillée ».
  */
 const MOT_DE_PASSE = "E2e-aujourdhui-s25!";
 const CAPTURES = process.env.E2E_CAPTURES_AUJ_S25;
@@ -205,6 +207,28 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         expect(await verrou.locator("svg").evaluate((e) => getComputedStyle(e).color), `verrou gris, ${ou}`).toBe("rgb(179, 179, 179)");
       }
       await expect(extrait.locator("[data-badge-premium]")).toHaveCount(0);
+      // v7 tour 10 (relecture design du tour 9 : verrou 3 px au-dessus de « 5 min ») : verrou de Z1 centré sur la ligne
+      // de l'étiquette et de la durée, à 1 px près.
+      const ligneZ1 = await tuiles.first().evaluate((t) => {
+        const centre = (r: DOMRect) => (r.top + r.bottom) / 2;
+        const ligne = t.querySelector("[data-action-du-jour] > div") as HTMLElement;
+        return { verrou: centre(t.querySelector(":scope > [data-verrou-ferme] svg")!.getBoundingClientRect()), ligne: centre(ligne.getBoundingClientRect()) };
+      });
+      expect(Math.abs(ligneZ1.verrou - ligneZ1.ligne), `verrou centré sur « 5 min », ${ou}`).toBeLessThanOrEqual(1);
+      // v7 tour 10 (faute 1 du tour 9) : la légende validée en tête de l'extrait, une seule fois : hero, légende,
+      // tuiles, fin d'extrait, dans cet ordre à toutes les largeurs.
+      const legende = page.locator("[data-apercu-legende]");
+      await expect(page.getByText(TEXTES_APERCU.sousTitre.slice(0, 20))).toHaveCount(1);
+      const [heroB, legB, tuilesB, finB] = [
+        await boite(page.locator("[data-apercu-hero]")),
+        await boite(legende),
+        await boite(extrait),
+        await boite(page.locator("[data-apercu-fin]")),
+      ];
+      expect(legB.haut, `légende sous le hero, ${ou}`).toBeGreaterThanOrEqual(heroB.bas);
+      expect(tuilesB.haut, `tuiles sous la légende, ${ou}`).toBeGreaterThanOrEqual(legB.bas);
+      expect(tuilesB.haut - legB.bas, `légende plus près des tuiles que du hero, ${ou}`).toBeLessThan(legB.haut - heroB.bas);
+      expect(finB.haut, `fin sous les tuiles, ${ou}`).toBeGreaterThan(tuilesB.haut);
       // v7 tour 4 (piste 768) : l'offre à droite du texte (60/40), plus une barre pleine largeur.
       const [texteHero, offreHero] = [await boite(page.locator("[data-apercu-hero] > div").first()), await boite(page.locator("[data-apercu-offre]"))];
       if (largeur >= 768) {
@@ -250,6 +274,9 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       expect((await boite(offres.nth(1))).haut, `bouton de fin sous 900 px, ${largeur}`).toBeGreaterThanOrEqual(900);
       // Échelle s25 : la phrase de fin aussi (un seul « Premium » écrit hors offre au premier écran).
       expect((await boite(page.locator("[data-apercu-fin] p"))).haut, `phrase de fin sous 900 px, ${largeur}`).toBeGreaterThan(900);
+      // v7 tour 10 (faute 1 du tour 9, bande vide de 128 px) : au plus 64 px entre le bas du hero et la légende.
+      const [heroBas, legHaut] = [(await boite(page.locator("[data-apercu-hero]"))).bas, (await boite(page.locator("[data-apercu-legende]"))).haut];
+      expect(Math.round(legHaut - heroBas), `air entre le hero et la légende, ${largeur}`).toBeLessThanOrEqual(64);
       // v7 tour 6 (placement, remplace « bas du hero équilibrés » du tour 4) : pastilles à 24 px au plus sous la
       // promesse ; le vide restant passe sous elles, en bas de colonne (jamais au-dessus de la carte d'offre).
       const [promesse, pastilles, offre] = [
@@ -321,6 +348,18 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       await expect(tuileEtape).toContainText(/Étape 1 sur \d+/);
       for (const z of ['[data-zone="parcours"] > *', '[data-zone="semaines"] > *']) {
         expect((await page.locator(z).evaluate(vides)).creux, `${z} sans creux, ${ou}`).toBeLessThanOrEqual(32);
+      }
+      // v7 tour 10 (relecture design du tour 9 : titre 27 px plus haut) : dès 1024, côte à côte, « Tes 4 premières
+      // semaines » en étiquette sur la ligne d'« Étape conseillée », la première semaine sur celle de « Répartie » (1 px).
+      if (largeur >= 1024) {
+        const [etiq, titre, etiqS, semaine1] = [
+          await boite(tuileEtape.locator(":scope > p").first()),
+          await boite(tuileEtape.locator("h2")),
+          await boite(page.locator("[data-semaines] h2")),
+          await boite(page.locator("[data-semaines] li").first()),
+        ];
+        expect(Math.abs(etiqS.haut - etiq.haut) + Math.abs(etiqS.hauteur - etiq.hauteur), `étiquettes alignées, ${ou}`).toBeLessThanOrEqual(1);
+        expect(Math.abs(semaine1.haut - titre.haut), `première semaine sur la ligne du titre voisin, ${ou}`).toBeLessThanOrEqual(1);
       }
       const debuts = await page.locator("[data-semaines] li").evaluateAll((lis) => lis.map((l) => (l as HTMLElement).innerText.trim()));
       debuts.forEach((d, i) => expect(d, `ligne ${i + 1}, ${ou}`).toMatch(new RegExp(`^Semaine ${i + 1}\\s?:`)));
