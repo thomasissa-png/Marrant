@@ -156,7 +156,12 @@ describe("pistes", () => {
     // (`md:mt-auto` creusait un vide au milieu) ; le surplus passe en bas de colonne.
     expect(hero).toContain('<div className="min-w-0 md:col-span-2 lg:col-span-4">');
     expect(hero).not.toContain("mt-auto");
-    expect(hero).not.toMatch(/md:items-(start|center)/);
+    // v7 tour 8 : la tête (pastille et H1) porte son propre `md:items-start` (pastille calée à gauche, au-dessus du
+    // H1) ; la règle vise la grille du hero et ses deux colonnes, jamais calées en haut ni au centre.
+    const grille = /<div className="(grid [^"]*)" data-apercu-hero>/.exec(hero)?.[1] ?? "";
+    expect(grille).toContain("md:grid-cols-5");
+    expect(grille).not.toMatch(/items-(start|center)/);
+    expect(hero.replace(/<div className="[^"]*" data-apercu-tete>/, "")).not.toMatch(/md:items-(start|center)/);
     expect(hero).not.toContain("md:max-w-2xl");
   });
 

@@ -48,12 +48,14 @@ describe("décision 1 : un seul accent violet, le bouton plein", () => {
     expect(jour).not.toMatch(/\bCADRE_CARTE\b(?!_NEUTRE)/);
   });
 
-  it("extrait de l'aperçu : aucune classe de filet ni de violet dans les tuiles fermées", () => {
+  it("extrait de l'aperçu : aucune classe de filet ni de violet dans les tuiles fermées, hors du cadre de Z1", () => {
     render(<ApercuAujourdhui visiteur />);
     for (const t of Array.from(document.querySelectorAll("[data-tuile-fermee]"))) {
       for (const e of [t, ...Array.from(t.querySelectorAll("*"))]) {
-        // Anneaux de focus exclus (jamais visibles dans l'extrait inerte, et pas un accent dessiné).
-        expect(classes(e).filter((c) => c.startsWith("before:") || (/accent-/.test(c) && !/(^|:)ring-/.test(c)))).toEqual([]);
+        // Anneaux de focus exclus (jamais visibles dans l'extrait inerte, et pas un accent dessiné). v7 tour 8 (décision
+        // de l'orchestrateur) : la carte Z1 elle-même porte seule la teinte et le bord violets légers.
+        const violets = classes(e).filter((c) => c.startsWith("before:") || (/accent-/.test(c) && !/(^|:)ring-/.test(c)));
+        expect(violets).toEqual(e.matches("[data-action-du-jour]") ? ["border-accent-primary/40", "from-accent-primary/10"] : []);
       }
     }
   });
@@ -73,21 +75,26 @@ describe("décision 1 : un seul accent violet, le bouton plein", () => {
   });
 });
 
-describe("décision 2 : Z1 se distingue sans couleur", () => {
-  it("fond `background-elevated` (un cran plus clair que les tuiles), bord neutre, 24 px de marge", () => {
+// v7 tour 8 (décision de l'orchestrateur, qui remplace « Z1 sans couleur » : la page était devenue plate) : Z1 est la
+// seule zone d'accent, teinte très légère sur le fond des tuiles et bord violet doux ; jamais un aplat.
+describe("décision 2 (tour 8) : Z1, seul point focal violet, léger", () => {
+  it("fond des tuiles + dégradé `accent-primary/10` vers transparent, bord `accent-primary/40`, 24 px de marge", () => {
     const c = CARTE_ACTION.split(" ");
-    expect(c).toEqual(expect.arrayContaining(["bg-background-elevated", "border-border-hover", "p-6", "flex-col"]));
-    expect(c).not.toContain("bg-background-card");
+    expect(c).toEqual(
+      expect.arrayContaining(["bg-background-card", "bg-gradient-to-br", "from-accent-primary/10", "to-transparent", "border-accent-primary/40", "p-6", "flex-col"]),
+    );
+    expect(c).not.toContain("bg-background-elevated");
+    expect(c.some((x) => /^bg-accent-/.test(x))).toBe(false);
   });
 });
 
 describe("décisions 3 et 4 : rythme de 8 px, couleurs des semaines", () => {
-  it("pastilles du hero en `px-3`, lien de carte en `-mb-2` : plus de `2.5` ni de `mt-7`", () => {
+  it("pastilles du hero en `px-3` dès 768 (`px-2` en dessous, tour 8), lien de carte en `-mb-2` : plus de `2.5` ni de `mt-7`", () => {
     render(<ApercuAujourdhui visiteur />);
     const lis = Array.from(document.querySelectorAll("[data-apercu-pastilles] li"));
     expect(lis).toHaveLength(6);
     for (const li of lis) {
-      expect(classes(li)).toContain("px-3");
+      expect(classes(li)).toEqual(expect.arrayContaining(["px-2", "md:px-3"]));
       expect(classes(li).some((c) => /2\.5/.test(c))).toBe(false);
     }
     expect(lire("aujourdhui/contenu-du-jour.tsx")).toContain("const lienCarte = `-mb-2 mt-auto ");

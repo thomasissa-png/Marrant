@@ -26,7 +26,7 @@ function Preuve() {
   const texte = frTypo(ABONNEMENT_HAUT.preuve);
   const m = /^(\d[\d\s]*\+?)\s(.*)$/u.exec(texte);
   return (
-    <p className={cn("mt-6 border-t border-border pt-6 text-center", META)} data-preuve>
+    <p className={cn("mt-4 border-t border-border pt-4 text-center md:mt-6 md:pt-6", META)} data-preuve>
       {m ? (
         <>
           <span className={TITRE_CARTE}>{m[1]}</span> {m[2]}
@@ -44,16 +44,21 @@ function Preuve() {
  * d'objet pour l'inscrit gratuit, la réassurance unique, la preuve, « Connexion » pour le visiteur seulement.
  * Échelle s25 (§2.3) : bord simple de 1 px, sans ombre ni violet ; son poids vient du bouton plein, de sa place en
  * haut à droite et de l'air autour. Phrase d'objet et réassurance en `META`, « Connexion » en gris secondaire.
+ * v7 tour 8 : sous 768 px, carte resserrée (`p-4`, preuve à 16 px au lieu de 24) pour que la première tuile de
+ * l'extrait tienne au premier écran à 375 ; le bouton reste visible sans défiler ; le premier paragraphe à 8 px du
+ * bouton (comme `Reassurance` sous tout plein à prix), 16 dès 768. Inscrit gratuit : la phrase d'objet
+ * et la réassurance, qui commencent toutes deux par « Premium », sont séparées de 24 px (16 avant : un mur de quatre
+ * lignes), la phrase d'objet restant collée au bouton qu'elle explique.
  */
 export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse: string; visiteur: boolean }) {
   return (
-    <div className="relative rounded-xl border border-border-hover bg-background-card p-6" data-apercu-offre>
+    <div className="relative rounded-xl border border-border-hover bg-background-card p-4 md:p-6" data-apercu-offre>
       <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
         {TEXTES_APERCU.offre.bouton}
       </Link>
-      {!visiteur && <p className={cn("mt-4 text-center", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
+      {!visiteur && <p className={cn("mt-2 text-center md:mt-4", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
       {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}
-      <Reassurance className={cn("mt-4", META)} />
+      <Reassurance className={cn(visiteur ? "mt-2 md:mt-4" : "mt-6", META)} />
       <Preuve />
       {visiteur && (
         <p className="mt-2 flex justify-center">

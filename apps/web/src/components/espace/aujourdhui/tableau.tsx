@@ -10,14 +10,20 @@ import { META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
  */
 
 /**
- * Z1 : la carte dominante. Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.1 et §2.5) : plus de dégradé de
- * fond ni de bord violet. v7 tour 7 (décision de Thomas du 16/11, qui remplace le « filet gardé » du 15/11 sur cette
- * page) : cadre SANS filet (`CADRE_CARTE_NEUTRE`), un seul accent violet par écran, le bouton plein. Elle se distingue
- * sans couleur par un fond un cran plus clair que les tuiles (`background-elevated` : texte secondaire à
- * 6,8:1, 4,5:1 atténué à 0,75 dans l'extrait), sa place et son bouton. v7 tour 2 (faute 1) : pas de hauteur minimale,
- * la rangée se cale sur le contenu de Z1 et de Z2 ; contenu en haut, le surplus éventuel en bas.
+ * Z1 : la carte dominante. Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.1 et §2.5). v7 tour 7 (décision
+ * de Thomas du 16/11) : cadre sans filet (`CADRE_CARTE_NEUTRE`), un seul aplat violet par écran, le bouton plein.
+ * v7 tour 8 (décision de l'orchestrateur : la page était devenue plate, « gris sur gris de même poids ») : Z1 est LA
+ * zone d'accent, pour tous les comptes, et aucune autre carte n'a de violet. Teinte très légère (dégradé de
+ * `accent-primary/10` vers transparent, en haut à gauche) et bord fin `accent-primary/40`, sur le fond des tuiles
+ * (`background-card`, plus `background-elevated` : sous la teinte, le texte secondaire atténué à 0,75 dans l'extrait
+ * passait sous 4,5:1). Pire point (coin haut gauche, 10 % de violet) : texte secondaire à 7,08:1, et 4,66:1 atténué
+ * à 0,75 dans l'extrait (mesuré par `espace-aujourdhui-typo-s25.spec.ts`). Le bouton plein reste le seul aplat violet.
+ * v7 tour 2 (faute 1) : pas de hauteur minimale, contenu en haut, le surplus éventuel en bas.
  */
-export const CARTE_ACTION = cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col border-border-hover bg-background-elevated p-6 [overflow-wrap:anywhere]");
+export const CARTE_ACTION = cn(
+  CADRE_CARTE_NEUTRE,
+  "flex h-full min-w-0 flex-col border-accent-primary/40 bg-gradient-to-br from-accent-primary/10 to-transparent p-6 [overflow-wrap:anywhere]",
+);
 
 /**
  * Tuile standard (Z3, Z4, Z5, Z7, « 4 premières semaines », tuiles de l'extrait fermé) : cadre neutre sans filet
@@ -28,8 +34,15 @@ export const TUILE = `${CADRE_CARTE_NEUTRE} flex h-full min-w-0 flex-col p-6 [ov
 /** Titre d'une tuile, sous son étiquette : `TITRE_CARTE` (20/600). */
 export const TITRE_TUILE = `mt-2 ${TITRE_CARTE}`;
 
-/** Pied d'action d'une tuile (Z3) : ligne entière de 48 px, anneau intérieur (la tuile coupe ce qui dépasse). */
-export const PIED_TUILE = `-mx-6 -mb-6 mt-auto flex min-h-12 items-center justify-between border-t border-border px-6 ${META_FORT} transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary`;
+/**
+ * Gabarit d'un pied de tuile : ligne entière de 48 px sous un filet, contenu à gauche, chevron à droite. v7 tour 8
+ * (piste) : partagé par le pied d'action de Z3 (« Reprendre ») et celui de la mission (« Facultative »), même hauteur et
+ * même traitement côte à côte.
+ */
+export const PIED_TUILE_GABARIT = "-mx-6 -mb-6 mt-auto flex min-h-12 items-center justify-between gap-4 border-t border-border px-6";
+
+/** Pied d'action d'une tuile (Z3) : le gabarit, libellé en `META_FORT`, anneau intérieur (la tuile coupe ce qui dépasse). */
+export const PIED_TUILE = `${PIED_TUILE_GABARIT} ${META_FORT} transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary`;
 
 /** Pastille non cliquable (donc sans bord) : comptes de la rafale, « Facultative ». */
 export const PASTILLE = `inline-flex items-center gap-2 rounded-full bg-background-elevated px-3 py-1 ${META}`;

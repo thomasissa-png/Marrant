@@ -179,11 +179,12 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
       )}
       <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille>
         {principale && (
-          <div className="min-w-0 md:col-span-2 lg:col-span-8" data-carte-du-jour>
+          // v7 tour 8 (point 2) : Z1 en 7 colonnes et « Ton cap » en 5 (plus 8 + 4) : Z1, plus étroite, n'est plus creuse.
+          <div className="min-w-0 md:col-span-2 lg:col-span-7" data-carte-du-jour>
             {principale}
           </div>
         )}
-        <div className={cn("min-w-0 md:col-span-2", principale ? "lg:col-span-4" : "lg:col-span-12")} data-zone="cap">
+        <div className={cn("min-w-0 md:col-span-2", principale ? "lg:col-span-5" : "lg:col-span-12")} data-zone="cap">
           <CapDuJour cap={mois.cap} xp={mois.xp} serie={mois.serie} />
         </div>
         {rangee.map((c, i) => (

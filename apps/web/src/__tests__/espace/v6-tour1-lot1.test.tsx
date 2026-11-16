@@ -88,9 +88,10 @@ describe("point 4 : Aujourd'hui, l'action du jour pleine coque et dominante", ()
   // Échelle s25 (`docs/design/typo-harmonie-espace-s25.md`) : la dominance vient de la place, du fond et du seul bouton
   // plein, plus de la taille : même marge (24 px) et même titre (20 px) partout. v7 tour 7 (décision de Thomas du
   // 16/11) : plus de filet violet sur « Aujourd'hui », Z1 se distingue par un fond un cran plus clair.
-  it("rafale principale : fond élevé et bouton plein, sans filet ; secondaire (rafale faite) : sans filet ; marge et titre de l'échelle", () => {
+  it("rafale principale : teinte légère et bouton plein, sans filet ; secondaire (rafale faite) : sans filet ; marge et titre de l'échelle", () => {
     const { container, unmount } = render(<CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={false} />);
-    expect(classes(container.querySelector("section"))).toEqual(expect.arrayContaining(["p-6", "rounded-xl", "bg-background-elevated"]));
+    // v7 tour 8 : Z1, seule zone d'accent, teinte violette légère et bord doux (plus le fond élevé neutre du tour 7).
+    expect(classes(container.querySelector("section"))).toEqual(expect.arrayContaining(["p-6", "rounded-xl", "from-accent-primary/10", "border-accent-primary/40"]));
     expect(classes(container.querySelector("section")).some((c) => c.startsWith("before:"))).toBe(false);
     expect(classes(container.querySelector("h2"))).toEqual(expect.arrayContaining(["text-xl", "font-semibold"]));
     expect(container.querySelector("a.bg-accent-secondary-hover")).not.toBeNull();

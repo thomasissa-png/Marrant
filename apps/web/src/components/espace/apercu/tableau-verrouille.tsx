@@ -17,7 +17,7 @@ import { CapDuJour } from "@/components/espace/aujourdhui/cap-du-jour";
 import { ParcoursTuile } from "@/components/espace/aujourdhui/etape-en-cours";
 import { MissionLien } from "@/components/espace/aujourdhui/mission-lien";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
-import { TEXTE, TITRE_CARTE } from "@/components/espace/typo";
+import { ETIQUETTE, TEXTE } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -48,7 +48,8 @@ function TableauFerme() {
   return (
     <div data-apercu-fiche="tableau-aujourdhui">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1">
-        <TuileFermee className="md:col-span-2 lg:col-span-8">
+        {/* v7 tour 8 (point 2) : Z1 en 7 colonnes, « Ton cap » en 5, comme la page de l'abonné (Z1 n'est plus creuse). */}
+        <TuileFermee className="md:col-span-2 lg:col-span-7">
           <ActionDuJour
             idTitre="apercu-premier-pas-titre"
             fige
@@ -58,7 +59,7 @@ function TableauFerme() {
             action={{ href: pas.href, libelle: T.premierPas.bouton }}
           />
         </TuileFermee>
-        <TuileFermee className="md:col-span-2 lg:col-span-4">
+        <TuileFermee className="md:col-span-2 lg:col-span-5">
           <CapDuJour cap={1} xp={0} serie={0} fige />
         </TuileFermee>
       </div>
@@ -73,14 +74,12 @@ function TableauFerme() {
             <MissionLien marche={mission?.marche ?? 1} accroche={mission ? accrocheMission(mission.enonce) : undefined} fige />
           </TuileFermee>
           <TuileFermee className={etape ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4"}>
-            {/* Échelle s25 (§2.5) : titre en `TITRE_CARTE`, dès 1024 à la hauteur de ceux des voisines ; lignes sans
-                cadre, séparées d'un filet (`divide-y`), en `TEXTE`, la première collée au titre (8 px) : « Vanne du jour »
-                reste en clair, avant le fondu. v7 tour 7 (rythme de 8 px, plus de `lg:mt-7`) : dès 1024, une ligne vide de
-                la hauteur d'une étiquette (20 px, décorative) puis le titre à 8 px, comme les voisines (étiquette, `mt-2`,
-                titre) : même alignement, plus aucune marge hors du pas. */}
+            {/* Échelle s25 (§2.5) : lignes sans cadre, séparées d'un filet (`divide-y`), en `TEXTE`. v7 tour 8 (piste,
+                35 px vides au-dessus du titre) : « Contenu du jour » passe en étiquette (`ETIQUETTE`, comme « Ton cap »
+                en Z2), sur la ligne des étiquettes voisines, et la première ligne (« Vanne du jour ») 8 px dessous, sur
+                la ligne de leurs titres : même alignement, plus de ligne vide décorative. */}
             <div className={TUILE}>
-              <span aria-hidden="true" className="hidden h-5 lg:block" />
-              <p className={`${TITRE_CARTE} lg:mt-2`}>{T.jour.titre}</p>
+              <p className={ETIQUETTE}>{T.jour.titre}</p>
               <ul className="mt-2 divide-y divide-border">
                 {[T.jour.vanne, T.jour.conseil, T.jour.video].map((t) => (
                   <li key={t} className={`py-2 first:pt-0 ${TEXTE}`}>

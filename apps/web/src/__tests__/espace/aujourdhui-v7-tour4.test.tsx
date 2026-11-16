@@ -39,11 +39,12 @@ describe("faute 1 : hero de l'aperçu équilibré dès 1024, sans grossir le tex
     const promesse = hero.querySelector("[data-apercu-pastilles]")?.previousElementSibling;
     expect(classes(promesse)).toEqual(expect.arrayContaining(["text-base", "max-w-xl"]));
     expect(classes(promesse).some((c) => /text-(lg|xl|2xl)$/.test(c))).toBe(false);
+    // v7 tour 8 (point 4) : 24 px dès 768 ; 16 px en dessous, pour la première tuile au premier écran à 375.
     const pastilles = classes(hero.querySelector("[data-apercu-pastilles]"));
-    expect(pastilles).toContain("mt-6");
-    expect(pastilles.filter((c) => /(^|:)(mt|pt)-/.test(c))).toEqual(["mt-6"]);
+    expect(pastilles).toContain("md:mt-6");
+    expect(pastilles.filter((c) => /(^|:)(mt|pt)-/.test(c))).toEqual(["mt-4", "md:mt-6"]);
     expect(classes(hero.children[0])).toEqual(expect.arrayContaining(["flex", "flex-col"]));
-    expect(classes(document.querySelector("[data-apercu-extrait]"))).toEqual(expect.arrayContaining(["mt-12", "lg:mt-16"]));
+    expect(classes(document.querySelector("[data-apercu-extrait]"))).toEqual(expect.arrayContaining(["mt-8", "md:mt-12", "lg:mt-16"]));
   });
 });
 
@@ -56,28 +57,27 @@ describe("piste : hero 60/40 dès 768", () => {
     expect(classes(texte)).toEqual(expect.arrayContaining(["md:col-span-3", "lg:col-span-8"]));
     expect(classes(offre)).toEqual(expect.arrayContaining(["md:col-span-2", "lg:col-span-4"]));
     expect(offre.querySelector("[data-apercu-offre]")).not.toBeNull();
-    // v7 tour 7 (`px-3`, rythme de 8 px) : le plafond de largeur ne suffisait plus ; 3 colonnes dès 768 (3 + 3), 2 en
-    // dessous (2 + 2 + 2), une ligne dès 1280 : jamais une pastille seule sur sa ligne.
-    expect(classes(hero.querySelector("[data-apercu-pastilles]"))).toEqual(
-      expect.arrayContaining(["grid", "grid-cols-[repeat(2,max-content)]", "md:grid-cols-[repeat(3,max-content)]", "xl:flex"]),
-    );
+    // v7 tour 8 (point 3, décision de l'orchestrateur) : retour à la ligne libre à écart constant (8 px) à toutes les
+    // largeurs, plus aucune grille (les colonnes laissaient des trous inégaux au milieu d'une ligne à 768).
+    const pastilles = classes(hero.querySelector("[data-apercu-pastilles]"));
+    expect(pastilles).toEqual(expect.arrayContaining(["flex", "flex-wrap", "gap-2"]));
+    expect(pastilles.some((c) => /grid/.test(c))).toBe(false);
   });
 });
 
 describe("piste : tuile « Contenu du jour » de l'extrait (échelle s25)", () => {
-  it("titre `TITRE_CARTE` aligné dès 1024 sur ceux des voisines, lignes sans cadre séparées d'un filet, en `TEXTE`", () => {
+  it("« Contenu du jour » en étiquette sur la ligne des étiquettes voisines, sans ligne vide ; lignes sans cadre séparées d'un filet, en `TEXTE`", () => {
     render(<ApercuAujourdhui visiteur />);
     const tuiles = Array.from(document.querySelectorAll("[data-apercu-suite] [data-tuile-fermee]"));
     const jour = tuiles[tuiles.length - 1];
-    const titre = jour.querySelector("p.font-display");
-    expect(titre?.textContent).toBe(T.jour.titre);
-    // v7 tour 7 (rythme de 8 px) : plus de `lg:mt-7` ; dès 1024 une ligne vide de la hauteur d'une étiquette (`h-5`,
-    // décorative) puis le titre à 8 px, comme les voisines : même alignement.
-    expect(classes(titre)).toEqual(expect.arrayContaining(["text-xl", "font-semibold", "lg:mt-2"]));
-    expect(classes(titre).some((c) => /mt-7/.test(c))).toBe(false);
-    const cale = titre?.previousElementSibling;
-    expect(cale?.getAttribute("aria-hidden")).toBe("true");
-    expect(classes(cale)).toEqual(expect.arrayContaining(["hidden", "h-5", "lg:block"]));
+    // v7 tour 8 (piste, 35 px vides au-dessus du titre) : « Contenu du jour » en `ETIQUETTE` (14/600, comme « Ton cap »),
+    // premier enfant de la tuile ; la première ligne à 8 px dessous, sur la ligne des titres voisins. Plus de cale.
+    const tuile = jour.querySelector("[data-tuile-fermee] > div:not([data-verrou-ferme])") as HTMLElement;
+    const etiquette = tuile.firstElementChild;
+    expect(etiquette?.textContent).toBe(T.jour.titre);
+    expect(classes(etiquette)).toEqual(expect.arrayContaining(["text-sm", "font-semibold", "text-text-secondary"]));
+    expect(tuile.querySelector("[aria-hidden='true'].h-5")).toBeNull();
+    expect(etiquette?.nextElementSibling?.tagName).toBe("UL");
     expect(classes(jour.querySelector("ul"))).toEqual(expect.arrayContaining(["mt-2", "divide-y", "divide-border"]));
     for (const li of Array.from(jour.querySelectorAll("li"))) {
       expect(classes(li)).toEqual(expect.arrayContaining(["py-2", "text-base"]));

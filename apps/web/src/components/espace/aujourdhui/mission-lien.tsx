@@ -4,7 +4,7 @@ import type { NumeroMarche } from "@/lib/espace/missions";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { ETIQUETTE, TEXTE } from "@/components/espace/typo";
-import { Chevron, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
+import { Chevron, PASTILLE, PIED_TUILE_GABARIT, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const M = frEspaceProfond(TEXTES_MISSION);
@@ -25,13 +25,16 @@ export function MissionLien({ marche, accroche, fige = false }: { marche: Numero
       <span className={ETIQUETTE}>
         {M.titre} · {M.marche(marche)}
       </span>
-      <span className={cn(TITRE_TUILE, "block")}>{M.titresMarches[marche]}</span>
+      <span className={cn(TITRE_TUILE, "block", !accroche && "mb-4")}>{M.titresMarches[marche]}</span>
       {accroche && (
-        <span className={cn("mt-2 block", TEXTE, fige && "max-h-[4.5rem] overflow-hidden")} data-mission-accroche>
+        <span className={cn("mb-4 mt-2 block", TEXTE, fige && "max-h-[4.5rem] overflow-hidden")} data-mission-accroche>
           {frEspace(accroche)}
         </span>
       )}
-      <span className="mt-auto flex items-end justify-between gap-4 pt-4">
+      {/* v7 tour 8 (piste) : pied au même gabarit que celui de l'étape voisine (filet, 48 px, chevron à droite), 16 px
+          sous le corps. Le seul libellé existant de la mission (« Voir la marche n ») sert à passer d'une marche à
+          l'autre dans « S'entraîner » et redoublerait l'étiquette : le pied garde « Facultative ». */}
+      <span className={cn(PIED_TUILE_GABARIT, "transition-colors group-hover:bg-background-elevated")}>
         <span className={PASTILLE}>{M.facultative}</span>
         <Chevron className="text-text-secondary" />
       </span>
@@ -44,7 +47,7 @@ export function MissionLien({ marche, accroche, fige = false }: { marche: Numero
       data-testid="mission-lien"
       className={cn(
         TUILE,
-        "transition-colors hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "group transition-colors hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       )}
     >
       {contenu}

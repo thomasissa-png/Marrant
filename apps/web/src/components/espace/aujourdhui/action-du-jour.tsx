@@ -16,6 +16,9 @@ import { ETIQUETTE, META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/ty
  * sur toute la largeur 8 px dessous, méta éventuelle 8 px dessous, puis le bouton aligné à gauche 16 px dessous (un
  * groupe, spec §2.4), pleine largeur sous 768 px. Contenu calé en haut : si « Ton cap » est plus haute, le surplus va
  * en bas des deux cartes, jamais au milieu.
+ * v7 tour 8 (point 2) : Z1 passe à 7 colonnes sur 12 dès 1024 (titre sur presque toute la largeur) ; son bouton prend
+ * 256 px au moins dès 1024 (`lg:min-w-64`, 176 avant) : le point focal de la page pèse son poids, et la carte n'est plus
+ * vide à plus de moitié (mesure du tour 8 : part occupée par les lignes de contenu au-dessus de 50 % à 1280 et 1920).
  */
 export function ActionDuJour({
   idTitre,
@@ -39,7 +42,7 @@ export function ActionDuJour({
   /** Sous le bouton, pleine largeur (accroche et liste des cartes de la rafale). */
   apres?: React.ReactNode;
 } & { [cle: `data-${string}`]: string | undefined }) {
-  const gabarit = "mt-4 w-full self-start whitespace-normal md:w-auto md:min-w-44 max-e300:mt-1 max-e300:h-auto max-e300:min-h-11";
+  const gabarit = "mt-4 w-full self-start whitespace-normal md:w-auto md:min-w-44 lg:min-w-64 max-e300:mt-1 max-e300:h-auto max-e300:min-h-11";
   const bouton = cn(buttonVariants({ variant: "primary", size: "lg" }), gabarit);
   const boutonEteint = cn(buttonVariants({ variant: "outline", size: "lg" }), "border-border-input bg-transparent", TEXTE_FORT, gabarit);
   return (

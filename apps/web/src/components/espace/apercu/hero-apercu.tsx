@@ -34,6 +34,13 @@ import { cn } from "@/lib/utils";
  * ENTRE la promesse et elles, lu comme cassé) ; elles suivent la promesse à 24 px (`mt-6`) à toutes les largeurs et
  * le surplus de hauteur de l'offre passe sous elles, en bas de colonne (respiration). Un vide ne se comble jamais en
  * grossissant le texte.
+ * v7 tour 8 (décisions de l'orchestrateur) : pastilles en retour à la ligne libre (`flex flex-wrap gap-2`) à toutes
+ * les largeurs : un écart constant de 8 px, plus de colonnes ni de trous irréguliers (une pastille seule en fin de
+ * ligne est acceptée). Sous 768 px, tout est resserré pour que la première tuile de l'extrait (étiquette et titre)
+ * tienne au premier écran (375 x 812, étiquette et titre au-dessus de y = 760) : la pastille « Premium » passe sur la
+ * ligne du H1, à droite (ordre du DOM inchangé : pastille puis titre ; 44 px de gagnés), pastilles compactes (même
+ * 14 px, `px-2 py-0.5` : 3 + 3 sur deux lignes au lieu de trois), 16 px entre promesse et pastilles et entre le texte
+ * et la carte d'offre (resserrée elle aussi). Dès 768, rien ne change : pastille au-dessus du H1, 16 px entre eux.
  */
 export function HeroApercu({
   titre,
@@ -47,17 +54,19 @@ export function HeroApercu({
   offre: React.ComponentProps<typeof OffreApercu>;
 }) {
   return (
-    <div className="grid gap-8 md:grid-cols-5 lg:grid-cols-12 lg:gap-12" data-apercu-hero>
+    <div className="grid gap-4 md:grid-cols-5 md:gap-8 lg:grid-cols-12 lg:gap-12" data-apercu-hero>
       <div className="flex min-w-0 flex-col md:col-span-3 lg:col-span-8">
-        <BadgePremium className="self-start" />
-        <h1 id="apercu-titre" className={cn("mt-4", TITRE_PAGE)}>
-          {titre}
-        </h1>
+        <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-col md:items-start md:justify-start" data-apercu-tete>
+          <BadgePremium className="flex-none" />
+          <h1 id="apercu-titre" className={cn("min-w-0", TITRE_PAGE)}>
+            {titre}
+          </h1>
+        </div>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
         <p className={cn("mt-4 max-w-xl [text-wrap:balance]", TEXTE)}>{promesse}</p>
-        <ul className="mt-6 grid grid-cols-[repeat(2,max-content)] gap-2 md:grid-cols-[repeat(3,max-content)] xl:flex xl:flex-wrap" data-apercu-pastilles>
+        <ul className="mt-4 flex flex-wrap gap-2 md:mt-6" data-apercu-pastilles>
           {pastilles.map((p) => (
-            <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-3 py-1", META)}>
+            <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-2 py-0.5 md:px-3 md:py-1", META)}>
               {p}
             </li>
           ))}

@@ -54,7 +54,8 @@ export function ParcoursTuile({ etape, fige = false }: { etape: EtapeAReprendre;
   const pied = (
     <>
       {libelleAction(etape)}
-      <Chevron />
+      {/* v7 tour 8 : chevron gris secondaire (spec §2.1), comme celui du pied de la mission voisine. */}
+      <Chevron className="text-text-secondary" />
     </>
   );
   return (

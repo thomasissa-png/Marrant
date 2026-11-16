@@ -12,7 +12,7 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  *   pastille « Premium » par bloc, une seule dans le hero) ; v7 tour 2 (faute 4) : « Ton cap » entier
  *   AVANT le fondu à toutes les largeurs, le fondu ne coupe aucune ligne de texte, aucune pastille du hero seule sur
  *   sa ligne ;
- * - abonné neuf : Z1 8/12 et « Ton cap » 4/12 sur la même rangée dès 1024 px, une colonne dessous ; aucune rangée
+ * - abonné neuf : Z1 7/12 et « Ton cap » 5/12 (v7 tour 8) sur la même rangée dès 1024 px, une colonne dessous ; aucune rangée
  *   à moitié vide ; aucun débordement horizontal (halo compris) de 375 à 1920 ; v7 tour 2 (fautes 1, 2, 3, 5) : aucun
  *   creux de plus de 32 px dans « Étape conseillée », « Tes 4 premières semaines » et les cartes du contenu du jour,
  *   « Semaine n » en tête de ligne ; v7 tour 6 (placement) : Z1 et « Ton cap » calés en haut, aucun creux de plus de
@@ -138,7 +138,8 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         return {
           opaque: m ? parseFloat(m[1]) : 0,
           tuiles: tuiles.length,
-          titres: tuiles.every((t) => bas(t.querySelector("h2, .font-display")) <= opaque),
+          // v7 tour 8 : « Contenu du jour » n'a plus de titre, son étiquette en tient lieu (premier texte de la tuile).
+          titres: tuiles.every((t) => bas(t.querySelector("h2, .font-display") ?? t.querySelector(":scope > :not([data-verrou-ferme]) > :first-child")) <= opaque),
           barreEtLigne: bas(etape?.querySelector("[data-barre-etapes]") ?? null) <= opaque && bas(ligneEtape) <= opaque,
           vanneDuJour: jour === null || jour.getBoundingClientRect().top > s.getBoundingClientRect().bottom - 48 || bas(jour) <= opaque,
         };
@@ -211,11 +212,17 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         expect(offreHero.haut, `offre sur la ligne du texte, ${ou}`).toBeLessThan(texteHero.bas);
         expect((await boite(offres.first())).largeur, `bouton d'offre de largeur raisonnable, ${ou}`).toBeLessThanOrEqual(400);
       }
-      // v7 tour 4 (piste) : dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de celui de « Étape conseillée ».
+      // v7 tour 4 (piste), revu au tour 8 (35 px vides au-dessus du titre) : dès 1024, l'étiquette « Contenu du jour »
+      // à la hauteur de « Étape conseillée », et sa première ligne à la hauteur du titre voisin, sans ligne vide.
       if (largeur >= 1024) {
-        const titres = extrait.locator("[data-apercu-suite] [data-tuile-fermee]");
-        const [etapeTitre, jourTitre] = [await boite(titres.first().locator("h2")), await boite(titres.last().locator("p.font-display"))];
-        expect(Math.abs(jourTitre.haut - etapeTitre.haut), `titres de la rangée 2 alignés, ${ou}`).toBeLessThanOrEqual(1);
+        const tuiles = extrait.locator("[data-apercu-suite] [data-tuile-fermee]");
+        const etape = tuiles.first().locator('[data-testid="parcours-tuile"]');
+        const jour = tuiles.last().locator(":scope > :not([data-verrou-ferme])");
+        const [etapeEtiquette, etapeTitre] = [await boite(etape.locator("> p").first()), await boite(etape.locator("h2"))];
+        const [jourEtiquette, jourLigne] = [await boite(jour.locator("> p").first()), await boite(jour.locator("li").first())];
+        expect(Math.abs(jourEtiquette.haut - etapeEtiquette.haut), `étiquettes de la rangée 2 alignées, ${ou}`).toBeLessThanOrEqual(1);
+        expect(Math.abs(jourLigne.haut - etapeTitre.haut), `première ligne de « Contenu du jour » sur la ligne des titres, ${ou}`).toBeLessThanOrEqual(1);
+        expect(Math.round(jourEtiquette.haut - (await boite(jour)).haut), `aucun vide au-dessus de l'étiquette (bord et marge seulement), ${ou}`).toBeLessThanOrEqual(25);
       }
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "visiteur-aujourdhui", largeur);
@@ -246,7 +253,8 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       // v7 tour 6 (placement, remplace « bas du hero équilibrés » du tour 4) : pastilles à 24 px au plus sous la
       // promesse ; le vide restant passe sous elles, en bas de colonne (jamais au-dessus de la carte d'offre).
       const [promesse, pastilles, offre] = [
-        await boite(page.locator("[data-apercu-hero] h1 ~ p:not(.sr-only)")),
+        // v7 tour 8 : pastille et H1 dans une tête commune (`data-apercu-tete`), la promesse la suit.
+        await boite(page.locator("[data-apercu-hero] [data-apercu-tete] ~ p:not(.sr-only)")),
         await boite(page.locator("[data-apercu-pastilles]")),
         await boite(page.locator("[data-apercu-offre]")),
       ];
@@ -255,7 +263,7 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
     }
   });
 
-  test("abonné neuf : Z1 8/12 et « Ton cap » 4/12 sur une rangée dès 1024 px, rangées pleines, rien ne déborde", async ({ page }) => {
+  test("abonné neuf : Z1 7/12 et « Ton cap » 5/12 sur une rangée dès 1024 px, rangées pleines, rien ne déborde", async ({ page }) => {
     const email = `e2e-auj-s25-${Date.now().toString(36)}-${randomBytes(2).toString("hex")}@example.com`;
     await creerCompte(email, MOT_DE_PASSE, "PREMIUM");
     await connecter(page, email, MOT_DE_PASSE);
@@ -270,7 +278,8 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       if (largeur >= 1024) {
         expect(Math.abs(cap.haut - action.haut), `même rangée, ${ou}`).toBeLessThanOrEqual(1);
         expect(Math.abs(cap.hauteur - action.hauteur), `même hauteur, ${ou}`).toBeLessThanOrEqual(1);
-        expect(action.largeur, `Z1 dominante, ${ou}`).toBeGreaterThan(cap.largeur * 1.8);
+        // v7 tour 8 (point 2) : 7/12 contre 5/12 (rapport 1,4 en tenant compte des gouttières), Z1 toujours la plus large.
+        expect(action.largeur, `Z1 dominante, ${ou}`).toBeGreaterThan(cap.largeur * 1.3);
       } else {
         expect(cap.haut, `« Ton cap » sous l'action du jour, ${ou}`).toBeGreaterThan(action.bas);
         expect(Math.abs(action.largeur - g.largeur), `pleine largeur, ${ou}`).toBeLessThanOrEqual(1);

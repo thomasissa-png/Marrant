@@ -17,6 +17,9 @@ const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
  * préfixe et creusait la tuile). Échelle s25 : titre en `TITRE_CARTE`, lignes en `META`, préfixe en 600 blanc (plus
  * de violet : un seul par écran, le bouton plein). v7 tour 7 (décision de Thomas) : mêmes couleurs sur toutes les
  * lignes, « Semaine n : » en texte principal, le reste en secondaire ; la semaine 1 n'a plus de couleur à part.
+ * v7 tour 8 (piste, colonne « Semaine n : » non alignée) : grille à 2 colonnes partagée par toutes les lignes (la liste
+ * fixe les colonnes, chaque ligne les reprend en `subgrid`) : le libellé prend la largeur du plus long, le texte de
+ * chaque semaine démarre sur une même verticale, et ses lignes repliées restent dans sa colonne.
  */
 export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: boolean; fige?: boolean }) {
   const lignes = ecouterPublie ? P.semaines.lignes : [...P.semaines.lignes.slice(0, 3), P.semaines.semaine4SansEcouter];
@@ -25,13 +28,13 @@ export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: 
       <h2 id={fige ? undefined : "semaines-titre"} className={TITRE_CARTE}>
         {P.semaines.titre}
       </h2>
-      <ol className="mt-2 divide-y divide-border">
+      <ol className="mt-2 grid grid-cols-[max-content_1fr] gap-x-2 divide-y divide-border">
         {lignes.map((l, i) => (
-          <li key={l.semaine} className={cn("py-2 first:pt-0 last:pb-0", META)} data-semaine={i + 1}>
+          <li key={l.semaine} className={cn("col-span-2 grid grid-cols-subgrid py-2 first:pt-0 last:pb-0", META)} data-semaine={i + 1}>
             <span className="font-semibold text-text-primary" data-semaine-prefixe>
               {frPonctuation(l.semaine)}
             </span>{" "}
-            {frEspace(frPonctuation(l.texte))}
+            <span>{frEspace(frPonctuation(l.texte))}</span>
           </li>
         ))}
       </ol>

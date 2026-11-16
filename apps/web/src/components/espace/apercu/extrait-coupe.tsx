@@ -21,10 +21,11 @@ const INERTE = { inert: "" } as Record<string, string>;
  * passe sous le fondu, qui finit entre deux lignes de texte.
  * v7 tour 3 (faute 2) : 80 px au-dessus de l'extrait dès 1024 px : à 900 px de haut (1280, 1456, 1920), le bouton de
  * la fin d'extrait reste sous le premier écran ; jamais deux boutons d'offre pleins visibles ensemble.
+ * v7 tour 8 (point 4) : 32 px seulement sous 768 px, pour que la première tuile tienne au premier écran à 375.
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
-    <div className="relative mt-12 lg:mt-16" data-apercu-extrait={rubrique}>
+    <div className="relative mt-8 md:mt-12 lg:mt-16" data-apercu-extrait={rubrique}>
       <div
         aria-hidden="true"
         {...INERTE}
