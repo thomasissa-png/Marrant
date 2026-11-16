@@ -6,7 +6,7 @@ import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } f
  * Navigation v6, tour 3, lot 1 (espace), en vrai navigateur, interrupteur OUVERT seulement (`E2E_ESPACE_OUVERT=1`) :
  * plan `docs/espace-client/travail-en-cours/plan-corrections-v6-tour-3.md`, points 1 (espace et favoris), 2, 3, 4, 6, 7.
  * - en-têtes des rubriques et de /favoris centrés pour l'abonné, comme l'aperçu de la même adresse ;
- * - S'entraîner : cartes jumelles de même hauteur ; carte seule et mission réparties en deux colonnes dès 1 024 px ;
+ * - S'entraîner : aucun vide à côté d'une carte (tour 4, arbitrage 1 : une colonne centrée `max-w-3xl`, cartes empilées) ;
  * - Mes répliques : état vide centré ; aperçu Favoris : les deux contenus l'un sous l'autre ;
  * - aperçus Quoi répondre et Aujourd'hui : fiche en entier, sans porte ni bouton ; catalogue sous l'exemple ;
  * - liens autonomes de 44 px (Bibliothèque, Connexion, retour des fiches, « Définition complète »).
@@ -126,23 +126,21 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
 });
 
 /**
- * S'entraîner : deux cartes sur une même rangée = même bas (±1 px) ; une carte sur la ligne entière (et la mission)
- * = deux colonnes dès 1 024 px, la colonne de droite finit près du bord droit de la carte (aucun vide à droite).
+ * S'entraîner (v6 tour 4, arbitrage 1 de Thomas, remplace les cartes jumelles et la carte seule en deux colonnes du tour 3) :
+ * une seule colonne centrée (`mx-auto max-w-3xl`), cartes et mission empilées. Intention du tour 3 gardée : aucun vide à côté
+ * d'une carte ni de carte calée à gauche de la coque. Chaque carte : seule sur sa rangée, sous la précédente, même largeur
+ * que ses sœurs (±1 px), au plus 768 px, au milieu de la coque (±24 px, comme l'état vide de Mes répliques).
  */
 async function controlerSEntrainer(page: Page, ou: string) {
   const cartes = page.locator("main article[data-carte], main section[data-mission]");
   const boites = await Promise.all((await cartes.all()).map(boite));
+  expect(boites.length, `au moins une carte, ${ou}`).toBeGreaterThan(0);
+  const largeur = page.viewportSize()?.width ?? 0;
   for (let i = 0; i < boites.length; i++) {
     const b = boites[i];
-    const voisine = boites.find((x, j) => j !== i && Math.abs(x.haut - b.haut) <= 1);
-    if (voisine) {
-      expect(Math.abs(voisine.bas - b.bas), `cartes jumelles de même hauteur, ${ou}`).toBeLessThanOrEqual(1);
-      continue;
-    }
-    const carte = cartes.nth(i);
-    expect(await carte.evaluate((e) => getComputedStyle(e).display), `carte seule en grille, ${ou}`).toBe("grid");
-    const droite = await boite(carte.locator(":scope > div").nth(1));
-    expect(b.droite - droite.droite, `colonne de droite jusqu'au bord, ${ou}`).toBeLessThanOrEqual(33);
-    expect(droite.gauche - b.gauche, `colonne de droite à droite, ${ou}`).toBeGreaterThan(b.largeur / 3);
+    expect(Math.abs(b.gauche - (largeur - b.droite)), `carte au milieu de la coque, ${ou}`).toBeLessThanOrEqual(24);
+    expect(b.largeur, `colonne de 768 px au plus, ${ou}`).toBeLessThanOrEqual(768);
+    expect(Math.abs(b.largeur - boites[0].largeur), `cartes de même largeur, ${ou}`).toBeLessThanOrEqual(1);
+    if (i > 0) expect(b.haut, `carte sous la précédente (aucune voisine sur sa rangée), ${ou}`).toBeGreaterThanOrEqual(boites[i - 1].bas);
   }
 }
