@@ -19,8 +19,9 @@ import type { RubriqueApercu } from "@/config/textes/espace-apercu";
 const MOT_DE_PASSE = "E2e-v6-tour2-lot1!";
 const CAPTURES = process.env.E2E_CAPTURES_V6T2;
 const LARGEURS = [375, 768, 1280, 1456, 1920];
+// Refonte s25 : « Aujourd'hui » quitte la colonne centrée (aperçu verrouillé en largeur, H1 à gauche) ; sa mise en
+// page est vérifiée par `espace-aujourdhui-refonte-s25.spec.ts`. Les autres rubriques gardent cette règle.
 const APERCUS: [RubriqueApercu, string][] = [
-  ["aujourdhui", "/mon-espace"],
   ["quoiRepondre", "/mon-espace/quoi-repondre"],
   ["bibliotheque", "/mon-espace/bibliotheque"],
   ["sEntrainer", "/mon-espace/s-entrainer"],

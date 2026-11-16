@@ -23,7 +23,9 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
         {...INERTE}
         className={cn(
           "pointer-events-none relative h-80 select-none overflow-hidden md:h-[25rem] lg:h-[27.5rem]",
-          "[mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]",
+          // Transparent dès 48 px avant le bas : la fin d'extrait (`-mt-12`) chevauche une zone ENTIÈREMENT transparente
+          // (spec design §3.3) ; sans cela, à 375 px, la pastille du bloc suivant se lisait derrière elle.
+          "[mask-image:linear-gradient(to_bottom,black_55%,transparent_calc(100%_-_3rem))]",
         )}
       >
         {children}

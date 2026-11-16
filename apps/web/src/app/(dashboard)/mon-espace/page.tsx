@@ -139,8 +139,8 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
     <div className="halo-page pb-16">
       <header className="flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
         <div className="min-w-0">
-          <h1 className="font-display text-3xl font-bold leading-tight text-text-primary md:text-4xl">{T.titre}</h1>
-          <p className="mt-1 text-sm text-text-secondary" data-date-du-jour>
+          <h1 className="font-display text-3xl font-bold leading-tight text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
+          <p className="mt-1 text-sm text-text-secondary max-e300:mt-0" data-date-du-jour>
             {dateDuJour()}
           </p>
         </div>
@@ -155,7 +155,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
           {frTypo(BIENVENUE_PREMIUM.favori[favori])}
         </p>
       )}
-      <div className="mt-6 grid grid-cols-1 gap-6 md:mt-8 md:grid-cols-2 lg:grid-cols-12" data-aujourdhui-grille>
+      <div className="mt-6 grid grid-cols-1 gap-6 md:mt-8 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille>
         {principale && (
           <div className="min-w-0 md:col-span-2 lg:col-span-8" data-carte-du-jour>
             {principale}

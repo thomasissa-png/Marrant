@@ -37,10 +37,10 @@ export function ActionDuJour({
   const bouton = cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full whitespace-normal md:w-auto md:min-w-44 max-e300:h-auto max-e300:min-h-11");
   return (
     <section aria-labelledby={idTitre} className={cn(CARTE_ACTION, "max-e300:p-3")} data-action-du-jour {...donnees}>
-      <div className="grid gap-x-8 gap-y-4 md:grid-cols-[1fr_auto] md:items-end">
+      <div className="grid gap-x-8 gap-y-4 md:grid-cols-[1fr_auto] md:items-end max-e300:gap-y-1">
         {/* Figée (extrait) : place gardée à droite pour la pastille « Premium » posée dans le coin. */}
         <div className={cn("flex items-center justify-between gap-4 md:col-span-2", fige && "pr-24")}>
-          {chapeau ? <p className="text-sm text-text-secondary">{chapeau}</p> : <p className={ETIQUETTE_ACTION}>{etiquette}</p>}
+          {chapeau ? <p className="text-sm text-text-secondary">{chapeau}</p> : <p className={cn(ETIQUETTE_ACTION, "max-e300:tracking-normal")}>{etiquette}</p>}
           {duree && <p className="flex-none text-sm tabular-nums text-text-secondary">{duree}</p>}
         </div>
         <div className="min-w-0">

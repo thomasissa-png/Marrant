@@ -715,7 +715,14 @@ test.describe("navigation universelle v6 (s25)", () => {
             await pret(page, etat);
             const h1 = page.locator("main h1").first();
             await expect(h1, `${chemin} (${etat}, ${largeur} px)`).toBeVisible();
-            const tete = chemin === "/carnet" ? h1.locator("xpath=preceding-sibling::p[1]") : h1;
+            // Refonte s25 (spec UX §2.1) : l'aperçu d'« Aujourd'hui » porte la pastille « Premium » AU-DESSUS du H1 ; comme
+            // le sur-titre de /carnet, c'est elle, première ligne de l'en-tête, qui s'aligne sur les autres rubriques.
+            const tete =
+              chemin === "/carnet"
+                ? h1.locator("xpath=preceding-sibling::p[1]")
+                : chemin === "/mon-espace" && etat === "visiteur"
+                  ? page.locator("[data-apercu-hero] [data-badge-premium]")
+                  : h1;
             await expect(tete, `en-tête de ${chemin} (${etat}, ${largeur} px)`).toBeVisible();
             hauts[chemin] = await tete.evaluate((e) => Math.round((e.getBoundingClientRect().top + window.scrollY) * 10) / 10);
           }
@@ -774,22 +781,24 @@ test.describe("navigation universelle v6 (s25)", () => {
       await page.setViewportSize({ width: 1280, height: 900 });
       await page.goto("/mon-espace");
       const grille = page.locator("[data-aujourdhui-grille]");
+      // Refonte s25 (spec design §5.1) : une seule grille de 12 colonnes ; même règle de 24 px, mesurée entre rangées
+      // (éléments l'un sous l'autre) et entre colonnes (éléments côte à côte sur une rangée).
       const ecarts = await grille.evaluate((g) => {
         const enfants = Array.from(g.children).map((e) => e.getBoundingClientRect());
-        const secondaires = g.querySelector("[data-aujourdhui-secondaires]");
-        const cartes = secondaires ? Array.from(secondaires.children).map((e) => e.getBoundingClientRect()) : [];
-        return {
-          rangee: getComputedStyle(g).rowGap,
-          entre: enfants.slice(1).map((r, i) => Math.round(r.top - enfants[i].bottom)),
-          colonnes: secondaires ? getComputedStyle(secondaires).columnGap : null,
-          entreColonnes: cartes.length > 1 && Math.round(cartes[1].top) === Math.round(cartes[0].top) ? Math.round(cartes[1].left - cartes[0].right) : null,
-        };
+        const entre: number[] = [];
+        const entreColonnes: number[] = [];
+        enfants.slice(1).forEach((r, i) => {
+          const p = enfants[i];
+          if (Math.round(r.top) === Math.round(p.top)) entreColonnes.push(Math.round(r.left - p.right));
+          else entre.push(Math.round(r.top - p.bottom));
+        });
+        return { rangee: getComputedStyle(g).rowGap, colonnes: getComputedStyle(g).columnGap, entre, entreColonnes };
       });
       noter(`critère 4 ; écarts d'Aujourd'hui ; ${JSON.stringify(ecarts)}`);
       expect(ecarts.rangee, "écart entre les éléments d'Aujourd'hui").toBe("24px");
-      for (const e of ecarts.entre) expect(e, "24 px entre les éléments d'Aujourd'hui").toBe(24);
-      if (ecarts.colonnes !== null) expect(ecarts.colonnes, "écart entre les secondaires").toBe("24px");
-      if (ecarts.entreColonnes !== null) expect(ecarts.entreColonnes, "24 px entre les secondaires côte à côte").toBe(24);
+      expect(ecarts.colonnes, "écart entre les colonnes d'Aujourd'hui").toBe("24px");
+      for (const e of ecarts.entre) expect(e, "24 px entre les rangées d'Aujourd'hui").toBe(24);
+      for (const e of ecarts.entreColonnes) expect(e, "24 px entre les éléments côte à côte").toBe(24);
       expect(await page.locator("main h1").first().evaluate((h) => getComputedStyle(h).fontSize)).toBe("36px");
       await c.close();
     });
