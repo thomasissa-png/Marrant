@@ -2,33 +2,43 @@ import Link from "next/link";
 import { TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { NumeroMarche } from "@/lib/espace/missions";
 import { frEspaceProfond } from "@/lib/fr-typo";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { cn } from "@/lib/utils";
+import { ETIQUETTE } from "@/components/espace/carte/styles";
+import { Chevron, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const M = frEspaceProfond(TEXTES_MISSION);
 
 /**
- * Mission ouverte, état 4 d'« Aujourd'hui » (architecture v20 4.4) : jamais l'action principale (aucun bouton
- * plein). Relecture des captures nav s24 (ux F6a) : une carte comme les autres de la colonne du jour, au lieu
- * d'une ligne flottante : « Mission · Marche n » (libellés existants), le titre de la marche en ligne entière
- * cliquable avec chevron, « Facultative » (libellé 25), vers la mission dans « S'entraîner ».
+ * Z4 « Mission » (refonte s25, spec design §4 Z4 ; architecture v20 4.4 état 4) : jamais l'action principale (aucun
+ * bouton plein). Toute la tuile est le lien (cible bien au-dessus de 44 px) vers la mission dans « S'entraîner » :
+ * « Mission · Marche n », le titre de la marche, « Facultative » en pastille non bordée, chevron en bas à droite.
+ * `fige` (extrait de l'aperçu) : la même tuile, sans lien.
  */
-export function MissionLien({ marche }: { marche: NumeroMarche }) {
-  return (
-    <section aria-labelledby="mission-lien-titre" className={`${CADRE_CARTE} p-4 md:p-6`} data-testid="mission-lien">
-      <p id="mission-lien-titre" className="text-xs font-semibold text-text-muted">
+export function MissionLien({ marche, fige = false }: { marche: NumeroMarche; fige?: boolean }) {
+  const contenu = (
+    <>
+      <span className={ETIQUETTE}>
         {M.titre} · {M.marche(marche)}
-      </p>
-      <Link
-        href="/mon-espace/s-entrainer#mission"
-        className="-mx-2 mt-1 flex min-h-11 items-center justify-between gap-3 rounded-md px-2 text-base font-semibold text-text-primary transition-colors hover:text-accent-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
-      >
-        {M.titresMarches[marche]}
-        <svg className="h-4 w-4 flex-none text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </Link>
-      <p className="text-xs text-text-secondary">{M.facultative}</p>
-    </section>
+      </span>
+      <span className={cn(TITRE_TUILE, "block")}>{M.titresMarches[marche]}</span>
+      <span className="mt-auto flex items-end justify-between gap-3 pt-4">
+        <span className={PASTILLE}>{M.facultative}</span>
+        <Chevron className="text-text-muted" />
+      </span>
+    </>
+  );
+  if (fige) return <div className={TUILE}>{contenu}</div>;
+  return (
+    <Link
+      href="/mon-espace/s-entrainer#mission"
+      data-testid="mission-lien"
+      className={cn(
+        TUILE,
+        "transition-colors hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+      )}
+    >
+      {contenu}
+    </Link>
   );
 }

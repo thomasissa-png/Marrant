@@ -81,23 +81,13 @@ export async function premierPasFait(userId: string): Promise<boolean> {
   return fait;
 }
 
-/** Jours depuis la création de l'abonnement, étapes validées : de quoi décider « Ton mois » (J25, 4.4). */
-export async function lireMois(
-  userId: string,
-  maintenant: Date = new Date(),
-): Promise<{ serie: number; montrer: boolean; cap: NumeroCap }> {
-  const [compte, etapes] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: userId },
-      select: { streak: true, xp: true, subscription: { select: { createdAt: true } } },
-    }),
-    prisma.userPathStepCompletion.count({ where: { userId } }),
-  ]);
-  const debut = compte?.subscription?.createdAt;
-  const jours = debut ? (maintenant.getTime() - debut.getTime()) / 86_400_000 : 0;
+/**
+ * Série, XP et cap de l'abonné pour Z2 « Ton cap » d'« Aujourd'hui ». Refonte s25 (spec UX §4.2, décision du 16/11) :
+ * affichés dès le premier jour, plus de seuil J25 (« Ton mois » et `JOUR_TON_MOIS` retirés).
+ */
+export async function lireMois(userId: string): Promise<{ serie: number; xp: number; cap: NumeroCap }> {
+  const compte = await prisma.user.findUnique({ where: { id: userId }, select: { streak: true, xp: true } });
+  const xp = Math.max(0, compte?.xp ?? 0);
   // Lot D4 : cap AFFICHÉ (total d'XP), mêmes textes que la carte « Ton cap » (architecture 4.4 point 2).
-  return { serie: compte?.streak ?? 0, montrer: jours >= JOUR_TON_MOIS && etapes > 0, cap: capDepuisXp(compte?.xp ?? 0) };
+  return { serie: Math.max(0, compte?.streak ?? 0), xp, cap: capDepuisXp(xp) };
 }
-
-/** « Ton mois » à partir de J25 environ (architecture 4.4). */
-export const JOUR_TON_MOIS = 25;

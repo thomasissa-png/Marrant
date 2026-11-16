@@ -51,7 +51,7 @@ function extrait(texte: string): string {
   }
   return sortie.trim();
 }
-const TROISIEME = "md:col-span-2 xl:col-span-1";
+const TROISIEME = "md:col-span-2 lg:col-span-1";
 
 function Carte({ id, titre, children, className }: { id: string; titre: string; children: React.ReactNode; className?: string }) {
   return (
@@ -86,13 +86,13 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
   }, []);
 
   return (
-    <section aria-labelledby="jour-titre" className="flex flex-col gap-4" data-etat={etat.statut} data-contenu-du-jour>
-      <h2 id="jour-titre" className="font-display text-xl font-bold text-text-primary">
+    <section aria-labelledby="jour-titre" className="flex flex-col gap-4 md:gap-6" data-etat={etat.statut} data-contenu-du-jour>
+      <h2 id="jour-titre" className="font-display text-2xl font-bold text-text-primary md:text-3xl">
         {T.jour.titre}
       </h2>
-      {/* v5 §3 : 1 colonne, 2 dès 768 px, 3 dès 1280 px ; la 3e carte prend la ligne entière à 768.
+      {/* v5 §3 : 1 colonne, 2 dès 768 px, 3 dès 1024 px (refonte s25, grille de la page) ; la 3e carte prend la ligne entière à 768.
           v6 tour 1 (point 4) : cartes de même hauteur sur une rangée (`items-stretch`, plus de bas en escalier). */}
-      <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
       {etat.statut === "chargement" &&
         [0, 1, 2].map((i) => (
           <div key={i} aria-hidden="true" className={`${CARTE} animate-pulse motion-reduce:animate-none ${i === 2 ? TROISIEME : ""}`}>

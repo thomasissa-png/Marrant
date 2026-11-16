@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
+import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
+import { Chevron, Coche, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -17,15 +18,19 @@ const T = frEspaceProfond(TEXTES_AUJOURDHUI);
  */
 export type CarteDuJour = { titre: string; href: string; nouvelle: boolean; autreContexte?: boolean };
 
-const Chevron = () => (
-  <svg className="h-4 w-4 flex-none text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-  </svg>
-);
+/** Rond de sens de « C'est tout pour aujourd'hui » (spec design §4 Z5) : la seule note verte de la page. */
+function RondFait() {
+  return (
+    <span className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-full bg-success/15 text-success">
+      <Coche className="h-5 w-5" />
+    </span>
+  );
+}
 
 /**
- * v6 tour 1 (point 4) : `principale` (défaut) = l'action du jour en pleine coque (`md:p-8`, titre `md:text-3xl`,
- * cartes en rangée dès 768 px) ; `false` une fois la rafale faite, quand l'étape à reprendre est l'action du jour.
+ * Refonte s25 (spec design §4 Z1 et Z5) : `principale` (défaut) = l'action du jour Z1 (carte teintée, seul plein,
+ * cartes en ligne dessous) ; `false` = la tuile Z5 quand l'étape est l'action du jour : « C'est tout pour
+ * aujourd'hui » avec sa coche une fois la rafale faite, sinon « Si tu as 5 minutes » et un bouton secondaire.
  */
 export function CartesDuJour({
   cartes: toutes,
@@ -46,38 +51,82 @@ export function CartesDuJour({
   const autres = cartes.filter((c) => c.autreContexte).length;
   const nouvelles = cartes.filter((c) => c.nouvelle && !c.autreContexte).length;
   const aRevoir = cartes.filter((c) => !c.nouvelle).length;
+  const sousTitre = <p className="mt-3 text-sm tabular-nums text-text-secondary">{T.rafale.sousTitre(nouvelles, aRevoir, autres)}</p>;
+
+  if (!principale) {
+    return (
+      <section aria-labelledby="rafale-titre" className={TUILE} data-rafale={fini ? "faite" : "a-faire"}>
+        {fini ? (
+          <div className="flex items-center gap-3">
+            <RondFait />
+            <h2 id="rafale-titre" className="font-display text-lg font-bold text-text-primary">
+              {T.rafale.fini}
+            </h2>
+          </div>
+        ) : (
+          <>
+            <h2 id="rafale-titre" className={cn(TITRE_TUILE, "mt-0")}>
+              {T.rafale.titre}
+            </h2>
+            {sousTitre}
+            <div className="mt-auto pt-4">
+              <Link href={href} className={cn(BOUTON_SECONDAIRE, "w-full")}>
+                {T.rafale.bouton}
+              </Link>
+            </div>
+          </>
+        )}
+      </section>
+    );
+  }
+
+  if (fini) {
+    // Parcours tous finis et rafale faite (spec UX §5) : « C'est tout pour aujourd'hui » en action du jour, sans bouton.
+    return (
+      <ActionDuJour
+        idTitre="rafale-titre"
+        data-rafale="faite"
+        etiquette={T.rafale.titre}
+        titre={
+          <span className="flex items-center gap-3">
+            <RondFait />
+            {T.rafale.fini}
+          </span>
+        }
+        action={null}
+      />
+    );
+  }
+
   return (
-    <section aria-labelledby="rafale-titre" className={cn(CADRE_CARTE, "space-y-3 p-4 md:p-6", principale && "md:p-8")}>
-      <p className="text-sm text-text-secondary">{T.rafale.accroche}</p>
-      <h2 id="rafale-titre" className={cn("font-display text-xl font-bold text-text-primary", principale && "md:text-3xl")}>
-        {T.rafale.titre}
-      </h2>
-      {fini ? (
-        <p className="text-base font-semibold text-text-primary">{T.rafale.fini}</p>
-      ) : (
+    <ActionDuJour
+      idTitre="rafale-titre"
+      data-rafale="a-faire"
+      etiquette={null}
+      chapeau={T.rafale.accroche}
+      titre={T.rafale.titre}
+      action={{ href, libelle: T.rafale.bouton }}
+      apres={
         <>
-          <Link href={href} className={buttonVariants({ variant: "primary", className: "h-11" })}>
-            {T.rafale.bouton}
-          </Link>
-          <p className="text-sm text-text-secondary">{T.rafale.sousTitre(nouvelles, aRevoir, autres)}</p>
-          <ul className={cn("flex flex-col gap-2", principale && "md:grid md:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]")}>
+          {sousTitre}
+          <ul className="mt-3 flex flex-col gap-2 md:grid md:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
             {cartes.map((c) => (
               <li key={c.href}>
                 <Link
                   href={c.href}
-                  className="flex min-h-14 items-center gap-3 rounded-md border border-border bg-background-light px-3 py-2 text-text-primary hover:border-border-hover hover:bg-background-elevated"
+                  className="flex min-h-14 items-center gap-3 rounded-md border border-border bg-background-card/60 px-3 py-2 text-text-primary transition-colors hover:border-border-hover hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                 >
-                  <span className={c.nouvelle ? "rounded-full border border-accent-link px-2 py-0.5 text-xs font-semibold text-accent-link" : "rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary"}>
+                  <span className={cn(PASTILLE, "flex-none font-semibold", c.nouvelle ? "text-accent-link" : "text-text-secondary")}>
                     {c.nouvelle ? T.rafale.nouvelle : T.rafale.aRevoir}
                   </span>
                   <span className="min-w-0 flex-1 text-sm">{c.titre}</span>
-                  <Chevron />
+                  <Chevron className="text-text-muted" />
                 </Link>
               </li>
             ))}
           </ul>
         </>
-      )}
-    </section>
+      }
+    />
   );
 }

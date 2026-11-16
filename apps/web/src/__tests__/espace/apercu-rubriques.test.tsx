@@ -67,7 +67,9 @@ const ACTIF = { plan: "PREMIUM", subscription: { stripeSubscriptionId: "sub_acti
 const SP = { searchParams: {} };
 
 const PAGES = [
-  ["aujourdhui", () => AujourdhuiPage(SP), "amis-tu-as-change-quelque-chose"],
+  // Refonte s25 (`docs/ux/aujourdhui-refonte-s25.md` §3.2) : l'extrait réel d'« Aujourd'hui » est le tableau de bord
+  // fermé (plus une fiche situation entière) ; le bloc d'offre du hero garde bouton et « Connexion ».
+  ["aujourdhui", () => AujourdhuiPage(SP), "tableau-aujourdhui"],
   ["quoiRepondre", () => QuoiRepondrePage(SP), "coloc-la-poele"],
   ["bibliotheque", () => BibliothequePage(), "le-faux-secret"],
   ["sEntrainer", () => SEntrainerPage(SP), "quelle-replique-1"],
