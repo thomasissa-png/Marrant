@@ -45,6 +45,11 @@ import { cn } from "@/lib/utils";
  * d'offre dès 1024 px et se pose sous les pastilles, à 24 px (`mt-6`), mêmes classes de l'échelle (`META`, nombre en
  * `TITRE_CARTE`). La carte perd sa preuve, la colonne de texte la gagne : les deux bas à 24 px près à 1280 et 1920.
  * Sous 1024, la preuve reste dans la carte. Une seule est affichée à chaque largeur (l'autre en `display: none`).
+ * v7 tour 11 (relecture UX du tour 10 : à 375, offre et pastilles prenaient 650 px sur 812, une seule tuile tronquée) :
+ * sous 768 px, les pastilles sortent du rendu visuel (`sr-only` : toujours lues, elles redisent l'extrait qui suit),
+ * et la preuve sort de la carte d'offre pour se poser en ligne simple sous la promesse, comme dès 1024. La carte ne
+ * garde sa preuve que de 768 à 1023 px. Mesuré à 375 x 812 : la tuile Z1 entière (étiquette, titre, bouton éteint) au
+ * premier écran pour le visiteur et le gratuit, le bouton d'offre aussi.
  */
 export function HeroApercu({
   titre,
@@ -68,7 +73,7 @@ export function HeroApercu({
         </div>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
         <p className={cn("mt-4 max-w-xl [text-wrap:balance]", TEXTE)}>{promesse}</p>
-        <ul className="mt-4 flex flex-wrap gap-2 md:mt-6" data-apercu-pastilles>
+        <ul className="mt-4 flex flex-wrap gap-2 max-md:sr-only md:mt-6" data-apercu-pastilles>
           {pastilles.map((p) => (
             <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-2 py-0.5 md:px-3 md:py-1", META)}>
               {p}

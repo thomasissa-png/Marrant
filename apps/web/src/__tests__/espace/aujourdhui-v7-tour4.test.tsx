@@ -44,8 +44,8 @@ describe("faute 1 : hero de l'aperçu équilibré dès 1024, sans grossir le tex
     expect(pastilles).toContain("md:mt-6");
     expect(pastilles.filter((c) => /(^|:)(mt|pt)-/.test(c))).toEqual(["mt-4", "md:mt-6"]);
     expect(classes(hero.children[0])).toEqual(expect.arrayContaining(["flex", "flex-col"]));
-    // v7 tour 10 : 24 px sous 768 (la légende monte au-dessus de l'extrait), 64 dès 1024 (test adapté au tour 10).
-    expect(classes(document.querySelector("[data-apercu-extrait]"))).toEqual(expect.arrayContaining(["mt-6", "md:mt-12", "lg:mt-16"]));
+    // v7 tour 10 : 24 px sous 768 (la légende monte au-dessus de l'extrait) ; v7 tour 11 : 48 dès 768, plus de 64 dès 1024.
+    expect(classes(document.querySelector("[data-apercu-extrait]"))).toEqual(expect.arrayContaining(["mt-6", "md:mt-12"]));
   });
 });
 

@@ -62,6 +62,9 @@ function extrait(texte: string): string {
  * vanne puis le conseil empilés à gauche, la vidéo à droite sur les deux rangées (vignette plus grande : sa hauteur
  * rejoint celle des deux cartes de texte). Les bas restent alignés (`items-stretch`), le pied de chaque carte (lien,
  * « Une autre ») en `mt-auto`. À 768, inchangé : vanne et conseil côte à côte, la vidéo sur la ligne entière.
+ * v7 tour 11 (3 x 4 de la spec UX, rangée symétrique de celle du dessus) : remesuré à 1280 avec la vignette, trois
+ * colonnes creusent la vanne de 111 px et le conseil de 127 px entre leur corps et leur pied (seuil : 32) ; on garde
+ * les deux colonnes.
  */
 const VIDEO_A_DROITE = "md:col-span-2 lg:col-span-1 lg:col-start-2 lg:row-span-2 lg:row-start-1";
 /**

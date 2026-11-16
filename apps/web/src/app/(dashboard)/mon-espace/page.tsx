@@ -139,6 +139,10 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   // v7 tour 7 (point 5, mesure à 1280) : parcours et mission seuls sur la rangée, en 5 + 7 comme le nouvel abonné (et
   // plus 6 + 6) : l'accroche de la mission passe de 4 à 3 lignes, la tuile du parcours s'étire moins (60 px mesurés
   // entre son corps et son pied en 6 + 6). Le pied reste en bas, le surplus juste au-dessus.
+  // v7 tour 11 (relectures du tour 10 : lignes de 95 caractères à 768) : parcours et mission côte à côte dès 768 aussi
+  // (une colonne chacun), comme la spec UX (Z3 | Z4). De 768 à 1023, la grille est en 5 + 7 (et non 6 + 6), comme dès
+  // 1024 : l'accroche de la mission prend une ligne de moins, la tuile du parcours ne se creuse plus (mesuré à 768 :
+  // 76 px entre le nom de l'étape et le pied en 6 + 6, 36 en 5 + 7 avec la barre empilée).
   const paireParcoursMission = fait && Boolean(etape && !etapeDominante) && Boolean(marcheMission) && !(etapeDominante && rafale);
   const rangee: { cle: string; noeud: React.ReactNode; span?: string }[] = !fait
     ? [
@@ -147,10 +151,10 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
       ]
     : [
         ...(etape && !etapeDominante
-          ? [{ cle: "parcours", noeud: <ParcoursTuile etape={etape} />, span: paireParcoursMission ? "md:col-span-2 lg:col-span-5" : undefined }]
+          ? [{ cle: "parcours", noeud: <ParcoursTuile etape={etape} colonne={paireParcoursMission} />, span: paireParcoursMission ? "lg:col-span-5" : undefined }]
           : []),
         ...(marcheMission
-          ? [{ cle: "mission", noeud: <MissionLien marche={marcheMission} accroche={accrocheDeMission} />, span: paireParcoursMission ? "md:col-span-2 lg:col-span-7" : undefined }]
+          ? [{ cle: "mission", noeud: <MissionLien marche={marcheMission} accroche={accrocheDeMission} />, span: paireParcoursMission ? "lg:col-span-7" : undefined }]
           : []),
         ...(etapeDominante && rafale
           ? [{ cle: "rafale", noeud: <CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} principale={false} /> }]
@@ -177,7 +181,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
           {frTypo(BIENVENUE_PREMIUM.favori[favori])}
         </p>
       )}
-      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille>
+      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille>
         {principale && (
           // v7 tour 8 (point 2) : Z1 en 7 colonnes et « Ton cap » en 5 (plus 8 + 4) : Z1, plus étroite, n'est plus creuse.
           <div className="min-w-0 md:col-span-2 lg:col-span-7" data-carte-du-jour>

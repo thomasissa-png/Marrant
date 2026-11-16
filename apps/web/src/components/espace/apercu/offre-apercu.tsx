@@ -25,15 +25,18 @@ export const BOUTON_OFFRE = cn(
  * Preuve coupée sur son nombre (spec design §7 point 3) : « 1 500+ » en `TITRE_CARTE` dans une phrase `META`.
  * v7 tour 9 (faute dure UX du tour 8, vide sous les pastilles dès 1024) : deux places, une seule affichée à chaque
  * largeur (`display: none` sur l'autre, donc jamais lue deux fois). `carte` : sous la réassurance, sous un filet, dans
- * la carte d'offre (sous 1024 px seulement si `preuveHors`). `hero` : dès 1024 px, sous les pastilles du hero, à 24 px.
+ * la carte d'offre (de 768 à 1023 px seulement si `preuveHors`). `hero` : dès 1024 px, sous les pastilles du hero, à
+ * 24 px ; v7 tour 11 : aussi sous 768 px, sous la promesse à 16 px (les pastilles n'y sont plus que lues).
  */
 export function Preuve({ place = "carte", masqueeLg = false }: { place?: "carte" | "hero"; masqueeLg?: boolean }) {
   const texte = frTypo(ABONNEMENT_HAUT.preuve);
   const m = /^(\d[\d\s]*\+?)\s(.*)$/u.exec(texte);
+  // v7 tour 11 : la preuve du hero se lit aussi sous 768 px (16 px sous la promesse) ; celle de la carte, alors, seulement
+  // de 768 à 1023 px (`masqueeLg` : la preuve est hors de la carte sous 768 et dès 1024).
   const classes =
     place === "hero"
-      ? "mt-6 hidden lg:block"
-      : cn("mt-4 border-t border-border pt-4 text-center md:mt-6 md:pt-6", masqueeLg && "lg:hidden");
+      ? "mt-4 md:hidden lg:mt-6 lg:block"
+      : cn("mt-4 border-t border-border pt-4 text-center md:mt-6 md:pt-6", masqueeLg && "max-md:hidden lg:hidden");
   return (
     <p className={cn(classes, META)} data-preuve={place}>
       {m ? (
@@ -59,6 +62,7 @@ export function Preuve({ place = "carte", masqueeLg = false }: { place?: "carte"
  * et la réassurance, qui commencent toutes deux par « Premium », sont séparées de 24 px (16 avant : un mur de quatre
  * lignes), la phrase d'objet restant collée au bouton qu'elle explique.
  * v7 tour 9 : `preuveHors` (le hero) masque la preuve de la carte dès 1024 px, le hero la rend sous ses pastilles.
+ * v7 tour 11 : et sous 768 px (le hero la rend sous sa promesse).
  * « Connexion » reste dans la carte à toutes les largeurs.
  */
 export function OffreApercu({

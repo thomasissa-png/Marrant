@@ -41,11 +41,11 @@ function opacites(el: Element, haut: Element): string[] {
 }
 
 describe("faute 1 : rangée 2 de l'extrait lisible avant le fondu", () => {
-  it("coupe de 13,5 rem (échelle s25), opaque sur ses 8 premiers rem, transparente sur ses 48 derniers px", () => {
+  it("coupe de 13,5 rem (échelle s25), opaque sur ses 9 premiers rem (v7 tour 11), transparente sur ses 48 derniers px", () => {
     render(<ApercuAujourdhui visiteur />);
     const suite = document.querySelector("[data-apercu-suite]") as HTMLElement;
     expect(suite.className).toMatch(/(^|\s)h-\[13\.5rem\](\s|$)/);
-    expect(suite.className).toContain("[mask-image:linear-gradient(to_bottom,black_8rem,transparent_calc(100%_-_3rem))]");
+    expect(suite.className).toContain("[mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]");
   });
 
   it("la tuile Mission de l'extrait porte l'accroche de la mission d'un nouvel abonné (texte existant), coupée en 3 lignes", () => {
@@ -69,9 +69,11 @@ describe("faute 1 : rangée 2 de l'extrait lisible avant le fondu", () => {
 });
 
 describe("faute 2 : jamais deux boutons d'offre pleins au premier écran", () => {
-  it("48 px au-dessus de l'extrait, 64 dès 1024 sous la légende (v7 tour 10), suite de 13,5 rem (échelle s25 ; fin contrôlée en vrai navigateur à 900 px)", () => {
+  it("48 px au-dessus de l'extrait dès 768 (v7 tour 11), fin à 16 px dans le transparent dès 1024, suite de 13,5 rem (échelle s25 ; fin contrôlée en vrai navigateur à 900 px)", () => {
     render(<ApercuAujourdhui visiteur />);
-    expect(document.querySelector("[data-apercu-extrait]")?.className).toContain("lg:mt-16");
+    expect(document.querySelector("[data-apercu-extrait]")?.className).toContain("md:mt-12");
+    expect(document.querySelector("[data-apercu-extrait]")?.className).not.toContain("lg:mt-");
+    expect(document.querySelector("[data-apercu-fin]")?.className).toContain("lg:-mt-4");
     expect(document.querySelector("[data-apercu-suite]")?.className).toContain("h-[13.5rem]");
   });
 });

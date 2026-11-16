@@ -180,6 +180,11 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       for (const z of ["[data-action-du-jour]", "[data-cap-du-jour]"]) {
         expect((await extrait.locator(z).evaluate(vides)).creux, `${z} sans creux, ${ou}`).toBeLessThanOrEqual(32);
       }
+      // v7 tour 11 : sous 768, pastilles hors du rendu visuel (`sr-only`, toujours lues), preuve sous la promesse.
+      if (largeur < 768) {
+        expect(await page.locator("[data-apercu-pastilles]").evaluate((ul) => getComputedStyle(ul).position === "absolute" && ul.getBoundingClientRect().width <= 1), `pastilles en sr-only, ${ou}`).toBe(true);
+        await expect(page.locator("[data-apercu-pastilles] li")).toHaveCount(6);
+      } else {
       // v7 tour 6 (placement) : pastilles du hero juste sous la promesse (24 px au plus), jamais calées en bas.
       const sousPromesse = await page.locator("[data-apercu-pastilles]").evaluate((ul) => {
         const p = ul.previousElementSibling as Element;
@@ -193,6 +198,7 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         return [...new Set(hauts)].map((h) => hauts.filter((x) => x === h).length);
       });
       expect(Math.min(...rangees), `pastille orpheline, ${ou} (${rangees.join("+")})`).toBeGreaterThanOrEqual(2);
+      }
       expect(await extrait.evaluate((e) => e.hasAttribute("inert") && getComputedStyle(e).pointerEvents === "none"), `inerte, ${ou}`).toBe(true);
       const tuiles = extrait.locator("[data-tuile-fermee]");
       const n = await tuiles.count();
@@ -294,13 +300,18 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       expect(Math.round(preuve.haut - pastilles.bas), `preuve à 24 px sous les pastilles, ${largeur}`).toBe(24);
       expect(Math.abs(Math.round(preuve.bas - offre.bas)), `bas du texte et de l'offre à 24 px près, ${largeur}`).toBeLessThanOrEqual(24);
     }
-    // v7 tour 9 : sous 1024, la preuve reste dans la carte d'offre, celle du hero est masquée.
-    for (const largeur of [375, 768]) {
-      await page.setViewportSize({ width: largeur, height: 900 });
-      await page.goto("/mon-espace");
-      await expect(page.locator("[data-apercu-offre] [data-preuve]"), `preuve dans la carte, ${largeur}`).toBeVisible();
-      await expect(page.locator("[data-apercu-hero] [data-preuve='hero']"), `preuve du hero masquée, ${largeur}`).toBeHidden();
-    }
+    // v7 tour 9 : de 768 à 1023, la preuve reste dans la carte d'offre, celle du hero est masquée.
+    await page.setViewportSize({ width: 768, height: 900 });
+    await page.goto("/mon-espace");
+    await expect(page.locator("[data-apercu-offre] [data-preuve]"), "preuve dans la carte, 768").toBeVisible();
+    await expect(page.locator("[data-apercu-hero] [data-preuve='hero']"), "preuve du hero masquée, 768").toBeHidden();
+    // v7 tour 11 (relecture UX du tour 10) : sous 768, la preuve sort de la carte, en ligne simple sous la promesse.
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/mon-espace");
+    await expect(page.locator("[data-apercu-offre] [data-preuve]"), "preuve de la carte masquée, 375").toBeHidden();
+    const promesse375 = await boite(page.locator("[data-apercu-hero] [data-apercu-tete] ~ p:not(.sr-only):not([data-preuve])"));
+    const preuve375 = await boite(page.locator("[data-apercu-hero] [data-preuve='hero']"));
+    expect(Math.round(preuve375.haut - promesse375.bas), "preuve à 16 px sous la promesse, 375").toBe(16);
   });
 
   test("abonné neuf : Z1 7/12 et « Ton cap » 5/12 sur une rangée dès 1024 px, rangées pleines, rien ne déborde", async ({ page }) => {

@@ -8,10 +8,15 @@ import { VerrouSeul } from "@/components/espace/apercu/badge-premium";
  * enfants du cadre, jamais sous 4,5:1 pour le texte secondaire), et un verrou seul est posé en haut à droite, hors du
  * contenu atténué. Échelle s25 (arbitrage du 16/11) : plus de pastille « Premium » par bloc (une seule, celle du
  * hero) ; le verrou sans mot dit encore « fermé » dans chaque bloc, sans le bruit de 5 pastilles.
+ * v7 tour 11 (relectures du tour 10 : extrait « entièrement grisé ») : `nette` (Z1 « Ton premier pas », la vitrine)
+ * garde son contenu à pleine netteté, sans atténuation ; le verrou reste, son bouton reste un contour éteint.
  */
-export function TuileFermee({ children, className }: { children: React.ReactNode; className?: string }) {
+export function TuileFermee({ children, className, nette = false }: { children: React.ReactNode; className?: string; nette?: boolean }) {
   return (
-    <div className={cn("relative h-full min-w-0 [&>*:not([data-verrou-ferme])>*]:opacity-75", className)} data-tuile-fermee>
+    <div
+      className={cn("relative h-full min-w-0", !nette && "[&>*:not([data-verrou-ferme])>*]:opacity-75", className)}
+      data-tuile-fermee={nette ? "nette" : ""}
+    >
       <VerrouSeul />
       {children}
     </div>

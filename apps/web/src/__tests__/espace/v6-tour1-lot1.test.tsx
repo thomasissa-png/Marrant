@@ -105,13 +105,15 @@ describe("point 4 : Aujourd'hui, l'action du jour pleine coque et dominante", ()
   // secondaires ; même intention (jamais une cellule vide) : rangée 2 partagée 3 x 4, 2 x 6 ou 1 x 12.
   it("page : plus de colonne vide ; rangée 2 partagée en 12 colonnes selon le nombre de zones présentes", () => {
     const page = lire("app/(dashboard)/mon-espace/page.tsx");
-    expect(page).toContain('className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille');
+    expect(page).toContain('className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille');
     expect(page).toContain('if (n >= 3) return i === 2 ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4";');
     // v7 tour 2 : 2 zones = 2 x 6 dès 1024, l'une sous l'autre à 768 (plus de tuile creusée par sa voisine).
     expect(page).toContain('if (n === 2) return "md:col-span-2 lg:col-span-6";');
     // v7 tour 7 (point 5) : parcours et mission seuls, 5 + 7 (comme le nouvel abonné) : 12 colonnes, aucune vide.
-    expect(page).toContain('span: paireParcoursMission ? "md:col-span-2 lg:col-span-5" : undefined');
-    expect(page).toContain('span: paireParcoursMission ? "md:col-span-2 lg:col-span-7" : undefined');
+    // v7 tour 11 : côte à côte dès 768 aussi (grille en 5 + 7 de 768 à 1023), la barre empilée dans la tuile du parcours.
+    expect(page).toContain('span: paireParcoursMission ? "lg:col-span-5" : undefined');
+    expect(page).toContain('span: paireParcoursMission ? "lg:col-span-7" : undefined');
+    expect(page).toContain("<ParcoursTuile etape={etape} colonne={paireParcoursMission} />");
     expect(page).toContain('return "md:col-span-2 lg:col-span-12";');
     const jour = lire("components/espace/aujourdhui/contenu-du-jour.tsx");
     expect(jour).toContain("grid grid-cols-1 items-stretch gap-6");

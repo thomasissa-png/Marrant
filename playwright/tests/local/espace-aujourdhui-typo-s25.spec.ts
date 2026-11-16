@@ -263,6 +263,24 @@ test.describe("@espace gate typographique d'« Aujourd'hui » s25 (ouvert)", () 
         expect(apercu, `aperçu pour ${compte.nom}`).toBe(compte.plan !== "PREMIUM");
         if (compte.avance) await expect(page.locator("[data-rafale='a-faire'][data-action-du-jour]")).toHaveCount(1);
         controler(await mesurer(page, vue.hauteur), `${compte.nom}, ${vue.largeur} x ${vue.hauteur}`, vue.titre, apercu);
+        // v7 tour 11 (relecture UX du tour 10) : à 375 x 812, la tuile Z1 de l'extrait ENTIÈRE (étiquette, titre, bouton
+        // éteint) au premier écran, à pleine netteté, avec le bouton d'offre.
+        if (apercu && vue.largeur === 375) {
+          const z1 = page.locator("[data-apercu-extrait] [data-tuile-fermee='nette']");
+          await expect(z1, `Z1 entière au premier écran, ${compte.nom}`).toBeInViewport({ ratio: 1 });
+          await expect(page.locator("[data-apercu-verrouille] a[data-position='haut']"), `offre au premier écran, ${compte.nom}`).toBeInViewport({ ratio: 1 });
+          expect(await z1.locator("h2").evaluate((h) => { let o = 1; for (let e: Element | null = h; e && !e.hasAttribute("data-tuile-fermee"); e = e.parentElement) o *= parseFloat(getComputedStyle(e).opacity); return o; })).toBe(1);
+        }
+      }
+      // v7 tour 11 : à 768, étape (Z3) et mission (Z4) côte à côte (5 + 7), même haut, aucun débordement.
+      if (compte.avance) {
+        await page.setViewportSize({ width: 768, height: 900 });
+        await page.goto("/mon-espace");
+        const zones = await page.locator("[data-zone='parcours'], [data-zone='mission']").evaluateAll((els) => els.map((e) => e.getBoundingClientRect()).map((r) => ({ x: Math.round(r.left), y: Math.round(r.top), l: Math.round(r.width) })));
+        if (zones.length === 2) {
+          expect(zones[0].y, "Z3 et Z4 sur la même rangée à 768").toBe(zones[1].y);
+          expect(zones[0].l, "Z3 plus étroite que Z4 à 768 (5 + 7)").toBeLessThan(zones[1].l);
+        }
       }
     });
   }

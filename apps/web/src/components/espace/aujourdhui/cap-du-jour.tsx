@@ -19,13 +19,17 @@ const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
  * Échelle s25 (`docs/design/typo-harmonie-espace-s25.md`) : nom du cap et chiffres en `TITRE_CARTE` (20/600), le
  * reste en `META` ; flamme et segments neutres (un seul violet par écran, le bouton plein) ; 24 px de marge. v7 tour 7 : cadre
  * `CADRE_CARTE_NEUTRE` (sans filet), segments remplis en gris clair.
+ * v7 tour 11 : à 768 px (bandeau), les deux groupes sont calés en haut (`md:items-start`) : l'étiquette « Ton cap »
+ * est sur la ligne du haut des chiffres (12 px plus bas avant, groupes centrés). Le bloc des chiffres se fond dans le
+ * bandeau (`md:contents`) : cap à gauche, cases des chiffres à droite, l'aide de la série sur toute la largeur dessous,
+ * 16 px plus bas (sinon, sous le cap, la moitié gauche restait vide sur la hauteur des cases et de l'aide).
  */
 export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp: number; serie: number; fige?: boolean }) {
   // Spec design §7 point 2 : coupe sur « · » (nom en grand, « cap n sur 5 » en petit), texte inchangé.
   const [nom, echelle = ""] = TEXTES_CAPS.capVisible(cap).split(/\s·\s/);
   const avecChiffres = xp > 0 || serie > 0;
   const serieZero = (
-    <p className={cn("flex items-start gap-2", META)}>
+    <p className={cn("flex items-start gap-2 md:flex-1", META)}>
       <Flamme className="mt-0.5 h-4 w-4 text-text-secondary" />
       <span>{TEXTES_CAPS.serieZero}</span>
     </p>
@@ -33,7 +37,7 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
   return (
     <section
       aria-labelledby={fige ? undefined : "cap-titre"}
-      className={cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col p-6 [overflow-wrap:anywhere] md:flex-row md:items-center md:gap-8 lg:flex-col lg:items-stretch lg:gap-0")}
+      className={cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col p-6 [overflow-wrap:anywhere] md:flex-row md:flex-wrap md:items-start md:gap-x-8 md:gap-y-4 lg:flex-col lg:flex-nowrap lg:items-stretch lg:gap-0")}
       data-cap-du-jour={cap}
     >
       <div className="min-w-0 md:flex-1 lg:flex-none">
@@ -51,15 +55,18 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
         </p>
         <SegmentsCap cap={cap} className="mt-4" />
       </div>
-      <div className={cn("min-w-0 md:flex-1 lg:flex-none", "mt-6 border-t border-border pt-6 md:mt-0 md:border-t-0 md:pt-0 lg:mt-6 lg:border-t lg:pt-6")}>
+      <div className={cn("min-w-0 md:contents lg:block", "mt-6 border-t border-border pt-6 lg:mt-6 lg:border-t lg:pt-6")}>
         {avecChiffres ? (
           <>
-            <div className="grid grid-cols-2 gap-4">
+            {/* v7 tour 11 (relectures du tour 10 : chiffres « discrets ») : XP et série chacun dans sa case (fond élevé
+                neutre, 16 px de marge, même rayon que les cartes) : ils prennent la place, pas une taille de plus ; la
+                flamme d'une série en cours passe en blanc (texte principal), aucune couleur neuve. */}
+            <div className="grid min-w-0 grid-cols-2 gap-4 md:flex-1 [&>*]:rounded-xl [&>*]:bg-background-elevated [&>*]:p-4" data-cap-chiffres>
               {xp > 0 && <StatChiffre phrase={TEXTES_CAPS.xpDepuisArrivee(xp)} />}
-              {serie > 0 ? <StatChiffre phrase={SERIE.jours(serie)} icone={<Flamme className="h-5 w-5 text-text-secondary" />} /> : serieZero}
+              {serie > 0 ? <StatChiffre phrase={SERIE.jours(serie)} icone={<Flamme className="h-5 w-5 text-text-primary" />} /> : serieZero}
             </div>
             {/* Échelle s25 : l'aide de la série en `META` (14 px, gris secondaire), plus de 12 px ni de 3e gris. */}
-            <p className={cn("mt-4", META)}>{SERIE.aide}</p>
+            <p className={cn("mt-4 md:mt-0 md:basis-full lg:mt-4", META)}>{SERIE.aide}</p>
           </>
         ) : (
           serieZero

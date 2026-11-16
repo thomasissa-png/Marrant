@@ -54,14 +54,15 @@ describe("point 2 : preuve sous les pastilles dès 1024", () => {
     const { container } = render(<HeroApercu titre="Aujourd'hui" promesse="P" pastilles={["a", "b"]} offre={offre} />);
     const hero = container.querySelector("[data-preuve='hero']");
     expect(hero?.previousElementSibling?.hasAttribute("data-apercu-pastilles")).toBe(true);
-    expect(classes(hero)).toEqual(expect.arrayContaining(["mt-6", "hidden", "lg:block", "text-sm"]));
+    // v7 tour 11 : aussi sous 768 (16 px sous la promesse, pastilles en `sr-only`), masquée de 768 à 1023.
+    expect(classes(hero)).toEqual(expect.arrayContaining(["mt-4", "md:hidden", "lg:mt-6", "lg:block", "text-sm"]));
     expect(hero?.querySelector("span")?.className).toContain("text-xl");
   });
 
   it("hero : preuve de la carte masquée dès 1024 (une seule affichée à chaque largeur), « Connexion » gardée", () => {
     const { container } = render(<HeroApercu titre="Aujourd'hui" promesse="P" pastilles={["a"]} offre={offre} />);
     const carte = container.querySelector("[data-apercu-offre] [data-preuve='carte']");
-    expect(classes(carte)).toEqual(expect.arrayContaining(["lg:hidden", "mt-4", "pt-4", "md:mt-6", "md:pt-6"]));
+    expect(classes(carte)).toEqual(expect.arrayContaining(["max-md:hidden", "lg:hidden", "mt-4", "pt-4", "md:mt-6", "md:pt-6"]));
     expect(container.querySelectorAll("[data-preuve]")).toHaveLength(2);
     expect(container.querySelector("[data-apercu-offre] a[href*='login'], [data-apercu-offre] a[href*='connexion']")).not.toBeNull();
   });

@@ -32,10 +32,12 @@ const INERTE = { inert: "" } as Record<string, string>;
  * de haut. La légende reste plus près de ses tuiles que du hero : elle se lit comme leur titre. Sous 768 px, la légende
  * prend deux lignes (40 px) : air ramené à 24 px au-dessus et 8 px dessous (`mt-6`, `mb-2`), pour que l'étiquette et le
  * titre de la première tuile restent entiers au premier écran de 375 x 812 (16 px sous la légende à 768).
+ * v7 tour 11 (relectures du tour 10 : bande hero / extrait encore lue comme un petit trou) : 48 px dès 768 (`md:mt-12`,
+ * 64 avant), comme à 768 ; mesuré : à 900 px de haut (1280, 1456, 1920), le bouton de fin reste sous le premier écran.
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
-    <div className="relative mt-6 md:mt-12 lg:mt-16" data-apercu-extrait={rubrique}>
+    <div className="relative mt-6 md:mt-12" data-apercu-extrait={rubrique}>
       <p className={cn("mb-2 md:mb-4 lg:mb-10", META)} data-apercu-legende>
         {frEspace(TEXTES_APERCU.sousTitre)}
       </p>
@@ -47,8 +49,10 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
         {children}
       </div>
       {/* Dès 1024 : la fin ne recouvre que 32 des 48 px transparents (16 px d'air en plus, invisibles) : à 900 px de
-          haut, la phrase « La suite est dans Premium » tombe entière sous le premier écran (elle l'effleurait à 1 px). */}
-      <div className="relative -mt-12 flex flex-col items-center gap-4 px-4 text-center lg:-mt-8" data-apercu-fin>
+          haut, la phrase « La suite est dans Premium » tombe entière sous le premier écran (elle l'effleurait à 1 px).
+          v7 tour 11 : 16 px seulement (`lg:-mt-4`), l'air au-dessus de l'extrait ayant perdu 16 px : phrase et bouton
+          de fin restent aux mêmes hauteurs qu'au tour 10 (908 et 952 à 900 px de haut), sous le premier écran. */}
+      <div className="relative -mt-12 flex flex-col items-center gap-4 px-4 text-center lg:-mt-4" data-apercu-fin>
         <p className={TITRE_CARTE}>{TEXTES_APERCU_VERROUILLE.suite}</p>
         <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full sm:w-auto sm:min-w-64")} data-position="fin">
           {TEXTES_APERCU.offre.bouton}
@@ -68,11 +72,14 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
  * accroche de la mission, « Conseil du jour ») ; les 48 derniers px sont ENTIÈREMENT transparents (la fin d'extrait,
  * `-mt-12`, les chevauche ; spec design §3.3). Le point transparent tombe dans un interligne (aucune ligne à cheval,
  * vérifié par les tests en vrai navigateur) : jamais un fragment seul, jamais un bord bas coupé net.
+ * v7 tour 11 (extrait « peu concret ») : le fondu commence à 9 rem (144 px, 128 avant), même point transparent : le
+ * nom de l'étape conseillée, les deux premières lignes de l'accroche de la mission et « Vidéo du jour » se lisent en
+ * clair avant que la suite s'efface (24 px de fondu au lieu de 40).
  */
 export function SuiteCoupee({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="mt-6 h-[13.5rem] overflow-hidden [mask-image:linear-gradient(to_bottom,black_8rem,transparent_calc(100%_-_3rem))]"
+      className="mt-6 h-[13.5rem] overflow-hidden [mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]"
       data-apercu-suite
     >
       {children}
