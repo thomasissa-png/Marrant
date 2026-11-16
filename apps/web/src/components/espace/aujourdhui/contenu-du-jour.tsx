@@ -60,20 +60,43 @@ function extrait(texte: string): string {
  */
 const VIDEO_A_DROITE = "md:col-span-2 lg:col-span-1 lg:col-start-2 lg:row-span-2 lg:row-start-1";
 /**
- * v7 tour 3 (piste 768) : de 768 à 1023 px, la carte vidéo garde la ligne entière mais n'est plus une dalle : vignette
- * sur la moitié gauche, titre en face, en haut (au tour 2, 490 x 280 px de vignette dominaient toute la page).
+ * v7 tour 3 (piste 768) : de 768 à 1023 px, la carte vidéo garde la ligne entière mais n'est plus une dalle.
+ * v7 tour 4 (faute 2, environ 350 x 125 px vides à droite de la vignette) : la carte devient une ligne de média.
+ * Vignette à gauche (17rem, 272 x 153 px), en face le titre de la carte puis celui de la vidéo (20 px), centrés en
+ * hauteur sur la vignette par deux rangées souples (`1fr`) : le bloc de texte occupe la colonne, sans quart vide
+ * (mesuré à 768 : 31 px au-dessus et au-dessous du texte pour un titre sur deux lignes). Ordre du DOM
+ * inchangé (titre de la carte, vignette, lien), placement par la grille seulement.
  */
-const VIDEO_768 = "md:max-lg:grid md:max-lg:grid-cols-2 md:max-lg:items-start md:max-lg:gap-6";
+const VIDEO_768 = {
+  carte: "md:max-lg:grid md:max-lg:grid-cols-[17rem_1fr] md:max-lg:grid-rows-[1fr_auto_auto_1fr] md:max-lg:gap-x-6",
+  titre: "md:max-lg:col-start-2 md:max-lg:row-start-2",
+  corps: "md:max-lg:contents",
+  vignette: "md:max-lg:col-start-1 md:max-lg:row-span-4 md:max-lg:row-start-1 md:max-lg:mb-0",
+  lien: "md:max-lg:col-start-2 md:max-lg:row-start-3 md:max-lg:mb-0 md:max-lg:mt-4 md:max-lg:text-xl md:max-lg:font-semibold",
+} as const;
 /** Sans vignette (chargement, repli, vidéo sans `youtubeId`) : trois cartes courtes côte à côte dès 1024, comme avant. */
 const TROISIEME = "md:col-span-2 lg:col-span-1";
 
-function Carte({ id, titre, children, className }: { id: string; titre: string; children: React.ReactNode; className?: string }) {
+function Carte({
+  id,
+  titre,
+  children,
+  className,
+  media,
+}: {
+  id: string;
+  titre: string;
+  children: React.ReactNode;
+  className?: string;
+  /** Ligne de média de 768 à 1023 px (carte vidéo avec vignette, `VIDEO_768`). */
+  media?: boolean;
+}) {
   return (
-    <article className={cn(CARTE, "flex flex-col", className)} aria-labelledby={id}>
-      <h3 id={id} className="text-base font-semibold text-text-primary">
+    <article className={cn(CARTE, "flex flex-col", media && VIDEO_768.carte, className)} aria-labelledby={id}>
+      <h3 id={id} className={cn("text-base font-semibold text-text-primary", media && VIDEO_768.titre)}>
         {titre}
       </h3>
-      <div className="mt-3 flex flex-1 flex-col">{children}</div>
+      <div className={cn("mt-3 flex flex-1 flex-col", media && VIDEO_768.corps)}>{children}</div>
     </article>
   );
 }
@@ -152,17 +175,17 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
               <Link href="/conseils" className={lienCarte}>{T.jour.repli.conseils}</Link>
             )}
           </Carte>
-          <Carte id="jour-video" titre={T.jour.video} className={vignette ? VIDEO_A_DROITE : TROISIEME}>
+          <Carte id="jour-video" titre={T.jour.video} className={vignette ? VIDEO_A_DROITE : TROISIEME} media={vignette}>
             {etat.donnees.video ? (
-              <div className={cn("flex flex-1 flex-col", vignette && VIDEO_768)}>
+              <div className={cn("flex flex-1 flex-col", vignette && VIDEO_768.corps)}>
                 {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}
                 {etat.donnees.video.youtubeId && (
-                  // v6 tour 1 (point 4) : vignette sur toute la largeur de sa carte (v7 tour 3 : sa moitié à 768 px).
-                  <div className={`relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated md:max-lg:mb-0 ${LECTEUR}`}>
+                  // v6 tour 1 (point 4) : vignette sur toute la largeur de sa carte (v7 tour 4 : à gauche, 17rem, à 768 px).
+                  <div className={cn("relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated", VIDEO_768.vignette, LECTEUR)}>
                     <YouTubePlayer youtubeId={etat.donnees.video.youtubeId} title={etat.donnees.video.title} />
                   </div>
                 )}
-                <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={cn(lienCarte, vignette && "md:max-lg:mt-0")}>
+                <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={cn(lienCarte, vignette && VIDEO_768.lien)}>
                   {frEspace(etat.donnees.video.title)}
                 </Link>
               </div>

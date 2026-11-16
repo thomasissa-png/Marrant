@@ -132,10 +132,11 @@ describe("faute 5 : « Tes 4 premières semaines », préfixe visible", () => {
 describe("pistes", () => {
   it("hero 8/4 : les 6 pastilles ont la place sur une ligne dès 1024 (plus d'orpheline à 1280)", () => {
     const hero = lire("components/espace/apercu/hero-apercu.tsx");
-    expect(hero).toContain('<div className="min-w-0 lg:col-span-8">');
+    // v7 tour 4 (piste 768) : 3/5 et 2/5 de 768 à 1023, 8/4 dès 1024 inchangé.
+    expect(hero).toContain('<div className="min-w-0 md:col-span-3 lg:col-span-8">');
     // v7 tour 3 (piste hero) : l'offre n'est plus centrée verticalement, elle s'aligne en haut sur la pastille.
-    expect(hero).toContain('<div className="min-w-0 lg:col-span-4">');
-    expect(hero).toContain("lg:items-start");
+    expect(hero).toContain('<div className="min-w-0 md:col-span-2 lg:col-span-4">');
+    expect(hero).toContain("md:items-start");
     expect(hero).not.toContain("md:max-w-2xl");
   });
 

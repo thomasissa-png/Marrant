@@ -18,7 +18,11 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  * - v7 tour 3 (fautes 1 à 3) : rangée 2 de l'extrait lisible avant le fondu (étiquette, titre, barre et « Étape n sur
  *   N » ensemble, « Vanne du jour » en clair), aucune ligne visible à cheval sur le point transparent ; à 900 px de
  *   haut (1280, 1456, 1920), le bouton d'offre de la fin d'extrait sous le premier écran ; éléments figés à 3,9:1 au
- *   moins ; à 768, la vidéo du jour n'est plus une dalle (vignette sur la moitié de sa carte).
+ *   moins ; à 768, la vidéo du jour n'est plus une dalle ;
+ * - v7 tour 4 (fautes 1 et 2, pistes) : dès 1024, bas du texte du hero et bas de la carte d'offre à 24 px près (le
+ *   bouton de fin reste sous 900 px) ; à 768, offre à droite du texte (60/40) ; à 768, tuile « Vidéo du jour » en
+ *   ligne de média, au plus 32 px de vide au-dessus et au-dessous du texte en face de la vignette (titre sur deux
+ *   lignes) ; dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de ceux de ses voisines.
  */
 const MOT_DE_PASSE = "E2e-aujourdhui-s25!";
 const CAPTURES = process.env.E2E_CAPTURES_AUJ_S25;
@@ -179,6 +183,19 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       const n = await tuiles.count();
       expect(n).toBe(5);
       for (let i = 0; i < n; i++) await expect(tuiles.nth(i).locator(":scope > [data-badge-premium]")).toHaveCount(1);
+      // v7 tour 4 (piste 768) : l'offre à droite du texte (60/40), plus une barre pleine largeur.
+      const [texteHero, offreHero] = [await boite(page.locator("[data-apercu-hero] > div").first()), await boite(page.locator("[data-apercu-offre]"))];
+      if (largeur >= 768) {
+        expect(offreHero.gauche, `offre à droite du texte, ${ou}`).toBeGreaterThan(texteHero.droite);
+        expect(offreHero.haut, `offre sur la ligne du texte, ${ou}`).toBeLessThan(texteHero.bas);
+        expect((await boite(offres.first())).largeur, `bouton d'offre de largeur raisonnable, ${ou}`).toBeLessThanOrEqual(400);
+      }
+      // v7 tour 4 (piste) : dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de celui de « Étape conseillée ».
+      if (largeur >= 1024) {
+        const titres = extrait.locator("[data-apercu-suite] [data-tuile-fermee]");
+        const [etapeTitre, jourTitre] = [await boite(titres.first().locator("h2")), await boite(titres.last().locator("p.font-display"))];
+        expect(Math.abs(jourTitre.haut - etapeTitre.haut), `titres de la rangée 2 alignés, ${ou}`).toBeLessThanOrEqual(1);
+      }
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "visiteur-aujourdhui", largeur);
     }
@@ -203,6 +220,9 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       await expect(offres.first(), `bouton du hero au premier écran, ${largeur}`).toBeInViewport({ ratio: 1 });
       await expect(offres.nth(1), `bouton de fin sous le premier écran, ${largeur}`).not.toBeInViewport();
       expect((await boite(offres.nth(1))).haut, `bouton de fin sous 900 px, ${largeur}`).toBeGreaterThanOrEqual(900);
+      // v7 tour 4 (faute 1) : plus de vide sous les pastilles ; bas du texte et bas de la carte d'offre à 24 px près.
+      const [pastilles, offre] = [await boite(page.locator("[data-apercu-pastilles]")), await boite(page.locator("[data-apercu-offre]"))];
+      expect(Math.abs(offre.bas - pastilles.bas), `bas du hero équilibrés, ${largeur}`).toBeLessThanOrEqual(24);
     }
   });
 
@@ -258,11 +278,37 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       if (largeur >= 1280 && (await jour.locator(".aspect-video").count())) {
         for (const a of await jour.locator("article").all()) expect((await a.evaluate(vides)).creux, `carte du jour sans creux, ${ou}`).toBeLessThanOrEqual(32);
       }
-      // v7 tour 3 (piste 768) : la vidéo du jour n'est plus une dalle pleine largeur ; vignette sur la moitié de sa carte.
+      // v7 tour 3 (piste 768) : la vidéo du jour n'est plus une dalle pleine largeur. v7 tour 4 (faute 2) : ligne de
+      // média, sans quart vide : en face de la vignette, le titre de la carte et celui de la vidéo, centrés en hauteur ;
+      // au plus 32 px de vide au-dessus et au-dessous du texte quand le titre de la vidéo tient sur deux lignes ou plus
+      // (sur une ligne, le texte reste centré, à 48 px au plus).
       if (largeur === 768 && (await jour.locator(".aspect-video").count())) {
-        const [carte, vignette] = [await boite(page.locator("#jour-video").locator("xpath=ancestor::article")), await boite(jour.locator(".aspect-video"))];
-        expect(vignette.largeur, `vignette sur la moitié de sa carte, ${ou}`).toBeLessThanOrEqual(carte.largeur * 0.55);
-        expect(carte.hauteur, `carte vidéo sans dalle, ${ou}`).toBeLessThanOrEqual(320);
+        const article = page.locator("#jour-video").locator("xpath=ancestor::article");
+        const [carte, vignette] = [await boite(article), await boite(jour.locator(".aspect-video"))];
+        expect(carte.hauteur, `carte vidéo sans dalle, ${ou}`).toBeLessThanOrEqual(240);
+        const texte = await article.evaluate((a) => {
+          const rects: DOMRect[] = [];
+          for (const n of [a.querySelector("h3"), a.querySelector('a[href^="/videos/"]')]) {
+            if (!n) continue;
+            const r = document.createRange();
+            r.selectNodeContents(n);
+            rects.push(...Array.from(r.getClientRects()));
+          }
+          const lien = a.querySelector('a[href^="/videos/"]');
+          const r = document.createRange();
+          if (lien) r.selectNodeContents(lien);
+          return {
+            gauche: Math.min(...rects.map((x) => x.left)),
+            haut: Math.min(...rects.map((x) => x.top)),
+            bas: Math.max(...rects.map((x) => x.bottom)),
+            lignesLien: new Set(Array.from(r.getClientRects()).map((x) => Math.round(x.top))).size,
+          };
+        });
+        expect(texte.gauche, `texte en face de la vignette, ${ou}`).toBeGreaterThanOrEqual(vignette.droite + 16);
+        const [dessus, dessous] = [texte.haut - vignette.haut, vignette.bas - texte.bas];
+        expect(Math.min(dessus, dessous), `texte dans la hauteur de la vignette, ${ou}`).toBeGreaterThanOrEqual(0);
+        expect(Math.abs(dessus - dessous), `texte centré sur la vignette, ${ou}`).toBeLessThanOrEqual(10);
+        expect(Math.max(dessus, dessous), `vide au-dessus et au-dessous du texte, ${ou} (${texte.lignesLien} ligne(s))`).toBeLessThanOrEqual(texte.lignesLien >= 2 ? 32 : 48);
       }
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "nouvel-aujourdhui-refonte", largeur);

@@ -14,6 +14,10 @@ import { OffreApercu } from "@/components/espace/apercu/offre-apercu";
  * plus étroite, est plus haute que le texte.
  * v7 tour 3 (piste hero) : promesse sur toute la colonne de texte (`max-w-3xl`, une ligne dès 1280 au lieu de deux
  * courtes qui laissaient environ 480 px de vide avant l'offre) ; l'offre alignée en haut, sur la pastille « Premium ».
+ * v7 tour 4 (faute 1, 140 px de vide sous les pastilles dès 1024) : colonne de texte équilibrée avec la carte d'offre
+ * (H1 `lg:text-6xl`, promesse `lg:text-2xl` sur deux lignes, pastilles `lg:mt-8`) : les deux bas à moins de 24 px.
+ * Piste 768 : 60/40 dès 768 (spec UX §2.3), l'offre à droite au lieu d'une barre pleine largeur ; pastilles plafonnées
+ * de 768 à 1023 (`max-w-md`) pour tomber en 3 + 3, jamais une seule sur sa ligne.
  */
 export function HeroApercu({
   titre,
@@ -27,15 +31,15 @@ export function HeroApercu({
   offre: React.ComponentProps<typeof OffreApercu>;
 }) {
   return (
-    <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12" data-apercu-hero>
-      <div className="min-w-0 lg:col-span-8">
+    <div className="grid gap-8 md:grid-cols-5 md:items-start lg:grid-cols-12 lg:gap-12" data-apercu-hero>
+      <div className="min-w-0 md:col-span-3 lg:col-span-8">
         <BadgePremium grand />
-        <h1 id="apercu-titre" className="mt-4 font-display text-4xl font-bold leading-tight text-text-primary md:text-5xl">
+        <h1 id="apercu-titre" className="mt-4 font-display text-4xl font-bold leading-tight text-text-primary md:text-5xl lg:text-6xl">
           {titre}
         </h1>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
-        <p className="mt-4 max-w-3xl text-lg text-text-secondary [text-wrap:balance] md:text-xl">{promesse}</p>
-        <ul className="mt-6 flex flex-wrap gap-2" data-apercu-pastilles>
+        <p className="mt-4 max-w-3xl text-lg text-text-secondary [text-wrap:balance] md:text-xl lg:text-2xl">{promesse}</p>
+        <ul className="mt-6 flex flex-wrap gap-2 md:max-lg:max-w-md lg:mt-8" data-apercu-pastilles>
           {pastilles.map((p) => (
             <li
               key={p}
@@ -47,7 +51,7 @@ export function HeroApercu({
           ))}
         </ul>
       </div>
-      <div className="min-w-0 lg:col-span-4">
+      <div className="min-w-0 md:col-span-2 lg:col-span-4">
         <OffreApercu {...offre} />
       </div>
     </div>

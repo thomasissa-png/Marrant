@@ -123,12 +123,15 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
         const video = await boite(jour.locator("#jour-video").locator("xpath=.."));
         const vignette = await boite(jour.locator("article .aspect-video").first());
         if (largeur === 768) {
-          // v7 tour 3 (piste 768) : la carte vidéo garde la ligne entière, la vignette sa moitié gauche, le titre en
-          // face (même intention : aucun vide à droite de la vignette).
-          const titre = await boite(jour.locator("#jour-video").locator("xpath=..").locator("a").last());
-          expect(Math.abs(vignette.largeur - (video.largeur - 2 * 24 - 24) / 2), `vignette sur la moitié de la carte, ${ou}`).toBeLessThanOrEqual(2);
-          expect(titre.gauche, `titre en face de la vignette, ${ou}`).toBeGreaterThanOrEqual(vignette.droite);
-          expect(titre.haut, `titre en haut, à côté de la vignette, ${ou}`).toBeLessThan(vignette.bas);
+          // v7 tour 4 (faute 2) : la carte vidéo garde la ligne entière en ligne de média : vignette de 17rem à gauche,
+          // le titre de la carte et celui de la vidéo en face, dans la hauteur de la vignette (même intention : aucun
+          // vide à droite de la vignette).
+          const [h3, titre] = [await boite(jour.locator("#jour-video")), await boite(jour.locator("#jour-video").locator("xpath=..").locator("a").last())];
+          expect(Math.abs(vignette.largeur - 272), `vignette de 17rem, ${ou}`).toBeLessThanOrEqual(2);
+          expect(Math.abs(vignette.gauche - (video.gauche + 24)), `vignette à gauche, ${ou}`).toBeLessThanOrEqual(2);
+          for (const t of [h3, titre]) expect(t.gauche, `texte en face de la vignette, ${ou}`).toBeGreaterThanOrEqual(vignette.droite);
+          expect(h3.haut, `titre de la carte dans la hauteur de la vignette, ${ou}`).toBeGreaterThan(vignette.haut);
+          expect(titre.bas, `titre de la vidéo dans la hauteur de la vignette, ${ou}`).toBeLessThan(vignette.bas);
         } else {
           expect(video.largeur - vignette.largeur, `vignette sur toute la carte, ${ou}`).toBeLessThanOrEqual(2 * 24 + 4);
         }
