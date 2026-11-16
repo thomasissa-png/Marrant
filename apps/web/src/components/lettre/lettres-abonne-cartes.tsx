@@ -8,6 +8,7 @@ import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { cn } from "@/lib/utils";
+import { frTypo } from "@/lib/fr-typo";
 
 // v6 tour 3, point 11 : signal de clic (chevron à droite, filet de bord violet au survol, anneau au focus).
 const CARTE_LETTRE = cn(
@@ -57,8 +58,9 @@ export async function LettresAbonneCartes() {
               <Link href={hrefLettre(l.numero)} data-lettre={l.numero} className={CARTE_LETTRE}>
                 <FiletCarte />
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                  <span className="text-sm font-semibold text-text-primary">{l.titre}</span>
-                  <span className="text-sm text-text-secondary">{l.objet}</span>
+                  {/* v6 tour 4, point 8 : apostrophes typographiques au rendu (texte inchangé). */}
+                  <span className="text-sm font-semibold text-text-primary">{frTypo(l.titre)}</span>
+                  <span className="text-sm text-text-secondary">{frTypo(l.objet)}</span>
                 </span>
                 <Chevron />
               </Link>

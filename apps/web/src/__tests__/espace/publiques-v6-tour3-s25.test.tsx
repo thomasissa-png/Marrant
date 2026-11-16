@@ -231,7 +231,8 @@ describe("point 12 : /parcours, cartes en deux colonnes dès `lg`", () => {
     expect(pleins()).toHaveLength(catalogue.length);
     for (const b of pleins()) {
       expect(b.className).toContain("w-full");
-      expect((b.parentElement as HTMLElement).className.split(" ")).toContain("mt-auto");
+      // v6 tour 4, point 2 : le `mt-auto` passe du bloc du bouton au bloc commun « Programme » + bouton.
+      expect((b.closest("[data-parcours-pied]") as HTMLElement).className.split(" ")).toContain("mt-auto");
     }
   });
 
@@ -256,7 +257,7 @@ describe("point 5 : /profil de l'abonné, cartes courtes deux par ligne dès `lg
   const titres = (c: HTMLElement) => [...c.querySelectorAll("h3, [data-cap]")].map((e) => (e.hasAttribute("data-cap") ? "cap" : e.textContent));
 
   it.each([["nouvel", [] as unknown[], 0], ["en cours", [EN_COURS], 120]])(
-    "ouvert, abonné %s : cap et statistiques groupés, puis rappel, abonnement, question et prénom ; cartes longues hors groupe",
+    "ouvert, abonné %s : cap et statistiques groupés, puis rappel, abonnement et prénom (question juste sous le groupe, tour 4) ; cartes longues hors groupe",
     async (_n, parcours, xp) => {
       compte(parcours as unknown[], xp as number);
       ouvrir(true);
@@ -271,7 +272,9 @@ describe("point 5 : /profil de l'abonné, cartes courtes deux par ligne dès `lg
       expect(within(a).getByText("Statistiques")).toBeInTheDocument();
       expect(b.querySelector("#rappel-parcours")).not.toBeNull();
       expect(b.querySelector("#abonnement")).not.toBeNull();
-      expect(b.querySelector("[data-profil-questions-cadre]")).not.toBeNull();
+      // v6 tour 4, point 4 : la ligne « Ta question à l'équipe » sort du groupe (pleine largeur, juste sous lui).
+      expect(b.querySelector("[data-profil-questions-cadre]")).toBeNull();
+      expect(b.nextElementSibling).toHaveAttribute("data-profil-questions-cadre");
       expect(within(b).getByTestId("profil-prenom")).toBeInTheDocument();
       // « Mes parcours » et la suppression du compte restent hors des groupes (pleine largeur).
       const mesParcours = [...container.querySelectorAll("h3")].find((h) => h.textContent === "Mes parcours") as HTMLElement;

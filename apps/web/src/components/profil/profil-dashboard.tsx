@@ -74,13 +74,22 @@ const grilleProfil = () => (ESPACE_CLIENT_PUBLIE ? "grid grid-cols-1 gap-6 md:gr
 /**
  * v6 tour 3, point 5 (interrupteur ouvert seulement) : dès `lg`, les cartes courtes vont deux par ligne, de même
  * hauteur (`items-stretch`) ; le `md:col-span-2` que portent les cartes est neutralisé dans le groupe (sélecteur
- * plus précis). Carte seule en fin de groupe : centrée, à la largeur de ses voisines (aucune demi-carte vide). Les
- * cartes longues (« Prochaine étape », « Mes parcours », suppression du compte) restent en pleine largeur.
+ * plus précis). Les cartes longues (« Prochaine étape », « Mes parcours », suppression du compte) restent en pleine
+ * largeur. v6 tour 4, point 4 : plus aucune carte seule en demi-largeur ; une carte impaire en fin de groupe prend la
+ * ligne entière (`lg:col-span-2`). Pour qu'aucune carte ne soit étirée autour d'une seule ligne, « Ta question à
+ * l'équipe » sort du groupe (ligne pleine largeur sous lui) et « Ton prénom » empile champ et bouton quand il a une
+ * voisine (`prenom-card.tsx`).
  */
-const GROUPE_COURT = cn(
+export const GROUPE_COURT = cn(
   "grid grid-cols-1 gap-6 md:col-span-2 lg:grid-cols-2 lg:items-stretch [&>*:nth-child(n)]:col-span-1",
-  "lg:[&>:last-child:nth-child(odd)]:col-span-2 lg:[&>:last-child:nth-child(odd)]:mx-auto lg:[&>:last-child:nth-child(odd)]:w-[calc(50%-0.75rem)]",
+  "lg:[&>:last-child:nth-child(odd)]:col-span-2",
 );
+
+/**
+ * v6 tour 4, point 6 (interrupteur ouvert seulement) : les boutons `size="sm"` du profil (32 px dès 768) passent en
+ * cible de 44 px à toutes les largeurs. Le composant `Button` n'est pas touché ; fermé, classes d'avant.
+ */
+export const CIBLE_44_MD = "md:h-11";
 
 /** Groupe de cartes courtes ouvert ; fermé, un simple fragment (HTML d'avant au caractère près). */
 function GroupeCourt({ children }: { children: ReactNode }) {
@@ -317,7 +326,9 @@ export function ProfilDashboard() {
           <CardTitle>Statistiques</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
+          {/* v6 tour 4, point 4 (ouvert) : à côté de « Ton cap » dès `lg`, les 4 compteurs passent en 2 × 2 (plus de
+              carte étirée autour d'une seule ligne de chiffres). */}
+          <div className={ESPACE_CLIENT_PUBLIE ? "grid grid-cols-2 gap-4 text-center sm:grid-cols-4 lg:grid-cols-2" : "grid grid-cols-2 gap-4 text-center sm:grid-cols-4"} data-profil-stats={ESPACE_CLIENT_PUBLIE ? "" : undefined}>
             <div>
               <p className="text-2xl font-bold text-accent-link">
                 {user.stats.jokesRead}
@@ -353,7 +364,7 @@ export function ProfilDashboard() {
           <div className="flex items-center justify-between">
             <CardTitle>Mes parcours</CardTitle>
             <Link href="/parcours">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className={ESPACE_CLIENT_PUBLIE ? CIBLE_44_MD : undefined}>
                 Voir tout
               </Button>
             </Link>
@@ -366,7 +377,7 @@ export function ProfilDashboard() {
                 Tu n’as pas encore commencé de parcours. Le plus court dure {PARCOURS_MIN_WEEKS} semaines, à peine le temps de t’y habituer.
               </p>
               <Link href="/parcours">
-                <Button variant="primary" size="sm" className="mt-3">
+                <Button variant="primary" size="sm" className={ESPACE_CLIENT_PUBLIE ? cn("mt-3", CIBLE_44_MD) : "mt-3"}>
                   Découvrir les parcours
                 </Button>
               </Link>
@@ -438,13 +449,8 @@ export function ProfilDashboard() {
       {/* v6 tour 2, point 13 : la ligne prend le cadre à filet des autres cartes du profil (`CARTE_A_FILET` + filet,
           carte intérieure en `rounded-xl` : même rendu qu'une `Card filet`), sans titre nouveau. La ligne elle-même
           (`components/espace/profil/ligne-mes-questions.tsx`) n'est pas touchée. */}
-      {isPremium && (ESPACE_CLIENT_PUBLIE ? (
-        <div className={cn("md:col-span-2", CARTE_A_FILET)} data-profil-questions-cadre="">
-          <FiletCarte />
-          {/* v6 tour 3, point 5 : la carte intérieure suit la hauteur de sa voisine de ligne (`h-full`). */}
-          <LigneMesQuestions className="h-full rounded-xl" />
-        </div>
-      ) : <QuestionEquipeCard className="md:col-span-2" />)}
+      {/* v6 tour 4, point 4 : ouvert, la ligne sort du groupe (rendue sous lui, pleine largeur, hauteur naturelle). */}
+      {!ESPACE_CLIENT_PUBLIE && isPremium && <QuestionEquipeCard className="md:col-span-2" />}
 
       {/* s21 : lettre de la semaine (Premium), sous la carte abonnement (spec US-H2). Absente interrupteur fermé. */}
       <LettreHebdoReglage className="md:col-span-2" />
@@ -452,6 +458,15 @@ export function ProfilDashboard() {
       {/* s21 concision (18/10) : prénom renseigné après coup (plus demandé à l'inscription). */}
       <PrenomCard key={user.id} prenom={user.name} />
       </GroupeCourt>
+
+      {/* v6 tour 4, point 4 (ouvert) : « Ta question à l'équipe » hors de la grille des cartes courtes, une ligne pleine
+          largeur de la coque à hauteur naturelle (plus de carte haute et vide autour d'une ligne). */}
+      {ESPACE_CLIENT_PUBLIE && isPremium && (
+        <div className={cn("md:col-span-2", CARTE_A_FILET)} data-profil-questions-cadre="">
+          <FiletCarte />
+          <LigneMesQuestions className="rounded-xl" />
+        </div>
+      )}
 
       {/* s16 reco 5 : suppression du compte en libre-service */}
       <SupprimerCompteCard
