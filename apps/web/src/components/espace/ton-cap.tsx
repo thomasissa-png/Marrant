@@ -24,6 +24,7 @@ export function TonCap({
   xp,
   className,
   ligneQuiPasse = false,
+  carteDuProfil = false,
 }: {
   cap: NumeroCap;
   serie: number;
@@ -32,14 +33,19 @@ export function TonCap({
   className?: string;
   /** « Mon profil » (v6 tour 1) : série et cap passent à la ligne sur écran étroit (290, 320 px) au lieu de déborder. */
   ligneQuiPasse?: boolean;
+  /**
+   * « Mon profil » (v6 tour 5, arbitrage 2) : même marge interne (`p-4`) et même titre (`text-lg`) que les cartes
+   * voisines (`Card`, `CardTitle`), « Statistiques » en tête. Parcours et Aujourd'hui gardent `md:p-6` et `text-xl`.
+   */
+  carteDuProfil?: boolean;
 }) {
   return (
     <section
       id="cap"
       aria-labelledby="ton-cap-titre"
-      className={cn(CADRE_CARTE, "space-y-3 p-4 md:p-6 max-e300:space-y-1 max-e300:px-3 max-e300:py-2", className)}
+      className={cn(CADRE_CARTE, carteDuProfil ? "space-y-3 p-4 max-e300:space-y-1 max-e300:px-3 max-e300:py-2" : "space-y-3 p-4 md:p-6 max-e300:space-y-1 max-e300:px-3 max-e300:py-2", className)}
     >
-      <h2 id="ton-cap-titre" className="font-display text-xl font-bold text-text-primary">
+      <h2 id="ton-cap-titre" className={carteDuProfil ? "font-display text-lg font-bold text-text-primary" : "font-display text-xl font-bold text-text-primary"}>
         {T.titre}
       </h2>
       <div className="space-y-2 md:flex md:flex-wrap md:items-center md:gap-x-8 md:gap-y-3 md:space-y-0">

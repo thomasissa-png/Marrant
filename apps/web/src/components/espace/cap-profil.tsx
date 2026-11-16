@@ -36,6 +36,8 @@ export function CapProfil({ xp, serie, className }: { xp: number; serie: number;
       // profil (`min-w-0`) et la ligne de la série passe à la ligne (`ligneQuiPasse`).
       className={className ? `h-full min-w-0 ${className}` : "h-full min-w-0"}
       ligneQuiPasse
+      // v6 tour 5, arbitrage 2 : marge interne et titre des cartes voisines (« Statistiques »).
+      carteDuProfil
     />
   );
 }

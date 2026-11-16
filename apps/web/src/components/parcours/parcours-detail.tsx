@@ -564,14 +564,17 @@ export function ParcoursDetail({
   // s19 (N2 a @ux rendu) : abonné qui a déjà validé une étape, l'argumentaire passe après le programme.
   const argumentaireApresProgramme = !isPathCompleted && isPremium && progressionConnue && completedSteps.length > 0;
   // s19 (N1 @design rendu) : typographie française au rendu (« 6 semaines », « « Redis-moi », « à midi »), tous parcours.
+  // v6 tour 5, arbitrage 1 (ouvert seulement) : l'intro devient une colonne centrée de 672 px sous l'en-tête centré
+  // (comme le sous-titre de la liste), « Pour qui ? » et la phrase du persona centrés ; le témoignage garde son encart.
+  // Fermé : classes d'avant.
   const argumentaire = (
     <>
-      <p className="mt-4 text-pretty text-text-secondary">{frTypoTexte(stripEmDashes(path.description))}</p>
+      <p className={ESPACE_CLIENT_PUBLIE ? "mx-auto mt-4 max-w-2xl text-pretty text-center text-text-secondary" : "mt-4 text-pretty text-text-secondary"}>{frTypoTexte(stripEmDashes(path.description))}</p>
       {(path.personaTagline || path.testimonial) && (
-        <section aria-labelledby="parcours-pour-qui" className="mt-4">
-          <h2 id="parcours-pour-qui" className="font-display text-lg font-bold">{TITRES_SECTIONS.pourQui}</h2>
+        <section aria-labelledby="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? "mx-auto mt-4 max-w-2xl" : "mt-4"}>
+          <h2 id="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? "text-center font-display text-lg font-bold" : "font-display text-lg font-bold"}>{TITRES_SECTIONS.pourQui}</h2>
           {path.personaTagline && (
-            <p className="mt-2 text-pretty text-sm font-medium text-accent-link">{frTypoTexte(path.personaTagline)}</p>
+            <p className={ESPACE_CLIENT_PUBLIE ? "mt-2 text-pretty text-center text-sm font-medium text-accent-link" : "mt-2 text-pretty text-sm font-medium text-accent-link"}>{frTypoTexte(path.personaTagline)}</p>
           )}
           {path.testimonial && (
             <p className="mt-3 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
@@ -758,7 +761,8 @@ export function ParcoursDetail({
 
       {espaceOuvert && <AnnonceApresValidation validations={validationsEspace} />}
 
-      <h2 className="mb-4 font-display text-xl font-bold">{TITRES_SECTIONS.programme}</h2>
+      {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
+      <h2 className={ESPACE_CLIENT_PUBLIE ? "mb-4 text-center font-display text-xl font-bold" : "mb-4 font-display text-xl font-bold"}>{TITRES_SECTIONS.programme}</h2>
       <div className="space-y-4" role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
           if (carteFinEtape1 && step.order === 2) return null;

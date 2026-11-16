@@ -266,7 +266,8 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   const colonne = ESPACE_CLIENT_PUBLIE ? "mx-auto max-w-3xl" : undefined;
   const quizOrientation = (
     <div className={cn(parcoursEntame ? "mt-10" : "mb-10", colonne)}>
-      <h2 className="mb-4 font-display text-xl font-bold">
+      {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
+      <h2 className={ESPACE_CLIENT_PUBLIE ? "mb-4 text-center font-display text-xl font-bold" : "mb-4 font-display text-xl font-bold"}>
         Quel parcours est fait pour toi ?
       </h2>
       <OrientationQuiz onShowParcours={showParcours} statut={statut} />

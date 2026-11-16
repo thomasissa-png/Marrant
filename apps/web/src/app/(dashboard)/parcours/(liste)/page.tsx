@@ -154,7 +154,8 @@ export default async function ParcoursPage() {
 
       {/* Cross-linking SEO */}
       <nav className={cn("mt-12 border-t border-border pt-8", colonne())}>
-        <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
+        {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
+        <h2 className={ESPACE_CLIENT_PUBLIE ? "font-display mb-4 text-center text-xl font-bold" : "font-display mb-4 text-xl font-bold"}>Explore aussi</h2>
         {/* v6 tour 1, point 12 : interrupteur ouvert, deux colonnes quand l'abonné n'a que 2 cartes (Abonnement masqué),
             trois sinon ; cartes à filet de l'accueil. Fermé : inchangé. */}
         <div className={ESPACE_CLIENT_PUBLIE ? "grid gap-4 sm:grid-cols-2 sm:[&:has(>:nth-child(3))]:grid-cols-3" : "grid gap-4 sm:grid-cols-3"}>
@@ -182,7 +183,7 @@ export default async function ParcoursPage() {
 
       {/* FAQ */}
       <section className={cn("mt-12 border-t border-border pt-8", colonne())}>
-        <FaqSection align="left" />
+        <FaqSection align="left" titreCentre={ESPACE_CLIENT_PUBLIE} />
       </section>
     </ColonneParcours>
   );

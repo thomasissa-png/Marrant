@@ -21,6 +21,11 @@ interface FaqSectionProps {
    * voisins, revue visuelle s21). "center" : colonne de lecture centrée (accueil, abonnement).
    */
   align?: "center" | "left";
+  /**
+   * v6 tour 5, arbitrage 1 (/parcours, interrupteur ouvert) : avec `align="left"`, titre centré comme l'accueil,
+   * même taille et même marge ; les questions gardent la pleine largeur de la colonne. Absent : inchangé.
+   */
+  titreCentre?: boolean;
 }
 
 /**
@@ -28,7 +33,7 @@ interface FaqSectionProps {
  * s21 (QA m3) : plus de « use client » ; rendue par le serveur (accueil, listes), sans JS.
  * (passe s12 : UX T19/T46, design T11).
  */
-export function FaqSection({ items, title = "Questions fréquentes", align = "center" }: FaqSectionProps = {}) {
+export function FaqSection({ items, title = "Questions fréquentes", align = "center", titreCentre = false }: FaqSectionProps = {}) {
   const left = align === "left";
   const liste = items ?? faqs;
   // Décision de Thomas du 14/11, interrupteur de l'espace ouvert : dans la FAQ de /parcours (seule page qui prend la
@@ -41,7 +46,7 @@ export function FaqSection({ items, title = "Questions fréquentes", align = "ce
         className={cn(
           "font-display font-bold text-text-primary",
           // Revue visuelle s21 (R29) : titre secondaire, même taille que « Derniers articles » et la lettre.
-          left ? "mb-4 text-xl" : "mb-8 text-center text-xl md:text-2xl",
+          left ? (titreCentre ? "mb-4 text-center text-xl" : "mb-4 text-xl") : "mb-8 text-center text-xl md:text-2xl",
         )}
       >
         {title}

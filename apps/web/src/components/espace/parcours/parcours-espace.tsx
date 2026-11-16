@@ -95,7 +95,8 @@ export function ParcoursEspace() {
           <TesBonus bonus={caps.bonus} />
         </>
       )}
-      <h2 className="font-display text-xl font-bold text-text-primary">{P.listeParcours}</h2>
+      {/* v6 tour 5, arbitrage 1 : titre de section centré comme l'accueil (composant rendu interrupteur ouvert seulement). */}
+      <h2 className="text-center font-display text-xl font-bold text-text-primary">{P.listeParcours}</h2>
     </div>
     </>
   );

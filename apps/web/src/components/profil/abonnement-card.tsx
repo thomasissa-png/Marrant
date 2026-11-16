@@ -70,8 +70,10 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
   // UX C1 : « 1er décembre 2026 », même écriture que /resiliation (et non « 1 décembre »).
   const fin = dateFinLisible(summary?.currentPeriodEnd ?? null);
 
+  // v6 tour 5, arbitrage 3 (ouvert seulement) : boutons du portail et « Résilier » à 44 px dès 768 (`sm` ne les
+  // ouvre à 44 px que sous 768). Fermé : classes d'avant.
   const bouton = (parcours: ParcoursPortail, label: string, variant: "outline" | "primary" = "outline") => (
-    <Button variant={variant} size="sm" onClick={() => openPortal(parcours)} disabled={portalLoading !== null}>
+    <Button variant={variant} size="sm" className={ESPACE_CLIENT_PUBLIE ? "md:h-11" : undefined} onClick={() => openPortal(parcours)} disabled={portalLoading !== null}>
       {portalLoading === parcours ? T.chargement : label}
     </Button>
   );
@@ -80,7 +82,7 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
   // /resiliation (même apparence) ; fermé, parcours de résiliation du portail Stripe comme avant.
   const boutonResilier = () =>
     RESILIATION_PAGE_OUVERTE ? (
-      <Link href={RESILIATION_HREF} className={buttonVariants({ variant: "outline", size: "sm" })}>
+      <Link href={RESILIATION_HREF} className={ESPACE_CLIENT_PUBLIE ? buttonVariants({ variant: "outline", size: "sm", className: "md:h-11" }) : buttonVariants({ variant: "outline", size: "sm" })}>
         {T.resilier}
       </Link>
     ) : (
@@ -150,8 +152,10 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
             )}
             {/* s23 (audit rétractation, D.221-5) : accès visible à la fonction de rétractation pour tout
                 compte Premium (le délai court même après une résiliation). Lien texte, pas un bouton. */}
-            <p className="mt-4 text-xs">
-              <Link href="/retractation" className="text-text-muted underline underline-offset-2 hover:text-text-secondary">
+            {/* v6 tour 5, arbitrage 3 (ouvert seulement) : lien seul sur sa ligne, cible de 44 px (texte et soulignement
+                inchangés) ; marge haute réduite d'autant pour garder l'écart visible. Fermé : inchangé. */}
+            <p className={ESPACE_CLIENT_PUBLIE ? "mt-1 text-xs" : "mt-4 text-xs"}>
+              <Link href="/retractation" className={ESPACE_CLIENT_PUBLIE ? "inline-flex min-h-11 items-center text-text-muted underline underline-offset-2 hover:text-text-secondary" : "text-text-muted underline underline-offset-2 hover:text-text-secondary"}>
                 {LIBELLE_RENONCER_CONTRAT}
               </Link>
             </p>

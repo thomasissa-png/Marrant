@@ -97,6 +97,20 @@ Ce qui devient visible ou actif dès ce déploiement (hors interrupteur ; tout l
 - **Autres prérequis écrits dans les entrées** : @legal confirme que la mention « Usage du service » couvre les 6 événements du D9 ; plan de tags @data-analyst pour figer J7, J30, J60 (D9) ; « Motifs de résiliation » activés dans le portail Stripe (Thomas, lot 0) ; décision de Thomas sur l'export `BUILD_TARGET=mobile` (rouge, antérieur à s24, N-1 de la recette).
 - **Contre-recette @qa** des corrections D11b (Q-1, Q-2, Q-4, Q-5, Q-6, commit `534678f7`), CI verte dans les deux régimes.
 
+### À DÉPLOYER (s25), détail, voir l'entrée JOUR DU GO : s25, corrections v6 tour 5, interrupteur ouvert seulement, **COMMITÉ, NON DÉPLOYÉ, INTERRUPTEUR FERMÉ : rien ne change en ligne** (Jest d'inertie : 47 instantanés verts sans mise à jour)
+
+Commité le 16/11 sur `claude/ouverture-session-nzwj0w`, d'après `docs/espace-client/travail-en-cours/plan-corrections-v6-tour-5.md` (arbitrages 1 à 4 ; relectures `docs/{design,ux}/relectures/s25-v6-tour-5-{parcours,favoris-profil}.md`). **Aucune action de déploiement requise** : ni variable d'environnement, ni paquet, ni migration, aucune donnée. Aucun texte nouveau. Fermé : classes et attributs d'avant, au caractère près.
+
+**Effet le jour de l'ouverture (interrupteur ouvert)** :
+- **/parcours** (liste) : « Quel parcours est fait pour toi ? », « Les parcours » (abonné), « Explore aussi », « Questions fréquentes » centrés comme l'accueil (taille inchangée). **/parcours/{slug}** : « Le programme » et « Pour qui ? » centrés ; l'intro et « Pour qui ? » dans une colonne centrée `mx-auto max-w-2xl` (témoignage dans son encart). Forme et place des boutons (§1.3) et ordre de l'argumentaire (s19) inchangés.
+- **Profil** : « Ton cap » en `p-4` et titre `text-lg`, comme « Statistiques » à côté (Parcours et Aujourd'hui gardent leur carte).
+- **Carte Abonnement** : « Renoncer au contrat ici » en cible de 44 px (`inline-flex min-h-11 items-center`, texte et soulignement inchangés) ; boutons du portail (« Gérer », « Changer de formule », « Mettre à jour ma carte ») et « Résilier » en `md:h-11` (composant `Button` inchangé).
+- **Favoris** : cartes de vanne et de conseil dépliables en `role="button"` + `aria-expanded` (clavier inchangé).
+
+**Fichiers** (sous `apps/web/src/`) : `app/(dashboard)/parcours/(liste)/page.tsx` (hachage du test `profil-d10-s24` mis à jour, aucun texte touché), `components/{parcours/parcours-content,parcours/parcours-detail,home/faq-section,espace/parcours/parcours-espace,espace/ton-cap,espace/cap-profil,profil/abonnement-card,favoris/favoris-list}.tsx` ; test `__tests__/espace/v6-tour5-s25.test.tsx` (15 tests).
+
+**Contrôles (environnement vide)** : `tsc` build, complet et Playwright, lint, build (copies ouverte et fermée, `node_modules` copiés, bases jetables `marrant_e2e_t6_*` supprimées), Jest complet (461 suites, 7 057 tests réussis, 17 sautés, 47 instantanés d'inertie verts sans mise à jour) ; suite Playwright locale complète (`local` et `local-compteurs`, 395 tests) : OUVERT 279 réussis, 116 sautés, 0 échec, premier passage ; FERMÉ 178 réussis, 217 sautés, 0 échec. Captures : `docs/captures/s25/v6-tour-6/{parcours,favoris,profil}`.
+
 ### À DÉPLOYER (s25), détail, voir l'entrée JOUR DU GO : s25, corrections v6 tour 4, interrupteur ouvert seulement, **COMMITÉ, NON DÉPLOYÉ, INTERRUPTEUR FERMÉ : rien ne change en ligne** (Jest d'inertie : 47 instantanés verts sans mise à jour)
 
 Deux lots (espace, pages publiques) fusionnés le 16/11 sur `claude/ouverture-session-nzwj0w`, d'après `docs/espace-client/travail-en-cours/plan-corrections-v6-tour-4.md` (16 relectures du tour 4 ; Quoi répondre, Vannes, Questions-Répliques, Bibliothèque, Lettre-Carnet validés 9/9). **Aucune action de déploiement requise** : ni variable d'environnement, ni paquet, ni migration, aucune donnée. Aucun texte nouveau. Fermé : `/mon-espace/**` reste la 404, les pages publiques et `/favoris` sont identiques au caractère près.

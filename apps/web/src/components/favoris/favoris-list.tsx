@@ -309,6 +309,10 @@ export function FavorisList() {
                   key={fav.id}
                   className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}${largeur}`}
                   tabIndex={0}
+                  // v6 tour 5, arbitrage 4 (ouvert seulement) : la carte qui déplie la chute s'annonce comme un bouton,
+                  // avec son état (lecteurs d'écran). Texte inchangé. Fermé : attributs d'avant.
+                  role={ESPACE_CLIENT_PUBLIE ? "button" : undefined}
+                  aria-expanded={ESPACE_CLIENT_PUBLIE ? isRevealed : undefined}
                   onClick={() => toggleJokePunchline(fav.id)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleJokePunchline(fav.id); } }}
                 >
@@ -392,6 +396,9 @@ export function FavorisList() {
                   key={fav.id}
                   className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}${largeur}`}
                   tabIndex={0}
+                  // v6 tour 5, arbitrage 4 (ouvert seulement) : même annonce pour le conseil qui déplie l'exemple.
+                  role={ESPACE_CLIENT_PUBLIE ? "button" : undefined}
+                  aria-expanded={ESPACE_CLIENT_PUBLIE ? isExpanded : undefined}
                   onClick={() => toggleTipExpanded(fav.id)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleTipExpanded(fav.id); } }}
                 >
