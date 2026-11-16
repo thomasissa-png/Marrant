@@ -34,11 +34,14 @@ const INERTE = { inert: "" } as Record<string, string>;
  * titre de la première tuile restent entiers au premier écran de 375 x 812 (16 px sous la légende à 768).
  * v7 tour 11 (relectures du tour 10 : bande hero / extrait encore lue comme un petit trou) : 48 px dès 768 (`md:mt-12`,
  * 64 avant), comme à 768 ; mesuré : à 900 px de haut (1280, 1456, 1920), le bouton de fin reste sous le premier écran.
+ * v7 tour 12 (relecture design du tour 11 : légende flottante, 60 px au-dessus, 43 au-dessous, `lg:mb-10` hors du pas)
+ * : dès 1024, 64 px au-dessus (`lg:mt-16`) et 24 px dessous (`lg:mb-6`, règle « titre de section vers ses cartes ») :
+ * même total (88 px), la légende se rattache à l'extrait, la fin d'extrait reste sous le pli à 900 px de haut.
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
-    <div className="relative mt-6 md:mt-12" data-apercu-extrait={rubrique}>
-      <p className={cn("mb-2 md:mb-4 lg:mb-10", META)} data-apercu-legende>
+    <div className="relative mt-6 md:mt-12 lg:mt-16" data-apercu-extrait={rubrique}>
+      <p className={cn("mb-2 md:mb-4 lg:mb-6", META)} data-apercu-legende>
         {frEspace(TEXTES_APERCU.sousTitre)}
       </p>
       <div

@@ -40,11 +40,11 @@ describe("point 1 : la légende en tête de l'extrait", () => {
     expect(document.querySelector("[data-apercu-fin]")?.nextElementSibling).toBeNull();
   });
 
-  it("air : 24 px sous 768, 48 dès 768 (v7 tour 11 : plus de 64 dès 1024) ; légende à 8, 16 puis 40 px des tuiles", () => {
+  it("air : 24 px sous 768, 48 dès 768, 64 dès 1024 (v7 tour 12) ; légende à 8, 16 puis 24 px des tuiles", () => {
     render(<ApercuAujourdhui visiteur />);
     const air = classes(document.querySelector("[data-apercu-extrait]")).filter((c) => /(^|:)mt-/.test(c));
-    expect(air).toEqual(["mt-6", "md:mt-12"]);
-    expect(classes(document.querySelector("[data-apercu-legende]")).filter((c) => /(^|:)mb-/.test(c))).toEqual(["mb-2", "md:mb-4", "lg:mb-10"]);
+    expect(air).toEqual(["mt-6", "md:mt-12", "lg:mt-16"]);
+    expect(classes(document.querySelector("[data-apercu-legende]")).filter((c) => /(^|:)mb-/.test(c))).toEqual(["mb-2", "md:mb-4", "lg:mb-6"]);
   });
 });
 

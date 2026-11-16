@@ -2,7 +2,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CARTE_ACTION, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { ETIQUETTE, META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { ETIQUETTE, META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
 
 /**
  * Z1 « Action du jour » (refonte s25, spec design §4 Z1) : la carte dominante, seul bouton plein de l'écran. Sert au
@@ -22,6 +22,11 @@ import { ETIQUETTE, META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/ty
  * v7 tour 9 (faute dure design du tour 8) : figée, la carte prend le cadre neutre des tuiles (`TUILE`), ni bord violet
  * ni teinte : elle ne contient pas le bouton plein, l'accent de l'aperçu reste le seul bouton d'offre. L'abonné garde
  * `CARTE_ACTION` (teinte et bord violets autour de son bouton plein).
+ * v7 tour 12 (relecture UX du tour 11, faute 2 : à 1280 et 1920, bouton seul à gauche et plus de 400 px vides à sa
+ * droite) : `scene` (texte réel de la fiche du premier pas) se pose à gauche du bouton dès 768 px, sur une même rangée
+ * (32 px entre eux, bas alignés) : la scène remplit la largeur, le bouton garde son gabarit, aucune taille ajoutée
+ * (`TEXTE`, 16/400). Sous 768 px, la scène n'est pas affichée (premier écran de 375 inchangé). Relecture design du
+ * tour 11 (point 4) : figé, le texte du bouton passe en gris secondaire (même 16/600) : il se lit éteint.
  */
 export function ActionDuJour({
   idTitre,
@@ -30,6 +35,7 @@ export function ActionDuJour({
   titre,
   action,
   fige = false,
+  scene,
   children,
   apres,
   ...donnees
@@ -40,6 +46,8 @@ export function ActionDuJour({
   titre: React.ReactNode;
   action: { href: string; libelle: string } | null;
   fige?: boolean;
+  /** Scène réelle de la fiche du premier pas, à gauche du bouton dès 768 px (v7 tour 12). */
+  scene?: string | null;
   /** Sous le titre, avant le bouton (parcours, barre d'étapes). */
   children?: React.ReactNode;
   /** Sous le bouton, pleine largeur (accroche et liste des cartes de la rafale). */
@@ -47,7 +55,18 @@ export function ActionDuJour({
 } & { [cle: `data-${string}`]: string | undefined }) {
   const gabarit = "mt-4 w-full self-start whitespace-normal md:w-auto md:min-w-44 lg:min-w-64 max-e300:mt-1 max-e300:h-auto max-e300:min-h-11";
   const bouton = cn(buttonVariants({ variant: "primary", size: "lg" }), gabarit);
-  const boutonEteint = cn(buttonVariants({ variant: "outline", size: "lg" }), "border-border-input bg-transparent", TEXTE_FORT, gabarit);
+  const boutonEteint = cn(buttonVariants({ variant: "outline", size: "lg" }), "border-border-input bg-transparent text-base font-semibold text-text-secondary", gabarit);
+  const boutonRendu =
+    action &&
+    (fige ? (
+      <span aria-disabled="true" className={cn(boutonEteint, "pointer-events-none", scene && "md:mt-0 md:shrink-0 md:self-end")}>
+        {action.libelle}
+      </span>
+    ) : (
+      <Link href={action.href} className={cn(bouton, scene && "md:mt-0 md:shrink-0 md:self-end")}>
+        {action.libelle}
+      </Link>
+    ));
   return (
     <section aria-labelledby={idTitre} className={cn(fige ? TUILE : CARTE_ACTION, "max-e300:p-3")} data-action-du-jour {...donnees}>
       {/* Figée (extrait) : place gardée à droite pour le verrou posé dans le coin (`TuileFermee`). */}
@@ -60,16 +79,14 @@ export function ActionDuJour({
         {titre}
       </h2>
       {children}
-      {action &&
-        (fige ? (
-          <span aria-disabled="true" className={cn(boutonEteint, "pointer-events-none")}>
-            {action.libelle}
-          </span>
-        ) : (
-          <Link href={action.href} className={bouton}>
-            {action.libelle}
-          </Link>
-        ))}
+      {scene ? (
+        <div className="flex flex-col md:mt-2 md:flex-row md:items-end md:gap-8" data-premier-pas-scene>
+          <p className={cn("hidden min-w-0 md:block md:flex-1", TEXTE)}>{scene}</p>
+          {boutonRendu}
+        </div>
+      ) : (
+        boutonRendu
+      )}
       {apres}
     </section>
   );

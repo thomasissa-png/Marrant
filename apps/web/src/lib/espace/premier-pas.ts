@@ -11,6 +11,7 @@
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { sanitizeReturnTo } from "@/lib/premium-return";
 import { lireFavori, type ContenuFavori } from "@/lib/favori-apres-paiement";
+import type { Fiche } from "@/lib/espace/fiches-schema";
 
 export type ProfilQuiz = "OBSERVATEUR" | "STORYTELLER" | "ABSURDE" | "PUNCHLINEUR" | "TAQUIN";
 const PROFILS: readonly ProfilQuiz[] = ["OBSERVATEUR", "STORYTELLER", "ABSURDE", "PUNCHLINEUR", "TAQUIN"];
@@ -52,8 +53,11 @@ export type Origine =
 /** Origine lue en base : titre et adresse de la cible (null si introuvable). */
 export type OrigineResolue = { genre: Origine["genre"]; titre: string; href: string };
 
-/** Situation d'entrée disponible dans le contenu servi (titre et durée de la fiche). */
-export type EntreeDisponible = { id: string; titre: string; minutes: number };
+/**
+ * Situation d'entrée disponible dans le contenu servi (titre et durée de la fiche). v7 tour 12 : `scene`, le texte de
+ * la scène de la fiche (`contenu.scene.texte`, texte validé), montré à côté de « Commencer » dès 768 px.
+ */
+export type EntreeDisponible = { id: string; titre: string; minutes: number; scene?: string };
 
 export type PremierPas = {
   source: "fiche" | "etape" | "quiz" | "parcours" | "defaut";
@@ -118,4 +122,19 @@ export function choisirPremierPas(
     return { source: "parcours", titre: origine.titre, href: origine.href, minutes: null };
   }
   return { source: "defaut", titre: scene, href: hrefFiche("situation", ENTREE_PAR_DEFAUT), minutes: MINUTES_PAR_DEFAUT };
+}
+
+/** Texte de la scène d'une fiche situation (`contenu.scene.texte`) ; `undefined` pour tout autre type. */
+export function sceneDeSituation(fiche: Fiche): string | undefined {
+  return fiche.type === "situation" ? fiche.contenu.scene.texte : undefined;
+}
+
+/**
+ * v7 tour 12 (relecture UX du tour 11, faute 2 : Z1 creuse à 1280) : la scène de la situation du premier pas, quand il
+ * en a une (quiz ou scène par défaut, entrée présente dans `entrees`) ; null pour un lien de retour (fiche, étape,
+ * parcours) : la carte garde alors titre et bouton.
+ */
+export function sceneDuPremierPas(pas: PremierPas, entrees: readonly EntreeDisponible[]): string | null {
+  if (pas.source !== "quiz" && pas.source !== "defaut") return null;
+  return entrees.find((e) => hrefFiche("situation", e.id) === pas.href)?.scene ?? null;
 }

@@ -8,10 +8,11 @@ import {
   CLE_QUIZ,
   choisirPremierPas,
   lireProfilQuiz,
+  sceneDuPremierPas,
   type EntreeDisponible,
   type OrigineResolue,
 } from "@/lib/espace/premier-pas";
-import { frEspaceProfond } from "@/lib/fr-typo";
+import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -66,7 +67,9 @@ export function PremierPas({
     setPas(choisirPremierPas(signal, lireProfilQuiz(lireStockage(CLE_QUIZ)), entrees, T.premierPas.sceneParDefaut));
   }, [origine, entrees]);
 
-  // Refonte s25 (spec design §4 Z1) : l'action du jour du nouvel abonné, carte teintée dominante.
+  // Refonte s25 (spec design §4 Z1) : l'action du jour du nouvel abonné, carte teintée dominante. v7 tour 12 : la scène
+  // de la fiche (quiz ou scène par défaut) à gauche du bouton dès 768 px.
+  const scene = sceneDuPremierPas(pas, entrees);
   return (
     <ActionDuJour
       idTitre="premier-pas-titre"
@@ -75,6 +78,7 @@ export function PremierPas({
       duree={pas.minutes !== null ? T.premierPas.duree(pas.minutes) : null}
       titre={pas.titre}
       action={{ href: pas.href, libelle: T.premierPas.bouton }}
+      scene={scene ? frEspace(scene) : null}
     />
   );
 }

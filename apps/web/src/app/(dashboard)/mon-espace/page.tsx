@@ -6,7 +6,7 @@ import { lireLecteurApercu } from "@/components/espace/apercu/acces";
 import { metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { ApercuAujourdhui } from "@/components/espace/apercu/tableau-verrouille";
 import { chargeursFiches } from "@/lib/espace/fiches";
-import { ENTREES_QUIZ, lireOrigine, type EntreeDisponible } from "@/lib/espace/premier-pas";
+import { ENTREES_QUIZ, lireOrigine, sceneDeSituation, type EntreeDisponible } from "@/lib/espace/premier-pas";
 import { lireMois, premierPasFait, resoudreOrigine } from "@/lib/espace/premier-pas-serveur";
 import { lireAise } from "@/lib/espace/aise";
 import { categoriesProposees } from "@/lib/espace/vanne";
@@ -81,7 +81,11 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
   // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
   const lecteur = await lireLecteurApercu();
-  if (lecteur) return <ApercuAujourdhui visiteur={lecteur === "visiteur"} />;
+  if (lecteur) {
+    // v7 tour 12 : la première vanne gratuite du catalogue (même source que l'aperçu de Favoris), import à la demande.
+    const { lireVanneGratuite } = await import("@/components/espace/apercu/exemples-favoris");
+    return <ApercuAujourdhui visiteur={lecteur === "visiteur"} vanne={await lireVanneGratuite()} />;
+  }
   const { userId } = await garderEspace("/mon-espace");
   const param = (cle: string) => (typeof searchParams[cle] === "string" ? (searchParams[cle] as string) : null);
 
@@ -90,7 +94,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   const idsEntrees = new Set(Object.values(ENTREES_QUIZ));
   const entrees: EntreeDisponible[] = situations
     .filter((f) => idsEntrees.has(f.id))
-    .map((f) => ({ id: f.id, titre: frEspace(f.titre), minutes: f.dureeMinutes }));
+    .map((f) => ({ id: f.id, titre: frEspace(f.titre), minutes: f.dureeMinutes, scene: sceneDeSituation(f) }));
 
   // Refonte s25 (spec UX §4.4) : l'étape à reprendre est lue aussi avant le premier pas (« Étape conseillée », Z3).
   const [origine, fait, aise, categories, mois, etape] = await Promise.all([

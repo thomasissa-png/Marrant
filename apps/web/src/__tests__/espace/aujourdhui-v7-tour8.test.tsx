@@ -63,7 +63,8 @@ describe("point 4 : prospect à 375, première tuile au premier écran", () => {
     const hero = document.querySelector("[data-apercu-hero]");
     expect(classes(hero)).toEqual(expect.arrayContaining(["gap-4", "md:gap-8", "lg:gap-12"]));
     const li = document.querySelector("[data-apercu-pastilles] li");
-    expect(classes(li)).toEqual(expect.arrayContaining(["text-sm", "px-2", "py-0.5", "md:px-3", "md:py-1"]));
+    // v7 tour 12 : `px-2 py-0.5` retirés (liste en `sr-only` sous 768 depuis le tour 11).
+    expect(classes(li)).toEqual(expect.arrayContaining(["text-sm", "px-3", "py-1"]));
   });
 
   it("carte d'offre resserrée sous 768 (`p-4`, preuve à 16 px), inchangée dès 768", () => {

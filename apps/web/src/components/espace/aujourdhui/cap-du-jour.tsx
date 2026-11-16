@@ -23,6 +23,11 @@ const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
  * est sur la ligne du haut des chiffres (12 px plus bas avant, groupes centrés). Le bloc des chiffres se fond dans le
  * bandeau (`md:contents`) : cap à gauche, cases des chiffres à droite, l'aide de la série sur toute la largeur dessous,
  * 16 px plus bas (sinon, sous le cap, la moitié gauche restait vide sur la hauteur des cases et de l'aide).
+ * v7 tour 12 (relecture UX du tour 11, faute 1 : sans chiffres, à 768, barre de 320 px sur 720 et 350 px vides à
+ * droite, phrase de série collée au verrou) : sans chiffres (cap au premier jour, extrait de l'aperçu), plus de
+ * bandeau : le cap prend toute la largeur (barre pleine largeur, « cap n sur 5 » au bout de la ligne du nom) et la
+ * phrase de série passe dessous, sous un filet, comme à 1280. Le verrou de l'extrait reste seul sur la ligne de
+ * l'étiquette. Avec chiffres, le bandeau d'avant (les cases remplissent la droite).
  */
 export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp: number; serie: number; fige?: boolean }) {
   // Spec design §7 point 2 : coupe sur « · » (nom en grand, « cap n sur 5 » en petit), texte inchangé.
@@ -40,7 +45,7 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
       className={cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col p-6 [overflow-wrap:anywhere] md:flex-row md:flex-wrap md:items-start md:gap-x-8 md:gap-y-4 lg:flex-col lg:flex-nowrap lg:items-stretch lg:gap-0")}
       data-cap-du-jour={cap}
     >
-      <div className="min-w-0 md:flex-1 lg:flex-none">
+      <div className={cn("min-w-0 md:flex-1 lg:flex-none", !avecChiffres && "md:basis-full lg:basis-auto")}>
         <h2 id={fige ? undefined : "cap-titre"} className={ETIQUETTE}>
           {TEXTES_CAPS.titre}
         </h2>
@@ -55,7 +60,12 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
         </p>
         <SegmentsCap cap={cap} className="mt-4" />
       </div>
-      <div className={cn("min-w-0 md:contents lg:block", "mt-6 border-t border-border pt-6 lg:mt-6 lg:border-t lg:pt-6")}>
+      <div
+        className={cn(
+          "min-w-0 mt-6 border-t border-border pt-6 lg:mt-6 lg:border-t lg:pt-6",
+          avecChiffres ? "md:contents lg:block" : "md:mt-2 md:basis-full lg:mt-6 lg:basis-auto",
+        )}
+      >
         {avecChiffres ? (
           <>
             {/* v7 tour 11 (relectures du tour 10 : chiffres « discrets ») : XP et série chacun dans sa case (fond élevé

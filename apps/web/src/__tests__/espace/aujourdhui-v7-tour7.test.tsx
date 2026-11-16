@@ -89,12 +89,12 @@ describe("décision 2 (tour 8) : Z1, seul point focal violet, léger", () => {
 });
 
 describe("décisions 3 et 4 : rythme de 8 px, couleurs des semaines", () => {
-  it("pastilles du hero en `px-3` dès 768 (`px-2` en dessous, tour 8), lien de carte en `-mb-2` : plus de `2.5` ni de `mt-7`", () => {
+  it("pastilles du hero en `px-3` (tour 12 : `px-2` retiré, liste en `sr-only` sous 768), lien de carte en `-mb-2` : plus de `2.5` ni de `mt-7`", () => {
     render(<ApercuAujourdhui visiteur />);
     const lis = Array.from(document.querySelectorAll("[data-apercu-pastilles] li"));
     expect(lis).toHaveLength(6);
     for (const li of lis) {
-      expect(classes(li)).toEqual(expect.arrayContaining(["px-2", "md:px-3"]));
+      expect(classes(li)).toEqual(expect.arrayContaining(["px-3", "py-1"]));
       expect(classes(li).some((c) => /2\.5/.test(c))).toBe(false);
     }
     expect(lire("aujourdhui/contenu-du-jour.tsx")).toContain("const lienCarte = `-mb-2 mt-auto ");
@@ -103,14 +103,15 @@ describe("décisions 3 et 4 : rythme de 8 px, couleurs des semaines", () => {
     }
   });
 
-  it("« Semaine n : » en texte principal sur chaque ligne, le reste en secondaire, aucune ligne de couleur à part", () => {
+  it("« Semaine n : » en 14/600 secondaire comme le titre (v7 tour 12), le reste en secondaire, aucune ligne de couleur à part", () => {
     const { container } = render(<SemainesTuile ecouterPublie />);
     const lignes = Array.from(container.querySelectorAll("li[data-semaine]"));
     expect(lignes).toHaveLength(4);
     for (const li of lignes) {
       expect(classes(li)).toContain("text-text-secondary");
       expect(classes(li)).not.toContain("text-text-primary");
-      expect(classes(li.querySelector("[data-semaine-prefixe]"))).toEqual(expect.arrayContaining(["font-semibold", "text-text-primary"]));
+      expect(classes(li.querySelector("[data-semaine-prefixe]"))).toEqual(expect.arrayContaining(["font-semibold", "text-text-secondary"]));
+      expect(classes(li.querySelector("[data-semaine-prefixe]"))).not.toContain("text-text-primary");
     }
   });
 });

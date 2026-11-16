@@ -24,6 +24,8 @@ const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
  * que « Répartie », deux titres sur deux lignes différentes) : « Tes 4 premières semaines » passe en étiquette
  * (`ETIQUETTE`, toujours le `h2` de la tuile), comme « Contenu du jour » dans l'extrait au tour 8. Sans texte neuf ni
  * ligne vide : l'étiquette est sur la ligne de « Étape conseillée », la première semaine sur celle de « Répartie ».
+ * v7 tour 12 (relecture design du tour 11 : le titre, gris, plus faible que les préfixes blancs) : « Semaine n : » en
+ * 14/600 gris secondaire, comme le titre (`ETIQUETTE`) : plus aucune ligne ne pèse plus que lui. Grille inchangée.
  */
 export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: boolean; fige?: boolean }) {
   const lignes = ecouterPublie ? P.semaines.lignes : [...P.semaines.lignes.slice(0, 3), P.semaines.semaine4SansEcouter];
@@ -35,7 +37,7 @@ export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: 
       <ol className="mt-2 grid grid-cols-[max-content_1fr] gap-x-2 divide-y divide-border">
         {lignes.map((l, i) => (
           <li key={l.semaine} className={cn("col-span-2 grid grid-cols-subgrid py-2 first:pt-0 last:pb-0", META)} data-semaine={i + 1}>
-            <span className="font-semibold text-text-primary" data-semaine-prefixe>
+            <span className="font-semibold text-text-secondary" data-semaine-prefixe>
               {frPonctuation(l.semaine)}
             </span>{" "}
             <span>{frEspace(frPonctuation(l.texte))}</span>

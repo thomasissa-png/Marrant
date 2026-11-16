@@ -15,3 +15,12 @@ export async function lireExemplesFavoris(): Promise<ExemplesFavoris | null> {
   const conseil = conseils?.items[0];
   return vanne && conseil ? { vanne, conseil } : null;
 }
+
+/**
+ * v7 tour 12 (relectures du tour 11 : l'extrait d'« Aujourd'hui » montrait des libellés, pas du produit) : la même
+ * première vanne gratuite du catalogue (page 1 de `/vannes`), seule, pour la tuile « Contenu du jour » de l'extrait.
+ * Base indisponible ou catalogue vide : `null`, la tuile garde ses trois libellés.
+ */
+export async function lireVanneGratuite(): Promise<PublicJoke | null> {
+  return (await getJokesPage(1))?.items[0] ?? null;
+}

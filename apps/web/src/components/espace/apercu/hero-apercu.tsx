@@ -50,6 +50,8 @@ import { cn } from "@/lib/utils";
  * et la preuve sort de la carte d'offre pour se poser en ligne simple sous la promesse, comme dès 1024. La carte ne
  * garde sa preuve que de 768 à 1023 px. Mesuré à 375 x 812 : la tuile Z1 entière (étiquette, titre, bouton éteint) au
  * premier écran pour le visiteur et le gratuit, le bouton d'offre aussi.
+ * v7 tour 12 : les marges compactes des pastilles (`px-2 py-0.5`, sous 768) sont retirées : sous 768, la liste est en
+ * `sr-only`, elles ne servaient plus. Une seule marge, `px-3 py-1`.
  */
 export function HeroApercu({
   titre,
@@ -75,7 +77,7 @@ export function HeroApercu({
         <p className={cn("mt-4 max-w-xl [text-wrap:balance]", TEXTE)}>{promesse}</p>
         <ul className="mt-4 flex flex-wrap gap-2 max-md:sr-only md:mt-6" data-apercu-pastilles>
           {pastilles.map((p) => (
-            <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-2 py-0.5 md:px-3 md:py-1", META)}>
+            <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-3 py-1", META)}>
               {p}
             </li>
           ))}

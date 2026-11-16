@@ -28,6 +28,11 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  *   lignes) ; dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de ceux de ses voisines ;
  * - v7 tour 10 (relecture design du tour 9) : légende en tête de l'extrait (une seule), au plus 64 px sous le hero à
  *   900 px de haut ; verrou de Z1 centré sur « 5 min » ; « Tes 4 premières semaines » en étiquette, aligné sur « Étape conseillée ».
+ * - v7 tour 12 (relectures du tour 11) : la vraie vanne gratuite dans l'extrait dès 1024 (3 lignes au moins en clair) ;
+ *   « Ton cap » sans chiffres à 768 : barre sur toute la largeur de la tuile, phrase de série dessous, verrou à 8 px au
+ *   moins de tout texte ; Z1 du premier pas (aperçu et abonné neuf) dès 768 : scène réelle à gauche du bouton, 32 px
+ *   entre eux, bouton au bord droit de la carte (plus de vide à sa droite) ; sous 768, scène masquée ; bouton éteint
+ *   en gris secondaire.
  */
 const MOT_DE_PASSE = "E2e-aujourdhui-s25!";
 const CAPTURES = process.env.E2E_CAPTURES_AUJ_S25;
@@ -79,6 +84,64 @@ const boite = async (l: Locator) => {
 const debord = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 async function capturer(page: Page, nom: string, largeur: number) {
   if (CAPTURES) await page.screenshot({ path: `${CAPTURES}/${nom}-${largeur}.png`, fullPage: true });
+}
+
+/**
+ * v7 tour 12 (relecture UX du tour 11, faute 2) : Z1 du premier pas. Dès 768, la scène réelle à gauche du bouton (32 px
+ * entre eux), le bouton au bord droit de la zone de contenu (aucun vide à sa droite) ; sous 768, scène masquée. Figé :
+ * texte du bouton en gris secondaire (relecture design, point 4).
+ */
+async function verifierZ1(z1: Locator, largeur: number, fige: boolean) {
+  const ou = `${largeur} px`;
+  const m = await z1.evaluate((z) => {
+    const cs = getComputedStyle(z);
+    const droite = z.getBoundingClientRect().right - parseFloat(cs.borderRightWidth) - parseFloat(cs.paddingRight);
+    const scene = z.querySelector("[data-premier-pas-scene] > p");
+    const s = scene && getComputedStyle(scene).display !== "none" ? scene.getBoundingClientRect() : null;
+    const bouton = z.querySelector("a, span[aria-disabled]") as HTMLElement;
+    const b = bouton.getBoundingClientRect();
+    return { scene: s ? { droite: s.right, largeur: s.width } : null, bouton: { gauche: b.left, droite: b.right }, droite, couleur: getComputedStyle(bouton).color };
+  });
+  if (largeur >= 768) {
+    expect(m.scene, `scène réelle à côté du bouton, ${ou}`).not.toBeNull();
+    expect(Math.round(m.bouton.gauche - (m.scene?.droite ?? 0)), `32 px entre scène et bouton, ${ou}`).toBe(32);
+    expect(Math.abs(m.droite - m.bouton.droite), `bouton au bord droit, aucun vide à sa droite, ${ou}`).toBeLessThanOrEqual(1);
+  } else {
+    expect(m.scene, `scène masquée sous 768, ${ou}`).toBeNull();
+  }
+  if (fige) expect(m.couleur, `bouton éteint en gris secondaire, ${ou}`).toBe("rgb(179, 179, 179)");
+}
+
+/**
+ * v7 tour 12 (relecture UX du tour 11, faute 1) : « Ton cap » sans chiffres à 768 : barre sur toute la largeur de la
+ * tuile, phrase de série dessous, aucun creux vertical de plus de 32 px ; figé, le verrou à 8 px au moins de tout texte.
+ */
+async function verifierCap768(cap: Locator, fige: boolean) {
+  const m = await cap.evaluate((c) => {
+    const cs = getComputedStyle(c);
+    const r = c.getBoundingClientRect();
+    const interieur = r.width - 2 * parseFloat(cs.borderLeftWidth) - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const seg = c.querySelector("[data-segments-cap]")!.getBoundingClientRect();
+    const serie = Array.from(c.querySelectorAll("p")).find((p) => p.querySelector("svg"))!.getBoundingClientRect();
+    const verrou = c.parentElement?.querySelector(":scope > [data-verrou-ferme] svg")?.getBoundingClientRect() ?? null;
+    let proche = Infinity;
+    if (verrou) {
+      const w = document.createTreeWalker(c, NodeFilter.SHOW_TEXT);
+      for (let n = w.nextNode(); n; n = w.nextNode()) {
+        if (!n.textContent?.trim() || n.parentElement?.closest(".sr-only")) continue;
+        const g = document.createRange();
+        g.selectNodeContents(n);
+        for (const t of Array.from(g.getClientRects())) {
+          proche = Math.min(proche, Math.max(t.top - verrou.bottom, verrou.top - t.bottom, verrou.left - t.right, t.left - verrou.right));
+        }
+      }
+    }
+    return { barre: seg.width, interieur, serieSousBarre: serie.top > seg.bottom, proche };
+  });
+  expect(Math.abs(m.barre - m.interieur), "barre sur toute la largeur de « Ton cap », 768").toBeLessThanOrEqual(1);
+  expect(m.serieSousBarre, "phrase de série sous la barre, 768").toBe(true);
+  expect((await cap.evaluate(vides)).creux, "« Ton cap » sans creux, 768").toBeLessThanOrEqual(32);
+  if (fige) expect(m.proche, "verrou détaché du texte, 768").toBeGreaterThanOrEqual(8);
 }
 
 test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
@@ -136,14 +199,16 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         const tuiles = Array.from(s.querySelectorAll("[data-tuile-fermee]")).filter((t) => t.getBoundingClientRect().top < s.getBoundingClientRect().bottom - 48);
         const etape = s.querySelector('[data-testid="parcours-tuile"]');
         const ligneEtape = etape ? Array.from(etape.querySelectorAll("span")).find((x) => /Étape \d+ sur \d+/.test(x.textContent ?? "")) ?? null : null;
-        const jour = Array.from(s.querySelectorAll("[data-tuile-fermee] li"))[0] ?? null;
+        // v7 tour 12 : la vraie vanne (bloc de 4 lignes au plus) ; ses 3 premières lignes en clair. Sans vanne, la 1re ligne.
+        const jour = s.querySelector("[data-apercu-vanne]") ?? Array.from(s.querySelectorAll("[data-tuile-fermee] li"))[0] ?? null;
         return {
           opaque: m ? parseFloat(m[1]) : 0,
           tuiles: tuiles.length,
           // v7 tour 8 : « Contenu du jour » n'a plus de titre, son étiquette en tient lieu (premier texte de la tuile).
           titres: tuiles.every((t) => bas(t.querySelector("h2, .font-display") ?? t.querySelector(":scope > :not([data-verrou-ferme]) > :first-child")) <= opaque),
           barreEtLigne: bas(etape?.querySelector("[data-barre-etapes]") ?? null) <= opaque && bas(ligneEtape) <= opaque,
-          vanneDuJour: jour === null || jour.getBoundingClientRect().top > s.getBoundingClientRect().bottom - 48 || bas(jour) <= opaque,
+          vanneDuJour:
+            jour === null || jour.getBoundingClientRect().top > s.getBoundingClientRect().bottom - 48 || Math.min(bas(jour), jour.getBoundingClientRect().top + 72) <= opaque,
         };
       });
       expect(lisible.opaque, `fondu opaque en haut, ${ou}`).toBeGreaterThanOrEqual(96);
@@ -249,11 +314,17 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         const etape = tuiles.first().locator('[data-testid="parcours-tuile"]');
         const jour = tuiles.last().locator(":scope > :not([data-verrou-ferme])");
         const [etapeEtiquette, etapeTitre] = [await boite(etape.locator("> p").first()), await boite(etape.locator("h2"))];
-        const [jourEtiquette, jourLigne] = [await boite(jour.locator("> p").first()), await boite(jour.locator("li").first())];
+        // v7 tour 12 : la vanne réelle (seed : catalogue non vide) remplace la liste des trois libellés.
+        await expect(jour.locator("[data-apercu-vanne]"), `vraie vanne dans l'extrait, ${ou}`).toHaveCount(1);
+        await expect(jour.locator("[data-apercu-vanne] p").first()).not.toBeEmpty();
+        const [jourEtiquette, jourLigne] = [await boite(jour.locator("> p").first()), await boite(jour.locator("[data-apercu-vanne]"))];
         expect(Math.abs(jourEtiquette.haut - etapeEtiquette.haut), `étiquettes de la rangée 2 alignées, ${ou}`).toBeLessThanOrEqual(1);
         expect(Math.abs(jourLigne.haut - etapeTitre.haut), `première ligne de « Contenu du jour » sur la ligne des titres, ${ou}`).toBeLessThanOrEqual(1);
         expect(Math.round(jourEtiquette.haut - (await boite(jour)).haut), `aucun vide au-dessus de l'étiquette (bord et marge seulement), ${ou}`).toBeLessThanOrEqual(25);
       }
+      // v7 tour 12 : Z1 (scène et bouton éteint) et « Ton cap » sans bandeau.
+      await verifierZ1(extrait.locator("[data-action-du-jour]"), largeur, true);
+      if (largeur === 768) await verifierCap768(extrait.locator("[data-cap-du-jour]"), true);
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "visiteur-aujourdhui", largeur);
     }
@@ -412,6 +483,9 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         expect(Math.abs(dessus - dessous), `texte centré sur la vignette, ${ou}`).toBeLessThanOrEqual(10);
         expect(Math.max(dessus, dessous), `vide au-dessus et au-dessous du texte, ${ou} (${texte.lignesLien} ligne(s))`).toBeLessThanOrEqual(texte.lignesLien >= 2 ? 32 : 48);
       }
+      // v7 tour 12 : Z1 (scène réelle, bouton plein au bord droit) et « Ton cap » sans bandeau à 768.
+      await verifierZ1(page.locator("[data-carte-du-jour] [data-action-du-jour]"), largeur, false);
+      if (largeur === 768) await verifierCap768(page.locator("[data-cap-du-jour]"), false);
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "nouvel-aujourdhui-refonte", largeur);
     }
