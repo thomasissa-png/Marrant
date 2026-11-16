@@ -91,15 +91,17 @@ afterAll(() => {
 });
 
 describe("textes neufs (spec UX §6.2)", () => {
-  it("T1, T2, T4 mot pour mot, T3 en français, dans UN fichier, chacun marqué À VALIDER PAR THOMAS (s25)", () => {
-    expect(TEXTES_APERCU_VERROUILLE.promesseAujourdhui).toBe("Ton tableau de bord : chaque jour, ton action, ta progression et ta série.");
+  it("T1, T2, T4 mot pour mot, T3 en français, dans UN fichier ; T1 validé par Thomas le 16/11, les autres marqués À VALIDER PAR THOMAS (s25)", () => {
+    expect(TEXTES_APERCU_VERROUILLE.promesseAujourdhui).toBe("Cinq minutes par jour pour oser répondre au lieu de te taire.");
     expect(TEXTES_APERCU_VERROUILLE.suite).toBe("La suite est dans Premium");
     expect(TEXTES_APERCU_VERROUILLE.lecteurEcran).toBe("Rubrique Premium. Exemple ci-dessous, non cliquable.");
     expect(dateDuJour(new Date("2026-11-16T10:00:00Z"))).toBe("lundi 16 novembre");
     // Jour de Paris : 23 h 30 UTC le 16 = mardi 17 à Paris.
     expect(dateDuJour(new Date("2026-11-16T23:30:00Z"))).toBe("mardi 17 novembre");
     const fichier = lire("config/textes/espace-apercu.ts");
-    expect(fichier.match(/\/\/ À VALIDER PAR THOMAS \(s25\)/g)).toHaveLength(4);
+    // v7 tour 13 : T1 validé par Thomas le 16/11 (version B) ; les trois autres restent à valider.
+    expect(fichier.match(/\/\/ À VALIDER PAR THOMAS \(s25\)/g)).toHaveLength(3);
+    expect(fichier.match(/\/\/ validé par Thomas le 16\/11/g)).toHaveLength(1);
     expect(JSON.stringify(TEXTES_APERCU_VERROUILLE)).not.toMatch(/—/);
   });
 

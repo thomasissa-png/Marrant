@@ -47,9 +47,9 @@ export const TEXTES_APERCU = {
  * Tout le reste de l'aperçu verrouillé et du tableau de bord est repris par import (spec UX §6.1).
  */
 export const TEXTES_APERCU_VERROUILLE = {
-  /** T1 : promesse du hero de l'aperçu d'« Aujourd'hui ». */
-  // À VALIDER PAR THOMAS (s25)
-  promesseAujourdhui: "Ton tableau de bord : chaque jour, ton action, ta progression et ta série.",
+  /** T1 : promesse du hero de l'aperçu d'« Aujourd'hui » (version B ; 1 ligne à 1280, 2 à 375, mesuré au v7 tour 13). */
+  // validé par Thomas le 16/11
+  promesseAujourdhui: "Cinq minutes par jour pour oser répondre au lieu de te taire.",
   /** T2 : phrase de fin d'extrait, toutes rubriques. */
   // À VALIDER PAR THOMAS (s25)
   suite: "La suite est dans Premium",
