@@ -67,8 +67,8 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
 
   return (
     // v6 tour 3 (arbitrage 2) : la mission prend la ligne entière ; dès `lg`, l'énoncé à gauche, le retour à droite.
-    <section id="mission" aria-labelledby="mission-titre" className={cadreEntrainement(true)} data-mission={mission.id}>
-      <div className={texteEntrainement(true)}>
+    <section id="mission" aria-labelledby="mission-titre" className={cadreEntrainement("seule")} data-mission={mission.id}>
+      <div className={texteEntrainement("seule")}>
       <p className="flex items-end gap-3 text-xs font-semibold text-text-muted">
         <span>{M.marche(n)}</span>
         <Marches n={n} />

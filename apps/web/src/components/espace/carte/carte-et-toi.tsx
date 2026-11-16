@@ -11,7 +11,7 @@ import type { DureeCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
 import type { ApresReponse } from "@/components/espace/carte/carte-registre";
-import { ACTIONS_ENTRAINEMENT, ETIQUETTE, cadreEntrainement, nouvelleCle, texteEntrainement } from "@/components/espace/carte/styles";
+import { ETIQUETTE, SAUT_CONTEXTE, actionsEntrainement, cadreEntrainement, nouvelleCle, texteEntrainement, type PlaceEntrainement } from "@/components/espace/carte/styles";
 import { entreGuillemets } from "@/components/espace/carte/citation";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
@@ -25,7 +25,7 @@ const T = frEspaceProfond(TEXTES_CARTES);
  * APRÈS la réponse ; « Le pourquoi » du carnet. Aucun texte du carnet modifié, aucun texte neuf.
  * Servie pour les fiches relues du carnet (porte G5 franchie, `lib/espace/carnet-cartes.ts`).
  */
-export function CarteEtToi({ carte, nouvelle, ancre, seule = false }: { carte: Carte; nouvelle: boolean; ancre: string; seule?: boolean }) {
+export function CarteEtToi({ carte, nouvelle, ancre, place = "jumelle-sans-contexte" }: { carte: Carte; nouvelle: boolean; ancre: string; place?: PlaceEntrainement }) {
   const cle = useRef(nouvelleCle());
   const [reponse, setReponse] = useState<ReponseCarte | null>(null);
   const [apres, setApres] = useState<ApresReponse | null>(null);
@@ -48,8 +48,10 @@ export function CarteEtToi({ carte, nouvelle, ancre, seule = false }: { carte: C
   );
 
   return (
-    <article id={ancre} aria-labelledby={titreId} className={cadreEntrainement(seule)} data-carte={carte.id}>
-      <div className={texteEntrainement(seule)}>
+    // v6 tour 4 (arbitrage 1) : jumelle, cases de la sous-grille (en-tête, scène, « Ta réponse d'abord », réponses) ;
+    // à côté d'une carte « Quel registre ? », « Ta réponse d'abord » saute la rangée du contexte (`SAUT_CONTEXTE`).
+    <article id={ancre} aria-labelledby={titreId} className={cadreEntrainement(place)} data-carte={carte.id}>
+      <div className={texteEntrainement(place)}>
       <EnTeteCarte id={titreId} titre={carte.titre} nouvelle={nouvelle} />
       <div className="space-y-2">
         <h3 className={ETIQUETTE}>{T.scene}</h3>
@@ -57,12 +59,15 @@ export function CarteEtToi({ carte, nouvelle, ancre, seule = false }: { carte: C
         <p className="text-base font-semibold text-text-primary">{entreGuillemets(carte.onTeDit)}</p>
       </div>
       </div>
-      <div className={ACTIONS_ENTRAINEMENT}>
+      <div className={actionsEntrainement(place)}>
+      <div className={place === "jumelle" ? `space-y-4 ${SAUT_CONTEXTE}` : "space-y-4"} data-rangee="reponse-dabord">
       <div className="space-y-1">
         <h3 className="text-base font-semibold text-text-primary">{T.reponseDabord}</h3>
         <p className="text-sm text-text-secondary">{T.consigne}</p>
       </div>
       <CompteARebours repondu={reponse !== null} proposer={ancre === "carte-1"} onChange={setCompte} />
+      </div>
+      <div className="space-y-4" data-rangee="reponses">
       <BoutonsReponse reponse={reponse} revision={!nouvelle} compteActif={compte !== null} onRepondre={(r) => void repondre(r)} />
       {echec && (
         <p role="status" className="text-sm text-text-secondary">
@@ -86,6 +91,7 @@ export function CarteEtToi({ carte, nouvelle, ancre, seule = false }: { carte: C
       {reponse && apres && carte.exercice && (
         <GesteFiche ficheId={carte.ficheId} consigne={carte.exercice} retourInitial={apres.retour} repliqueInitiale={apres.replique} />
       )}
+      </div>
       </div>
     </article>
   );

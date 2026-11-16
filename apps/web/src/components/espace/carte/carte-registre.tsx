@@ -11,7 +11,7 @@ import { CompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import type { DureeCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
-import { ACTIONS_ENTRAINEMENT, BOUTON_SECONDAIRE, ETIQUETTE, cadreEntrainement, nouvelleCle, texteEntrainement } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, ETIQUETTE, actionsEntrainement, cadreEntrainement, nouvelleCle, texteEntrainement, type PlaceEntrainement } from "@/components/espace/carte/styles";
 import { entreGuillemets } from "@/components/espace/carte/citation";
 import { FINE, frEspaceProfond } from "@/lib/fr-typo";
 
@@ -29,7 +29,7 @@ export type ApresReponse = { revision: boolean; replique: string | null; retour:
  * réponse (la note n'est pas dans la page avant : elle arrive avec la réponse de l'API) ; le choix ; la
  * règle ; puis le geste de la fiche, « Ton retour » et « Ma réplique à moi ».
  */
-export function CarteRegistre({ carte, nouvelle, ancre, seule = false }: { carte: Carte; nouvelle: boolean; ancre: string; seule?: boolean }) {
+export function CarteRegistre({ carte, nouvelle, ancre, place = "jumelle" }: { carte: Carte; nouvelle: boolean; ancre: string; place?: PlaceEntrainement }) {
   const cle = useRef(nouvelleCle());
   const [reponse, setReponse] = useState<ReponseCarte | null>(null);
   const [apres, setApres] = useState<ApresReponse | null>(null);
@@ -53,8 +53,10 @@ export function CarteRegistre({ carte, nouvelle, ancre, seule = false }: { carte
   };
 
   return (
-    <article id={ancre} aria-labelledby={titreId} className={cadreEntrainement(seule)} data-carte={carte.id}>
-      <div className={texteEntrainement(seule)}>
+    // v6 tour 4 (arbitrage 1) : jumelle, chaque enfant direct des deux blocs est une case de la sous-grille (en-tête,
+    // scène, contexte, « Ta réponse d'abord », réponses) ; seule, la scène à gauche et le reste à droite dès `lg`.
+    <article id={ancre} aria-labelledby={titreId} className={cadreEntrainement(place)} data-carte={carte.id}>
+      <div className={texteEntrainement(place)}>
       <EnTeteCarte id={titreId} titre={carte.titre} nouvelle={nouvelle} />
       <div className="space-y-2">
         <h3 className={ETIQUETTE}>{T.scene}</h3>
@@ -62,17 +64,20 @@ export function CarteRegistre({ carte, nouvelle, ancre, seule = false }: { carte
         {carte.scene.onTeDit && <p className="text-base font-semibold text-text-primary">{entreGuillemets(carte.scene.onTeDit)}</p>}
         {carte.scene.suite && <p className="text-base text-text-primary">{carte.scene.suite}</p>}
       </div>
-      <div className="rounded-md border-l-2 border-border-input bg-background-light px-3 py-2">
+      </div>
+      <div className={actionsEntrainement(place)}>
+      <div className="self-start rounded-md border-l-2 border-border-input bg-background-light px-3 py-2" data-rangee="contexte">
         <p className={ETIQUETTE}>{T.contexte}</p>
         <p className="text-sm text-text-primary">{carte.contexte}</p>
       </div>
-      </div>
-      <div className={ACTIONS_ENTRAINEMENT}>
+      <div className="space-y-4" data-rangee="reponse-dabord">
       <div className="space-y-1">
         <h3 className="text-base font-semibold text-text-primary">{carte.premierePhrase ? T.premierePhraseDabord : T.reponseDabord}</h3>
         <p className="text-sm text-text-secondary">{T.consigne}</p>
       </div>
       <CompteARebours repondu={reponse !== null} proposer={ancre === "carte-1"} onChange={setCompte} />
+      </div>
+      <div className="space-y-4" data-rangee="reponses">
       <BoutonsReponse reponse={reponse} revision={!nouvelle} compteActif={compte !== null} onRepondre={(r) => void repondre(r)} />
       {echec && (
         <p role="status" className="text-sm text-text-secondary">
@@ -124,6 +129,7 @@ export function CarteRegistre({ carte, nouvelle, ancre, seule = false }: { carte
           repliqueInitiale={apres.replique}
         />
       )}
+      </div>
       </div>
     </article>
   );

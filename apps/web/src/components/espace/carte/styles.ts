@@ -45,15 +45,32 @@ export const SOMMAIRE_REPLIABLE =
 export const EN_TETE_CENTRE = "text-center [&_header>p]:mx-auto";
 
 /**
- * v6 tour 3 (arbitrage 2) : cartes de « S'entraîner » (rafale et mission), en deux blocs, le texte puis les
- * actions. Jumelle (deux par ligne dès 768 px) : à la hauteur de sa voisine (`h-full`), le texte prend la place libre,
- * les actions en bas. Seule sur sa ligne : pleine largeur, le texte à gauche et les actions à droite dès `lg` (plus
- * de texte plafonné dans une carte de 1 216 px). Le cadre reste `CARTE`.
+ * Place d'une carte de « S'entraîner » dans la grille de la page (v6 tour 4, arbitrage 1, Thomas 15/11).
+ * - `seule` : seule sur sa ligne (dernière carte impaire, mission) : pleine largeur, deux colonnes dès `lg`.
+ * - `jumelle` : deux par ligne dès 768 px, rangée avec « Le contexte » (au moins une carte « Quel registre ? ») :
+ *   sous-grille de 5 rangées, en-tête, scène, contexte, « Ta réponse d'abord » (avec le compte à rebours), réponses.
+ * - `jumelle-sans-contexte` : deux cartes « Et toi ? » côte à côte : 4 rangées (aucune rangée vide).
  */
-export const cadreEntrainement = (seule: boolean) =>
-  seule ? `${CARTE} lg:grid lg:grid-cols-2 lg:gap-x-8 lg:space-y-0` : `${CARTE} flex h-full flex-col`;
-export const texteEntrainement = (seule: boolean) => (seule ? "min-w-0 space-y-4" : "min-w-0 flex-1 space-y-4");
+export type PlaceEntrainement = "seule" | "jumelle" | "jumelle-sans-contexte";
+
+/**
+ * v6 tour 4 (arbitrage 1, remplace le `flex-1` du tour 3) : cartes de « S'entraîner » (rafale et mission). Jumelles :
+ * sous-grille (`grid-rows-subgrid`) sur les rangées de la page, en-tête, « Le contexte », « Ta réponse d'abord » et
+ * réponses à la même hauteur d'une carte à l'autre, plus de texte étiré qui repousse les actions. Les deux blocs de la
+ * carte (`texteEntrainement`, `actionsEntrainement`) passent en `md:contents` : leurs enfants sont les cases de la
+ * sous-grille. Seule sur sa ligne : pleine largeur, le texte à gauche et, dès `lg`, le reste à droite (« Le contexte »
+ * inclus : colonnes de hauteurs voisines, plus de vide sous les réponses). Le cadre reste `CARTE`.
+ */
+export const cadreEntrainement = (place: PlaceEntrainement) =>
+  place === "seule"
+    ? `${CARTE} lg:grid lg:grid-cols-2 lg:gap-x-8 lg:space-y-0`
+    : `${CARTE} md:grid md:grid-rows-subgrid md:gap-y-4 md:space-y-0 ${place === "jumelle" ? "md:row-span-5" : "md:row-span-4"}`;
 export const ACTIONS_ENTRAINEMENT = "min-w-0 space-y-4";
+const BLOC_DE_SOUS_GRILLE = "min-w-0 space-y-4 md:contents md:space-y-0";
+export const texteEntrainement = (place: PlaceEntrainement) => (place === "seule" ? "min-w-0 space-y-4" : BLOC_DE_SOUS_GRILLE);
+export const actionsEntrainement = (place: PlaceEntrainement) => (place === "seule" ? ACTIONS_ENTRAINEMENT : BLOC_DE_SOUS_GRILLE);
+/** Carte « Et toi ? » (sans contexte) jumelle d'une carte qui en a un : « Ta réponse d'abord » sur la 4e rangée. */
+export const SAUT_CONTEXTE = "md:row-start-4";
 
 export const ETIQUETTE = "text-xs font-semibold uppercase tracking-wide text-text-muted";
 

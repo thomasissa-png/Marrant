@@ -70,23 +70,25 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
 });
 
 describe("point 2 : S'entraîner, cartes jumelles de même hauteur, carte seule répartie dès `lg`", () => {
-  it("jumelle : pleine hauteur, texte extensible, actions en bas ; seule : deux colonnes dès `lg`", () => {
-    expect(cadreEntrainement(false)).toBe(`${CARTE} flex h-full flex-col`);
-    expect(texteEntrainement(false).split(" ")).toContain("flex-1");
-    expect(cadreEntrainement(true)).toBe(`${CARTE} lg:grid lg:grid-cols-2 lg:gap-x-8 lg:space-y-0`);
-    expect(texteEntrainement(true).split(" ")).not.toContain("flex-1");
+  // v6 tour 4 (arbitrage 1) : la même hauteur des jumelles passe par la sous-grille (plus de `flex-1` qui creuse la
+  // carte courte, `v6-tour4-lot1.test.tsx`) ; la carte seule garde ses deux colonnes dès `lg`.
+  it("jumelle : même hauteur (sous-grille sur les rangées de la page) ; seule : deux colonnes dès `lg`", () => {
+    expect(cadreEntrainement("jumelle").split(" ")).toEqual(expect.arrayContaining(["md:grid", "md:grid-rows-subgrid", "md:row-span-5"]));
+    expect(cadreEntrainement("jumelle").startsWith(CARTE)).toBe(true);
+    expect(cadreEntrainement("seule")).toBe(`${CARTE} lg:grid lg:grid-cols-2 lg:gap-x-8 lg:space-y-0`);
+    expect(texteEntrainement("seule").split(" ")).not.toContain("flex-1");
     expect(ACTIONS_ENTRAINEMENT).toBe("min-w-0 space-y-4");
   });
 
-  it("la page passe `seule` aux cartes, la grille en `items-stretch`, plus de mesure plafonnée", () => {
+  it("la page passe sa place aux cartes, la grille en `items-stretch`, plus de mesure plafonnée", () => {
     const page = lire("app/(dashboard)/mon-espace/s-entrainer/page.tsx");
     expect(page).toContain('"grid grid-cols-1 items-stretch gap-6 md:grid-cols-2"');
-    expect(page.match(/seule=\{seuleSurSaLigne\}/g)).toHaveLength(2);
+    expect(page.match(/place=\{place\}/g)).toHaveLength(2);
     expect(page).not.toMatch(/max-w-prose/);
     for (const f of ["components/espace/carte/carte-registre.tsx", "components/espace/carte/carte-et-toi.tsx"]) {
-      expect(lire(f)).toContain("className={cadreEntrainement(seule)}");
+      expect(lire(f)).toContain("className={cadreEntrainement(place)}");
     }
-    expect(lire("components/espace/mission/mission-carte.tsx")).toContain("className={cadreEntrainement(true)}");
+    expect(lire("components/espace/mission/mission-carte.tsx")).toContain('className={cadreEntrainement("seule")}');
   });
 });
 
