@@ -344,6 +344,9 @@ export const CARNET_PAYWALL = {
 /** Nombre de titres de fiches montrés dans la liste verrouillée du carnet. */
 export const CARNET_LISTE_VISIBLES = 3;
 
+/** Carnet de l'abonné, interrupteur ouvert : lien après chaque fiche vers le sommaire (texte validé par Thomas, 16/11). */
+export const CARNET_RETOUR_SOMMAIRE = "Retour au sommaire";
+
 // ─── /profil, compte sans abonnement ────────────────────────────────────────
 
 /** Paiement direct (trajet de conversion s21 §2) : « S'abonner » et la phrase d'objet commune. */

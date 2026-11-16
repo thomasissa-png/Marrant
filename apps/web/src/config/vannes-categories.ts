@@ -49,3 +49,23 @@ export function selectionGratuite<T extends { id: string; category: string }>(ca
   }
   return catalogue.filter((vanne) => choisies.has(vanne.id));
 }
+
+/**
+ * « Toutes » chez l'abonné, interrupteur de l'espace ouvert (décision de Thomas du 16/11) : le catalogue entier,
+ * catégories mélangées par alternance entre les groupes de la rangée. Entrée dans l'ordre de la liste (plus récentes
+ * d'abord) ; sortie : la plus récente de chaque groupe (groupes dans l'ordre où ils apparaissent), puis la suivante
+ * de chacun, etc. ; un groupe épuisé laisse la place aux autres. Même ensemble, aucune vanne retirée ni ajoutée.
+ */
+export function alternerParGroupe<T extends { category: string }>(catalogue: readonly T[]): T[] {
+  const parGroupe = new Map<string, T[]>();
+  for (const vanne of catalogue) {
+    const groupe = groupeDeCategorie(vanne.category);
+    parGroupe.set(groupe, [...(parGroupe.get(groupe) ?? []), vanne]);
+  }
+  const files = Array.from(parGroupe.values());
+  const sortie: T[] = [];
+  for (let tour = 0; sortie.length < catalogue.length; tour++) {
+    for (const file of files) if (file[tour]) sortie.push(file[tour]);
+  }
+  return sortie;
+}

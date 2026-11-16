@@ -3,7 +3,9 @@
  * paliers P3 ; finitions de rendu (grille du geste, retours à la ligne, renvoi calculé du bilan, geste du
  * bilan affiché une fois, lettre des « pires réponses »). Contenu réel lu dans `data/espace` (jamais modifié).
  */
-import { render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { PRENDS_TON_TEMPS_MS } from "@/components/espace/carte/boutons-reponse";
+import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import { FicheVue } from "@/components/espace/fiche";
 import { TEXTES_BILAN as B, TEXTES_FICHE as T } from "@/config/textes/espace-bibliotheque";
 import { validerFichier, type Fiche } from "@/lib/espace/fiches-schema";
@@ -117,9 +119,14 @@ describe("import 2 : bilans", () => {
   });
 
   it("le « à voix haute » n'est affiché qu'une fois (dans le geste)", () => {
+    jest.useFakeTimers();
     const b = par(liste, "bilan-machine-a-cafe");
     const consigne = b.geste?.consigne ?? "";
     const { container } = vue(b);
+    // Décision de Thomas du 16/11 : le geste suit la réponse au « dans l'ordre » (`decisions-thomas-16-11.test.tsx`).
+    act(() => jest.advanceTimersByTime(PRENDS_TON_TEMPS_MS));
+    fireEvent.click(within(container.querySelector('[data-bilan="ordre"]') as HTMLElement).getByRole("button", { name: TEXTES_CARTES.reponses.RIEN }));
+    jest.useRealTimers();
     expect(container.textContent?.split(consigne).length).toBe(2);
     expect(container.querySelector('[data-bilan="voix-haute"]')).toBeNull();
   });

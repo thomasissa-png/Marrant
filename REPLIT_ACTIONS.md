@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s25, correctif /lettre 375 (site fermé), à déployer au go de Thomas
+
+Décision de Thomas du 16/11 (`docs/founder-preferences.md`). Branche `claude/decisions-thomas-16-11`. **Seul changement visible du site fermé** (interrupteur `ESPACE_CLIENT_PUBLIE` à `false`) : sur `/lettre`, le corps du dernier numéro reçoit `min-w-0 [overflow-wrap:anywhere]` (`app/(dashboard)/lettre/page.tsx`) ; les adresses longues se coupent, plus de débordement horizontal à 375 px. Texte, adresses et ordre inchangés. Aucune variable, aucune migration, aucun secret. Contrôle après déploiement : `/lettre` à 375 px, aucune barre de défilement horizontale. Les autres décisions du 16/11 (bilan, liens sans `utm_*`, vannes mélangées, retour au sommaire du carnet) ne s'affichent qu'interrupteur ouvert. Retour arrière : la version N-1 relevée avant le déploiement.
+
 ### PRÉVERSION DE TEST s24 (workers.dev, hors production) : EN LIGNE le 14/11/2026 (@infrastructure)
 
 **Mise à jour 16/11 (s25, `page-de-test.sh --envoyer`)** : version en ligne `85a0ea89-b90b-4dda-88f4-bfd52a140cd9` = commit `a5b5a486` (arbre propre, interrupteur `true` dans la copie seulement ; dépôt à `false`) ; N-1 = `5efd3428`. Config identique à l'en ligne (13 vars et bindings, 0 cron, 4 secrets de TEST non touchés). Vérifié : connexion des 3 comptes, `/mon-espace`, `/mon-espace/s-entrainer`, `/parcours`, `/favoris`, `/profil`, `/lettre`, `/carnet` en 200 avec la bande des rubriques et `X-Robots-Tag` (21 sur 21), `robots.txt` = `Disallow: /`. Données : `/lettre` des 2 abonnés affiche l'état vide (0 lettre en ligne, 2 envois dans la base locale) ; base Neon de test non touchée.

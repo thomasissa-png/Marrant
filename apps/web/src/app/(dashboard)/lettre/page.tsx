@@ -112,7 +112,8 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
           </h2>
           {/* v6 tour 2, point 8 (ouvert seulement) : plus de débordement à 375 px, adresses brutes en liens courts.
               v6 tour 3, point 10 (ouvert seulement) : objet et corps dans une carte à filet de l'accueil.
-              Fermé : inchangé (le même débordement y existe, correctif soumis à Thomas). */}
+              Décision de Thomas du 16/11 (s25) : fermé aussi, le corps se coupe partout (`min-w-0
+              [overflow-wrap:anywhere]`), plus de débordement à 375 px ; texte et adresses inchangés. */}
           {ESPACE_CLIENT_PUBLIE ? (
             <Card filet className="mt-3 p-5 hover:border-border sm:p-6" data-lettre-apercu="">
               <p className="font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
@@ -121,7 +122,7 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
           ) : (
             <>
               <p className="mt-2 font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
-              <div className="mt-2 whitespace-pre-line text-text-secondary">{frPonctuation(apercu.dernier.bodyText)}</div>
+              <div className="mt-2 min-w-0 whitespace-pre-line text-text-secondary [overflow-wrap:anywhere]">{frPonctuation(apercu.dernier.bodyText)}</div>
             </>
           )}
         </section>

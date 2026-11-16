@@ -91,8 +91,21 @@ function QuestionLaquelle({ e, n, renvoi }: { e: Laquelle; n: number; renvoi: Re
  * ressortir ici ? », un « dans l'ordre » (retour après « Tu avais une réponse ? »), un « à voix haute ».
  * Import 2 : `renvois[n]` = renvoi calculé de l'élément n (`lib/espace/bilan-renvoi.ts`, jamais stocké) ;
  * le « à voix haute » repris par le geste de la fiche n'est pas affiché une seconde fois (`FicheVue`).
+ * Décision de Thomas du 16/11 : la carte « À toi » (`apres`, le geste) énonce la solution du « dans l'ordre » ;
+ * elle n'est rendue qu'après la réponse à cette carte (« Tu avais une réponse ? »), jamais seulement masquée.
+ * Bilan sans « dans l'ordre » : rendue tout de suite. Aucun texte ne change.
  */
-export function BilanParcours({ elements, renvois = [] }: { elements: readonly Element[]; renvois?: readonly (RenvoiBilan | null)[] }) {
+export function BilanParcours({
+  elements,
+  renvois = [],
+  apres = null,
+}: {
+  elements: readonly Element[];
+  renvois?: readonly (RenvoiBilan | null)[];
+  apres?: React.ReactNode;
+}) {
+  const [ordreRepondu, setOrdreRepondu] = useState(false);
+  const apresVisible = ordreRepondu || !elements.some((e) => e.forme === "ordre");
   return (
     <div className="flex flex-col gap-6">
       {elements.map((e, n) => {
@@ -106,7 +119,7 @@ export function BilanParcours({ elements, renvois = [] }: { elements: readonly E
                   <li key={x}>{x}</li>
                 ))}
               </ol>
-              <ReponseDabord>
+              <ReponseDabord onRepondu={() => setOrdreRepondu(true)}>
                 <p role="status" className="rounded-md bg-background-light p-3 text-sm text-text-primary">
                   {e.retour}
                 </p>
@@ -119,6 +132,7 @@ export function BilanParcours({ elements, renvois = [] }: { elements: readonly E
           </section>
         );
       })}
+      {apresVisible && apres}
     </div>
   );
 }
