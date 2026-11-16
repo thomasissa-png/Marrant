@@ -19,6 +19,9 @@ export function confirmationValide(saisie: string): boolean {
   return saisie.trim().toUpperCase() === MOT_CONFIRMATION_SUPPRESSION;
 }
 
+/** v6 tour 4, point 5 : contenu de la carte, interrupteur ouvert (texte et action côte à côte dès `lg`). */
+export const SUPPRESSION_CONTENU_OUVERT = "lg:flex lg:items-center lg:justify-between lg:gap-8";
+
 /**
  * Suppression du compte (s16, reco 5) : confirmation explicite (mot retapé),
  * puis DELETE /api/user (résiliation Stripe immédiate puis effacement), puis
@@ -83,23 +86,27 @@ export function SupprimerCompteCard({
     setEnCours(false);
   };
 
-  return (
-    <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
-      <CardHeader>
-        <CardTitle>{T.titre}</CardTitle>
-      </CardHeader>
-      {/* v6 tour 3, point 5 (ouvert) : carte longue en pleine largeur, texte à la mesure de lecture (`max-w-prose`). */}
-      <CardContent className={ESPACE_CLIENT_PUBLIE ? "max-w-prose" : undefined}>
+  const texte = (
+    <>
         <p className="text-sm text-text-secondary">{T.intro}</p>
         {/* s21, avis @legal lettre hebdo §6.3 : texte exact, publié avec l'ouverture des inscriptions. */}
         {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2 text-sm text-text-secondary">{frTypo(LETTRE_HEBDO_SUPPRESSION)}</p>}
         {abonne && <AvertissementAbonne fin={finPeriode ? dateLongue(finPeriode) : null} resilie={resilie} />}
-        {!ouvert ? (
-          <Button variant="ghost" size="sm" className="-ml-3 mt-4 text-error-text" onClick={ouvrir}>
+    </>
+  );
+
+  // v6 tour 4, point 6 (ouvert seulement) : boutons `sm` en cible de 44 px dès 768 (`md:h-11`), `Button` inchangé.
+  const action = !ouvert ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            className={ESPACE_CLIENT_PUBLIE ? "-ml-3 mt-4 text-error-text md:h-11 lg:ml-0 lg:mt-0" : "-ml-3 mt-4 text-error-text"}
+            onClick={ouvrir}
+          >
             {T.ouvrir}
           </Button>
         ) : (
-          <form className="mt-4 flex flex-col gap-3" onSubmit={supprimer}>
+          <form className={ESPACE_CLIENT_PUBLIE ? "mt-4 flex flex-col gap-3 lg:mt-0" : "mt-4 flex flex-col gap-3"} onSubmit={supprimer}>
             <label htmlFor="confirmation-suppression" className="text-sm text-text-primary">
               {T.consigne}
             </label>
@@ -120,16 +127,35 @@ export function SupprimerCompteCard({
               </p>
             )}
             <div className="flex flex-wrap gap-2">
-              <Button type="submit" variant="danger" size="sm" disabled={enCours}>
+              <Button type="submit" variant="danger" size="sm" className={ESPACE_CLIENT_PUBLIE ? "md:h-11" : undefined} disabled={enCours}>
                 {enCours ? T.enCours : T.confirmer}
               </Button>
-              <Button type="button" variant="ghost" size="sm" onClick={annuler} disabled={enCours}>
+              <Button type="button" variant="ghost" size="sm" className={ESPACE_CLIENT_PUBLIE ? "md:h-11" : undefined} onClick={annuler} disabled={enCours}>
                 {T.annuler}
               </Button>
             </div>
           </form>
-        )}
-      </CardContent>
+        );
+
+  return (
+    <Card className="md:col-span-2" filet={ESPACE_CLIENT_PUBLIE}>
+      <CardHeader>
+        <CardTitle>{T.titre}</CardTitle>
+      </CardHeader>
+      {/* v6 tour 3, point 5 (ouvert) : carte longue en pleine largeur, texte à la mesure de lecture (`max-w-prose`).
+          v6 tour 4, point 5 (ouvert) : dès `lg`, texte à gauche (`max-w-prose`), action à droite (plus de moitié
+          droite vide). Fermé : contenu d'avant, au caractère près. */}
+      {ESPACE_CLIENT_PUBLIE ? (
+        <CardContent className={SUPPRESSION_CONTENU_OUVERT} data-suppression-colonnes="">
+          <div className="max-w-prose">{texte}</div>
+          <div className={ouvert ? "max-w-prose lg:w-80 lg:shrink-0" : "lg:shrink-0"}>{action}</div>
+        </CardContent>
+      ) : (
+        <CardContent>
+          {texte}
+          {action}
+        </CardContent>
+      )}
     </Card>
   );
 }

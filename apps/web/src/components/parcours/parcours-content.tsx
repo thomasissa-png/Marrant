@@ -1,7 +1,7 @@
 "use client";
 
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +34,26 @@ import { SANS_COMPTE } from "@/config/textes/cta-articles-accueil";
 export function frontiereListe(slug: Parameters<typeof LISTE_PARCOURS_CTA.frontiere>[0], connecte: boolean): string {
   const ligne = LISTE_PARCOURS_CTA.frontiere(slug);
   return connecte && ligne.startsWith(SANS_COMPTE) ? ligne.slice(SANS_COMPTE.length).trimStart() : ligne;
+}
+
+/**
+ * Grille des cartes de /parcours, interrupteur ouvert. v6 tour 3, point 12 : deux colonnes dès `lg`. v6 tour 4, point 3 :
+ * la dernière carte seule (nombre impair) garde la largeur d'une carte jumelle, centrée sur sa ligne (plus de ligne de
+ * 150 caractères ni de bouton étalé) ; `gap-6` = 1,5 rem, d'où la demi-largeur moins 0,75 rem.
+ */
+export const GRILLE_CARTES_OUVERTE = cn(
+  "grid gap-6 lg:grid-cols-2",
+  "lg:[&>:last-child:nth-child(odd)]:col-span-2 lg:[&>:last-child:nth-child(odd)]:mx-auto lg:[&>:last-child:nth-child(odd)]:w-[calc(50%-0.75rem)]",
+);
+
+/** Pied d'une carte de /parcours (« Programme » + bouton) : bloc `mt-auto` ouvert, fragment fermé (v6 tour 4, point 2). */
+function PiedCarte({ children }: { children: ReactNode }) {
+  if (!ESPACE_CLIENT_PUBLIE) return <>{children}</>;
+  return (
+    <div className="mt-auto flex flex-col gap-6" data-parcours-pied="">
+      {children}
+    </div>
+  );
 }
 
 // Les données arrivent du Server Component (app/(dashboard)/parcours/(liste)/page.tsx) :
@@ -290,7 +310,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
       <div
         className={
           ESPACE_CLIENT_PUBLIE
-            ? "grid gap-6 lg:grid-cols-2 lg:[&>:last-child:nth-child(odd)]:col-span-2"
+            ? GRILLE_CARTES_OUVERTE
             : "flex flex-col gap-6"
         }
         data-parcours-cartes={ESPACE_CLIENT_PUBLIE ? "" : undefined}
@@ -351,9 +371,13 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   </div>
                 )}
 
+                {/* v6 tour 4, point 2 (ouvert seulement) : « Programme » et le bloc du bouton forment un seul bloc de fin
+                    de carte (`mt-auto`, écart `gap-6` au lieu du `mb-6`) : plus de trou entre eux, barres « Programme » et
+                    boutons alignés d'une carte jumelle à l'autre. Fermé : `PiedCarte` est un fragment, HTML d'avant. */}
+                <PiedCarte>
                 {/* Programme replié par défaut (T24) */}
                 <details
-                  className="group mb-6"
+                  className={ESPACE_CLIENT_PUBLIE ? "group" : "group mb-6"}
                   open={openSlugs.has(p.slug)}
                   onToggle={(e) => setProgrammeOpen(p.slug, e.currentTarget.open)}
                 >
@@ -398,9 +422,9 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   </ol>
                 </details>
 
-                {/* v6 tour 3, point 12 : cartes jumelles de même hauteur, le bloc du bouton reste en fin de carte
-                    (`mt-auto`) ; forme et place du bouton inchangées (cta-forme-place-s21 §1.3). */}
-                <div className={ESPACE_CLIENT_PUBLIE ? "mt-auto flex flex-col gap-2" : "flex flex-col gap-2"}>
+                {/* v6 tour 3, point 12 : cartes jumelles de même hauteur ; tour 4, point 2 : le `mt-auto` passe au bloc
+                    commun (`PiedCarte`). Forme et place du bouton inchangées (cta-forme-place-s21 §1.3). */}
+                <div className="flex flex-col gap-2">
                   {/* s21 B15 (froid) : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous. */}
                   <Button
                     // v6 tour 1, point 12 (interrupteur ouvert, abonné) : un seul plein, celui du parcours en cours
@@ -421,6 +445,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   </Button>
                   {etape1Slug && <p className="text-xs text-text-muted">{frontiereListe(etape1Slug, ESPACE_CLIENT_PUBLIE && statut !== "visiteur")}</p>}
                 </div>
+                </PiedCarte>
               </CardContent>
             </Card>
           );

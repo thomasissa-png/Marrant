@@ -81,7 +81,8 @@ export function CarnetPage({
           <ol className="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
             {view.fiches.map((fiche) => (
               <li key={fiche.id} className="flex min-w-0 gap-2 text-sm text-text-muted">
-                <span aria-hidden="true" className="inline-flex min-h-11 items-center tabular-nums">
+                {/* v6 tour 4, point 8 : numéro en largeur fixe, aligné à droite (titres 1 à 30 sur une même verticale). */}
+                <span aria-hidden="true" className="inline-flex min-h-11 min-w-[2.5ch] shrink-0 items-center justify-end text-right tabular-nums">
                   {view.numeros[fiche.id]}.
                 </span>
                 <a
