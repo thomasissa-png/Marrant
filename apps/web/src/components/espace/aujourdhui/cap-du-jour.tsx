@@ -47,14 +47,16 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
         </p>
         <SegmentsCap cap={cap} className="mt-4" />
       </div>
-      <div className={cn("min-w-0 md:flex-1 lg:flex-none", "mt-5 border-t border-border pt-5 md:mt-0 md:border-t-0 md:pt-0 lg:mt-5 lg:border-t lg:pt-5")}>
+      <div className={cn("min-w-0 md:flex-1 lg:flex-none", "mt-5 border-t border-border pt-5 md:mt-0 md:border-t-0 md:pt-0 lg:mt-4 lg:border-t lg:pt-4")}>
         {avecChiffres ? (
           <>
             <div className="grid grid-cols-2 gap-4">
               {xp > 0 && <StatChiffre phrase={TEXTES_CAPS.xpDepuisArrivee(xp)} />}
               {serie > 0 ? <StatChiffre phrase={SERIE.jours(serie)} icone={<Flamme className="h-5 w-5 text-accent-primary" />} /> : serieZero}
             </div>
-            <p className="mt-4 text-xs text-text-muted">{SERIE.aide}</p>
+            {/* v7 tour 2 (faute 1) : à 1280, Z2 un peu plus serrée (séparateur 16 px, aide à 12 px) : la rangée se cale
+                sur elle, et l'action du jour à côté ne garde plus 35 px de vide en bas. */}
+            <p className="mt-3 text-xs text-text-muted">{SERIE.aide}</p>
           </>
         ) : (
           serieZero

@@ -101,7 +101,8 @@ describe("point 4 : Aujourd'hui, l'action du jour pleine coque et dominante", ()
     const page = lire("app/(dashboard)/mon-espace/page.tsx");
     expect(page).toContain('className="mt-6 grid grid-cols-1 gap-6 md:mt-8 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille');
     expect(page).toContain('if (n >= 3) return i === 2 ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4";');
-    expect(page).toContain('if (n === 2) return "lg:col-span-6";');
+    // v7 tour 2 : 2 zones = 2 x 6 dès 1024, l'une sous l'autre à 768 (plus de tuile creusée par sa voisine).
+    expect(page).toContain('if (n === 2) return "md:col-span-2 lg:col-span-6";');
     expect(page).toContain('return "md:col-span-2 lg:col-span-12";');
     const jour = lire("components/espace/aujourdhui/contenu-du-jour.tsx");
     expect(jour).toContain("grid grid-cols-1 items-stretch gap-6");

@@ -46,7 +46,7 @@ export function EtapeEnCours({ etape }: { etape: EtapeAReprendre }) {
 
 /**
  * Z3 « Parcours en cours » / « Étape conseillée » (refonte s25, spec UX §4.2 et design §4 Z3) : tuile standard, le
- * parcours en titre, la barre et « Étape n sur N » s'il est commencé, le titre de l'étape, et un pied d'action
+ * parcours en titre, la barre et « Étape n sur N » (à zéro s'il n'est pas commencé), le titre de l'étape, et un pied d'action
  * (lien, jamais un plein). `fige` (extrait de l'aperçu) : le pied est dessiné, sans lien.
  */
 export function ParcoursTuile({ etape, fige = false }: { etape: EtapeAReprendre; fige?: boolean }) {
@@ -62,7 +62,9 @@ export function ParcoursTuile({ etape, fige = false }: { etape: EtapeAReprendre;
       <h2 id={fige ? undefined : "parcours-tuile-titre"} className={TITRE_TUILE}>
         {etape.titreParcours}
       </h2>
-      {etape.enCours && <Avancement etape={etape} />}
+      {/* v7 tour 2 (faute 2) : la barre et « Étape n sur N » aussi pour l'étape conseillée (barre à zéro, « Étape 1
+          sur N » au premier jour) : l'avancement réel du parcours, et plus de tuile à moitié vide. */}
+      <Avancement etape={etape} />
       <p className="mb-5 mt-2 text-sm text-text-secondary">{frEspace(etape.titreEtape)}</p>
       {fige ? (
         <span aria-disabled="true" className={`${PIED_TUILE} pointer-events-none opacity-60`}>

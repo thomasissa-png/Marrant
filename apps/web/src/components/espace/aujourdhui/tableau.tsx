@@ -8,10 +8,13 @@ import { CADRE_CARTE } from "@/components/espace/carte/styles";
  * composants, pour que le prospect reconnaisse le produit). Tokens du thème seulement, aucune valeur neuve.
  */
 
-/** Z1 : la seule carte teintée de la page (filet de l'accueil, dégradé violet léger). */
+/**
+ * Z1 : la seule carte teintée de la page (filet de l'accueil, dégradé violet léger). v7 tour 2 (faute 1) : plus de
+ * hauteur minimale, la rangée se cale sur le contenu de Z1 et de Z2 (la plus haute des deux), sans vide en bas.
+ */
 export const CARTE_ACTION = cn(
   CADRE_CARTE,
-  "flex h-full min-w-0 flex-col border-accent-primary/30 bg-gradient-to-br from-accent-primary/10 via-background-card to-background-card p-6 [overflow-wrap:anywhere] md:min-h-[14.5rem] md:p-8",
+  "flex h-full min-w-0 flex-col border-accent-primary/30 bg-gradient-to-br from-accent-primary/10 via-background-card to-background-card p-6 [overflow-wrap:anywhere] md:p-8",
 );
 
 /** Tuile standard (Z3, Z4, Z5, Z7, « 4 premières semaines ») : sans filet, Z1 porte l'accent. */
@@ -58,12 +61,13 @@ export function Coche({ className }: { className?: string }) {
 
 /**
  * Barre d'étapes (validées sur total), décorative : « Étape n sur N » porte l'information, jamais un pourcentage
- * écrit (interdit des caps). Rail `bg-background` sur la tuile, remplissage dégradé.
+ * écrit (interdit des caps). Rail `bg-border` (v7 tour 2 : lisible même à zéro, comme les segments du cap),
+ * remplissage dégradé.
  */
 export function BarreProgression({ faites, total, className }: { faites: number; total: number; className?: string }) {
   const part = total > 0 ? Math.min(1, Math.max(0, faites / total)) : 0;
   return (
-    <span className={cn("block h-2 overflow-hidden rounded-full bg-background", className)} aria-hidden="true" data-barre-etapes>
+    <span className={cn("block h-2 overflow-hidden rounded-full bg-border", className)} aria-hidden="true" data-barre-etapes>
       <span className="block h-full rounded-full bg-gradient-to-r from-accent-primary to-accent-secondary" style={{ width: `${part * 100}%` }} />
     </span>
   );

@@ -10,6 +10,7 @@ import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { cn } from "@/lib/utils";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -51,22 +52,31 @@ function extrait(texte: string): string {
   }
   return sortie.trim();
 }
+/**
+ * v7 tour 2 (faute 3, 130 px de creux dans la vanne et le conseil à 1280 et 1920) : dès 1024 px, deux colonnes ; la
+ * vanne puis le conseil empilés à gauche, la vidéo à droite sur les deux rangées (vignette plus grande : sa hauteur
+ * rejoint celle des deux cartes de texte). Les bas restent alignés (`items-stretch`), le pied de chaque carte (lien,
+ * « Une autre ») en `mt-auto`. À 768, inchangé : vanne et conseil côte à côte, la vidéo sur la ligne entière.
+ */
+const VIDEO_A_DROITE = "md:col-span-2 lg:col-span-1 lg:col-start-2 lg:row-span-2 lg:row-start-1";
+/** Sans vignette (chargement, repli, vidéo sans `youtubeId`) : trois cartes courtes côte à côte dès 1024, comme avant. */
 const TROISIEME = "md:col-span-2 lg:col-span-1";
 
 function Carte({ id, titre, children, className }: { id: string; titre: string; children: React.ReactNode; className?: string }) {
   return (
-    <article className={className ? `${CARTE} ${className}` : CARTE} aria-labelledby={id}>
+    <article className={cn(CARTE, "flex flex-col", className)} aria-labelledby={id}>
       <h3 id={id} className="text-base font-semibold text-text-primary">
         {titre}
       </h3>
-      <div className="mt-3">{children}</div>
+      <div className="mt-3 flex flex-1 flex-col">{children}</div>
     </article>
   );
 }
 
 // Lot D11c (revue d'harmonie, défaut 13) : cible de 44 px gardée, mais ses 10 px sous le texte rentrent dans la
 // marge de la carte (sinon ~34 px de vide sous le lien contre 24 au-dessus du titre).
-const lienCarte = "-mb-2.5 inline-flex min-h-11 items-center text-accent-link underline underline-offset-2 hover:text-text-primary";
+// v7 tour 2 (faute 3) : le lien est le pied de sa carte (`mt-auto`), à sa largeur de texte (`self-start`).
+const lienCarte = "-mb-2.5 mt-auto inline-flex min-h-11 items-center self-start text-accent-link underline underline-offset-2 hover:text-text-primary";
 
 export function ContenuDuJour({ categories }: { categories: readonly CategorieToucher[] }) {
   const [etat, setEtat] = useState<Etat>({ statut: "chargement" });
@@ -85,14 +95,15 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
     };
   }, []);
 
+  const vignette = etat.statut === "ok" && Boolean(etat.donnees.video?.youtubeId);
   return (
     <section aria-labelledby="jour-titre" className="flex flex-col gap-4 md:gap-6" data-etat={etat.statut} data-contenu-du-jour>
       <h2 id="jour-titre" className="font-display text-2xl font-bold text-text-primary md:text-3xl">
         {T.jour.titre}
       </h2>
-      {/* v5 §3 : 1 colonne, 2 dès 768 px, 3 dès 1024 px (refonte s25, grille de la page) ; la 3e carte prend la ligne entière à 768.
-          v6 tour 1 (point 4) : cartes de même hauteur sur une rangée (`items-stretch`, plus de bas en escalier). */}
-      <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* v5 §3 : 1 colonne, 2 dès 768 px ; la 3e carte prend la ligne entière à 768, et la colonne de droite sur deux
+          rangées dès 1024 quand elle a sa vignette (v7 tour 2, `VIDEO_A_DROITE`). v6 tour 1 (point 4) : bas alignés (`items-stretch`, pas d'escalier). */}
+      <div className={cn("grid grid-cols-1 items-stretch gap-6 md:grid-cols-2", !vignette && "lg:grid-cols-3")} data-jour-grille>
       {etat.statut === "chargement" &&
         [0, 1, 2].map((i) => (
           <div key={i} aria-hidden="true" className={`${CARTE} animate-pulse motion-reduce:animate-none ${i === 2 ? TROISIEME : ""}`}>
@@ -136,7 +147,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
               <Link href="/conseils" className={lienCarte}>{T.jour.repli.conseils}</Link>
             )}
           </Carte>
-          <Carte id="jour-video" titre={T.jour.video} className={TROISIEME}>
+          <Carte id="jour-video" titre={T.jour.video} className={vignette ? VIDEO_A_DROITE : TROISIEME}>
             {etat.donnees.video ? (
               <>
                 {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}

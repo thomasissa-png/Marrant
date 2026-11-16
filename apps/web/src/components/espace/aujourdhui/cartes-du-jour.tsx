@@ -109,7 +109,7 @@ export function CartesDuJour({
       apres={
         <>
           {sousTitre}
-          <ul className="mt-3 flex flex-col gap-2 md:grid md:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
+          <ul className="mt-4 flex flex-col gap-2 md:grid md:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
             {cartes.map((c) => (
               <li key={c.href}>
                 <Link

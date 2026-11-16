@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { NumeroMarche } from "@/lib/espace/missions";
-import { frEspaceProfond } from "@/lib/fr-typo";
+import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { ETIQUETTE } from "@/components/espace/carte/styles";
 import { Chevron, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
@@ -14,14 +14,21 @@ const M = frEspaceProfond(TEXTES_MISSION);
  * bouton plein). Toute la tuile est le lien (cible bien au-dessus de 44 px) vers la mission dans « S'entraîner » :
  * « Mission · Marche n », le titre de la marche, « Facultative » en pastille non bordée, chevron en bas à droite.
  * `fige` (extrait de l'aperçu) : la même tuile, sans lien.
+ * v7 tour 2 (piste Mission) : `accroche`, la première phrase de l'énoncé de la mission ouverte (texte existant,
+ * `accrocheMission`), sous le titre : la tuile n'a plus un grand vide entre le titre et la pastille.
  */
-export function MissionLien({ marche, fige = false }: { marche: NumeroMarche; fige?: boolean }) {
+export function MissionLien({ marche, accroche, fige = false }: { marche: NumeroMarche; accroche?: string; fige?: boolean }) {
   const contenu = (
     <>
       <span className={ETIQUETTE}>
         {M.titre} · {M.marche(marche)}
       </span>
       <span className={cn(TITRE_TUILE, "block")}>{M.titresMarches[marche]}</span>
+      {accroche && (
+        <span className="mt-2 block text-sm text-text-secondary" data-mission-accroche>
+          {frEspace(accroche)}
+        </span>
+      )}
       <span className="mt-auto flex items-end justify-between gap-3 pt-4">
         <span className={PASTILLE}>{M.facultative}</span>
         <Chevron className="text-text-muted" />

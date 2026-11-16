@@ -117,8 +117,10 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
     );
   };
 
+  // v7 tour 2 (faute 3) : colonne qui remplit la carte, « Une autre » (ou le lien de fin de tour) et le geste en
+  // pied (`mt-auto`), comme la spec design §4 Z6 : jamais un creux entre la vanne et son pied.
   return (
-    <div className="space-y-3">
+    <div className="flex flex-1 flex-col gap-3" data-vanne-toucher>
       <p className="text-base text-text-primary" data-vanne={vanne.id}>
         {frEspace(vanne.content)}
       </p>
@@ -138,26 +140,28 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
       <p className="sr-only" aria-live="polite">
         {annonce}
       </p>
-      {tourFait ? (
-        <p className="text-sm text-text-secondary">
-          <Link
-            href={choix ? `/vannes/theme/${THEME[choix]}` : "/mon-espace/bibliotheque"}
-            className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2"
+      <div className="mt-auto space-y-3" data-vanne-pied>
+        {tourFait ? (
+          <p className="text-sm text-text-secondary">
+            <Link
+              href={choix ? `/vannes/theme/${THEME[choix]}` : "/mon-espace/bibliotheque"}
+              className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2"
+            >
+              {T.jour.tourFait}
+            </Link>
+          </p>
+        ) : (
+          <button
+            type="button"
+            onClick={() => void uneAutre()}
+            aria-busy={enCours}
+            className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border-input px-4 text-sm font-semibold text-text-primary transition-colors hover:border-text-muted hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
           >
-            {T.jour.tourFait}
-          </Link>
-        </p>
-      ) : (
-        <button
-          type="button"
-          onClick={() => void uneAutre()}
-          aria-busy={enCours}
-          className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border-input px-4 text-sm font-semibold text-text-primary transition-colors hover:border-text-muted hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
-        >
-          {T.jour.uneAutre}
-        </button>
-      )}
-      <p className="text-sm text-text-secondary">{T.jour.geste}</p>
+            {T.jour.uneAutre}
+          </button>
+        )}
+        <p className="text-sm text-text-secondary">{T.jour.geste}</p>
+      </div>
     </div>
   );
 }

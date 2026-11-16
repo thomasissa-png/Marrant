@@ -6,7 +6,12 @@ import { OffreApercu } from "@/components/espace/apercu/offre-apercu";
  * Hero de l'aperçu verrouillé, zones A et B (refonte s25, spec UX §2.1 et §3.1, design §3.5) : pas de carte autour
  * du texte (posé sur le halo), la carte d'offre est le seul objet encadré. Pastille « Premium », H1 (nom de la
  * rubrique, aligné à gauche sur la barre), phrase lue seulement (T4), promesse, pastilles « ce qu'il y a dedans »
- * (non cliquables, sans bord) ; à droite dès 1024 px (7/5), le bloc d'offre centré verticalement. CTA au premier écran.
+ * (non cliquables, sans bord) ; à droite dès 1024 px, le bloc d'offre centré verticalement. CTA au premier écran.
+ * v7 tour 2 (piste) : 8/4 au lieu de 7/5 (la carte d'offre tient dans 4 colonnes), colonne de texte sans plafond à
+ * 768 et pastilles un peu moins larges : les 6 pastilles tiennent sur une ligne à 768 et dès 1280, plus de
+ * « Contenu du jour » seule sur sa ligne. La promesse garde son plafond de lecture (`max-w-xl`). Texte calé en haut
+ * (`items-start`) : la pastille « Premium » reste à la hauteur du H1 des autres rubriques, même quand la carte d'offre,
+ * plus étroite, est plus haute que le texte ; la carte reste centrée quand c'est le texte le plus haut.
  */
 export function HeroApercu({
   titre,
@@ -20,8 +25,8 @@ export function HeroApercu({
   offre: React.ComponentProps<typeof OffreApercu>;
 }) {
   return (
-    <div className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-12" data-apercu-hero>
-      <div className="min-w-0 md:max-w-2xl lg:col-span-7 lg:max-w-none">
+    <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-12" data-apercu-hero>
+      <div className="min-w-0 lg:col-span-8">
         <BadgePremium grand />
         <h1 id="apercu-titre" className="mt-4 font-display text-4xl font-bold leading-tight text-text-primary md:text-5xl">
           {titre}
@@ -32,7 +37,7 @@ export function HeroApercu({
           {pastilles.map((p) => (
             <li
               key={p}
-              className="inline-flex items-center gap-2 rounded-full bg-background-elevated px-2.5 py-1 text-xs text-text-secondary md:px-3 md:py-1.5 md:text-sm"
+              className="inline-flex items-center gap-2 rounded-full bg-background-elevated px-2.5 py-1 text-xs text-text-secondary md:py-1.5 md:text-sm"
             >
               <span className="h-1.5 w-1.5 flex-none rounded-full bg-accent-primary" aria-hidden="true" />
               {p}
@@ -40,7 +45,7 @@ export function HeroApercu({
           ))}
         </ul>
       </div>
-      <div className="min-w-0 lg:col-span-5">
+      <div className="min-w-0 lg:col-span-4 lg:self-center">
         <OffreApercu {...offre} />
       </div>
     </div>

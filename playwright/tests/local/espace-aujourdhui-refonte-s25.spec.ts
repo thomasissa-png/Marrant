@@ -8,14 +8,55 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  * Refonte d'« Aujourd'hui » (s25, `docs/ux/aujourdhui-refonte-s25.md`, `docs/design/aujourdhui-refonte-s25.md`), en
  * vrai navigateur, interrupteur OUVERT seulement (`E2E_ESPACE_OUVERT=1`) :
  * - aperçu (visiteur, gratuit) : bouton d'offre au premier écran à 375 et 1280, H1 aligné à gauche, extrait inerte
- *   (aucun focus, aucun clic), coupé à 320 / 400 / 440 px, pastille « Premium » sur chaque bloc fermé ;
+ *   (aucun focus, aucun clic), pastille « Premium » sur chaque bloc fermé ; v7 tour 2 (faute 4) : « Ton cap » entier
+ *   AVANT le fondu à toutes les largeurs, le fondu ne coupe aucune ligne de texte, aucune pastille du hero seule sur
+ *   sa ligne ;
  * - abonné neuf : Z1 8/12 et « Ton cap » 4/12 sur la même rangée dès 1024 px, une colonne dessous ; aucune rangée
- *   à moitié vide ; aucun débordement horizontal (halo compris) de 375 à 1920.
+ *   à moitié vide ; aucun débordement horizontal (halo compris) de 375 à 1920 ; v7 tour 2 (fautes 1, 2, 3, 5) : pas
+ *   plus de 24 px de vide sous le contenu de Z1 et Z2 (au-delà de leur marge), aucun creux de plus de 32 px dans
+ *   « Étape conseillée », « Tes 4 premières semaines » et les cartes du contenu du jour, « Semaine n » en tête de ligne.
  */
 const MOT_DE_PASSE = "E2e-aujourdhui-s25!";
 const CAPTURES = process.env.E2E_CAPTURES_AUJ_S25;
 const LARGEURS = [375, 768, 1280, 1920];
-const HAUTEUR_EXTRAIT: Record<number, number> = { 375: 320, 768: 400, 1280: 440, 1920: 440 };
+
+/**
+ * Vides d'un bloc (v7 tour 2) : lignes de contenu = nœuds texte visibles, svg, barres, boutons, vignettes, filets
+ * hauts (`border-t`) ; `bas` = vide sous la dernière ligne AU-DELÀ de la marge intérieure ; `creux` = plus grand
+ * écart vertical entre deux lignes de contenu.
+ */
+function vides(el: Element) {
+  const rects: { t: number; b: number }[] = [];
+  const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  for (let n = w.nextNode(); n; n = w.nextNode()) {
+    if (!n.textContent?.trim() || n.parentElement?.closest(".sr-only,[data-badge-premium]")) continue;
+    const r = document.createRange();
+    r.selectNodeContents(n);
+    for (const x of Array.from(r.getClientRects())) if (x.height > 0) rects.push({ t: x.top, b: x.bottom });
+  }
+  for (const e of Array.from(el.querySelectorAll("svg,[data-barre-etapes],[data-segments-cap],button,.aspect-video,li.rounded-md,span[aria-disabled]"))) {
+    if (e.closest("[data-badge-premium]")) continue;
+    const x = e.getBoundingClientRect();
+    if (x.height > 0) rects.push({ t: x.top, b: x.bottom });
+  }
+  for (const e of Array.from(el.querySelectorAll('[class*="border-t"]'))) {
+    const x = e.getBoundingClientRect();
+    if (parseFloat(getComputedStyle(e).borderTopWidth) > 0 && x.height > 0) rects.push({ t: x.top, b: x.top + 1 });
+  }
+  rects.sort((a, b) => a.t - b.t);
+  const u: { t: number; b: number }[] = [];
+  for (const r of rects) {
+    const d = u[u.length - 1];
+    if (d && r.t <= d.b + 0.5) d.b = Math.max(d.b, r.b);
+    else u.push({ ...r });
+  }
+  const b = el.getBoundingClientRect();
+  const cs = getComputedStyle(el);
+  let creux = 0;
+  for (let i = 1; i < u.length; i++) creux = Math.max(creux, u[i].t - u[i - 1].b);
+  const bas = b.bottom - parseFloat(cs.borderBottomWidth) - parseFloat(cs.paddingBottom) - (u[u.length - 1]?.b ?? b.bottom);
+  return { bas: Math.round(bas), creux: Math.round(creux) };
+}
 
 const boite = async (l: Locator) => {
   const b = await l.boundingBox();
@@ -45,7 +86,32 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       expect(await page.locator("h1").evaluate((h) => getComputedStyle(h).textAlign), `H1 à gauche, ${ou}`).not.toBe("center");
       await expect(page.getByText(TEXTES_APERCU_VERROUILLE.suite)).toBeVisible();
       const extrait = page.locator("[data-apercu-extrait] > [aria-hidden='true']");
-      expect(Math.round((await boite(extrait)).hauteur), `extrait coupé, ${ou}`).toBe(HAUTEUR_EXTRAIT[largeur]);
+      // v7 tour 2 (faute 4) : « Ton cap » (progression, série) entier au-dessus de la suite fondue, à toutes les
+      // largeurs ; le fondu finit entre deux lignes (aucun texte à cheval sur le point transparent).
+      const [cap, suite] = [await boite(extrait.locator("[data-cap-du-jour]")), await boite(extrait.locator("[data-apercu-suite]"))];
+      expect(cap.bas, `« Ton cap » avant le fondu, ${ou}`).toBeLessThanOrEqual(suite.haut);
+      const coupees = await extrait.locator("[data-apercu-suite]").evaluate((s) => {
+        const transparent = s.getBoundingClientRect().bottom - 48;
+        const w = document.createTreeWalker(s, NodeFilter.SHOW_TEXT);
+        const out: string[] = [];
+        for (let n = w.nextNode(); n; n = w.nextNode()) {
+          if (!n.textContent?.trim() || n.parentElement?.closest("[data-badge-premium]")) continue;
+          const r = document.createRange();
+          r.selectNodeContents(n);
+          for (const x of Array.from(r.getClientRects())) if (x.top < transparent && x.bottom > transparent) out.push(n.textContent.trim());
+        }
+        return out;
+      });
+      expect(coupees, `ligne coupée par le fondu, ${ou}`).toEqual([]);
+      for (const z of ["[data-action-du-jour]", "[data-cap-du-jour]"]) {
+        expect((await extrait.locator(z).evaluate(vides)).bas, `${z} sans vide en bas, ${ou}`).toBeLessThanOrEqual(24);
+      }
+      // Piste : aucune pastille du hero seule sur sa ligne.
+      const rangees = await page.locator("[data-apercu-pastilles] li").evaluateAll((lis) => {
+        const hauts = lis.map((l) => Math.round(l.getBoundingClientRect().top));
+        return [...new Set(hauts)].map((h) => hauts.filter((x) => x === h).length);
+      });
+      expect(Math.min(...rangees), `pastille orpheline, ${ou} (${rangees.join("+")})`).toBeGreaterThanOrEqual(2);
       expect(await extrait.evaluate((e) => e.hasAttribute("inert") && getComputedStyle(e).pointerEvents === "none"), `inerte, ${ou}`).toBe(true);
       const tuiles = extrait.locator("[data-tuile-fermee]");
       const n = await tuiles.count();
@@ -100,6 +166,25 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         return Array.from(parHaut.values()).map((v) => Math.round(b.right - v.d + (v.g - b.left)));
       });
       for (const vide of rangees) expect(vide, `rangée pleine, ${ou}`).toBeLessThanOrEqual(1);
+      // v7 tour 2 (fautes 1, 2, 5) : Z1 et Z2 sans vide en bas ; « Étape conseillée » pleine (barre et « Étape 1
+      // sur N ») ; aucun creux dans la rangée 2 ; « Semaine n » en tête de chaque ligne de la feuille de route.
+      for (const z of ["[data-carte-du-jour] > section", '[data-zone="cap"] > section']) {
+        expect((await page.locator(z).evaluate(vides)).bas, `${z} sans vide en bas, ${ou}`).toBeLessThanOrEqual(24);
+      }
+      const tuileEtape = page.locator('[data-testid="parcours-tuile"]');
+      await expect(tuileEtape.locator("[data-barre-etapes]")).toHaveCount(1);
+      await expect(tuileEtape).toContainText(/Étape 1 sur \d+/);
+      for (const z of ['[data-zone="parcours"] > *', '[data-zone="semaines"] > *']) {
+        expect((await page.locator(z).evaluate(vides)).creux, `${z} sans creux, ${ou}`).toBeLessThanOrEqual(32);
+      }
+      const debuts = await page.locator("[data-semaines] li").evaluateAll((lis) => lis.map((l) => (l as HTMLElement).innerText.trim()));
+      debuts.forEach((d, i) => expect(d, `ligne ${i + 1}, ${ou}`).toMatch(new RegExp(`^Semaine ${i + 1}\\s?:`)));
+      // Faute 3 : cartes du contenu du jour sans creux dès 1280 (vidéo à droite sur deux rangées).
+      const jour = page.locator("[data-contenu-du-jour]");
+      await expect(jour).not.toHaveAttribute("data-etat", "chargement", { timeout: 10_000 });
+      if (largeur >= 1280 && (await jour.locator(".aspect-video").count())) {
+        for (const a of await jour.locator("article").all()) expect((await a.evaluate(vides)).creux, `carte du jour sans creux, ${ou}`).toBeLessThanOrEqual(32);
+      }
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "nouvel-aujourdhui-refonte", largeur);
     }

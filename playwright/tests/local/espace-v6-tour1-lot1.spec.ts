@@ -11,7 +11,7 @@ import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
  *   à droite) ; dessous, l'offre sous l'exemple ; « Connexion » de 44 px ; S'entraîner : la réponse ouverte ;
  *   Favoris : deux contenus réels en lecture seule (catalogue non vide) ;
  * - abonné neuf, « Aujourd'hui » : le premier pas en pleine coque, filet de 4 px, rayon 12 px, titre 30 px dès 768 px ;
- *   contenu du jour : cartes d'une rangée à la même hauteur, vignette sur toute la carte, lecture sans rouge ;
+ *   contenu du jour : bas alignés (v7 tour 2 : vidéo à droite sur deux rangées), vignette sur toute la carte, lecture sans rouge ;
  * - fiche : « À toi » sans filet en tête, `<summary>` de 44 px à bordure et chevron ;
  * - Mes répliques vide : titre et carte dans la même colonne, « Écrire ma première réplique » en bouton plein.
  * Captures de contrôle : `E2E_CAPTURES_V6T1=<dossier>`.
@@ -111,8 +111,11 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
       await expect(jour).not.toHaveAttribute("data-etat", "chargement", { timeout: 10_000 });
       const cartes = jour.locator("article");
       if (largeur >= 1280 && (await cartes.count()) === 3) {
-        const hauteurs = await cartes.evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
-        expect(new Set(hauteurs).size, `même hauteur, ${ou} (${hauteurs.join(", ")})`).toBe(1);
+        // v7 tour 2 (faute 3) : vanne et conseil empilés à gauche, la vidéo à droite sur les deux rangées ; même
+        // intention (pas de bas en escalier) : hauts et bas alignés sur ceux de la vidéo.
+        const [vanne, conseil, video] = await cartes.evaluateAll((as) => as.map((a) => a.getBoundingClientRect()).map((r) => ({ haut: Math.round(r.top), bas: Math.round(r.bottom) })));
+        expect(Math.abs(vanne.haut - video.haut), `hauts alignés, ${ou}`).toBeLessThanOrEqual(1);
+        expect(Math.abs(conseil.bas - video.bas), `bas alignés, ${ou}`).toBeLessThanOrEqual(1);
       }
       const lecture = jour.locator("article button > div").first();
       if (await lecture.count()) {

@@ -164,7 +164,12 @@ describe("aperçu verrouillé d'« Aujourd'hui » (spec UX §2 et §3)", () => {
     expect(extrait.getAttribute("aria-hidden")).toBe("true");
     expect(extrait.hasAttribute("inert")).toBe(true);
     expect(extrait.className).toContain("pointer-events-none");
-    expect(extrait.className).toMatch(/mask-image/);
+    // v7 tour 2 (faute 4) : le fondu est porté par la suite (rangée 2), la rangée 1 (premier pas, « Ton cap ») est
+    // entière, hors du fondu.
+    const suite = extrait.querySelector("[data-apercu-suite]") as HTMLElement;
+    expect(suite.className).toMatch(/mask-image/);
+    expect(suite.querySelector("[data-cap-du-jour]")).toBeNull();
+    expect(extrait.querySelector('[data-apercu-rangee="1"] [data-cap-du-jour]')).not.toBeNull();
     expect(extrait.querySelectorAll("a, button, [tabindex]:not([tabindex='-1'])")).toHaveLength(0);
     const tuiles = Array.from(extrait.querySelectorAll("[data-tuile-fermee]"));
     expect(tuiles).toHaveLength(5);

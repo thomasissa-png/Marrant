@@ -8,6 +8,7 @@ import { etapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { PARCOURS_SEED_JSON } from "@/lib/parcours-seed";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { ApercuVerrouille } from "@/components/espace/apercu/apercu-verrouille";
+import { SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { CapDuJour } from "@/components/espace/aujourdhui/cap-du-jour";
@@ -37,41 +38,49 @@ export const PASTILLES_AUJOURDHUI = [T.premierPas.eyebrow, C.titre, SERIE.titre,
 function TableauFerme() {
   const pas = choisirPremierPas(null, null, [], T.premierPas.sceneParDefaut);
   const etape = etapeAReprendre([], PARCOURS_SEED_JSON);
+  // v7 tour 2 (faute 4) : deux grilles. Rangée 1 (premier pas, « Ton cap ») toujours ENTIÈRE, à 375 et 768 aussi :
+  // la progression et la série se lisent avant le fondu. La suite (rangée 2) passe seule sous le fondu (`SuiteCoupee`).
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-fiche="tableau-aujourdhui">
-      <TuileFermee className="md:col-span-2 lg:col-span-8">
-        <ActionDuJour
-          idTitre="apercu-premier-pas-titre"
-          fige
-          etiquette={T.premierPas.eyebrow}
-          duree={pas.minutes !== null ? T.premierPas.duree(pas.minutes) : null}
-          titre={pas.titre}
-          action={{ href: pas.href, libelle: T.premierPas.bouton }}
-        />
-      </TuileFermee>
-      <TuileFermee className="md:col-span-2 lg:col-span-4">
-        <CapDuJour cap={1} xp={0} serie={0} fige />
-      </TuileFermee>
-      {etape && (
-        <TuileFermee className="lg:col-span-4">
-          <ParcoursTuile etape={etape} fige />
+    <div data-apercu-fiche="tableau-aujourdhui">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1">
+        <TuileFermee className="md:col-span-2 lg:col-span-8">
+          <ActionDuJour
+            idTitre="apercu-premier-pas-titre"
+            fige
+            etiquette={T.premierPas.eyebrow}
+            duree={pas.minutes !== null ? T.premierPas.duree(pas.minutes) : null}
+            titre={pas.titre}
+            action={{ href: pas.href, libelle: T.premierPas.bouton }}
+          />
         </TuileFermee>
-      )}
-      <TuileFermee className="lg:col-span-4">
-        <MissionLien marche={1} fige />
-      </TuileFermee>
-      <TuileFermee className={etape ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4"}>
-        <div className={TUILE}>
-          <p className="font-display text-lg font-bold text-text-primary">{T.jour.titre}</p>
-          <ul className="mt-3 space-y-2 text-sm text-text-secondary">
-            {[T.jour.vanne, T.jour.conseil, T.jour.video].map((t) => (
-              <li key={t} className="rounded-md border border-border px-3 py-2">
-                {t}
-              </li>
-            ))}
-          </ul>
+        <TuileFermee className="md:col-span-2 lg:col-span-4">
+          <CapDuJour cap={1} xp={0} serie={0} fige />
+        </TuileFermee>
+      </div>
+      <SuiteCoupee>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
+          {etape && (
+            <TuileFermee className="lg:col-span-4">
+              <ParcoursTuile etape={etape} fige />
+            </TuileFermee>
+          )}
+          <TuileFermee className="lg:col-span-4">
+            <MissionLien marche={1} fige />
+          </TuileFermee>
+          <TuileFermee className={etape ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4"}>
+            <div className={TUILE}>
+              <p className="font-display text-lg font-bold text-text-primary">{T.jour.titre}</p>
+              <ul className="mt-3 space-y-2 text-sm text-text-secondary">
+                {[T.jour.vanne, T.jour.conseil, T.jour.video].map((t) => (
+                  <li key={t} className="rounded-md border border-border px-3 py-2">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </TuileFermee>
         </div>
-      </TuileFermee>
+      </SuiteCoupee>
     </div>
   );
 }

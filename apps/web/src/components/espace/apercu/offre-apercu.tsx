@@ -41,11 +41,13 @@ export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse
         {TEXTES_APERCU.offre.bouton}
       </Link>
       {!visiteur && <p className="mt-3 text-center text-sm text-text-secondary">{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
-      <Reassurance className="mt-3" />
+      {/* v7 tour 2 (piste) : réassurance lisible mais SOUS la phrase d'objet (12 px, `text-muted`, 5,9:1 sur la carte, AA). */}
+      <Reassurance className="mt-3 text-xs text-text-muted" />
       <Preuve />
       {visiteur && (
         <p className="mt-1 flex justify-center">
-          <Link href={buildLoginUrl({ callbackUrl: adresse })} className={`${LIEN} min-w-11 justify-center`}>
+          {/* v7 tour 2 (piste) : cible de 44 px en hauteur ET en largeur, posée ici (ne dépend pas seulement de `LIEN`). */}
+          <Link href={buildLoginUrl({ callbackUrl: adresse })} className={cn(LIEN, "inline-flex min-h-11 min-w-11 items-center justify-center")}>
             {TEXTES_APERCU.connexion}
           </Link>
         </p>

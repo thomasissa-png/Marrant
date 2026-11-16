@@ -10,10 +10,13 @@ const INERTE = { inert: "" } as Record<string, string>;
 
 /**
  * Extrait coupé de l'aperçu verrouillé, zones C, D et E (refonte s25, spec UX §2.2, design §3.3) :
- * (C) la structure réelle de la rubrique, hauteur plafonnée (320, 400, 440 px), fondu par masque vers le fond de la
- * page (aucun voile, aucun flou, rien d'animé), inerte et masquée aux lecteurs d'écran (la promesse et les pastilles
- * du hero portent le contenu) ; (D) en SIBLING sur les 48 derniers px transparents : pastille, « La suite est dans
- * Premium », second bouton (même libellé, même lien que le hero) ; (E) la légende validée.
+ * (C) la structure réelle de la rubrique, inerte et masquée aux lecteurs d'écran (la promesse et les pastilles du hero
+ * portent le contenu), coupée par un fondu vers le fond de la page (aucun voile, aucun flou, rien d'animé) ; (D) en
+ * SIBLING sur les 48 derniers px transparents : pastille, « La suite est dans Premium », second bouton (même libellé,
+ * même lien que le hero) ; (E) la légende validée.
+ * v7 tour 2 (faute 4) : la hauteur n'est plus plafonnée ici (320, 400, 440 px) : à 375 et 768, « Ton cap » passait
+ * sous le fondu. L'extrait fournit sa propre coupe (`SuiteCoupee`) : ce qui doit se lire reste entier, seule la suite
+ * passe sous le fondu, qui finit entre deux lignes de texte.
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
@@ -21,12 +24,7 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
       <div
         aria-hidden="true"
         {...INERTE}
-        className={cn(
-          "pointer-events-none relative h-80 select-none overflow-hidden md:h-[25rem] lg:h-[27.5rem]",
-          // Transparent dès 48 px avant le bas : la fin d'extrait (`-mt-12`) chevauche une zone ENTIÈREMENT transparente
-          // (spec design §3.3) ; sans cela, à 375 px, la pastille du bloc suivant se lisait derrière elle.
-          "[mask-image:linear-gradient(to_bottom,black_55%,transparent_calc(100%_-_3rem))]",
-        )}
+        className="pointer-events-none relative select-none overflow-hidden"
       >
         {children}
       </div>
@@ -38,6 +36,23 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
         </Link>
       </div>
       <p className="mt-6 text-center text-sm text-text-secondary">{frEspace(TEXTES_APERCU.sousTitre)}</p>
+    </div>
+  );
+}
+
+/**
+ * La suite de l'extrait, coupée (v7 tour 2, faute 4) : 10 rem de haut, opaque en haut, ENTIÈREMENT transparente sur
+ * ses 48 derniers px (la fin d'extrait, `-mt-12`, les chevauche ; spec design §3.3). Le fondu va de 0 à 112 px : il
+ * couvre l'étiquette, le titre et la barre d'étapes des tuiles (ou le titre et la première ligne de « Contenu du
+ * jour ») et finit dans l'interligne qui suit (88 à 108 px, puis 115 px et plus) : jamais au milieu d'une ligne.
+ */
+export function SuiteCoupee({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="mt-6 h-40 overflow-hidden [mask-image:linear-gradient(to_bottom,black,transparent_calc(100%_-_3rem))]"
+      data-apercu-suite
+    >
+      {children}
     </div>
   );
 }

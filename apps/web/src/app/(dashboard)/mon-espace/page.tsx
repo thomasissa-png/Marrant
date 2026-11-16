@@ -28,6 +28,7 @@ import { SemainesTuile } from "@/components/espace/aujourdhui/semaines-tuile";
 import { lireRafale, type EtatRafale } from "@/lib/espace/cartes-serveur";
 import { lireEtapeAReprendre } from "@/lib/espace/etape-serveur";
 import { missionOuverte, missionsServiesValidees } from "@/lib/espace/missions";
+import { accrocheMission } from "@/lib/espace/enonce-mission";
 import { lireRetoursMission } from "@/lib/espace/missions-serveur";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -62,10 +63,14 @@ export async function generateMetadata(): Promise<Metadata> {
   return (await lireLecteurApercu()) ? metadonneesApercu("aujourdhui") : {};
 }
 
-/** Spans de la rangée 2 (spec design §5.1) : 3 cellules = 3 x 4, 2 = 2 x 6, 1 = pleine ligne ; jamais une cellule vide. */
+/**
+ * Spans de la rangée 2 (spec design §5.1) : 3 cellules = 3 x 4, 2 = 2 x 6, 1 = pleine ligne ; jamais une cellule vide.
+ * v7 tour 2 : 2 cellules à 768, l'une sous l'autre en pleine largeur (côte à côte, la tuile la plus courte se creusait
+ * de 40 px et plus sous les lignes repliées de sa voisine).
+ */
 function spansRangee(n: number, i: number): string {
   if (n >= 3) return i === 2 ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4";
-  if (n === 2) return "lg:col-span-6";
+  if (n === 2) return "md:col-span-2 lg:col-span-6";
   return "md:col-span-2 lg:col-span-12";
 }
 
@@ -98,10 +103,14 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   // États 2 à 4 : seulement une fois le premier pas fait (4.4).
   let rafale: EtatRafale | null = null;
   let marcheMission: 1 | 2 | 3 | 4 | 5 | null = null;
+  let accrocheDeMission: string | undefined;
   if (fait) {
     const [r, retours] = await Promise.all([lireRafale(userId, acces), lireRetoursMission(userId)]);
     rafale = r;
-    marcheMission = missionOuverte(missionsServiesValidees(), retours)?.marche ?? null;
+    const mission = missionOuverte(missionsServiesValidees(), retours);
+    marcheMission = mission?.marche ?? null;
+    // v7 tour 2 (piste Mission) : la première phrase de l'énoncé, texte existant, sous le titre de la tuile.
+    accrocheDeMission = mission ? accrocheMission(mission.enonce) : undefined;
   }
   const cartes = (rafale?.cartes ?? []).map((c, i) => ({
     titre: frEspace(rafale?.catalogue.get(c.carteId)?.titre ?? ""),
@@ -120,16 +129,18 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
     <CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} />
   ) : null;
 
-  // Rangée 2. Nouvel abonné : Z3 « Étape conseillée » (5 colonnes) et « Tes 4 premières semaines » (7 colonnes).
+  // Rangée 2. Nouvel abonné : Z3 « Étape conseillée » (5 colonnes) et « Tes 4 premières semaines » (7 colonnes) ;
+  // v7 tour 2 (faute 2) : à 768, l'une sous l'autre en pleine largeur (côte à côte, la feuille de route passait sur
+  // trois lignes par semaine et creusait la tuile voisine de 200 px).
   // Ensuite, dans l'ordre Z3, Z4, Z5 : le parcours (sauf s'il est déjà l'action du jour), la mission, la rafale faite.
   const rangee: { cle: string; noeud: React.ReactNode; span?: string }[] = !fait
     ? [
-        ...(etape ? [{ cle: "parcours", noeud: <ParcoursTuile etape={etape} />, span: "lg:col-span-5" }] : []),
-        { cle: "semaines", noeud: <SemainesTuile ecouterPublie={ecouterPublie()} />, span: etape ? "lg:col-span-7" : undefined },
+        ...(etape ? [{ cle: "parcours", noeud: <ParcoursTuile etape={etape} />, span: "md:col-span-2 lg:col-span-5" }] : []),
+        { cle: "semaines", noeud: <SemainesTuile ecouterPublie={ecouterPublie()} />, span: etape ? "md:col-span-2 lg:col-span-7" : undefined },
       ]
     : [
         ...(etape && !etapeDominante ? [{ cle: "parcours", noeud: <ParcoursTuile etape={etape} /> }] : []),
-        ...(marcheMission ? [{ cle: "mission", noeud: <MissionLien marche={marcheMission} /> }] : []),
+        ...(marcheMission ? [{ cle: "mission", noeud: <MissionLien marche={marcheMission} accroche={accrocheDeMission} /> }] : []),
         ...(etapeDominante && rafale
           ? [{ cle: "rafale", noeud: <CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} principale={false} /> }]
           : []),
