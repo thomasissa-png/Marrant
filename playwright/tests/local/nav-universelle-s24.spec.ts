@@ -799,7 +799,8 @@ test.describe("navigation universelle v6 (s25)", () => {
       expect(ecarts.colonnes, "écart entre les colonnes d'Aujourd'hui").toBe("24px");
       for (const e of ecarts.entre) expect(e, "24 px entre les rangées d'Aujourd'hui").toBe(24);
       for (const e of ecarts.entreColonnes) expect(e, "24 px entre les éléments côte à côte").toBe(24);
-      expect(await page.locator("main h1").first().evaluate((h) => getComputedStyle(h).fontSize)).toBe("36px");
+      // Échelle s25 (`docs/design/typo-harmonie-espace-s25.md`, retour de Thomas du 16/11) : H1 en `TITRE_PAGE`, 30 px dès 1024.
+      expect(await page.locator("main h1").first().evaluate((h) => getComputedStyle(h).fontSize)).toBe("30px");
       await c.close();
     });
 

@@ -30,6 +30,7 @@ import { lireEtapeAReprendre } from "@/lib/espace/etape-serveur";
 import { missionOuverte, missionsServiesValidees } from "@/lib/espace/missions";
 import { accrocheMission } from "@/lib/espace/enonce-mission";
 import { lireRetoursMission } from "@/lib/espace/missions-serveur";
+import { META, META_FORT, TITRE_PAGE } from "@/components/espace/typo";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 
@@ -47,6 +48,8 @@ const T = frEspaceProfond(TEXTES_AUJOURDHUI);
  * - rangée 2, partagée en 12 colonnes sans cellule vide : Z3 parcours (l'étape est lue aussi avant le premier pas),
  *   Z4 mission, Z5 rafale faite ; nouvel abonné : Z3 « Étape conseillée » et « Tes 4 premières semaines » ;
  * - Z6 contenu du jour ; Z7 question C9 (une fois, après le premier pas).
+ * Échelle s25 (`docs/design/typo-harmonie-espace-s25.md`, retour de Thomas du 16/11) : tailles, graisses et casse
+ * par `components/espace/typo.ts` (4 tailles, 400 et 600, aucune capitale), rythme de 8 px, rayons de 12 px.
  * Juste après le paiement : `?favori=JOKE|TIP|VIDEO` = la ligne de confirmation du favori (texte validé
  * `BIENVENUE_PREMIUM.favori`), sans bouton ; `?depuis=` = le lien de retour (premier pas).
  */
@@ -148,25 +151,25 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
 
   return (
     <div className="halo-page pb-16">
-      <header className="flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
+      <header className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div className="min-w-0">
-          <h1 className="font-display text-3xl font-bold leading-tight text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
-          <p className="mt-1 text-sm text-text-secondary max-e300:mt-0" data-date-du-jour>
+          <h1 className={TITRE_PAGE}>{T.titre}</h1>
+          <p className={cn("mt-2 max-e300:mt-0", META)} data-date-du-jour>
             {dateDuJour()}
           </p>
         </div>
         {rafale && rafale.cetteSemaine > 0 && (
-          <p className="text-sm text-text-secondary [&>b]:font-semibold [&>b]:tabular-nums [&>b]:text-text-primary" data-repere>
+          <p className={META} data-repere>
             <ReperesSemaine texte={T.repere(rafale.cetteSemaine)} />
           </p>
         )}
       </header>
       {favori && (
-        <p role="status" className="mt-6 rounded-md border border-border bg-background-light px-4 py-3 text-sm text-text-secondary">
+        <p role="status" className={cn("mt-8 rounded-xl border border-border bg-background-light px-4 py-4", META)}>
           {frTypo(BIENVENUE_PREMIUM.favori[favori])}
         </p>
       )}
-      <div className="mt-6 grid grid-cols-1 gap-6 md:mt-8 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille>
+      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille>
         {principale && (
           <div className="min-w-0 md:col-span-2 lg:col-span-8" data-carte-du-jour>
             {principale}
@@ -181,7 +184,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
           </div>
         ))}
       </div>
-      <div className="mt-10 md:mt-14">
+      <div className="mt-12">
         <ContenuDuJour categories={categories} />
       </div>
       {fait && !aise && (
@@ -199,7 +202,7 @@ function ReperesSemaine({ texte }: { texte: string }) {
   if (!m) return <>{texte}</>;
   return (
     <>
-      <b>{m[1]}</b>
+      <b className={cn("tabular-nums", META_FORT)}>{m[1]}</b>
       {m[2]}
     </>
   );

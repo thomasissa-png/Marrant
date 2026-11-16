@@ -61,7 +61,7 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
   // tableau de bord, en-tête aligné à gauche sur la barre (H1, date), repère à droite ; il sort de cette règle.
   it("Aujourd'hui : l'en-tête aligné à gauche (refonte s25), plus centré", () => {
     const page = lire("app/(dashboard)/mon-espace/page.tsx");
-    expect(page).toContain('<header className="flex flex-col gap-1 md:flex-row md:items-end md:justify-between">');
+    expect(page).toContain('<header className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">');
     expect(page).not.toContain("text-center");
   });
 

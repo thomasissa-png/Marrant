@@ -1,6 +1,7 @@
 import { NUMEROS_CAPS, type NumeroCap } from "@/lib/espace/caps";
 import { cn } from "@/lib/utils";
 import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
 
 /**
  * Briques du tableau de bord d'« Aujourd'hui » (refonte s25, `docs/design/aujourdhui-refonte-s25.md` §4) : classes
@@ -9,29 +10,25 @@ import { CADRE_CARTE } from "@/components/espace/carte/styles";
  */
 
 /**
- * Z1 : la seule carte teintée de la page (filet de l'accueil, dégradé violet léger). v7 tour 2 (faute 1) : plus de
- * hauteur minimale, la rangée se cale sur le contenu de Z1 et de Z2 (la plus haute des deux), sans vide en bas.
+ * Z1 : la carte dominante. Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.5, arbitrage du 16/11) : le
+ * filet de l'accueil reste (langue des cartes, choix de Thomas du 15/11) ; plus de dégradé de fond ni de bord violet.
+ * Même fond et même marge que les tuiles : elle domine par sa place, son titre et le seul bouton plein. v7 tour 2
+ * (faute 1) : plus de hauteur minimale, la rangée se cale sur le contenu de Z1 et de Z2.
  */
-export const CARTE_ACTION = cn(
-  CADRE_CARTE,
-  "flex h-full min-w-0 flex-col border-accent-primary/30 bg-gradient-to-br from-accent-primary/10 via-background-card to-background-card p-6 [overflow-wrap:anywhere] md:p-8",
-);
+export const CARTE_ACTION = cn(CADRE_CARTE, "flex h-full min-w-0 flex-col border-border-hover p-6 [overflow-wrap:anywhere]");
 
-/** Tuile standard (Z3, Z4, Z5, Z7, « 4 premières semaines ») : sans filet, Z1 porte l'accent. */
+/** Tuile standard (Z3, Z4, Z5, Z7, « 4 premières semaines ») : sans filet, 24 px de marge, bord de 1 px. */
 export const TUILE =
-  "relative flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-background-card p-5 [overflow-wrap:anywhere]";
+  "relative flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-background-card p-6 [overflow-wrap:anywhere]";
 
-/** Étiquette violette de Z1 (texte violet courant : `accent-link`, AA). */
-export const ETIQUETTE_ACTION = "text-xs font-semibold uppercase tracking-wide text-accent-link";
-
-export const TITRE_TUILE = "mt-2 font-display text-lg font-bold text-text-primary";
+/** Titre d'une tuile, sous son étiquette : `TITRE_CARTE` (20/600). */
+export const TITRE_TUILE = `mt-2 ${TITRE_CARTE}`;
 
 /** Pied d'action d'une tuile (Z3) : ligne entière de 48 px, anneau intérieur (la tuile coupe ce qui dépasse). */
-export const PIED_TUILE =
-  "-mx-5 -mb-5 mt-auto flex min-h-12 items-center justify-between border-t border-border px-5 text-sm font-semibold text-accent-link transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary";
+export const PIED_TUILE = `-mx-6 -mb-6 mt-auto flex min-h-12 items-center justify-between border-t border-border px-6 ${META_FORT} transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary`;
 
 /** Pastille non cliquable (donc sans bord) : comptes de la rafale, « Facultative ». */
-export const PASTILLE = "inline-flex items-center gap-1 rounded-full bg-background-elevated px-2.5 py-1 text-xs text-text-secondary";
+export const PASTILLE = `inline-flex items-center gap-2 rounded-full bg-background-elevated px-3 py-1 ${META}`;
 
 export function Chevron({ className }: { className?: string }) {
   return (
@@ -62,13 +59,13 @@ export function Coche({ className }: { className?: string }) {
 /**
  * Barre d'étapes (validées sur total), décorative : « Étape n sur N » porte l'information, jamais un pourcentage
  * écrit (interdit des caps). Rail lisible même à zéro (v7 tour 3, piste : `border-hover`, une piste
- * vide voulue, pas un trait éteint), comme les segments vides du cap ; remplissage dégradé.
+ * vide voulue, pas un trait éteint), comme les segments vides du cap ; remplissage blanc (échelle s25 : un seul violet).
  */
 export function BarreProgression({ faites, total, className }: { faites: number; total: number; className?: string }) {
   const part = total > 0 ? Math.min(1, Math.max(0, faites / total)) : 0;
   return (
     <span className={cn("block h-2 overflow-hidden rounded-full bg-border-hover", className)} aria-hidden="true" data-barre-etapes>
-      <span className="block h-full rounded-full bg-gradient-to-r from-accent-primary to-accent-secondary" style={{ width: `${part * 100}%` }} />
+      <span className="block h-full rounded-full bg-text-primary" style={{ width: `${part * 100}%` }} />
     </span>
   );
 }
@@ -76,9 +73,9 @@ export function BarreProgression({ faites, total, className }: { faites: number;
 /** Les 5 segments du cap (non textuels, masqués : « cap n sur 5 » porte l'information). */
 export function SegmentsCap({ cap, className }: { cap: NumeroCap; className?: string }) {
   return (
-    <span className={cn("flex gap-1.5", className)} aria-hidden="true" data-segments-cap={cap}>
+    <span className={cn("flex gap-2", className)} aria-hidden="true" data-segments-cap={cap}>
       {NUMEROS_CAPS.map((n) => (
-        <span key={n} className={cn("block h-2 flex-1 rounded-full", n <= cap ? "bg-accent-primary" : "bg-border-hover")} />
+        <span key={n} className={cn("block h-2 flex-1 rounded-full", n <= cap ? "bg-text-primary" : "bg-border-hover")} />
       ))}
     </span>
   );
@@ -94,17 +91,17 @@ export function couperNombre(phrase: string): { nombre: string; reste: string } 
   return m ? { nombre: m[1], reste: m[2] } : null;
 }
 
-/** Statistique de Z2 : le nombre en grand (`tabular-nums`), son libellé dessous, dans le même parent. */
+/** Statistique de Z2 : le nombre en titre de carte (20/600, `tabular-nums`), son libellé dessous, même parent. */
 export function StatChiffre({ phrase, icone }: { phrase: string; icone?: React.ReactNode }) {
   const coupe = couperNombre(phrase);
-  if (!coupe) return <p className="text-sm text-text-primary">{phrase}</p>;
+  if (!coupe) return <p className={META_FORT}>{phrase}</p>;
   return (
     <p className="min-w-0">
-      <span className="flex items-center gap-1.5 font-display text-3xl font-bold tabular-nums text-text-primary">
+      <span className={cn("flex items-center gap-2", TITRE_CARTE)}>
         {icone}
         {coupe.nombre}
       </span>{" "}
-      <span className="mt-1 block text-xs text-text-secondary">{coupe.reste}</span>
+      <span className={cn("block", META)}>{coupe.reste}</span>
     </p>
   );
 }

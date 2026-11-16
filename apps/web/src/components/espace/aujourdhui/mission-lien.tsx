@@ -3,7 +3,7 @@ import { TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { NumeroMarche } from "@/lib/espace/missions";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
-import { ETIQUETTE } from "@/components/espace/carte/styles";
+import { ETIQUETTE, TEXTE } from "@/components/espace/typo";
 import { Chevron, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -27,13 +27,13 @@ export function MissionLien({ marche, accroche, fige = false }: { marche: Numero
       </span>
       <span className={cn(TITRE_TUILE, "block")}>{M.titresMarches[marche]}</span>
       {accroche && (
-        <span className={cn("mt-2 block text-sm text-text-secondary", fige && "max-h-[3.75rem] overflow-hidden")} data-mission-accroche>
+        <span className={cn("mt-2 block", TEXTE, fige && "max-h-[4.5rem] overflow-hidden")} data-mission-accroche>
           {frEspace(accroche)}
         </span>
       )}
-      <span className="mt-auto flex items-end justify-between gap-3 pt-4">
+      <span className="mt-auto flex items-end justify-between gap-4 pt-4">
         <span className={PASTILLE}>{M.facultative}</span>
-        <Chevron className="text-text-muted" />
+        <Chevron className="text-text-secondary" />
       </span>
     </>
   );

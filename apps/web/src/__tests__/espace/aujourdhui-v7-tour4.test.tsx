@@ -25,14 +25,22 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 const classes = (e: Element | null | undefined) => (e?.className ?? "").split(/\s+/);
 
-describe("faute 1 : hero de l'aperçu équilibré dès 1024", () => {
-  it("H1 6xl, promesse 2xl, pastilles à 32 px ; marge de 80 px de l'extrait gardée", () => {
+// Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.6, retour de Thomas du 16/11) : l'équilibre du hero ne
+// vient plus de la taille du texte (H1 60 px, promesse 24 px) mais de la mise en page : colonnes de même hauteur,
+// pastilles calées sur le bas de l'offre, échelle à 4 tailles.
+describe("faute 1 : hero de l'aperçu équilibré dès 1024, sans grossir le texte", () => {
+  it("H1 `TITRE_PAGE` (24 puis 30), promesse `TEXTE`, pastilles en bas de colonne dès 768 ; 48 px avant l'extrait, 64 dès 1024", () => {
     render(<ApercuAujourdhui visiteur />);
     const hero = document.querySelector("[data-apercu-hero]") as HTMLElement;
-    expect(classes(hero.querySelector("h1"))).toEqual(expect.arrayContaining(["md:text-5xl", "lg:text-6xl"]));
-    expect(classes(hero.querySelector("p.text-lg"))).toEqual(expect.arrayContaining(["md:text-xl", "lg:text-2xl"]));
-    expect(classes(hero.querySelector("[data-apercu-pastilles]"))).toEqual(expect.arrayContaining(["mt-6", "lg:mt-8"]));
-    expect(classes(document.querySelector("[data-apercu-extrait]"))).toContain("lg:mt-20");
+    expect(classes(hero.querySelector("h1"))).toEqual(expect.arrayContaining(["text-2xl", "lg:text-3xl", "font-semibold"]));
+    expect(classes(hero.querySelector("h1"))).not.toEqual(expect.arrayContaining(["lg:text-6xl"]));
+    const promesse = hero.querySelector("[data-apercu-pastilles]")?.previousElementSibling;
+    expect(classes(promesse)).toEqual(expect.arrayContaining(["text-base", "max-w-xl"]));
+    expect(classes(promesse).some((c) => /text-(lg|xl|2xl)$/.test(c))).toBe(false);
+    expect(classes(hero.querySelector("[data-apercu-pastilles]"))).toEqual(expect.arrayContaining(["mt-6", "md:mt-auto", "md:pt-6"]));
+    expect(classes(hero.querySelector("[data-apercu-pastilles]"))).not.toContain("lg:mt-8");
+    expect(classes(hero.children[0])).toEqual(expect.arrayContaining(["flex", "flex-col"]));
+    expect(classes(document.querySelector("[data-apercu-extrait]"))).toEqual(expect.arrayContaining(["mt-12", "lg:mt-16"]));
   });
 });
 
@@ -40,7 +48,7 @@ describe("piste : hero 60/40 dès 768", () => {
   it("texte 3/5 et offre 2/5 de 768 à 1023, 8/4 dès 1024 ; pastilles plafonnées pour tomber en 3 + 3", () => {
     render(<ApercuAujourdhui visiteur />);
     const hero = document.querySelector("[data-apercu-hero]") as HTMLElement;
-    expect(classes(hero)).toEqual(expect.arrayContaining(["md:grid-cols-5", "md:items-start", "lg:grid-cols-12"]));
+    expect(classes(hero)).toEqual(expect.arrayContaining(["md:grid-cols-5", "lg:grid-cols-12"]));
     const [texte, offre] = Array.from(hero.children);
     expect(classes(texte)).toEqual(expect.arrayContaining(["md:col-span-3", "lg:col-span-8"]));
     expect(classes(offre)).toEqual(expect.arrayContaining(["md:col-span-2", "lg:col-span-4"]));
@@ -49,16 +57,19 @@ describe("piste : hero 60/40 dès 768", () => {
   });
 });
 
-describe("piste : titre « Contenu du jour » de l'extrait aligné", () => {
-  it("dès 1024, 24 px au-dessus du titre (étiquette des voisines) et liste resserrée", () => {
+describe("piste : tuile « Contenu du jour » de l'extrait (échelle s25)", () => {
+  it("titre `TITRE_CARTE` aligné dès 1024 sur ceux des voisines, lignes sans cadre séparées d'un filet, en `TEXTE`", () => {
     render(<ApercuAujourdhui visiteur />);
     const tuiles = Array.from(document.querySelectorAll("[data-apercu-suite] [data-tuile-fermee]"));
     const jour = tuiles[tuiles.length - 1];
     const titre = jour.querySelector("p.font-display");
     expect(titre?.textContent).toBe(T.jour.titre);
-    expect(classes(titre)).toContain("lg:mt-6");
-    expect(classes(jour.querySelector("ul"))).toEqual(expect.arrayContaining(["mt-3", "lg:mt-2"]));
-    for (const li of Array.from(jour.querySelectorAll("li"))) expect(classes(li)).toEqual(expect.arrayContaining(["py-2", "lg:py-1"]));
+    expect(classes(titre)).toEqual(expect.arrayContaining(["text-xl", "font-semibold", "lg:mt-7"]));
+    expect(classes(jour.querySelector("ul"))).toEqual(expect.arrayContaining(["mt-2", "divide-y", "divide-border"]));
+    for (const li of Array.from(jour.querySelectorAll("li"))) {
+      expect(classes(li)).toEqual(expect.arrayContaining(["py-2", "text-base"]));
+      expect(classes(li).some((c) => /^(border|rounded)/.test(c))).toBe(false);
+    }
   });
 });
 

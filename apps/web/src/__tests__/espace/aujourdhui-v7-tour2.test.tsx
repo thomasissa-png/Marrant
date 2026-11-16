@@ -104,8 +104,9 @@ describe("faute 4 : extrait de l'aperçu, « Ton cap » avant le fondu", () => {
     expect(r1.querySelector("[data-cap-du-jour]")).not.toBeNull();
     expect(r1.closest("[data-apercu-suite]")).toBeNull();
     const suite = extrait.querySelector("[data-apercu-suite]") as HTMLElement;
-    // v7 tour 3 (faute 1) : la coupe est plus haute (12,5 rem au lieu de 10) ; elle reste fixe, transparente au bout.
-    expect(suite.className).toMatch(/(^|\s)h-\[12\.5rem\](\s|$)/);
+    // v7 tour 3 (faute 1) : la coupe est plus haute (12,5 rem au lieu de 10 ; 13,5 depuis l'échelle s25, tuiles en
+    // 24 px de marge) ; elle reste fixe, transparente au bout.
+    expect(suite.className).toMatch(/(^|\s)h-\[13\.5rem\](\s|$)/);
     expect(suite.className).toContain("transparent_calc(100%_-_3rem)");
     expect(suite.querySelectorAll("[data-tuile-fermee]")).toHaveLength(3);
   });
@@ -133,22 +134,26 @@ describe("pistes", () => {
   it("hero 8/4 : les 6 pastilles ont la place sur une ligne dès 1024 (plus d'orpheline à 1280)", () => {
     const hero = lire("components/espace/apercu/hero-apercu.tsx");
     // v7 tour 4 (piste 768) : 3/5 et 2/5 de 768 à 1023, 8/4 dès 1024 inchangé.
-    expect(hero).toContain('<div className="min-w-0 md:col-span-3 lg:col-span-8">');
-    // v7 tour 3 (piste hero) : l'offre n'est plus centrée verticalement, elle s'aligne en haut sur la pastille.
+    // Échelle s25 : la colonne de texte devient une colonne flex (pastilles calées en bas).
+    expect(hero).toContain('<div className="flex min-w-0 flex-col md:col-span-3 lg:col-span-8">');
+    // v7 tour 3 (piste hero) : l'offre s'aligne en haut sur la pastille. Échelle s25 : la colonne de texte (24/30 px)
+    // a la hauteur de l'offre (grille étirée), les pastilles calées en bas (`md:mt-auto`), plus de vide sous elles.
     expect(hero).toContain('<div className="min-w-0 md:col-span-2 lg:col-span-4">');
-    expect(hero).toContain("md:items-start");
+    expect(hero).toContain("md:mt-auto");
+    expect(hero).not.toMatch(/md:items-(start|center)/);
     expect(hero).not.toContain("md:max-w-2xl");
   });
 
-  it("« Connexion » à 44 px de haut ; réassurance sous la phrase d'objet (12 px, muted)", () => {
+  it("« Connexion » à 44 px de haut, en gris ; réassurance sous la phrase d'objet (échelle s25 : `META`, 14 px, gris secondaire)", () => {
     render(<ApercuAujourdhui visiteur />);
     const offre = document.querySelector("[data-apercu-offre]") as HTMLElement;
     const connexion = Array.from(offre.querySelectorAll("a")).find((a) => a.textContent === TEXTES_APERCU.connexion) as HTMLElement;
     for (const c of ["inline-flex", "min-h-11", "items-center", "min-w-11"]) expect(connexion.className.split(/\s+/)).toContain(c);
     const reassurance = offre.querySelector("[data-reassurance]") as HTMLElement;
-    expect(reassurance.className).toContain("text-xs");
-    expect(reassurance.className).toContain("text-text-muted");
-    expect(reassurance.className).not.toMatch(/text-sm|text-text-primary/);
+    expect(connexion.className.split(/\s+/)).toContain("text-text-secondary");
+    expect(connexion.className).not.toMatch(/text-accent-link/);
+    expect(reassurance.className.split(/\s+/)).toEqual(expect.arrayContaining(["text-sm", "text-text-secondary"]));
+    expect(reassurance.className).not.toMatch(/text-xs|text-text-muted|text-text-primary|leading-/);
   });
 
   it("Mission : l'accroche (phrases entières de l'énoncé, préfixe DÉFI retiré) sous le titre", () => {

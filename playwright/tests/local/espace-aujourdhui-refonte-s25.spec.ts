@@ -8,7 +8,8 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  * Refonte d'« Aujourd'hui » (s25, `docs/ux/aujourdhui-refonte-s25.md`, `docs/design/aujourdhui-refonte-s25.md`), en
  * vrai navigateur, interrupteur OUVERT seulement (`E2E_ESPACE_OUVERT=1`) :
  * - aperçu (visiteur, gratuit) : bouton d'offre au premier écran à 375 et 1280, H1 aligné à gauche, extrait inerte
- *   (aucun focus, aucun clic), pastille « Premium » sur chaque bloc fermé ; v7 tour 2 (faute 4) : « Ton cap » entier
+ *   (aucun focus, aucun clic), un verrou seul sur chaque bloc fermé (échelle s25, arbitrage du 16/11 : plus de
+ *   pastille « Premium » par bloc, une seule dans le hero) ; v7 tour 2 (faute 4) : « Ton cap » entier
  *   AVANT le fondu à toutes les largeurs, le fondu ne coupe aucune ligne de texte, aucune pastille du hero seule sur
  *   sa ligne ;
  * - abonné neuf : Z1 8/12 et « Ton cap » 4/12 sur la même rangée dès 1024 px, une colonne dessous ; aucune rangée
@@ -19,8 +20,8 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  *   N » ensemble, « Vanne du jour » en clair), aucune ligne visible à cheval sur le point transparent ; à 900 px de
  *   haut (1280, 1456, 1920), le bouton d'offre de la fin d'extrait sous le premier écran ; éléments figés à 3,9:1 au
  *   moins ; à 768, la vidéo du jour n'est plus une dalle ;
- * - v7 tour 4 (fautes 1 et 2, pistes) : dès 1024, bas du texte du hero et bas de la carte d'offre à 24 px près (le
- *   bouton de fin reste sous 900 px) ; à 768, offre à droite du texte (60/40) ; à 768, tuile « Vidéo du jour » en
+ * - v7 tour 4 (fautes 1 et 2, pistes) : dès 1024, bas du texte du hero et bas de la carte d'offre à 24 px près
+ *   (échelle s25 : pastilles calées en bas de colonne ; la fin d'extrait, phrase comprise, sous 900 px) ; à 768, offre à droite du texte (60/40) ; à 768, tuile « Vidéo du jour » en
  *   ligne de média, au plus 32 px de vide au-dessus et au-dessous du texte en face de la vignette (titre sur deux
  *   lignes) ; dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de ceux de ses voisines.
  */
@@ -81,7 +82,7 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
   test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
   test.setTimeout(180_000);
 
-  test("aperçu (visiteur) : offre au premier écran, extrait inerte et coupé, pastille sur chaque bloc fermé", async ({ page }) => {
+  test("aperçu (visiteur) : offre au premier écran, extrait inerte et coupé, verrou sur chaque bloc fermé", async ({ page }) => {
     for (const largeur of LARGEURS) {
       await page.setViewportSize({ width: largeur, height: largeur === 375 ? 667 : 800 });
       await page.goto("/mon-espace");
@@ -182,7 +183,16 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       const tuiles = extrait.locator("[data-tuile-fermee]");
       const n = await tuiles.count();
       expect(n).toBe(5);
-      for (let i = 0; i < n; i++) await expect(tuiles.nth(i).locator(":scope > [data-badge-premium]")).toHaveCount(1);
+      // Échelle s25 (arbitrage du 16/11) : un verrou seul (icône de 16 px, sans mot, gris secondaire) par bloc, aucune
+      // pastille « Premium » dans l'extrait.
+      for (let i = 0; i < n; i++) {
+        const verrou = tuiles.nth(i).locator(":scope > [data-verrou-ferme]");
+        await expect(verrou).toHaveCount(1);
+        await expect(verrou).toHaveText("");
+        expect(Math.round((await boite(verrou.locator("svg"))).largeur), `verrou de 16 px, ${ou}`).toBe(16);
+        expect(await verrou.locator("svg").evaluate((e) => getComputedStyle(e).color), `verrou gris, ${ou}`).toBe("rgb(179, 179, 179)");
+      }
+      await expect(extrait.locator("[data-badge-premium]")).toHaveCount(0);
       // v7 tour 4 (piste 768) : l'offre à droite du texte (60/40), plus une barre pleine largeur.
       const [texteHero, offreHero] = [await boite(page.locator("[data-apercu-hero] > div").first()), await boite(page.locator("[data-apercu-offre]"))];
       if (largeur >= 768) {
@@ -220,6 +230,8 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       await expect(offres.first(), `bouton du hero au premier écran, ${largeur}`).toBeInViewport({ ratio: 1 });
       await expect(offres.nth(1), `bouton de fin sous le premier écran, ${largeur}`).not.toBeInViewport();
       expect((await boite(offres.nth(1))).haut, `bouton de fin sous 900 px, ${largeur}`).toBeGreaterThanOrEqual(900);
+      // Échelle s25 : la phrase de fin aussi (un seul « Premium » écrit hors offre au premier écran).
+      expect((await boite(page.locator("[data-apercu-fin] p"))).haut, `phrase de fin sous 900 px, ${largeur}`).toBeGreaterThan(900);
       // v7 tour 4 (faute 1) : plus de vide sous les pastilles ; bas du texte et bas de la carte d'offre à 24 px près.
       const [pastilles, offre] = [await boite(page.locator("[data-apercu-pastilles]")), await boite(page.locator("[data-apercu-offre]"))];
       expect(Math.abs(offre.bas - pastilles.bas), `bas du hero équilibrés, ${largeur}`).toBeLessThanOrEqual(24);

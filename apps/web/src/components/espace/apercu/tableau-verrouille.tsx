@@ -17,6 +17,7 @@ import { CapDuJour } from "@/components/espace/aujourdhui/cap-du-jour";
 import { ParcoursTuile } from "@/components/espace/aujourdhui/etape-en-cours";
 import { MissionLien } from "@/components/espace/aujourdhui/mission-lien";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
+import { TEXTE, TITRE_CARTE } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -72,13 +73,15 @@ function TableauFerme() {
             <MissionLien marche={mission?.marche ?? 1} accroche={mission ? accrocheMission(mission.enonce) : undefined} fige />
           </TuileFermee>
           <TuileFermee className={etape ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4"}>
-            {/* v7 tour 4 (piste) : dès 1024, titre à la hauteur de ceux des voisines (qui ont une étiquette au-dessus,
-                16 px + 8 px) ; liste resserrée pour que « Vanne du jour » reste en clair, avant le fondu. */}
+            {/* Échelle s25 (§2.5) : titre en `TITRE_CARTE`, dès 1024 à la hauteur de ceux des voisines (sous leur
+                étiquette : 20 px de ligne et 8 px, alignement et non espacement) ; lignes sans cadre, séparées d'un filet
+                (`divide-y`), en `TEXTE`, la première collée au titre (8 px) : « Vanne du jour » reste en clair, avant le
+                fondu. */}
             <div className={TUILE}>
-              <p className="font-display text-lg font-bold text-text-primary lg:mt-6">{T.jour.titre}</p>
-              <ul className="mt-3 space-y-2 text-sm text-text-secondary lg:mt-2">
+              <p className={`${TITRE_CARTE} lg:mt-7`}>{T.jour.titre}</p>
+              <ul className="mt-2 divide-y divide-border">
                 {[T.jour.vanne, T.jour.conseil, T.jour.video].map((t) => (
-                  <li key={t} className="rounded-md border border-border px-3 py-2 lg:py-1">
+                  <li key={t} className={`py-2 first:pt-0 ${TEXTE}`}>
                     {t}
                   </li>
                 ))}

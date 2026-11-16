@@ -158,7 +158,7 @@ describe("aperçu verrouillé d'« Aujourd'hui » (spec UX §2 et §3)", () => {
     expect(screen.getByText(frEspace(TEXTES_APERCU.sousTitre))).toBeTruthy();
   });
 
-  it("extrait : masqué, inerte, sans lien ni bouton, chaque bloc fermé porte « Premium »", async () => {
+  it("extrait : masqué, inerte, sans lien ni bouton, chaque bloc fermé porte un verrou seul (échelle s25)", async () => {
     render(<ApercuAujourdhui visiteur={false} />);
     const extrait = document.querySelector("[data-apercu-extrait] > [aria-hidden]") as HTMLElement;
     expect(extrait.getAttribute("aria-hidden")).toBe("true");
@@ -173,7 +173,13 @@ describe("aperçu verrouillé d'« Aujourd'hui » (spec UX §2 et §3)", () => {
     expect(extrait.querySelectorAll("a, button, [tabindex]:not([tabindex='-1'])")).toHaveLength(0);
     const tuiles = Array.from(extrait.querySelectorAll("[data-tuile-fermee]"));
     expect(tuiles).toHaveLength(5);
-    for (const t of tuiles) expect(t.querySelector(":scope > [data-badge-premium]")?.textContent).toBe(OFFRE_NOM);
+    // Arbitrage du 16/11 : un verrou sans mot par bloc, plus de pastille « Premium » (une seule, celle du hero).
+    for (const t of tuiles) {
+      expect(t.querySelector(":scope > [data-verrou-ferme] svg")).not.toBeNull();
+      expect(t.querySelector(":scope > [data-verrou-ferme]")?.textContent).toBe("");
+      expect(t.querySelector("[data-badge-premium]")).toBeNull();
+    }
+    expect(extrait.textContent).not.toContain(OFFRE_NOM);
     // Contenu réel de l'état « nouvel abonné », sans chiffre inventé.
     expect(extrait.textContent).toContain(frEspace(A.premierPas.sceneParDefaut));
     expect(extrait.textContent).toContain(TEXTES_CAPS.serieZero);

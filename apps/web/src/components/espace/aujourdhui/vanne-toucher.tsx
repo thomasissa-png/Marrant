@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import type { CategorieToucher } from "@/lib/espace/vanne";
 import { RepliquesCategorie } from "@/components/espace/aujourdhui/repliques-categorie";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+import { META, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -107,7 +108,7 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
         aria-pressed={choisie}
         onClick={() => void choisir(categorie)}
         className={cn(
-          "inline-flex min-h-11 min-w-11 items-center gap-1 rounded-full border px-4 text-sm font-medium text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "inline-flex min-h-11 min-w-11 items-center gap-1 rounded-full border px-4 text-sm font-semibold text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           choisie ? "border-2 border-accent-link bg-background-elevated px-3.5" : "border-border-input hover:border-text-muted hover:bg-background-elevated",
         )}
       >
@@ -119,15 +120,19 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
 
   // v7 tour 2 (faute 3) : colonne qui remplit la carte, « Une autre » (ou le lien de fin de tour) et le geste en
   // pied (`mt-auto`), comme la spec design §4 Z6 : jamais un creux entre la vanne et son pied.
+  // Échelle s25 : vanne en `TEXTE` (blanc), chute en `TEXTE_FORT` collée à elle (un seul bloc, 8 px), question et geste
+  // en `META`, puces en 14/600 ; 16 px entre les groupes.
   return (
-    <div className="flex flex-1 flex-col gap-3" data-vanne-toucher>
-      <p className="text-base text-text-primary" data-vanne={vanne.id}>
-        {frEspace(vanne.content)}
-      </p>
-      <p className="text-base font-semibold text-text-primary">{frEspace(vanne.punchline)}</p>
+    <div className="flex flex-1 flex-col gap-4" data-vanne-toucher>
+      <div className="space-y-2">
+        <p className={`${TEXTE} text-text-primary`} data-vanne={vanne.id}>
+          {frEspace(vanne.content)}
+        </p>
+        <p className={TEXTE_FORT}>{frEspace(vanne.punchline)}</p>
+      </div>
       {categories.length > 0 && (
         <>
-          <p id="toucher-titre" className="text-xs text-text-muted">
+          <p id="toucher-titre" className={META}>
             {T.jour.toucher}
           </p>
           <div className="flex flex-wrap gap-2" role="group" aria-labelledby="toucher-titre">
@@ -140,12 +145,12 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
       <p className="sr-only" aria-live="polite">
         {annonce}
       </p>
-      <div className="mt-auto space-y-3" data-vanne-pied>
+      <div className="mt-auto space-y-2" data-vanne-pied>
         {tourFait ? (
-          <p className="text-sm text-text-secondary">
+          <p className={META}>
             <Link
               href={choix ? `/vannes/theme/${THEME[choix]}` : "/mon-espace/bibliotheque"}
-              className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2"
+              className="inline-flex min-h-11 items-center text-text-primary underline underline-offset-2 hover:text-text-secondary"
             >
               {T.jour.tourFait}
             </Link>
@@ -160,7 +165,7 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
             {T.jour.uneAutre}
           </button>
         )}
-        <p className="text-sm text-text-secondary">{T.jour.geste}</p>
+        <p className={META}>{T.jour.geste}</p>
       </div>
     </div>
   );

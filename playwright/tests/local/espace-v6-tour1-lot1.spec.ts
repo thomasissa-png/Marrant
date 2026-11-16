@@ -106,7 +106,10 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
       }));
       expect(style.filet, `filet, ${ou}`).toBe("4px");
       expect(style.rayon, `rayon, ${ou}`).toBe("12px");
-      if (largeur >= 768) expect(style.titre, `titre dominant, ${ou}`).toBe("30px");
+      // Échelle s25 (retour de Thomas du 16/11) : la dominance vient de la place, du filet et du seul bouton plein, plus de
+      // la taille : titre en `TITRE_CARTE` (20 px) à toutes les largeurs, comme les tuiles.
+      expect(style.titre, `titre de l'échelle, ${ou}`).toBe("20px");
+      await expect(carte.locator("a.bg-accent-secondary-hover"), `seul bouton plein dans la carte, ${ou}`).toHaveCount(1);
       const jour = page.locator("[data-contenu-du-jour]");
       await expect(jour).not.toHaveAttribute("data-etat", "chargement", { timeout: 10_000 });
       const cartes = jour.locator("article");

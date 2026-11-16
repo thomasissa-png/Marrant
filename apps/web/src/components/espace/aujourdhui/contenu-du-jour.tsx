@@ -11,6 +11,7 @@ import { contenuAffiche } from "@/lib/tip-prose";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { CADRE_CARTE } from "@/components/espace/carte/styles";
 import { cn } from "@/lib/utils";
+import { TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -29,8 +30,9 @@ type Daily = {
 };
 type Etat = { statut: "chargement" } | { statut: "erreur" } | { statut: "ok"; donnees: Daily };
 
-// v6 tour 1 (arbitrage 1) : les cartes de l'accueil (`home/daily-content.tsx`), filet compris.
-const CARTE = `${CADRE_CARTE} p-4 md:p-6`;
+// v6 tour 1 (arbitrage 1) : les cartes de l'accueil (`home/daily-content.tsx`), filet compris (gardé à l'échelle s25,
+// arbitrage du 16/11) ; 24 px de marge à toutes les largeurs.
+const CARTE = `${CADRE_CARTE} p-6`;
 
 /**
  * v6 tour 1 (point 4), lecteur partagé (`ui/youtube-player`, hors de ce lot) réglé depuis sa carte : bouton de
@@ -72,7 +74,7 @@ const VIDEO_768 = {
   titre: "md:max-lg:col-start-2 md:max-lg:row-start-2",
   corps: "md:max-lg:contents",
   vignette: "md:max-lg:col-start-1 md:max-lg:row-span-4 md:max-lg:row-start-1 md:max-lg:mb-0",
-  lien: "md:max-lg:col-start-2 md:max-lg:row-start-3 md:max-lg:mb-0 md:max-lg:mt-4 md:max-lg:text-xl md:max-lg:font-semibold",
+  lien: "md:max-lg:col-start-2 md:max-lg:row-start-3 md:max-lg:mb-0 md:max-lg:mt-4 md:max-lg:font-display md:max-lg:text-xl",
 } as const;
 /** Sans vignette (chargement, repli, vidéo sans `youtubeId`) : trois cartes courtes côte à côte dès 1024, comme avant. */
 const TROISIEME = "md:col-span-2 lg:col-span-1";
@@ -93,10 +95,10 @@ function Carte({
 }) {
   return (
     <article className={cn(CARTE, "flex flex-col", media && VIDEO_768.carte, className)} aria-labelledby={id}>
-      <h3 id={id} className={cn("text-base font-semibold text-text-primary", media && VIDEO_768.titre)}>
+      <h3 id={id} className={cn(TITRE_CARTE, media && VIDEO_768.titre)}>
         {titre}
       </h3>
-      <div className={cn("mt-3 flex flex-1 flex-col", media && VIDEO_768.corps)}>{children}</div>
+      <div className={cn("mt-2 flex flex-1 flex-col", media && VIDEO_768.corps)}>{children}</div>
     </article>
   );
 }
@@ -104,7 +106,8 @@ function Carte({
 // Lot D11c (revue d'harmonie, défaut 13) : cible de 44 px gardée, mais ses 10 px sous le texte rentrent dans la
 // marge de la carte (sinon ~34 px de vide sous le lien contre 24 au-dessus du titre).
 // v7 tour 2 (faute 3) : le lien est le pied de sa carte (`mt-auto`), à sa largeur de texte (`self-start`).
-const lienCarte = "-mb-2.5 mt-auto inline-flex min-h-11 items-center self-start text-accent-link underline underline-offset-2 hover:text-text-primary";
+// Échelle s25 : 16/600 blanc souligné (plus de texte violet, un seul violet par écran : le bouton plein).
+const lienCarte = `-mb-2.5 mt-auto inline-flex min-h-11 items-center self-start ${TEXTE_FORT} underline underline-offset-2 hover:text-text-secondary`;
 
 export function ContenuDuJour({ categories }: { categories: readonly CategorieToucher[] }) {
   const [etat, setEtat] = useState<Etat>({ statut: "chargement" });
@@ -125,8 +128,8 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
 
   const vignette = etat.statut === "ok" && Boolean(etat.donnees.video?.youtubeId);
   return (
-    <section aria-labelledby="jour-titre" className="flex flex-col gap-4 md:gap-6" data-etat={etat.statut} data-contenu-du-jour>
-      <h2 id="jour-titre" className="font-display text-2xl font-bold text-text-primary md:text-3xl">
+    <section aria-labelledby="jour-titre" className="flex flex-col gap-6" data-etat={etat.statut} data-contenu-du-jour>
+      <h2 id="jour-titre" className={TITRE_CARTE}>
         {T.jour.titre}
       </h2>
       {/* v5 §3 : 1 colonne, 2 dès 768 px ; la 3e carte prend la ligne entière à 768, et la colonne de droite sur deux
@@ -136,7 +139,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
         [0, 1, 2].map((i) => (
           <div key={i} aria-hidden="true" className={`${CARTE} animate-pulse motion-reduce:animate-none ${i === 2 ? TROISIEME : ""}`}>
             <div className="h-5 w-32 rounded bg-background-elevated" />
-            <div className="mt-3 h-4 w-3/4 rounded bg-background-elevated" />
+            <div className="mt-4 h-4 w-3/4 rounded bg-background-elevated" />
           </div>
         ))}
       {etat.statut === "erreur" && (
@@ -167,7 +170,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
                 {/* Relecture des captures nav s24 (design 5, ux F6b, reviewer FD4) : le début du conseil, comme
                     l'accueil du site, au lieu d'un lien seul dans une carte vide. */}
                 {etat.donnees.tip.content && (
-                  <p className="mb-3 text-sm leading-relaxed text-text-secondary">{frEspace(contenuAffiche(extrait(etat.donnees.tip.content)))}</p>
+                  <p className={`mb-4 ${TEXTE}`}>{frEspace(contenuAffiche(extrait(etat.donnees.tip.content)))}</p>
                 )}
                 <Link href={`/conseils/${buildTipSlug(etat.donnees.tip)}`} className={lienCarte}>{frEspace(etat.donnees.tip.title)}</Link>
               </>
@@ -181,7 +184,8 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
                 {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}
                 {etat.donnees.video.youtubeId && (
                   // v6 tour 1 (point 4) : vignette sur toute la largeur de sa carte (v7 tour 4 : à gauche, 17rem, à 768 px).
-                  <div className={cn("relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated", VIDEO_768.vignette, LECTEUR)}>
+                  // Échelle s25 : la vignette et son titre forment un bloc (8 px, la cible de 44 px du lien ajoute son air).
+                  <div className={cn("relative mb-2 aspect-video overflow-hidden rounded-xl bg-background-elevated", VIDEO_768.vignette, LECTEUR)}>
                     <YouTubePlayer youtubeId={etat.donnees.video.youtubeId} title={etat.donnees.video.title} />
                   </div>
                 )}

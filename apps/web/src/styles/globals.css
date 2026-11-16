@@ -124,7 +124,8 @@
   }
 
   /*
-   * Halo de page (refonte d'« Aujourd'hui » s25, spec design §1.5) : dégradé violet plat derrière l'en-tête et la
+   * Halo de page (refonte d'« Aujourd'hui » s25, spec design §1.5 ; neutre depuis l'échelle s25, un seul violet par
+   * écran : le bouton plein) : dégradé gris de carte plat derrière l'en-tête et la
    * première rangée, sur TOUTE la largeur de la fenêtre alors que la page vit dans la coque `max-w-7xl`. La largeur
    * vient de `border-image-outset` (peint hors de la boîte sans créer de défilement horizontal, contrairement à
    * `100vw` qui compte la barre de défilement). Commence en haut de `main` (sa marge de 32 px). Décoratif.
@@ -135,7 +136,7 @@
   .halo-page::before {
     content: "";
     @apply pointer-events-none absolute inset-x-0 -top-8 -z-10 h-72;
-    border-image: linear-gradient(to bottom, theme("colors.accent.primary / 10%"), transparent) fill 0 / 0 / 0 100vmax;
+    border-image: linear-gradient(to bottom, theme("colors.background.card / 60%"), transparent) fill 0 / 0 / 0 100vmax;
   }
 }
 

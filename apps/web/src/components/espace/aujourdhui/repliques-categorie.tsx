@@ -5,6 +5,7 @@ import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import type { CategorieToucher } from "@/lib/espace/vanne";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { FINE, frEspaceProfond } from "@/lib/fr-typo";
+import { ETIQUETTE, META } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const R = frEspaceProfond(TEXTES_REPLIQUES);
@@ -28,11 +29,11 @@ export function RepliquesCategorie({ categorie, libelle }: { categorie: Categori
   }, [categorie]);
   if (textes.length === 0) return null;
   return (
-    <div className="space-y-1" data-testid="repliques-categorie">
-      <h3 className="text-xs font-semibold text-text-muted">{R.pourCategorie(libelle)}</h3>
-      <ul className="space-y-1">
+    <div className="space-y-2" data-testid="repliques-categorie">
+      <h3 className={ETIQUETTE}>{R.pourCategorie(libelle)}</h3>
+      <ul className="space-y-2">
         {textes.map((t) => (
-          <li key={t} className="text-sm text-text-primary">
+          <li key={t} className={`${META} text-text-primary`}>
             «{FINE}{t}{FINE}»
           </li>
         ))}

@@ -6,7 +6,7 @@ import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { BarreProgression, Chevron, PIED_TUILE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { ETIQUETTE } from "@/components/espace/carte/styles";
+import { ETIQUETTE, META, META_FORT } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -17,9 +17,9 @@ const libelleAction = (etape: EtapeAReprendre) => (etape.enCours ? T.etape.repre
 /** « Étape n sur N » et sa barre (étapes validées avant celle-ci, sur le total) : jamais de pourcentage écrit. */
 function Avancement({ etape }: { etape: EtapeAReprendre }) {
   return (
-    <p className="mt-4 flex items-center gap-3">
+    <p className="mt-4 flex items-center gap-4">
       <BarreProgression faites={etape.ordre - 1} total={etape.total} className="flex-1" />
-      <span className="text-sm font-semibold tabular-nums text-text-primary">{P.etapeSurTotal(etape.ordre, etape.total)}</span>
+      <span className={`tabular-nums ${META_FORT}`}>{P.etapeSurTotal(etape.ordre, etape.total)}</span>
     </p>
   );
 }
@@ -38,7 +38,7 @@ export function EtapeEnCours({ etape }: { etape: EtapeAReprendre }) {
       titre={frEspace(etape.titreEtape)}
       action={{ href: etape.href, libelle: libelleAction(etape) }}
     >
-      <p className="mt-2 text-sm text-text-secondary">{etape.titreParcours}</p>
+      <p className={`mt-2 ${META}`}>{etape.titreParcours}</p>
       {etape.enCours && <Avancement etape={etape} />}
     </ActionDuJour>
   );
@@ -66,7 +66,7 @@ export function ParcoursTuile({ etape, fige = false }: { etape: EtapeAReprendre;
       {/* v7 tour 2 (faute 2) : la barre et « Étape n sur N » aussi pour l'étape conseillée (barre à zéro, « Étape 1
           sur N » au premier jour) : l'avancement réel du parcours, et plus de tuile à moitié vide. */}
       <Avancement etape={etape} />
-      <p className="mb-5 mt-2 text-sm text-text-secondary">{frEspace(etape.titreEtape)}</p>
+      <p className={`mb-4 mt-2 ${META}`}>{frEspace(etape.titreEtape)}</p>
       {fige ? (
         <span aria-disabled="true" className={`${PIED_TUILE} pointer-events-none`}>
           {pied}

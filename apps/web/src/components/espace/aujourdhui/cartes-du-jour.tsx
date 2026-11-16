@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { Chevron, Coche, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
+import { META, META_FORT, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -15,7 +16,7 @@ const T = frEspaceProfond(TEXTES_AUJOURDHUI);
  * COQUE du lot D3, remplie par le moteur de cartes du lot D5 (jusqu'à 3 cartes : situations
  * nouvelles puis cartes à revoir ; « C'est tout pour aujourd'hui » une fois faites). Le titre collé
  * au bouton (aucun bloc entre les deux, condition du libellé 7). v7 tour 3 (relectures, piste Z1) : même entrée que
- * les autres variantes de Z1, une étiquette en capitales, le libellé existant de la rubrique où mènent les cartes
+ * les autres variantes de Z1, une étiquette (casse normale depuis l'échelle s25), le libellé existant de la rubrique où mènent les cartes
  * (« S’entraîner », celui de la bande) ; l'accroche, mot pour mot, passe sous la rangée titre et bouton, en
  * sous-texte, au-dessus des comptes (plus de phrase de corps en tête de carte).
  * Jamais montée le jour 1 (le premier pas est la seule action principale).
@@ -55,15 +56,15 @@ export function CartesDuJour({
   const autres = cartes.filter((c) => c.autreContexte).length;
   const nouvelles = cartes.filter((c) => c.nouvelle && !c.autreContexte).length;
   const aRevoir = cartes.filter((c) => !c.nouvelle).length;
-  const sousTitre = <p className="mt-3 text-sm tabular-nums text-text-secondary">{T.rafale.sousTitre(nouvelles, aRevoir, autres)}</p>;
+  const sousTitre = <p className={cn("mt-2 tabular-nums", META)}>{T.rafale.sousTitre(nouvelles, aRevoir, autres)}</p>;
 
   if (!principale) {
     return (
       <section aria-labelledby="rafale-titre" className={TUILE} data-rafale={fini ? "faite" : "a-faire"}>
         {fini ? (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <RondFait />
-            <h2 id="rafale-titre" className="font-display text-lg font-bold text-text-primary">
+            <h2 id="rafale-titre" className={TITRE_CARTE}>
               {T.rafale.fini}
             </h2>
           </div>
@@ -92,7 +93,7 @@ export function CartesDuJour({
         data-rafale="faite"
         etiquette={T.rafale.titre}
         titre={
-          <span className="flex items-center gap-3">
+          <span className="flex items-center gap-4">
             <RondFait />
             {T.rafale.fini}
           </span>
@@ -111,7 +112,7 @@ export function CartesDuJour({
       action={{ href, libelle: T.rafale.bouton }}
       apres={
         <>
-          <p className="mt-3 max-w-3xl text-sm text-text-secondary" data-rafale-accroche>
+          <p className={cn("mt-4 max-w-3xl", TEXTE)} data-rafale-accroche>
             {T.rafale.accroche}
           </p>
           {sousTitre}
@@ -120,13 +121,13 @@ export function CartesDuJour({
               <li key={c.href}>
                 <Link
                   href={c.href}
-                  className="flex min-h-14 items-center gap-3 rounded-md border border-border bg-background-card/60 px-3 py-2 text-text-primary transition-colors hover:border-border-hover hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                  className="flex min-h-14 items-center gap-4 rounded-xl border border-border bg-background-card/60 px-4 py-2 text-text-primary transition-colors hover:border-border-hover hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                 >
-                  <span className={cn(PASTILLE, "flex-none font-semibold", c.nouvelle ? "text-accent-link" : "text-text-secondary")}>
+                  <span className={cn(PASTILLE, "flex-none", c.nouvelle && META_FORT)}>
                     {c.nouvelle ? T.rafale.nouvelle : T.rafale.aRevoir}
                   </span>
-                  <span className="min-w-0 flex-1 text-sm">{c.titre}</span>
-                  <Chevron className="text-text-muted" />
+                  <span className={cn("min-w-0 flex-1", META, "text-text-primary")}>{c.titre}</span>
+                  <Chevron className="text-text-secondary" />
                 </Link>
               </li>
             ))}

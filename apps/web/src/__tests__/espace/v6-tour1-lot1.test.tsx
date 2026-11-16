@@ -85,21 +85,24 @@ describe("point 2 : aperçu, offre hors de l'exemple (mise en page : v6 tour 2)"
 describe("point 4 : Aujourd'hui, l'action du jour pleine coque et dominante", () => {
   const cartes = [{ titre: "Une carte", href: "/mon-espace/s-entrainer#carte-1", nouvelle: true }];
 
-  it("rafale principale : filet, `md:p-8`, titre `md:text-3xl` ; secondaire (rafale faite) : non", () => {
+  // Échelle s25 (`docs/design/typo-harmonie-espace-s25.md`) : la dominance vient de la place, du filet (gardé,
+  // arbitrage du 16/11) et du seul bouton plein, plus de la taille : même marge (24 px) et même titre (20 px) partout.
+  it("rafale principale : filet et bouton plein ; secondaire (rafale faite) : sans filet ; marge et titre de l'échelle", () => {
     const { container, unmount } = render(<CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={false} />);
-    expect(classes(container.querySelector("section"))).toEqual(expect.arrayContaining(["md:p-8", "rounded-xl", "before:h-1"]));
-    expect(classes(container.querySelector("h2"))).toContain("md:text-3xl");
+    expect(classes(container.querySelector("section"))).toEqual(expect.arrayContaining(["p-6", "rounded-xl", "before:h-1"]));
+    expect(classes(container.querySelector("h2"))).toEqual(expect.arrayContaining(["text-xl", "font-semibold"]));
+    expect(container.querySelector("a.bg-accent-secondary-hover")).not.toBeNull();
     unmount();
     const secondaire = render(<CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini principale={false} />).container;
-    expect(classes(secondaire.querySelector("section"))).not.toContain("md:p-8");
-    expect(classes(secondaire.querySelector("h2"))).not.toContain("md:text-3xl");
+    expect(classes(secondaire.querySelector("section"))).not.toContain("before:h-1");
+    expect(classes(secondaire.querySelector("h2"))).toEqual(expect.arrayContaining(["text-xl", "font-semibold"]));
   });
 
   // Refonte s25 (`docs/design/aujourdhui-refonte-s25.md` §5.1) : la grille 12 colonnes remplace la colonne et ses
   // secondaires ; même intention (jamais une cellule vide) : rangée 2 partagée 3 x 4, 2 x 6 ou 1 x 12.
   it("page : plus de colonne vide ; rangée 2 partagée en 12 colonnes selon le nombre de zones présentes", () => {
     const page = lire("app/(dashboard)/mon-espace/page.tsx");
-    expect(page).toContain('className="mt-6 grid grid-cols-1 gap-6 md:mt-8 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille');
+    expect(page).toContain('className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille');
     expect(page).toContain('if (n >= 3) return i === 2 ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4";');
     // v7 tour 2 : 2 zones = 2 x 6 dès 1024, l'une sous l'autre à 768 (plus de tuile creusée par sa voisine).
     expect(page).toContain('if (n === 2) return "md:col-span-2 lg:col-span-6";');

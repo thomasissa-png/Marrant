@@ -1,6 +1,8 @@
 import { TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-apercu";
 import { BadgePremium } from "@/components/espace/apercu/badge-premium";
 import { OffreApercu } from "@/components/espace/apercu/offre-apercu";
+import { META, TEXTE, TITRE_PAGE } from "@/components/espace/typo";
+import { cn } from "@/lib/utils";
 
 /**
  * Hero de l'aperçu verrouillé, zones A et B (refonte s25, spec UX §2.1 et §3.1, design §3.5) : pas de carte autour
@@ -18,6 +20,12 @@ import { OffreApercu } from "@/components/espace/apercu/offre-apercu";
  * (H1 `lg:text-6xl`, promesse `lg:text-2xl` sur deux lignes, pastilles `lg:mt-8`) : les deux bas à moins de 24 px.
  * Piste 768 : 60/40 dès 768 (spec UX §2.3), l'offre à droite au lieu d'une barre pleine largeur ; pastilles plafonnées
  * de 768 à 1023 (`max-w-md`) pour tomber en 3 + 3, jamais une seule sur sa ligne.
+ * Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.6, retour de Thomas du 16/11) : H1 en `TITRE_PAGE` (24
+ * puis 30), promesse en `TEXTE` sur `max-w-xl`, pastilles en `META` à point neutre. L'équilibre avec l'offre vient de
+ * l'air, plus de la taille du texte : dès 768, les deux colonnes ont la même hauteur ; en haut, la pastille « Premium »
+ * (à la hauteur du H1 des autres rubriques), le H1 et la promesse ; en bas, les pastilles, calées sur le bas de la carte
+ * d'offre (`mt-auto`, 24 px au moins). Plus de vide mort sous les pastilles. Pastilles sans point (spec §2.6, « ou
+ * retiré ») et à 10 px de marge : 3 + 3 à 375 px, jamais une seule sur sa ligne.
  */
 export function HeroApercu({
   titre,
@@ -31,21 +39,17 @@ export function HeroApercu({
   offre: React.ComponentProps<typeof OffreApercu>;
 }) {
   return (
-    <div className="grid gap-8 md:grid-cols-5 md:items-start lg:grid-cols-12 lg:gap-12" data-apercu-hero>
-      <div className="min-w-0 md:col-span-3 lg:col-span-8">
-        <BadgePremium grand />
-        <h1 id="apercu-titre" className="mt-4 font-display text-4xl font-bold leading-tight text-text-primary md:text-5xl lg:text-6xl">
+    <div className="grid gap-8 md:grid-cols-5 lg:grid-cols-12 lg:gap-12" data-apercu-hero>
+      <div className="flex min-w-0 flex-col md:col-span-3 lg:col-span-8">
+        <BadgePremium className="self-start" />
+        <h1 id="apercu-titre" className={cn("mt-4", TITRE_PAGE)}>
           {titre}
         </h1>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
-        <p className="mt-4 max-w-3xl text-lg text-text-secondary [text-wrap:balance] md:text-xl lg:text-2xl">{promesse}</p>
-        <ul className="mt-6 flex flex-wrap gap-2 md:max-lg:max-w-md lg:mt-8" data-apercu-pastilles>
+        <p className={cn("mt-4 max-w-xl [text-wrap:balance]", TEXTE)}>{promesse}</p>
+        <ul className="mt-6 flex flex-wrap gap-2 md:mt-auto md:pt-6 md:max-lg:max-w-md" data-apercu-pastilles>
           {pastilles.map((p) => (
-            <li
-              key={p}
-              className="inline-flex items-center gap-2 rounded-full bg-background-elevated px-2.5 py-1 text-xs text-text-secondary md:py-1.5 md:text-sm"
-            >
-              <span className="h-1.5 w-1.5 flex-none rounded-full bg-accent-primary" aria-hidden="true" />
+            <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-2.5 py-1", META)}>
               {p}
             </li>
           ))}
