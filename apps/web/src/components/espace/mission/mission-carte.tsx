@@ -8,7 +8,7 @@ import type { SuiteMission } from "@/lib/espace/missions";
 import { enonceAffiche } from "@/lib/espace/enonce-mission";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { LigneRetour } from "@/components/espace/carte/ligne-retour";
-import { ACTIONS_ENTRAINEMENT, BOUTON_PRINCIPAL, LIEN, cadreEntrainement, nouvelleCle, texteEntrainement } from "@/components/espace/carte/styles";
+import { BOUTON_PRINCIPAL, CARTE, LIEN, nouvelleCle } from "@/components/espace/carte/styles";
 import { Marches } from "@/components/espace/mission/marches";
 import { preparerQuestion } from "@/components/espace/questions/prefill";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
@@ -66,9 +66,8 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
   );
 
   return (
-    // v6 tour 3 (arbitrage 2) : la mission prend la ligne entière ; dès `lg`, l'énoncé à gauche, le retour à droite.
-    <section id="mission" aria-labelledby="mission-titre" className={cadreEntrainement("seule")} data-mission={mission.id}>
-      <div className={texteEntrainement("seule")}>
+    // v6 tour 4 (arbitrage 1) : une seule disposition, les blocs l'un sous l'autre (`CARTE`), dans la colonne de la page.
+    <section id="mission" aria-labelledby="mission-titre" className={CARTE} data-mission={mission.id}>
       <p className="flex items-end gap-3 text-xs font-semibold text-text-muted">
         <span>{M.marche(n)}</span>
         <Marches n={n} />
@@ -85,8 +84,6 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
         ))}
       </div>
       <p className="text-sm text-text-secondary">{M.facultative}</p>
-      </div>
-      <div className={ACTIONS_ENTRAINEMENT}>
       <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} />
       <div role="status" className="space-y-2">
         {echec && <p className="text-sm text-text-secondary">{TEXTES_CARTES.echec}</p>}
@@ -131,7 +128,6 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
           ) : (
             autre
           ))}
-      </div>
       </div>
     </section>
   );

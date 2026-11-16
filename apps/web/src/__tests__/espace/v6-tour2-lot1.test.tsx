@@ -130,11 +130,11 @@ describe("point 4 : séance, étape « Observation » en liste numérotée, text
   });
 });
 
-describe("point 5 : S'entraîner, cartes pleine ligne (remplacé par le tour 3, arbitrage 2)", () => {
-  it("plus de mesure plafonnée ; cartes jumelles en `items-stretch` (`v6-tour3-lot1.test.tsx`)", () => {
+describe("point 5 : S'entraîner, cartes pleine ligne (remplacé par le tour 3, puis par le tour 4, arbitrage 1)", () => {
+  it("plus de mesure plafonnée dans une carte pleine ligne ; cartes empilées en colonne centrée (`v6-tour4-lot1.test.tsx`)", () => {
     const page = lire("app/(dashboard)/mon-espace/s-entrainer/page.tsx");
     expect(page).not.toContain("MESURE_PLEINE_LIGNE");
-    expect(page).toContain('"grid grid-cols-1 items-stretch gap-6 md:grid-cols-2"');
+    expect(page).toContain("<div className={COLONNE_ENTRAINEMENT}>");
   });
 });
 

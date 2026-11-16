@@ -17,7 +17,7 @@ import { CarteRegistre } from "@/components/espace/carte/carte-registre";
 import { CarteEtToi } from "@/components/espace/carte/carte-et-toi";
 import { FournisseurCompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
-import { CARTE, EN_TETE_CENTRE, LIEN, type PlaceEntrainement } from "@/components/espace/carte/styles";
+import { CARTE, COLONNE_ENTRAINEMENT, EN_TETE_CENTRE, LIEN } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -33,12 +33,9 @@ const M = frEspaceProfond(TEXTES_MISSION);
  * EN PREMIER : 404 interrupteur fermé ; nav v6, aperçu pour le visiteur et l'inscrit gratuit.
  */
 /**
- * v6 tour 3 (arbitrage 2, remplace la mesure plafonnée du tour 2) : grille `md:grid-cols-2 items-stretch`, cartes
- * jumelles de même hauteur ; la carte seule en fin de grille (et la mission) prend la ligne entière, texte à gauche
- * et actions à droite dès `lg` (`cadreEntrainement`, `components/espace/carte/styles.ts`).
- * v6 tour 4 (arbitrage 1) : jumelles en sous-grille (en-tête, « Le contexte », « Ta réponse d'abord » et réponses à la
- * même hauteur d'une carte à l'autre, plus de texte étiré qui creuse la carte courte) ; carte seule, « Le contexte »
- * passe dans la colonne de droite dès `lg` (colonnes de hauteurs voisines).
+ * v6 tour 4 (arbitrage 1, remplace la grille à deux colonnes du tour 3) : cartes et mission empilées dans une
+ * colonne centrée (`COLONNE_ENTRAINEMENT`, `mx-auto max-w-3xl`) à toutes les largeurs, même gabarit que les fiches
+ * jeu et bilan, la lettre et les aperçus ; chaque carte à sa hauteur naturelle (aucune carte étirée, aucun vide).
  */
 export const dynamic = "force-dynamic";
 
@@ -71,50 +68,34 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
   const aPlat = chargeursFiches.listerFiches("a-plat", acces)[0];
   // Lot D11b (@ux D-4) : aucune carte montrable = « C'est tout pour aujourd'hui », même si le moteur n'a pas dit fini.
   const sansCarte = etat.cartes.every((c) => !etat.catalogue.get(c.carteId));
-  // v6 tour 4 (arbitrage 1) : cartes montrables dans l'ordre (ancre = rang dans la rafale), rangées de deux dès 768 px.
-  const montrables = etat.cartes.flatMap((c, i) => {
-    const carte = etat.catalogue.get(c.carteId);
-    return carte ? [{ c, carte, ancre: `carte-${i + 1}` }] : [];
-  });
-  const placeDe = (k: number): PlaceEntrainement => {
-    // Nombre impair de cartes : la dernière prend la ligne entière (aucune colonne vide à côté).
-    if (k === montrables.length - 1 && montrables.length % 2 === 1) return "seule";
-    // Jumelles : 5 rangées si l'une des deux a « Le contexte » (carte « Quel registre ? »), sinon 4.
-    const voisine = montrables[k ^ 1];
-    return montrables[k].carte.genre === "registre" || voisine?.carte.genre === "registre" ? "jumelle" : "jumelle-sans-contexte";
-  };
 
   return (
     <div>
-      {/* v5 §3, gabarit C (nav v6 : plus de « Retour : Mon espace », la bande est le retour), en-tête de page du site, une carte par colonne
-          (1 colonne, 2 dès 768 px, `gap-6`), mêmes colonnes que « Aujourd'hui ». */}
+      {/* v5 §3, gabarit C (nav v6 : plus de « Retour : Mon espace », la bande est le retour), en-tête de page du site ;
+          v6 tour 4 (arbitrage 1) : les cartes l'une sous l'autre, dans une colonne centrée, à toutes les largeurs. */}
       <div className={EN_TETE_CENTRE}>
         <PageHeader title={N.index.sEntrainer} lead={T.accroche} />
       </div>
-      <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2">
+      <div className={COLONNE_ENTRAINEMENT}>
       <FournisseurCompteARebours etat={etat.compteARebours}>
-        {montrables.map(({ c, carte, ancre }, k) => {
-          const place = placeDe(k);
-          // Jumelle : l'enveloppe s'efface dès 768 px (`md:contents`), la carte est la case de la grille de la page qui
-          // porte la sous-grille (`cadreEntrainement`).
-          return (
-            <div key={c.carteId} className={place === "seule" ? "min-w-0 md:col-span-2" : "min-w-0 md:contents"}>
-              {carte.genre === "registre" ? (
-                <CarteRegistre carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} place={place} />
-              ) : (
-                <CarteEtToi carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} place={place} />
-              )}
-            </div>
+        {etat.cartes.map((c, i) => {
+          const carte = etat.catalogue.get(c.carteId);
+          if (!carte) return null;
+          const ancre = `carte-${i + 1}`;
+          return carte.genre === "registre" ? (
+            <CarteRegistre key={c.carteId} carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
+          ) : (
+            <CarteEtToi key={c.carteId} carte={frEspaceProfond(carte)} nouvelle={c.nouvelle} ancre={ancre} />
           );
         })}
       </FournisseurCompteARebours>
       {(etat.fini || sansCarte) && (
-        <div className={`${CARTE} md:col-span-2`}>
+        <div className={CARTE}>
           <p className="text-base font-semibold text-text-primary">{T.fini}</p>
         </div>
       )}
       {marche && !mission && (
-        <div id="mission" className={`${CARTE} md:col-span-2`} data-testid="mission-vide">
+        <div id="mission" className={CARTE} data-testid="mission-vide">
           <p className="text-sm text-text-primary">{M.aucuneMission}</p>
           {repli && (
             <Link href={`/mon-espace/s-entrainer?marche=${repli}#mission`} className={LIEN}>
@@ -123,14 +104,11 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
           )}
         </div>
       )}
-      {/* Relecture des captures nav s24 (design 2) : la mission prend la ligne entière, aucun vide à droite. */}
       {mission && (
-        <div className="min-w-0 md:col-span-2">
         <MissionCarte
           mission={{ id: mission.id, marche: mission.marche, enonce: mission.enonce, suites: frEspaceProfond(mission.suites) }}
           hrefAPlat={aPlat ? hrefFiche("a-plat", aPlat.id) : null}
         />
-        </div>
       )}
       </div>
     </div>
