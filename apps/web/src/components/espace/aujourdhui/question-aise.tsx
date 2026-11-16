@@ -4,7 +4,8 @@ import { useState } from "react";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import type { ReponseAise } from "@/lib/espace/aise";
 import { frEspaceProfond } from "@/lib/fr-typo";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { puce } from "@/components/espace/carte/styles";
+import { TUILE } from "@/components/espace/aujourdhui/tableau";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -41,32 +42,32 @@ export function QuestionAise() {
     }
   };
 
+  // Refonte s25 (spec design §4 Z7) : tuile standard sur la rangée entière ; dès 1024 px, la question à gauche
+  // (4 colonnes), les quatre puces à droite (8 colonnes) ; en dessous, empilées.
   return (
-    <section aria-labelledby="aise-titre" className={`${CADRE_CARTE} p-4 md:p-6`}>
-      <h2 id="aise-titre" className="text-base font-semibold text-text-primary">
-        {T.aise.question}
-      </h2>
-      <p id="aise-information" className="mt-1 text-sm text-text-secondary">
-        {T.aise.information}
-      </p>
-      <div className="mt-3 flex flex-wrap gap-2" role="group" aria-labelledby="aise-titre" aria-describedby="aise-information">
-        {REPONSES.map((r) => (
-          <button
-            key={r}
-            type="button"
-            disabled={etat === "envoi"}
-            onClick={() => void repondre(r)}
-            className="inline-flex min-h-11 items-center rounded-full border border-border-input px-4 text-sm font-medium text-text-primary transition-colors hover:border-text-muted hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary disabled:opacity-50"
-          >
-            {T.aise.reponses[r]}
-          </button>
-        ))}
-      </div>
-      {etat === "echec" && (
-        <p role="alert" className="mt-3 text-sm text-error-text">
-          {T.aise.echec}
+    <section aria-labelledby="aise-titre" className={`${TUILE} lg:grid lg:grid-cols-12 lg:items-center lg:gap-6`} data-question-aise>
+      <div className="min-w-0 lg:col-span-4">
+        <h2 id="aise-titre" className="text-base font-semibold text-text-primary">
+          {T.aise.question}
+        </h2>
+        <p id="aise-information" className="mt-1 text-sm text-text-secondary">
+          {T.aise.information}
         </p>
-      )}
+      </div>
+      <div className="mt-3 min-w-0 lg:col-span-8 lg:mt-0">
+        <div className="flex flex-wrap gap-2" role="group" aria-labelledby="aise-titre" aria-describedby="aise-information">
+          {REPONSES.map((r) => (
+            <button key={r} type="button" disabled={etat === "envoi"} onClick={() => void repondre(r)} className={`${puce(false)} disabled:opacity-50`}>
+              {T.aise.reponses[r]}
+            </button>
+          ))}
+        </div>
+        {etat === "echec" && (
+          <p role="alert" className="mt-3 text-sm text-error-text">
+            {T.aise.echec}
+          </p>
+        )}
+      </div>
     </section>
   );
 }

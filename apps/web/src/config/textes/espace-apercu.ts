@@ -40,3 +40,26 @@ export const TEXTES_APERCU = {
     texte: "Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée.",
   },
 } as const;
+
+/**
+ * Refonte d'« Aujourd'hui » (s25, `docs/ux/aujourdhui-refonte-s25.md` §6.2) : les seuls textes neufs de la refonte,
+ * proposés par @ux, EN ATTENTE de validation par Thomas. Réunis ici pour être retrouvés et remplacés d'un coup.
+ * Tout le reste de l'aperçu verrouillé et du tableau de bord est repris par import (spec UX §6.1).
+ */
+export const TEXTES_APERCU_VERROUILLE = {
+  /** T1 : promesse du hero de l'aperçu d'« Aujourd'hui ». */
+  // À VALIDER PAR THOMAS (s25)
+  promesseAujourdhui: "Ton tableau de bord : chaque jour, ton action, ta progression et ta série.",
+  /** T2 : phrase de fin d'extrait, toutes rubriques. */
+  // À VALIDER PAR THOMAS (s25)
+  suite: "La suite est dans Premium",
+  /** T4 : lu seulement (lecteurs d'écran), après le H1 de l'aperçu. */
+  // À VALIDER PAR THOMAS (s25)
+  lecteurEcran: "Rubrique Premium. Exemple ci-dessous, non cliquable.",
+} as const;
+
+const FORMAT_DATE_DU_JOUR = new Intl.DateTimeFormat("fr-FR", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Paris" });
+
+/** T3 : date sous le H1 de l'abonné, jour de Paris, mise en forme automatique en français (« lundi 16 novembre »). */
+// À VALIDER PAR THOMAS (s25)
+export const dateDuJour = (maintenant: Date = new Date()): string => FORMAT_DATE_DU_JOUR.format(maintenant);

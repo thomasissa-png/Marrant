@@ -14,7 +14,9 @@ import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } f
  */
 const MOT_DE_PASSE = "E2e-v6-tour3-lot1!";
 const CAPTURES = process.env.E2E_CAPTURES_V6T3;
-const RUBRIQUES = ["/mon-espace", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/mon-espace/questions", "/mon-espace/repliques", "/favoris"];
+// Refonte s25 (spec design §2) : « Aujourd'hui » devient un tableau de bord, H1 aligné à gauche sur la barre ; il sort
+// de la règle des titres centrés (vérifié par `espace-aujourdhui-refonte-s25.spec.ts`).
+const RUBRIQUES = ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/mon-espace/questions", "/mon-espace/repliques", "/favoris"];
 
 const boite = async (l: Locator) => {
   const b = await l.boundingBox();
@@ -54,7 +56,9 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
   test("aperçus (visiteur) : situation en entier sans porte, catalogue de Quoi répondre, Favoris empilés, Connexion 44 px", async ({ page }) => {
     for (const largeur of [375, 1280]) {
       await page.setViewportSize({ width: largeur, height: 900 });
-      for (const [rubrique, adresse] of [["quoiRepondre", "/mon-espace/quoi-repondre"], ["aujourdhui", "/mon-espace"]] as const) {
+      // Refonte s25 : l'aperçu d'« Aujourd'hui » n'est plus une situation entière (tableau de bord fermé, extrait
+      // coupé) : vérifié par `espace-aujourdhui-refonte-s25.spec.ts`.
+      for (const [rubrique, adresse] of [["quoiRepondre", "/mon-espace/quoi-repondre"]] as const) {
         await page.goto(adresse);
         const racine = page.locator(`[data-apercu="${rubrique}"]`);
         await expect(racine.getByTestId("fiche-suite"), `suite visible, ${rubrique} ${largeur}`).toBeVisible();

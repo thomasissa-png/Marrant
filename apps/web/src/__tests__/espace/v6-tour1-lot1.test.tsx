@@ -95,10 +95,14 @@ describe("point 4 : Aujourd'hui, l'action du jour pleine coque et dominante", ()
     expect(classes(secondaire.querySelector("h2"))).not.toContain("md:text-3xl");
   });
 
-  it("page : plus de colonne 2 vide ; secondaires côte à côte, le dernier impair sur toute la rangée", () => {
+  // Refonte s25 (`docs/design/aujourdhui-refonte-s25.md` §5.1) : la grille 12 colonnes remplace la colonne et ses
+  // secondaires ; même intention (jamais une cellule vide) : rangée 2 partagée 3 x 4, 2 x 6 ou 1 x 12.
+  it("page : plus de colonne vide ; rangée 2 partagée en 12 colonnes selon le nombre de zones présentes", () => {
     const page = lire("app/(dashboard)/mon-espace/page.tsx");
-    expect(page).not.toContain('md:grid-cols-2" data-aujourdhui-grille');
-    expect(page).toContain('className="grid grid-cols-1 gap-6 md:grid-cols-2 md:[&>:last-child:nth-child(odd)]:col-span-2" data-aujourdhui-secondaires');
+    expect(page).toContain('className="mt-6 grid grid-cols-1 gap-6 md:mt-8 md:grid-cols-2 lg:grid-cols-12 max-e300:mt-3" data-aujourdhui-grille');
+    expect(page).toContain('if (n >= 3) return i === 2 ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4";');
+    expect(page).toContain('if (n === 2) return "lg:col-span-6";');
+    expect(page).toContain('return "md:col-span-2 lg:col-span-12";');
     const jour = lire("components/espace/aujourdhui/contenu-du-jour.tsx");
     expect(jour).toContain("grid grid-cols-1 items-stretch gap-6");
     expect(jour).not.toContain("md:max-w-md");
