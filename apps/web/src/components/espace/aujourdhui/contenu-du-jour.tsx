@@ -59,6 +59,11 @@ function extrait(texte: string): string {
  * « Une autre ») en `mt-auto`. À 768, inchangé : vanne et conseil côte à côte, la vidéo sur la ligne entière.
  */
 const VIDEO_A_DROITE = "md:col-span-2 lg:col-span-1 lg:col-start-2 lg:row-span-2 lg:row-start-1";
+/**
+ * v7 tour 3 (piste 768) : de 768 à 1023 px, la carte vidéo garde la ligne entière mais n'est plus une dalle : vignette
+ * sur la moitié gauche, titre en face, en haut (au tour 2, 490 x 280 px de vignette dominaient toute la page).
+ */
+const VIDEO_768 = "md:max-lg:grid md:max-lg:grid-cols-2 md:max-lg:items-start md:max-lg:gap-6";
 /** Sans vignette (chargement, repli, vidéo sans `youtubeId`) : trois cartes courtes côte à côte dès 1024, comme avant. */
 const TROISIEME = "md:col-span-2 lg:col-span-1";
 
@@ -149,16 +154,18 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
           </Carte>
           <Carte id="jour-video" titre={T.jour.video} className={vignette ? VIDEO_A_DROITE : TROISIEME}>
             {etat.donnees.video ? (
-              <>
+              <div className={cn("flex flex-1 flex-col", vignette && VIDEO_768)}>
                 {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}
                 {etat.donnees.video.youtubeId && (
-                  // v6 tour 1 (point 4) : vignette sur toute la largeur de sa carte (à 768 px aussi, plus de vide à droite).
-                  <div className={`relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated ${LECTEUR}`}>
+                  // v6 tour 1 (point 4) : vignette sur toute la largeur de sa carte (v7 tour 3 : sa moitié à 768 px).
+                  <div className={`relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated md:max-lg:mb-0 ${LECTEUR}`}>
                     <YouTubePlayer youtubeId={etat.donnees.video.youtubeId} title={etat.donnees.video.title} />
                   </div>
                 )}
-                <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={lienCarte}>{frEspace(etat.donnees.video.title)}</Link>
-              </>
+                <Link href={`/videos/${buildVideoSlug(etat.donnees.video)}`} className={cn(lienCarte, vignette && "md:max-lg:mt-0")}>
+                  {frEspace(etat.donnees.video.title)}
+                </Link>
+              </div>
             ) : (
               <Link href="/videos" className={lienCarte}>{T.jour.repli.videos}</Link>
             )}

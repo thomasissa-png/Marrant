@@ -122,7 +122,16 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
         expect(await lecture.evaluate((d) => getComputedStyle(d).backgroundColor), `lecteur sans rouge, ${ou}`).not.toBe("rgb(220, 38, 38)");
         const video = await boite(jour.locator("#jour-video").locator("xpath=.."));
         const vignette = await boite(jour.locator("article .aspect-video").first());
-        expect(video.largeur - vignette.largeur, `vignette sur toute la carte, ${ou}`).toBeLessThanOrEqual(2 * 24 + 4);
+        if (largeur === 768) {
+          // v7 tour 3 (piste 768) : la carte vidéo garde la ligne entière, la vignette sa moitié gauche, le titre en
+          // face (même intention : aucun vide à droite de la vignette).
+          const titre = await boite(jour.locator("#jour-video").locator("xpath=..").locator("a").last());
+          expect(Math.abs(vignette.largeur - (video.largeur - 2 * 24 - 24) / 2), `vignette sur la moitié de la carte, ${ou}`).toBeLessThanOrEqual(2);
+          expect(titre.gauche, `titre en face de la vignette, ${ou}`).toBeGreaterThanOrEqual(vignette.droite);
+          expect(titre.haut, `titre en haut, à côté de la vignette, ${ou}`).toBeLessThan(vignette.bas);
+        } else {
+          expect(video.largeur - vignette.largeur, `vignette sur toute la carte, ${ou}`).toBeLessThanOrEqual(2 * 24 + 4);
+        }
       }
       await capturer(page, "nouvel-aujourdhui", largeur);
     }

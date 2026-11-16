@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
+import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
@@ -12,8 +13,11 @@ const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 /**
  * « Si tu as 5 minutes » (architecture 4.4 état 2, maquette `aujourdhui.html#etat=rafale`) :
  * COQUE du lot D3, remplie par le moteur de cartes du lot D5 (jusqu'à 3 cartes : situations
- * nouvelles puis cartes à revoir ; « C'est tout pour aujourd'hui » une fois faites). Accroche
- * au-dessus du titre, le titre collé au bouton (aucun bloc entre les deux, condition du libellé 7).
+ * nouvelles puis cartes à revoir ; « C'est tout pour aujourd'hui » une fois faites). Le titre collé
+ * au bouton (aucun bloc entre les deux, condition du libellé 7). v7 tour 3 (relectures, piste Z1) : même entrée que
+ * les autres variantes de Z1, une étiquette en capitales, le libellé existant de la rubrique où mènent les cartes
+ * (« S’entraîner », celui de la bande) ; l'accroche, mot pour mot, passe sous la rangée titre et bouton, en
+ * sous-texte, au-dessus des comptes (plus de phrase de corps en tête de carte).
  * Jamais montée le jour 1 (le premier pas est la seule action principale).
  */
 export type CarteDuJour = { titre: string; href: string; nouvelle: boolean; autreContexte?: boolean };
@@ -102,12 +106,14 @@ export function CartesDuJour({
     <ActionDuJour
       idTitre="rafale-titre"
       data-rafale="a-faire"
-      etiquette={null}
-      chapeau={T.rafale.accroche}
+      etiquette={TEXTES_ESPACE_NAVIGATION.index.sEntrainer}
       titre={T.rafale.titre}
       action={{ href, libelle: T.rafale.bouton }}
       apres={
         <>
+          <p className="mt-3 max-w-3xl text-sm text-text-secondary" data-rafale-accroche>
+            {T.rafale.accroche}
+          </p>
           {sousTitre}
           <ul className="mt-4 flex flex-col gap-2 md:grid md:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
             {cartes.map((c) => (

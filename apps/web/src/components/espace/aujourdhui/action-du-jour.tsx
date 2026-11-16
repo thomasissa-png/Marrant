@@ -7,12 +7,12 @@ import { CARTE_ACTION, ETIQUETTE_ACTION } from "@/components/espace/aujourdhui/t
  * Z1 « Action du jour » (refonte s25, spec design §4 Z1) : la carte dominante, seule teintée, seul bouton plein de
  * l'écran. Rangée 1 : étiquette violette à gauche, durée à droite ; rangée 2 : titre à gauche, bouton à droite dès
  * 768 px (en dessous, bouton pleine largeur sous le titre). Sert au premier pas, à l'étape en cours et à la rafale.
- * `fige` (extrait de l'aperçu) : le bouton est dessiné atténué, sans lien ni focus (l'extrait est inerte).
+ * `fige` (extrait de l'aperçu) : le bouton est dessiné sans lien ni focus (l'extrait est inerte). v7 tour 3 (faute 3) :
+ * plus d'atténuation propre au bouton, celle de `TuileFermee` (0,75) suffit : environ 4,5:1 (0,75 x 0,60 donnait 2,9:1).
  */
 export function ActionDuJour({
   idTitre,
   etiquette,
-  chapeau,
   duree,
   titre,
   action,
@@ -23,8 +23,6 @@ export function ActionDuJour({
 }: {
   idTitre: string;
   etiquette: React.ReactNode;
-  /** À la place de l'étiquette, une phrase d'accroche (rafale : « La bonne réponse qui te vient… »). */
-  chapeau?: string;
   duree?: string | null;
   titre: React.ReactNode;
   action: { href: string; libelle: string } | null;
@@ -40,7 +38,7 @@ export function ActionDuJour({
       <div className="grid gap-x-8 gap-y-4 md:grid-cols-[1fr_auto] md:items-end max-e300:gap-y-1">
         {/* Figée (extrait) : place gardée à droite pour la pastille « Premium » posée dans le coin. */}
         <div className={cn("flex items-center justify-between gap-4 md:col-span-2", fige && "pr-24")}>
-          {chapeau ? <p className="text-sm text-text-secondary">{chapeau}</p> : <p className={cn(ETIQUETTE_ACTION, "max-e300:tracking-normal")}>{etiquette}</p>}
+          <p className={cn(ETIQUETTE_ACTION, "max-e300:tracking-normal")}>{etiquette}</p>
           {duree && <p className="flex-none text-sm tabular-nums text-text-secondary">{duree}</p>}
         </div>
         <div className="min-w-0">
@@ -51,7 +49,7 @@ export function ActionDuJour({
         </div>
         {action &&
           (fige ? (
-            <span aria-disabled="true" className={cn(bouton, "pointer-events-none opacity-60")}>
+            <span aria-disabled="true" className={cn(bouton, "pointer-events-none")}>
               {action.libelle}
             </span>
           ) : (

@@ -61,13 +61,13 @@ export function Coche({ className }: { className?: string }) {
 
 /**
  * Barre d'étapes (validées sur total), décorative : « Étape n sur N » porte l'information, jamais un pourcentage
- * écrit (interdit des caps). Rail `bg-border` (v7 tour 2 : lisible même à zéro, comme les segments du cap),
- * remplissage dégradé.
+ * écrit (interdit des caps). Rail lisible même à zéro (v7 tour 3, piste : `border-hover`, une piste
+ * vide voulue, pas un trait éteint), comme les segments vides du cap ; remplissage dégradé.
  */
 export function BarreProgression({ faites, total, className }: { faites: number; total: number; className?: string }) {
   const part = total > 0 ? Math.min(1, Math.max(0, faites / total)) : 0;
   return (
-    <span className={cn("block h-2 overflow-hidden rounded-full bg-border", className)} aria-hidden="true" data-barre-etapes>
+    <span className={cn("block h-2 overflow-hidden rounded-full bg-border-hover", className)} aria-hidden="true" data-barre-etapes>
       <span className="block h-full rounded-full bg-gradient-to-r from-accent-primary to-accent-secondary" style={{ width: `${part * 100}%` }} />
     </span>
   );
@@ -78,7 +78,7 @@ export function SegmentsCap({ cap, className }: { cap: NumeroCap; className?: st
   return (
     <span className={cn("flex gap-1.5", className)} aria-hidden="true" data-segments-cap={cap}>
       {NUMEROS_CAPS.map((n) => (
-        <span key={n} className={cn("block h-2 flex-1 rounded-full", n <= cap ? "bg-accent-primary" : "bg-border")} />
+        <span key={n} className={cn("block h-2 flex-1 rounded-full", n <= cap ? "bg-accent-primary" : "bg-border-hover")} />
       ))}
     </span>
   );

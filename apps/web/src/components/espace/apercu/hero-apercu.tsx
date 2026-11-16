@@ -6,12 +6,14 @@ import { OffreApercu } from "@/components/espace/apercu/offre-apercu";
  * Hero de l'aperçu verrouillé, zones A et B (refonte s25, spec UX §2.1 et §3.1, design §3.5) : pas de carte autour
  * du texte (posé sur le halo), la carte d'offre est le seul objet encadré. Pastille « Premium », H1 (nom de la
  * rubrique, aligné à gauche sur la barre), phrase lue seulement (T4), promesse, pastilles « ce qu'il y a dedans »
- * (non cliquables, sans bord) ; à droite dès 1024 px, le bloc d'offre centré verticalement. CTA au premier écran.
+ * (non cliquables, sans bord) ; à droite dès 1024 px, le bloc d'offre. CTA au premier écran.
  * v7 tour 2 (piste) : 8/4 au lieu de 7/5 (la carte d'offre tient dans 4 colonnes), colonne de texte sans plafond à
  * 768 et pastilles un peu moins larges : les 6 pastilles tiennent sur une ligne à 768 et dès 1280, plus de
  * « Contenu du jour » seule sur sa ligne. La promesse garde son plafond de lecture (`max-w-xl`). Texte calé en haut
  * (`items-start`) : la pastille « Premium » reste à la hauteur du H1 des autres rubriques, même quand la carte d'offre,
- * plus étroite, est plus haute que le texte ; la carte reste centrée quand c'est le texte le plus haut.
+ * plus étroite, est plus haute que le texte.
+ * v7 tour 3 (piste hero) : promesse sur toute la colonne de texte (`max-w-3xl`, une ligne dès 1280 au lieu de deux
+ * courtes qui laissaient environ 480 px de vide avant l'offre) ; l'offre alignée en haut, sur la pastille « Premium ».
  */
 export function HeroApercu({
   titre,
@@ -32,7 +34,7 @@ export function HeroApercu({
           {titre}
         </h1>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
-        <p className="mt-4 max-w-xl text-lg text-text-secondary [text-wrap:balance] md:text-xl">{promesse}</p>
+        <p className="mt-4 max-w-3xl text-lg text-text-secondary [text-wrap:balance] md:text-xl">{promesse}</p>
         <ul className="mt-6 flex flex-wrap gap-2" data-apercu-pastilles>
           {pastilles.map((p) => (
             <li
@@ -45,7 +47,7 @@ export function HeroApercu({
           ))}
         </ul>
       </div>
-      <div className="min-w-0 lg:col-span-4 lg:self-center">
+      <div className="min-w-0 lg:col-span-4">
         <OffreApercu {...offre} />
       </div>
     </div>

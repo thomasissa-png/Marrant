@@ -14,7 +14,11 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  * - abonné neuf : Z1 8/12 et « Ton cap » 4/12 sur la même rangée dès 1024 px, une colonne dessous ; aucune rangée
  *   à moitié vide ; aucun débordement horizontal (halo compris) de 375 à 1920 ; v7 tour 2 (fautes 1, 2, 3, 5) : pas
  *   plus de 24 px de vide sous le contenu de Z1 et Z2 (au-delà de leur marge), aucun creux de plus de 32 px dans
- *   « Étape conseillée », « Tes 4 premières semaines » et les cartes du contenu du jour, « Semaine n » en tête de ligne.
+ *   « Étape conseillée », « Tes 4 premières semaines » et les cartes du contenu du jour, « Semaine n » en tête de ligne ;
+ * - v7 tour 3 (fautes 1 à 3) : rangée 2 de l'extrait lisible avant le fondu (étiquette, titre, barre et « Étape n sur
+ *   N » ensemble, « Vanne du jour » en clair), aucune ligne visible à cheval sur le point transparent ; à 900 px de
+ *   haut (1280, 1456, 1920), le bouton d'offre de la fin d'extrait sous le premier écran ; éléments figés à 3,9:1 au
+ *   moins ; à 768, la vidéo du jour n'est plus une dalle (vignette sur la moitié de sa carte).
  */
 const MOT_DE_PASSE = "E2e-aujourdhui-s25!";
 const CAPTURES = process.env.E2E_CAPTURES_AUJ_S25;
@@ -90,6 +94,8 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       // largeurs ; le fondu finit entre deux lignes (aucun texte à cheval sur le point transparent).
       const [cap, suite] = [await boite(extrait.locator("[data-cap-du-jour]")), await boite(extrait.locator("[data-apercu-suite]"))];
       expect(cap.bas, `« Ton cap » avant le fondu, ${ou}`).toBeLessThanOrEqual(suite.haut);
+      // v7 tour 3 : une ligne masquée par un parent qui coupe (`overflow-hidden`, accroche de la mission coupée après
+      // 3 lignes) n'est pas dessinée : seule sa partie visible compte.
       const coupees = await extrait.locator("[data-apercu-suite]").evaluate((s) => {
         const transparent = s.getBoundingClientRect().bottom - 48;
         const w = document.createTreeWalker(s, NodeFilter.SHOW_TEXT);
@@ -98,11 +104,67 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
           if (!n.textContent?.trim() || n.parentElement?.closest("[data-badge-premium]")) continue;
           const r = document.createRange();
           r.selectNodeContents(n);
-          for (const x of Array.from(r.getClientRects())) if (x.top < transparent && x.bottom > transparent) out.push(n.textContent.trim());
+          for (const x of Array.from(r.getClientRects())) {
+            let [haut, bas] = [x.top, x.bottom];
+            for (let e = n.parentElement; e && e !== s; e = e.parentElement) {
+              if (getComputedStyle(e).overflowY === "visible") continue;
+              const b = e.getBoundingClientRect();
+              [haut, bas] = [Math.max(haut, b.top), Math.min(bas, b.bottom)];
+            }
+            if (bas - haut > 1 && haut < transparent && bas > transparent) out.push(n.textContent.trim());
+          }
         }
         return out;
       });
       expect(coupees, `ligne coupée par le fondu, ${ou}`).toEqual([]);
+      // v7 tour 3 (faute 1) : sous la limite opaque du masque, chaque tuile visible de la rangée 2 se lit (étiquette et
+      // titre) ; « Étape conseillée » montre sa barre ET « Étape n sur N » ensemble (plus de fragment seul) ; « Contenu du
+      // jour » montre « Vanne du jour » en clair.
+      const lisible = await extrait.locator("[data-apercu-suite]").evaluate((s) => {
+        const m = /([\d.]+)px/.exec(getComputedStyle(s).maskImage || (getComputedStyle(s) as unknown as Record<string, string>).webkitMaskImage || "");
+        const opaque = s.getBoundingClientRect().top + (m ? parseFloat(m[1]) : 0);
+        const bas = (e: Element | null) => (e ? e.getBoundingClientRect().bottom : Infinity);
+        const tuiles = Array.from(s.querySelectorAll("[data-tuile-fermee]")).filter((t) => t.getBoundingClientRect().top < s.getBoundingClientRect().bottom - 48);
+        const etape = s.querySelector('[data-testid="parcours-tuile"]');
+        const ligneEtape = etape ? Array.from(etape.querySelectorAll("span")).find((x) => /Étape \d+ sur \d+/.test(x.textContent ?? "")) ?? null : null;
+        const jour = Array.from(s.querySelectorAll("[data-tuile-fermee] li"))[0] ?? null;
+        return {
+          opaque: m ? parseFloat(m[1]) : 0,
+          tuiles: tuiles.length,
+          titres: tuiles.every((t) => bas(t.querySelector("h2, .font-display")) <= opaque),
+          barreEtLigne: bas(etape?.querySelector("[data-barre-etapes]") ?? null) <= opaque && bas(ligneEtape) <= opaque,
+          vanneDuJour: jour === null || jour.getBoundingClientRect().top > s.getBoundingClientRect().bottom - 48 || bas(jour) <= opaque,
+        };
+      });
+      expect(lisible.opaque, `fondu opaque en haut, ${ou}`).toBeGreaterThanOrEqual(96);
+      expect(lisible.tuiles, `au moins une tuile de la rangée 2 visible, ${ou}`).toBeGreaterThanOrEqual(1);
+      expect(lisible.titres, `titres de la rangée 2 en clair, ${ou}`).toBe(true);
+      expect(lisible.barreEtLigne, `barre et « Étape n sur N » ensemble en clair, ${ou}`).toBe(true);
+      expect(lisible.vanneDuJour, `« Vanne du jour » en clair, ${ou}`).toBe(true);
+      // Faute 3 : bouton et pied figés, une seule atténuation, contraste composé sur le fond de la tuile.
+      const contrastes = await extrait.locator("span[aria-disabled='true']").evaluateAll((els) => {
+        const rgb = (t: string) => (t.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+        const lum = (c: number[]) => {
+          const v = c.map((x) => (x / 255 <= 0.03928 ? x / 255 / 12.92 : ((x / 255 + 0.055) / 1.055) ** 2.4));
+          return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+        };
+        return els.map((el) => {
+          let o = 1;
+          for (let e: Element | null = el; e && !e.hasAttribute("data-tuile-fermee"); e = e.parentElement) o *= parseFloat(getComputedStyle(e).opacity);
+          const fondCarte = getComputedStyle(el.closest("section") as Element).backgroundColor;
+          const fond = /^rgba\(0, 0, 0, 0\)$/.test(fondCarte) ? [31, 31, 31] : rgb(fondCarte);
+          const propre = getComputedStyle(el).backgroundColor;
+          const bg = /^rgba\(0, 0, 0, 0\)$/.test(propre) ? fond : rgb(propre);
+          const mix = (c: number[]) => c.map((x, i) => o * x + (1 - o) * fond[i]);
+          const [a, b] = [lum(mix(rgb(getComputedStyle(el).color))), lum(mix(bg))].sort((x, y) => y - x);
+          return { o, ratio: (a + 0.05) / (b + 0.05) };
+        });
+      });
+      expect(contrastes.length, `éléments figés, ${ou}`).toBeGreaterThanOrEqual(2);
+      for (const c of contrastes) {
+        expect(c.o, `une seule atténuation (0,75), ${ou}`).toBeGreaterThanOrEqual(0.74);
+        expect(c.ratio, `contraste figé, ${ou}`).toBeGreaterThanOrEqual(3.9);
+      }
       for (const z of ["[data-action-du-jour]", "[data-cap-du-jour]"]) {
         expect((await extrait.locator(z).evaluate(vides)).bas, `${z} sans vide en bas, ${ou}`).toBeLessThanOrEqual(24);
       }
@@ -131,6 +193,17 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
     }
     expect(vus).not.toContain("EXTRAIT");
     expect(vus).toContain(TEXTES_APERCU.connexion);
+  });
+
+  test("aperçu (visiteur) à 900 px de haut : un seul bouton d'offre plein au premier écran (1280, 1456, 1920)", async ({ page }) => {
+    for (const largeur of [1280, 1456, 1920]) {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/mon-espace");
+      const offres = page.locator("[data-apercu-verrouille]").getByRole("link", { name: TEXTES_APERCU.offre.nomAccessible });
+      await expect(offres.first(), `bouton du hero au premier écran, ${largeur}`).toBeInViewport({ ratio: 1 });
+      await expect(offres.nth(1), `bouton de fin sous le premier écran, ${largeur}`).not.toBeInViewport();
+      expect((await boite(offres.nth(1))).haut, `bouton de fin sous 900 px, ${largeur}`).toBeGreaterThanOrEqual(900);
+    }
   });
 
   test("abonné neuf : Z1 8/12 et « Ton cap » 4/12 sur une rangée dès 1024 px, rangées pleines, rien ne déborde", async ({ page }) => {
@@ -184,6 +257,12 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       await expect(jour).not.toHaveAttribute("data-etat", "chargement", { timeout: 10_000 });
       if (largeur >= 1280 && (await jour.locator(".aspect-video").count())) {
         for (const a of await jour.locator("article").all()) expect((await a.evaluate(vides)).creux, `carte du jour sans creux, ${ou}`).toBeLessThanOrEqual(32);
+      }
+      // v7 tour 3 (piste 768) : la vidéo du jour n'est plus une dalle pleine largeur ; vignette sur la moitié de sa carte.
+      if (largeur === 768 && (await jour.locator(".aspect-video").count())) {
+        const [carte, vignette] = [await boite(page.locator("#jour-video").locator("xpath=ancestor::article")), await boite(jour.locator(".aspect-video"))];
+        expect(vignette.largeur, `vignette sur la moitié de sa carte, ${ou}`).toBeLessThanOrEqual(carte.largeur * 0.55);
+        expect(carte.hauteur, `carte vidéo sans dalle, ${ou}`).toBeLessThanOrEqual(320);
       }
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "nouvel-aujourdhui-refonte", largeur);

@@ -47,7 +47,8 @@ export function EtapeEnCours({ etape }: { etape: EtapeAReprendre }) {
 /**
  * Z3 « Parcours en cours » / « Étape conseillée » (refonte s25, spec UX §4.2 et design §4 Z3) : tuile standard, le
  * parcours en titre, la barre et « Étape n sur N » (à zéro s'il n'est pas commencé), le titre de l'étape, et un pied d'action
- * (lien, jamais un plein). `fige` (extrait de l'aperçu) : le pied est dessiné, sans lien.
+ * (lien, jamais un plein). `fige` (extrait de l'aperçu) : le pied est dessiné, sans lien ; v7 tour 3 (faute 3) : sans
+ * atténuation propre, celle de `TuileFermee` (0,75) suffit (0,75 x 0,60 passait sous 3:1).
  */
 export function ParcoursTuile({ etape, fige = false }: { etape: EtapeAReprendre; fige?: boolean }) {
   const pied = (
@@ -67,7 +68,7 @@ export function ParcoursTuile({ etape, fige = false }: { etape: EtapeAReprendre;
       <Avancement etape={etape} />
       <p className="mb-5 mt-2 text-sm text-text-secondary">{frEspace(etape.titreEtape)}</p>
       {fige ? (
-        <span aria-disabled="true" className={`${PIED_TUILE} pointer-events-none opacity-60`}>
+        <span aria-disabled="true" className={`${PIED_TUILE} pointer-events-none`}>
           {pied}
         </span>
       ) : (

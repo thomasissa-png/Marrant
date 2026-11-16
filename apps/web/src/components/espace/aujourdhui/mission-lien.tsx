@@ -16,6 +16,8 @@ const M = frEspaceProfond(TEXTES_MISSION);
  * `fige` (extrait de l'aperçu) : la même tuile, sans lien.
  * v7 tour 2 (piste Mission) : `accroche`, la première phrase de l'énoncé de la mission ouverte (texte existant,
  * `accrocheMission`), sous le titre : la tuile n'a plus un grand vide entre le titre et la pastille.
+ * v7 tour 3 (faute 1) : figée (extrait), l'accroche est coupée après sa 3e ligne (entre deux lignes, sans points de
+ * suspension, la 3e déjà dans le fondu) : aucune ligne à cheval sur le point transparent, quelle que soit la largeur.
  */
 export function MissionLien({ marche, accroche, fige = false }: { marche: NumeroMarche; accroche?: string; fige?: boolean }) {
   const contenu = (
@@ -25,7 +27,7 @@ export function MissionLien({ marche, accroche, fige = false }: { marche: Numero
       </span>
       <span className={cn(TITRE_TUILE, "block")}>{M.titresMarches[marche]}</span>
       {accroche && (
-        <span className="mt-2 block text-sm text-text-secondary" data-mission-accroche>
+        <span className={cn("mt-2 block text-sm text-text-secondary", fige && "max-h-[3.75rem] overflow-hidden")} data-mission-accroche>
           {frEspace(accroche)}
         </span>
       )}

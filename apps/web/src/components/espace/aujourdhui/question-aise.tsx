@@ -43,7 +43,8 @@ export function QuestionAise() {
   };
 
   // Refonte s25 (spec design §4 Z7) : tuile standard sur la rangée entière ; dès 1024 px, la question à gauche
-  // (4 colonnes), les quatre puces à droite (8 colonnes) ; en dessous, empilées.
+  // (4 colonnes), les quatre puces à droite (8 colonnes) ; en dessous, empilées. v7 tour 3 (piste) : dès 768 px, les
+  // quatre puces se répartissent sur toute leur colonne (4 parts égales), plus de tiers droit vide à 1280 et 1920.
   return (
     <section aria-labelledby="aise-titre" className={`${TUILE} lg:grid lg:grid-cols-12 lg:items-center lg:gap-6`} data-question-aise>
       <div className="min-w-0 lg:col-span-4">
@@ -55,9 +56,9 @@ export function QuestionAise() {
         </p>
       </div>
       <div className="mt-3 min-w-0 lg:col-span-8 lg:mt-0">
-        <div className="flex flex-wrap gap-2" role="group" aria-labelledby="aise-titre" aria-describedby="aise-information">
+        <div className="flex flex-wrap gap-2 md:grid md:grid-cols-4" role="group" aria-labelledby="aise-titre" aria-describedby="aise-information">
           {REPONSES.map((r) => (
-            <button key={r} type="button" disabled={etat === "envoi"} onClick={() => void repondre(r)} className={`${puce(false)} disabled:opacity-50`}>
+            <button key={r} type="button" disabled={etat === "envoi"} onClick={() => void repondre(r)} className={`${puce(false)} disabled:opacity-50 md:justify-center`}>
               {T.aise.reponses[r]}
             </button>
           ))}

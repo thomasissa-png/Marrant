@@ -4,6 +4,8 @@ import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import { TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import { SERIE } from "@/config/textes/parcours";
 import { choisirPremierPas } from "@/lib/espace/premier-pas";
+import { accrocheMission } from "@/lib/espace/enonce-mission";
+import { missionOuverte, missionsServiesValidees } from "@/lib/espace/missions";
 import { etapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { PARCOURS_SEED_JSON } from "@/lib/parcours-seed";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -33,11 +35,13 @@ export const PASTILLES_AUJOURDHUI = [T.premierPas.eyebrow, C.titre, SERIE.titre,
  * défaut (scène et durée de `choisirPremierPas` sans signal), « Ton cap » au cap 1 sans chiffres (série à démarrer),
  * l'étape conseillée du parcours par défaut (même règle que l'abonné, `etapeAReprendre` sans progression), la mission
  * de la marche 1, et « Contenu du jour » avec ses trois titres seulement (aucune vanne réelle, pas d'`/api/daily`).
- * Aucune donnée d'abonné simulée.
+ * Aucune donnée d'abonné simulée. v7 tour 3 (faute 1) : la mission est celle qu'ouvre un nouvel abonné (même règle,
+ * `missionOuverte` sans retour), avec son accroche (début de l'énoncé, texte existant) : sa tuile a un corps avant le fondu.
  */
 function TableauFerme() {
   const pas = choisirPremierPas(null, null, [], T.premierPas.sceneParDefaut);
   const etape = etapeAReprendre([], PARCOURS_SEED_JSON);
+  const mission = missionOuverte(missionsServiesValidees(), []);
   // v7 tour 2 (faute 4) : deux grilles. Rangée 1 (premier pas, « Ton cap ») toujours ENTIÈRE, à 375 et 768 aussi :
   // la progression et la série se lisent avant le fondu. La suite (rangée 2) passe seule sous le fondu (`SuiteCoupee`).
   return (
@@ -65,7 +69,7 @@ function TableauFerme() {
             </TuileFermee>
           )}
           <TuileFermee className="lg:col-span-4">
-            <MissionLien marche={1} fige />
+            <MissionLien marche={mission?.marche ?? 1} accroche={mission ? accrocheMission(mission.enonce) : undefined} fige />
           </TuileFermee>
           <TuileFermee className={etape ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4"}>
             <div className={TUILE}>

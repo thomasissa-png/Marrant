@@ -104,7 +104,8 @@ describe("faute 4 : extrait de l'aperçu, « Ton cap » avant le fondu", () => {
     expect(r1.querySelector("[data-cap-du-jour]")).not.toBeNull();
     expect(r1.closest("[data-apercu-suite]")).toBeNull();
     const suite = extrait.querySelector("[data-apercu-suite]") as HTMLElement;
-    expect(suite.className).toContain("h-40");
+    // v7 tour 3 (faute 1) : la coupe est plus haute (12,5 rem au lieu de 10) ; elle reste fixe, transparente au bout.
+    expect(suite.className).toMatch(/(^|\s)h-\[12\.5rem\](\s|$)/);
     expect(suite.className).toContain("transparent_calc(100%_-_3rem)");
     expect(suite.querySelectorAll("[data-tuile-fermee]")).toHaveLength(3);
   });
@@ -132,7 +133,8 @@ describe("pistes", () => {
   it("hero 8/4 : les 6 pastilles ont la place sur une ligne dès 1024 (plus d'orpheline à 1280)", () => {
     const hero = lire("components/espace/apercu/hero-apercu.tsx");
     expect(hero).toContain('<div className="min-w-0 lg:col-span-8">');
-    expect(hero).toContain('<div className="min-w-0 lg:col-span-4 lg:self-center">');
+    // v7 tour 3 (piste hero) : l'offre n'est plus centrée verticalement, elle s'aligne en haut sur la pastille.
+    expect(hero).toContain('<div className="min-w-0 lg:col-span-4">');
     expect(hero).toContain("lg:items-start");
     expect(hero).not.toContain("md:max-w-2xl");
   });

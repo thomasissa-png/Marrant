@@ -12,6 +12,8 @@ import { ExtraitCoupe } from "@/components/espace/apercu/extrait-coupe";
  * identiques (hero, fin d'extrait) vers le même lien, source de mesure de la rubrique (`data-position` haut / fin).
  * Rendu serveur statique, sans appel à l'espace (rien ne s'enregistre depuis un aperçu). Squelette constant ;
  * variables : promesse, pastilles, contenu de l'extrait (blocs enveloppés de `TuileFermee`).
+ * v7 tour 3 (piste) : la page finit sur sa légende, une ligne de texte : marge basse réduite (environ 100 px de noir
+ * avant le pied au tour 2), le pied suit à l'espacement de la coque.
  */
 export function ApercuVerrouille({
   rubrique,
@@ -30,7 +32,7 @@ export function ApercuVerrouille({
   const adresse = ADRESSES_APERCU[rubrique];
   const href = buildAbonnementUrl(adresse, "monthly", sourceApercu(rubrique));
   return (
-    <div className="halo-page pb-16" data-apercu={rubrique} data-apercu-verrouille>
+    <div className="halo-page pb-4 md:pb-6" data-apercu={rubrique} data-apercu-verrouille>
       <HeroApercu titre={TEXTES_APERCU.titres[rubrique]} promesse={promesse} pastilles={pastilles} offre={{ href, adresse, visiteur }} />
       <ExtraitCoupe href={href} rubrique={rubrique}>
         {children}

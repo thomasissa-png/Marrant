@@ -17,10 +17,12 @@ const INERTE = { inert: "" } as Record<string, string>;
  * v7 tour 2 (faute 4) : la hauteur n'est plus plafonnée ici (320, 400, 440 px) : à 375 et 768, « Ton cap » passait
  * sous le fondu. L'extrait fournit sa propre coupe (`SuiteCoupee`) : ce qui doit se lire reste entier, seule la suite
  * passe sous le fondu, qui finit entre deux lignes de texte.
+ * v7 tour 3 (faute 2) : 80 px au-dessus de l'extrait dès 1024 px : à 900 px de haut (1280, 1456, 1920), le bouton de
+ * la fin d'extrait reste sous le premier écran ; jamais deux boutons d'offre pleins visibles ensemble.
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
-    <div className="relative mt-8 md:mt-10" data-apercu-extrait={rubrique}>
+    <div className="relative mt-8 md:mt-10 lg:mt-20" data-apercu-extrait={rubrique}>
       <div
         aria-hidden="true"
         {...INERTE}
@@ -41,15 +43,17 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
 }
 
 /**
- * La suite de l'extrait, coupée (v7 tour 2, faute 4) : 10 rem de haut, opaque en haut, ENTIÈREMENT transparente sur
- * ses 48 derniers px (la fin d'extrait, `-mt-12`, les chevauche ; spec design §3.3). Le fondu va de 0 à 112 px : il
- * couvre l'étiquette, le titre et la barre d'étapes des tuiles (ou le titre et la première ligne de « Contenu du
- * jour ») et finit dans l'interligne qui suit (88 à 108 px, puis 115 px et plus) : jamais au milieu d'une ligne.
+ * La suite de l'extrait, coupée (v7 tour 3, faute 1). Hauteur fixe ; le fondu ne commence qu'à 7 rem (112 px) : au-dessus,
+ * chaque tuile de la rangée 2 se lit en clair (étiquette, titre, barre d'étapes avec « Étape n sur N », titre de la
+ * mission, « Vanne du jour »). De 112 px au point transparent, la suite s'efface (début du corps : titre de l'étape,
+ * accroche de la mission, « Conseil du jour ») ; les 48 derniers px sont ENTIÈREMENT transparents (la fin d'extrait,
+ * `-mt-12`, les chevauche ; spec design §3.3). Le point transparent tombe dans un interligne (aucune ligne à cheval,
+ * vérifié par les tests en vrai navigateur) : jamais un fragment seul, jamais un bord bas coupé net.
  */
 export function SuiteCoupee({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="mt-6 h-40 overflow-hidden [mask-image:linear-gradient(to_bottom,black,transparent_calc(100%_-_3rem))]"
+      className="mt-6 h-[12.5rem] overflow-hidden [mask-image:linear-gradient(to_bottom,black_7rem,transparent_calc(100%_-_3rem))]"
       data-apercu-suite
     >
       {children}
