@@ -717,10 +717,12 @@ test.describe("navigation universelle v6 (s25)", () => {
             await expect(h1, `${chemin} (${etat}, ${largeur} px)`).toBeVisible();
             // Refonte s25 (spec UX §2.1) : l'aperçu d'« Aujourd'hui » porte la pastille « Premium » AU-DESSUS du H1 ; comme
             // le sur-titre de /carnet, c'est elle, première ligne de l'en-tête, qui s'aligne sur les autres rubriques.
+            // v7 tour 8 (point 4) : sous 768 px, la pastille passe sur la ligne du H1, à droite : le H1 redevient la
+            // première ligne de l'en-tête (test adapté au tour 9).
             const tete =
               chemin === "/carnet"
                 ? h1.locator("xpath=preceding-sibling::p[1]")
-                : chemin === "/mon-espace" && etat === "visiteur"
+                : chemin === "/mon-espace" && etat === "visiteur" && largeur >= 768
                   ? page.locator("[data-apercu-hero] [data-badge-premium]")
                   : h1;
             await expect(tete, `en-tête de ${chemin} (${etat}, ${largeur} px)`).toBeVisible();

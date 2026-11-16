@@ -48,14 +48,14 @@ describe("décision 1 : un seul accent violet, le bouton plein", () => {
     expect(jour).not.toMatch(/\bCADRE_CARTE\b(?!_NEUTRE)/);
   });
 
-  it("extrait de l'aperçu : aucune classe de filet ni de violet dans les tuiles fermées, hors du cadre de Z1", () => {
+  it("extrait de l'aperçu : aucune classe de filet ni de violet dans les tuiles fermées, Z1 comprise (v7 tour 9)", () => {
     render(<ApercuAujourdhui visiteur />);
     for (const t of Array.from(document.querySelectorAll("[data-tuile-fermee]"))) {
       for (const e of [t, ...Array.from(t.querySelectorAll("*"))]) {
         // Anneaux de focus exclus (jamais visibles dans l'extrait inerte, et pas un accent dessiné). v7 tour 8 (décision
-        // de l'orchestrateur) : la carte Z1 elle-même porte seule la teinte et le bord violets légers.
+        // de l'orchestrateur) : la carte Z1 portait la teinte ; v7 tour 9 : figée, elle est neutre comme les tuiles.
         const violets = classes(e).filter((c) => c.startsWith("before:") || (/accent-/.test(c) && !/(^|:)ring-/.test(c)));
-        expect(violets).toEqual(e.matches("[data-action-du-jour]") ? ["border-accent-primary/40", "from-accent-primary/10"] : []);
+        expect(violets).toEqual([]);
       }
     }
   });

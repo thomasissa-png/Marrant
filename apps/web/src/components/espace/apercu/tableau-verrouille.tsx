@@ -48,7 +48,8 @@ function TableauFerme() {
   return (
     <div data-apercu-fiche="tableau-aujourdhui">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1">
-        {/* v7 tour 8 (point 2) : Z1 en 7 colonnes, « Ton cap » en 5, comme la page de l'abonné (Z1 n'est plus creuse). */}
+        {/* v7 tour 8 (point 2) : Z1 en 7 colonnes, « Ton cap » en 5, comme la page de l'abonné (Z1 n'est plus creuse).
+            v7 tour 9 : figée, Z1 a le cadre neutre des tuiles (ni bord violet ni teinte), son bouton est un contour éteint. */}
         <TuileFermee className="md:col-span-2 lg:col-span-7">
           <ActionDuJour
             idTitre="apercu-premier-pas-titre"

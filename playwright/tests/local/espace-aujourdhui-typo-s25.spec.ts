@@ -17,6 +17,9 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
  *   la carte Z1 (`[data-action-du-jour]`, qui contient ce bouton chez l'abonné) peut seule porter un bord ou une teinte
  *   violette, légère (opacité au plus 0,4) ; aucun autre élément ; et dans Z1, tout texte posé sur la teinte (figé
  *   dans l'extrait compris, opacités cumulées) tient 4,5:1 au pire point du dégradé ;
+ * - v7 tour 9 (faute dure design du tour 8) : aperçu (visiteur et gratuit), la carte Z1 de l'extrait est NEUTRE (ni
+ *   bord ni teinte violette, `TUILE`) : AUCUN bord, fond ni filet violet dans tout l'extrait (premier écran ou non), et
+ *   le seul aplat violet du premier écran est le bouton d'offre du hero (`[data-position="haut"]`) ;
  * - aperçu : le mot « Premium » au plus deux fois en repère visible (pastille du hero et bouton d'offre ; les phrases
  *   de la carte d'offre, réassurance et phrase d'objet, sont des textes validés, hors repère).
  */
@@ -36,6 +39,10 @@ type Mesure = {
   contrasteZ1: { min: number; texte: string } | null;
   textesViolets: string[];
   premium: string[];
+  /** Aplats violets du premier écran qui sont le bouton d'offre du hero (`[data-position="haut"]`). */
+  pleinsOffre: number;
+  /** Tout l'extrait de l'aperçu, sans limite d'écran : éléments à bord, fond ou filet violet (bouton de fin exclu). */
+  violetsExtrait: string[];
 };
 
 async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
@@ -49,6 +56,7 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
       const premium: string[] = [];
       const z1 = main.querySelector("[data-action-du-jour]");
       const accentZ1 = { cadre: 0, alphaMax: 0 };
+      let pleinsOffre = 0;
       const couleurs = (s: string) =>
         Array.from(s.matchAll(/rgba?\(([\d.]+), ([\d.]+), ([\d.]+)(?:, ([\d.]+))?\)/g)).map((m) => ({
           rgb: [Number(m[1]), Number(m[2]), Number(m[3])],
@@ -66,7 +74,10 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
         if (!dansEcran) continue;
         const cs = getComputedStyle(el);
         const fond = violet(cs.backgroundColor);
-        if (fond.teinte && fond.alpha >= 0.5) pleinsViolets.push((el.textContent ?? "").trim().slice(0, 40) || el.tagName);
+        if (fond.teinte && fond.alpha >= 0.5) {
+          pleinsViolets.push((el.textContent ?? "").trim().slice(0, 40) || el.tagName);
+          if (el.matches("[data-apercu-offre] a[data-position='haut']")) pleinsOffre += 1;
+        }
         // Accent violet, quel qu'il soit : fond (couleur ou dégradé), bord dessiné, ou pseudo-élément rendu (filet).
         const bordViolet = ["Top", "Right", "Bottom", "Left"].some(
           (c) => parseFloat(cs.getPropertyValue(`border-${c.toLowerCase()}-width`)) > 0 && contientViolet(cs.getPropertyValue(`border-${c.toLowerCase()}-color`)),
@@ -101,6 +112,21 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
         // Repère « Premium » visible : élément dessiné (pas `sr-only`, 1 px), hors phrases de la carte d'offre.
         const visible = r.width > 1 && r.height > 1 && cs.visibility !== "hidden";
         if (visible && /Premium/.test(texte) && !el.closest("[data-apercu-offre] p")) premium.push(texte.slice(0, 30));
+      }
+      // v7 tour 9 : tout l'extrait de l'aperçu (hors écran compris), seul le bouton d'offre de fin peut être violet.
+      const violetsExtrait: string[] = [];
+      for (const el of Array.from(main.querySelectorAll("[data-apercu-extrait] *"))) {
+        if (el.matches("a[data-position='fin']")) continue;
+        const cs = getComputedStyle(el);
+        const bord = ["top", "right", "bottom", "left"].some(
+          (c) => parseFloat(cs.getPropertyValue(`border-${c}-width`)) > 0 && contientViolet(cs.getPropertyValue(`border-${c}-color`)),
+        );
+        const fondV = contientViolet(cs.backgroundColor) || contientViolet(cs.backgroundImage);
+        const pseudo = ["::before", "::after"].some((ps) => {
+          const s = getComputedStyle(el, ps);
+          return s.content !== "none" && (contientViolet(s.backgroundColor) || contientViolet(s.backgroundImage));
+        });
+        if (bord || fondV || pseudo) violetsExtrait.push(`${el.tagName.toLowerCase()} « ${(el.textContent ?? "").trim().slice(0, 30)} »`);
       }
       // Contraste dans Z1 au pire point de la teinte : fond de la carte + premier arrêt violet du dégradé (le plus
       // opaque, coin haut gauche), texte composé avec son alpha et les opacités cumulées jusqu'à la carte (0,75 de
@@ -151,6 +177,8 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
         contrasteZ1,
         textesViolets,
         premium,
+        pleinsOffre,
+        violetsExtrait,
       };
     },
     { hauteur, violets: VIOLETS },
@@ -174,6 +202,11 @@ function controler(m: Mesure, ou: string, titre: number, apercu: boolean) {
   expect(m.contrasteZ1, `Z1 au premier écran, ${ou}`).not.toBeNull();
   expect(m.contrasteZ1?.min ?? 0, `contraste du texte de Z1 au pire point de la teinte, ${ou} : « ${m.contrasteZ1?.texte} »`).toBeGreaterThanOrEqual(4.5);
   expect(m.textesViolets, `texte violet, ${ou}`).toEqual([]);
+  if (apercu) {
+    expect(m.accentZ1.cadre, `carte Z1 de l'extrait sans bord ni teinte violette, ${ou}`).toBe(0);
+    expect(m.violetsExtrait, `bord, fond ou filet violet dans l'extrait, ${ou}`).toEqual([]);
+    expect(m.pleinsOffre, `le seul aplat violet du premier écran est le bouton d'offre, ${ou}`).toBe(1);
+  }
   if (apercu) expect(m.premium.length, `repère « Premium » écrit, ${ou} : ${m.premium.join(" / ")}`).toBeLessThanOrEqual(2);
 }
 
@@ -213,7 +246,7 @@ test.describe("@espace gate typographique d'« Aujourd'hui » s25 (ouvert)", () 
   ] as const;
 
   for (const compte of comptes) {
-    test(`${compte.nom} : 4 tailles, 6 combinaisons, 400 et 600, aucune capitale, un seul aplat violet, accent seulement sur Z1, contrastes AA dans Z1`, async ({ page }) => {
+    test(`${compte.nom} : 4 tailles, 6 combinaisons, 400 et 600, aucune capitale, un seul aplat violet, accent seulement sur Z1, contrastes AA dans Z1, extrait sans violet`, async ({ page }) => {
       if (compte.plan) {
         const email = `e2e-typo-s25-${Date.now().toString(36)}-${randomBytes(2).toString("hex")}@example.com`;
         await creerCompte(email, MOT_DE_PASSE, compte.plan);

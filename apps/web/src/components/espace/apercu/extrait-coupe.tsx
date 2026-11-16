@@ -22,10 +22,13 @@ const INERTE = { inert: "" } as Record<string, string>;
  * v7 tour 3 (faute 2) : 80 px au-dessus de l'extrait dès 1024 px : à 900 px de haut (1280, 1456, 1920), le bouton de
  * la fin d'extrait reste sous le premier écran ; jamais deux boutons d'offre pleins visibles ensemble.
  * v7 tour 8 (point 4) : 32 px seulement sous 768 px, pour que la première tuile tienne au premier écran à 375.
+ * v7 tour 9 : 128 px dès 1024 (64 avant). La preuve passée sous les pastilles du hero l'a raccourci de 59 px (bas à
+ * 377 au lieu de 436 à 1280) : sans cet air, la phrase de fin tombait à y 848 et le bouton à 892, au premier écran
+ * de 900 px. Avec 128 px : phrase à 912, bouton à 956 (1280, 1456, 1920), un seul bouton d'offre au premier écran.
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
-    <div className="relative mt-8 md:mt-12 lg:mt-16" data-apercu-extrait={rubrique}>
+    <div className="relative mt-8 md:mt-12 lg:mt-32" data-apercu-extrait={rubrique}>
       <div
         aria-hidden="true"
         {...INERTE}

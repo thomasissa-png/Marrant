@@ -19,6 +19,8 @@ import { META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
  * passait sous 4,5:1). Pire point (coin haut gauche, 10 % de violet) : texte secondaire à 7,08:1, et 4,66:1 atténué
  * à 0,75 dans l'extrait (mesuré par `espace-aujourdhui-typo-s25.spec.ts`). Le bouton plein reste le seul aplat violet.
  * v7 tour 2 (faute 1) : pas de hauteur minimale, contenu en haut, le surplus éventuel en bas.
+ * v7 tour 9 : réservée à la carte qui CONTIENT le bouton plein (l'abonné). Figée dans l'extrait de l'aperçu, Z1 prend
+ * `TUILE` (`ActionDuJour`) : le seul violet du `main` de l'aperçu est le bouton d'offre.
  */
 export const CARTE_ACTION = cn(
   CADRE_CARTE_NEUTRE,

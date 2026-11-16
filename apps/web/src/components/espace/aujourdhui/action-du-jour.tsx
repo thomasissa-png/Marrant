@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CARTE_ACTION } from "@/components/espace/aujourdhui/tableau";
+import { CARTE_ACTION, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 
 /**
@@ -19,6 +19,9 @@ import { ETIQUETTE, META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/ty
  * v7 tour 8 (point 2) : Z1 passe à 7 colonnes sur 12 dès 1024 (titre sur presque toute la largeur) ; son bouton prend
  * 256 px au moins dès 1024 (`lg:min-w-64`, 176 avant) : le point focal de la page pèse son poids, et la carte n'est plus
  * vide à plus de moitié (mesure du tour 8 : part occupée par les lignes de contenu au-dessus de 50 % à 1280 et 1920).
+ * v7 tour 9 (faute dure design du tour 8) : figée, la carte prend le cadre neutre des tuiles (`TUILE`), ni bord violet
+ * ni teinte : elle ne contient pas le bouton plein, l'accent de l'aperçu reste le seul bouton d'offre. L'abonné garde
+ * `CARTE_ACTION` (teinte et bord violets autour de son bouton plein).
  */
 export function ActionDuJour({
   idTitre,
@@ -46,7 +49,7 @@ export function ActionDuJour({
   const bouton = cn(buttonVariants({ variant: "primary", size: "lg" }), gabarit);
   const boutonEteint = cn(buttonVariants({ variant: "outline", size: "lg" }), "border-border-input bg-transparent", TEXTE_FORT, gabarit);
   return (
-    <section aria-labelledby={idTitre} className={cn(CARTE_ACTION, "max-e300:p-3")} data-action-du-jour {...donnees}>
+    <section aria-labelledby={idTitre} className={cn(fige ? TUILE : CARTE_ACTION, "max-e300:p-3")} data-action-du-jour {...donnees}>
       {/* Figée (extrait) : place gardée à droite pour le verrou posé dans le coin (`TuileFermee`). */}
       <div className={cn("flex items-center justify-between gap-4", fige && "pr-8")}>
         <p className={ETIQUETTE}>{etiquette}</p>

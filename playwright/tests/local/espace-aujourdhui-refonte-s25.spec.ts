@@ -254,12 +254,25 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       // promesse ; le vide restant passe sous elles, en bas de colonne (jamais au-dessus de la carte d'offre).
       const [promesse, pastilles, offre] = [
         // v7 tour 8 : pastille et H1 dans une tête commune (`data-apercu-tete`), la promesse la suit.
-        await boite(page.locator("[data-apercu-hero] [data-apercu-tete] ~ p:not(.sr-only)")),
+        await boite(page.locator("[data-apercu-hero] [data-apercu-tete] ~ p:not(.sr-only):not([data-preuve])")),
         await boite(page.locator("[data-apercu-pastilles]")),
         await boite(page.locator("[data-apercu-offre]")),
       ];
       expect(Math.round(pastilles.haut - promesse.bas), `pastilles à 24 px au plus sous la promesse, ${largeur}`).toBeLessThanOrEqual(24);
       expect(pastilles.bas, `pastilles au-dessus du bas de l'offre, ${largeur}`).toBeLessThanOrEqual(offre.bas);
+      // v7 tour 9 (faute dure UX du tour 8) : dès 1024, la preuve passe sous les pastilles (24 px), celle de la carte
+      // est masquée (une seule affichée) ; les bas de la colonne de texte et de la carte d'offre à 24 px près.
+      await expect(page.locator("[data-apercu-offre] [data-preuve]"), `preuve de la carte masquée, ${largeur}`).toBeHidden();
+      const preuve = await boite(page.locator("[data-apercu-hero] [data-preuve='hero']"));
+      expect(Math.round(preuve.haut - pastilles.bas), `preuve à 24 px sous les pastilles, ${largeur}`).toBe(24);
+      expect(Math.abs(Math.round(preuve.bas - offre.bas)), `bas du texte et de l'offre à 24 px près, ${largeur}`).toBeLessThanOrEqual(24);
+    }
+    // v7 tour 9 : sous 1024, la preuve reste dans la carte d'offre, celle du hero est masquée.
+    for (const largeur of [375, 768]) {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/mon-espace");
+      await expect(page.locator("[data-apercu-offre] [data-preuve]"), `preuve dans la carte, ${largeur}`).toBeVisible();
+      await expect(page.locator("[data-apercu-hero] [data-preuve='hero']"), `preuve du hero masquée, ${largeur}`).toBeHidden();
     }
   });
 

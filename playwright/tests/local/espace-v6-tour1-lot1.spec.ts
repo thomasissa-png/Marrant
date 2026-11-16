@@ -91,12 +91,13 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
       const carte = page.locator("[data-carte-du-jour] > section");
       const grille = await boite(page.locator("[data-aujourdhui-grille]"));
       // Refonte s25 (spec design §5.1) : pleine coque sous 1024 px ; dès 1024, 8 colonnes sur 12, « Ton cap » à droite
-      // sur la même rangée et à la même hauteur (toujours la carte dominante, la plus large).
+      // sur la même rangée et à la même hauteur (toujours la carte dominante, la plus large). v7 tour 8 (point 2) : 7 colonnes
+      // sur 12, « Ton cap » en 5 (test adapté au tour 9).
       if (largeur < 1024) {
         expect(Math.abs((await boite(carte)).largeur - grille.largeur), `pleine coque, ${ou}`).toBeLessThanOrEqual(1);
       } else {
         const [action, cap] = [await boite(page.locator("[data-carte-du-jour]")), await boite(page.locator('[data-zone="cap"]'))];
-        expect(Math.abs(action.largeur - ((grille.largeur - 11 * 24) * 8) / 12 - 7 * 24), `8 colonnes sur 12, ${ou}`).toBeLessThanOrEqual(2);
+        expect(Math.abs(action.largeur - ((grille.largeur - 11 * 24) * 7) / 12 - 6 * 24), `7 colonnes sur 12, ${ou}`).toBeLessThanOrEqual(2);
         expect(Math.abs(cap.haut - action.haut) + Math.abs(cap.hauteur - action.hauteur), `« Ton cap » sur la même rangée, ${ou}`).toBeLessThanOrEqual(1);
       }
       const style = await carte.evaluate((s) => ({

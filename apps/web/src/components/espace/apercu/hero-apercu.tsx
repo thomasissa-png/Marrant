@@ -1,6 +1,6 @@
 import { TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-apercu";
 import { BadgePremium } from "@/components/espace/apercu/badge-premium";
-import { OffreApercu } from "@/components/espace/apercu/offre-apercu";
+import { OffreApercu, Preuve } from "@/components/espace/apercu/offre-apercu";
 import { META, TEXTE, TITRE_PAGE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +41,10 @@ import { cn } from "@/lib/utils";
  * ligne du H1, à droite (ordre du DOM inchangé : pastille puis titre ; 44 px de gagnés), pastilles compactes (même
  * 14 px, `px-2 py-0.5` : 3 + 3 sur deux lignes au lieu de trois), 16 px entre promesse et pastilles et entre le texte
  * et la carte d'offre (resserrée elle aussi). Dès 768, rien ne change : pastille au-dessus du H1, 16 px entre eux.
+ * v7 tour 9 (faute dure UX du tour 8, environ 110 px vides sous les pastilles dès 1024) : la preuve sort de la carte
+ * d'offre dès 1024 px et se pose sous les pastilles, à 24 px (`mt-6`), mêmes classes de l'échelle (`META`, nombre en
+ * `TITRE_CARTE`). La carte perd sa preuve, la colonne de texte la gagne : les deux bas à 24 px près à 1280 et 1920.
+ * Sous 1024, la preuve reste dans la carte. Une seule est affichée à chaque largeur (l'autre en `display: none`).
  */
 export function HeroApercu({
   titre,
@@ -71,9 +75,10 @@ export function HeroApercu({
             </li>
           ))}
         </ul>
+        <Preuve place="hero" />
       </div>
       <div className="min-w-0 md:col-span-2 lg:col-span-4">
-        <OffreApercu {...offre} />
+        <OffreApercu {...offre} preuveHors />
       </div>
     </div>
   );
