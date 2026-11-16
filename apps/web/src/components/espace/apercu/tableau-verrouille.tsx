@@ -3,7 +3,7 @@ import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import { TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import { SERIE } from "@/config/textes/parcours";
-import { choisirPremierPas, sceneDeSituation, sceneDuPremierPas, ENTREE_PAR_DEFAUT } from "@/lib/espace/premier-pas";
+import { choisirPremierPas } from "@/lib/espace/premier-pas";
 import type { PublicJoke } from "@/lib/catalogue-pages";
 import { accrocheMission } from "@/lib/espace/enonce-mission";
 import { missionOuverte, missionsServiesValidees } from "@/lib/espace/missions";
@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { ficheApercu } from "@/components/espace/apercu/exemples";
 import { ApercuVerrouille } from "@/components/espace/apercu/apercu-verrouille";
 import { SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
+import { RepliquesFermees, type RegistreReplique } from "@/components/espace/apercu/repliques-fermees";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { CapDuJour } from "@/components/espace/aujourdhui/cap-du-jour";
@@ -48,6 +49,8 @@ export const PASTILLES_AUJOURDHUI = [T.premierPas.eyebrow, C.titre, SERIE.titre,
  * (énoncé puis chute, comme la carte de l'abonné), 4 lignes au plus ; au-delà de 3 lignes, la 4e s'efface (fondu en
  * longueurs fixes : une vanne de 3 lignes ou moins n'est jamais touchée) et la suite est coupée entre deux lignes,
  * jamais dans un mot. Sans vanne (base indisponible) : les trois libellés d'avant.
+ * v7 tour 13 (décision de Thomas du 16/11) : Z1 devient la vitrine des répliques (situation en clair, répliques fermées,
+ * `repliques-fermees.tsx`) ; la scène et le bouton éteint du tour 12 en sortent.
  */
 type VanneExtrait = Pick<PublicJoke, "content" | "punchline">;
 
@@ -84,10 +87,10 @@ function TuileJour({ vanne }: { vanne: VanneExtrait | null }) {
 }
 
 function TableauFerme({ vanne }: { vanne: VanneExtrait | null }) {
-  const fiche = ficheApercu("aujourdhui");
-  const entrees = [{ id: ENTREE_PAR_DEFAUT, titre: fiche.titre, minutes: fiche.dureeMinutes, scene: sceneDeSituation(fiche) }];
   const pas = choisirPremierPas(null, null, [], T.premierPas.sceneParDefaut);
-  const scene = sceneDuPremierPas(pas, entrees);
+  // v7 tour 13 : seules les CLÉS des répliques de la fiche par défaut quittent ce module serveur (jamais leur texte).
+  const fiche = ficheApercu("aujourdhui");
+  const registres = fiche.type === "situation" ? (Object.keys(fiche.contenu.repliques) as RegistreReplique[]) : [];
   const etape = etapeAReprendre([], PARCOURS_SEED_JSON);
   const mission = missionOuverte(missionsServiesValidees(), []);
   // v7 tour 2 (faute 4) : deux grilles. Rangée 1 (premier pas, « Ton cap ») toujours ENTIÈRE, à 375 et 768 aussi :
@@ -97,7 +100,10 @@ function TableauFerme({ vanne }: { vanne: VanneExtrait | null }) {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1">
         {/* v7 tour 8 (point 2) : Z1 en 7 colonnes, « Ton cap » en 5, comme la page de l'abonné (Z1 n'est plus creuse).
             v7 tour 9 : figée, Z1 a le cadre neutre des tuiles (ni bord violet ni teinte), son bouton est un contour éteint.
-            v7 tour 11 : Z1 est la vitrine, à pleine netteté (`nette`) ; les autres tuiles gardent l'atténuation. */}
+            v7 tour 11 : Z1 est la vitrine, à pleine netteté (`nette`) ; les autres tuiles gardent l'atténuation.
+            v7 tour 13 (décision de Thomas du 16/11) : la vitrine des RÉPLIQUES. La situation en clair, une seule fois (le
+            titre, la réplique qu'on te lance ; plus de scène qui la répétait), puis les répliques de la fiche en cartes
+            fermées (libellé réel, verrou, barres) ; plus de bouton éteint, les répliques fermées jouent son rôle. */}
         <TuileFermee nette className="md:col-span-2 lg:col-span-7">
           <ActionDuJour
             idTitre="apercu-premier-pas-titre"
@@ -105,8 +111,8 @@ function TableauFerme({ vanne }: { vanne: VanneExtrait | null }) {
             etiquette={T.premierPas.eyebrow}
             duree={pas.minutes !== null ? T.premierPas.duree(pas.minutes) : null}
             titre={pas.titre}
-            action={{ href: pas.href, libelle: T.premierPas.bouton }}
-            scene={scene ? frEspace(scene) : null}
+            action={null}
+            apres={<RepliquesFermees registres={registres} />}
           />
         </TuileFermee>
         <TuileFermee className="md:col-span-2 lg:col-span-5">

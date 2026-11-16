@@ -69,20 +69,20 @@ describe("faute 1 : rangée 2 de l'extrait lisible avant le fondu", () => {
 });
 
 describe("faute 2 : jamais deux boutons d'offre pleins au premier écran", () => {
-  it("48 px au-dessus de l'extrait dès 768, 64 dès 1024 (v7 tour 12), fin à 16 px dans le transparent dès 1024, suite de 13,5 rem (échelle s25 ; fin contrôlée en vrai navigateur à 900 px)", () => {
+  it("48 px au-dessus de l'extrait dès 768 (v7 tour 13 : plus de 64 dès 1024), fin à 16 px dans le transparent dès 1024, suite de 13,5 rem (échelle s25 ; fin contrôlée en vrai navigateur à 900 px)", () => {
     render(<ApercuAujourdhui visiteur />);
     expect(document.querySelector("[data-apercu-extrait]")?.className).toContain("md:mt-12");
-    expect(document.querySelector("[data-apercu-extrait]")?.className).toContain("lg:mt-16");
+    expect(document.querySelector("[data-apercu-extrait]")?.className).not.toContain("lg:mt-16");
     expect(document.querySelector("[data-apercu-fin]")?.className).toContain("lg:-mt-4");
     expect(document.querySelector("[data-apercu-suite]")?.className).toContain("h-[13.5rem]");
   });
 });
 
 describe("faute 3 : éléments figés à une seule atténuation", () => {
-  it("bouton « Commencer » et pied de tuile figés : aucune opacité propre, seulement celle de `TuileFermee` (0,75)", () => {
+  it("pieds de tuile figés : aucune opacité propre, seulement celle de `TuileFermee` (0,75) (v7 tour 13 : plus de bouton « Commencer » dans l'extrait)", () => {
     render(<ApercuAujourdhui visiteur />);
     const figes = Array.from(document.querySelectorAll("[data-apercu-extrait] span[aria-disabled='true']"));
-    expect(figes.length).toBeGreaterThanOrEqual(2);
+    expect(figes.length).toBeGreaterThanOrEqual(1);
     for (const f of figes) {
       expect(f.className).not.toMatch(/(^|\s)opacity-\d+/);
       expect(f.className).toContain("pointer-events-none");

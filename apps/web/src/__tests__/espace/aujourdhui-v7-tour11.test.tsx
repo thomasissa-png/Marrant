@@ -23,7 +23,7 @@ const classes = (e: Element | null | undefined) => (e?.getAttribute("class") ?? 
 const tri = (c: string) => c.split(/\s+/).filter(Boolean).sort();
 
 describe("point 1 : extrait plus parlant", () => {
-  it("Z1 nette (sans atténuation), verrou et bouton éteint gardés ; les autres tuiles atténuées", () => {
+  it("Z1 nette (sans atténuation), verrou gardé, répliques fermées à la place du bouton éteint (v7 tour 13) ; les autres tuiles atténuées", () => {
     render(<ApercuAujourdhui visiteur />);
     const tuiles = Array.from(document.querySelectorAll("[data-tuile-fermee]"));
     expect(tuiles).toHaveLength(5);
@@ -31,9 +31,8 @@ describe("point 1 : extrait plus parlant", () => {
     expect(z1.getAttribute("data-tuile-fermee")).toBe("nette");
     expect(z1.className).not.toContain("opacity-75");
     expect(z1.querySelector(":scope > [data-verrou-ferme]")).not.toBeNull();
-    const bouton = z1.querySelector("[aria-disabled='true']");
-    expect(bouton?.className).toContain("bg-transparent");
-    expect(bouton?.className).not.toContain("bg-accent-primary");
+    expect(z1.querySelector("[aria-disabled='true']")).toBeNull();
+    expect(z1.querySelectorAll("[data-replique-fermee]")).toHaveLength(3);
     for (const t of autres) {
       expect(t.className).toContain("[&>*:not([data-verrou-ferme])>*]:opacity-75");
       expect(t.querySelector(":scope > [data-verrou-ferme]")).not.toBeNull();

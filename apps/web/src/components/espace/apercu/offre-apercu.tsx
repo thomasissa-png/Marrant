@@ -70,14 +70,17 @@ export function OffreApercu({
   adresse,
   visiteur,
   preuveHors = false,
+  etiree = false,
 }: {
   href: string;
   adresse: string;
   visiteur: boolean;
   preuveHors?: boolean;
+  /** v7 tour 13 : dès 1024 px, la carte descend jusqu'au bas de la colonne de texte du hero (contenu calé en haut). */
+  etiree?: boolean;
 }) {
   return (
-    <div className="relative rounded-xl border border-border-hover bg-background-card p-4 md:p-6" data-apercu-offre>
+    <div className={cn("relative rounded-xl border border-border-hover bg-background-card p-4 md:p-6", etiree && "lg:h-full")} data-apercu-offre>
       <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
         {TEXTES_APERCU.offre.bouton}
       </Link>

@@ -17,6 +17,7 @@ jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 jest.mock("@/lib/espace/garde", () => ({ garderEspace: jest.fn(async () => ({ userId: "u1" })) }));
 
 import { ApercuAujourdhui } from "@/components/espace/apercu/tableau-verrouille";
+import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { CapDuJour } from "@/components/espace/aujourdhui/cap-du-jour";
 import { ficheApercu } from "@/components/espace/apercu/exemples";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
@@ -70,21 +71,29 @@ describe("point 2 : « Ton cap » sans chiffres, plus de bandeau à 768", () => 
   });
 });
 
-describe("points 3 et 4 : Z1 du premier pas, scène réelle et bouton éteint", () => {
-  it("la scène de la fiche par défaut (texte de la fiche, rien d'écrit ici) à gauche du bouton dès 768, masquée dessous", () => {
+describe("points 3 et 4 : Z1 du premier pas, scène réelle et bouton éteint (revus au v7 tour 13)", () => {
+  it("v7 tour 13 : l'aperçu ne montre plus la scène (situation une seule fois) ; l'abonné la lit entre titre et bouton, dès 768", () => {
     render(<ApercuAujourdhui visiteur />);
-    const rangee = document.querySelector("[data-action-du-jour] [data-premier-pas-scene]") as HTMLElement;
-    expect(classes(rangee)).toEqual(expect.arrayContaining(["md:flex-row", "md:items-end", "md:gap-8"]));
-    const scene = rangee.querySelector("p");
-    expect(scene?.textContent).toBe(frEspace(sceneDeSituation(ficheApercu("aujourdhui")) ?? "∅"));
-    expect(classes(scene)).toEqual(expect.arrayContaining(["hidden", "md:block", "md:flex-1", "text-base"]));
-    const bouton = rangee.querySelector("span[aria-disabled='true']");
-    expect(classes(bouton)).toEqual(expect.arrayContaining(["md:mt-0", "md:shrink-0", "md:self-end"]));
+    expect(document.querySelector("[data-apercu-extrait] [data-premier-pas-scene]")).toBeNull();
+    const texteScene = frEspace(sceneDeSituation(ficheApercu("aujourdhui")) ?? "∅");
+    expect(document.body.textContent).not.toContain(texteScene);
+    const { container } = render(
+      <ActionDuJour idTitre="t" etiquette="É" titre="Titre" action={{ href: "/x", libelle: "Commencer" }} scene={texteScene} />,
+    );
+    const scene = container.querySelector("[data-premier-pas-scene]") as HTMLElement;
+    expect(scene.tagName).toBe("P");
+    expect(scene.textContent).toBe(texteScene);
+    expect(classes(scene)).toEqual(expect.arrayContaining(["mt-2", "hidden", "md:block", "text-base"]));
+    expect(scene.previousElementSibling?.tagName).toBe("H2");
+    const lien = scene.nextElementSibling as HTMLElement;
+    expect(lien.tagName).toBe("A");
+    expect(classes(lien)).toEqual(expect.arrayContaining(["mt-4", "self-start"]));
+    expect(classes(lien)).not.toEqual(expect.arrayContaining(["md:self-end"]));
   });
 
-  it("bouton éteint : texte gris secondaire, même 16/600, bord fin gardé", () => {
-    render(<ApercuAujourdhui visiteur />);
-    const bouton = document.querySelector("[data-action-du-jour] span[aria-disabled='true']");
+  it("bouton éteint (composant figé) : texte gris secondaire, même 16/600, bord fin gardé", () => {
+    const { container } = render(<ActionDuJour idTitre="t" fige etiquette="É" titre="Titre" action={{ href: "/x", libelle: "Commencer" }} />);
+    const bouton = container.querySelector("[data-action-du-jour] span[aria-disabled='true']");
     expect(classes(bouton)).toEqual(expect.arrayContaining(["text-base", "font-semibold", "text-text-secondary", "border-border-input"]));
     expect(classes(bouton)).not.toContain("text-text-primary");
   });

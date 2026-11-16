@@ -2,8 +2,8 @@ import { OFFRE_NOM } from "@/config/textes/offre";
 import { cn } from "@/lib/utils";
 import { META_FORT } from "@/components/espace/typo";
 
-/** Tracé du verrou, partagé par la pastille et le verrou seul (même dessin, même taille : 16 px). */
-function Verrou({ className }: { className?: string }) {
+/** Tracé du verrou, partagé par la pastille, le verrou seul et les répliques fermées (même dessin, même taille : 16 px). */
+export function Verrou({ className }: { className?: string }) {
   return (
     <svg className={cn("h-4 w-4 flex-none text-text-secondary", className)} aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
       <rect x="5" y="11" width="14" height="10" rx="2" />

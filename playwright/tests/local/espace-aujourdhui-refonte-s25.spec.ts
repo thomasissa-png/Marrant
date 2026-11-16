@@ -52,7 +52,8 @@ function vides(el: Element) {
     r.selectNodeContents(n);
     for (const x of Array.from(r.getClientRects())) if (x.height > 0) rects.push({ t: x.top, b: x.bottom });
   }
-  for (const e of Array.from(el.querySelectorAll("svg,[data-barre-etapes],[data-segments-cap],button,.aspect-video,li.rounded-md,span[aria-disabled]"))) {
+  // v7 tour 13 : une réplique fermée de la vitrine est un objet dessiné (cadre, libellé, barres), comme une vignette.
+  for (const e of Array.from(el.querySelectorAll("svg,[data-barre-etapes],[data-segments-cap],button,.aspect-video,li.rounded-md,span[aria-disabled],[data-replique-fermee]"))) {
     if (e.closest("[data-badge-premium]")) continue;
     const x = e.getBoundingClientRect();
     if (x.height > 0) rects.push({ t: x.top, b: x.bottom });
@@ -87,29 +88,62 @@ async function capturer(page: Page, nom: string, largeur: number) {
 }
 
 /**
- * v7 tour 12 (relecture UX du tour 11, faute 2) : Z1 du premier pas. Dès 768, la scène réelle à gauche du bouton (32 px
- * entre eux), le bouton au bord droit de la zone de contenu (aucun vide à sa droite) ; sous 768, scène masquée. Figé :
- * texte du bouton en gris secondaire (relecture design, point 4).
+ * v7 tour 13 (relecture design du tour 12, critère 4 ; décision de Thomas du 16/11) : Z1 du premier pas du nouvel
+ * abonné, une seule disposition : titre, scène réelle 8 px dessous (dès 768 ; masquée dessous), puis le bouton à
+ * GAUCHE 16 px sous le texte, au bord gauche du contenu (plus de bouton à droite de la scène).
  */
-async function verifierZ1(z1: Locator, largeur: number, fige: boolean) {
+async function verifierZ1(z1: Locator, largeur: number) {
   const ou = `${largeur} px`;
   const m = await z1.evaluate((z) => {
     const cs = getComputedStyle(z);
-    const droite = z.getBoundingClientRect().right - parseFloat(cs.borderRightWidth) - parseFloat(cs.paddingRight);
-    const scene = z.querySelector("[data-premier-pas-scene] > p");
+    const gauche = z.getBoundingClientRect().left + parseFloat(cs.borderLeftWidth) + parseFloat(cs.paddingLeft);
+    const h2 = z.querySelector("h2")!.getBoundingClientRect();
+    const scene = z.querySelector("[data-premier-pas-scene]");
     const s = scene && getComputedStyle(scene).display !== "none" ? scene.getBoundingClientRect() : null;
-    const bouton = z.querySelector("a, span[aria-disabled]") as HTMLElement;
-    const b = bouton.getBoundingClientRect();
-    return { scene: s ? { droite: s.right, largeur: s.width } : null, bouton: { gauche: b.left, droite: b.right }, droite, couleur: getComputedStyle(bouton).color };
+    const b = (z.querySelector("a") as HTMLElement).getBoundingClientRect();
+    return { gauche, h2: { bas: h2.bottom }, scene: s ? { haut: s.top, bas: s.bottom, gauche: s.left } : null, bouton: { gauche: b.left, haut: b.top } };
   });
   if (largeur >= 768) {
-    expect(m.scene, `scène réelle à côté du bouton, ${ou}`).not.toBeNull();
-    expect(Math.round(m.bouton.gauche - (m.scene?.droite ?? 0)), `32 px entre scène et bouton, ${ou}`).toBe(32);
-    expect(Math.abs(m.droite - m.bouton.droite), `bouton au bord droit, aucun vide à sa droite, ${ou}`).toBeLessThanOrEqual(1);
+    expect(m.scene, `scène réelle sous le titre, ${ou}`).not.toBeNull();
+    expect(Math.round((m.scene?.haut ?? 0) - m.h2.bas), `8 px entre titre et scène, ${ou}`).toBe(8);
+    expect(Math.round(m.bouton.haut - (m.scene?.bas ?? 0)), `16 px entre scène et bouton, ${ou}`).toBe(16);
+    expect(Math.abs((m.scene?.gauche ?? 0) - m.gauche), `scène au bord gauche, ${ou}`).toBeLessThanOrEqual(1);
   } else {
     expect(m.scene, `scène masquée sous 768, ${ou}`).toBeNull();
+    expect(Math.round(m.bouton.haut - m.h2.bas), `16 px entre titre et bouton, ${ou}`).toBe(16);
   }
-  if (fige) expect(m.couleur, `bouton éteint en gris secondaire, ${ou}`).toBe("rgb(179, 179, 179)");
+  expect(Math.abs(m.bouton.gauche - m.gauche), `bouton à gauche, au bord du contenu, ${ou}`).toBeLessThanOrEqual(1);
+}
+
+/**
+ * v7 tour 13 (décision de Thomas du 16/11) : Z1 de l'extrait = vitrine des répliques. La situation une seule fois (le
+ * titre, plus de scène), puis trois répliques fermées (libellé réel, verrou, deux barres), côte à côte dès 768 (même
+ * haut, même largeur, 16 px entre elles), empilées dessous ; plus de bouton éteint ; aucun texte de réplique.
+ */
+async function verifierVitrine(z1: Locator, largeur: number) {
+  const ou = `${largeur} px`;
+  await expect(z1.locator("[data-premier-pas-scene]"), `plus de scène, ${ou}`).toHaveCount(0);
+  await expect(z1.locator("a, span[aria-disabled]"), `plus de bouton éteint, ${ou}`).toHaveCount(0);
+  const cartes = z1.locator("[data-replique-fermee]");
+  await expect(cartes).toHaveCount(3);
+  await expect(cartes.locator("p")).toHaveText(["La sûre", "La joueuse", "La risquée"]);
+  const r = await cartes.evaluateAll((els) => els.map((e) => {
+    const b = e.getBoundingClientRect();
+    return { haut: Math.round(b.top), bas: Math.round(b.bottom), gauche: Math.round(b.left), droite: Math.round(b.right), largeur: Math.round(b.width), verrous: e.querySelectorAll("svg").length, barres: e.querySelectorAll("[data-barres-replique] > span").length, texte: (e.textContent ?? "").trim() };
+  }));
+  for (const c of r) {
+    expect(c.verrous, `un verrou par réplique, ${ou}`).toBe(1);
+    expect(c.barres, `deux barres par réplique, ${ou}`).toBe(2);
+    expect(["La sûre", "La joueuse", "La risquée"], `seul le libellé s'écrit, ${ou}`).toContain(c.texte);
+  }
+  if (largeur >= 768) {
+    expect(new Set(r.map((c) => c.haut)).size, `côte à côte dès 768, ${ou}`).toBe(1);
+    expect(Math.max(...r.map((c) => c.largeur)) - Math.min(...r.map((c) => c.largeur)), `mêmes largeurs, ${ou}`).toBeLessThanOrEqual(1);
+    expect(r[1].gauche - r[0].droite, `16 px entre deux répliques, ${ou}`).toBe(16);
+  } else {
+    expect(r[1].haut - r[0].bas, `empilées sous 768, 16 px entre elles, ${ou}`).toBe(16);
+    expect(r[0].gauche, `empilées, même x, ${ou}`).toBe(r[1].gauche);
+  }
 }
 
 /**
@@ -235,7 +269,8 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
           return { o, ratio: (a + 0.05) / (b + 0.05) };
         });
       });
-      expect(contrastes.length, `éléments figés, ${ou}`).toBeGreaterThanOrEqual(2);
+      // v7 tour 13 : plus de bouton éteint dans Z1 (vitrine des répliques) ; le pied figé de l'étape reste.
+      expect(contrastes.length, `éléments figés, ${ou}`).toBeGreaterThanOrEqual(1);
       for (const c of contrastes) {
         expect(c.o, `une seule atténuation (0,75), ${ou}`).toBeGreaterThanOrEqual(0.74);
         expect(c.ratio, `contraste figé, ${ou}`).toBeGreaterThanOrEqual(3.9);
@@ -323,7 +358,7 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         expect(Math.round(jourEtiquette.haut - (await boite(jour)).haut), `aucun vide au-dessus de l'étiquette (bord et marge seulement), ${ou}`).toBeLessThanOrEqual(25);
       }
       // v7 tour 12 : Z1 (scène et bouton éteint) et « Ton cap » sans bandeau.
-      await verifierZ1(extrait.locator("[data-action-du-jour]"), largeur, true);
+      await verifierVitrine(extrait.locator("[data-action-du-jour]"), largeur);
       if (largeur === 768) await verifierCap768(extrait.locator("[data-cap-du-jour]"), true);
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "visiteur-aujourdhui", largeur);
@@ -341,6 +376,33 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
     expect(vus).toContain(TEXTES_APERCU.connexion);
   });
 
+  // v7 tour 13 (décision de Thomas du 16/11 : « un seul bouton de paiement en haut ») : sur l'aperçu à offre en haut, le
+  // bouton d'offre de l'en-tête est masqué (visiteur et gratuit, 375 et 1280) ; ailleurs (accueil, vannes, autre
+  // rubrique en aperçu), il reste.
+  for (const compte of ["visiteur", "gratuit"] as const) {
+    test(`${compte} : un seul bouton de paiement en haut de l'aperçu, celui de la page ; l'en-tête garde le sien ailleurs`, async ({ page }) => {
+      if (compte === "gratuit") {
+        const email = `e2e-auj-t13-${Date.now().toString(36)}-${randomBytes(2).toString("hex")}@example.com`;
+        await creerCompte(email, MOT_DE_PASSE, "FREE");
+        await connecter(page, email, MOT_DE_PASSE);
+      }
+      for (const [largeur, hauteur] of [[375, 812], [1280, 900]] as const) {
+        await page.setViewportSize({ width: largeur, height: hauteur });
+        await page.goto("/mon-espace");
+        await page.waitForLoadState("networkidle", { timeout: 10_000 }).catch(() => undefined);
+        await expect(page.locator("[data-apercu-verrouille]")).toHaveCount(1);
+        await expect(page.locator("header [data-en-tete-prix]"), `en-tête sans bouton d'offre, /mon-espace, ${largeur}`).toHaveCount(0);
+        const offres = page.getByRole("link", { name: TEXTES_APERCU.offre.nomAccessible });
+        await expect(offres.first(), `bouton d'offre de la page au premier écran, ${largeur}`).toBeInViewport({ ratio: 1 });
+        expect(await offres.evaluateAll((els) => els.filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.top < innerHeight && r.bottom > 0; }).length), `un seul bouton d'offre au premier écran, ${largeur}`).toBe(1);
+        for (const ailleurs of ["/", "/vannes", "/mon-espace/quoi-repondre"]) {
+          await page.goto(ailleurs);
+          await expect(page.locator("header [data-en-tete-prix]"), `en-tête avec bouton d'offre, ${ailleurs}, ${largeur}`).toHaveCount(1);
+        }
+      }
+    });
+  }
+
   test("aperçu (visiteur) à 900 px de haut : un seul bouton d'offre plein au premier écran (1280, 1456, 1920)", async ({ page }) => {
     for (const largeur of [1280, 1456, 1920]) {
       await page.setViewportSize({ width: largeur, height: 900 });
@@ -354,6 +416,8 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       // v7 tour 10 (faute 1 du tour 9, bande vide de 128 px) : au plus 64 px entre le bas du hero et la légende.
       const [heroBas, legHaut] = [(await boite(page.locator("[data-apercu-hero]"))).bas, (await boite(page.locator("[data-apercu-legende]"))).haut];
       expect(Math.round(legHaut - heroBas), `air entre le hero et la légende, ${largeur}`).toBeLessThanOrEqual(64);
+      // v7 tour 13 (décision de Thomas du 16/11 : 83 px au tour 12) : 48 px au plus entre la carte d'offre et la légende.
+      expect(Math.round(legHaut - (await boite(page.locator("[data-apercu-offre]"))).bas), `air entre l'offre et la légende, ${largeur}`).toBeLessThanOrEqual(48);
       // v7 tour 6 (placement, remplace « bas du hero équilibrés » du tour 4) : pastilles à 24 px au plus sous la
       // promesse ; le vide restant passe sous elles, en bas de colonne (jamais au-dessus de la carte d'offre).
       const [promesse, pastilles, offre] = [
@@ -484,7 +548,7 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         expect(Math.max(dessus, dessous), `vide au-dessus et au-dessous du texte, ${ou} (${texte.lignesLien} ligne(s))`).toBeLessThanOrEqual(texte.lignesLien >= 2 ? 32 : 48);
       }
       // v7 tour 12 : Z1 (scène réelle, bouton plein au bord droit) et « Ton cap » sans bandeau à 768.
-      await verifierZ1(page.locator("[data-carte-du-jour] [data-action-du-jour]"), largeur, false);
+      await verifierZ1(page.locator("[data-carte-du-jour] [data-action-du-jour]"), largeur);
       if (largeur === 768) await verifierCap768(page.locator("[data-cap-du-jour]"), false);
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);
       await capturer(page, "nouvel-aujourdhui-refonte", largeur);

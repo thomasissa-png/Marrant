@@ -69,7 +69,11 @@ export function HeroApercu({
       <div className="flex min-w-0 flex-col md:col-span-3 lg:col-span-8">
         <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-col md:items-start md:justify-start" data-apercu-tete>
           <BadgePremium className="flex-none" />
-          <h1 id="apercu-titre" className={cn("min-w-0", TITRE_PAGE)}>
+          {/* v7 tour 13 (décision de Thomas du 16/11) : la chaleur de l'accueil, son texte en dégradé (`text-gradient`,
+              celui de « personne rit » dans `hero-section.tsx`), à la même taille (`TITRE_PAGE`). Pas un aplat : le seul
+              aplat violet reste le bouton d'offre. Hors de `cn` : tailwind-merge prend `text-gradient` pour une couleur de
+              texte et l'écrasait. */}
+          <h1 id="apercu-titre" className={`${cn("min-w-0", TITRE_PAGE, "text-transparent")} text-gradient`} data-titre-degrade>
             {titre}
           </h1>
         </div>
@@ -85,7 +89,7 @@ export function HeroApercu({
         <Preuve place="hero" />
       </div>
       <div className="min-w-0 md:col-span-2 lg:col-span-4">
-        <OffreApercu {...offre} preuveHors />
+        <OffreApercu {...offre} preuveHors etiree />
       </div>
     </div>
   );

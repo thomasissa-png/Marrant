@@ -17,6 +17,7 @@ import { TEXTES_CONNEXION } from "@/config/textes/compte";
 import { EN_TETE } from "@/config/textes/cta-articles-accueil";
 import { buildLoginUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import { offreEnHaut } from "@/components/espace/apercu/offre-en-haut";
 import { cn } from "@/lib/utils";
 
 /**
@@ -120,6 +121,10 @@ export function EnTeteUniversel() {
   const prixHref = buildAbonnementUrl(pathname && pathname !== "/" ? pathname : null, "monthly", "header");
   const loginHref = buildLoginUrl({ callbackUrl: pathname });
   const pageChaude = sousAdresse(pathname, "/abonnement") || sousAdresse(pathname, "/register");
+  // v7 tour 13 (décision de Thomas du 16/11) : sur un aperçu de l'espace qui pose son bloc d'offre en haut de page
+  // (`offre-en-haut.ts`), le bouton d'offre de la rangée est masqué (à toutes les largeurs) : un seul bouton de paiement
+  // en haut. Le menu garde le sien (panneau ouvert à la demande, au-dessus de la page).
+  const offreDansLaPage = offreEnHaut(pathname);
   // Arbitrage du 15/11 (intégration s25) : pas de bande sur /abonnement et ses sous-adresses (/abonnement/success…),
   // comme le bouton d'offre : la page de conversion validée en s21 garde son pli. La rangée du haut reste.
   const sansBande = sousAdresse(pathname, "/abonnement");
@@ -187,7 +192,7 @@ export function EnTeteUniversel() {
                 {TEXTES_CONNEXION.lienConnexionMobile}
               </Link>
             )}
-            {etat !== "abonne" && !pageChaude && (
+            {etat !== "abonne" && !pageChaude && !offreDansLaPage && (
               <Link
                 href={prixHref}
                 aria-label={EN_TETE.nomAccessible}

@@ -20,6 +20,8 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
  * - v7 tour 9 (faute dure design du tour 8) : aperçu (visiteur et gratuit), la carte Z1 de l'extrait est NEUTRE (ni
  *   bord ni teinte violette, `TUILE`) : AUCUN bord, fond ni filet violet dans tout l'extrait (premier écran ou non), et
  *   le seul aplat violet du premier écran est le bouton d'offre du hero (`[data-position="haut"]`) ;
+ * - v7 tour 13 (décision de Thomas du 16/11) : le H1 de l'aperçu peut porter le TEXTE en dégradé de l'accueil (fond
+ *   découpé au texte, `text-gradient`) ; ce n'est pas un aplat : il y a toujours un seul aplat violet, le bouton d'offre ;
  * - aperçu : le mot « Premium » au plus deux fois en repère visible (pastille du hero et bouton d'offre ; les phrases
  *   de la carte d'offre, réassurance et phrase d'objet, sont des textes validés, hors repère).
  */
@@ -43,6 +45,8 @@ type Mesure = {
   pleinsOffre: number;
   /** Tout l'extrait de l'aperçu, sans limite d'écran : éléments à bord, fond ou filet violet (bouton de fin exclu). */
   violetsExtrait: string[];
+  /** v7 tour 13 : H1 de l'aperçu en TEXTE dégradé (`text-gradient` de l'accueil, fond découpé au texte), pas un aplat. */
+  titresDegrades: string[];
 };
 
 async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
@@ -54,6 +58,7 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
       const pleinsViolets: string[] = [];
       const accentsViolets: string[] = [];
       const premium: string[] = [];
+      const titresDegrades: string[] = [];
       const z1 = main.querySelector("[data-action-du-jour]");
       const accentZ1 = { cadre: 0, alphaMax: 0 };
       let pleinsOffre = 0;
@@ -87,8 +92,12 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
           const s = getComputedStyle(el, ps);
           return s.content !== "none" && (contientViolet(s.backgroundColor) || contientViolet(s.backgroundImage));
         });
-        // v7 tour 8 : la carte Z1 elle-même peut porter un bord ou une teinte violette légère (relevée à part).
-        if (z1 && el === z1 && (bordViolet || fondViolet) && !pseudoViolet && !(fond.teinte && fond.alpha >= 0.5)) {
+        // v7 tour 13 (décision de Thomas du 16/11) : le H1 de l'aperçu peut porter le texte en dégradé de l'accueil
+        // (fond découpé au texte, couleur transparente, aucun bord, aucun fond plein) : relevé à part, pas un aplat.
+        const clip = cs.backgroundClip || cs.getPropertyValue("-webkit-background-clip");
+        if (el.matches("h1[data-titre-degrade]") && clip === "text" && !bordViolet && !pseudoViolet && !contientViolet(cs.backgroundColor)) {
+          titresDegrades.push(`${(el.textContent ?? "").trim().slice(0, 30)} | ${cs.color}`);
+        } else if (z1 && el === z1 && (bordViolet || fondViolet) && !pseudoViolet && !(fond.teinte && fond.alpha >= 0.5)) {
           accentZ1.cadre += 1;
           const alphas = [cs.backgroundImage, cs.borderTopColor, cs.borderRightColor, cs.borderBottomColor, cs.borderLeftColor, cs.backgroundColor]
             .flatMap(couleurs)
@@ -181,6 +190,7 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
         premium,
         pleinsOffre,
         violetsExtrait,
+        titresDegrades,
       };
     },
     { hauteur, violets: VIOLETS },
@@ -208,6 +218,10 @@ function controler(m: Mesure, ou: string, titre: number, apercu: boolean) {
     expect(m.accentZ1.cadre, `carte Z1 de l'extrait sans bord ni teinte violette, ${ou}`).toBe(0);
     expect(m.violetsExtrait, `bord, fond ou filet violet dans l'extrait, ${ou}`).toEqual([]);
     expect(m.pleinsOffre, `le seul aplat violet du premier écran est le bouton d'offre, ${ou}`).toBe(1);
+    // v7 tour 13 : le H1 en texte dégradé, une seule fois, texte transparent (le dégradé se lit à travers).
+    expect(m.titresDegrades, `H1 de l'aperçu en texte dégradé, ${ou}`).toEqual([expect.stringMatching(/\| rgba\(0, 0, 0, 0\)$/)]);
+  } else {
+    expect(m.titresDegrades, `aucun texte dégradé chez l'abonné, ${ou}`).toEqual([]);
   }
   if (apercu) expect(m.premium.length, `repère « Premium » écrit, ${ou} : ${m.premium.join(" / ")}`).toBeLessThanOrEqual(2);
 }
@@ -263,11 +277,14 @@ test.describe("@espace gate typographique d'« Aujourd'hui » s25 (ouvert)", () 
         expect(apercu, `aperçu pour ${compte.nom}`).toBe(compte.plan !== "PREMIUM");
         if (compte.avance) await expect(page.locator("[data-rafale='a-faire'][data-action-du-jour]")).toHaveCount(1);
         controler(await mesurer(page, vue.hauteur), `${compte.nom}, ${vue.largeur} x ${vue.hauteur}`, vue.titre, apercu);
-        // v7 tour 11 (relecture UX du tour 10) : à 375 x 812, la tuile Z1 de l'extrait ENTIÈRE (étiquette, titre, bouton
-        // éteint) au premier écran, à pleine netteté, avec le bouton d'offre.
+        // v7 tour 11 (relecture UX du tour 10), revu au v7 tour 13 (vitrine des répliques) : à 375 x 812, dans Z1 de
+        // l'extrait, la situation ENTIÈRE et le haut de la première réplique fermée (bord et libellé) au premier écran,
+        // à pleine netteté, avec le bouton d'offre.
         if (apercu && vue.largeur === 375) {
           const z1 = page.locator("[data-apercu-extrait] [data-tuile-fermee='nette']");
-          await expect(z1, `Z1 entière au premier écran, ${compte.nom}`).toBeInViewport({ ratio: 1 });
+          await expect(z1.locator("h2"), `situation entière au premier écran, ${compte.nom}`).toBeInViewport({ ratio: 1 });
+          const premiere = await z1.locator("[data-replique-fermee]").first().evaluate((r) => ({ haut: r.getBoundingClientRect().top, libelle: r.querySelector("p")!.getBoundingClientRect().bottom }));
+          expect(premiere.libelle, `libellé de la première réplique fermée au premier écran, ${compte.nom}`).toBeLessThanOrEqual(vue.hauteur);
           await expect(page.locator("[data-apercu-verrouille] a[data-position='haut']"), `offre au premier écran, ${compte.nom}`).toBeInViewport({ ratio: 1 });
           expect(await z1.locator("h2").evaluate((h) => { let o = 1; for (let e: Element | null = h; e && !e.hasAttribute("data-tuile-fermee"); e = e.parentElement) o *= parseFloat(getComputedStyle(e).opacity); return o; })).toBe(1);
         }

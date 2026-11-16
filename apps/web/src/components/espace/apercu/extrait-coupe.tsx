@@ -37,10 +37,15 @@ const INERTE = { inert: "" } as Record<string, string>;
  * v7 tour 12 (relecture design du tour 11 : légende flottante, 60 px au-dessus, 43 au-dessous, `lg:mb-10` hors du pas)
  * : dès 1024, 64 px au-dessus (`lg:mt-16`) et 24 px dessous (`lg:mb-6`, règle « titre de section vers ses cartes ») :
  * même total (88 px), la légende se rattache à l'extrait, la fin d'extrait reste sous le pli à 900 px de haut.
+ * v7 tour 13 (décision de Thomas du 16/11 : 83 px entre la carte d'offre et la légende à 1280) : 48 px dès 768
+ * (`md:mt-12`, plus de `lg:mt-16`) et, dès 1024, la carte d'offre descend jusqu'au bas de la colonne de texte
+ * (`OffreApercu etiree`) : 48 px entre la carte et la légende comme entre le texte et la légende, 24 px sous la légende.
+ * À 900 px de haut (1280, 1456, 1920), la vitrine des répliques allonge la rangée 1 : phrase et bouton de fin restent
+ * sous le pli (mesures dans `INDEX.md` du tour 13).
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
-    <div className="relative mt-6 md:mt-12 lg:mt-16" data-apercu-extrait={rubrique}>
+    <div className="relative mt-6 md:mt-12" data-apercu-extrait={rubrique}>
       <p className={cn("mb-2 md:mb-4 lg:mb-6", META)} data-apercu-legende>
         {frEspace(TEXTES_APERCU.sousTitre)}
       </p>

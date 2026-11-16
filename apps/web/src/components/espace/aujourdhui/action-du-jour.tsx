@@ -27,6 +27,11 @@ import { ETIQUETTE, META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
  * (32 px entre eux, bas alignés) : la scène remplit la largeur, le bouton garde son gabarit, aucune taille ajoutée
  * (`TEXTE`, 16/400). Sous 768 px, la scène n'est pas affichée (premier écran de 375 inchangé). Relecture design du
  * tour 11 (point 4) : figé, le texte du bouton passe en gris secondaire (même 16/600) : il se lit éteint.
+ * v7 tour 13 (relecture design du tour 12, critère 4 : deux grammaires de bouton pour la même carte) : une seule
+ * disposition pour tous les comptes, bouton à GAUCHE sous le texte, jamais à droite. Avec une scène (nouvel abonné) :
+ * titre, scène 8 px dessous (dès 768 px, masquée dessous comme avant), puis le bouton 16 px dessous ; la rafale garde
+ * son titre collé au bouton (condition du libellé 7), son accroche passe dessous (`apres`). Aucun vide au milieu.
+ * L'aperçu n'utilise plus `scene` ni le bouton éteint (vitrine des répliques, `repliques-fermees.tsx`).
  */
 export function ActionDuJour({
   idTitre,
@@ -46,7 +51,7 @@ export function ActionDuJour({
   titre: React.ReactNode;
   action: { href: string; libelle: string } | null;
   fige?: boolean;
-  /** Scène réelle de la fiche du premier pas, à gauche du bouton dès 768 px (v7 tour 12). */
+  /** Scène réelle de la fiche du premier pas, entre le titre et le bouton dès 768 px (v7 tour 13). */
   scene?: string | null;
   /** Sous le titre, avant le bouton (parcours, barre d'étapes). */
   children?: React.ReactNode;
@@ -59,11 +64,11 @@ export function ActionDuJour({
   const boutonRendu =
     action &&
     (fige ? (
-      <span aria-disabled="true" className={cn(boutonEteint, "pointer-events-none", scene && "md:mt-0 md:shrink-0 md:self-end")}>
+      <span aria-disabled="true" className={cn(boutonEteint, "pointer-events-none")}>
         {action.libelle}
       </span>
     ) : (
-      <Link href={action.href} className={cn(bouton, scene && "md:mt-0 md:shrink-0 md:self-end")}>
+      <Link href={action.href} className={bouton}>
         {action.libelle}
       </Link>
     ));
@@ -79,14 +84,12 @@ export function ActionDuJour({
         {titre}
       </h2>
       {children}
-      {scene ? (
-        <div className="flex flex-col md:mt-2 md:flex-row md:items-end md:gap-8" data-premier-pas-scene>
-          <p className={cn("hidden min-w-0 md:block md:flex-1", TEXTE)}>{scene}</p>
-          {boutonRendu}
-        </div>
-      ) : (
-        boutonRendu
+      {scene && (
+        <p className={cn("mt-2 hidden md:block", TEXTE)} data-premier-pas-scene>
+          {scene}
+        </p>
       )}
+      {boutonRendu}
       {apres}
     </section>
   );
