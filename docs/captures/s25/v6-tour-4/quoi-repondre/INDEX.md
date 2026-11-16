@@ -1,0 +1,22 @@
+# Captures quoi-repondre (2026-11-16T00:13, http://localhost:5400)
+
+- visiteur-quoi-repondre-375.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 3420px
+- visiteur-quoi-repondre-768.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 2315px
+- visiteur-quoi-repondre-1280.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 2105px
+- visiteur-quoi-repondre-1456.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 2105px
+- visiteur-quoi-repondre-1920.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 2105px
+- gratuit-quoi-repondre-375.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 3420px
+- gratuit-quoi-repondre-768.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 2315px
+- gratuit-quoi-repondre-1280.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 2105px
+- gratuit-quoi-repondre-1456.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 2105px
+- gratuit-quoi-repondre-1920.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 2105px
+- en-cours-quoi-repondre-375.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 6835px
+- en-cours-quoi-repondre-768.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 4755px
+- en-cours-quoi-repondre-1280.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 4447px
+- en-cours-quoi-repondre-1456.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 4447px
+- en-cours-quoi-repondre-1920.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 4447px
+- nouvel-quoi-repondre-375.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 6835px
+- nouvel-quoi-repondre-768.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 4755px
+- nouvel-quoi-repondre-1280.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 4447px
+- nouvel-quoi-repondre-1456.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 4447px
+- nouvel-quoi-repondre-1920.png : /mon-espace/quoi-repondre (page), HTTP 200, hauteur 4447px
