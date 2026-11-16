@@ -251,24 +251,21 @@ describe("arbitrage 4 : Favoris, cartes dépliables annoncées comme des boutons
   });
   const carteDe = (texte: string) => screen.getByText(texte).closest("[tabindex='0']") as HTMLElement;
 
-  it("ouvert : `role=\"button\"` et `aria-expanded` qui suit le dépli, texte inchangé, clavier conservé", async () => {
+  it("ouvert : aucun `role=\"button\"` sur la carte (elle contient « Retirer » et le partage : pas de contrôles imbriqués), dépli et clavier conservés", async () => {
     ouvrir(true);
     render(<FavorisList />);
     await act(async () => undefined);
     const vanne = carteDe("Une vanne drôle");
     const conseil = carteDe("Un super conseil");
     for (const c of [vanne, conseil]) {
-      expect(c).toHaveAttribute("role", "button");
-      expect(c).toHaveAttribute("aria-expanded", "false");
+      expect(c).not.toHaveAttribute("role");
+      expect(c).not.toHaveAttribute("aria-expanded");
     }
     expect(within(vanne).getByText("Clique pour la chute")).toBeInTheDocument();
     fireEvent.keyDown(vanne, { key: "Enter" });
-    expect(vanne).toHaveAttribute("aria-expanded", "true");
     expect(within(vanne).getByText("Et la chute qui tue")).toBeInTheDocument();
     fireEvent.click(conseil);
-    expect(conseil).toHaveAttribute("aria-expanded", "true");
     expect(within(conseil).getByText("Exemple concret")).toBeInTheDocument();
-    // « Retirer » reste un bouton à part, nommé seul.
     expect(screen.getAllByRole("button", { name: "Retirer des favoris" })).toHaveLength(2);
   });
 
