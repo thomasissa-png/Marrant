@@ -193,4 +193,299 @@ Grille de l'extrait à 768 : mêmes blocs que §4 à 768, hero en deux sous-colo
 
 Cognitive walkthrough du visiteur (Yanis, 375 px, arrive par la bande) : sait-il que c'est réservé ? oui (pastille « Premium » et H1 dans le même écran) ; sait-il ce qu'il y a dedans ? oui (promesse et pastilles) ; voit-il le prix et le bouton ? oui (sans défiler) ; croit-il être dedans ? non (extrait inerte et coupé, atténué). Aucune friction restante. [FRICTION H1 évitée] : à l'étape « je clique sur l'extrait », il ne se passe rien ; le fondu et la phrase « La suite est dans Premium » lui disent pourquoi.
 
-@@SUITE@@
+## 4. Aujourd'hui abonné : page n°1, tableau de bord
+
+### 4.1 Ce qui existe déjà dans les données (vérifié dans le code)
+
+| Donnée | Disponible | Où | Aujourd'hui affichée ? |
+|---|---|---|---|
+| Premier pas fait | oui | `premierPasFait(userId)` | oui (état 1) |
+| Action du jour : premier pas, rafale, étape à reprendre | oui | `PremierPas`, `lireRafale`, `lireEtapeAReprendre` (parcours, `ordre`, `total`, `enCours`, `href`) | oui |
+| Rafale : cartes, nouvelles, à revoir, fini, `cetteSemaine` | oui | `lireRafale` | oui (repère en tête, carte) |
+| Série (`streak`) | oui | `lireMois` | seulement dans « Ton mois » à partir de J25 |
+| Cap (1 à 5) | oui | `lireMois` (`capDepuisXp`) | idem |
+| XP | oui en base (`user.xp`, lu dans `lireMois` mais non renvoyé) | phrase existante `TEXTES_CAPS.xpDepuisArrivee(xp)` | non |
+| Parcours en cours, étape n sur N | oui | `lireEtapeAReprendre`, `TEXTES_PARCOURS_ESPACE.etapeSurTotal` | oui, mais seulement une fois la rafale faite |
+| Mission ouverte (marche) | oui, après le premier pas | `missionOuverte`, `TEXTES_MISSION` | oui (carte lien) |
+| Contenu du jour (vanne, conseil, vidéo) | oui | `/api/daily`, `ContenuDuJour` | oui |
+| Question C9 | oui, une fois | `QuestionAise` | oui |
+| Lettre du mois | pas de lecture dans cette page | `/lettre` existe (rubrique) | non ; **non ajoutée** (aucune donnée chargée ici, zéro invention) |
+| Pourcentage, « XP restants » | interdits | tests des caps (`espace-caps.ts` en-tête) | non, la progression se montre par pastilles de cap, XP gagnés, et « Étape n sur N » |
+
+### 4.2 Zones, ordre, poids
+
+L'ordre du DOM est l'ordre de priorité (lecteur d'écran, tabulation, mobile). Une seule action principale (bouton plein) : Z1. Tout le reste est lien ou bouton secondaire.
+
+| Zone | Contenu | Poids | Fonction |
+|---|---|---|---|
+| **En-tête de page** | H1 « Aujourd’hui » aligné à gauche (plus centré) ; à droite dès 768, la ligne `repère` « {n} cartes cette semaine » quand n > 0 ; ligne de date (NEUF, T3) | léger, 1 ligne | [CLARTÉ] où suis-je |
+| **Z1 Action du jour** | premier pas, OU « Étape en cours » (Reprendre), OU « Si tu as 5 minutes » (Les cartes du jour) selon l'état existant ; unique bouton plein 44 px | **dominant** : plus grand, première position, carte `p-6 md:p-8`, titre `text-2xl md:text-3xl` | [CLARTÉ] prochaine action évidente |
+| **Z2 Ton cap** (remplace « Ton mois ») | « Ton cap », nom et `cap n sur 5`, 5 pastilles, XP gagnés (si > 0), série avec flamme, aide de la série | fort, colonne latérale à 1280 | [ENVIE+] récompense, série, progression visible |
+| **Z3 Parcours en cours** | titre du parcours, « Étape n sur N », barre de progression (étapes validées sur total, sans pourcentage affiché), titre de l'étape, lien « Reprendre » (secondaire) | moyen | [CLARTÉ] où j'en suis ; [ENVIE+] reste à faire |
+| **Z4 Mission** | « Mission · Marche n », titre de la marche (ligne entière cliquable, chevron), « Facultative » | moyen | [ENVIE+] défi optionnel |
+| **Z5 Cartes du jour** | « Si tu as 5 minutes » en carte secondaire quand Z1 est l'étape ; « C'est tout pour aujourd'hui » avec coche quand la rafale est faite | moyen | [ENVIE+] récompense du jour fait |
+| **Z6 Contenu du jour** | 3 cartes : Vanne (avec « Une autre », toucher), Conseil, Vidéo | rangée entière, poids égal | [ENVIE+] raison de revenir chaque jour |
+| **Z7 Question C9** | une fois après le premier pas, 4 puces | léger, rangée entière, disparaît une fois répondue | [CLARTÉ] |
+
+Changements de règle par rapport à l'architecture v17 (série « jamais en tête », « Ton mois » dès J25) : Z2 est affichée dès le premier jour, en haut à droite. Motif : le retour de Thomas du 16/11 fait foi, et le principe « progression visible, récompense ou série » l'impose ; l'état zéro existant (« Ta série démarre à ta prochaine pratique. ») ne culpabilise pas. [À MENTIONNER à Thomas : cette décision déplace la série d'« Ton mois » vers le haut de la page.] « Ton mois » disparaît comme titre (titre de Z2 : « Ton cap »), sa donnée (série, cap) vit dans Z2.
+
+### 4.3 Grille par largeur
+
+Coque `max-w-7xl` (1216 px), gouttière 24 px, espacement vertical 24 px entre rangées (plus de `space-y-12` : les rangées se touchent à 24 px, le « Contenu du jour » garde son H2 et 32 px au-dessus).
+
+| Largeur | Grille | Rangée 1 | Rangée 2 | Rangée 3 | Rangée 4 |
+|---|---|---|---|---|---|
+| **375** | 1 colonne | Z1 | Z2 (compacte : cap et série côte à côte en 2 colonnes internes, pastilles dessous) | Z3, Z4, Z5 empilées | Z6 : 3 cartes empilées (vanne, conseil, vidéo), puis Z7 |
+| **768** | 2 colonnes (`md:grid-cols-2`) | Z1 pleine largeur (bandeau : titre à gauche, durée et bouton à droite) | Z2 pleine largeur en bandeau (cap, XP et série en ligne) | Z3 \| Z4 ; Z5 pleine largeur si Z4 absente | Z6 : vanne \| conseil, vidéo pleine largeur ; Z7 pleine largeur |
+| **1280, 1456, 1920** | 12 colonnes | Z1 `col-span-8` \| Z2 `col-span-4`, même hauteur (`items-stretch`) | Z3, Z4, Z5 : chacune `col-span-4`, ou `col-span-6` chacune si une manque (jamais une cellule vide) | Z6 : 3 cartes `col-span-4` | Z7 `col-span-12` |
+
+Règles : (a) aucune rangée ne reste à moitié vide : le nombre de zones présentes se partage 12 colonnes (3 x 4, 2 x 6, 1 x 12) ; (b) à 1280 et plus, Z1 et Z2 sont toujours dans la même rangée et à hauteur égale ; (c) 1456 et 1920 : même rendu que 1280 (coque plafonnée), la marge latérale grandit seule ; (d) Z1 ne dépasse jamais 66 % de la rangée ; (e) `min-w-0` sur chaque cellule et `[overflow-wrap:anywhere]` (déjà en place). Cibles : tout lien et bouton `min-h-11`, lignes cliquables entières.
+
+Premier écran à 1280 x 800 (686 px utiles) : en-tête 56 px, rangée 1 d'environ 240 px, rangée 2 d'environ 190 px, début de « Contenu du jour » : l'abonné voit action, cap, série, parcours et mission sans défiler. À 375 x 667 (553 utiles) : Z1 en entier (bouton compris) et le haut de Z2.
+
+### 4.4 État A : nouvel abonné (premier jour, rien de fait)
+
+| Zone | Rendu |
+|---|---|
+| Z1 | « Ton premier pas » : scène, durée, « Commencer » (existant, inchangé) |
+| Z2 | « Ton cap », « Tu t’échauffes · cap 1 sur 5 », 5 pastilles vides sauf la première, « Ta série démarre à ta prochaine pratique. » ; pas de ligne XP tant que XP = 0 (« 0 XP gagnés » décourage) |
+| Z3 | « Étape conseillée » : le parcours et son étape 1, lien secondaire « Commencer l'étape 1 ». CHANGEMENT : `lireEtapeAReprendre` est aujourd'hui appelé seulement quand la rafale est faite ; l'appeler aussi quand `!fait`, rendu en lien (jamais bouton plein) |
+| Z4 | absente (la mission s'ouvre après le premier pas) ; remplacée par « Tes 4 premières semaines » avec ses quatre lignes (libellés des lignes 13 et 14 de `docs/copy/libelles-espace-e5-s24.md`, déjà dans `espace-caps.ts`) : la feuille de route donne envie de continuer [ENVIE+] [clé exacte à confirmer] |
+| Z5 | absente (rafale non servie avant le premier pas) |
+| Z6 | présent (3 cartes) |
+| Z7 | absente (posée après le premier pas) |
+| Rangée 2 à 1280 | Z3 `col-span-5` \| « 4 premières semaines » `col-span-7` |
+
+[FRICTION H6 corrigée] avant : le nouvel abonné voyait un bandeau et 3 cartes, sans trace de sa progression ni de ce qui vient. Maintenant : cap 1, série à démarrer, parcours conseillé, feuille de route de 4 semaines.
+
+### 4.5 État B : abonné avancé (J30, série en cours, mission ouverte)
+
+| Zone | Rendu |
+|---|---|
+| Z1 | selon l'état existant : rafale pas faite : « Si tu as 5 minutes » + « Les cartes du jour » ; rafale faite : « Étape en cours », parcours, « Étape n sur N », titre de l'étape, « Reprendre » |
+| Z2 | « Ton cap » : nom et cap réels, pastilles remplies jusqu'au cap, « {xp} XP gagnés depuis ton arrivée », « {n} jours de pratique d’affilée », aide de la série ; `ecart` jamais ici (reste sur la page Parcours) |
+| Z3 | si Z1 est la rafale : Parcours en cours avec barre « Étape n sur N » ; si Z1 est déjà l'étape : Z3 absente (pas de doublon), Z5 en prend la place |
+| Z4 | « Mission · Marche n », lien |
+| Z5 | rafale faite : « C'est tout pour aujourd'hui » avec coche ; sinon « Si tu as 5 minutes » en carte secondaire quand Z1 est l'étape |
+| Z6, Z7 | Z6 présent ; Z7 absent une fois répondue |
+| Annonces de cap ou de bonus | inchangées, en bandeau au-dessus de la grille (ligne `role="status"`) |
+
+Cas « abonné revenant après 30 jours » : série à zéro, texte `serieZero` sans reproche ; Z1 propose le plus utile (rafale ou étape) ; aucun message de retard.
+
+### 4.6 Wireframes de l'abonné
+
+**Nouvel abonné, 375 px**
+
+```
++---------------------------------------+
+| Aujourd'hui                           |
+| lundi 16 novembre                     |
++---------------------------------------+
+| (filet)                               |
+| Ton premier pas            5 min      |
+| Quelqu'un te lance « Tiens, tu as     |
+| changé quelque chose, non ? »         |
+| [        Commencer         ] 44 px    |   Z1 dominante
++---------------------------------------+
+| Ton cap                               |
+| Tu t'échauffes · cap 1 sur 5          |
+| (o)(o)(o)(o)(o)                       |
+| Ta série démarre à ta prochaine       |
+| pratique.                             |   Z2
++---------------------------------------+
+| Étape conseillée                      |
+| Répartie                              |
+| Commencer l'étape 1  >                |   Z3, ligne 44 px
++---------------------------------------+
+| Tes 4 premières semaines              |
+| (4 lignes)                            |
++---------------------------------------+
+| Contenu du jour                       |
+| [Vanne du jour]                       |
+| [Conseil du jour]                     |
+| [Vidéo du jour]                       |   Z6 empilées
++---------------------------------------+
+```
+
+**Nouvel abonné, 1280 px**
+
+```
+Aujourd'hui                                              lundi 16 novembre
++------------------------------------------------+ +-----------------------+
+| Ton premier pas                      5 min     | | Ton cap               |
+| Quelqu'un te lance « Tiens, tu as changé       | | Tu t'échauffes        |
+| quelque chose, non ? »    [  Commencer  ]      | | cap 1 sur 5  (o)(o)...|
+|                                                | | Ta série démarre à... |
++------------------------------------------------+ +-----------------------+   col 8 | col 4
++-----------------------------+ +----------------------------------------+
+| Étape conseillée            | | Tes 4 premières semaines               |
+| Répartie                    | | Semaine 1 ... Semaine 2 ... (4 lignes) |
+| Commencer l'étape 1  >      | |                                        |
++-----------------------------+ +----------------------------------------+   col 5 | col 7
+Contenu du jour
++------------------+ +------------------+ +------------------+
+| Vanne du jour    | | Conseil du jour  | | Vidéo du jour    |
+| ... [Une autre]  | | ...              | | vignette         |
++------------------+ +------------------+ +------------------+                 3 x col 4
+```
+
+**Abonné avancé, 375 px**
+
+```
++---------------------------------------+
+| Aujourd'hui              12 cartes    |
+| lundi 16 novembre   cette semaine     |
++---------------------------------------+
+| Étape en cours                        |
+| Parcours Répartie                     |
+| Étape 4 sur 12                        |
+| [Titre de l'étape]                    |
+| [        Reprendre         ] 44 px    |   Z1
++---------------------------------------+
+| Ton cap                               |
+| Tu avances bien · cap 3 sur 5         |
+| (o)(o)(o)( )( )                       |
+| 420 XP gagnés depuis ton arrivée      |
+| (flamme) 9 jours de pratique d'affilée|   Z2
++---------------------------------------+
+| (coche) C'est tout pour aujourd'hui   |   Z5
++---------------------------------------+
+| Mission · Marche 2                    |
+| Titre de la marche              >     |
+| Facultative                           |   Z4
++---------------------------------------+
+| Contenu du jour : 3 cartes empilées   |
++---------------------------------------+
+```
+
+**Abonné avancé, 1280 px**
+
+```
+Aujourd'hui                                  12 cartes cette semaine
+lundi 16 novembre
++------------------------------------------------+ +-----------------------+
+| Étape en cours                                 | | Ton cap               |
+| Parcours Répartie        Étape 4 sur 12        | | Tu avances bien       |
+| ====----------  (barre d'étapes)               | | cap 3 sur 5 (o)(o)(o) |
+| [Titre de l'étape]        [   Reprendre   ]    | | 420 XP gagnés ...     |
+|                                                | | 9 jours d'affilée     |
++------------------------------------------------+ +-----------------------+
++----------------------+ +----------------------+ +----------------------+
+| (coche) C'est tout   | | Mission · Marche 2   | | Ton parcours         |
+| pour aujourd'hui     | | Titre de la marche > | | (si Z1 est la rafale)|
++----------------------+ +----------------------+ +----------------------+  3 x col 4
+Contenu du jour
++------------------+ +------------------+ +------------------+
+| Vanne du jour    | | Conseil du jour  | | Vidéo du jour    |
++------------------+ +------------------+ +------------------+
+```
+
+Quand Z1 est déjà l'étape (cas ci-dessus), la troisième cellule de la rangée 2 est absente : Z5 et Z4 prennent `col-span-6` chacune.
+
+### 4.7 Nielsen sur l'abonné
+
+| Heuristique | Verdict | Évidence |
+|---|---|---|
+| H1 État | PASS | cap, XP, série, étape n sur N toujours visibles dès le premier jour |
+| H2 Vocabulaire | PASS | « Ton cap », « Étape en cours », « Si tu as 5 minutes » : textes validés |
+| H3 Contrôle | PASS | la mission est « Facultative », la question C9 se pose une fois |
+| H4 Cohérence | PASS | cartes de l'accueil (`rounded-xl`, filet), mêmes chips que la bande |
+| H5 Prévention | PASS | un seul bouton plein par écran |
+| H6 Reconnaissance | PASS | chaque zone a un titre lisible, pas de rappel mémoire |
+| H7 Raccourcis | PASS | lignes entières cliquables, logo mène à Aujourd'hui |
+| H8 Minimalisme | PASS sous réserve | 7 zones maximum, jamais toutes ensemble ; 3 actions principales au plus visibles (action du jour, parcours, mission) |
+| H9 Erreurs | PASS | échec du contenu du jour = portes du catalogue (`jour.repli`), échec C9 = `aise.echec` |
+| H10 Aide | PASS | aide de la série, information sous C9 |
+
+## 5. Edge cases et accessibilité
+
+| Cas | Comportement |
+|---|---|
+| Chargement du contenu du jour | cartes vides de même gabarit (existant) ; pas de saut de mise en page |
+| Connexion lente | Z1 à Z5 rendues par le serveur ; seul Z6 est lu côté navigateur (délai 5 s existant) |
+| Parcours tous finis, rafale faite | Z1 = « C'est tout pour aujourd'hui » (état existant) ; Z3 absente |
+| Abonné non connecté sur l'aperçu | lien « Connexion » (visiteur) ; il garde le même aperçu |
+| Mouvement réduit | aucune animation de barre ni de fondu |
+| Clavier | ordre = ordre du DOM : Z1, Z2 (aucun focusable), Z3, Z4, Z5, Z6, Z7 ; aperçu : bouton du hero, lien « Connexion », bouton de fin ; l'extrait est hors de la tabulation |
+| Contrastes | pastille « Premium » : bord et texte AA sur `background-card` ; bouton atténué de l'extrait exempté (inerte, aria-hidden) mais jamais sous 3:1 pour le texte lisible |
+| Zoom 200 % ou fenêtre basse (< 500 px de haut) | une colonne, hero non collant, aucun contenu masqué |
+| WCAG 2.2 AA | cibles 44 px, focus visible (anneau existant), `aria-labelledby` par zone, H2 par zone, un seul H1 |
+
+## 6. Textes
+
+### 6.1 Réutilisés (aucune modification)
+
+| Usage | Texte | Clé |
+|---|---|---|
+| H1 | Aujourd’hui | `TEXTES_AUJOURDHUI.titre` |
+| Premier pas | Ton premier pas, Commencer, scène par défaut, durée | `premierPas.eyebrow`, `.bouton`, `.sceneParDefaut`, `.duree` |
+| Rafale | Si tu as 5 minutes, Les cartes du jour, Nouvelle, À revoir, C'est tout pour aujourd'hui | `rafale.titre`, `.bouton`, `.nouvelle`, `.aRevoir`, `.fini` |
+| Étape | Étape en cours, Étape conseillée, Reprendre, Commencer l'étape 1 | `etape.enCours`, `.conseillee`, `.reprendre`, `.commencerEtape1` |
+| Repère | {n} cartes cette semaine | `repere` |
+| Contenu du jour | titre, Vanne, Conseil, Vidéo du jour, Ce soir c'est plutôt ?, Une autre | `jour.*` |
+| Cap | Ton cap, noms, « {nom} · cap n sur 5 », XP gagnés depuis ton arrivée, série zéro | `TEXTES_CAPS.titre`, `.noms`, `.capVisible`, `.capLu`, `.xpDepuisArrivee`, `.serieZero` |
+| Série | {n} jours de pratique d’affilée, aide, titre Série | `SERIE.jours`, `.aide`, `.titre` (`parcours.ts`) |
+| Étape n sur N | Étape n sur N | `TEXTES_PARCOURS_ESPACE.etapeSurTotal` |
+| Mission | Mission, Marche n, titres, Facultative | `TEXTES_MISSION.titre`, `.marche`, `.titresMarches`, `.facultative` |
+| C9 | question, 4 réponses, échec, information | `aise.*` |
+| Aperçu | légende « Voici un exemple de cette rubrique. Elle est ouverte avec Premium. » | `TEXTES_APERCU.sousTitre` |
+| Aperçu | Connexion | `TEXTES_APERCU.connexion` |
+| CTA | Premium · 1,99 €/mois ; nom accessible | `EN_TETE.bouton`, `.nomAccessible` |
+| Pastille | Premium | `OFFRE_NOM` |
+| Réassurance | « Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. » | `REASS` (`offre.ts`) [clé à confirmer] |
+| Preuve | 1 500+ inscrits bossent leur humour. | `ABONNEMENT_HAUT.preuve` |
+| Phrase d'objet (gratuit) | Premium ouvre tout : le catalogue, les N parcours, un carnet de répartie par mois. | `PHRASE_OBJET_CONNECTE` |
+| 4 premières semaines | titre et 4 lignes | `espace-caps.ts` (libellés lignes 13 et 14) [clé à confirmer] |
+
+### 6.2 Textes à valider par Thomas
+
+Aucun tiret cadratin. Tutoiement. Chaque proposition est la reco ; une alternative est donnée quand le choix est réel.
+
+| N° | Où | Proposition | Alternative |
+|---|---|---|---|
+| T1 | Promesse du hero d'Aujourd'hui (aperçu) | « Ton tableau de bord : chaque jour, ton action, ta progression et ta série. » | « Chaque jour, une action, ton cap et ta série, tout au même endroit. » |
+| T2 | Fin d'extrait, toutes rubriques | « La suite est dans Premium » | « Le reste t'attend avec Premium » |
+| T3 | Date sous le H1 abonné | jour de la semaine et date en français : « lundi 16 novembre » (mise en forme automatique, pas de phrase) | pas de date |
+| T4 | Texte lu seulement, après le H1 de l'aperçu | « Rubrique Premium. Exemple ci-dessous, non cliquable. » | |
+| T5 | Promesse Quoi répondre | « Des situations de la vie courante, avec trois répliques pour chacune. » | |
+| T6 | Promesse Bibliothèque | « Comment c'est construit, vocabulaire et techniques : la mécanique d'une bonne réplique. » | |
+| T7 | Promesse S'entraîner | « Des cartes et des jeux pour dire la bonne réponse à temps. » (reprend l'idée de `rafale.accroche`) | reprendre `rafale.accroche` telle quelle |
+
+T5 à T7 ne bloquent pas la page Aujourd'hui (les autres aperçus passent après). Si Thomas ne répond pas à T1 : l'alternative n'est PAS posée seule, @fullstack n'écrit aucun texte provisoire visible.
+
+## 7. Mesure (HEART) et tests
+
+| Flow | Dimension | Signal | Cible | Méthode |
+|---|---|---|---|---|
+| Aperçu | Adoption / Task success | clics offre depuis aperçu, par position `haut` ou `fin`, sur vues aperçu | cible fixée après 28 jours de mesure (aucune base : 5 clics abonnement en 28 jours au 11/10) | événements nav v6 §2, propriété `position` ajoutée ; @data-analyst |
+| Aperçu | Engagement | profondeur de défilement jusqu'au CTA de fin | à observer | Umami |
+| Abonné | Task success | part des visites avec clic sur Z1 | >= 60 % (défaut d'activation) | événement `clic action du jour` |
+| Abonné | Retention | retour J+7 | à observer | back-office |
+| Abonné | Happiness | CSAT de la page | >= 8/10 | question ponctuelle |
+
+Tests de ce livrable :
+- Parcours persona sans aide : walkthrough fait (§3.5), frictions corrigées.
+- Charge cognitive : <= 3 actions principales visibles par écran (hero : 1 bouton + 1 lien ; abonné : Z1, Z3, Z4).
+- Time-to-value : inscription au premier résultat concret : paiement, puis Z1 « Commencer » : 2 étapes.
+- Edge cases : §5. Accessibilité : §5.
+- Preuve visuelle à fournir par @fullstack : captures 375, 768, 1280, 1920 des 3 états (visiteur, gratuit, nouvel abonné, abonné avancé) avant la revue @ux (`ux-review.md`).
+
+## 8. Application (pour @design puis @fullstack)
+
+@design : tokens et proportions des zones, pastille « Premium » (verrou + mot), fondu, états atténués ; conserve l'ordre, la grille et les zones de §3 et §4 ; tout conflit est arbitré par @ux.
+
+@fullstack (périmètre, espace ouvert seulement) :
+- `apercu/apercu-rubrique.tsx` devient `ApercuVerrouille` (zones A à E) ; configuration par rubrique dans `apercu/exemples.ts` ; nouveau `apercu/tableau-verrouille.tsx` pour l'extrait d'Aujourd'hui, qui réutilise `PremierPas`, `TonCap`, `EtapeEnCours`, `MissionLien`, `ContenuDuJour` en mode figé sans réseau (props `fige`) ; l'extrait des autres rubriques utilise `ExempleFiche` rendu dans un conteneur coupé.
+- `mon-espace/page.tsx` : grille de §4.3 (remplacer `space-y-12`, `data-aujourdhui-grille`, le bloc `md:grid-cols-2`) ; en-tête de page aligné à gauche (`EN_TETE_CENTRE` retiré pour cette page) ; appeler `lireEtapeAReprendre` aussi quand `!fait` ; afficher Z2 dès J1.
+- `ton-mois.tsx` devient `ton-cap.tsx` (titre « Ton cap », XP, série) ; `lireMois` renvoie aussi `xp` et ne dépend plus de `JOUR_TON_MOIS` pour l'affichage.
+- Mettre à jour `docs/ux` et les tests (`aujourdhui-s24.test.tsx`, `apercu-rubriques.test.ts`, e2e visuels) ; mesure : propriété `position`.
+- Le site fermé ne change pas : aucun fichier hors espace n'est modifié ; consigner dans `REPLIT_ACTIONS.md`.
+
+Agents spécialisés recommandés : aucun nouveau. Après l'implémentation : @ux (revue `ux-review.md` sur captures) et @reviewer.
+
+---
+**Handoff → @design**
+- Fichier produit : `/home/user/Marrant/docs/ux/aujourdhui-refonte-s25.md`
+- Décisions : aperçu = hero de conversion + extrait inerte coupé par un fondu + CTA haut et fin ; abonné = grille 12 colonnes (Z1 dominante 8/12 + Z2 cap 4/12) ; série et cap visibles dès J1.
+- Points d'attention : textes T1 à T7 à valider par Thomas ; décision « série en haut dès J1 » à lui signaler ; clés `REASS` et « 4 premières semaines » à confirmer dans le code ; coque plafonnée à 1216 px.
+---
