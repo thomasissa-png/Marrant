@@ -1,0 +1,32 @@
+# Captures fiches (2026-11-16T02:34, http://localhost:5400)
+
+- en-cours-fiche-jeu-375.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 2209px
+- en-cours-fiche-seance-375.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 3381px
+- en-cours-fiche-bilan-375.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 3373px
+- en-cours-fiche-jeu-768.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 1665px
+- en-cours-fiche-seance-768.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 2561px
+- en-cours-fiche-bilan-768.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 2661px
+- en-cours-fiche-jeu-1280.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 1451px
+- en-cours-fiche-seance-1280.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 2323px
+- en-cours-fiche-bilan-1280.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 2471px
+- en-cours-fiche-jeu-1456.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 1451px
+- en-cours-fiche-seance-1456.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 2323px
+- en-cours-fiche-bilan-1456.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 2471px
+- en-cours-fiche-jeu-1920.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 1451px
+- en-cours-fiche-seance-1920.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 2323px
+- en-cours-fiche-bilan-1920.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 2471px
+- nouvel-fiche-jeu-375.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 2209px
+- nouvel-fiche-seance-375.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 3381px
+- nouvel-fiche-bilan-375.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 3373px
+- nouvel-fiche-jeu-768.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 1665px
+- nouvel-fiche-seance-768.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 2561px
+- nouvel-fiche-bilan-768.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 2661px
+- nouvel-fiche-jeu-1280.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 1451px
+- nouvel-fiche-seance-1280.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 2323px
+- nouvel-fiche-bilan-1280.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 2471px
+- nouvel-fiche-jeu-1456.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 1451px
+- nouvel-fiche-seance-1456.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 2323px
+- nouvel-fiche-bilan-1456.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 2471px
+- nouvel-fiche-jeu-1920.png : /mon-espace/fiche/jeu/quelle-replique-1 (page), HTTP 200, hauteur 1451px
+- nouvel-fiche-seance-1920.png : /mon-espace/fiche/seance/seance-dix-chambrages-dix-secondes (page), HTTP 200, hauteur 2323px
+- nouvel-fiche-bilan-1920.png : /mon-espace/fiche/bilan/bilan-repartie (page), HTTP 200, hauteur 2471px
