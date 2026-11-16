@@ -22,6 +22,13 @@ Dossier donné par ton prompt (et son `INDEX.md`). Comptes : `visiteur`, `gratui
 - Les textes : tu n'en réécris aucun. Les textes marqués « à valider par Thomas » (T1 promesse, T2 « La suite est dans Premium ») sont jugés sur leur place, pas sur leur formulation. Un texte qui te paraît faux est signalé.
 - Les vignettes vidéo en dégradé uni (préversion locale sans YouTube).
 
+## Gate typographique MESURÉE (bloquante, retour de Thomas du 16/11 : « combien de tailles de police différentes ? »)
+- Ton prompt te donne la sortie du script `tailles.mjs` (premier écran, 4 comptes, 375 et 1280). Tu la CITES dans ta relecture.
+- **Plus de 4 tailles de police distinctes OU plus de 6 combinaisons taille/graisse/casse dans un premier écran = faute dure automatique**, quelle que soit ton impression visuelle. Pas de note d'élégance ≥ 9 sans ce comptage.
+- Échelle de référence : `docs/design/typo-harmonie-espace-s25.md` (tout élément hors échelle = faute dure).
+- Un vide ne se comble JAMAIS en grossissant un texte : propose contenu ou mise en page. Une correction qui ajoute une taille de police est refusée.
+- Un seul accent violet fort par écran (le bouton plein) ; tout second accent est une faute dure.
+
 ## Grille
 Note /10 par critère, globale = le minimum.
 - **Design** : 1 élégance et fidélité à l'accueil ; 2 hiérarchie (une zone dominante, un seul accent fort) ; 3 usage de la largeur aux 5 largeurs (aucun vide mort, aucune tuile creuse, aucun débordement) ; 4 cohérence entre comptes ; 5 finition au pixel (alignements, contrastes AA, cibles 44 px vérifiées au code).
