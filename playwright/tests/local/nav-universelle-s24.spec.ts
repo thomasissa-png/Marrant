@@ -698,8 +698,10 @@ test.describe("navigation universelle v6 (s25)", () => {
     // d'Ariane) pour que tous les H1 soient à la même hauteur ; la v6 retire retour, fil d'Ariane et place réservée sur
     // les rubriques de premier niveau. Équivalent v6 : leurs H1 restent alignés entre eux, pour l'abonné (rubriques) et
     // pour le visiteur (aperçus), à 375 et 1280 px. Visiteur, hors comparaison : /lettre (page d'inscription, `py-10`)
-    // et /carnet (surtitre du mois au-dessus du titre) ont leur propre en-tête de page, inchangé par la v6 (mesuré :
-    // +40 et +28 px) ; abonné, toutes les rubriques sont comparées.
+    // a son propre en-tête de page, inchangé par la v6 (mesuré : +40 px) ; abonné, toutes les rubriques sont comparées.
+    // v6 tour 3 (arbitrage 1) : sur /carnet, le sur-titre du mois est AU-DESSUS du H1 pour tous les comptes (le tour 2
+    // le passait sous le titre chez l'abonné) ; c'est lui, première ligne de l'en-tête de page, qui s'aligne sur le H1
+    // des autres rubriques (le H1 est 28 px plus bas, hauteur du sur-titre et de son espace).
     test("§4 : H1 des rubriques de premier niveau à la même hauteur entre elles (abonné, visiteur ; 375 et 1280 px)", async ({ browser }) => {
       const PREMIER_NIVEAU = ["/mon-espace", "/parcours", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/vannes", "/conseils", "/videos", "/blog", "/lettre", "/favoris", "/carnet", "/mon-espace/questions", "/mon-espace/repliques"];
       for (const etat of ["PREMIUM", "visiteur"] as const) {
@@ -713,13 +715,15 @@ test.describe("navigation universelle v6 (s25)", () => {
             await pret(page, etat);
             const h1 = page.locator("main h1").first();
             await expect(h1, `${chemin} (${etat}, ${largeur} px)`).toBeVisible();
-            hauts[chemin] = await h1.evaluate((e) => Math.round((e.getBoundingClientRect().top + window.scrollY) * 10) / 10);
+            const tete = chemin === "/carnet" ? h1.locator("xpath=preceding-sibling::p[1]") : h1;
+            await expect(tete, `en-tête de ${chemin} (${etat}, ${largeur} px)`).toBeVisible();
+            hauts[chemin] = await tete.evaluate((e) => Math.round((e.getBoundingClientRect().top + window.scrollY) * 10) / 10);
           }
           noter(`§4 ; H1 ; ${etat} ; ${largeur} px ; ${JSON.stringify(hauts)}`);
           const reference = hauts["/mon-espace"];
           for (const [chemin, haut] of Object.entries(hauts)) {
-            if (etat === "visiteur" && (chemin === "/lettre" || chemin === "/carnet")) continue;
-            expect(Math.abs(haut - reference), `H1 de ${chemin} à la hauteur de celui d'Aujourd'hui (${etat}, ${largeur} px)`).toBeLessThanOrEqual(1);
+            if (etat === "visiteur" && chemin === "/lettre") continue;
+            expect(Math.abs(haut - reference), `${chemin === "/carnet" ? "Sur-titre" : "H1"} de ${chemin} à la hauteur du H1 d'Aujourd'hui (${etat}, ${largeur} px)`).toBeLessThanOrEqual(1);
           }
         }
         await c.close();

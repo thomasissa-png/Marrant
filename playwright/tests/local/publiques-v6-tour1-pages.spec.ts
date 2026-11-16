@@ -123,7 +123,8 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       await c.close();
     });
 
-    test("/carnet abonné : sommaire en tête, carnets précédents dessous, ancres atteintes", async ({ browser }) => {
+    // v6 tour 3 (point 9, remplace le tour 1) : « Les carnets précédents » descend après les fiches, en fin de page.
+    test("/carnet abonné : sommaire en tête, carnets précédents après les fiches, ancres atteintes", async ({ browser }) => {
       const { c, page } = await contexte(browser, "PREMIUM");
       await page.goto("/carnet");
       const sommaire = page.locator("[data-carnet-sommaire]");
@@ -133,7 +134,10 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       const premiere = fiches.first();
       expect((await boite(sommaire)).y).toBeLessThan((await boite(premiere)).y);
       const archives = page.locator("[aria-labelledby='carnet-archives']");
-      if ((await archives.count()) > 0) expect((await boite(archives)).y).toBeLessThan((await boite(premiere)).y);
+      if ((await archives.count()) > 0) {
+        const derniere = await boite(fiches.last());
+        expect((await boite(archives)).y).toBeGreaterThanOrEqual(derniere.y + derniere.height);
+      }
       await attendreFilet(premiere);
       const cible = fiches.nth(4);
       await liens.nth(4).click();
