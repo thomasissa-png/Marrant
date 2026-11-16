@@ -42,6 +42,14 @@ describe("faute 1 : Z1 et Z2 à la hauteur de leur contenu", () => {
     const { container } = render(<ActionDuJour idTitre="t" etiquette="É" titre="Titre" action={{ href: "/x", libelle: "Go" }} />);
     expect(container.querySelector("[data-action-du-jour]")?.className).not.toMatch(/min-h-/);
   });
+
+  it("v7 tour 6 : contenu calé en haut (étiquette, puis titre et bouton 16 px dessous), le surplus en bas de carte", () => {
+    const { container } = render(<ActionDuJour idTitre="t" etiquette="É" titre="Titre" action={{ href: "/x", libelle: "Go" }} />);
+    const grille = container.querySelector("[data-action-du-jour] > div") as HTMLElement;
+    const c = grille.className.split(/\s+/);
+    expect(c).toEqual(expect.arrayContaining(["grid", "gap-y-4"]));
+    expect(c.filter((x) => /^(?:[a-z0-9]+:)*(flex-1|content-(between|around|evenly|end|center)|mt-auto|h-full)$/.test(x))).toEqual([]);
+  });
 });
 
 describe("faute 2 : « Étape conseillée » pleine", () => {
@@ -134,12 +142,13 @@ describe("pistes", () => {
   it("hero 8/4 : les 6 pastilles ont la place sur une ligne dès 1024 (plus d'orpheline à 1280)", () => {
     const hero = lire("components/espace/apercu/hero-apercu.tsx");
     // v7 tour 4 (piste 768) : 3/5 et 2/5 de 768 à 1023, 8/4 dès 1024 inchangé.
-    // Échelle s25 : la colonne de texte devient une colonne flex (pastilles calées en bas).
+    // Échelle s25 : la colonne de texte devient une colonne flex.
     expect(hero).toContain('<div className="flex min-w-0 flex-col md:col-span-3 lg:col-span-8">');
     // v7 tour 3 (piste hero) : l'offre s'aligne en haut sur la pastille. Échelle s25 : la colonne de texte (24/30 px)
-    // a la hauteur de l'offre (grille étirée), les pastilles calées en bas (`md:mt-auto`), plus de vide sous elles.
+    // a la hauteur de l'offre (grille étirée). v7 tour 6 : pastilles sous la promesse, plus calées en bas
+    // (`md:mt-auto` creusait un vide au milieu) ; le surplus passe en bas de colonne.
     expect(hero).toContain('<div className="min-w-0 md:col-span-2 lg:col-span-4">');
-    expect(hero).toContain("md:mt-auto");
+    expect(hero).not.toContain("mt-auto");
     expect(hero).not.toMatch(/md:items-(start|center)/);
     expect(hero).not.toContain("md:max-w-2xl");
   });

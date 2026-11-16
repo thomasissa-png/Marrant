@@ -5,7 +5,8 @@
  * 2. Tuile « Vidéo du jour » de 768 à 1023 : ligne de média (vignette 17rem à gauche, titre de la carte et titre de la
  *    vidéo en face, centrés en hauteur).
  * Pistes : hero 3/5 et 2/5 de 768 à 1023 ; titre « Contenu du jour » de l'extrait aligné sur ses voisines dès 1024.
- * Les mesures en pixels (bas alignés à 24 px, vides de la tuile vidéo, bouton de fin sous 900 px) sont dans
+ * Les mesures en pixels (pastilles à 24 px au plus sous la promesse, vides de la tuile vidéo, bouton de fin sous
+ * 900 px) sont dans
  * `playwright/tests/local/espace-aujourdhui-refonte-s25.spec.ts`.
  */
 import { act, render } from "@testing-library/react";
@@ -26,10 +27,11 @@ const T = frEspaceProfond(TEXTES_AUJOURDHUI);
 const classes = (e: Element | null | undefined) => (e?.className ?? "").split(/\s+/);
 
 // Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.6, retour de Thomas du 16/11) : l'équilibre du hero ne
-// vient plus de la taille du texte (H1 60 px, promesse 24 px) mais de la mise en page : colonnes de même hauteur,
-// pastilles calées sur le bas de l'offre, échelle à 4 tailles.
+// vient plus de la taille du texte (H1 60 px, promesse 24 px) ; échelle à 4 tailles. v7 tour 6 (placement) : les
+// pastilles suivent la promesse à 24 px (`mt-6`) à toutes les largeurs, plus calées sur le bas de l'offre (vide au
+// milieu lu comme cassé) ; le surplus de hauteur passe sous elles, en bas de colonne.
 describe("faute 1 : hero de l'aperçu équilibré dès 1024, sans grossir le texte", () => {
-  it("H1 `TITRE_PAGE` (24 puis 30), promesse `TEXTE`, pastilles en bas de colonne dès 768 ; 48 px avant l'extrait, 64 dès 1024", () => {
+  it("H1 `TITRE_PAGE` (24 puis 30), promesse `TEXTE`, pastilles 24 px sous la promesse ; 48 px avant l'extrait, 64 dès 1024", () => {
     render(<ApercuAujourdhui visiteur />);
     const hero = document.querySelector("[data-apercu-hero]") as HTMLElement;
     expect(classes(hero.querySelector("h1"))).toEqual(expect.arrayContaining(["text-2xl", "lg:text-3xl", "font-semibold"]));
@@ -37,8 +39,9 @@ describe("faute 1 : hero de l'aperçu équilibré dès 1024, sans grossir le tex
     const promesse = hero.querySelector("[data-apercu-pastilles]")?.previousElementSibling;
     expect(classes(promesse)).toEqual(expect.arrayContaining(["text-base", "max-w-xl"]));
     expect(classes(promesse).some((c) => /text-(lg|xl|2xl)$/.test(c))).toBe(false);
-    expect(classes(hero.querySelector("[data-apercu-pastilles]"))).toEqual(expect.arrayContaining(["mt-6", "md:mt-auto", "md:pt-6"]));
-    expect(classes(hero.querySelector("[data-apercu-pastilles]"))).not.toContain("lg:mt-8");
+    const pastilles = classes(hero.querySelector("[data-apercu-pastilles]"));
+    expect(pastilles).toContain("mt-6");
+    expect(pastilles.filter((c) => /(^|:)(mt|pt)-/.test(c))).toEqual(["mt-6"]);
     expect(classes(hero.children[0])).toEqual(expect.arrayContaining(["flex", "flex-col"]));
     expect(classes(document.querySelector("[data-apercu-extrait]"))).toEqual(expect.arrayContaining(["mt-12", "lg:mt-16"]));
   });

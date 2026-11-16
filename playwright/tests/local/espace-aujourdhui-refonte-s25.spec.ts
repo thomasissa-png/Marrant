@@ -13,15 +13,17 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  *   AVANT le fondu à toutes les largeurs, le fondu ne coupe aucune ligne de texte, aucune pastille du hero seule sur
  *   sa ligne ;
  * - abonné neuf : Z1 8/12 et « Ton cap » 4/12 sur la même rangée dès 1024 px, une colonne dessous ; aucune rangée
- *   à moitié vide ; aucun débordement horizontal (halo compris) de 375 à 1920 ; v7 tour 2 (fautes 1, 2, 3, 5) : pas
- *   plus de 24 px de vide sous le contenu de Z1 et Z2 (au-delà de leur marge), aucun creux de plus de 32 px dans
- *   « Étape conseillée », « Tes 4 premières semaines » et les cartes du contenu du jour, « Semaine n » en tête de ligne ;
+ *   à moitié vide ; aucun débordement horizontal (halo compris) de 375 à 1920 ; v7 tour 2 (fautes 1, 2, 3, 5) : aucun
+ *   creux de plus de 32 px dans « Étape conseillée », « Tes 4 premières semaines » et les cartes du contenu du jour,
+ *   « Semaine n » en tête de ligne ; v7 tour 6 (placement) : Z1 et « Ton cap » calés en haut, aucun creux de plus de
+ *   32 px entre deux éléments de la carte (le vide de fin de carte est permis) ;
  * - v7 tour 3 (fautes 1 à 3) : rangée 2 de l'extrait lisible avant le fondu (étiquette, titre, barre et « Étape n sur
  *   N » ensemble, « Vanne du jour » en clair), aucune ligne visible à cheval sur le point transparent ; à 900 px de
  *   haut (1280, 1456, 1920), le bouton d'offre de la fin d'extrait sous le premier écran ; éléments figés à 3,9:1 au
  *   moins ; à 768, la vidéo du jour n'est plus une dalle ;
- * - v7 tour 4 (fautes 1 et 2, pistes) : dès 1024, bas du texte du hero et bas de la carte d'offre à 24 px près
- *   (échelle s25 : pastilles calées en bas de colonne ; la fin d'extrait, phrase comprise, sous 900 px) ; à 768, offre à droite du texte (60/40) ; à 768, tuile « Vidéo du jour » en
+ * - v7 tour 4 (fautes 1 et 2, pistes) : la fin d'extrait, phrase comprise, sous 900 px ; à 768, offre à droite du
+ *   texte (60/40) ; v7 tour 6 (placement) : pastilles du hero à 24 px au plus sous la promesse à toutes les largeurs
+ *   (plus calées sur le bas de l'offre : le vide passe sous elles) ; à 768, tuile « Vidéo du jour » en
  *   ligne de média, au plus 32 px de vide au-dessus et au-dessous du texte en face de la vignette (titre sur deux
  *   lignes) ; dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de ceux de ses voisines.
  */
@@ -170,9 +172,18 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         expect(c.o, `une seule atténuation (0,75), ${ou}`).toBeGreaterThanOrEqual(0.74);
         expect(c.ratio, `contraste figé, ${ou}`).toBeGreaterThanOrEqual(3.9);
       }
+      // v7 tour 6 (placement) : contenu calé en haut, aucun vide de plus de 32 px entre deux éléments de la carte ; le
+      // vide de fin de carte est permis (Z1 et « Ton cap » de même hauteur dès 1024).
       for (const z of ["[data-action-du-jour]", "[data-cap-du-jour]"]) {
-        expect((await extrait.locator(z).evaluate(vides)).bas, `${z} sans vide en bas, ${ou}`).toBeLessThanOrEqual(24);
+        expect((await extrait.locator(z).evaluate(vides)).creux, `${z} sans creux, ${ou}`).toBeLessThanOrEqual(32);
       }
+      // v7 tour 6 (placement) : pastilles du hero juste sous la promesse (24 px au plus), jamais calées en bas.
+      const sousPromesse = await page.locator("[data-apercu-pastilles]").evaluate((ul) => {
+        const p = ul.previousElementSibling as Element;
+        return ul.getBoundingClientRect().top - p.getBoundingClientRect().bottom;
+      });
+      expect(Math.round(sousPromesse), `pastilles sous la promesse, ${ou}`).toBeLessThanOrEqual(24);
+      expect(Math.round(sousPromesse), `pastilles sous la promesse, ${ou}`).toBeGreaterThanOrEqual(8);
       // Piste : aucune pastille du hero seule sur sa ligne.
       const rangees = await page.locator("[data-apercu-pastilles] li").evaluateAll((lis) => {
         const hauts = lis.map((l) => Math.round(l.getBoundingClientRect().top));
@@ -232,9 +243,15 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       expect((await boite(offres.nth(1))).haut, `bouton de fin sous 900 px, ${largeur}`).toBeGreaterThanOrEqual(900);
       // Échelle s25 : la phrase de fin aussi (un seul « Premium » écrit hors offre au premier écran).
       expect((await boite(page.locator("[data-apercu-fin] p"))).haut, `phrase de fin sous 900 px, ${largeur}`).toBeGreaterThan(900);
-      // v7 tour 4 (faute 1) : plus de vide sous les pastilles ; bas du texte et bas de la carte d'offre à 24 px près.
-      const [pastilles, offre] = [await boite(page.locator("[data-apercu-pastilles]")), await boite(page.locator("[data-apercu-offre]"))];
-      expect(Math.abs(offre.bas - pastilles.bas), `bas du hero équilibrés, ${largeur}`).toBeLessThanOrEqual(24);
+      // v7 tour 6 (placement, remplace « bas du hero équilibrés » du tour 4) : pastilles à 24 px au plus sous la
+      // promesse ; le vide restant passe sous elles, en bas de colonne (jamais au-dessus de la carte d'offre).
+      const [promesse, pastilles, offre] = [
+        await boite(page.locator("[data-apercu-hero] h1 ~ p:not(.sr-only)")),
+        await boite(page.locator("[data-apercu-pastilles]")),
+        await boite(page.locator("[data-apercu-offre]")),
+      ];
+      expect(Math.round(pastilles.haut - promesse.bas), `pastilles à 24 px au plus sous la promesse, ${largeur}`).toBeLessThanOrEqual(24);
+      expect(pastilles.bas, `pastilles au-dessus du bas de l'offre, ${largeur}`).toBeLessThanOrEqual(offre.bas);
     }
   });
 
@@ -271,10 +288,11 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         return Array.from(parHaut.values()).map((v) => Math.round(b.right - v.d + (v.g - b.left)));
       });
       for (const vide of rangees) expect(vide, `rangée pleine, ${ou}`).toBeLessThanOrEqual(1);
-      // v7 tour 2 (fautes 1, 2, 5) : Z1 et Z2 sans vide en bas ; « Étape conseillée » pleine (barre et « Étape 1
-      // sur N ») ; aucun creux dans la rangée 2 ; « Semaine n » en tête de chaque ligne de la feuille de route.
+      // v7 tour 6 (placement, remplace « Z1 et Z2 sans vide en bas » du tour 2) : Z1 et « Ton cap » calés en haut,
+      // aucun creux de plus de 32 px entre deux éléments, vide de fin de carte permis. v7 tour 2 (fautes 2, 5) : « Étape
+      // conseillée » pleine (barre et « Étape 1 sur N ») ; aucun creux dans la rangée 2 ; « Semaine n » en tête de ligne.
       for (const z of ["[data-carte-du-jour] > section", '[data-zone="cap"] > section']) {
-        expect((await page.locator(z).evaluate(vides)).bas, `${z} sans vide en bas, ${ou}`).toBeLessThanOrEqual(24);
+        expect((await page.locator(z).evaluate(vides)).creux, `${z} sans creux, ${ou}`).toBeLessThanOrEqual(32);
       }
       const tuileEtape = page.locator('[data-testid="parcours-tuile"]');
       await expect(tuileEtape.locator("[data-barre-etapes]")).toHaveCount(1);

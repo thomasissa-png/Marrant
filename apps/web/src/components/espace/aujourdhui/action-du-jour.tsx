@@ -40,9 +40,10 @@ export function ActionDuJour({
   const boutonEteint = cn(buttonVariants({ variant: "outline", size: "lg" }), "border-border-input bg-transparent", TEXTE_FORT, gabarit);
   return (
     <section aria-labelledby={idTitre} className={cn(CARTE_ACTION, "max-e300:p-3")} data-action-du-jour {...donnees}>
-      {/* Échelle s25 : quand Z2 est plus haute (nouvel abonné), l'étiquette reste en haut et la rangée titre et bouton
-          se cale en bas, sur la dernière ligne de Z2 (`content-between`) : plus de vide sous le bouton. */}
-      <div className="grid flex-1 content-between gap-x-8 gap-y-4 md:grid-cols-[1fr_auto] md:items-end max-e300:gap-y-1">
+      {/* v7 tour 6 (placement) : contenu calé EN HAUT, étiquette puis rangée titre et bouton 16 px dessous. Quand Z2 est
+          plus haute (même rangée dès 1024) ou que la carte s'étire (test N4), le surplus va en bas de carte, jamais
+          au milieu (l'ancien `content-between` y creusait un vide lu comme cassé). */}
+      <div className="grid gap-x-8 gap-y-4 md:grid-cols-[1fr_auto] md:items-end max-e300:gap-y-1">
         {/* Figée (extrait) : place gardée à droite pour le verrou posé dans le coin (`TuileFermee`). */}
         <div className={cn("flex items-center justify-between gap-4 md:col-span-2", fige && "pr-8")}>
           <p className={ETIQUETTE}>{etiquette}</p>

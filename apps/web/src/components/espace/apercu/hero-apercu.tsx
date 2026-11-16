@@ -23,9 +23,12 @@ import { cn } from "@/lib/utils";
  * Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.6, retour de Thomas du 16/11) : H1 en `TITRE_PAGE` (24
  * puis 30), promesse en `TEXTE` sur `max-w-xl`, pastilles en `META` à point neutre. L'équilibre avec l'offre vient de
  * l'air, plus de la taille du texte : dès 768, les deux colonnes ont la même hauteur ; en haut, la pastille « Premium »
- * (à la hauteur du H1 des autres rubriques), le H1 et la promesse ; en bas, les pastilles, calées sur le bas de la carte
- * d'offre (`mt-auto`, 24 px au moins). Plus de vide mort sous les pastilles. Pastilles sans point (spec §2.6, « ou
- * retiré ») et à 10 px de marge : 3 + 3 à 375 px, jamais une seule sur sa ligne.
+ * (à la hauteur du H1 des autres rubriques), le H1 et la promesse. Pastilles sans point (spec §2.6, « ou retiré ») et
+ * à 10 px de marge : 3 + 3 à 375 px, jamais une seule sur sa ligne.
+ * v7 tour 6 (placement) : les pastilles ne sont plus calées sur le bas de la carte d'offre (environ 130 px de vide
+ * ENTRE la promesse et elles, lu comme cassé) ; elles suivent la promesse à 24 px (`mt-6`) à toutes les largeurs et
+ * le surplus de hauteur de l'offre passe sous elles, en bas de colonne (respiration). Un vide ne se comble jamais en
+ * grossissant le texte.
  */
 export function HeroApercu({
   titre,
@@ -47,7 +50,7 @@ export function HeroApercu({
         </h1>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
         <p className={cn("mt-4 max-w-xl [text-wrap:balance]", TEXTE)}>{promesse}</p>
-        <ul className="mt-6 flex flex-wrap gap-2 md:mt-auto md:pt-6 md:max-lg:max-w-md" data-apercu-pastilles>
+        <ul className="mt-6 flex flex-wrap gap-2 md:max-lg:max-w-md" data-apercu-pastilles>
           {pastilles.map((p) => (
             <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-2.5 py-1", META)}>
               {p}
