@@ -35,7 +35,7 @@ function parente(fiche: Fiche): { href: string; label: string } {
   return parentEspace(`${ESPACE_ACCUEIL}/fiche/${fiche.type}/${fiche.id}`) ?? { href: ESPACE_ACCUEIL, label: N.monEspace };
 }
 
-function Corps({ fiche }: { fiche: Fiche }) {
+function Corps({ fiche, geste = null }: { fiche: Fiche; geste?: React.ReactNode }) {
   switch (fiche.type) {
     case "situation":
       return (
@@ -89,7 +89,7 @@ function Corps({ fiche }: { fiche: Fiche }) {
       const elements = fiche.contenu.elements.filter((e) => !(e.forme === "voix-haute" && e.consigne === consigneGeste));
       const slug = fiche.contenu.parcoursSlug;
       const renvois = elements.map((e) => (e.forme === "laquelle" ? renvoiDeBilan(slug, e.etape) : null));
-      return <BilanParcours elements={elements} renvois={renvois} />;
+      return <BilanParcours elements={elements} renvois={renvois} apres={geste} />;
     }
   }
 }
@@ -113,6 +113,19 @@ export function FicheVue({
 }) {
   const bilan = fiche.type === "bilan";
   const parent = parente(fiche);
+  const geste = fiche.geste && (
+    <div className={CARTE}>
+      <GesteFiche
+        ficheId={fiche.id}
+        consigne={fiche.geste.consigne}
+        pourAllerPlusLoin={fiche.geste.pourAllerPlusLoin ?? null}
+        grille={fiche.geste.grille ?? null}
+        retourInitial={retour}
+        repliqueInitiale={replique}
+        separe={false}
+      />
+    </div>
+  );
   return (
     <article className="flex flex-col gap-6" data-fiche-type={fiche.type}>
       {/* Relecture des captures nav s24 (design 6, 7) : le titre suit le retour sans écart, à la même hauteur que
@@ -143,26 +156,16 @@ export function FicheVue({
         )}
       </div>
       </div>
+      {/* Décision de Thomas du 16/11 : dans un bilan, le geste (« À toi ») suit la réponse au « dans l'ordre »
+          (`BilanParcours`, prop `apres`) ; ailleurs, sous le corps comme avant. */}
       {bilan ? (
-        <Corps fiche={fiche} />
+        <Corps fiche={fiche} geste={geste} />
       ) : (
         <div className={CARTE}>
           <Corps fiche={fiche} />
         </div>
       )}
-      {fiche.geste && (
-        <div className={CARTE}>
-          <GesteFiche
-            ficheId={fiche.id}
-            consigne={fiche.geste.consigne}
-            pourAllerPlusLoin={fiche.geste.pourAllerPlusLoin ?? null}
-            grille={fiche.geste.grille ?? null}
-            retourInitial={retour}
-            repliqueInitiale={replique}
-            separe={false}
-          />
-        </div>
-      )}
+      {!bilan && geste}
       {fiche.type === "a-plat" && fiche.contenu.lienCoin && (
         // Import 2 (C6a fiche 10 ; architecture 3.12, E6 §6) : lien au texte neutre, vers l'écran d'entrée du coin.
         <p>

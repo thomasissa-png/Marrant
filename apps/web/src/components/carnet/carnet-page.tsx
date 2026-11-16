@@ -8,10 +8,13 @@ import { CarnetFicheCard, CarnetFicheLocked } from "@/components/carnet/carnet-f
 import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { frTypo } from "@/lib/fr-typo";
-import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL } from "@/config/textes/cta-pages";
+import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL, CARNET_RETOUR_SOMMAIRE } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
 import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
 import { sanitizeSignupSrc } from "@/lib/auth-links";
+
+/** Ancre du sommaire du carnet de l'abonné (décision de Thomas du 16/11, « Retour au sommaire »). */
+const ANCRE_SOMMAIRE = "carnet-sommaire";
 
 /** Source de mesure du bouton E1 quand on arrive sur le carnet sans `?src=` (QA v2 MJ-1). */
 export const CARNET_SRC = "carnet";
@@ -77,7 +80,9 @@ export function CarnetPage({
           existantes, titres des fiches, aucun texte nouveau). Tour 3, point 9 : liens soulignés en permanence
           (signal de clic visible sans survol), 2 colonnes dès `sm`, cible 44 px. */}
       {sommaire && (
-        <nav aria-labelledby="carnet-titre" className="mb-8" data-carnet-sommaire="">
+        // Décision de Thomas du 16/11 : ancre `carnet-sommaire`, visée par « Retour au sommaire » sous chaque fiche
+        // (`scroll-mt-24` : sous l'en-tête collant, comme les fiches).
+        <nav id={ANCRE_SOMMAIRE} aria-labelledby="carnet-titre" className="mb-8 scroll-mt-24" data-carnet-sommaire="">
           <ol className="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
             {view.fiches.map((fiche) => (
               <li key={fiche.id} className="flex min-w-0 gap-2 text-sm text-text-muted">
@@ -98,14 +103,30 @@ export function CarnetPage({
       )}
 
       <div className="space-y-6">
-        {view.fiches.map((fiche) => (
-          <CarnetFicheCard
-            key={fiche.id}
-            fiche={fiche}
-            numero={view.numeros[fiche.id]}
-            offerte={!view.premium}
-          />
-        ))}
+        {view.fiches.map((fiche) =>
+          sommaire ? (
+            // Décision de Thomas du 16/11 (ouvert, abonné) : après chaque fiche, retour au sommaire, cible de 44 px.
+            <div key={fiche.id}>
+              <CarnetFicheCard fiche={fiche} numero={view.numeros[fiche.id]} offerte={!view.premium} />
+              <p className="mt-2 text-right">
+                <a
+                  href={`#${ANCRE_SOMMAIRE}`}
+                  className="inline-flex min-h-11 items-center text-sm text-text-secondary underline decoration-text-muted underline-offset-4 hover:text-text-primary hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+                  data-carnet-retour-sommaire=""
+                >
+                  {CARNET_RETOUR_SOMMAIRE}
+                </a>
+              </p>
+            </div>
+          ) : (
+            <CarnetFicheCard
+              key={fiche.id}
+              fiche={fiche}
+              numero={view.numeros[fiche.id]}
+              offerte={!view.premium}
+            />
+          ),
+        )}
       </div>
 
       {/* Concision v5 (textes-v5-c §6) : le bloc d'achat juste après la fiche offerte, puis

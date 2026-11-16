@@ -138,7 +138,8 @@ describe("point 10 : /lettre, intertitres du dernier numéro (texte réel du n°
     const ferme = await serveur(LettrePage({ searchParams: {} }));
     expect(ferme).not.toContain("data-lettre-apercu");
     expect(ferme).toContain('<p class="mt-2 font-semibold text-text-primary">');
-    expect(ferme).toContain('<div class="mt-2 whitespace-pre-line text-text-secondary">');
+    // Décision de Thomas du 16/11 : fermé aussi, le corps se coupe partout (plus de débordement à 375 px).
+    expect(ferme).toContain('<div class="mt-2 min-w-0 whitespace-pre-line text-text-secondary [overflow-wrap:anywhere]">');
   });
 });
 

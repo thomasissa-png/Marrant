@@ -121,10 +121,10 @@ describe("point 8 : /lettre, corps du dernier numéro", () => {
     expect(html).not.toContain("utm_source");
   });
 
-  it("page, fermé : corps d'avant, adresses brutes (débordement soumis à Thomas)", async () => {
+  it("page, fermé : corps d'avant, adresses brutes ; coupure partout (décision de Thomas du 16/11)", async () => {
     const html = await serveur(LettrePage({ searchParams: {} }));
     expect(html).not.toContain("data-lettre-corps");
-    expect(html).toContain('<div class="mt-2 whitespace-pre-line text-text-secondary">');
+    expect(html).toContain('<div class="mt-2 min-w-0 whitespace-pre-line text-text-secondary [overflow-wrap:anywhere]">');
     expect(html).toContain("utm_source=lettre");
   });
 });

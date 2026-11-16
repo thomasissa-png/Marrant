@@ -6,7 +6,7 @@ import { z } from "zod";
 import { dedupeJokesByContent } from "@/lib/jokes-dedupe";
 import { FREE_JOKE_LIMIT } from "@/config/premium";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
-import { selectionGratuite } from "@/config/vannes-categories";
+import { alternerParGroupe, selectionGratuite } from "@/config/vannes-categories";
 import { OFFRE_NOM } from "@/config/textes/offre";
 import { sansExerciceVanne } from "@/lib/champs-premium";
 
@@ -66,11 +66,19 @@ export async function GET(request: NextRequest) {
     // On liste les identifiants dans l'ordre d'affichage, on garde la 1re occurrence
     // de chaque contenu, puis on pagine sur la liste dédoublonnée.
     const orderBy = [{ createdAt: "desc" as const }, { id: "asc" as const }];
-    const candidates = await prisma.joke.findMany({
-      where,
-      select: { id: true, content: true },
-      orderBy,
-    });
+    // Décision de Thomas du 16/11, interrupteur ouvert seulement : « Toutes » (aucun filtre de catégorie) chez
+    // l'abonné mélange les catégories par alternance entre les groupes de la rangée (`alternerParGroupe`), sur la
+    // liste entière dédoublonnée, avant la pagination : mêmes vannes, ordre seul changé. Fermé : requête d'avant.
+    const alterner = ESPACE_CLIENT_PUBLIE && isPremium && !query.category;
+    const candidates = alterner
+      ? alternerParGroupe(
+          dedupeJokesByContent(await prisma.joke.findMany({ where, select: { id: true, content: true, category: true }, orderBy })),
+        )
+      : await prisma.joke.findMany({
+          where,
+          select: { id: true, content: true },
+          orderBy,
+        });
     let uniqueIds = dedupeJokesByContent(candidates).map((c) => c.id);
     const total = uniqueIds.length;
 
@@ -109,9 +117,12 @@ export async function GET(request: NextRequest) {
 
     const start = (query.page - 1) * query.limit;
     const pageIds = uniqueIds.slice(start, start + (isPremium ? query.limit : Math.max(0, effectiveLimit)));
-    const jokes = pageIds.length
+    const lues = pageIds.length
       ? await prisma.joke.findMany({ where: { id: { in: pageIds } }, orderBy })
       : [];
+    // Alternance (16/11) : la page suit l'ordre de `pageIds` ; sinon l'ordre de la requête, comme avant.
+    const rang = new Map(pageIds.map((id, i) => [id, i]));
+    const jokes = alterner ? [...lues].sort((a, b) => (rang.get(a.id) ?? 0) - (rang.get(b.id) ?? 0)) : lues;
 
     return NextResponse.json({
       // « À toi de jouer » réservé à Premium : vidé pour tout autre compte (même règle que le HTML).

@@ -10,19 +10,20 @@ const HOTE_SITE = "deviens-marrant.fr";
 type Lien = { href: string; texte: string };
 
 /**
- * Adresse lisible d'un lien de la lettre : hôte et chemin, sans paramètres (`utm_*`) ni ancre. Sur le site
- * lui-même, le lien est relatif et garde l'ancre (`/parcours/repartie#etape-3`) mais perd les paramètres de
- * mesure de l'e-mail (une visite depuis /lettre n'est pas une visite depuis l'e-mail). Adresse illisible :
- * `null`, le texte reste tel quel.
+ * Adresse lisible d'un lien de la lettre : hôte et chemin, sans ancre. Sur le site lui-même, le lien est relatif
+ * et garde l'ancre (`/parcours/repartie#etape-3`). Décision de Thomas du 16/11 : les paramètres de mesure de
+ * l'e-mail (`utm_*`) sont retirés de l'adresse affichée ET du `href` (une visite depuis /lettre n'est pas une visite
+ * depuis l'e-mail) ; tout autre paramètre est gardé, dans les deux. Adresse illisible : `null`, le texte reste tel quel.
  */
 export function lienSansParametres(brute: string): Lien | null {
   try {
     const url = new URL(brute);
+    for (const cle of Array.from(url.searchParams.keys())) if (cle.toLowerCase().startsWith("utm_")) url.searchParams.delete(cle);
     const hote = url.hostname.replace(/^www\./, "");
     const chemin = url.pathname === "/" ? "" : url.pathname;
-    const texte = `${hote}${chemin}`;
-    if (hote === HOTE_SITE) return { href: `${url.pathname}${url.hash}`, texte };
-    return { href: `${url.origin}${url.pathname}${url.hash}`, texte };
+    const texte = `${hote}${chemin}${url.search}`;
+    if (hote === HOTE_SITE) return { href: `${url.pathname}${url.search}${url.hash}`, texte };
+    return { href: `${url.origin}${url.pathname}${url.search}${url.hash}`, texte };
   } catch {
     return null;
   }
