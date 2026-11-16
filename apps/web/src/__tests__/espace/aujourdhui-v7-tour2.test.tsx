@@ -43,12 +43,19 @@ describe("faute 1 : Z1 et Z2 à la hauteur de leur contenu", () => {
     expect(container.querySelector("[data-action-du-jour]")?.className).not.toMatch(/min-h-/);
   });
 
-  it("v7 tour 6 : contenu calé en haut (étiquette, puis titre et bouton 16 px dessous), le surplus en bas de carte", () => {
+  it("v7 tour 7 : contenu calé en haut, en colonne (étiquette, titre 8 px dessous, bouton 16 px dessous, à gauche), le surplus en bas de carte", () => {
     const { container } = render(<ActionDuJour idTitre="t" etiquette="É" titre="Titre" action={{ href: "/x", libelle: "Go" }} />);
-    const grille = container.querySelector("[data-action-du-jour] > div") as HTMLElement;
-    const c = grille.className.split(/\s+/);
-    expect(c).toEqual(expect.arrayContaining(["grid", "gap-y-4"]));
-    expect(c.filter((x) => /^(?:[a-z0-9]+:)*(flex-1|content-(between|around|evenly|end|center)|mt-auto|h-full)$/.test(x))).toEqual([]);
+    const carte = container.querySelector("[data-action-du-jour]") as HTMLElement;
+    const [entete, titre, bouton] = Array.from(carte.children) as HTMLElement[];
+    expect(titre.tagName).toBe("H2");
+    expect(titre.className.split(/\s+/)).toContain("mt-2");
+    expect(bouton.textContent).toBe("Go");
+    expect(bouton.className.split(/\s+/)).toEqual(expect.arrayContaining(["mt-4", "self-start", "md:w-auto"]));
+    // Rien n'étire ni ne pousse le contenu vers le bas : le surplus de hauteur reste sous le dernier élément.
+    for (const el of [entete, titre, bouton]) {
+      expect(el.className.split(/\s+/).filter((x) => /^(?:[a-z0-9]+:)*(flex-1|content-(between|around|evenly|end|center)|mt-auto|h-full)$/.test(x))).toEqual([]);
+    }
+    expect(carte.className).not.toMatch(/justify-(between|around|evenly|end|center)/);
   });
 });
 

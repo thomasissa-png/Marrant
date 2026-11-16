@@ -73,12 +73,14 @@ function TableauFerme() {
             <MissionLien marche={mission?.marche ?? 1} accroche={mission ? accrocheMission(mission.enonce) : undefined} fige />
           </TuileFermee>
           <TuileFermee className={etape ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4"}>
-            {/* Échelle s25 (§2.5) : titre en `TITRE_CARTE`, dès 1024 à la hauteur de ceux des voisines (sous leur
-                étiquette : 20 px de ligne et 8 px, alignement et non espacement) ; lignes sans cadre, séparées d'un filet
-                (`divide-y`), en `TEXTE`, la première collée au titre (8 px) : « Vanne du jour » reste en clair, avant le
-                fondu. */}
+            {/* Échelle s25 (§2.5) : titre en `TITRE_CARTE`, dès 1024 à la hauteur de ceux des voisines ; lignes sans
+                cadre, séparées d'un filet (`divide-y`), en `TEXTE`, la première collée au titre (8 px) : « Vanne du jour »
+                reste en clair, avant le fondu. v7 tour 7 (rythme de 8 px, plus de `lg:mt-7`) : dès 1024, une ligne vide de
+                la hauteur d'une étiquette (20 px, décorative) puis le titre à 8 px, comme les voisines (étiquette, `mt-2`,
+                titre) : même alignement, plus aucune marge hors du pas. */}
             <div className={TUILE}>
-              <p className={`${TITRE_CARTE} lg:mt-7`}>{T.jour.titre}</p>
+              <span aria-hidden="true" className="hidden h-5 lg:block" />
+              <p className={`${TITRE_CARTE} lg:mt-2`}>{T.jour.titre}</p>
               <ul className="mt-2 divide-y divide-border">
                 {[T.jour.vanne, T.jour.conseil, T.jour.video].map((t) => (
                   <li key={t} className={`py-2 first:pt-0 ${TEXTE}`}>

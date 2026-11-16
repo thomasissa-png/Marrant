@@ -136,14 +136,22 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   // v7 tour 2 (faute 2) : à 768, l'une sous l'autre en pleine largeur (côte à côte, la feuille de route passait sur
   // trois lignes par semaine et creusait la tuile voisine de 200 px).
   // Ensuite, dans l'ordre Z3, Z4, Z5 : le parcours (sauf s'il est déjà l'action du jour), la mission, la rafale faite.
+  // v7 tour 7 (point 5, mesure à 1280) : parcours et mission seuls sur la rangée, en 5 + 7 comme le nouvel abonné (et
+  // plus 6 + 6) : l'accroche de la mission passe de 4 à 3 lignes, la tuile du parcours s'étire moins (60 px mesurés
+  // entre son corps et son pied en 6 + 6). Le pied reste en bas, le surplus juste au-dessus.
+  const paireParcoursMission = fait && Boolean(etape && !etapeDominante) && Boolean(marcheMission) && !(etapeDominante && rafale);
   const rangee: { cle: string; noeud: React.ReactNode; span?: string }[] = !fait
     ? [
         ...(etape ? [{ cle: "parcours", noeud: <ParcoursTuile etape={etape} />, span: "md:col-span-2 lg:col-span-5" }] : []),
         { cle: "semaines", noeud: <SemainesTuile ecouterPublie={ecouterPublie()} />, span: etape ? "md:col-span-2 lg:col-span-7" : undefined },
       ]
     : [
-        ...(etape && !etapeDominante ? [{ cle: "parcours", noeud: <ParcoursTuile etape={etape} /> }] : []),
-        ...(marcheMission ? [{ cle: "mission", noeud: <MissionLien marche={marcheMission} accroche={accrocheDeMission} /> }] : []),
+        ...(etape && !etapeDominante
+          ? [{ cle: "parcours", noeud: <ParcoursTuile etape={etape} />, span: paireParcoursMission ? "md:col-span-2 lg:col-span-5" : undefined }]
+          : []),
+        ...(marcheMission
+          ? [{ cle: "mission", noeud: <MissionLien marche={marcheMission} accroche={accrocheDeMission} />, span: paireParcoursMission ? "md:col-span-2 lg:col-span-7" : undefined }]
+          : []),
         ...(etapeDominante && rafale
           ? [{ cle: "rafale", noeud: <CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} principale={false} /> }]
           : []),

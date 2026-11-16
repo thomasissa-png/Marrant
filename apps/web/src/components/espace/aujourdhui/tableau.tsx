@@ -1,6 +1,6 @@
 import { NUMEROS_CAPS, type NumeroCap } from "@/lib/espace/caps";
 import { cn } from "@/lib/utils";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
 
 /**
@@ -10,16 +10,20 @@ import { META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
  */
 
 /**
- * Z1 : la carte dominante. Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.5, arbitrage du 16/11) : le
- * filet de l'accueil reste (langue des cartes, choix de Thomas du 15/11) ; plus de dégradé de fond ni de bord violet.
- * Même fond et même marge que les tuiles : elle domine par sa place, son titre et le seul bouton plein. v7 tour 2
- * (faute 1) : plus de hauteur minimale, la rangée se cale sur le contenu de Z1 et de Z2.
+ * Z1 : la carte dominante. Échelle s25 (`docs/design/typo-harmonie-espace-s25.md` §2.1 et §2.5) : plus de dégradé de
+ * fond ni de bord violet. v7 tour 7 (décision de Thomas du 16/11, qui remplace le « filet gardé » du 15/11 sur cette
+ * page) : cadre SANS filet (`CADRE_CARTE_NEUTRE`), un seul accent violet par écran, le bouton plein. Elle se distingue
+ * sans couleur par un fond un cran plus clair que les tuiles (`background-elevated` : texte secondaire à
+ * 6,8:1, 4,5:1 atténué à 0,75 dans l'extrait), sa place et son bouton. v7 tour 2 (faute 1) : pas de hauteur minimale,
+ * la rangée se cale sur le contenu de Z1 et de Z2 ; contenu en haut, le surplus éventuel en bas.
  */
-export const CARTE_ACTION = cn(CADRE_CARTE, "flex h-full min-w-0 flex-col border-border-hover p-6 [overflow-wrap:anywhere]");
+export const CARTE_ACTION = cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col border-border-hover bg-background-elevated p-6 [overflow-wrap:anywhere]");
 
-/** Tuile standard (Z3, Z4, Z5, Z7, « 4 premières semaines ») : sans filet, 24 px de marge, bord de 1 px. */
-export const TUILE =
-  "relative flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-background-card p-6 [overflow-wrap:anywhere]";
+/**
+ * Tuile standard (Z3, Z4, Z5, Z7, « 4 premières semaines », tuiles de l'extrait fermé) : cadre neutre sans filet
+ * (`CADRE_CARTE_NEUTRE`, v7 tour 7 : même source que Z1), 24 px de marge, bord de 1 px.
+ */
+export const TUILE = `${CADRE_CARTE_NEUTRE} flex h-full min-w-0 flex-col p-6 [overflow-wrap:anywhere]`;
 
 /** Titre d'une tuile, sous son étiquette : `TITRE_CARTE` (20/600). */
 export const TITRE_TUILE = `mt-2 ${TITRE_CARTE}`;
@@ -59,23 +63,24 @@ export function Coche({ className }: { className?: string }) {
 /**
  * Barre d'étapes (validées sur total), décorative : « Étape n sur N » porte l'information, jamais un pourcentage
  * écrit (interdit des caps). Rail lisible même à zéro (v7 tour 3, piste : `border-hover`, une piste
- * vide voulue, pas un trait éteint), comme les segments vides du cap ; remplissage blanc (échelle s25 : un seul violet).
+ * vide voulue, pas un trait éteint), comme les segments vides du cap ; remplissage gris clair (texte secondaire, v7
+ * tour 7 : ni violet ni blanc vif, pour ne pas faire un second point fort à côté du bouton plein).
  */
 export function BarreProgression({ faites, total, className }: { faites: number; total: number; className?: string }) {
   const part = total > 0 ? Math.min(1, Math.max(0, faites / total)) : 0;
   return (
     <span className={cn("block h-2 overflow-hidden rounded-full bg-border-hover", className)} aria-hidden="true" data-barre-etapes>
-      <span className="block h-full rounded-full bg-text-primary" style={{ width: `${part * 100}%` }} />
+      <span className="block h-full rounded-full bg-text-secondary" style={{ width: `${part * 100}%` }} />
     </span>
   );
 }
 
-/** Les 5 segments du cap (non textuels, masqués : « cap n sur 5 » porte l'information). */
+/** Les 5 segments du cap (non textuels, masqués : « cap n sur 5 » porte l'information) ; remplis en gris clair (v7 tour 7). */
 export function SegmentsCap({ cap, className }: { cap: NumeroCap; className?: string }) {
   return (
     <span className={cn("flex gap-2", className)} aria-hidden="true" data-segments-cap={cap}>
       {NUMEROS_CAPS.map((n) => (
-        <span key={n} className={cn("block h-2 flex-1 rounded-full", n <= cap ? "bg-text-primary" : "bg-border-hover")} />
+        <span key={n} className={cn("block h-2 flex-1 rounded-full", n <= cap ? "bg-text-secondary" : "bg-border-hover")} />
       ))}
     </span>
   );

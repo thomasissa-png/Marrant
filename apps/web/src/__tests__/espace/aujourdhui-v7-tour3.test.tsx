@@ -111,9 +111,8 @@ describe("pistes du tour 2", () => {
     expect(etiquette.textContent).toBe(TEXTES_ESPACE_NAVIGATION.index.sEntrainer);
     const titre = within(carte).getByRole("heading", { level: 2 });
     expect(titre.textContent).toBe(T.rafale.titre);
-    // Le titre est le dernier enfant de sa colonne, le bouton suit immédiatement (condition du libellé 7).
-    expect(titre.nextElementSibling).toBeNull();
-    expect(titre.parentElement?.nextElementSibling?.textContent).toBe(T.rafale.bouton);
+    // Le bouton suit immédiatement le titre (condition du libellé 7) ; v7 tour 7 : dans la même colonne, juste dessous.
+    expect(titre.nextElementSibling?.textContent).toBe(T.rafale.bouton);
     const accroche = carte.querySelector("[data-rafale-accroche]") as HTMLElement;
     expect(accroche.textContent).toBe(T.rafale.accroche);
     expect(accroche.className).toContain("text-text-secondary");

@@ -27,6 +27,13 @@ export const FILET_CARTE =
 /** Cadre d'une carte (sans marge interne) : rayon, bordure, fond et filet de l'accueil. */
 export const CADRE_CARTE = `relative overflow-hidden rounded-xl border border-border bg-background-card ${FILET_CARTE}`;
 
+/**
+ * s25 v7 tour 7 (décision de Thomas du 16/11) : le même cadre SANS le filet, pour « Aujourd'hui » seulement (carte
+ * d'action Z1, cartes du « Contenu du jour », tuiles de l'extrait fermé) : un seul accent violet par écran, le bouton
+ * plein. Les autres rubriques gardent `CADRE_CARTE` (filet de l'accueil, choix du 15/11).
+ */
+export const CADRE_CARTE_NEUTRE = "relative overflow-hidden rounded-xl border border-border bg-background-card";
+
 export const CARTE = `min-w-0 space-y-4 ${CADRE_CARTE} p-4 md:p-6 [overflow-wrap:anywhere]`;
 
 /**

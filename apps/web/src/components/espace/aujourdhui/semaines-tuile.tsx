@@ -15,7 +15,8 @@ const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
  * v7 tour 2 (faute 5) : « Semaine n : » est VISIBLE en tête de chaque ligne (il était masqué à l'œil, la ligne
  * commençait en minuscule et se lisait comme une phrase coupée) ; le grand numéro décoratif est retiré (il doublait le
  * préfixe et creusait la tuile). Échelle s25 : titre en `TITRE_CARTE`, lignes en `META`, préfixe en 600 blanc (plus
- * de violet : un seul par écran, le bouton plein) ; la semaine 1 se distingue par son texte blanc.
+ * de violet : un seul par écran, le bouton plein). v7 tour 7 (décision de Thomas) : mêmes couleurs sur toutes les
+ * lignes, « Semaine n : » en texte principal, le reste en secondaire ; la semaine 1 n'a plus de couleur à part.
  */
 export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: boolean; fige?: boolean }) {
   const lignes = ecouterPublie ? P.semaines.lignes : [...P.semaines.lignes.slice(0, 3), P.semaines.semaine4SansEcouter];
@@ -26,7 +27,7 @@ export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: 
       </h2>
       <ol className="mt-2 divide-y divide-border">
         {lignes.map((l, i) => (
-          <li key={l.semaine} className={cn("py-2 first:pt-0 last:pb-0", META, i === 0 && "text-text-primary")} data-semaine={i + 1}>
+          <li key={l.semaine} className={cn("py-2 first:pt-0 last:pb-0", META)} data-semaine={i + 1}>
             <span className="font-semibold text-text-primary" data-semaine-prefixe>
               {frPonctuation(l.semaine)}
             </span>{" "}

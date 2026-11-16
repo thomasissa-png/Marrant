@@ -9,7 +9,7 @@ import { VanneToucher, type VanneAffichee } from "@/components/espace/aujourdhui
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { cn } from "@/lib/utils";
 import { TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 
@@ -30,16 +30,19 @@ type Daily = {
 };
 type Etat = { statut: "chargement" } | { statut: "erreur" } | { statut: "ok"; donnees: Daily };
 
-// v6 tour 1 (arbitrage 1) : les cartes de l'accueil (`home/daily-content.tsx`), filet compris (gardé à l'échelle s25,
-// arbitrage du 16/11) ; 24 px de marge à toutes les largeurs.
-const CARTE = `${CADRE_CARTE} p-6`;
+// v6 tour 1 (arbitrage 1) : le gabarit des cartes de l'accueil (`home/daily-content.tsx`) ; 24 px de marge à toutes les
+// largeurs. v7 tour 7 (décision de Thomas du 16/11) : sans le filet violet (`CADRE_CARTE_NEUTRE`), un seul accent violet
+// par écran, le bouton plein.
+const CARTE = `${CADRE_CARTE_NEUTRE} p-6`;
 
 /**
  * v6 tour 1 (point 4), lecteur partagé (`ui/youtube-player`, hors de ce lot) réglé depuis sa carte : bouton de
  * lecture aux couleurs du thème (fond sombre et filet clair, plus le rouge vif qui concurrençait le bouton plein
  * de l'action du jour) ; titre incrusté de repli masqué (le titre est déjà le lien sous la vignette : une fois).
+ * v7 tour 7 (un seul accent violet par écran) : fond de repli de la vignette (miniature indisponible) sans le dégradé
+ * violet du lecteur partagé, le fond élevé neutre du bouton reste dessous.
  */
-const LECTEUR = "[&_button>div]:bg-background/80 [&_button>div]:ring-1 [&_button>div]:ring-white/40 [&_button_span_span]:hidden";
+const LECTEUR = "[&_button>div]:bg-background/80 [&_button>div]:ring-1 [&_button>div]:ring-white/40 [&_button_span_span]:hidden [&_button>span]:bg-none";
 
 /**
  * Début du conseil, coupé à la fin d'une phrase (tour 2, reviewer P6 : plus de mot coupé par `line-clamp`) : les
@@ -107,7 +110,9 @@ function Carte({
 // marge de la carte (sinon ~34 px de vide sous le lien contre 24 au-dessus du titre).
 // v7 tour 2 (faute 3) : le lien est le pied de sa carte (`mt-auto`), à sa largeur de texte (`self-start`).
 // Échelle s25 : 16/600 blanc souligné (plus de texte violet, un seul violet par écran : le bouton plein).
-const lienCarte = `-mb-2.5 mt-auto inline-flex min-h-11 items-center self-start ${TEXTE_FORT} underline underline-offset-2 hover:text-text-secondary`;
+// v7 tour 7 (rythme de 8 px) : `-mb-2` au lieu de `-mb-2.5` (26 px sous le texte au lieu de 24) ; toutes les cartes ont
+// le même pied, les bas restent alignés.
+const lienCarte = `-mb-2 mt-auto inline-flex min-h-11 items-center self-start ${TEXTE_FORT} underline underline-offset-2 hover:text-text-secondary`;
 
 export function ContenuDuJour({ categories }: { categories: readonly CategorieToucher[] }) {
   const [etat, setEtat] = useState<Etat>({ statut: "chargement" });

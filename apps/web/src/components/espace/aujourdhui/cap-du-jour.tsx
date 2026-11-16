@@ -2,6 +2,7 @@ import { SERIE } from "@/config/textes/parcours";
 import { TEXTES_CAPS as TEXTES_CAPS_BRUT } from "@/config/textes/espace-caps";
 import type { NumeroCap } from "@/lib/espace/caps";
 import { cn } from "@/lib/utils";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { ETIQUETTE, META, TITRE_CARTE } from "@/components/espace/typo";
 import { Flamme, SegmentsCap, StatChiffre } from "@/components/espace/aujourdhui/tableau";
@@ -16,7 +17,8 @@ const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
  * `serieZero`, flamme éteinte. Ni pourcentage, ni « XP restants », ni écart (interdits des caps).
  * À 768 px, en bandeau (cap à gauche, chiffres à droite) ; à 1280, colonne de droite à hauteur de Z1.
  * Échelle s25 (`docs/design/typo-harmonie-espace-s25.md`) : nom du cap et chiffres en `TITRE_CARTE` (20/600), le
- * reste en `META` ; flamme et segments neutres (un seul violet par écran, le bouton plein) ; 24 px de marge.
+ * reste en `META` ; flamme et segments neutres (un seul violet par écran, le bouton plein) ; 24 px de marge. v7 tour 7 : cadre
+ * `CADRE_CARTE_NEUTRE` (sans filet), segments remplis en gris clair.
  */
 export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp: number; serie: number; fige?: boolean }) {
   // Spec design §7 point 2 : coupe sur « · » (nom en grand, « cap n sur 5 » en petit), texte inchangé.
@@ -31,7 +33,7 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
   return (
     <section
       aria-labelledby={fige ? undefined : "cap-titre"}
-      className="flex h-full min-w-0 flex-col rounded-xl border border-border bg-background-card p-6 [overflow-wrap:anywhere] md:flex-row md:items-center md:gap-8 lg:flex-col lg:items-stretch lg:gap-0"
+      className={cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col p-6 [overflow-wrap:anywhere] md:flex-row md:items-center md:gap-8 lg:flex-col lg:items-stretch lg:gap-0")}
       data-cap-du-jour={cap}
     >
       <div className="min-w-0 md:flex-1 lg:flex-none">

@@ -85,11 +85,13 @@ describe("point 2 : aperçu, offre hors de l'exemple (mise en page : v6 tour 2)"
 describe("point 4 : Aujourd'hui, l'action du jour pleine coque et dominante", () => {
   const cartes = [{ titre: "Une carte", href: "/mon-espace/s-entrainer#carte-1", nouvelle: true }];
 
-  // Échelle s25 (`docs/design/typo-harmonie-espace-s25.md`) : la dominance vient de la place, du filet (gardé,
-  // arbitrage du 16/11) et du seul bouton plein, plus de la taille : même marge (24 px) et même titre (20 px) partout.
-  it("rafale principale : filet et bouton plein ; secondaire (rafale faite) : sans filet ; marge et titre de l'échelle", () => {
+  // Échelle s25 (`docs/design/typo-harmonie-espace-s25.md`) : la dominance vient de la place, du fond et du seul bouton
+  // plein, plus de la taille : même marge (24 px) et même titre (20 px) partout. v7 tour 7 (décision de Thomas du
+  // 16/11) : plus de filet violet sur « Aujourd'hui », Z1 se distingue par un fond un cran plus clair.
+  it("rafale principale : fond élevé et bouton plein, sans filet ; secondaire (rafale faite) : sans filet ; marge et titre de l'échelle", () => {
     const { container, unmount } = render(<CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={false} />);
-    expect(classes(container.querySelector("section"))).toEqual(expect.arrayContaining(["p-6", "rounded-xl", "before:h-1"]));
+    expect(classes(container.querySelector("section"))).toEqual(expect.arrayContaining(["p-6", "rounded-xl", "bg-background-elevated"]));
+    expect(classes(container.querySelector("section")).some((c) => c.startsWith("before:"))).toBe(false);
     expect(classes(container.querySelector("h2"))).toEqual(expect.arrayContaining(["text-xl", "font-semibold"]));
     expect(container.querySelector("a.bg-accent-secondary-hover")).not.toBeNull();
     unmount();
@@ -106,6 +108,9 @@ describe("point 4 : Aujourd'hui, l'action du jour pleine coque et dominante", ()
     expect(page).toContain('if (n >= 3) return i === 2 ? "md:col-span-2 lg:col-span-4" : "lg:col-span-4";');
     // v7 tour 2 : 2 zones = 2 x 6 dès 1024, l'une sous l'autre à 768 (plus de tuile creusée par sa voisine).
     expect(page).toContain('if (n === 2) return "md:col-span-2 lg:col-span-6";');
+    // v7 tour 7 (point 5) : parcours et mission seuls, 5 + 7 (comme le nouvel abonné) : 12 colonnes, aucune vide.
+    expect(page).toContain('span: paireParcoursMission ? "md:col-span-2 lg:col-span-5" : undefined');
+    expect(page).toContain('span: paireParcoursMission ? "md:col-span-2 lg:col-span-7" : undefined');
     expect(page).toContain('return "md:col-span-2 lg:col-span-12";');
     const jour = lire("components/espace/aujourdhui/contenu-du-jour.tsx");
     expect(jour).toContain("grid grid-cols-1 items-stretch gap-6");

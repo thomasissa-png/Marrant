@@ -25,6 +25,11 @@ import { cn } from "@/lib/utils";
  * l'air, plus de la taille du texte : dès 768, les deux colonnes ont la même hauteur ; en haut, la pastille « Premium »
  * (à la hauteur du H1 des autres rubriques), le H1 et la promesse. Pastilles sans point (spec §2.6, « ou retiré ») et
  * à 10 px de marge : 3 + 3 à 375 px, jamais une seule sur sa ligne.
+ * v7 tour 7 (rythme de 8 px) : 12 px de marge (`px-3`, comme `PASTILLE` et la pastille « Premium »). En retour à la
+ * ligne libre, cela laissait « Contenu du jour » seule sur sa ligne (mesuré : 3 + 2 + 1 à 375, la 2e ligne demande
+ * 344 px pour 343 ; 5 + 1 à 600 et à 1024). Répartition fixe, sans orpheline : 2 colonnes sous 768 px (2 + 2 + 2),
+ * 3 colonnes de 768 à 1279 (3 + 3), à la largeur de leur plus longue pastille (`max-content`, pas de grand blanc entre
+ * deux colonnes), une seule ligne dès 1280. Ordre inchangé.
  * v7 tour 6 (placement) : les pastilles ne sont plus calées sur le bas de la carte d'offre (environ 130 px de vide
  * ENTRE la promesse et elles, lu comme cassé) ; elles suivent la promesse à 24 px (`mt-6`) à toutes les largeurs et
  * le surplus de hauteur de l'offre passe sous elles, en bas de colonne (respiration). Un vide ne se comble jamais en
@@ -50,9 +55,9 @@ export function HeroApercu({
         </h1>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
         <p className={cn("mt-4 max-w-xl [text-wrap:balance]", TEXTE)}>{promesse}</p>
-        <ul className="mt-6 flex flex-wrap gap-2 md:max-lg:max-w-md" data-apercu-pastilles>
+        <ul className="mt-6 grid grid-cols-[repeat(2,max-content)] gap-2 md:grid-cols-[repeat(3,max-content)] xl:flex xl:flex-wrap" data-apercu-pastilles>
           {pastilles.map((p) => (
-            <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-2.5 py-1", META)}>
+            <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-3 py-1", META)}>
               {p}
             </li>
           ))}

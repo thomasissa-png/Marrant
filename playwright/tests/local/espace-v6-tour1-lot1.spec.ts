@@ -10,7 +10,7 @@ import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
  * - aperçu : dès 1024 px, l'exemple à gauche et l'offre à droite, en haut, jusqu'au bord de la coque (aucun vide
  *   à droite) ; dessous, l'offre sous l'exemple ; « Connexion » de 44 px ; S'entraîner : la réponse ouverte ;
  *   Favoris : deux contenus réels en lecture seule (catalogue non vide) ;
- * - abonné neuf, « Aujourd'hui » : le premier pas en pleine coque, filet de 4 px, rayon 12 px, titre 30 px dès 768 px ;
+ * - abonné neuf, « Aujourd'hui » : le premier pas en pleine coque, sans filet (tour 7), rayon 12 px, titre 30 px dès 768 px ;
  *   contenu du jour : bas alignés (v7 tour 2 : vidéo à droite sur deux rangées), vignette sur toute la carte, lecture sans rouge ;
  * - fiche : « À toi » sans filet en tête, `<summary>` de 44 px à bordure et chevron ;
  * - Mes répliques vide : titre et carte dans la même colonne, « Écrire ma première réplique » en bouton plein.
@@ -104,9 +104,11 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
         rayon: getComputedStyle(s).borderTopLeftRadius,
         titre: getComputedStyle(s.querySelector("h2") as Element).fontSize,
       }));
-      expect(style.filet, `filet, ${ou}`).toBe("4px");
+      // s25 v7 tour 7 (décision de Thomas du 16/11) : plus de filet violet sur « Aujourd'hui » (un seul accent, le
+      // bouton plein) ; les autres rubriques le gardent.
+      expect(style.filet, `sans filet, ${ou}`).not.toBe("4px");
       expect(style.rayon, `rayon, ${ou}`).toBe("12px");
-      // Échelle s25 (retour de Thomas du 16/11) : la dominance vient de la place, du filet et du seul bouton plein, plus de
+      // Échelle s25 (retour de Thomas du 16/11) : la dominance vient de la place, du fond et du seul bouton plein, plus de
       // la taille : titre en `TITRE_CARTE` (20 px) à toutes les largeurs, comme les tuiles.
       expect(style.titre, `titre de l'échelle, ${ou}`).toBe("20px");
       await expect(carte.locator("a.bg-accent-secondary-hover"), `seul bouton plein dans la carte, ${ou}`).toHaveCount(1);
