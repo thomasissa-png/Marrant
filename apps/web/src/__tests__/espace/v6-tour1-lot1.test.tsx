@@ -131,7 +131,9 @@ describe("point 5 : fiches", () => {
 describe("points 14 et 15", () => {
   it("Favoris abonné, ouvert : colonnes égales, plus de `col-span-2` isolé ; fermé : la grille d'avant", () => {
     const source = lire("components/favoris/favoris-list.tsx");
-    expect(source).toContain('"grid items-stretch gap-4 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3"');
+    // v6 tour 4 (point 7) : 6 colonnes dès `lg` pour recomposer la dernière rangée sans orpheline ; cartes d'une même
+    // rangée toujours de même largeur et de même hauteur (`v6-tour4-lot1.test.tsx`).
+    expect(source).toContain('"grid items-stretch gap-4 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-6"');
     expect(source).not.toContain("md:col-span-2 lg:col-span-1");
     expect(source).toContain(': "grid gap-4 md:grid-flow-row-dense md:grid-cols-2"');
     expect(source).toContain('!ESPACE_CLIENT_PUBLIE && fav.id === dernierCourtSeul ? " md:col-span-2" : ""');

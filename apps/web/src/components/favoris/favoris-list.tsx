@@ -44,6 +44,25 @@ function RangeeFavoris({ children }: { children: React.ReactNode }) {
  */
 const CIBLE_44 = ESPACE_CLIENT_PUBLIE ? " min-h-11" : "";
 
+/**
+ * v6 tour 4 (point 7), interrupteur ouvert : largeur des cartes courtes (vannes, conseils), sans carte orpheline.
+ * 2 colonnes dès 768 px : une dernière carte impaire prend la rangée. 6 colonnes dès 1 024 px, une carte = 2 colonnes
+ * (3 par rangée) ; la fin de la grille se recompose : 2 cartes restantes = une moitié chacune, 1 carte restante = les
+ * 4 dernières en deux rangées de moitiés (la rangée entière s'il n'y a qu'une carte). `grid-flow-row-dense` range les
+ * cartes courtes avant les vidéos (rangée entière) : la dernière rangée est celle des dernières cartes de la liste.
+ */
+function largeursCourtes(ids: readonly string[]): Map<string, string> {
+  const n = ids.length;
+  const enMoities = n % 3 === 2 ? 2 : n % 3 === 1 && n > 1 ? 4 : 0;
+  return new Map(
+    ids.map((id, i) => {
+      const md = n % 2 === 1 && i === n - 1 ? " md:col-span-2" : "";
+      const lg = n === 1 ? " lg:col-span-6" : i >= n - enMoities ? " lg:col-span-3" : " lg:col-span-2";
+      return [id, `${md}${lg}`];
+    }),
+  );
+}
+
 const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: string; emptyDesc: string; ctaLabel: string; ctaHref: string }[] = [
   {
     value: "ALL",
@@ -199,6 +218,8 @@ export function FavorisList() {
       : favorites.filter((f) => f.contentType === activeTab);
   const courts = filtered.filter((f) => f.contentType !== "VIDEO");
   const dernierCourtSeul = courts.length % 2 === 1 ? courts[courts.length - 1].id : null;
+  // Ouvert (v6 tour 4, point 7) : toute carte qui n'est pas une vidéo affichée (vanne, conseil, carte de repli).
+  const largeurs = largeursCourtes(filtered.filter((f) => !(f.contentType === "VIDEO" && f.video)).map((f) => f.id));
 
   // Count per type for tab badges
   const counts = {
@@ -259,7 +280,8 @@ export function FavorisList() {
               {currentTab.emptyDesc}
             </p>
             <Link href={currentTab.ctaHref} className="mt-4">
-              <Button variant="primary" size="sm">
+              {/* v6 tour 4 (point 6), ouvert seulement : cible de 44 px dès 768 px (`size="sm"` y fait 32 px). */}
+              <Button variant="primary" size="sm" className={ESPACE_CLIENT_PUBLIE ? "md:h-11" : undefined}>
                 {currentTab.ctaLabel}
               </Button>
             </Link>
@@ -272,17 +294,20 @@ export function FavorisList() {
         // 1 024 px, même marge haute pour vannes, conseils et vidéos. v6 tour 1 (point 14), ouvert seulement : colonnes
         // égales, cartes d'une rangée à la même hauteur (plus de trou sous une vanne à côté d'un conseil déplié), plus
         // de `col-span-2` isolé pour le dernier impair. Fermé : la grille d'avant (snapshot d'inertie `favoris`).
-        <div className={ESPACE_CLIENT_PUBLIE ? "grid items-stretch gap-4 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3" : "grid gap-4 md:grid-flow-row-dense md:grid-cols-2"}>
+        // v6 tour 4 (point 7), ouvert seulement : 6 colonnes dès 1 024 px (`largeursCourtes`, aucune carte orpheline),
+        // conseil replié tronqué à 2 lignes (`line-clamp-2`) pour des cartes de hauteurs voisines (plus de vanne creusée).
+        <div className={ESPACE_CLIENT_PUBLIE ? "grid items-stretch gap-4 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-6" : "grid gap-4 md:grid-flow-row-dense md:grid-cols-2"}>
           {filtered.map((fav) => {
             // Fermé : nombre impair de vannes et conseils, le dernier prend la rangée.
             const seulSurSaRangee = !ESPACE_CLIENT_PUBLIE && fav.id === dernierCourtSeul ? " md:col-span-2" : "";
+            const largeur = ESPACE_CLIENT_PUBLIE ? (largeurs.get(fav.id) ?? "") : "";
             if (fav.contentType === "JOKE" && fav.joke) {
               const joke = fav.joke as unknown as JokeData;
               const isRevealed = revealedJokes.has(fav.id);
               return (
                 <Card filet={ESPACE_CLIENT_PUBLIE}
                   key={fav.id}
-                  className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}`}
+                  className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}${largeur}`}
                   tabIndex={0}
                   onClick={() => toggleJokePunchline(fav.id)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleJokePunchline(fav.id); } }}
@@ -365,7 +390,7 @@ export function FavorisList() {
               return (
                 <Card filet={ESPACE_CLIENT_PUBLIE}
                   key={fav.id}
-                  className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}`}
+                  className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}${largeur}`}
                   tabIndex={0}
                   onClick={() => toggleTipExpanded(fav.id)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleTipExpanded(fav.id); } }}
@@ -401,7 +426,7 @@ export function FavorisList() {
                     <CardTitle>{frTypo(tip.title)}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm leading-relaxed text-text-primary">{contenuAffiche(tip.content)}</p>
+                    <p className={ESPACE_CLIENT_PUBLIE && !isExpanded ? "text-sm leading-relaxed text-text-primary line-clamp-2" : "text-sm leading-relaxed text-text-primary"}>{contenuAffiche(tip.content)}</p>
 
                     {isExpanded ? (
                       <div className="mt-4 space-y-4 animate-fade-in">
@@ -430,7 +455,7 @@ export function FavorisList() {
             if (fav.contentType === "VIDEO" && fav.video) {
               const video = fav.video as unknown as VideoData;
               return (
-                <Card filet={ESPACE_CLIENT_PUBLIE} key={fav.id} className={ESPACE_CLIENT_PUBLIE ? "overflow-hidden md:col-span-2 lg:col-span-3" : "overflow-hidden md:col-span-2"}>
+                <Card filet={ESPACE_CLIENT_PUBLIE} key={fav.id} className={ESPACE_CLIENT_PUBLIE ? "overflow-hidden md:col-span-2 lg:col-span-6" : "overflow-hidden md:col-span-2"}>
                   <CardContent className={ESPACE_CLIENT_PUBLIE ? undefined : "pt-4"}>
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -500,7 +525,7 @@ export function FavorisList() {
 
             // Fallback for unknown content type
             return (
-              <Card filet={ESPACE_CLIENT_PUBLIE} key={fav.id}>
+              <Card filet={ESPACE_CLIENT_PUBLIE} key={fav.id} className={largeur.trim() || undefined}>
                 <CardContent className="flex items-center justify-between pt-4">
                   <Badge variant="default">Favori</Badge>
                   <Button

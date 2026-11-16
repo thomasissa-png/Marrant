@@ -11,7 +11,7 @@ import { CompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import type { DureeCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
-import { ACTIONS_ENTRAINEMENT, BOUTON_SECONDAIRE, ETIQUETTE, cadreEntrainement, nouvelleCle, texteEntrainement } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CARTE, ETIQUETTE, nouvelleCle } from "@/components/espace/carte/styles";
 import { entreGuillemets } from "@/components/espace/carte/citation";
 import { FINE, frEspaceProfond } from "@/lib/fr-typo";
 
@@ -29,7 +29,7 @@ export type ApresReponse = { revision: boolean; replique: string | null; retour:
  * réponse (la note n'est pas dans la page avant : elle arrive avec la réponse de l'API) ; le choix ; la
  * règle ; puis le geste de la fiche, « Ton retour » et « Ma réplique à moi ».
  */
-export function CarteRegistre({ carte, nouvelle, ancre, seule = false }: { carte: Carte; nouvelle: boolean; ancre: string; seule?: boolean }) {
+export function CarteRegistre({ carte, nouvelle, ancre }: { carte: Carte; nouvelle: boolean; ancre: string }) {
   const cle = useRef(nouvelleCle());
   const [reponse, setReponse] = useState<ReponseCarte | null>(null);
   const [apres, setApres] = useState<ApresReponse | null>(null);
@@ -53,8 +53,8 @@ export function CarteRegistre({ carte, nouvelle, ancre, seule = false }: { carte
   };
 
   return (
-    <article id={ancre} aria-labelledby={titreId} className={cadreEntrainement(seule)} data-carte={carte.id}>
-      <div className={texteEntrainement(seule)}>
+    // v6 tour 4 (arbitrage 1) : une seule disposition, les blocs l'un sous l'autre (`CARTE`), dans la colonne de la page.
+    <article id={ancre} aria-labelledby={titreId} className={CARTE} data-carte={carte.id}>
       <EnTeteCarte id={titreId} titre={carte.titre} nouvelle={nouvelle} />
       <div className="space-y-2">
         <h3 className={ETIQUETTE}>{T.scene}</h3>
@@ -66,8 +66,6 @@ export function CarteRegistre({ carte, nouvelle, ancre, seule = false }: { carte
         <p className={ETIQUETTE}>{T.contexte}</p>
         <p className="text-sm text-text-primary">{carte.contexte}</p>
       </div>
-      </div>
-      <div className={ACTIONS_ENTRAINEMENT}>
       <div className="space-y-1">
         <h3 className="text-base font-semibold text-text-primary">{carte.premierePhrase ? T.premierePhraseDabord : T.reponseDabord}</h3>
         <p className="text-sm text-text-secondary">{T.consigne}</p>
@@ -124,7 +122,6 @@ export function CarteRegistre({ carte, nouvelle, ancre, seule = false }: { carte
           repliqueInitiale={apres.replique}
         />
       )}
-      </div>
     </article>
   );
 }

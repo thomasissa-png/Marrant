@@ -45,15 +45,11 @@ export const SOMMAIRE_REPLIABLE =
 export const EN_TETE_CENTRE = "text-center [&_header>p]:mx-auto";
 
 /**
- * v6 tour 3 (arbitrage 2) : cartes de « S'entraîner » (rafale et mission), en deux blocs, le texte puis les
- * actions. Jumelle (deux par ligne dès 768 px) : à la hauteur de sa voisine (`h-full`), le texte prend la place libre,
- * les actions en bas. Seule sur sa ligne : pleine largeur, le texte à gauche et les actions à droite dès `lg` (plus
- * de texte plafonné dans une carte de 1 216 px). Le cadre reste `CARTE`.
+ * v6 tour 4 (arbitrage 1, Thomas, remplace la grille du tour 3 et la sous-grille) : les cartes de « S'entraîner »
+ * (rafale, mission) sont empilées dans une colonne centrée, même gabarit que les fiches jeu et bilan, la lettre et les
+ * aperçus. Une disposition par carte, `CARTE` seul (blocs l'un sous l'autre, `space-y-4`) : jamais étirée, aucun vide.
  */
-export const cadreEntrainement = (seule: boolean) =>
-  seule ? `${CARTE} lg:grid lg:grid-cols-2 lg:gap-x-8 lg:space-y-0` : `${CARTE} flex h-full flex-col`;
-export const texteEntrainement = (seule: boolean) => (seule ? "min-w-0 space-y-4" : "min-w-0 flex-1 space-y-4");
-export const ACTIONS_ENTRAINEMENT = "min-w-0 space-y-4";
+export const COLONNE_ENTRAINEMENT = "mx-auto max-w-3xl space-y-6";
 
 export const ETIQUETTE = "text-xs font-semibold uppercase tracking-wide text-text-muted";
 

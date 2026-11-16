@@ -22,7 +22,7 @@ jest.mock("next-auth", () => ({ getServerSession: jest.fn() }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 
-import { ACTIONS_ENTRAINEMENT, CARTE, EN_TETE_CENTRE, LIEN, cadreEntrainement, texteEntrainement } from "@/components/espace/carte/styles";
+import { CARTE, EN_TETE_CENTRE, LIEN } from "@/components/espace/carte/styles";
 import { ApercuRubrique } from "@/components/espace/apercu/apercu-rubrique";
 import { categoriesQuoiRepondre, ficheApercu } from "@/components/espace/apercu/exemples";
 import { CorpsSituation } from "@/components/espace/fiche/corps-situation";
@@ -69,24 +69,22 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
   });
 });
 
-describe("point 2 : S'entraîner, cartes jumelles de même hauteur, carte seule répartie dès `lg`", () => {
-  it("jumelle : pleine hauteur, texte extensible, actions en bas ; seule : deux colonnes dès `lg`", () => {
-    expect(cadreEntrainement(false)).toBe(`${CARTE} flex h-full flex-col`);
-    expect(texteEntrainement(false).split(" ")).toContain("flex-1");
-    expect(cadreEntrainement(true)).toBe(`${CARTE} lg:grid lg:grid-cols-2 lg:gap-x-8 lg:space-y-0`);
-    expect(texteEntrainement(true).split(" ")).not.toContain("flex-1");
-    expect(ACTIONS_ENTRAINEMENT).toBe("min-w-0 space-y-4");
+// v6 tour 4 (arbitrage 1, Thomas) : la grille de cartes jumelles du tour 3 est remplacée par une colonne centrée
+// (`v6-tour4-lot1.test.tsx`). Intention gardée : aucun trou dans une carte, aucune colonne vide à côté d'une carte.
+describe("point 2 : S'entraîner, aucun trou dans une carte ni à côté (colonne centrée depuis le tour 4)", () => {
+  it("cartes et mission dans le cadre `CARTE` seul (ni étirement, ni colonnes internes)", () => {
+    for (const f of ["components/espace/carte/carte-registre.tsx", "components/espace/carte/carte-et-toi.tsx", "components/espace/mission/mission-carte.tsx"]) {
+      const source = lire(f);
+      expect(source).toContain("className={CARTE}");
+      expect(source).not.toMatch(/Entrainement\(|h-full|mt-auto|md:contents|lg:grid-cols-2/);
+    }
   });
 
-  it("la page passe `seule` aux cartes, la grille en `items-stretch`, plus de mesure plafonnée", () => {
+  it("la page empile les cartes dans `COLONNE_ENTRAINEMENT` (plus de grille à deux colonnes), plus de `max-w-prose`", () => {
     const page = lire("app/(dashboard)/mon-espace/s-entrainer/page.tsx");
-    expect(page).toContain('"grid grid-cols-1 items-stretch gap-6 md:grid-cols-2"');
-    expect(page.match(/seule=\{seuleSurSaLigne\}/g)).toHaveLength(2);
-    expect(page).not.toMatch(/max-w-prose/);
-    for (const f of ["components/espace/carte/carte-registre.tsx", "components/espace/carte/carte-et-toi.tsx"]) {
-      expect(lire(f)).toContain("className={cadreEntrainement(seule)}");
-    }
-    expect(lire("components/espace/mission/mission-carte.tsx")).toContain("className={cadreEntrainement(true)}");
+    expect(page).toContain("<div className={COLONNE_ENTRAINEMENT}>");
+    expect(page).not.toMatch(/md:grid-cols-2|md:col-span-2|max-w-prose/);
+    expect(CARTE).toContain("space-y-4");
   });
 });
 
