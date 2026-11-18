@@ -395,7 +395,15 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         const offres = page.getByRole("link", { name: TEXTES_APERCU.offre.nomAccessible });
         await expect(offres.first(), `bouton d'offre de la page au premier écran, ${largeur}`).toBeInViewport({ ratio: 1 });
         expect(await offres.evaluateAll((els) => els.filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.top < innerHeight && r.bottom > 0; }).length), `un seul bouton d'offre au premier écran, ${largeur}`).toBe(1);
-        for (const ailleurs of ["/", "/vannes", "/mon-espace/quoi-repondre"]) {
+        // s26 : « /mon-espace/quoi-repondre » remplacé par « /mon-espace/questions » : Quoi répondre est passé à l'aperçu à
+        // offre en haut (`ADRESSES_OFFRE_EN_HAUT`), Mes questions reste sur l'ancien aperçu (même bascule que le Jest
+        // `aujourdhui-v7-tour13`). Les trois rubriques s26 sont contrôlées comme « /mon-espace » juste au-dessus.
+        for (const s26 of ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer"]) {
+          await page.goto(s26);
+          await expect(page.locator("header [data-en-tete-prix]"), `en-tête sans bouton d'offre, ${s26}, ${largeur}`).toHaveCount(0);
+          await expect(page.getByRole("link", { name: TEXTES_APERCU.offre.nomAccessible }).first(), `bouton d'offre de la page, ${s26}, ${largeur}`).toBeInViewport({ ratio: 1 });
+        }
+        for (const ailleurs of ["/", "/vannes", "/mon-espace/questions"]) {
           await page.goto(ailleurs);
           await expect(page.locator("header [data-en-tete-prix]"), `en-tête avec bouton d'offre, ${ailleurs}, ${largeur}`).toHaveCount(1);
         }

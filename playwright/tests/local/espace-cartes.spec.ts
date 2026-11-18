@@ -155,6 +155,11 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
       );
       await page.goto("/mon-espace/s-entrainer");
       const c = page.locator('[data-carte="coloc-la-poele.c1"]');
+      // s26 (spec `docs/ux/rubriques-premium-s26.md` §3.2) : seule la première carte de la rafale est dépliée, les
+      // suivantes sont repliées (`CarteRepliee`, titre seul). La carte de révision peut en être une (ordre du moteur) :
+      // l'abonné la déplie par son titre, le test aussi. La garantie (réplique absente avant la réponse) est inchangée.
+      const repli = page.locator('details[data-carte-repliee]:has([data-carte="coloc-la-poele.c1"])');
+      if ((await repli.count()) > 0) await repli.locator("summary").click();
       await expect(c.getByText(T.aRevoir, { exact: true })).toBeVisible();
       expect(await page.content()).not.toContain(NOTE);
       await repondre(page, "coloc-la-poele.c1", T.reponses.OUI);

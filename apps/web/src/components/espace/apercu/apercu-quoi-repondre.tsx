@@ -10,8 +10,8 @@ import { SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
 import { RepliquesFermees, type RegistreReplique } from "@/components/espace/apercu/repliques-fermees";
 import { TitreFerme } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
-import { Chevron, PASTILLE, PIED_TUILE_GABARIT, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { ETIQUETTE, META_FORT, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
+import { PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
+import { ETIQUETTE, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
 
 const Q = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 const C = frEspaceProfond(TEXTES_CARTES);
@@ -80,23 +80,22 @@ function ExtraitQuoiRepondre() {
           </div>
         </TuileFermee>
       </div>
-      <SuiteCoupee>
+      {/* s26 tour 2 : tuiles entières seulement (`entiere`), la première seule sous 768 px (jamais un liseré sans titre) ;
+          « Rattraper un faux pas » sans le pied « Le carnet du mois » (il se lisait comme un lien actif et touchait les
+          barres) : titre, effectif, verrou et barres, comme ses voisines. */}
+      <SuiteCoupee entiere>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
           <TuileFermee className="lg:col-span-4">
             <div className={TUILE}>
               <TitreFerme titre={Q.pourQuoiFaire["rattraper-faux-pas"]} effectif={aPlat?.nombre} />
-              <div className={`${PIED_TUILE_GABARIT} ${META_FORT}`}>
-                {Q.carnet}
-                <Chevron />
-              </div>
             </div>
           </TuileFermee>
-          <TuileFermee className="lg:col-span-4">
+          <TuileFermee className="max-md:hidden lg:col-span-4">
             <div className={TUILE}>
               <TitreFerme titre={F.erreur} />
             </div>
           </TuileFermee>
-          <TuileFermee className="md:col-span-2 lg:col-span-4">
+          <TuileFermee className="max-md:hidden md:col-span-2 lg:col-span-4">
             <div className={TUILE}>
               <TitreFerme titre={F.commentChoisir} />
             </div>

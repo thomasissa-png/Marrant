@@ -83,11 +83,24 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
  * v7 tour 11 (extrait « peu concret ») : le fondu commence à 9 rem (144 px, 128 avant), même point transparent : le
  * nom de l'étape conseillée, les deux premières lignes de l'accroche de la mission et « Vidéo du jour » se lisent en
  * clair avant que la suite s'efface (24 px de fondu au lieu de 40).
+ * s26 tour 2 (`entiere`, rubriques Premium) : leurs tuiles de rangée 2 sont des titres fermés de 126 à 154 px, plus
+ * courtes que la zone lisible : à hauteur fixe, la phrase de fin tombait à 14-18 px de la dernière tuile (768, 375), et
+ * sous 768 px la tuile suivante dépassait en liseré sans titre. Avec `entiere`, la hauteur suit les tuiles (chaque page
+ * ne rend que des tuiles entières : la première seule sous 768 px) et l'air dessous est fixe : 96 px, dont 48 que
+ * recouvre la fin (`-mt-12`), soit 48 px entre la dernière tuile et « La suite est dans Premium » ; dès 1024, 64 px dont
+ * 16 recouverts (`lg:-mt-4`), soit 48 px aussi. Le fondu suit le bas de la rangée : il efface les 24 derniers px des
+ * tuiles (leur marge basse et leur bord, jamais les barres ni le titre), puis tout l'air est transparent. Sans
+ * `entiere` (« Aujourd'hui ») : hauteur fixe et fondu d'avant, rendu inchangé.
  */
-export function SuiteCoupee({ children }: { children: React.ReactNode }) {
+export function SuiteCoupee({ children, entiere = false }: { children: React.ReactNode; entiere?: boolean }) {
   return (
     <div
-      className="mt-6 h-[13.5rem] overflow-hidden [mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]"
+      className={cn(
+        "mt-6 overflow-hidden",
+        entiere
+          ? "pb-24 [mask-image:linear-gradient(to_bottom,black_calc(100%_-_7.5rem),transparent_calc(100%_-_6rem))] lg:pb-16 lg:[mask-image:linear-gradient(to_bottom,black_calc(100%_-_5.5rem),transparent_calc(100%_-_4rem))]"
+          : "h-[13.5rem] [mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]",
+      )}
       data-apercu-suite
     >
       {children}

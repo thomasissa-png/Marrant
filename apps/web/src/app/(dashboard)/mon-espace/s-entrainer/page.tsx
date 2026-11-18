@@ -91,15 +91,18 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
         <h1 className={TITRE_PAGE}>{N.index.sEntrainer}</h1>
         <p className={cn("mt-2 max-w-xl", TEXTE)}>{T.accroche}</p>
       </header>
-      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start" data-entrainement-grille>
+      {/* s26 tour 2 (relecture design, finition) : segments hors de la colonne des cartes, pleine largeur sous l'en-tête :
+          les deux colonnes partent à la même ligne (32 px de décalage à 1280 avant). Masqués pour une seule carte : un
+          trait seul ne dit rien. */}
+      {segments.total > 1 && (
+        <span className="mt-6 flex gap-2" aria-hidden="true" data-segments-rafale={`${segments.faites}/${segments.total}`}>
+          {Array.from({ length: segments.total }, (_, i) => (
+            <span key={i} className={cn("block h-2 flex-1 rounded-full", i < segments.faites ? "bg-text-secondary" : "bg-border-hover")} />
+          ))}
+        </span>
+      )}
+      <div className={cn("grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start", segments.total > 1 ? "mt-6" : "mt-8")} data-entrainement-grille>
         <div className="flex min-w-0 flex-col gap-6 lg:col-span-7" data-zone="cartes">
-          {segments.total > 0 && (
-            <span className="flex gap-2" aria-hidden="true" data-segments-rafale={`${segments.faites}/${segments.total}`}>
-              {Array.from({ length: segments.total }, (_, i) => (
-                <span key={i} className={cn("block h-2 flex-1 rounded-full", i < segments.faites ? "bg-text-secondary" : "bg-border-hover")} />
-              ))}
-            </span>
-          )}
           {fini ? (
             <div className={cn(TUILE, "h-auto")} data-rafale-finie>
               <p className={TEXTE_FORT}>{T.fini}</p>

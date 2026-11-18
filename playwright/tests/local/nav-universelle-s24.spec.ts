@@ -703,6 +703,7 @@ test.describe("navigation universelle v6 (s25)", () => {
     // le passait sous le titre chez l'abonné) ; c'est lui, première ligne de l'en-tête de page, qui s'aligne sur le H1
     // des autres rubriques (le H1 est 28 px plus bas, hauteur du sur-titre et de son espace).
     test("§4 : H1 des rubriques de premier niveau à la même hauteur entre elles (abonné, visiteur ; 375 et 1280 px)", async ({ browser }) => {
+      const APERCUS_EN_LARGEUR = ["/mon-espace", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer"];
       const PREMIER_NIVEAU = ["/mon-espace", "/parcours", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/vannes", "/conseils", "/videos", "/blog", "/lettre", "/favoris", "/carnet", "/mon-espace/questions", "/mon-espace/repliques"];
       for (const etat of ["PREMIUM", "visiteur"] as const) {
         const c = await contexte(browser, etat);
@@ -719,10 +720,12 @@ test.describe("navigation universelle v6 (s25)", () => {
             // le sur-titre de /carnet, c'est elle, première ligne de l'en-tête, qui s'aligne sur les autres rubriques.
             // v7 tour 8 (point 4) : sous 768 px, la pastille passe sur la ligne du H1, à droite : le H1 redevient la
             // première ligne de l'en-tête (test adapté au tour 9).
+            // s26 : les aperçus de Quoi répondre, Bibliothèque et S'entraîner reprennent ce squelette (`ApercuVerrouille`,
+            // même pastille au-dessus du H1 dès 768 px) : même règle (mesuré au tour 1 : H1 44 px plus bas, pastille alignée).
             const tete =
               chemin === "/carnet"
                 ? h1.locator("xpath=preceding-sibling::p[1]")
-                : chemin === "/mon-espace" && etat === "visiteur" && largeur >= 768
+                : APERCUS_EN_LARGEUR.includes(chemin) && etat === "visiteur" && largeur >= 768
                   ? page.locator("[data-apercu-hero] [data-badge-premium]")
                   : h1;
             await expect(tete, `en-tête de ${chemin} (${etat}, ${largeur} px)`).toBeVisible();

@@ -74,14 +74,15 @@ function ExtraitBibliotheque() {
           </div>
         </TuileFermee>
       </div>
-      <SuiteCoupee>
+      {/* s26 tour 2 : tuiles entières seulement (`entiere`), la première seule sous 768 px (jamais un liseré sans titre). */}
+      <SuiteCoupee entiere>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
           <TuileFermee className="lg:col-span-6">
             <div className={TUILE}>
               <TitreFerme titre={B.prefixes.vocabulaire} effectif={nbVocabulaire} />
             </div>
           </TuileFermee>
-          <TuileFermee className="lg:col-span-6">
+          <TuileFermee className="max-md:hidden lg:col-span-6">
             <div className={TUILE}>
               <TitreFerme titre={B.prefixes.formule} effectif={nbFormules} />
             </div>

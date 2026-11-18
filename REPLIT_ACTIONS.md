@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s26, rubriques Premium tour 2 (Quoi répondre, Bibliothèque, S'entraîner ; interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : aperçus, tuiles de fin entières (la première seule sous 768 px), 48 px avant « La suite est dans Premium » (`SuiteCoupee entiere`), pied « Le carnet du mois » retiré de l'aperçu Quoi répondre ; abonné, Bibliothèque en grille 3 colonnes dès 1024, segments de S'entraîner pleine largeur (masqués pour une carte), « Voir » à droite dans Quoi répondre dès 1024. « Aujourd'hui » inchangé (positions mesurées identiques). Aucun texte, aucune taille ajoutée. Interrupteur à `false` : site fermé identique (inertie 47/47).
+- **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
+
 ### s26, « Aujourd'hui » tour 14 (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
 - **Quoi** : barres des répliques verrouillées de l'aperçu un peu plus visibles (`bg-border-hover`, `apercu/repliques-fermees.tsx`). Aucun texte, aucune taille ajoutée. Interrupteur à `false` : site fermé identique.
 - **Env / migrations / packages** : aucun. Production (Worker `marrant`) : rien sans le go écrit de Thomas. Page de test seulement (`page-de-test.sh --envoyer`).

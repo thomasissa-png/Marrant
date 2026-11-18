@@ -16,7 +16,11 @@ const MOT_DE_PASSE = "E2e-v6-tour3-lot1!";
 const CAPTURES = process.env.E2E_CAPTURES_V6T3;
 // Refonte s25 (spec design §2) : « Aujourd'hui » devient un tableau de bord, H1 aligné à gauche sur la barre ; il sort
 // de la règle des titres centrés (vérifié par `espace-aujourdhui-refonte-s25.spec.ts`).
-const RUBRIQUES = ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/mon-espace/questions", "/mon-espace/repliques", "/favoris"];
+// s26 : Quoi répondre, Bibliothèque et S'entraîner passent à leur tour au H1 à gauche, comme « Aujourd'hui » (spec
+// `docs/ux/rubriques-premium-s26.md` §1.2, §2.2, §3.2) : la règle du titre centré est remplacée, pour elles, par
+// `RUBRIQUES_S26` (H1 à gauche, au bord gauche de la grille). Les autres rubriques la gardent.
+const RUBRIQUES = ["/mon-espace/questions", "/mon-espace/repliques", "/favoris"];
+const RUBRIQUES_S26 = ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer"];
 
 const boite = async (l: Locator) => {
   const b = await l.boundingBox();
@@ -58,20 +62,27 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
       await page.setViewportSize({ width: largeur, height: 900 });
       // Refonte s25 : l'aperçu d'« Aujourd'hui » n'est plus une situation entière (tableau de bord fermé, extrait
       // coupé) : vérifié par `espace-aujourdhui-refonte-s25.spec.ts`.
+      // s26 : remplacé par l'aperçu VERROUILLÉ de Quoi répondre (spec s26 §1.1, verrouillage réel) : la situation ne
+      // montre que sa partie en clair (titre, scène, réplique lancée), sa suite et ses répliques ne quittent plus le
+      // serveur (plus de `fiche-suite`) ; le catalogue sous l'exemple devient les filtres « Où et avec qui ? » (sous la
+      // situation sous 1024 px, à sa droite au-delà). Garanties gardées : aucune porte ni bouton, Connexion de 44 px.
       for (const [rubrique, adresse] of [["quoiRepondre", "/mon-espace/quoi-repondre"]] as const) {
         await page.goto(adresse);
         const racine = page.locator(`[data-apercu="${rubrique}"]`);
-        await expect(racine.getByTestId("fiche-suite"), `suite visible, ${rubrique} ${largeur}`).toBeVisible();
+        await expect(racine.locator("[data-apercu-situation] h2"), `situation en clair, ${rubrique} ${largeur}`).toBeVisible();
+        await expect(racine.getByTestId("fiche-suite"), `suite jamais servie, ${rubrique} ${largeur}`).toHaveCount(0);
         await expect(racine.getByRole("group", { name: "Tu avais une réponse ?" })).toHaveCount(0);
         await expect(racine.locator("button")).toHaveCount(0);
         const connexion = racine.locator("[data-apercu-offre] a").nth(1);
         expect((await boite(connexion)).hauteur, `Connexion de 44 px, ${largeur}`).toBeGreaterThanOrEqual(44);
         await capturer(page, `visiteur-${rubrique}`, largeur);
       }
-      const catalogue = page.locator("[data-apercu-catalogue]");
+      const filtres = page.locator("[data-apercu-filtres]");
       await page.goto("/mon-espace/quoi-repondre");
-      await expect(catalogue.getByRole("listitem").first()).toContainText("Coloc");
-      expect((await boite(catalogue)).haut).toBeGreaterThan((await boite(page.locator("[data-apercu] article").first())).bas);
+      await expect(filtres.locator("li").first()).toContainText("Coloc");
+      const [f, situation] = [await boite(filtres), await boite(page.locator("[data-apercu-situation]"))];
+      if (largeur < 1024) expect(f.haut, `filtres sous la situation, ${largeur}`).toBeGreaterThan(situation.bas);
+      else expect(f.gauche, `filtres à droite de la situation, ${largeur}`).toBeGreaterThan(situation.droite);
 
       await page.goto("/favoris");
       const exemples = page.locator('[data-apercu-fiche="favoris-exemples"] > li');
@@ -84,7 +95,7 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
     }
   });
 
-  test("abonné neuf : titres centrés, S'entraîner sans vide, Mes répliques centrée, liens de 44 px", async ({ page }) => {
+  test("abonné neuf : titres centrés (H1 à gauche en s26), S'entraîner sans vide, Mes répliques centrée, liens de 44 px", async ({ page }) => {
     await nouveauCompte(page, "PREMIUM");
     for (const largeur of [375, 1280, 1920]) {
       await page.setViewportSize({ width: largeur, height: 900 });
@@ -92,12 +103,16 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
         await page.goto(adresse);
         await titreCentre(page, `${adresse} à ${largeur} px`);
       }
+      for (const adresse of RUBRIQUES_S26) {
+        await page.goto(adresse);
+        await titreAGauche(page, `${adresse} à ${largeur} px`);
+      }
     }
 
     for (const largeur of [1280, 1920]) {
       await page.setViewportSize({ width: largeur, height: 900 });
       await page.goto("/mon-espace/s-entrainer");
-      await controlerSEntrainer(page, `nouvel ${largeur}`);
+      await controlerSEntrainerS26(page, `nouvel ${largeur}`);
       await capturer(page, "nouvel-s-entrainer", largeur);
 
       await page.goto("/mon-espace/repliques");
@@ -129,22 +144,27 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
   });
 });
 
+/** s26 : titre de page à gauche, au bord gauche du contenu de la page (±2 px), comme « Aujourd'hui ». */
+async function titreAGauche(page: Page, ou: string) {
+  const h1 = page.getByRole("heading", { level: 1 });
+  expect(await h1.evaluate((e) => getComputedStyle(e).textAlign), `H1 à gauche, ${ou}`).not.toBe("center");
+  const ecart = await h1.evaluate((e) => {
+    const r = document.createRange();
+    r.selectNodeContents(e);
+    return Math.abs(r.getBoundingClientRect().left - e.getBoundingClientRect().left);
+  });
+  expect(ecart, `texte du H1 calé à gauche, ${ou}`).toBeLessThanOrEqual(2);
+}
+
 /**
- * S'entraîner (v6 tour 4, arbitrage 1 de Thomas, remplace les cartes jumelles et la carte seule en deux colonnes du tour 3) :
- * une seule colonne centrée (`mx-auto max-w-3xl`), cartes et mission empilées. Intention du tour 3 gardée : aucun vide à côté
- * d'une carte ni de carte calée à gauche de la coque. Chaque carte : seule sur sa rangée, sous la précédente, même largeur
- * que ses sœurs (±1 px), au plus 768 px, au milieu de la coque (±24 px, comme l'état vide de Mes répliques).
+ * S'entraîner s26 (spec `docs/ux/rubriques-premium-s26.md` §3.2), remplace la colonne centrée `max-w-3xl` du tour 4 : dès
+ * 1024 px, grille 7/5, cartes à gauche, échelle et mission à droite, les deux colonnes partant à la même ligne (s26 tour
+ * 2 : segments de rafale hors des colonnes). Intention gardée : aucune carte calée seule avec un vide à côté d'elle,
+ * la colonne de droite occupe la place.
  */
-async function controlerSEntrainer(page: Page, ou: string) {
-  const cartes = page.locator("main article[data-carte], main section[data-mission]");
-  const boites = await Promise.all((await cartes.all()).map(boite));
-  expect(boites.length, `au moins une carte, ${ou}`).toBeGreaterThan(0);
-  const largeur = page.viewportSize()?.width ?? 0;
-  for (let i = 0; i < boites.length; i++) {
-    const b = boites[i];
-    expect(Math.abs(b.gauche - (largeur - b.droite)), `carte au milieu de la coque, ${ou}`).toBeLessThanOrEqual(24);
-    expect(b.largeur, `colonne de 768 px au plus, ${ou}`).toBeLessThanOrEqual(768);
-    expect(Math.abs(b.largeur - boites[0].largeur), `cartes de même largeur, ${ou}`).toBeLessThanOrEqual(1);
-    if (i > 0) expect(b.haut, `carte sous la précédente (aucune voisine sur sa rangée), ${ou}`).toBeGreaterThanOrEqual(boites[i - 1].bas);
-  }
+async function controlerSEntrainerS26(page: Page, ou: string) {
+  const [cartes, mission] = [await boite(page.locator("[data-zone='cartes']")), await boite(page.locator("[data-zone='mission']"))];
+  expect(Math.abs(cartes.haut - mission.haut), `deux colonnes à la même ligne, ${ou}`).toBeLessThanOrEqual(1);
+  expect(mission.gauche, `mission à droite des cartes, ${ou}`).toBeGreaterThan(cartes.droite);
+  expect(await page.locator("main article[data-carte], main [data-rafale-finie]").count(), `une carte (ou la rafale finie), ${ou}`).toBeGreaterThan(0);
 }

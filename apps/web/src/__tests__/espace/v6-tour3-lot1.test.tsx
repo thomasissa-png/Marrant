@@ -95,7 +95,8 @@ describe("point 2 : S'entraîner, aucun trou dans une carte ni à côté (colonn
 
   it("la page : grille 7/5 dès 1024 px (s26), jamais de grille à deux colonnes dès 768, plus de `max-w-prose`", () => {
     const page = lire("app/(dashboard)/mon-espace/s-entrainer/page.tsx");
-    expect(page).toContain('className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start"');
+    // s26 tour 2 : la marge haute de la grille dépend des segments de rafale, sortis pleine largeur sous l'en-tête.
+    expect(page).toContain('"grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start"');
     expect(page).not.toMatch(/md:grid-cols-2|md:col-span-2|max-w-prose/);
     expect(CARTE).toContain("space-y-4");
   });

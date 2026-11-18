@@ -66,9 +66,13 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
     }
   });
 
-  test("aperçu S'entraîner : « Ce qu'on aurait pu dire » ouvert ; Favoris : deux contenus réels en lecture seule", async ({ page }) => {
+  // s26 : remplacé par le verrouillage réel de l'aperçu S'entraîner (spec `docs/ux/rubriques-premium-s26.md` §3.1) :
+  // « Ce qu'on aurait pu dire » n'est plus un <details> ouvert, c'est un bloc FERMÉ (libellé, verrou, barres), son
+  // texte ne quitte pas le serveur. La garantie Favoris (deux contenus réels en lecture seule) reste inchangée.
+  test("aperçu S'entraîner : « Ce qu'on aurait pu dire » fermé (s26) ; Favoris : deux contenus réels en lecture seule", async ({ page }) => {
     await page.goto("/mon-espace/s-entrainer");
-    await expect(page.locator("[data-apercu-fiche] details")).toHaveAttribute("open", "");
+    await expect(page.locator("[data-apercu-fiche] [data-blocs-fermes] [data-bloc-ferme]")).toHaveCount(1);
+    await expect(page.locator("[data-apercu-fiche] details")).toHaveCount(0);
     const [{ n: vannes }] = await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "Joke" WHERE "isActive"`);
     const [{ n: conseils }] = await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "Tip" WHERE "isActive"`);
     await page.goto("/favoris");

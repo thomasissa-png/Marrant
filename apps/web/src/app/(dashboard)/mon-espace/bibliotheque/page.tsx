@@ -21,6 +21,7 @@ import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { ListeFiches, compteFaits } from "@/components/espace/liste-fiches";
 import { TITRE_PAGE } from "@/components/espace/typo";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { cn } from "@/lib/utils";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
@@ -34,6 +35,12 @@ const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
  * « Fait » et témoin du coin propres à l'abonné, jamais en cache). Garde EN PREMIER.
  */
 export const dynamic = "force-dynamic";
+
+/** s26 tour 2 : colonne des blocs placés explicitement dès 1024 (les autres remplissent la colonne 2). */
+const COLONNE_LG: Partial<Record<"construction" | "vocabulaire" | "formule", string>> = {
+  construction: "lg:col-start-1 lg:row-start-1",
+  formule: "lg:col-start-3 lg:row-start-1",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   if (!ESPACE_CLIENT_PUBLIE) return METADONNEES_404;
@@ -64,6 +71,8 @@ export default async function BibliothequePage() {
   const lignesSansPrefixe = (type: keyof typeof T.prefixes) => parType[type].filter((x) => visibles.has(x.id)).map((x) => ligneDeFiche(x, faits));
   const marque = (b: (typeof bonus)[number]) => ligneDeBonus(b, faits, TEXTES_CAPS.bonus.marque(b.cap));
   const entre = coinEntre(cookies().get(COOKIE_COIN)?.value);
+  // Dès 1024 : les colonnes latérales couvrent toutes les rangées de la colonne 2 (vannes, coin s'il existe, vocabulaire).
+  const hauteurLg = coin.length > 0 ? "lg:row-span-3" : "lg:row-span-2";
 
   return (
     <div className="pb-16">
@@ -75,15 +84,26 @@ export default async function BibliothequePage() {
           contenu, aucun vide sous une colonne étirée) : vannes, coin « Humour noir », puis une carte par groupe de
           techniques, titrée par le préfixe validé (« Comment c'est construit », « Vocabulaire », « Formules à
           détourner ») au lieu de le répéter à chaque ligne. s26 : 1 colonne, 2 dès 768 px, 3 dès 1024 px (4/4/4) ;
-          coin absent, pas de carte et pas de trou. Chaque bloc : « faits/total » et sa prochaine ligne marquée. */}
-      <div className="mt-8 gap-6 md:columns-2 lg:columns-3 [&>*]:mb-6 [&>*]:break-inside-avoid" data-bibliotheque-grille>
+          coin absent, pas de carte et pas de trou. Chaque bloc : « faits/total » et sa prochaine ligne marquée.
+          s26 tour 2 (relecture design, P1) : en colonnes CSS dès 1024, 540 à 800 px restaient vides sous deux colonnes.
+          Dès 1024, grille explicite à trois colonnes, ordre du DOM inchangé (375 et 768 identiques) : « Comment c'est
+          construit » en colonne 1 et « Formules à détourner » en colonne 3, placées d'abord sur toutes les rangées ; les
+          autres blocs (vannes, coin, vocabulaire) remplissent la colonne 2 dans l'ordre. La dernière rangée est en `1fr`
+          : si une colonne latérale dépasse la colonne 2, l'air tombe en fin de colonne, jamais entre deux blocs. */}
+      <div
+        className={cn(
+          "mt-8 gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid lg:grid lg:grid-cols-3 lg:items-start lg:[&>*]:mb-0",
+          coin.length > 0 ? "lg:grid-rows-[auto_auto_1fr]" : "lg:grid-rows-[auto_1fr]",
+        )}
+        data-bibliotheque-grille
+      >
         <BlocVannes ecouter={[...lignesSansPrefixe("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
         {coin.length > 0 && <CoinHumourNoir lignesInitiales={entre ? coin.map((x) => ligneDeFiche(x, faits)) : null} />}
         {(["construction", "vocabulaire", "formule"] as const).map((type) => {
           const groupe = [...lignesSansPrefixe(type), ...(type === "formule" ? bonus.filter((b) => b.cap === 5).map(marque) : [])];
           if (groupe.length === 0) return null;
           return (
-            <BlocBibliotheque key={type} id={`groupe-${type}`} titre={T.prefixes[type]} compte={compteFaits(groupe)}>
+            <BlocBibliotheque key={type} id={`groupe-${type}`} titre={T.prefixes[type]} compte={compteFaits(groupe)} className={COLONNE_LG[type] ? cn(COLONNE_LG[type], hauteurLg) : undefined}>
               <div className="mt-4">
                 <ListeFiches lignes={groupe} labelledBy={`groupe-${type}`} groupe={T.prefixes[type]} marquerProchaine />
               </div>

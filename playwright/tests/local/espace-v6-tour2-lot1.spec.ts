@@ -21,10 +21,15 @@ const CAPTURES = process.env.E2E_CAPTURES_V6T2;
 const LARGEURS = [375, 768, 1280, 1456, 1920];
 // Refonte s25 : « Aujourd'hui » quitte la colonne centrée (aperçu verrouillé en largeur, H1 à gauche) ; sa mise en
 // page est vérifiée par `espace-aujourdhui-refonte-s25.spec.ts`. Les autres rubriques gardent cette règle.
-const APERCUS: [RubriqueApercu, string][] = [
+// s26 : Quoi répondre, Bibliothèque et S'entraîner passent à leur tour sur l'aperçu en largeur d'« Aujourd'hui »
+// (`ApercuVerrouille`) : la colonne centrée est remplacée, pour elles, par les garanties de `APERCUS_S26` (jamais
+// collante, H1 à gauche, tuiles de fin entières, 32 px au moins avant « La suite est dans Premium »).
+const APERCUS_S26: [RubriqueApercu, string][] = [
   ["quoiRepondre", "/mon-espace/quoi-repondre"],
   ["bibliotheque", "/mon-espace/bibliotheque"],
   ["sEntrainer", "/mon-espace/s-entrainer"],
+];
+const APERCUS: [RubriqueApercu, string][] = [
   ["mesQuestions", "/mon-espace/questions"],
   ["mesRepliques", "/mon-espace/repliques"],
   ["favoris", "/favoris"],
@@ -87,6 +92,37 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
           const [a, b] = [await boite(favoris.nth(0)), await boite(favoris.nth(1))];
           expect(b.haut, `favoris l'un sous l'autre, ${ou}`).toBeGreaterThanOrEqual(a.bas);
         }
+        await capturer(page, `visiteur-apercu-${rubrique}`, largeur);
+      }
+    }
+  });
+
+  test("aperçus s26 (visiteur) : jamais collant, H1 à gauche, tuiles de fin entières, air avant la fin d'extrait", async ({ page }) => {
+    for (const [rubrique, adresse] of APERCUS_S26) {
+      for (const largeur of LARGEURS) {
+        await page.setViewportSize({ width: largeur, height: 900 });
+        await page.goto(adresse);
+        const ou = `${rubrique} à ${largeur} px`;
+        const racine = page.locator(`[data-apercu="${rubrique}"]`);
+        const positions = await page.locator("[data-apercu-offre]").evaluate((e) => {
+          const p: string[] = [];
+          for (let x: Element | null = e; x && x !== document.body; x = x.parentElement) p.push(getComputedStyle(x).position);
+          return p;
+        });
+        expect(positions.filter((p) => p === "sticky" || p === "fixed"), `jamais collante, ${ou}`).toEqual([]);
+        expect(await racine.locator("h1").evaluate((e) => getComputedStyle(e).textAlign), `titre à gauche, ${ou}`).not.toBe("center");
+        // s26 tour 2 (fautes dures du tour 1) : sous la dernière rangée, aucune tuile en liseré (chaque tuile visible est
+        // entière au-dessus du point transparent du fondu) ; 32 px au moins entre la dernière tuile et la phrase de fin.
+        const fin = await page.locator("[data-apercu-suite]").evaluate((suite) => {
+          const transparent = suite.getBoundingClientRect().bottom - 48;
+          const tuiles = Array.from(suite.querySelectorAll("[data-apercu-rangee='2'] > *"))
+            .filter((t) => getComputedStyle(t).display !== "none")
+            .map((t) => t.getBoundingClientRect());
+          const phrase = document.querySelector("[data-apercu-fin] p")!.getBoundingClientRect().top;
+          return { coupees: tuiles.filter((t) => t.bottom > transparent + 0.5).length, ecart: phrase - Math.max(...tuiles.map((t) => t.bottom)) };
+        });
+        expect(fin.coupees, `aucune tuile coupée, ${ou}`).toBe(0);
+        expect(fin.ecart, `air avant « La suite est dans Premium », ${ou}`).toBeGreaterThanOrEqual(32);
         await capturer(page, `visiteur-apercu-${rubrique}`, largeur);
       }
     }

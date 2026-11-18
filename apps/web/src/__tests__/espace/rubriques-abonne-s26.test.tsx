@@ -127,9 +127,13 @@ describe("« Quoi répondre » abonné : prochaine action et progression", () =>
 });
 
 describe("« Bibliothèque » abonné : prochaine ligne et progression par bloc", () => {
-  it("1/2/3 colonnes (`md:columns-2 lg:columns-3`), en-tête à gauche, aucun aplat", async () => {
+  // s26 tour 2 : `lg:columns-3` remplacé par une grille explicite à 3 colonnes dès 1024 (540 à 800 px vides sous deux
+  // colonnes) ; 375 et 768 inchangés (1 colonne, puis colonnes CSS).
+  it("1/2/3 colonnes (`md:columns-2`, grille `lg:grid-cols-3`), en-tête à gauche, aucun aplat", async () => {
     const { container } = render(await BibliothequePage());
-    expect(classes(container.querySelector("[data-bibliotheque-grille]"))).toEqual(expect.arrayContaining(["md:columns-2", "lg:columns-3"]));
+    const grille = classes(container.querySelector("[data-bibliotheque-grille]"));
+    expect(grille).toEqual(expect.arrayContaining(["md:columns-2", "lg:grid", "lg:grid-cols-3", "lg:items-start"]));
+    expect(grille).not.toContain("lg:columns-3");
     expect(container.querySelector("h1")!.className).not.toContain("text-center");
     expect(aplats(container)).toEqual([]);
   });
@@ -188,6 +192,8 @@ describe("« S'entraîner » abonné : prochaine action et progression", () => {
     const segments = container.querySelector("[data-segments-rafale]")!;
     expect(segments.getAttribute("data-segments-rafale")).toBe("1/3");
     expect([...segments.children].map((s) => classes(s).includes("bg-text-secondary"))).toEqual([true, false, false]);
+    // s26 tour 2 : segments pleine largeur sous l'en-tête, hors des colonnes (les deux colonnes partent à la même ligne).
+    expect(segments.closest("[data-entrainement-grille]")).toBeNull();
     const premiere = container.querySelector("#carte-1")!;
     expect(premiere.getAttribute("data-cadre")).toBe("action");
     expect(premiere.closest("details")).toBeNull();
@@ -197,6 +203,14 @@ describe("« S'entraîner » abonné : prochaine action et progression", () => {
     expect(repliee.querySelector("summary")!.textContent).toBe(frEspace(cartes[1].titre));
     // Écart signalé : la carte n'a pas de bouton principal unique (« Oui / À moitié / Rien », même poids, 2.2).
     expect(aplats(container)).toEqual([]);
+  });
+
+  it("s26 tour 2 : une seule carte au total, aucun segment (un trait seul ne dit rien)", async () => {
+    rafale.mockResolvedValue({ cartes: [{ carteId: cartes[0].id, nouvelle: true }], faites: [], fini: false, catalogue, cetteSemaine: 0, compteARebours: COMPTE });
+    retours.mockResolvedValue([]);
+    const { container } = render(await SEntrainerPage({ searchParams: {} }));
+    expect(container.querySelector("#carte-1")).not.toBeNull();
+    expect(container.querySelector("[data-segments-rafale]")).toBeNull();
   });
 
   it("échelle : marche en cours (`aria-current=step`), marches réussies « Fait » ; liens `?marche=n#mission`", async () => {

@@ -82,17 +82,24 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
         {prochaine && (
           <section
             aria-labelledby="prochaine-titre"
-            className={cn(CARTE_ACTION, "h-auto md:col-span-2 lg:col-span-9 lg:col-start-4 lg:row-start-1")}
+            className={cn(
+              CARTE_ACTION,
+              "h-auto md:col-span-2 lg:col-span-9 lg:col-start-4 lg:row-start-1 lg:flex-row lg:items-center lg:justify-between lg:gap-6",
+            )}
             data-prochaine-action={prochaine.id}
           >
-            <h2 id="prochaine-titre" className={TITRE_CARTE}>
-              {frEspace(prochaine.titre)}
-            </h2>
-            <p className={cn("mt-2", META)}>{L.minutes(prochaine.dureeMinutes)}</p>
+            {/* s26 tour 2 (relecture design) : dès 1024, « Voir » à droite de la ligne titre + durée (même bouton) ; la
+                moitié droite de la tuile n'est plus vide. */}
+            <div className="min-w-0">
+              <h2 id="prochaine-titre" className={TITRE_CARTE}>
+                {frEspace(prochaine.titre)}
+              </h2>
+              <p className={cn("mt-2", META)}>{L.minutes(prochaine.dureeMinutes)}</p>
+            </div>
             <Link
               href={ligneDeFiche(prochaine, faits).href}
               aria-describedby="prochaine-titre"
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-4 w-full self-start whitespace-normal md:w-auto md:min-w-44")}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-4 w-full self-start whitespace-normal md:w-auto md:min-w-44 lg:mt-0 lg:shrink-0 lg:self-center")}
             >
               {L.voir}
             </Link>
