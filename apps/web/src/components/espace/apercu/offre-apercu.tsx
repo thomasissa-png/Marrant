@@ -51,19 +51,38 @@ export function Preuve({ place = "carte", masqueeLg = false }: { place?: "carte"
 }
 
 /**
- * Bloc d'offre de l'aperçu verrouillé, zone B (refonte s25, spec UX §2.1 et §2.3, design §3.2) : la carte Premium de
- * l'accueil sans son halo. Le bouton (seul plein de la page avec celui de la fin d'extrait, même action), la phrase
- * d'objet pour l'inscrit gratuit, la réassurance unique, la preuve, « Connexion » pour le visiteur seulement.
- * Échelle s25 (§2.3) : bord simple de 1 px, sans ombre ni violet ; son poids vient du bouton plein, de sa place en
- * haut à droite et de l'air autour. Phrase d'objet et réassurance en `META`, « Connexion » en gris secondaire.
+ * « L'objet Premium » (s26, encarts Premium, Thomas 18/11, `docs/design/encarts-premium-s26.md`) : la matière de la
+ * carte Premium de l'accueil (`home/premium-cta.tsx`), commune à la carte d'offre (a) et à la fin d'extrait (b). Bord
+ * violet de 2 px (un trait, pas un aplat : 3,9:1 sur la carte), ombre violette à 10 %, halo décoratif à 5 % flouté en
+ * coin (`HaloPremium`, `aria-hidden`, sans bord) ; le bouton plein reste la seule surface violette opaque.
+ */
+export const CARTE_PREMIUM =
+  "relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card shadow-lg shadow-accent-primary/10";
+
+/** Halo de l'objet Premium, premier enfant de la carte ; le contenu qui suit porte `relative` pour passer devant. */
+export function HaloPremium() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl"
+      data-halo-premium
+    />
+  );
+}
+
+/**
+ * Bloc d'offre de l'aperçu verrouillé, zone B (refonte s25, spec UX §2.1 et §2.3, design §3.2). Le bouton (seul plein
+ * de la page avec celui de la fin d'extrait, même action), la phrase d'objet pour l'inscrit gratuit, la réassurance
+ * unique, la preuve, « Connexion » pour le visiteur seulement.
+ * s26 (encarts Premium, Thomas 18/11 : « pas au niveau ») : l'objet Premium (`CARTE_PREMIUM`, `HaloPremium`) remplace
+ * le bord simple sans violet de s25 §2.3. Padding égal des quatre côtés (16 sous 768, 24 dès 768). « Connexion » est
+ * calée en bas (`mt-auto`) sous un filet : la carte étirée (`etiree`) n'a plus de vide subi sous son dernier élément,
+ * l'air se place entre la réassurance et le filet. Le filet tombe quand la preuve (qui a le sien) est dans la carte.
  * v7 tour 8 : sous 768 px, carte resserrée (`p-4`, preuve à 16 px au lieu de 24) pour que la première tuile de
- * l'extrait tienne au premier écran à 375 ; le bouton reste visible sans défiler ; le premier paragraphe à 8 px du
- * bouton (comme `Reassurance` sous tout plein à prix), 16 dès 768. Inscrit gratuit : la phrase d'objet
- * et la réassurance, qui commencent toutes deux par « Premium », sont séparées de 24 px (16 avant : un mur de quatre
- * lignes), la phrase d'objet restant collée au bouton qu'elle explique.
- * v7 tour 9 : `preuveHors` (le hero) masque la preuve de la carte dès 1024 px, le hero la rend sous ses pastilles.
- * v7 tour 11 : et sous 768 px (le hero la rend sous sa promesse).
- * « Connexion » reste dans la carte à toutes les largeurs.
+ * l'extrait tienne au premier écran à 375 ; le premier paragraphe à 8 px du bouton (comme `Reassurance` sous tout
+ * plein à prix), 16 dès 768. Inscrit gratuit : la phrase d'objet et la réassurance, qui commencent toutes deux par
+ * « Premium », sont séparées de 24 px, la phrase d'objet restant collée au bouton qu'elle explique.
+ * v7 tour 9 et 11 : `preuveHors` (le hero) masque la preuve de la carte sous 768 et dès 1024 px (le hero la rend).
  */
 export function OffreApercu({
   href,
@@ -76,26 +95,31 @@ export function OffreApercu({
   adresse: string;
   visiteur: boolean;
   preuveHors?: boolean;
-  /** v7 tour 13 : dès 1024 px, la carte descend jusqu'au bas de la colonne de texte du hero (contenu calé en haut). */
+  /** v7 tour 13 : dès 1024 px, la carte descend jusqu'au bas de la colonne de texte du hero. */
   etiree?: boolean;
 }) {
   return (
-    <div className={cn("relative rounded-xl border border-border-hover bg-background-card p-4 md:p-6", etiree && "lg:h-full")} data-apercu-offre>
-      <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
-        {TEXTES_APERCU.offre.bouton}
-      </Link>
-      {!visiteur && <p className={cn("mt-2 text-center md:mt-4", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
-      {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}
-      <Reassurance className={cn(visiteur ? "mt-2 md:mt-4" : "mt-6", META)} />
-      <Preuve masqueeLg={preuveHors} />
-      {visiteur && (
-        <p className="mt-2 flex justify-center">
-          {/* v7 tour 2 (piste) : cible de 44 px en hauteur ET en largeur, posée ici (ne dépend pas seulement de `LIEN`). */}
-          <Link href={buildLoginUrl({ callbackUrl: adresse })} className={cn(LIEN, "inline-flex min-h-11 min-w-11 items-center justify-center text-text-secondary")}>
-            {TEXTES_APERCU.connexion}
-          </Link>
-        </p>
-      )}
+    <div className={cn(CARTE_PREMIUM, "p-4 md:p-6", etiree && "lg:h-full")} data-apercu-offre>
+      <HaloPremium />
+      <div className="relative flex h-full flex-col">
+        <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
+          {TEXTES_APERCU.offre.bouton}
+        </Link>
+        {!visiteur && <p className={cn("mt-2 text-center md:mt-4", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
+        {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}
+        <Reassurance className={cn(visiteur ? "mt-2 md:mt-4" : "mt-6", META)} />
+        <Preuve masqueeLg={preuveHors} />
+        {visiteur && (
+          <div className="mt-auto pt-4 md:pt-6">
+            <p className={cn("flex justify-center border-t border-border pt-2", preuveHors ? "md:max-lg:border-t-0" : "border-t-0")}>
+              {/* v7 tour 2 (piste) : cible de 44 px en hauteur ET en largeur, posée ici (ne dépend pas seulement de `LIEN`). */}
+              <Link href={buildLoginUrl({ callbackUrl: adresse })} className={cn(LIEN, "inline-flex min-h-11 min-w-11 items-center justify-center text-text-secondary")}>
+                {TEXTES_APERCU.connexion}
+              </Link>
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

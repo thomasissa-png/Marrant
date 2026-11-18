@@ -420,7 +420,9 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       await expect(offres.nth(1), `bouton de fin sous le premier écran, ${largeur}`).not.toBeInViewport();
       expect((await boite(offres.nth(1))).haut, `bouton de fin sous 900 px, ${largeur}`).toBeGreaterThanOrEqual(900);
       // Échelle s25 : la phrase de fin aussi (un seul « Premium » écrit hors offre au premier écran).
-      expect((await boite(page.locator("[data-apercu-fin] p"))).haut, `phrase de fin sous 900 px, ${largeur}`).toBeGreaterThan(900);
+      // s26, encarts Premium, Thomas 18/11 : la carte de fin porte aussi la réassurance (2e paragraphe) ; la phrase est
+      // le premier.
+      expect((await boite(page.locator("[data-apercu-fin] p:not([data-reassurance])"))).haut, `phrase de fin sous 900 px, ${largeur}`).toBeGreaterThan(900);
       // s26, Thomas 18/11 : une seule grille 8/4 pour le hero et l'extrait. « Ton cap » a les bords de la carte d'offre,
       // Z1 ceux du texte du hero ; en rangée 2 (4/4/4), la dernière tuile a aussi ceux de la carte d'offre.
       const grille = await page.evaluate(() => {

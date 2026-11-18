@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s26, encarts Premium des 4 aperçus verrouillés, retour de Thomas du 18/11 (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : carte d'offre et fin d'extrait d'Aujourd'hui, Quoi répondre, Bibliothèque, S'entraîner deviennent « l'objet Premium » de l'accueil (bord violet 2 px, ombre et halo à 5 %, `rounded-2xl`), « Connexion » calée en pied sous un filet, fin d'extrait en carte de 448 px avec sa réassurance (`docs/design/encarts-premium-s26.md`) ; Quoi répondre de 1024 à 1279 : pastilles sur une ligne, « Pour quoi faire ? » en tête de la rangée 2. Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47).
+- **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
+
 ### s26, aperçus verrouillés, décisions de Thomas du 18/11 (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
 - **Quoi** : H1 de l'aperçu en blanc (`TITRE_PAGE` seul, plus de texte dégradé) ; une seule grille 8/4 pour le hero et l'extrait des 4 aperçus (Aujourd'hui, Quoi répondre, Bibliothèque, S'entraîner) : rangées de l'extrait en 8/4 avec la gouttière du hero dès 1024 (48 px), colonne de droite aux bords de la carte d'offre. Carte d'offre et bloc de fin d'extrait inchangés (placement seul). Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47).
 - **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.

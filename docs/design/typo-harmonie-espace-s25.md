@@ -58,6 +58,8 @@ export const ETIQUETTE = "text-sm font-semibold text-text-secondary";
 - [ARBITRAGE : si la capture « se lit fermé ? » échoue, repli : un verrou nu `h-4 w-4 text-text-secondary` (aria-hidden, sans mot ni fond) au coin de Z1 seule, jamais sur toutes les tuiles.]
 
 ### 2.3 Carte d'offre (aperçu)
+
+Remplacé en s26 par `docs/design/encarts-premium-s26.md` (retour de Thomas du 18/11).
 - Avant : `rounded-2xl border-2 border-accent-primary shadow-lg shadow-accent-primary/10 p-5 md:p-6`. Après : `relative rounded-xl border border-border-hover bg-background-card p-6`. Pas d'ombre, pas de violet. Son poids vient du bouton plein, de sa place en haut à droite et de l'air autour.
 - Contenu, mêmes éléments, mêmes textes : bouton (`BOUTON_OFFRE`), phrase d'objet (`META`, centrée, `mt-4`), réassurance (`META`, `mt-4`, plus de `text-xs text-text-muted`), preuve (`mt-6 border-t border-border pt-6 text-center`), lien « Connexion » (`LIEN`, `text-text-secondary`, `mt-2`).
 - Preuve : `META` avec le nombre en `TITRE_CARTE` en ligne (même coupe regex, même texte lu).

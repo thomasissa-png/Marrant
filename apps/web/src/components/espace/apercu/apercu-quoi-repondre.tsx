@@ -36,13 +36,32 @@ function situationEnClair() {
   };
 }
 
-/** Pastille inerte avec son effectif réel (lecture des fichiers validés, `categoriesQuoiRepondre`). */
+/**
+ * Pastille inerte avec son effectif réel (lecture des fichiers validés, `categoriesQuoiRepondre`).
+ * s26 (mission 2) : dès 1024 px, une pastille ne passe plus sur deux lignes (`lg:whitespace-nowrap`) ; à 1024, la plus
+ * longue (« Commerces, voisins, transports 5 », 250 px) mord de 7 px sur la marge droite de 24 px de la tuile (243 px
+ * utiles), rien n'est coupé. Sous 1024, la tuile est pleine largeur : le retour à la ligne reste permis (texte à 200 %).
+ */
 function PastilleEffectif({ libelle, nombre }: { libelle: string; nombre?: number }) {
   return (
-    <li className={PASTILLE}>
+    <li className={cn(PASTILLE, "lg:whitespace-nowrap")}>
       {libelle}
       {nombre !== undefined && <span className="tabular-nums text-text-primary">{nombre}</span>}
     </li>
+  );
+}
+
+/** Groupe « Pour quoi faire ? » et ses cinq valeurs, en pastilles inertes. */
+function FiltresPour({ className }: { className?: string }) {
+  return (
+    <>
+      <p className={cn(className, ETIQUETTE)}>{Q.filtrePour}</p>
+      <ul className="mt-2 flex flex-wrap gap-2">
+        {Object.entries(Q.pourQuoiFaire).map(([cle, libelle]) => (
+          <PastilleEffectif key={cle} libelle={libelle} />
+        ))}
+      </ul>
+    </>
   );
 }
 
@@ -71,12 +90,9 @@ function ExtraitQuoiRepondre() {
                 <PastilleEffectif key={g.cle} libelle={frEspace(g.titre)} nombre={g.nombre} />
               ))}
             </ul>
-            <p className={cn("mt-6", ETIQUETTE)}>{Q.filtrePour}</p>
-            <ul className="mt-2 flex flex-wrap gap-2">
-              {Object.entries(Q.pourQuoiFaire).map(([cle, libelle]) => (
-                <PastilleEffectif key={cle} libelle={libelle} />
-              ))}
-            </ul>
+            <div className="lg:max-xl:hidden">
+              <FiltresPour className="mt-6" />
+            </div>
           </div>
         </TuileFermee>
       </div>
@@ -85,6 +101,14 @@ function ExtraitQuoiRepondre() {
           barres) : titre, effectif, verrou et barres, comme ses voisines. */}
       <SuiteCoupee entiere>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
+          {/* s26 (mission 2) : de 1024 à 1279, la colonne 4/12 (293 px à 1024) empilait les deux groupes de filtres et
+              allongeait la rangée 1 à 618 px (vide sous la situation) ; « Pour quoi faire ? » passe ici, en tête de la
+              rangée 2, sur toute la largeur (une ligne de pastilles). Ailleurs, il reste sous « Où et avec qui ? ». */}
+          <TuileFermee className="hidden lg:col-span-12 lg:max-xl:block">
+            <div className={TUILE} data-apercu-filtres-pour>
+              <FiltresPour />
+            </div>
+          </TuileFermee>
           <TuileFermee className="lg:col-span-4">
             <div className={TUILE}>
               <TitreFerme titre={Q.pourQuoiFaire["rattraper-faux-pas"]} effectif={aPlat?.nombre} />

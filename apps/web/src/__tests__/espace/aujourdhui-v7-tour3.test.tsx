@@ -73,7 +73,10 @@ describe("faute 2 : jamais deux boutons d'offre pleins au premier écran", () =>
     render(<ApercuAujourdhui visiteur />);
     expect(document.querySelector("[data-apercu-extrait]")?.className).toContain("md:mt-12");
     expect(document.querySelector("[data-apercu-extrait]")?.className).not.toContain("lg:mt-16");
-    expect(document.querySelector("[data-apercu-fin]")?.className).toContain("lg:-mt-4");
+    // s26, encarts Premium, Thomas 18/11 : la fin devient une carte ; sur « Aujourd'hui » (suite à hauteur fixe) elle ne
+    // chevauche plus le bout du fondu (`mt-0`, 48 px sous le point transparent) ; mesures en vrai navigateur.
+    expect(document.querySelector("[data-apercu-fin]")?.className).toContain("mt-0");
+    expect(document.querySelector("[data-apercu-fin]")?.className).not.toContain("-mt-");
     expect(document.querySelector("[data-apercu-suite]")?.className).toContain("h-[13.5rem]");
   });
 });

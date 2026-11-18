@@ -23,6 +23,10 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
  * - v7 tour 13 (décision de Thomas du 16/11) : le H1 de l'aperçu portait le TEXTE en dégradé de l'accueil ; s26, Thomas
  *   18/11 : il est en BLANC (#FFFFFF) comme chez l'abonné, aucun texte dégradé nulle part ; un seul aplat violet, le
  *   bouton d'offre ;
+ * - s26, encarts Premium, Thomas 18/11 (`docs/design/encarts-premium-s26.md`) : l'objet Premium est autorisé, et lui
+ *   seul : la carte d'offre (`[data-apercu-offre]`) et la carte de fin (`[data-apercu-fin]`) par leur bord violet de
+ *   2 px sur les quatre côtés (sans fond violet), et leur halo (`> [data-halo-premium]`, `aria-hidden`, flouté, fond
+ *   violet à 10 % au plus, sans bord) ; tout autre bord, fond ou filet violet reste refusé ;
  * - aperçu : le mot « Premium » au plus deux fois en repère visible (pastille du hero et bouton d'offre ; les phrases
  *   de la carte d'offre, réassurance et phrase d'objet, sont des textes validés, hors repère).
  */
@@ -44,7 +48,7 @@ type Mesure = {
   premium: string[];
   /** Aplats violets du premier écran qui sont le bouton d'offre du hero (`[data-position="haut"]`). */
   pleinsOffre: number;
-  /** Tout l'extrait de l'aperçu, sans limite d'écran : éléments à bord, fond ou filet violet (bouton de fin exclu). */
+  /** Tout l'extrait de l'aperçu, sans limite d'écran : éléments à bord, fond ou filet violet (bouton de fin et objet Premium exclus). */
   violetsExtrait: string[];
   /** Titres en TEXTE dégradé (fond découpé au texte) : aucun depuis s26 (Thomas 18/11, H1 de l'aperçu en blanc). */
   titresDegrades: string[];
@@ -75,6 +79,31 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
       const violet = (c: string) => {
         const m = /rgba?\(([\d.]+), ([\d.]+), ([\d.]+)(?:, ([\d.]+))?\)/.exec(c);
         return m ? { teinte: violets.includes(`${m[1]}, ${m[2]}, ${m[3]}`), alpha: m[4] === undefined ? 1 : parseFloat(m[4]) } : { teinte: false, alpha: 0 };
+      };
+      // s26, encarts Premium, Thomas 18/11 : EXACTEMENT l'objet Premium (bord 2 px des deux cartes, halo flouté
+      // qui est leur enfant direct), rien d'autre.
+      const objetPremium = (el: Element) => {
+        const cs = getComputedStyle(el);
+        const cotes = ["top", "right", "bottom", "left"];
+        if (el.matches("[data-apercu-offre], [data-apercu-fin]")) {
+          return (
+            cotes.every((c) => cs.getPropertyValue(`border-${c}-width`) === "2px" && contientViolet(cs.getPropertyValue(`border-${c}-color`))) &&
+            !contientViolet(cs.backgroundColor) &&
+            !contientViolet(cs.backgroundImage)
+          );
+        }
+        if (el.matches("[data-apercu-offre] > [data-halo-premium], [data-apercu-fin] > [data-halo-premium]")) {
+          const fond = violet(cs.backgroundColor);
+          return (
+            el.getAttribute("aria-hidden") === "true" &&
+            fond.teinte &&
+            fond.alpha <= 0.1 &&
+            cs.filter.startsWith("blur(") &&
+            cs.backgroundImage === "none" &&
+            cotes.every((c) => parseFloat(cs.getPropertyValue(`border-${c}-width`)) === 0)
+          );
+        }
+        return false;
       };
       for (const el of Array.from(main.querySelectorAll("*"))) {
         const r = el.getBoundingClientRect();
@@ -107,7 +136,7 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
             .filter((c) => c.teinte)
             .map((c) => c.alpha);
           accentZ1.alphaMax = Math.max(accentZ1.alphaMax, ...alphas);
-        } else if ((bordViolet || fondViolet || pseudoViolet) && !(fond.teinte && fond.alpha >= 0.5)) {
+        } else if ((bordViolet || fondViolet || pseudoViolet) && !(fond.teinte && fond.alpha >= 0.5) && (pseudoViolet || !objetPremium(el))) {
           accentsViolets.push(`${el.tagName.toLowerCase()} « ${(el.textContent ?? "").trim().slice(0, 30)} »${pseudoViolet ? " (pseudo-élément)" : ""}`);
         }
         const texte = Array.from(el.childNodes)
@@ -140,7 +169,7 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
           const s = getComputedStyle(el, ps);
           return s.content !== "none" && (contientViolet(s.backgroundColor) || contientViolet(s.backgroundImage));
         });
-        if (bord || fondV || pseudo) violetsExtrait.push(`${el.tagName.toLowerCase()} « ${(el.textContent ?? "").trim().slice(0, 30)} »`);
+        if ((bord || fondV || pseudo) && (pseudo || !objetPremium(el))) violetsExtrait.push(`${el.tagName.toLowerCase()} « ${(el.textContent ?? "").trim().slice(0, 30)} »`);
       }
       // Contraste dans Z1 au pire point de la teinte : fond de la carte + premier arrêt violet du dégradé (le plus
       // opaque, coin haut gauche), texte composé avec son alpha et les opacités cumulées jusqu'à la carte (0,75 de

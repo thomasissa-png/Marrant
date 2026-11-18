@@ -2,7 +2,8 @@ import Link from "next/link";
 import { TEXTES_APERCU, TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-apercu";
 import { frEspace } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
-import { BOUTON_OFFRE } from "@/components/espace/apercu/offre-apercu";
+import { Reassurance } from "@/components/ui/reassurance";
+import { BOUTON_OFFRE, CARTE_PREMIUM, HaloPremium } from "@/components/espace/apercu/offre-apercu";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
 
 /** `inert` (hors des types de React 18.3) : posé tel quel, l'extrait sort de la tabulation et des clics. */
@@ -56,15 +57,28 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
       >
         {children}
       </div>
-      {/* Dès 1024 : la fin ne recouvre que 32 des 48 px transparents (16 px d'air en plus, invisibles) : à 900 px de
-          haut, la phrase « La suite est dans Premium » tombe entière sous le premier écran (elle l'effleurait à 1 px).
-          v7 tour 11 : 16 px seulement (`lg:-mt-4`), l'air au-dessus de l'extrait ayant perdu 16 px : phrase et bouton
-          de fin restent aux mêmes hauteurs qu'au tour 10 (908 et 952 à 900 px de haut), sous le premier écran. */}
-      <div className="relative -mt-12 flex flex-col items-center gap-4 px-4 text-center lg:-mt-4" data-apercu-fin>
-        <p className={TITRE_CARTE}>{TEXTES_APERCU_VERROUILLE.suite}</p>
-        <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full sm:w-auto sm:min-w-64")} data-position="fin">
-          {TEXTES_APERCU.offre.bouton}
-        </Link>
+      {/* Dès 1024 : la fin ne recouvre que 16 des 64 px transparents (`lg:-mt-4`), 48 des 96 en dessous (`-mt-12`).
+          s26 (encarts Premium, Thomas 18/11, `docs/design/encarts-premium-s26.md` (b)) : la fin devient une CARTE, le
+          même objet Premium que la carte d'offre (bord 2 px, ombre et halo), 448 px au plus, centrée sous l'extrait ;
+          le bouton pleine largeur de la carte avec sa réassurance dessous (8 px, 16 dès 768). Le haut de la carte reste
+          où était la phrase : 48 px sous la dernière tuile ; à 900 px de haut, phrase et bouton sous le premier écran.
+          « Aujourd'hui » (suite à hauteur fixe, sans `entiere`) : ses 48 derniers px sont le bout du fondu, pas de l'air
+          sous une tuile ; une carte posée dessus touchait la tuile coupée (0 px à 375, 32 dès 1024) : aucun
+          chevauchement, la carte commence 48 px sous le point transparent du fondu. */}
+      <div
+        className={cn(CARTE_PREMIUM, "mx-auto w-full max-w-md p-4 text-center md:p-6", rubrique === "aujourdhui" ? "mt-0" : "-mt-12 lg:-mt-4")}
+        data-apercu-fin
+      >
+        <HaloPremium />
+        <div className="relative flex flex-col items-center gap-4">
+          <p className={TITRE_CARTE}>{TEXTES_APERCU_VERROUILLE.suite}</p>
+          <div className="w-full">
+            <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="fin">
+              {TEXTES_APERCU.offre.bouton}
+            </Link>
+            <Reassurance className={cn("mt-2 md:mt-4", META)} />
+          </div>
+        </div>
       </div>
     </div>
   );
