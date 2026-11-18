@@ -75,7 +75,7 @@ export const LIEN = "inline-flex min-h-11 items-center text-sm text-accent-link 
 /** Puce à choix unique : coche ET contour de 2 px quand elle est choisie (jamais la couleur seule). */
 export const puce = (choisie: boolean) =>
   [
-    "inline-flex min-h-11 min-w-11 items-center gap-1 whitespace-normal rounded-full border px-4 py-2 text-left text-sm font-medium text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    "inline-flex min-h-11 min-w-11 items-center gap-1 whitespace-normal rounded-full border px-4 py-2 text-left text-sm font-semibold text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     choisie ? "border-2 border-accent-link bg-background-elevated px-3.5" : "border-border-input hover:border-text-muted hover:bg-background-elevated",
   ].join(" ");
 

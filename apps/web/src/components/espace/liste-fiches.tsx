@@ -34,7 +34,7 @@ export function sansPrefixe(titre: string, groupe: string): string {
  * s26 (Bibliothèque, `docs/ux/rubriques-premium-s26.md` §2.2) : la prochaine ligne à faire d'un bloc (première sans
  * « Fait ») prend `TEXTE_FORT` et ce filet de 2 px à gauche (pas un aplat). Constante seule : un seul changement.
  */
-export const FILET_PROCHAINE = "border-l-2 border-l-accent-primary";
+export const FILET_PROCHAINE = "border-l-2 border-l-text-primary";
 
 /** Première ligne sans « Fait », dans l'ordre de la liste (null : tout est fait). */
 export const prochaineLigne = (lignes: readonly LigneFiche[]) => lignes.find((l) => !l.fait) ?? null;

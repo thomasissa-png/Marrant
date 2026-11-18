@@ -1,0 +1,22 @@
+# Captures s-entrainer (2026-11-18T11:22, http://localhost:5400)
+
+- visiteur-s-entrainer-375.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 2959px
+- visiteur-s-entrainer-768.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 2272px
+- visiteur-s-entrainer-1280.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1813px
+- visiteur-s-entrainer-1456.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1813px
+- visiteur-s-entrainer-1920.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1813px
+- gratuit-s-entrainer-375.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 2971px
+- gratuit-s-entrainer-768.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 2304px
+- gratuit-s-entrainer-1280.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1813px
+- gratuit-s-entrainer-1456.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1813px
+- gratuit-s-entrainer-1920.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1813px
+- en-cours-s-entrainer-375.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 2999px
+- en-cours-s-entrainer-768.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 2255px
+- en-cours-s-entrainer-1280.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1607px
+- en-cours-s-entrainer-1456.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1607px
+- en-cours-s-entrainer-1920.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1607px
+- nouvel-s-entrainer-375.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 3045px
+- nouvel-s-entrainer-768.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 2213px
+- nouvel-s-entrainer-1280.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1631px
+- nouvel-s-entrainer-1456.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1631px
+- nouvel-s-entrainer-1920.png : /mon-espace/s-entrainer (page), HTTP 200, hauteur 1631px
