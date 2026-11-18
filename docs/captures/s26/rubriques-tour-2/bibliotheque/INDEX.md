@@ -1,0 +1,22 @@
+# Captures bibliotheque (2026-11-18T12:15, http://localhost:5400)
+
+- visiteur-bibliotheque-375.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 2905px
+- visiteur-bibliotheque-768.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 2218px
+- visiteur-bibliotheque-1280.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1727px
+- visiteur-bibliotheque-1456.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1727px
+- visiteur-bibliotheque-1920.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1727px
+- gratuit-bibliotheque-375.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 2917px
+- gratuit-bibliotheque-768.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 2250px
+- gratuit-bibliotheque-1280.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1727px
+- gratuit-bibliotheque-1456.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1727px
+- gratuit-bibliotheque-1920.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1727px
+- en-cours-bibliotheque-375.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 4291px
+- en-cours-bibliotheque-768.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 2459px
+- en-cours-bibliotheque-1280.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1937px
+- en-cours-bibliotheque-1456.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1937px
+- en-cours-bibliotheque-1920.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1937px
+- nouvel-bibliotheque-375.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 4291px
+- nouvel-bibliotheque-768.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 2459px
+- nouvel-bibliotheque-1280.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1937px
+- nouvel-bibliotheque-1456.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1937px
+- nouvel-bibliotheque-1920.png : /mon-espace/bibliotheque (page), HTTP 200, hauteur 1937px
