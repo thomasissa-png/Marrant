@@ -2,7 +2,7 @@
 # Vérification EN LECTURE SEULE de la page de test : connexion + GET des pages, par compte.
 set -uo pipefail
 URL=https://marrant-preversion.thomas-issa.workers.dev
-D=$(dirname "$(readlink -f "$0")")/verif
+D=${TRAVAIL:-/root/marrant-travail-s26}/verif  # hors dépôt (s26)
 mkdir -p "$D"
 PAGES="/mon-espace /mon-espace/s-entrainer /parcours /favoris /profil /lettre /carnet"
 for compte in abonne-en-cours nouvel-abonne inscrit-gratuit; do
