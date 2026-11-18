@@ -5,7 +5,8 @@ import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
 import { lireLecteurApercu } from "@/components/espace/apercu/acces";
-import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
+import { metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
+import { ApercuSEntrainer } from "@/components/espace/apercu/apercu-s-entrainer";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import { hrefFiche } from "@/lib/espace/premier-pas";
 import { lireRafale } from "@/lib/espace/cartes-serveur";
@@ -54,7 +55,7 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
   // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
   // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
   const lecteur = await lireLecteurApercu();
-  if (lecteur) return <ApercuRubrique rubrique="sEntrainer" visiteur={lecteur === "visiteur"} />;
+  if (lecteur) return <ApercuSEntrainer visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/s-entrainer");
   const acces = { acces: "ouvert" as const, userId };
   const [etat, retours] = await Promise.all([lireRafale(userId, acces), lireRetoursMission(userId)]);

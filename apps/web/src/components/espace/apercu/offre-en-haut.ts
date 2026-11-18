@@ -9,7 +9,14 @@ import { ESPACE_ACCUEIL } from "@/config/espace-client";
  * l'en-tête. Une rubrique qui passe à `ApercuVerrouille` s'ajoute ici. Module sans dépendance serveur (lu par
  * l'en-tête, composant client) ; l'abonné n'a jamais ce bouton, la règle ne le concerne pas.
  */
-export const ADRESSES_OFFRE_EN_HAUT: readonly string[] = [ESPACE_ACCUEIL];
+export const ADRESSES_OFFRE_EN_HAUT: readonly string[] = [
+  ESPACE_ACCUEIL,
+  // s26 (`docs/ux/rubriques-premium-s26.md` §0) : les trois rubriques passées à `ApercuVerrouille`. Écrites ici, pas
+  // lues de `ADRESSES_APERCU` (`acces.ts` importe la garde, côté serveur) ; égalité vérifiée par le test.
+  `${ESPACE_ACCUEIL}/quoi-repondre`,
+  `${ESPACE_ACCUEIL}/bibliotheque`,
+  `${ESPACE_ACCUEIL}/s-entrainer`,
+];
 
 /** Vrai pour l'adresse exacte d'un aperçu à offre en haut (paramètres et ancre ignorés). */
 export function offreEnHaut(chemin: string | null | undefined): boolean {

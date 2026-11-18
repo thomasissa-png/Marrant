@@ -50,6 +50,16 @@ export const TEXTES_APERCU_VERROUILLE = {
   /** T1 : promesse du hero de l'aperçu d'« Aujourd'hui » (version B ; 1 ligne à 1280, 2 à 375, mesuré au v7 tour 13). */
   // validé par Thomas le 16/11
   promesseAujourdhui: "Cinq minutes par jour pour oser répondre au lieu de te taire.",
+  /** Promesse du hero de l'aperçu de « Quoi répondre » (s26, `docs/ux/rubriques-premium-s26.md` §1.1). */
+  // À VALIDER PAR THOMAS (s26), proposition recommandée par @copywriter, voir docs/copy/promesses-apercus-s26.md
+  promesseQuoiRepondre: "La bonne réplique sous la main, au moment où on te chambre.",
+  /** Promesse du hero de l'aperçu de « Bibliothèque » (s26, spec §2.1). */
+  // À VALIDER PAR THOMAS (s26), proposition recommandée par @copywriter, voir docs/copy/promesses-apercus-s26.md
+  promesseBibliotheque: "Repère ce qui fait rire, puis fais-le à ta façon.",
+  /** Promesse du hero de l'aperçu de « S'entraîner » (s26, spec §3.1). Vérifié : les 30 jeux, les cartes, les missions
+   * et les séances ne notent rien (aucun score, aucune XP), la phrase est vraie pour toute la rubrique. */
+  // À VALIDER PAR THOMAS (s26), proposition recommandée par @copywriter, voir docs/copy/promesses-apercus-s26.md
+  promesseSEntrainer: "Ici, rien n'est noté : tu t'essaies avant que ça compte.",
   /** T2 : phrase de fin d'extrait, toutes rubriques. */
   // À VALIDER PAR THOMAS (s25)
   suite: "La suite est dans Premium",
