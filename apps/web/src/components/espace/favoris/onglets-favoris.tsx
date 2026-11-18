@@ -69,7 +69,10 @@ export function OngletsFavoris({
   return (
     <>
       {/* `RangeeOnglets` porte le `role="tablist"` ; les flèches remontent jusqu'à ce conteneur. */}
-      <div className="lg:hidden" onKeyDown={(e) => auClavier(e, actif, choisir)}>
+      {/* s26 tour 3 : 52 px entre la rangée et la première carte sous 1024 (`mb-6` et `pb-1` de la rangée, puis `gap-6`
+          de la grille). La rangée garde sa marge (ses autres usages) et son `pb-1` (anneau de focus non rogné) : les
+          28 px en trop sont repris ici, il reste les 24 px de la grille. */}
+      <div className="-mb-7 lg:hidden" onKeyDown={(e) => auClavier(e, actif, choisir)}>
         <RangeeOnglets label="Type de favoris">{TABS.map((t) => onglet(t, false))}</RangeeOnglets>
       </div>
       <div

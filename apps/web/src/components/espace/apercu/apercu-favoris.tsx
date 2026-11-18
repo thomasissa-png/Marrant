@@ -29,10 +29,14 @@ function TypeFerme({ type, className }: { type: keyof typeof TYPE_FAVORI; classN
  * Rangée 1 : vanne (5, chute visible) et conseil REPLIÉ (7, titre et deux lignes, plus de bloc « Exemple ») ; mêmes
  * cartes que l'abonné, sans « Retirer » ni « Partager ». Rangée 2 sous le fondu : une vidéo fermée (12).
  * Catalogue vide ou base indisponible (`null`) : deux tuiles fermées 6/6, jamais une colonne vide.
+ * s26 tour 3 (relecture design du tour 2 des encarts) : à 1280 x 900, le haut de la carte de fin (bord violet, y 870)
+ * entrait dans le premier écran (64 px d'écart, proposés, le laissaient à 886). Dès 1024, 48 px de plus sous la vidéo
+ * fermée, sur Favoris seulement : 96 px entre la dernière tuile et la carte de fin (48 sur les autres aperçus), bord à
+ * y 909 à 1280, 1456 et 1920 (carte d'offre du hero raccourcie de 9 px au même tour), sous le pli à 900 px de haut.
  */
 function ExtraitFavoris({ favoris }: { favoris: ExemplesFavoris | null }) {
   return (
-    <div data-apercu-fiche="favoris-exemples">
+    <div className="lg:pb-12" data-apercu-fiche="favoris-exemples">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1">
         {favoris ? (
           <>

@@ -125,7 +125,11 @@ export function OffreApercu({
           <Reassurance className={cn(visiteur ? "mt-2 md:mt-4" : "mt-6", "md:max-lg:mt-0 md:max-lg:text-left", META)} />
           <Preuve masqueeLg={preuveHors} />
           {visiteur && (
-            <div className="mt-auto pt-4 md:pt-6 md:max-lg:pt-0">
+            // s26 tour 3 (piste 1 de la relecture design du tour 2) : le lien de 44 px centre son texte, d'où 38 px d'air
+            // sous le texte contre 24 au-dessus du bouton (1280 ; 30 contre 16 à 375). `-mb-3.5` : la cible garde ses
+            // 44 px et descend de 14 px dans la marge de la carte, l'air sous le texte égale celui du haut. De 768 à 1023
+            // (contenu en ligne, centré), rien ne change.
+            <div className="-mb-3.5 mt-auto pt-4 md:pt-6 md:max-lg:mb-0 md:max-lg:pt-0">
               <p className={cn("flex justify-center border-t border-border pt-2 md:max-lg:justify-start md:max-lg:border-t-0 md:max-lg:pt-0", !preuveHors && "border-t-0")}>
                 {/* v7 tour 2 (piste) : cible de 44 px en hauteur ET en largeur, posée ici (ne dépend pas seulement de `LIEN`). */}
                 <Link href={buildLoginUrl({ callbackUrl: adresse })} className={cn(LIEN, "inline-flex min-h-11 min-w-11 items-center justify-center text-text-secondary")}>
