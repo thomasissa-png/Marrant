@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s26, « Aujourd'hui » tour 14 (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : barres des répliques verrouillées de l'aperçu un peu plus visibles (`bg-border-hover`, `apercu/repliques-fermees.tsx`). Aucun texte, aucune taille ajoutée. Interrupteur à `false` : site fermé identique.
+- **Env / migrations / packages** : aucun. Production (Worker `marrant`) : rien sans le go écrit de Thomas. Page de test seulement (`page-de-test.sh --envoyer`).
+
 ### s25, correctif /lettre 375 (site fermé), à déployer au go de Thomas
 
 Décision de Thomas du 16/11 (`docs/founder-preferences.md`). Branche `claude/decisions-thomas-16-11`. **Seul changement visible du site fermé** (interrupteur `ESPACE_CLIENT_PUBLIE` à `false`) : sur `/lettre`, le corps du dernier numéro reçoit `min-w-0 [overflow-wrap:anywhere]` (`app/(dashboard)/lettre/page.tsx`) ; les adresses longues se coupent, plus de débordement horizontal à 375 px. Texte, adresses et ordre inchangés. Aucune variable, aucune migration, aucun secret. Contrôle après déploiement : `/lettre` à 375 px, aucune barre de défilement horizontale. Les autres décisions du 16/11 (bilan, liens sans `utm_*`, vannes mélangées, retour au sommaire du carnet) ne s'affichent qu'interrupteur ouvert. Retour arrière : la version N-1 relevée avant le déploiement.

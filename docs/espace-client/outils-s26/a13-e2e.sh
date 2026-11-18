@@ -2,7 +2,7 @@
 # Tour 13 : serveur de test OUVERT sur 5500, base jetable marrant_e2e_a13, SANS nouvelle copie de build : le build
 # ouvert de la préversion (copie hors dépôt) est réutilisé, DATABASE_URL lu au démarrage. Usage : a13-e2e.sh demarrer|arreter
 set -euo pipefail
-S=/tmp/claude-0/-home-user-Marrant/d6602e0f-29e9-5866-8a98-b2a3406a6992/scratchpad/integ
+S=${TRAVAIL:-/root/marrant-travail-s26}/integ
 WEB=/root/marrant-preversion-s25/depot/apps/web
 PORT=5500; RESEND=5402; BASE=marrant_e2e_a13
 DB="postgresql://preversion:preversion@127.0.0.1:5432/$BASE"

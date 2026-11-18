@@ -71,7 +71,7 @@ describe("point 1 : vitrine des répliques, verrouillage réel", () => {
       expect(c.querySelectorAll("svg")).toHaveLength(1);
       const barres = c.querySelectorAll("[data-barres-replique] > span");
       expect(barres).toHaveLength(2);
-      for (const b of Array.from(barres)) expect(classes(b)).toEqual(expect.arrayContaining(["bg-border", "rounded-full"]));
+      for (const b of Array.from(barres)) expect(classes(b)).toEqual(expect.arrayContaining(["bg-border-hover", "rounded-full"]));
       expect(c.innerHTML).not.toMatch(/accent|violet/);
       expect(c.textContent).toBe(c.querySelector("p")?.textContent);
     }

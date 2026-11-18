@@ -1,5 +1,5 @@
 // tailles.mjs + connexion (storageState, comme captures-sections.mjs) : 4 comptes x largeurs, premier écran de main.
-// node tailles-comptes.mjs [base] ; LARGEURS=375,1280 par défaut.
+// node tailles-comptes.mjs [base] ; LARGEURS=375,1280 par défaut ; PAGE=/mon-espace par défaut (s26 : toute rubrique).
 import { createRequire } from "node:module";
 const { chromium } = createRequire(import.meta.url)("/opt/node-tools/node_modules/playwright/index.js");
 import { mkdirSync, existsSync } from "node:fs";
@@ -9,7 +9,7 @@ const BASE = process.argv[2] || "http://localhost:5400";
 const LARGEURS = (process.env.LARGEURS || "375,1280").split(",").map(Number);
 const MDP = "preversion-s24";
 const COMPTES = { visiteur: null, gratuit: "inscrit-gratuit@preversion.test", "en-cours": "abonne-en-cours@preversion.test", nouvel: "nouvel-abonne@preversion.test" };
-const etatDir = "/tmp/claude-0/-home-user-Marrant/d6602e0f-29e9-5866-8a98-b2a3406a6992/scratchpad/etats-tailles";
+const etatDir = (process.env.TRAVAIL || "/root/marrant-travail-s26") + "/etats-tailles";
 mkdirSync(etatDir, { recursive: true });
 const b = await chromium.launch();
 const ip = () => `10.${[1, 2, 3].map(() => Math.floor(Math.random() * 250)).join(".")}`;
@@ -36,7 +36,7 @@ for (const compte of Object.keys(COMPTES)) {
     const h = w < 768 ? 812 : 900;
     const ctx = await b.newContext({ viewport: { width: w, height: h }, colorScheme: "dark", storageState });
     const p = await ctx.newPage();
-    await p.goto(BASE + "/mon-espace", { waitUntil: "networkidle" });
+    await p.goto(BASE + (process.env.PAGE || "/mon-espace"), { waitUntil: "networkidle" });
     const r = await p.evaluate((h) => {
       const m = new Map();
       const root = document.querySelector("main") || document.body;
