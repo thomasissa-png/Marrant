@@ -6,7 +6,9 @@ import { TEXTES_COIN } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CARTES as TEXTES_CARTES_BRUT } from "@/config/textes/espace-cartes";
 import type { LigneFiche } from "@/lib/espace/lignes-fiches";
 import { appelEspace } from "@/components/espace/carte/appel";
-import { BOUTON_SECONDAIRE, CARTE } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CADRE_CARTE_RUBRIQUE, CARTE } from "@/components/espace/carte/styles";
+import { TEXTE, TITRE_CARTE } from "@/components/espace/typo";
+import { cn } from "@/lib/utils";
 import { ListeFiches } from "@/components/espace/liste-fiches";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
@@ -70,13 +72,19 @@ export function CoinHumourNoir({ lignesInitiales, versFiche = false }: { lignesI
   return (
     <>
     {titreDePage}
-    <section aria-labelledby="coin-titre" className={CARTE} data-coin={lignes ? "entre" : "seuil"}>
+    {/* s26 (Bibliothèque abonné, spec UX §2.2) : dans la Bibliothèque, cadre des rubriques et échelle `typo.ts`, comme
+        les autres blocs ; à l'adresse d'une fiche (`versFiche`), la carte d'avant (hors périmètre s26). */}
+    <section
+      aria-labelledby="coin-titre"
+      className={versFiche ? CARTE : cn(CADRE_CARTE_RUBRIQUE, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]")}
+      data-coin={lignes ? "entre" : "seuil"}
+    >
       {!versFiche && (
-        <h2 id="coin-titre" ref={titre} tabIndex={-1} className={`font-display text-xl font-bold text-text-primary ${classeTitre}`}>
+        <h2 id="coin-titre" ref={titre} tabIndex={-1} className={cn(TITRE_CARTE, classeTitre)}>
           {T.titre}
         </h2>
       )}
-      <p className="text-base text-text-primary">{T.phrase}</p>
+      <p className={versFiche ? "text-base text-text-primary" : TEXTE}>{T.phrase}</p>
       {lignes === null ? (
         <button
           ref={entrer}
@@ -92,7 +100,7 @@ export function CoinHumourNoir({ lignesInitiales, versFiche = false }: { lignesI
       ) : (
         <div id="coin-contenu" className="space-y-4">
           {lignes.length > 0 ? (
-            <ListeFiches lignes={lignes} labelledBy="coin-titre" />
+            <ListeFiches lignes={lignes} labelledBy="coin-titre" marquerProchaine={!versFiche} />
           ) : (
             <p className="text-base text-text-secondary" data-testid="coin-vide">
               {T.vide}

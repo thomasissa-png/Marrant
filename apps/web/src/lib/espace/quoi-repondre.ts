@@ -18,6 +18,14 @@ export interface FiltresSituations {
 
 const premier = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 
+/**
+ * s26 (vue abonné, `docs/ux/rubriques-premium-s26.md` §1.2) : la prochaine action, première fiche sans « Fait » dans
+ * l'ordre donné (celui de la liste affichée) ; null quand tout est fait (la tuile d'action disparaît).
+ */
+export function premiereSansFait<F extends { id: string }>(fiches: readonly F[], faits: ReadonlySet<string>): F | null {
+  return fiches.find((f) => !faits.has(f.id)) ?? null;
+}
+
 export function lireFiltres(params: Record<string, string | string[] | undefined>): FiltresSituations {
   const ou = premier(params.ou);
   const pour = premier(params.pour);

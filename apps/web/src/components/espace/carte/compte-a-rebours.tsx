@@ -81,7 +81,7 @@ export function CompteARebours({
   return (
     <div className="space-y-2" data-compte-a-rebours>
       {proposition && (
-        <div role="group" aria-labelledby={`${id}-p`} className="space-y-2 rounded-md bg-background-light p-3">
+        <div role="group" aria-labelledby={`${id}-p`} className="space-y-2 rounded-xl bg-background-light p-4">
           <p id={`${id}-p`} className="text-sm text-text-primary">
             {T.proposition(proposition.essayer, proposition.garder)}
           </p>

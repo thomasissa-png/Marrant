@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/layout/page-header";
 import { cookies } from "next/headers";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
@@ -17,9 +16,9 @@ import type { Fiche } from "@/lib/espace/fiches-schema";
 import { TEXTES_BIBLIOTHEQUE } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CAPS as TEXTES_CAPS_BRUT } from "@/config/textes/espace-caps";
 import { BlocBibliotheque, BlocVannes } from "@/components/espace/bloc-bibliotheque";
-import { EN_TETE_CENTRE } from "@/components/espace/carte/styles";
 import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
-import { ListeFiches } from "@/components/espace/liste-fiches";
+import { ListeFiches, compteFaits } from "@/components/espace/liste-fiches";
+import { TITRE_PAGE } from "@/components/espace/typo";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -66,23 +65,27 @@ export default async function BibliothequePage() {
   const entre = coinEntre(cookies().get(COOKIE_COIN)?.value);
 
   return (
-    <div>
-      {/* Relecture des captures nav s24 (design 1, ux F1) : cinq cartes réparties en deux colonnes équilibrées dès
-          768 px (colonnes CSS : chaque carte à la hauteur de son contenu, aucun vide sous une colonne étirée) :
-          vannes, coin « Humour noir », puis une carte par groupe de techniques, titrée par le préfixe validé
-          (« Comment c'est construit », « Vocabulaire », « Formules à détourner ») au lieu de le répéter à chaque ligne. */}
-      <div className={EN_TETE_CENTRE}>
-        <PageHeader title={T.titre} />
-      </div>
-      <div className="gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid">
+    <div className="pb-16">
+      {/* s26 (spec UX §2.2) : en-tête aligné à gauche (plus de centrage), comme « Aujourd'hui ». */}
+      <header>
+        <h1 className={TITRE_PAGE}>{T.titre}</h1>
+      </header>
+      {/* Relecture des captures nav s24 (design 1, ux F1) : cartes en colonnes CSS (chaque carte à la hauteur de son
+          contenu, aucun vide sous une colonne étirée) : vannes, coin « Humour noir », puis une carte par groupe de
+          techniques, titrée par le préfixe validé (« Comment c'est construit », « Vocabulaire », « Formules à
+          détourner ») au lieu de le répéter à chaque ligne. s26 : 1 colonne, 2 dès 768 px, 3 dès 1024 px (4/4/4) ;
+          coin absent, pas de carte et pas de trou. Chaque bloc : « faits/total » et sa prochaine ligne marquée. */}
+      <div className="mt-8 gap-6 md:columns-2 lg:columns-3 [&>*]:mb-6 [&>*]:break-inside-avoid" data-bibliotheque-grille>
         <BlocVannes ecouter={[...lignesSansPrefixe("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
         {coin.length > 0 && <CoinHumourNoir lignesInitiales={entre ? coin.map((x) => ligneDeFiche(x, faits)) : null} />}
         {(["construction", "vocabulaire", "formule"] as const).map((type) => {
           const groupe = [...lignesSansPrefixe(type), ...(type === "formule" ? bonus.filter((b) => b.cap === 5).map(marque) : [])];
           if (groupe.length === 0) return null;
           return (
-            <BlocBibliotheque key={type} id={`groupe-${type}`} titre={T.prefixes[type]}>
-              <ListeFiches lignes={groupe} labelledBy={`groupe-${type}`} groupe={T.prefixes[type]} />
+            <BlocBibliotheque key={type} id={`groupe-${type}`} titre={T.prefixes[type]} compte={compteFaits(groupe)}>
+              <div className="mt-4">
+                <ListeFiches lignes={groupe} labelledBy={`groupe-${type}`} groupe={T.prefixes[type]} marquerProchaine />
+              </div>
             </BlocBibliotheque>
           );
         })}

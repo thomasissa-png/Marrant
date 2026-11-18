@@ -8,7 +8,8 @@ export function Marches({ n }: { n: number }) {
   return (
     <span className="inline-flex items-end gap-0.5" aria-hidden="true">
       {hauteurs.map((h, i) => (
-        <i key={h} className={`block w-1.5 ${h} ${i < n ? "bg-accent-link" : "border border-border-input"}`} />
+        // s26 (typo s25 §2.1) : remplissage gris clair, comme les barres et segments (plus de violet hors bouton plein).
+        <i key={h} className={`block w-1.5 ${h} ${i < n ? "bg-text-secondary" : "border border-border-input"}`} />
       ))}
     </span>
   );

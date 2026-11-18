@@ -81,6 +81,15 @@ export function marcheProposee(retours: readonly RetourMissionLu[]): NumeroMarch
 }
 
 /**
+ * s26 (« S'entraîner » abonné, `docs/ux/rubriques-premium-s26.md` §3.2 b) : marches marquées « Fait » dans l'échelle,
+ * celles où l'abonné a dit « Essayé, ça a marché » au moins une fois (le seul retour qui fait monter d'une marche).
+ * Dérivé de `lireRetoursMission` seulement ; « bof » et « pas essayé » ne comptent pas.
+ */
+export function marchesReussies(retours: readonly RetourMissionLu[]): ReadonlySet<NumeroMarche> {
+  return new Set(retours.filter((r) => r.retour === "essaye-ca-a-marche").map((r) => borne(r.marche)));
+}
+
+/**
  * Mission d'une marche : celle laissée en « Pas essayé » si elle est de cette marche (elle reste là),
  * sinon la première pas encore essayée, en sautant `exclure` (« une autre situation »). Null : aucune.
  */
