@@ -10,8 +10,10 @@ import { CompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import type { DureeCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
-import type { ApresReponse } from "@/components/espace/carte/carte-registre";
-import { CARTE, ETIQUETTE, nouvelleCle } from "@/components/espace/carte/styles";
+import { cadreCarte, type ApresReponse, type CadreCarte } from "@/components/espace/carte/carte-registre";
+import { nouvelleCle } from "@/components/espace/carte/styles";
+import { ETIQUETTE, META, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
+import { cn } from "@/lib/utils";
 import { entreGuillemets } from "@/components/espace/carte/citation";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
@@ -25,7 +27,7 @@ const T = frEspaceProfond(TEXTES_CARTES);
  * APRÈS la réponse ; « Le pourquoi » du carnet. Aucun texte du carnet modifié, aucun texte neuf.
  * Servie pour les fiches relues du carnet (porte G5 franchie, `lib/espace/carnet-cartes.ts`).
  */
-export function CarteEtToi({ carte, nouvelle, ancre }: { carte: Carte; nouvelle: boolean; ancre: string }) {
+export function CarteEtToi({ carte, nouvelle, ancre, cadre = "action" }: { carte: Carte; nouvelle: boolean; ancre: string; cadre?: CadreCarte }) {
   const cle = useRef(nouvelleCle());
   const [reponse, setReponse] = useState<ReponseCarte | null>(null);
   const [apres, setApres] = useState<ApresReponse | null>(null);
@@ -41,44 +43,44 @@ export function CarteEtToi({ carte, nouvelle, ancre }: { carte: Carte; nouvelle:
   };
 
   const ambiance = (etiquette: string, texte: string) => (
-    <p className="flex flex-wrap items-start gap-2 text-base text-text-primary">
-      <span className="rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary">{etiquette}</span>
+    <p className={cn("flex flex-wrap items-start gap-2", TEXTE, "text-text-primary")}>
+      <span className={cn("rounded-full border border-border-input px-3 py-1", META)}>{etiquette}</span>
       <span className="min-w-0 flex-1">{texte}</span>
     </p>
   );
 
   return (
-    // v6 tour 4 (arbitrage 1) : une seule disposition, les blocs l'un sous l'autre (`CARTE`), dans la colonne de la page.
-    <article id={ancre} aria-labelledby={titreId} className={CARTE} data-carte={carte.id}>
+    // s26 : les blocs l'un sous l'autre, dans la colonne des cartes (7 colonnes dès 1024 px) ; cadre selon la place.
+    <article id={ancre} aria-labelledby={titreId} className={cadreCarte(cadre)} data-carte={carte.id} data-cadre={cadre}>
       <EnTeteCarte id={titreId} titre={carte.titre} nouvelle={nouvelle} />
       <div className="space-y-2">
         <h3 className={ETIQUETTE}>{T.scene}</h3>
-        <p className="text-base text-text-primary">{carte.scene}</p>
-        <p className="text-base font-semibold text-text-primary">{entreGuillemets(carte.onTeDit)}</p>
+        <p className={TEXTE}>{carte.scene}</p>
+        <p className={TEXTE_FORT}>{entreGuillemets(carte.onTeDit)}</p>
       </div>
-      <div className="space-y-1">
-        <h3 className="text-base font-semibold text-text-primary">{T.reponseDabord}</h3>
-        <p className="text-sm text-text-secondary">{T.consigne}</p>
+      <div className="space-y-2">
+        <h3 className={TEXTE_FORT}>{T.reponseDabord}</h3>
+        <p className={META}>{T.consigne}</p>
       </div>
       <CompteARebours repondu={reponse !== null} proposer={ancre === "carte-1"} onChange={setCompte} />
       <BoutonsReponse reponse={reponse} revision={!nouvelle} compteActif={compte !== null} onRepondre={(r) => void repondre(r)} />
       {echec && (
-        <p role="status" className="text-sm text-text-secondary">
+        <p role="status" className={META}>
           {T.echec}
         </p>
       )}
       {reponse && (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {ambiance(T.ambiances.detendue, carte.reponse)}
           {ambiance(T.ambiances.tendue, carte.siTendu)}
           {apres?.revision && apres.replique && (
-            <p className="text-sm text-text-secondary" data-testid="replique-derniere-fois">
+            <p className={META} data-testid="replique-derniere-fois">
               {T.repliqueDerniereFois}
               <span className="text-text-primary">{apres.replique}</span>
             </p>
           )}
           <h3 className={ETIQUETTE}>{T.pourquoi}</h3>
-          <p className="text-base text-text-primary">{carte.pourquoi}</p>
+          <p className={TEXTE}>{carte.pourquoi}</p>
         </div>
       )}
       {reponse && apres && carte.exercice && (

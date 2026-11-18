@@ -131,10 +131,13 @@ describe("point 4 : séance, étape « Observation » en liste numérotée, text
 });
 
 describe("point 5 : S'entraîner, cartes pleine ligne (remplacé par le tour 3, puis par le tour 4, arbitrage 1)", () => {
-  it("plus de mesure plafonnée dans une carte pleine ligne ; cartes empilées en colonne centrée (`v6-tour4-lot1.test.tsx`)", () => {
+  // s26 (`docs/design/rubriques-abonne-s26.md` §2.1, retour de Thomas : plus de colonne centrée seule) : la colonne
+  // centrée du tour 4 est remplacée par la grille 7/5 (`rubriques-abonne-s26.test.tsx`).
+  it("plus de mesure plafonnée dans une carte pleine ligne ; plus de colonne centrée, grille 7/5 (s26)", () => {
     const page = lire("app/(dashboard)/mon-espace/s-entrainer/page.tsx");
     expect(page).not.toContain("MESURE_PLEINE_LIGNE");
-    expect(page).toContain("<div className={COLONNE_ENTRAINEMENT}>");
+    expect(page).not.toContain("COLONNE_ENTRAINEMENT");
+    expect(page).toMatch(/lg:col-span-7[\s\S]*lg:col-span-5/);
   });
 });
 

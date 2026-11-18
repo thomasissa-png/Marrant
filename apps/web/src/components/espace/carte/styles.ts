@@ -1,3 +1,5 @@
+import { META } from "@/components/espace/typo";
+
 /**
  * Classes communes des cartes, du geste et des missions (s24, lot D5) : tokens existants seulement,
  * cibles de 44 px au moins, focus visible, boutons qui passent à la ligne à 200 % de texte.
@@ -34,6 +36,15 @@ export const CADRE_CARTE = `relative overflow-hidden rounded-xl border border-bo
  */
 export const CADRE_CARTE_NEUTRE = "relative overflow-hidden rounded-xl border border-border bg-background-card";
 
+/**
+ * s26 (vue abonné de « Quoi répondre », « Bibliothèque », « S'entraîner » ; `docs/design/rubriques-abonne-s26.md` §0) :
+ * cadre des cartes de LISTE de ces trois pages (tuiles par lieu, blocs de la Bibliothèque et coin, cartes repliées de
+ * la rafale, mission). [ARBITRAGE À CONFIRMER PAR THOMAS] filet violet retiré (« un seul accent violet, le bouton
+ * plein », 16/11). Pour remettre le filet du 15/11 : `CADRE_CARTE` ici, un seul changement ; la tuile d'action, le
+ * rail de filtres et l'échelle des marches gardent `CADRE_CARTE_NEUTRE` dans les deux cas (repli de la spec design).
+ */
+export const CADRE_CARTE_RUBRIQUE: string = CADRE_CARTE_NEUTRE;
+
 export const CARTE = `min-w-0 space-y-4 ${CADRE_CARTE} p-4 md:p-6 [overflow-wrap:anywhere]`;
 
 /**
@@ -51,14 +62,13 @@ export const SOMMAIRE_REPLIABLE =
  */
 export const EN_TETE_CENTRE = "text-center [&_header>p]:mx-auto";
 
-/**
- * v6 tour 4 (arbitrage 1, Thomas, remplace la grille du tour 3 et la sous-grille) : les cartes de « S'entraîner »
- * (rafale, mission) sont empilées dans une colonne centrée, même gabarit que les fiches jeu et bilan, la lettre et les
- * aperçus. Une disposition par carte, `CARTE` seul (blocs l'un sous l'autre, `space-y-4`) : jamais étirée, aucun vide.
- */
-export const COLONNE_ENTRAINEMENT = "mx-auto max-w-3xl space-y-6";
-
 export const ETIQUETTE = "text-xs font-semibold uppercase tracking-wide text-text-muted";
+
+/**
+ * s26 (rubriques abonné, `docs/design/rubriques-abonne-s26.md` §0) : lien secondaire NEUTRE (carnet, catalogue,
+ * « Raconte-la à l'équipe », marches) : `META` souligné, jamais violet, cible de 44 px, focus visible.
+ */
+export const LIEN_NEUTRE = `${META} inline-flex min-h-11 items-center underline underline-offset-2 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary`;
 
 export const LIEN = "inline-flex min-h-11 items-center text-sm text-accent-link underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
 

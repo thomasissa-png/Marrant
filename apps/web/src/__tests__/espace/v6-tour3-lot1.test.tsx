@@ -22,7 +22,7 @@ jest.mock("next-auth", () => ({ getServerSession: jest.fn() }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 
-import { CARTE, EN_TETE_CENTRE, LIEN } from "@/components/espace/carte/styles";
+import { CARTE, EN_TETE_CENTRE, LIEN, LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { ApercuRubrique } from "@/components/espace/apercu/apercu-rubrique";
 import { categoriesQuoiRepondre, ficheApercu } from "@/components/espace/apercu/exemples";
 import { CorpsSituation } from "@/components/espace/fiche/corps-situation";
@@ -43,8 +43,15 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
     expect(EN_TETE_CENTRE).toBe("text-center [&_header>p]:mx-auto");
   });
 
-  it.each(["bibliotheque", "s-entrainer", "quoi-repondre", "questions", "repliques"])("rubrique %s : `PageHeader` dans le conteneur centré", (r) => {
+  it.each(["questions", "repliques"])("rubrique %s : `PageHeader` dans le conteneur centré", (r) => {
     expect(lire(`app/(dashboard)/mon-espace/${r}/page.tsx`)).toMatch(/<div className=\{EN_TETE_CENTRE\}>\s*<PageHeader /);
+  });
+
+  // s26 (`docs/design/rubriques-abonne-s26.md` §0, spec UX §2.2) : vue abonné alignée à gauche comme « Aujourd'hui ».
+  it.each(["bibliotheque", "s-entrainer", "quoi-repondre"])("rubrique %s (s26) : en-tête à gauche, H1 en `TITRE_PAGE`, plus centré", (r) => {
+    const page = lire(`app/(dashboard)/mon-espace/${r}/page.tsx`);
+    expect(page).toMatch(/<header>\s*<h1 className=\{TITRE_PAGE\}>/);
+    expect(page).not.toMatch(/EN_TETE_CENTRE|PageHeader|text-center/);
   });
 
   it.each(["quoi-repondre/loading.tsx", "quoi-repondre/error.tsx", "questions/loading.tsx", "questions/error.tsx"])("%s : même en-tête centré", (f) => {
@@ -76,17 +83,19 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
 // v6 tour 4 (arbitrage 1, Thomas) : la grille de cartes jumelles du tour 3 est remplacée par une colonne centrée
 // (`v6-tour4-lot1.test.tsx`). Intention gardée : aucun trou dans une carte, aucune colonne vide à côté d'une carte.
 describe("point 2 : S'entraîner, aucun trou dans une carte ni à côté (colonne centrée depuis le tour 4)", () => {
-  it("cartes et mission dans le cadre `CARTE` seul (ni étirement, ni colonnes internes)", () => {
+  // s26 : cadre selon la place (`cadreCarte` : zone d'action ou corps replié ; mission : `CADRE_CARTE_RUBRIQUE`), même
+  // intention : ni étirement, ni colonnes internes.
+  it("cartes et mission : un cadre, ni étirement ni colonnes internes (s26)", () => {
     for (const f of ["components/espace/carte/carte-registre.tsx", "components/espace/carte/carte-et-toi.tsx", "components/espace/mission/mission-carte.tsx"]) {
       const source = lire(f);
-      expect(source).toContain("className={CARTE}");
+      expect(source).toMatch(/className=\{cadreCarte\(cadre\)\}|className=\{cn\(CADRE_CARTE_RUBRIQUE, /);
       expect(source).not.toMatch(/Entrainement\(|h-full|mt-auto|md:contents|lg:grid-cols-2/);
     }
   });
 
-  it("la page empile les cartes dans `COLONNE_ENTRAINEMENT` (plus de grille à deux colonnes), plus de `max-w-prose`", () => {
+  it("la page : grille 7/5 dès 1024 px (s26), jamais de grille à deux colonnes dès 768, plus de `max-w-prose`", () => {
     const page = lire("app/(dashboard)/mon-espace/s-entrainer/page.tsx");
-    expect(page).toContain("<div className={COLONNE_ENTRAINEMENT}>");
+    expect(page).toContain('className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start"');
     expect(page).not.toMatch(/md:grid-cols-2|md:col-span-2|max-w-prose/);
     expect(CARTE).toContain("space-y-4");
   });
@@ -176,7 +185,9 @@ describe("point 7 : liens autonomes en cible de 44 px", () => {
     expect(LIEN.split(" ")).toEqual(expect.arrayContaining(["inline-flex", "min-h-11", "items-center"]));
     render(<LienRetour href="/mon-espace/bibliotheque" label="Bibliothèque" />);
     expect(classes(screen.getByRole("link"))).toEqual(expect.arrayContaining(["inline-flex", "min-h-11", "items-center"]));
-    expect(lire("components/espace/bloc-bibliotheque.tsx")).toContain("<Link href={c.href} className={LIEN}>");
+    // s26 (spec design §0) : liens secondaires de la Bibliothèque en `LIEN_NEUTRE` (jamais violet), même cible de 44 px.
+    expect(LIEN_NEUTRE.split(" ")).toEqual(expect.arrayContaining(["inline-flex", "min-h-11", "items-center"]));
+    expect(lire("components/espace/bloc-bibliotheque.tsx")).toContain("<Link href={c.href} className={LIEN_NEUTRE}>");
     expect(lire("components/espace/fiche/corps-technique.tsx")).toContain("<Link href={m.definitionComplete} className={LIEN}>");
     expect(lire("components/espace/apercu/apercu-rubrique.tsx")).toContain("className={`${LIEN} min-w-11`}");
   });

@@ -193,6 +193,16 @@ export function choisirNouvelle(e: EntreeRafale, vues: ReadonlySet<string>): Car
   );
 }
 
+/**
+ * s26 (« S'entraîner » abonné, `docs/ux/rubriques-premium-s26.md` §3.2 a) : segments de la rafale du jour, un par
+ * carte du jour (au plus `CARTES_PAR_JOUR`) : `faites` (jouées aujourd'hui, lues par `lireRafale`) puis `cartes`
+ * (restant à faire). Total nul (rien servi aujourd'hui) : aucun segment.
+ */
+export function segmentsRafale(r: Pick<RafaleDuJour, "cartes" | "faites">): { faites: number; total: number } {
+  const total = Math.min(CARTES_PAR_JOUR, r.faites.length + r.cartes.length);
+  return { faites: Math.min(r.faites.length, total), total };
+}
+
 /** Rafale du jour (règles en tête de fichier). */
 export function composerRafale(e: EntreeRafale): RafaleDuJour {
   const jour = jourParis(e.maintenant);

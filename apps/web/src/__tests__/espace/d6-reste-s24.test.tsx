@@ -54,12 +54,20 @@ describe("« Quoi répondre » : filtres repliés sous 640 px", () => {
     expect(resumeFiltres({ ou: null, pour: "prendre-la-parole" })).toBe("Prendre la parole");
   });
 
-  it("dès 640 px : `details` ouvert, summary masqué (rendu déplié)", () => {
+  // s26 (`docs/design/rubriques-abonne-s26.md` §1.3) : repliés jusqu'à 1024 px (768 compris), puis rail ouvert sans
+  // script ; deux instances, une seule affichée (`lg:hidden` / `hidden lg:block`), ids distincts.
+  it("dès 1024 px : rail ouvert hors `details` (repli `lg:hidden`), sans script, ids distincts", () => {
     largeur(true);
     const { container } = render(<FiltresSituations base="/mon-espace/quoi-repondre" filtres={{ ou: null, pour: null }} />);
-    const details = container.querySelector("details")!;
-    expect(details.open).toBe(true);
-    expect(details.querySelector("summary")!.className).toContain("sm:hidden");
+    const repli = container.querySelector("[data-filtres-replies]")!;
+    const rail = container.querySelector("[data-filtres-rail]")!;
+    expect(repli.className.split(" ")).toContain("lg:hidden");
+    expect(rail.className.split(" ")).toEqual(expect.arrayContaining(["hidden", "lg:block"]));
+    expect(repli.querySelector("details")!.open).toBe(false);
+    expect(rail.querySelector("details")).toBeNull();
+    expect(rail.querySelectorAll("a[data-filtre]")).toHaveLength(17);
+    const ids = [...container.querySelectorAll("[id]")].map((e) => e.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 
   it("sous 300 px : puces pleine largeur", () => {

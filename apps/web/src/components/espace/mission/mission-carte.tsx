@@ -8,7 +8,10 @@ import type { SuiteMission } from "@/lib/espace/missions";
 import { enonceAffiche } from "@/lib/espace/enonce-mission";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { LigneRetour } from "@/components/espace/carte/ligne-retour";
-import { BOUTON_PRINCIPAL, CARTE, LIEN, nouvelleCle } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CADRE_CARTE_RUBRIQUE, LIEN_NEUTRE, nouvelleCle } from "@/components/espace/carte/styles";
+import { buttonVariants } from "@/components/ui/button";
+import { ETIQUETTE, META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
+import { cn } from "@/lib/utils";
 import { Marches } from "@/components/espace/mission/marches";
 import { preparerQuestion } from "@/components/espace/questions/prefill";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
@@ -33,8 +36,11 @@ export const hrefMarche = (n: number, autre?: string) =>
  * de la marche, l'énoncé, « Facultative », « Ton retour », puis la suite selon le retour (jamais selon
  * la date) : marche d'au-dessus, même marche avec une autre situation, rien, ou, après deux « Pas
  * essayé », la marche d'en dessous sans commentaire. Une seule mission ouverte à la fois.
+ * s26 (`docs/design/rubriques-abonne-s26.md` §2.3) : cadre des rubriques, échelle `typo.ts`, liens neutres. `principal` :
+ * le bouton de suite (« Voir la marche n ») est l'aplat de l'écran quand la rafale est finie ; sinon en contour (la
+ * carte à faire reste l'action du jour, un seul plein par écran).
  */
-export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; hrefAPlat: string | null }) {
+export function MissionCarte({ mission, hrefAPlat, principal = false }: { mission: MissionVue; hrefAPlat: string | null; principal?: boolean }) {
   const cle = useRef(nouvelleCle());
   const [retour, setRetour] = useState<RetourGeste | null>(null);
   const [suite, setSuite] = useState<SuiteMission | null>(null);
@@ -59,39 +65,41 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
     setSuite(res.suite);
   };
 
+  const boutonSuite = principal ? cn(buttonVariants({ variant: "primary", size: "lg" }), "whitespace-normal") : BOUTON_SECONDAIRE;
+
   const autre = (
-    <Link href={hrefMarche(n, mission.id)} className={LIEN}>
+    <Link href={hrefMarche(n, mission.id)} className={LIEN_NEUTRE}>
       {M.autreSituation}
     </Link>
   );
 
   return (
-    // v6 tour 4 (arbitrage 1) : une seule disposition, les blocs l'un sous l'autre (`CARTE`), dans la colonne de la page.
-    <section id="mission" aria-labelledby="mission-titre" className={CARTE} data-mission={mission.id}>
-      <p className="flex items-end gap-3 text-xs font-semibold text-text-muted">
+    // s26 : colonne de droite (5 colonnes dès 1024 px), sous l'échelle des marches ; blocs l'un sous l'autre.
+    <section id="mission" aria-labelledby="mission-titre" className={cn(CADRE_CARTE_RUBRIQUE, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]")} data-mission={mission.id}>
+      <p className={cn("flex items-end gap-2", ETIQUETTE)}>
         <span>{M.marche(n)}</span>
         <Marches n={n} />
       </p>
-      <h2 id="mission-titre" className="font-display text-xl font-bold text-text-primary max-e300:text-lg">
+      <h2 id="mission-titre" className={TITRE_CARTE}>
         {M.titresMarches[n]}
       </h2>
       <div className="space-y-2">
         {/* Lot D11c : typographie de l'espace APRÈS le retrait du préfixe « DÉFI XXX : » (sa forme d'origine). */}
         {enonceAffiche(mission.enonce).map(frEspace).map((p) => (
-          <p key={p} className="text-base text-text-primary">
+          <p key={p} className={TEXTE}>
             {p}
           </p>
         ))}
       </div>
-      <p className="text-sm text-text-secondary">{M.facultative}</p>
+      <p className={META}>{M.facultative}</p>
       <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} />
       <div role="status" className="space-y-2">
-        {echec && <p className="text-sm text-text-secondary">{TEXTES_CARTES.echec}</p>}
+        {echec && <p className={META}>{TEXTES_CARTES.echec}</p>}
         {suite === "marche" && (
           <>
-            {mission.suites.marche && <p className="text-sm text-text-secondary">{mission.suites.marche}</p>}
+            {mission.suites.marche && <p className={META}>{mission.suites.marche}</p>}
             {n < 5 ? (
-              <Link href={hrefMarche(n + 1)} className={BOUTON_PRINCIPAL}>
+              <Link href={hrefMarche(n + 1)} className={boutonSuite}>
                 {M.voirLaMarche(n + 1)}
               </Link>
             ) : (
@@ -101,19 +109,19 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
         )}
         {suite === "bof" && (
           <>
-            {mission.suites.bof && <p className="text-sm text-text-secondary">{mission.suites.bof}</p>}
+            {mission.suites.bof && <p className={META}>{mission.suites.bof}</p>}
             <ul className="flex flex-col">
               <li>{autre}</li>
               {hrefAPlat && (
                 <li>
-                  <Link href={hrefAPlat} className={LIEN}>
+                  <Link href={hrefAPlat} className={LIEN_NEUTRE}>
                     {M.aPlat}
                   </Link>
                 </li>
               )}
               <li>
                 {/* Lot D7 : « Une situation à gérer » choisie d'avance (navigateur seul, `prefill.ts`). */}
-                <Link href="/mon-espace/questions" className={LIEN} onClick={() => preparerQuestion({ type: "SITUATION" })}>
+                <Link href="/mon-espace/questions" className={LIEN_NEUTRE} onClick={() => preparerQuestion({ type: "SITUATION" })}>
                   {M.raconte}
                 </Link>
               </li>
@@ -122,7 +130,7 @@ export function MissionCarte({ mission, hrefAPlat }: { mission: MissionVue; href
         )}
         {suite === "pas2" &&
           (n > 1 ? (
-            <Link href={hrefMarche(n - 1)} className={BOUTON_PRINCIPAL}>
+            <Link href={hrefMarche(n - 1)} className={boutonSuite}>
               {M.voirLaMarche(n - 1)}
             </Link>
           ) : (

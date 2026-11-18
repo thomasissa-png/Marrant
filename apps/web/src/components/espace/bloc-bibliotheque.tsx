@@ -1,20 +1,41 @@
 import Link from "next/link";
 import { TEXTES_BIBLIOTHEQUE } from "@/config/textes/espace-bibliotheque";
 import type { LigneFiche } from "@/lib/espace/lignes-fiches";
-import { CARTE, LIEN } from "@/components/espace/carte/styles";
-import { ListeFiches } from "@/components/espace/liste-fiches";
+import { CADRE_CARTE_RUBRIQUE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+import { CompteFaits, ListeFiches, compteFaits } from "@/components/espace/liste-fiches";
+import { META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
 
-/** Un bloc de la Bibliothèque (maquette `bibliotheque.html`, `.card`) : titre de niveau 2 et contenu. */
-export function BlocBibliotheque({ id, titre, children, className }: { id: string; titre: string; children: React.ReactNode; className?: string }) {
+/**
+ * Un bloc de la Bibliothèque (maquette `bibliotheque.html`, `.card`) : titre de niveau 2 et contenu.
+ * s26 (`docs/ux/rubriques-premium-s26.md` §2.2) : cadre des rubriques (`CADRE_CARTE_RUBRIQUE`, `p-6`), titre en
+ * `TITRE_CARTE`, et à sa droite le compteur « faits/total » (chiffres seuls) quand le bloc a des lignes.
+ */
+export function BlocBibliotheque({
+  id,
+  titre,
+  children,
+  className,
+  compte,
+}: {
+  id: string;
+  titre: string;
+  children: React.ReactNode;
+  className?: string;
+  compte?: { faits: number; total: number } | null;
+}) {
   return (
-    <section aria-labelledby={id} className={className ? `${CARTE} ${className}` : CARTE}>
-      <h2 id={id} className="font-display text-xl font-bold text-text-primary">
-        {titre}
-      </h2>
+    <section aria-labelledby={id} className={cn(CADRE_CARTE_RUBRIQUE, "min-w-0 p-6 [overflow-wrap:anywhere]", className)} data-bloc={id}>
+      <div className="flex items-baseline justify-between gap-4">
+        <h2 id={id} className={TITRE_CARTE}>
+          {titre}
+        </h2>
+        {compte && compte.total > 0 && <CompteFaits faits={compte.faits} total={compte.total} />}
+      </div>
       {children}
     </section>
   );
@@ -24,16 +45,22 @@ export function BlocBibliotheque({ id, titre, children, className }: { id: strin
  * Bloc « Vannes, conseils, vidéos » (6.2) : ouvert sur les thèmes, pages publiques existantes
  * `/vannes/theme/[slug]` (aucune copie), les liens `/vannes`, `/conseils`, `/videos` (reste du D6), puis « Écouter, repérer » avec les bonus des caps 2 à 4 ouverts
  * (un bonus non ouvert n'existe pas ici : ni ligne grisée ni phrase d'attente, 5.4).
+ * s26 : compteur sur les lignes « Écouter, repérer » (seule partie à faire), prochaine ligne marquée ; sans ligne, le
+ * bloc ne montre que ses thèmes et ses liens (existant).
  */
 export function BlocVannes({ ecouter }: { ecouter: readonly LigneFiche[] }) {
   return (
-    <BlocBibliotheque id="bloc-vannes" titre={T.blocVannes}>
-      <ul aria-label={T.themesNom} className="flex flex-wrap gap-2">
+    <BlocBibliotheque id="bloc-vannes" titre={T.blocVannes} compte={compteFaits(ecouter)}>
+      <ul aria-label={T.themesNom} className="mt-4 flex flex-wrap gap-2">
         {T.themes.map((t) => (
           <li key={t.slug}>
             <Link
               href={`/vannes/theme/${t.slug}`}
-              className="inline-flex min-h-11 items-center rounded-full border border-border-input px-4 text-sm font-medium text-text-primary transition-colors hover:border-text-muted hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+              className={cn(
+                "inline-flex min-h-11 items-center rounded-full border border-border-input px-4 transition-colors hover:border-border-hover hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+                META,
+                "text-text-primary",
+              )}
             >
               {t.label}
             </Link>
@@ -41,22 +68,24 @@ export function BlocVannes({ ecouter }: { ecouter: readonly LigneFiche[] }) {
         ))}
       </ul>
       {/* Reste du D6 : le catalogue complet (la barre de l'abonné remplace les onglets du site). */}
-      <ul className="flex flex-wrap gap-x-4 gap-y-1" data-testid="bibliotheque-catalogue">
+      <ul className="mt-2 flex flex-wrap gap-x-4" data-testid="bibliotheque-catalogue">
         {T.catalogue.map((c) => (
           <li key={c.href}>
-            <Link href={c.href} className={LIEN}>
+            <Link href={c.href} className={LIEN_NEUTRE}>
               {c.label}
             </Link>
           </li>
         ))}
       </ul>
       {ecouter.length > 0 && (
-        <>
-          <h3 id="bloc-ecouter" className="text-base font-semibold text-text-primary">
+        <div className="mt-6 border-t border-border pt-6">
+          <h3 id="bloc-ecouter" className={TEXTE_FORT}>
             {T.ecouter}
           </h3>
-          <ListeFiches lignes={ecouter} labelledBy="bloc-ecouter" />
-        </>
+          <div className="mt-4">
+            <ListeFiches lignes={ecouter} labelledBy="bloc-ecouter" marquerProchaine />
+          </div>
+        </div>
       )}
     </BlocBibliotheque>
   );

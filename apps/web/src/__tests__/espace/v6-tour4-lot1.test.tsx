@@ -25,7 +25,7 @@ import { ficheSchema, type Fiche } from "@/lib/espace/fiches-schema";
 import { cartesDesSituations, cartesDuCarnet } from "@/lib/espace/rafale";
 import { CarteEtToi } from "@/components/espace/carte/carte-et-toi";
 import { CarteRegistre } from "@/components/espace/carte/carte-registre";
-import { CARTE, COLONNE_ENTRAINEMENT } from "@/components/espace/carte/styles";
+import { cadreCarte } from "@/components/espace/carte/carte-registre";
 import { FavorisList } from "@/components/favoris/favoris-list";
 
 const { useSession } = jest.requireMock("next-auth/react");
@@ -48,15 +48,13 @@ const carteRegistre = cartesDesSituations([ficheSchema.parse(situationPoele) as 
 const ETIREMENT = /^(?:[a-z0-9]+:)*(flex-1|h-full|mt-auto|contents|grid-rows-subgrid|grid-cols-2|row-span-\d|col-span-2)$/;
 const etirements = (el: Element) => [el, ...el.querySelectorAll("*")].flatMap(classes).filter((c) => ETIREMENT.test(c));
 
-describe("point 1 : S'entraîner, une colonne centrée, une disposition par carte (arbitrage 1)", () => {
-  it("la colonne : centrée, bornée, cartes empilées", () => {
-    expect(COLONNE_ENTRAINEMENT).toBe("mx-auto max-w-3xl space-y-6");
-  });
-
-  it("« Quel registre ? » : cadre `CARTE`, blocs dans l'ordre (en-tête, scène, contexte, « Ta réponse d'abord », réponses), rien d'étiré", () => {
+// s26 (`docs/design/rubriques-abonne-s26.md` §2, retour de Thomas : plus de colonne centrée seule) : la colonne du tour 4
+// devient la grille 7/5 ; une disposition par carte reste (blocs empilés, rien d'étiré), cadre selon la place.
+describe("point 1 : S'entraîner, une disposition par carte (arbitrage 1 ; colonne remplacée par la grille 7/5 en s26)", () => {
+  it("« Quel registre ? » : cadre de la carte à faire (`cadreCarte(\"action\")`), blocs dans l'ordre (en-tête, scène, contexte, « Ta réponse d'abord », réponses), rien d'étiré", () => {
     const { container } = render(<CarteRegistre carte={carteRegistre} nouvelle ancre="carte-2" />);
     const article = container.querySelector("article")!;
-    expect(article.className).toBe(CARTE);
+    expect(article.className).toBe(cadreCarte("action"));
     expect(etirements(article)).toEqual([]);
     const texte = article.textContent ?? "";
     const ordre = [carteRegistre.titre, carteRegistre.scene.texte, carteRegistre.contexte].map((t) => texte.indexOf(t.slice(0, 15)));
@@ -66,22 +64,22 @@ describe("point 1 : S'entraîner, une colonne centrée, une disposition par cart
     expect(article.querySelectorAll("button").length).toBeGreaterThanOrEqual(3);
   });
 
-  it("« Et toi ? » : cadre `CARTE`, rien d'étiré", () => {
-    const { container } = render(<CarteEtToi carte={carteEtToi} nouvelle ancre="carte-1" />);
+  it("« Et toi ? » : cadre selon la place, rien d'étiré", () => {
+    const { container } = render(<CarteEtToi carte={carteEtToi} nouvelle ancre="carte-1" cadre="repliee" />);
     const article = container.querySelector("article")!;
-    expect(article.className).toBe(CARTE);
+    expect(article.className).toBe(cadreCarte("repliee"));
     expect(etirements(article)).toEqual([]);
   });
 
-  it("mission : cadre `CARTE` seul, plus de colonnes internes", () => {
+  it("mission : un cadre seul (`CADRE_CARTE_RUBRIQUE`), plus de colonnes internes", () => {
     const source = lire("components/espace/mission/mission-carte.tsx");
-    expect(source).toContain('className={CARTE} data-mission={mission.id}');
+    expect(source).toContain('className={cn(CADRE_CARTE_RUBRIQUE, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]")} data-mission={mission.id}');
     expect(source).not.toMatch(/lg:grid|md:contents|flex-1|mt-auto/);
   });
 
-  it("page : toutes les cartes dans `COLONNE_ENTRAINEMENT`, plus de grille ni de place seule ou jumelle", () => {
+  it("page : plus de colonne centrée, ni de place seule ou jumelle", () => {
     const page = lire("app/(dashboard)/mon-espace/s-entrainer/page.tsx");
-    expect(page).toContain("<div className={COLONNE_ENTRAINEMENT}>");
+    expect(page).not.toMatch(/COLONNE_ENTRAINEMENT|mx-auto max-w-3xl/);
     expect(page).not.toMatch(/md:grid-cols-2|md:col-span-2|md:contents|items-stretch|"seule"|jumelle|place=/);
     const styles = lire("components/espace/carte/styles.ts");
     expect(styles).not.toMatch(/cadreEntrainement|texteEntrainement|actionsEntrainement|SAUT_CONTEXTE|PlaceEntrainement/);
