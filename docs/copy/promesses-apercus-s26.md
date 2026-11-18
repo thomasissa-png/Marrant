@@ -43,6 +43,21 @@ Base factuelle relue dans les données : `situations.json` (scène + trois répo
 **Reco : B.** Pour un introverti, savoir qu'on peut se tromper sans être jugé est la vraie envie d'entrer.
 Point à vérifier avant choix : « rien n'est noté » est vrai dans `jeux.json` ; à confirmer pour toutes les séances (situations, constructions).
 
+## Favoris (s26, 18/11)
+
+Contenu réel relu (`favoris-list.tsx`) : onglets Tout / Vannes / Conseils / Vidéos, carte vanne (chute au clic, « Pourquoi ça marche »), conseil (exemple, exercice), vidéo, « Partager », « Retirer ». Rubrique Premium (visiteur et gratuit voient l'aperçu). État vide : « Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée. »
+Avis sur la proposition @ux « Garde la vanne qui t'a sauvé, retrouve-la le jour J. » (52 car.) : ne tient pas telle quelle. « t'a sauvé » suppose un vécu, « jour J » sonne événement, et « vanne » seule oublie conseils et vidéos. L'idée (garder puis retrouver) est reprise en C.
+
+- **A** : « Ce qui t'a plu, rangé là où tu le retrouves. » (44 car.)
+  Pourquoi : la plus sobre, nomme le rangement sans vocabulaire de fonction.
+- **B** : « Ta vanne préférée t'attend, pile quand tu en as besoin. » (55 car.)
+  Pourquoi : la retrouvaille comme soulagement, ton de pote, mais vannes seulement.
+- **C** : « Garde ce qui t'a servi, retrouve-le sans chercher. » (50 car.)
+  Pourquoi : garder puis retrouver, vannes, conseils et vidéos, aucun vécu supposé.
+
+**Reco : C.** Reprend l'idée de @ux sans « sauvé » ni « jour J », couvre les trois types de contenu, et « sans chercher » est le bénéfice réel d'une liste triée par onglets.
+Aucun mot des 4 promesses validées (réplique, main, moment, chambre, repère, rire, façon, noté, essaies, oser, taire). Aucun tiret cadratin, émoji, exclamation, chiffre.
+
 ## Vérifications faites
 Aucun tiret cadratin, émoji, point d'exclamation, chiffre, concurrent. Aucun mot de l'étalon (« oser répondre », « te taire », « cinq minutes »).
 
