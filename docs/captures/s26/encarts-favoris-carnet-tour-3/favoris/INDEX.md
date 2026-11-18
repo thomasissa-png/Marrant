@@ -1,0 +1,22 @@
+# Captures favoris (2026-11-18T19:51, http://localhost:5400)
+
+- visiteur-favoris-375.png : /favoris (page), HTTP 200, hauteur 2502px
+- visiteur-favoris-768.png : /favoris (page), HTTP 200, hauteur 1957px
+- visiteur-favoris-1280.png : /favoris (page), HTTP 200, hauteur 1643px
+- visiteur-favoris-1456.png : /favoris (page), HTTP 200, hauteur 1643px
+- visiteur-favoris-1920.png : /favoris (page), HTTP 200, hauteur 1643px
+- gratuit-favoris-375.png : /favoris (page), HTTP 200, hauteur 2511px
+- gratuit-favoris-768.png : /favoris (page), HTTP 200, hauteur 1977px
+- gratuit-favoris-1280.png : /favoris (page), HTTP 200, hauteur 1643px
+- gratuit-favoris-1456.png : /favoris (page), HTTP 200, hauteur 1643px
+- gratuit-favoris-1920.png : /favoris (page), HTTP 200, hauteur 1643px
+- en-cours-favoris-375.png : /favoris (page), HTTP 200, hauteur 2490px
+- en-cours-favoris-768.png : /favoris (page), HTTP 200, hauteur 1735px
+- en-cours-favoris-1280.png : /favoris (page), HTTP 200, hauteur 1453px
+- en-cours-favoris-1456.png : /favoris (page), HTTP 200, hauteur 1453px
+- en-cours-favoris-1920.png : /favoris (page), HTTP 200, hauteur 1453px
+- nouvel-favoris-375.png : /favoris (page), HTTP 200, hauteur 1751px
+- nouvel-favoris-768.png : /favoris (page), HTTP 200, hauteur 1295px
+- nouvel-favoris-1280.png : /favoris (page), HTTP 200, hauteur 1053px
+- nouvel-favoris-1456.png : /favoris (page), HTTP 200, hauteur 1053px
+- nouvel-favoris-1920.png : /favoris (page), HTTP 200, hauteur 1053px

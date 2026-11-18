@@ -1,0 +1,22 @@
+# Captures aujourdhui (2026-11-18T19:50, http://localhost:5400)
+
+- visiteur-aujourdhui-375.png : /mon-espace (page), HTTP 200, hauteur 2843px
+- visiteur-aujourdhui-768.png : /mon-espace (page), HTTP 200, hauteur 2228px
+- visiteur-aujourdhui-1280.png : /mon-espace (page), HTTP 200, hauteur 1667px
+- visiteur-aujourdhui-1456.png : /mon-espace (page), HTTP 200, hauteur 1667px
+- visiteur-aujourdhui-1920.png : /mon-espace (page), HTTP 200, hauteur 1667px
+- gratuit-aujourdhui-375.png : /mon-espace (page), HTTP 200, hauteur 2852px
+- gratuit-aujourdhui-768.png : /mon-espace (page), HTTP 200, hauteur 2248px
+- gratuit-aujourdhui-1280.png : /mon-espace (page), HTTP 200, hauteur 1667px
+- gratuit-aujourdhui-1456.png : /mon-espace (page), HTTP 200, hauteur 1667px
+- gratuit-aujourdhui-1920.png : /mon-espace (page), HTTP 200, hauteur 1667px
+- en-cours-aujourdhui-375.png : /mon-espace (page), HTTP 200, hauteur 4094px
+- en-cours-aujourdhui-768.png : /mon-espace (page), HTTP 200, hauteur 2668px
+- en-cours-aujourdhui-1280.png : /mon-espace (page), HTTP 200, hauteur 2119px
+- en-cours-aujourdhui-1456.png : /mon-espace (page), HTTP 200, hauteur 2119px
+- en-cours-aujourdhui-1920.png : /mon-espace (page), HTTP 200, hauteur 2119px
+- nouvel-aujourdhui-375.png : /mon-espace (page), HTTP 200, hauteur 3411px
+- nouvel-aujourdhui-768.png : /mon-espace (page), HTTP 200, hauteur 2534px
+- nouvel-aujourdhui-1280.png : /mon-espace (page), HTTP 200, hauteur 1827px
+- nouvel-aujourdhui-1456.png : /mon-espace (page), HTTP 200, hauteur 1827px
+- nouvel-aujourdhui-1920.png : /mon-espace (page), HTTP 200, hauteur 1827px
