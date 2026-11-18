@@ -28,7 +28,16 @@ const TEXTES_CARTES = frEspaceProfond(TEXTES_CARTES_BRUT);
  * après « Entrer », la page se recharge côté serveur (témoin posé) et montre CETTE fiche, sans second
  * « Voir ». Sans `versFiche` (Bibliothèque), la liste du coin, comme avant.
  */
-export function CoinHumourNoir({ lignesInitiales, versFiche = false }: { lignesInitiales: LigneFiche[] | null; versFiche?: boolean }) {
+export function CoinHumourNoir({
+  lignesInitiales,
+  versFiche = false,
+  className,
+}: {
+  lignesInitiales: LigneFiche[] | null;
+  versFiche?: boolean;
+  /** s26 tour 3 : place du bloc dans la grille de la Bibliothèque (dès 1024). */
+  className?: string;
+}) {
   const router = useRouter();
   const [lignes, setLignes] = useState<LigneFiche[] | null>(lignesInitiales);
   const [occupe, setOccupe] = useState(false);
@@ -76,7 +85,7 @@ export function CoinHumourNoir({ lignesInitiales, versFiche = false }: { lignesI
         les autres blocs ; à l'adresse d'une fiche (`versFiche`), la carte d'avant (hors périmètre s26). */}
     <section
       aria-labelledby="coin-titre"
-      className={versFiche ? CARTE : cn(CADRE_CARTE_RUBRIQUE, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]")}
+      className={versFiche ? CARTE : cn(CADRE_CARTE_RUBRIQUE, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]", className)}
       data-coin={lignes ? "entre" : "seuil"}
     >
       {!versFiche && (

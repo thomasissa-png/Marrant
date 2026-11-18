@@ -52,37 +52,42 @@ function ExtraitBibliotheque() {
             <BlocsFermes libelles={BLOCS_FERMES_CONSTRUCTION} className="md:grid-cols-2" />
           </div>
         </TuileFermee>
-        <TuileFermee className="md:col-span-2 lg:col-span-5">
-          <div className={TUILE} data-apercu-catalogue>
-            <p className={cn("pr-8", ETIQUETTE)}>{B.blocVannes}</p>
-            <p className={cn("mt-4", META_FORT)}>{B.themesNom}</p>
-            <ul className="mt-2 flex flex-wrap gap-2">
-              {B.themes.map((t) => (
-                <li key={t.slug} className={PASTILLE}>
-                  {t.label}
-                </li>
-              ))}
-            </ul>
-            <ul className={cn("mt-6 flex flex-wrap gap-x-6 gap-y-2", META_FORT)}>
-              {B.catalogue.map((l) => (
-                <li key={l.href} className="inline-flex items-center gap-1">
-                  {l.label}
-                  <Chevron />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </TuileFermee>
-      </div>
-      {/* s26 tour 2 : tuiles entières seulement (`entiere`), la première seule sous 768 px (jamais un liseré sans titre). */}
-      <SuiteCoupee entiere>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
-          <TuileFermee className="lg:col-span-6">
+        {/* s26 tour 3 (B1) : une seule grille 7/5 pour tout l'extrait. Colonne de droite : « Vannes, conseils, vidéos » puis
+            « Vocabulaire » fermé, empilés à la hauteur de leur contenu (`h-auto`) : plus de tuile étirée creuse. */}
+        <div className="flex min-w-0 flex-col gap-6 md:col-span-2 lg:col-span-5" data-apercu-pile>
+          <TuileFermee className="h-auto">
+            <div className={TUILE} data-apercu-catalogue>
+              <p className={cn("pr-8", ETIQUETTE)}>{B.blocVannes}</p>
+              <p className={cn("mt-4", META_FORT)}>{B.themesNom}</p>
+              <ul className="mt-2 flex flex-wrap gap-2">
+                {B.themes.map((t) => (
+                  <li key={t.slug} className={PASTILLE}>
+                    {t.label}
+                  </li>
+                ))}
+              </ul>
+              <ul className={cn("mt-6 flex flex-wrap gap-x-6 gap-y-2", META_FORT)}>
+                {B.catalogue.map((l) => (
+                  <li key={l.href} className="inline-flex items-center gap-1">
+                    {l.label}
+                    <Chevron />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </TuileFermee>
+          <TuileFermee className="h-auto">
             <div className={TUILE}>
               <TitreFerme titre={B.prefixes.vocabulaire} effectif={nbVocabulaire} />
             </div>
           </TuileFermee>
-          <TuileFermee className="max-md:hidden lg:col-span-6">
+        </div>
+      </div>
+      {/* s26 tour 2 : tuiles entières seulement (`entiere`). s26 tour 3 (B1) : « Formules à détourner » seule en rangée 2,
+          sur les 7 colonnes de gauche de la même grille (bords à x 32 et 731 à 1280, comme la construction). */}
+      <SuiteCoupee entiere>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
+          <TuileFermee className="md:col-span-2 lg:col-span-7">
             <div className={TUILE}>
               <TitreFerme titre={B.prefixes.formule} effectif={nbFormules} />
             </div>
@@ -95,8 +100,9 @@ function ExtraitBibliotheque() {
 
 /**
  * Aperçu VERROUILLÉ de « Bibliothèque » (s26, `docs/ux/rubriques-premium-s26.md` §2.1), squelette `ApercuVerrouille` :
- * la construction désignée avec son schéma en clair et ses quatre blocs fermés (7), le catalogue en texte inerte (5) ;
- * sous le fondu, « Vocabulaire » et « Formules à détourner » avec leur effectif réel (6/6).
+ * la construction désignée avec son schéma en clair et ses quatre blocs fermés (7), le catalogue en texte inerte puis
+ * « Vocabulaire » fermé avec son effectif réel (5) ; sous le fondu, « Formules à détourner » et son effectif (7, même
+ * grille, s26 tour 3).
  */
 export function ApercuBibliotheque({ visiteur }: { visiteur: boolean }) {
   return (

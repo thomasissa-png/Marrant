@@ -123,6 +123,21 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
         });
         expect(fin.coupees, `aucune tuile coupée, ${ou}`).toBe(0);
         expect(fin.ecart, `air avant « La suite est dans Premium », ${ou}`).toBeGreaterThanOrEqual(32);
+        // s26 tour 3 (B1, S1) : une seule grille 7/5 pour tout l'extrait de « Bibliothèque » et « S'entraîner » : dès 1024,
+        // la tuile seule de la rangée 2 a les bords de la première tuile de la rangée 1 (gouttière alignée, plus de 6/6),
+        // et la colonne de droite empile deux tuiles à leur hauteur, jamais plus basses que la rangée.
+        if (rubrique !== "quoiRepondre" && largeur >= 1024) {
+          const g = await racine.evaluate((r) => {
+            const bords = (e: Element) => { const b = e.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.right)]; };
+            const [gauche, pile] = Array.from(r.querySelectorAll("[data-apercu-rangee='1'] > *"));
+            const seule = Array.from(r.querySelectorAll("[data-apercu-rangee='2'] > *"));
+            const tuiles = Array.from(pile.children).map((t) => t.getBoundingClientRect());
+            return { r1: bords(gauche), r2: seule.map(bords), pile: tuiles.length, depasse: tuiles[tuiles.length - 1].bottom - pile.getBoundingClientRect().bottom };
+          });
+          expect(g.r2, `rangée 2 sur la gouttière de la rangée 1, ${ou}`).toEqual([g.r1]);
+          expect(g.pile, `deux tuiles empilées à droite, ${ou}`).toBe(2);
+          expect(g.depasse, `pile dans la rangée, ${ou}`).toBeLessThanOrEqual(0.5);
+        }
         await capturer(page, `visiteur-apercu-${rubrique}`, largeur);
       }
     }

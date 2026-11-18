@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s26, rubriques Premium tour 3 (Quoi répondre, Bibliothèque, S'entraîner ; interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : Quoi répondre abonné, « Voir » suit le titre (plus de `lg:justify-between`), rail de filtres collant seulement si la fenêtre fait 64rem de haut dès 1280 (74rem de 1024 à 1279) ; aperçus Bibliothèque et S'entraîner en une seule grille 7/5 (colonne de droite empilée, une tuile seule en rangée 2) ; Bibliothèque abonné, colonnes rééquilibrées dès 1024 et « Comment c'est construit » en tête à 375 ; S'entraîner abonné, segments seulement si une carte est faite aujourd'hui et au moins deux au total. Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47).
+- **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
+
 ### s26, rubriques Premium tour 2 (Quoi répondre, Bibliothèque, S'entraîner ; interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
 - **Quoi** : aperçus, tuiles de fin entières (la première seule sous 768 px), 48 px avant « La suite est dans Premium » (`SuiteCoupee entiere`), pied « Le carnet du mois » retiré de l'aperçu Quoi répondre ; abonné, Bibliothèque en grille 3 colonnes dès 1024, segments de S'entraîner pleine largeur (masqués pour une carte), « Voir » à droite dans Quoi répondre dès 1024. « Aujourd'hui » inchangé (positions mesurées identiques). Aucun texte, aucune taille ajoutée. Interrupteur à `false` : site fermé identique (inertie 47/47).
 - **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.

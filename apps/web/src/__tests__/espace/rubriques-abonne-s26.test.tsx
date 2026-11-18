@@ -38,6 +38,8 @@ import { chargeursFiches } from "@/lib/espace/fiches";
 import QuoiRepondrePage from "@/app/(dashboard)/mon-espace/quoi-repondre/page";
 import BibliothequePage from "@/app/(dashboard)/mon-espace/bibliotheque/page";
 import SEntrainerPage from "@/app/(dashboard)/mon-espace/s-entrainer/page";
+import { ApercuBibliotheque } from "@/components/espace/apercu/apercu-bibliotheque";
+import { ApercuSEntrainer } from "@/components/espace/apercu/apercu-s-entrainer";
 import { CarteRepliee } from "@/components/espace/carte/carte-repliee";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
 import { CADRE_CARTE_NEUTRE, CADRE_CARTE_RUBRIQUE } from "@/components/espace/carte/styles";
@@ -79,6 +81,24 @@ describe("« Quoi répondre » abonné : prochaine action et progression", () =>
     expect(classes(container.querySelector("[data-prochaine-action]"))).toEqual(expect.arrayContaining(["lg:col-span-9", "lg:col-start-4", "lg:row-start-1"]));
     expect(classes(container.querySelector("[data-etat='liste']"))).toEqual(expect.arrayContaining(["lg:col-span-9", "lg:row-start-2"]));
     expect(container.querySelector("[data-carnet]")).toHaveAttribute("href", "/carnet");
+  });
+
+  it("s26 tour 3 (Q1, Q2) : « Voir » suit le titre (plus de `lg:justify-between`) ; rail collant seulement s'il tient", async () => {
+    const { container } = render(await QuoiRepondrePage({ searchParams: {} }));
+    const tuile = classes(container.querySelector("[data-prochaine-action]"));
+    expect(tuile).toEqual(expect.arrayContaining(["lg:flex-row", "lg:items-center", "lg:gap-6"]));
+    expect(tuile).not.toContain("lg:justify-between");
+    // Rail mesuré : 922 px dès 1280, 1082 à 1024 ; collé à 96 px, son bas tombe à 1018 (1280) et 1178 (1024).
+    const rail = classes(container.querySelector("[data-zone='filtres']"));
+    expect(rail).toEqual(
+      expect.arrayContaining([
+        "lg:[@media(min-height:74rem)]:sticky",
+        "lg:[@media(min-height:74rem)]:top-24",
+        "xl:[@media(min-height:64rem)]:sticky",
+        "xl:[@media(min-height:64rem)]:top-24",
+      ]),
+    );
+    expect(rail.join(" ")).not.toContain("56rem");
   });
 
   it("prochaine action : la première situation sans « Fait » dans l'ordre de la liste, « Voir » seul aplat", async () => {
@@ -136,6 +156,22 @@ describe("« Bibliothèque » abonné : prochaine ligne et progression par bloc"
     expect(grille).not.toContain("lg:columns-3");
     expect(container.querySelector("h1")!.className).not.toContain("text-center");
     expect(aplats(container)).toEqual([]);
+  });
+
+  it("s26 tour 3 (B2) : construction puis coin (col. 1), vannes puis vocabulaire (col. 2), formules (col. 3) ; construction en tête à 375", async () => {
+    const { container } = render(await BibliothequePage());
+    const place = (sel: string) => classes(container.querySelector(sel)).filter((c) => /^lg:(col|row)-/.test(c)).sort();
+    expect(container.querySelector("[data-coin]")).not.toBeNull();
+    expect(classes(container.querySelector("[data-bibliotheque-grille]"))).toEqual(expect.arrayContaining(["max-md:flex", "max-md:flex-col", "max-md:[&>*]:mb-0", "lg:grid-rows-[auto_auto_1fr]"]));
+    expect(place("[data-bloc='groupe-construction']")).toEqual(["lg:col-start-1", "lg:row-span-2", "lg:row-start-1"]);
+    expect(place("[data-coin]")).toEqual(["lg:col-start-1", "lg:row-start-3"]);
+    expect(place("[data-bloc='bloc-vannes']")).toEqual(["lg:col-start-2", "lg:row-start-1"]);
+    expect(place("[data-bloc='groupe-vocabulaire']")).toEqual(["lg:col-start-2", "lg:row-span-2", "lg:row-start-2"]);
+    expect(place("[data-bloc='groupe-formule']")).toEqual(["lg:col-start-3", "lg:row-span-3", "lg:row-start-1"]);
+    // Ordre du DOM inchangé (768 en colonnes CSS identique) ; la construction passe en tête sous 768 par `order`.
+    expect(classes(container.querySelector("[data-bloc='groupe-construction']"))).toContain("max-md:order-first");
+    const ordre = [...container.querySelectorAll("[data-bibliotheque-grille] > *")].map((e) => e.getAttribute("data-bloc") ?? "coin");
+    expect(ordre).toEqual(["bloc-vannes", "coin", "groupe-construction", "groupe-vocabulaire", "groupe-formule"]);
   });
 
   it("chaque bloc à lignes : « faits/total », et la première ligne sans « Fait » marquée (filet, texte fort), une seule", async () => {
@@ -205,6 +241,16 @@ describe("« S'entraîner » abonné : prochaine action et progression", () => {
     expect(aplats(container)).toEqual([]);
   });
 
+  it("s26 tour 3 (S2) : aucune carte faite aujourd'hui, aucun segment (rail gris qui ne dit rien), même à 2 cartes", async () => {
+    rafale.mockResolvedValue({ cartes: cartes.slice(0, 2).map((c) => ({ carteId: c.id, nouvelle: true })), faites: [], fini: false, catalogue, cetteSemaine: 0, compteARebours: COMPTE });
+    retours.mockResolvedValue([]);
+    expect(cartes.length).toBeGreaterThanOrEqual(2);
+    const { container } = render(await SEntrainerPage({ searchParams: {} }));
+    expect(container.querySelector("#carte-2")).not.toBeNull();
+    expect(container.querySelector("[data-segments-rafale]")).toBeNull();
+    expect(classes(container.querySelector("[data-entrainement-grille]"))).toContain("mt-8");
+  });
+
   it("s26 tour 2 : une seule carte au total, aucun segment (un trait seul ne dit rien)", async () => {
     rafale.mockResolvedValue({ cartes: [{ carteId: cartes[0].id, nouvelle: true }], faites: [], fini: false, catalogue, cetteSemaine: 0, compteARebours: COMPTE });
     retours.mockResolvedValue([]);
@@ -264,5 +310,27 @@ describe("« S'entraîner » abonné : prochaine action et progression", () => {
     );
     expect((container.querySelector("details") as HTMLDetailsElement).open).toBe(true);
     window.location.hash = "";
+  });
+});
+
+describe("s26 tour 3 (B1, S1) : aperçus en une seule grille 7/5", () => {
+  it.each([
+    ["Bibliothèque", () => render(<ApercuBibliotheque visiteur />), "[data-apercu-catalogue]"],
+    ["S'entraîner", () => render(<ApercuSEntrainer visiteur />), "[data-apercu-mission]"],
+  ])("%s : colonne de droite empilée (deux tuiles à leur hauteur), une seule tuile en rangée 2 sur 7 colonnes", (_, rendre, premiere) => {
+    const { container } = rendre();
+    const rangee1 = [...container.querySelectorAll("[data-apercu-rangee='1'] > *")];
+    expect(rangee1.map((e) => classes(e).find((c) => c.startsWith("lg:col-span-")))).toEqual(["lg:col-span-7", "lg:col-span-5"]);
+    const pile = rangee1[1];
+    expect(pile.hasAttribute("data-apercu-pile")).toBe(true);
+    expect(classes(pile)).toEqual(expect.arrayContaining(["flex", "flex-col", "gap-6"]));
+    const tuiles = [...pile.children];
+    expect(tuiles).toHaveLength(2);
+    for (const t of tuiles) expect(classes(t)).toContain("h-auto");
+    expect(tuiles[0].querySelector(premiere)).not.toBeNull();
+    const rangee2 = [...container.querySelectorAll("[data-apercu-rangee='2'] > *")];
+    expect(rangee2).toHaveLength(1);
+    expect(classes(rangee2[0])).toEqual(expect.arrayContaining(["md:col-span-2", "lg:col-span-7"]));
+    expect(container.querySelector("[data-apercu-extrait]")!.innerHTML).not.toMatch(/lg:col-span-6|max-md:hidden/);
   });
 });

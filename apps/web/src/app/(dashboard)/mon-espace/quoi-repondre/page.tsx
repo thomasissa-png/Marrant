@@ -84,12 +84,13 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
             aria-labelledby="prochaine-titre"
             className={cn(
               CARTE_ACTION,
-              "h-auto md:col-span-2 lg:col-span-9 lg:col-start-4 lg:row-start-1 lg:flex-row lg:items-center lg:justify-between lg:gap-6",
+              "h-auto md:col-span-2 lg:col-span-9 lg:col-start-4 lg:row-start-1 lg:flex-row lg:items-center lg:gap-6",
             )}
             data-prochaine-action={prochaine.id}
           >
             {/* s26 tour 2 (relecture design) : dès 1024, « Voir » à droite de la ligne titre + durée (même bouton) ; la
-                moitié droite de la tuile n'est plus vide. */}
+                moitié droite de la tuile n'est plus vide. s26 tour 3 (Q1) : plus de `lg:justify-between` : « Voir » suit le
+                titre et la durée à 24 px (`lg:gap-6`), le vide passe en fin de tuile. */}
             <div className="min-w-0">
               <h2 id="prochaine-titre" className={TITRE_CARTE}>
                 {frEspace(prochaine.titre)}
@@ -106,10 +107,13 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
           </section>
         )}
         {/* Rail collant seulement si la fenêtre est assez haute pour lui (spec design §1.1 : jamais plus haut que
-            l'écran sous l'en-tête global de 64 px) [À MESURER @qa à 1280x900]. */}
+            l'écran sous l'en-tête global de 64 px). s26 tour 3 (Q2), mesuré en vrai navigateur : le rail fait 922 px
+            dès 1280 (largeur plafonnée), 1002 à 1100 et 1082 à 1024 ; collé à 96 px (`top-24`), son bas tombe à 1018
+            dès 1280 et jusqu'à 1178 à 1024. Seuils : 64rem (1024 px) de haut dès 1280, 74rem (1184 px) de 1024 à 1279 :
+            le bas du rail reste toujours atteignable (56rem avant : à 1280x900, les 118 derniers px du rail restaient sous l'écran tant qu'il collait). */}
         <div
           className={cn(
-            "min-w-0 md:col-span-2 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:self-start lg:[@media(min-height:56rem)]:sticky lg:[@media(min-height:56rem)]:top-24",
+            "min-w-0 md:col-span-2 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:self-start lg:[@media(min-height:74rem)]:sticky lg:[@media(min-height:74rem)]:top-24 xl:[@media(min-height:64rem)]:sticky xl:[@media(min-height:64rem)]:top-24",
             prochaine && "lg:row-span-2",
           )}
           data-zone="filtres"

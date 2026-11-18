@@ -48,9 +48,9 @@ export function BlocBibliotheque({
  * s26 : compteur sur les lignes « Écouter, repérer » (seule partie à faire), prochaine ligne marquée ; sans ligne, le
  * bloc ne montre que ses thèmes et ses liens (existant).
  */
-export function BlocVannes({ ecouter }: { ecouter: readonly LigneFiche[] }) {
+export function BlocVannes({ ecouter, className }: { ecouter: readonly LigneFiche[]; className?: string }) {
   return (
-    <BlocBibliotheque id="bloc-vannes" titre={T.blocVannes} compte={compteFaits(ecouter)}>
+    <BlocBibliotheque id="bloc-vannes" titre={T.blocVannes} compte={compteFaits(ecouter)} className={className}>
       <ul aria-label={T.themesNom} className="mt-4 flex flex-wrap gap-2">
         {T.themes.map((t) => (
           <li key={t.slug}>

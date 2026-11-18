@@ -68,22 +68,27 @@ function ExtraitSEntrainer() {
             <BlocsFermes libelles={[F.ceQuOnAuraitPuDire]} />
           </div>
         </TuileFermee>
-        <TuileFermee className="md:col-span-2 lg:col-span-5">
-          <div className={TUILE} data-apercu-mission>
-            <p className={cn("pr-8", ETIQUETTE)}>{frEspace(M.titre)}</p>
-            <EchelleMarches />
-          </div>
-        </TuileFermee>
-      </div>
-      {/* s26 tour 2 : tuiles entières seulement (`entiere`), la première seule sous 768 px (jamais un liseré sans titre). */}
-      <SuiteCoupee entiere>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
-          <TuileFermee className="lg:col-span-6">
+        {/* s26 tour 3 (S1) : une seule grille 7/5 pour tout l'extrait. Colonne de droite : « Mission » puis « Quand ça tombe
+            à plat » fermé, empilés à la hauteur de leur contenu (`h-auto`). */}
+        <div className="flex min-w-0 flex-col gap-6 md:col-span-2 lg:col-span-5" data-apercu-pile>
+          <TuileFermee className="h-auto">
+            <div className={TUILE} data-apercu-mission>
+              <p className={cn("pr-8", ETIQUETTE)}>{frEspace(M.titre)}</p>
+              <EchelleMarches />
+            </div>
+          </TuileFermee>
+          <TuileFermee className="h-auto">
             <div className={TUILE}>
               <TitreFerme titre={frEspace(M.aPlat)} />
             </div>
           </TuileFermee>
-          <TuileFermee className="max-md:hidden lg:col-span-6">
+        </div>
+      </div>
+      {/* s26 tour 2 : tuiles entières seulement (`entiere`). s26 tour 3 (S1) : « Raconte-nous ce qui s'est passé » seule en
+          rangée 2, sur les 7 colonnes de gauche de la même grille (bords du jeu). */}
+      <SuiteCoupee entiere>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
+          <TuileFermee className="md:col-span-2 lg:col-span-7">
             <div className={TUILE}>
               <TitreFerme titre={frEspace(M.raconte)} />
             </div>
@@ -97,8 +102,8 @@ function ExtraitSEntrainer() {
 /**
  * Aperçu VERROUILLÉ de « S'entraîner » (s26, `docs/ux/rubriques-premium-s26.md` §3.1), squelette `ApercuVerrouille` :
  * le jeu désigné en clair (consigne et propositions A, B, C) avec « Ce qu'on aurait pu dire » fermé (7), l'échelle des
- * cinq marches de la mission, la 1 ouverte (5) ; sous le fondu, « Quand ça tombe à plat » et « Raconte-nous ce qui
- * s'est passé » en titres fermés (6/6).
+ * cinq marches de la mission, la 1 ouverte, puis « Quand ça tombe à plat » en titre fermé (5) ; sous le fondu,
+ * « Raconte-nous ce qui s'est passé » en titre fermé (7, même grille, s26 tour 3).
  */
 export function ApercuSEntrainer({ visiteur }: { visiteur: boolean }) {
   return (

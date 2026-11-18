@@ -36,11 +36,22 @@ const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
  */
 export const dynamic = "force-dynamic";
 
-/** s26 tour 2 : colonne des blocs placés explicitement dès 1024 (les autres remplissent la colonne 2). */
-const COLONNE_LG: Partial<Record<"construction" | "vocabulaire" | "formule", string>> = {
-  construction: "lg:col-start-1 lg:row-start-1",
-  formule: "lg:col-start-3 lg:row-start-1",
-};
+/**
+ * s26 tour 3 (B2) : place de chaque bloc dès 1024, en trois colonnes, mesurée au plus petit vide de fin de colonne
+ * (1280 et 1920, en-cours et nouvel ; hauteurs : construction 854, formules 856, vocabulaire 598, vannes 294, coin
+ * fermé 202). Colonne 1 « Comment c'est construit » puis le coin, colonne 2 « Vannes, conseils, vidéos » puis
+ * « Vocabulaire », colonne 3 « Formules à détourner » : vides de fin 0, 164 et 224 px (288, 0 et 286 avant, coin en
+ * colonne 2). Rangées `auto auto 1fr` : la construction couvre les rangées 1 et 2, le coin la 3 ; « Vocabulaire »
+ * couvre la 2 et la 3 : la rangée 1 garde la hauteur des vannes, aucun air entre deux blocs d'une même colonne. Sans
+ * coin : `auto 1fr`, la disposition du tour 2.
+ */
+const PLACE_LG = (coin: boolean) => ({
+  vannes: "lg:col-start-2 lg:row-start-1",
+  coin: "lg:col-start-1 lg:row-start-3",
+  construction: "lg:col-start-1 lg:row-start-1 lg:row-span-2",
+  vocabulaire: cn("lg:col-start-2 lg:row-start-2", coin && "lg:row-span-2"),
+  formule: cn("lg:col-start-3 lg:row-start-1", coin ? "lg:row-span-3" : "lg:row-span-2"),
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   if (!ESPACE_CLIENT_PUBLIE) return METADONNEES_404;
@@ -71,8 +82,7 @@ export default async function BibliothequePage() {
   const lignesSansPrefixe = (type: keyof typeof T.prefixes) => parType[type].filter((x) => visibles.has(x.id)).map((x) => ligneDeFiche(x, faits));
   const marque = (b: (typeof bonus)[number]) => ligneDeBonus(b, faits, TEXTES_CAPS.bonus.marque(b.cap));
   const entre = coinEntre(cookies().get(COOKIE_COIN)?.value);
-  // Dès 1024 : les colonnes latérales couvrent toutes les rangées de la colonne 2 (vannes, coin s'il existe, vocabulaire).
-  const hauteurLg = coin.length > 0 ? "lg:row-span-3" : "lg:row-span-2";
+  const place = PLACE_LG(coin.length > 0);
 
   return (
     <div className="pb-16">
@@ -89,21 +99,24 @@ export default async function BibliothequePage() {
           Dès 1024, grille explicite à trois colonnes, ordre du DOM inchangé (375 et 768 identiques) : « Comment c'est
           construit » en colonne 1 et « Formules à détourner » en colonne 3, placées d'abord sur toutes les rangées ; les
           autres blocs (vannes, coin, vocabulaire) remplissent la colonne 2 dans l'ordre. La dernière rangée est en `1fr`
-          : si une colonne latérale dépasse la colonne 2, l'air tombe en fin de colonne, jamais entre deux blocs. */}
+          : si une colonne latérale dépasse la colonne 2, l'air tombe en fin de colonne, jamais entre deux blocs.
+          s26 tour 3 (B2) : dès 1024, répartition rééquilibrée (`PLACE_LG`). À 375, « Comment c'est construit » en premier
+          (`max-md:order-first`, conteneur en colonne flexible sous 768 : `gap-6` au lieu des marges, mêmes 24 px entre
+          blocs, même bas de page) ; 768 inchangé (ordre du DOM, colonnes CSS équilibrées : 78 px d'écart en bas). */}
       <div
         className={cn(
-          "mt-8 gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid lg:grid lg:grid-cols-3 lg:items-start lg:[&>*]:mb-0",
+          "mt-8 gap-6 max-md:flex max-md:flex-col max-md:[&>*]:mb-0 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid lg:grid lg:grid-cols-3 lg:items-start lg:[&>*]:mb-0",
           coin.length > 0 ? "lg:grid-rows-[auto_auto_1fr]" : "lg:grid-rows-[auto_1fr]",
         )}
         data-bibliotheque-grille
       >
-        <BlocVannes ecouter={[...lignesSansPrefixe("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} />
-        {coin.length > 0 && <CoinHumourNoir lignesInitiales={entre ? coin.map((x) => ligneDeFiche(x, faits)) : null} />}
+        <BlocVannes ecouter={[...lignesSansPrefixe("ecouter"), ...bonus.filter((b) => b.cap < 5).map(marque)]} className={place.vannes} />
+        {coin.length > 0 && <CoinHumourNoir lignesInitiales={entre ? coin.map((x) => ligneDeFiche(x, faits)) : null} className={place.coin} />}
         {(["construction", "vocabulaire", "formule"] as const).map((type) => {
           const groupe = [...lignesSansPrefixe(type), ...(type === "formule" ? bonus.filter((b) => b.cap === 5).map(marque) : [])];
           if (groupe.length === 0) return null;
           return (
-            <BlocBibliotheque key={type} id={`groupe-${type}`} titre={T.prefixes[type]} compte={compteFaits(groupe)} className={COLONNE_LG[type] ? cn(COLONNE_LG[type], hauteurLg) : undefined}>
+            <BlocBibliotheque key={type} id={`groupe-${type}`} titre={T.prefixes[type]} compte={compteFaits(groupe)} className={cn(place[type], type === "construction" && "max-md:order-first")}>
               <div className="mt-4">
                 <ListeFiches lignes={groupe} labelledBy={`groupe-${type}`} groupe={T.prefixes[type]} marquerProchaine />
               </div>
