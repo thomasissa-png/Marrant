@@ -100,7 +100,8 @@ describe("textes neufs (spec UX §6.2)", () => {
     expect(dateDuJour(new Date("2026-11-16T23:30:00Z"))).toBe("mardi 17 novembre");
     const fichier = lire("config/textes/espace-apercu.ts");
     // v7 tour 13 : T1 validé par Thomas le 16/11 (version B) ; les trois autres restent à valider.
-    expect(fichier.match(/\/\/ À VALIDER PAR THOMAS \(s25\)/g)).toHaveLength(3);
+    // s26 : T2 (« La suite est dans Premium ») validé par Thomas le 18/11 (`docs/founder-preferences.md`) : T3 et T4 restent.
+    expect(fichier.match(/\/\/ À VALIDER PAR THOMAS \(s25\)/g)).toHaveLength(2);
     expect(fichier.match(/\/\/ validé par Thomas le 16\/11/g)).toHaveLength(1);
     expect(JSON.stringify(TEXTES_APERCU_VERROUILLE)).not.toMatch(/—/);
   });

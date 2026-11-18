@@ -102,7 +102,8 @@ describe("point 2 : un seul bouton de paiement en haut", () => {
     expect(offreEnHaut("/mon-espace")).toBe(true);
     expect(offreEnHaut("/mon-espace?depuis=accueil#x")).toBe(true);
     expect(offreEnHaut("/mon-espace/quoi-repondre")).toBe(true);
-    for (const autre of ["/", "/vannes", "/mon-espace/questions", "/mon-espace/fiche/situation/coloc-la-poele", "/favoris", null]) {
+    // s26 : `/favoris` et le carnet passent offre en haut (`apercus-s26-verrou.test.tsx`) ; ils sortent de cette liste.
+    for (const autre of ["/", "/vannes", "/mon-espace/questions", "/mon-espace/fiche/situation/coloc-la-poele", null]) {
       expect(offreEnHaut(autre)).toBe(false);
     }
   });

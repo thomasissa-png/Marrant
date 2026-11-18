@@ -82,7 +82,8 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
       await expect(exemples.getByRole("button")).toHaveCount(0);
       await expect(exemples.getByRole("link")).toHaveCount(0);
     } else {
-      await expect(page.getByText(TEXTES_APERCU.favorisVide.titre)).toBeVisible();
+      // s26 (`docs/ux/favoris-carnet-s26.md` §1.2) : catalogue vide, deux tuiles fermées (vanne, conseil) au lieu de l'état vide.
+      await expect(page.locator('[data-apercu-rangee="1"] [data-apercu-type-ferme]')).toHaveCount(2);
     }
   });
 

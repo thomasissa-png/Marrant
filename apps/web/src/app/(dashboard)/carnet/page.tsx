@@ -5,8 +5,7 @@
 // dans le JS client. Contenu payant : noindex, absent du sitemap.
 import type { Metadata } from "next";
 import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
-import Link from "next/link";
-import { CarnetPage, carnetSrc } from "@/components/carnet/carnet-page";
+import { CarnetAVenir, CarnetPage, carnetSrc } from "@/components/carnet/carnet-page";
 import { carnetViewForPlan, getCurrentCarnet, listCarnetMonths } from "@/lib/carnet";
 import { readSessionCompte } from "@/lib/session-plan";
 import { noterPremiereFois } from "@/lib/mesure/evenements-usage";
@@ -23,20 +22,8 @@ export const metadata: Metadata = {
 export default async function CarnetCurrentPage({ searchParams }: { searchParams?: { src?: string | string[] } }) {
   const carnet = getCurrentCarnet();
 
-  if (!carnet) {
-    return (
-      <div className="mx-auto max-w-3xl py-12 text-center">
-        <h1 className="font-display text-3xl font-bold">Le carnet du mois arrive</h1>
-        <p className="mt-3 text-text-secondary">
-          Les situations de ce mois sont encore en préparation. En attendant, entraîne ta répartie
-          avec les parcours.
-        </p>
-        <Link href="/parcours" className="mt-4 inline-block text-accent-link hover:underline">
-          Voir les parcours
-        </Link>
-      </div>
-    );
-  }
+  // s26 : mois sans carnet, `CarnetAVenir` (rendu fermé d’avant, déplacé sans retouche ; tuile alignée à gauche ouvert).
+  if (!carnet) return <CarnetAVenir />;
 
   const compte = await readSessionCompte();
   const plan = compte?.plan ?? null;
@@ -48,6 +35,7 @@ export default async function CarnetCurrentPage({ searchParams }: { searchParams
       months={listCarnetMonths()}
       returnTo="/carnet"
       src={carnetSrc(searchParams?.src)}
+      visiteur={!compte}
     />
   );
 }

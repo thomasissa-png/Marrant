@@ -19,8 +19,9 @@ const CAPTURES = process.env.E2E_CAPTURES_V6T3;
 // s26 : Quoi répondre, Bibliothèque et S'entraîner passent à leur tour au H1 à gauche, comme « Aujourd'hui » (spec
 // `docs/ux/rubriques-premium-s26.md` §1.2, §2.2, §3.2) : la règle du titre centré est remplacée, pour elles, par
 // `RUBRIQUES_S26` (H1 à gauche, au bord gauche de la grille). Les autres rubriques la gardent.
-const RUBRIQUES = ["/mon-espace/questions", "/mon-espace/repliques", "/favoris"];
-const RUBRIQUES_S26 = ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer"];
+// s26 (`docs/design/favoris-carnet-s26.md` §2.1) : /favoris de l’abonné passe aussi au H1 à gauche (`RUBRIQUES_S26`).
+const RUBRIQUES = ["/mon-espace/questions", "/mon-espace/repliques"];
+const RUBRIQUES_S26 = ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris"];
 
 const boite = async (l: Locator) => {
   const b = await l.boundingBox();
@@ -84,12 +85,14 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
       if (largeur < 1024) expect(f.haut, `filtres sous la situation, ${largeur}`).toBeGreaterThan(situation.bas);
       else expect(f.gauche, `filtres à droite de la situation, ${largeur}`).toBeGreaterThan(situation.droite);
 
+      // s26 (`docs/ux/favoris-carnet-s26.md` §1.2) : plus d'empilement ; vanne et conseil côte à côte dès 1024 px (5/7),
+      // l'un sous l'autre à 375 (1 colonne). Grille vérifiée par `espace-v6-tour2-lot1.spec.ts` (`APERCUS_S26`).
       await page.goto("/favoris");
-      const exemples = page.locator('[data-apercu-fiche="favoris-exemples"] > li');
+      const exemples = page.locator('[data-apercu-fiche="favoris-exemples"] [data-favori-lecture]');
       if ((await exemples.count()) === 2) {
         const [a, b] = [await boite(exemples.nth(0)), await boite(exemples.nth(1))];
-        expect(b.haut, `Favoris : l'un sous l'autre, ${largeur}`).toBeGreaterThanOrEqual(a.bas);
-        expect(Math.abs(a.largeur - b.largeur)).toBeLessThanOrEqual(1);
+        if (largeur < 768) expect(b.haut, `Favoris : l'un sous l'autre, ${largeur}`).toBeGreaterThanOrEqual(a.bas);
+        else expect(Math.abs(b.haut - a.haut), `Favoris : côte à côte, ${largeur}`).toBeLessThanOrEqual(1);
       }
       await capturer(page, "visiteur-favoris", largeur);
     }

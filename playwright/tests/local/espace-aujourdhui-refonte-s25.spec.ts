@@ -398,7 +398,8 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         // s26 : « /mon-espace/quoi-repondre » remplacé par « /mon-espace/questions » : Quoi répondre est passé à l'aperçu à
         // offre en haut (`ADRESSES_OFFRE_EN_HAUT`), Mes questions reste sur l'ancien aperçu (même bascule que le Jest
         // `aujourdhui-v7-tour13`). Les trois rubriques s26 sont contrôlées comme « /mon-espace » juste au-dessus.
-        for (const s26 of ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer"]) {
+        // s26 (`docs/ux/favoris-carnet-s26.md` §1.2 et §2.2) : l'aperçu de Favoris et le carnet du non-abonné aussi.
+        for (const s26 of ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris", "/carnet"]) {
           await page.goto(s26);
           await expect(page.locator("header [data-en-tete-prix]"), `en-tête sans bouton d'offre, ${s26}, ${largeur}`).toHaveCount(0);
           await expect(page.getByRole("link", { name: TEXTES_APERCU.offre.nomAccessible }).first(), `bouton d'offre de la page, ${s26}, ${largeur}`).toBeInViewport({ ratio: 1 });

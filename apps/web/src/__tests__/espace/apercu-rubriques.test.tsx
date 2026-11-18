@@ -43,7 +43,9 @@ const getTipsPage = jest.fn(async (): Promise<unknown> => null);
 jest.mock("@/lib/catalogue-pages", () => ({ getJokesPage: () => getJokesPage(), getTipsPage: () => getTipsPage() }));
 
 import { EN_TETE_CHEMIN_ESPACE } from "@/config/espace-client";
-import { TEXTES_APERCU } from "@/config/textes/espace-apercu";
+import { TEXTES_APERCU, TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-apercu";
+import { PASTILLES_FAVORIS } from "@/components/espace/apercu/apercu-favoris";
+import { frEspace } from "@/lib/fr-typo";
 import { EN_TETE } from "@/config/textes/cta-articles-accueil";
 import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import MonEspaceLayout from "@/app/(dashboard)/mon-espace/layout";
@@ -211,30 +213,40 @@ describe.each(PAGES)("page %s ouverte", (rubrique, page, fiche) => {
 });
 
 describe("Favoris (`/favoris`, hors /mon-espace)", () => {
-  it("visiteur, base indisponible : l'aperçu, l'état vide existant de la page, le bouton d'offre et « Connexion »", async () => {
+  // s26 (`docs/ux/favoris-carnet-s26.md` §1.2) : l'aperçu passe au squelette `ApercuVerrouille` (hero 8/4, offre en haut,
+  // extrait coupé) ; mêmes deux contenus réels en lecture seule (décision du 15/11). Base indisponible : tuiles fermées.
+  it("s26, visiteur, base indisponible : hero, promesse, offre en haut avec « Connexion », tuiles fermées", async () => {
     visiteur();
     render(await FavorisOuvert({ children: <p data-contenu-favoris /> }));
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Favoris");
-    expect(screen.getByText(TEXTES_APERCU.favorisVide.titre)).toBeTruthy();
+    expect(document.querySelector('[data-apercu-verrouille][data-apercu="favoris"]')).not.toBeNull();
+    expect(screen.getByText(frEspace(TEXTES_APERCU_VERROUILLE.promesseFavoris))).toBeTruthy();
+    const fermees = Array.from(document.querySelectorAll("[data-apercu-type-ferme]")).map((e) => e.getAttribute("data-apercu-type-ferme"));
+    expect(fermees).toEqual(["JOKE", "TIP", "VIDEO"]);
     expect(document.querySelector("[data-contenu-favoris]")).toBeNull();
     const liens = within(document.querySelector("[data-apercu-offre]") as HTMLElement).getAllByRole("link");
     expect(liens.map((l) => l.getAttribute("href"))).toEqual(["/abonnement?returnTo=%2Ffavoris&src=apercu-favoris", "/login?callbackUrl=%2Ffavoris"]);
+    expect(PASTILLES_FAVORIS).toEqual(["Tout", "Vannes", "Conseils", "Vidéos"]);
   });
 
-  it("v6 tour 1 (arbitrage 3) : la première vanne et le premier conseil gratuits du catalogue, en lecture seule", async () => {
+  it("v6 tour 1 (arbitrage 3), s26 : la première vanne (chute visible) et le premier conseil REPLIÉ, en lecture seule", async () => {
     const vanne = { id: "j1", content: "Le début", punchline: "La chute", category: "ABSURDE", type: "X", maturityLevel: 1, comedyTechnique: null, techniqueExplanation: null, howToApply: null };
     const conseil = { id: "t1", title: "Le titre", content: "Le contenu.", category: "TIMING", difficulty: "DEBUTANT", example: "L'exemple.", exercise: "" };
     getJokesPage.mockResolvedValueOnce({ items: [vanne, { ...vanne, id: "j2" }] });
     getTipsPage.mockResolvedValueOnce({ items: [conseil] });
     compte(GRATUIT);
     render(await FavorisOuvert({ children: <p data-contenu-favoris /> }));
-    expect(screen.queryByText(TEXTES_APERCU.favorisVide.titre)).toBeNull();
+    expect(document.querySelector('[data-apercu-type-ferme="JOKE"]')).toBeNull();
     const exemples = document.querySelector('[data-apercu-fiche="favoris-exemples"]') as HTMLElement;
     expect(Array.from(exemples.querySelectorAll("[data-favori-lecture]")).map((e) => e.getAttribute("data-favori-lecture"))).toEqual(["vanne", "conseil"]);
     expect(within(exemples).getByText("La chute")).toBeTruthy();
     expect(within(exemples).getByText("Absurde")).toBeTruthy();
-    expect(within(exemples).getByText("Débutant")).toBeTruthy();
-    // Lecture seule : aucun bouton (ni « Retirer », ni partage), aucun lien ; un seul bouton d'offre dans la page.
+    expect(within(exemples).getByText("Timing")).toBeTruthy();
+    // s26 : conseil replié (plus de bloc « Exemple »), une seule catégorie, ni pastille colorée ni capitales.
+    expect(exemples.textContent).not.toContain("L'exemple.");
+    expect(exemples.textContent).not.toContain("Débutant");
+    expect(exemples.innerHTML).not.toMatch(/uppercase|text-accent-link/);
+    // Lecture seule : aucun bouton (ni « Retirer », ni partage), aucun lien ; un seul bouton d'offre dans le hero.
     expect(within(exemples).queryAllByRole("button")).toHaveLength(0);
     expect(within(exemples).queryAllByRole("link")).toHaveLength(0);
     expect(within(document.querySelector("[data-apercu-offre]") as HTMLElement).getAllByRole("link")).toHaveLength(1);
@@ -257,10 +269,11 @@ describe("Favoris (`/favoris`, hors /mon-espace)", () => {
     expect(getServerSession).not.toHaveBeenCalled();
   });
 
-  it("état vide repris mot pour mot de la liste des favoris", () => {
+  // s26 : l'état vide n'est plus montré dans l'aperçu (tuiles fermées) ; onglets et étiquettes viennent de la liste.
+  it("s26 : onglets et étiquettes de l'aperçu repris de la liste des favoris (aucun texte neuf)", () => {
     const source = readFileSync(join(__dirname, "../../components/favoris/favoris-list.tsx"), "utf8");
-    expect(source).toContain(`emptyTitle: "${TEXTES_APERCU.favorisVide.titre}"`);
-    expect(source).toContain(`emptyDesc: "${TEXTES_APERCU.favorisVide.texte}"`);
+    expect(source).toContain('TABS, TIP_CATEGORY_LABELS, type TabFilter } from "@/components/favoris/libelles"');
+    for (const t of ["Vanne", "Conseil", "Vidéo"]) expect(source).toContain(`>${t}</Badge>`);
   });
 });
 

@@ -64,7 +64,8 @@ describe("point 1 : la carte de l'espace parle la langue de l'accueil", () => {
 // v6 tour 2 (arbitrage 1) : les deux colonnes du tour 1 sont abandonnées ; la mise en page est vérifiée dans
 // `v6-tour2-lot1.test.tsx`. Restent ici : l'offre hors de l'exemple, à filet, et ses deux liens.
 describe("point 2 : aperçu, offre hors de l'exemple (mise en page : v6 tour 2)", () => {
-  it.each(["aujourdhui", "quoiRepondre", "bibliotheque", "sEntrainer", "mesQuestions", "mesRepliques", "favoris"] as const)("%s", (rubrique) => {
+  // s26 : Favoris passe à `ApercuVerrouille` (`apercu-rubriques.test.tsx`), il sort de cet ancien aperçu.
+  it.each(["aujourdhui", "quoiRepondre", "bibliotheque", "sEntrainer", "mesQuestions", "mesRepliques"] as const)("%s", (rubrique) => {
     const { container } = render(<ApercuRubrique rubrique={rubrique} visiteur />);
     const article = container.querySelector("article") as HTMLElement;
     const offre = container.querySelector("[data-apercu-offre]") as HTMLElement;

@@ -45,6 +45,7 @@ export default async function CarnetMonthPage({
       months={listCarnetMonths()}
       returnTo={`/carnet/${carnet.mois}`}
       src={carnetSrc(searchParams?.src)}
+      visiteur={!compte}
     />
   );
 }

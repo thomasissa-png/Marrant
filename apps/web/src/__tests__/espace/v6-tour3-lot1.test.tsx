@@ -72,10 +72,13 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
     expect(page).not.toContain("text-center");
   });
 
-  it("/favoris fermé : le titre garde ses classes d'avant (rendu octet pour octet : `inertie-espace`) ; ouvert : centré", () => {
+  // s26 (`docs/design/favoris-carnet-s26.md` §2.1) : ouvert, l'en-tête de l'abonné passe à gauche en `TITRE_PAGE` (comme
+  // les rubriques de l'espace) ; fermé, classes d'avant (rendu octet pour octet : `inertie-espace`).
+  it("/favoris fermé : le titre garde ses classes d'avant ; ouvert (s26) : aligné à gauche, `TITRE_PAGE`", () => {
     const page = lire("app/(dashboard)/favoris/page.tsx");
-    expect(page).toContain('<div className={centre ? "mb-8 text-center" : "mb-8"}>');
-    expect(page).toContain("<ContenuFavoris centre />");
+    expect(page).toContain('<div className="mb-8">');
+    expect(page).toContain("<h1 className={TITRE_PAGE}>{TITRE}</h1>");
+    expect(page).not.toContain("text-center");
     expect(page).toMatch(/\n {2}return <ContenuFavoris \/>;\n\}/);
   });
 });
@@ -131,11 +134,12 @@ describe("point 3 : Mes répliques, grille pleine coque, état vide centré", ()
   });
 });
 
-describe("point 4 : aperçu Favoris, les deux contenus l'un sous l'autre", () => {
-  it("plus de deux colonnes", () => {
-    const source = lire("components/espace/apercu/exemple.tsx");
-    expect(source).toContain('<ul className="grid grid-cols-1 gap-4" data-apercu-fiche="favoris-exemples">');
-    expect(source).not.toMatch(/className="[^"]*sm:grid-cols-2/);
+// s26 (`docs/ux/favoris-carnet-s26.md` §1.2) : la colonne unique du tour 3 laisse place à la grille 12 col de
+// `ApercuVerrouille` (5/7, `v6-tour2-lot1.test.tsx`) ; intention gardée : jamais de colonne vide à côté d'une carte.
+describe("point 4 : aperçu Favoris, aucune colonne vide (s26 : grille 5/7)", () => {
+  it("catalogue vide : deux tuiles fermées 6/6, jamais une seule", () => {
+    const source = lire("components/espace/apercu/apercu-favoris.tsx");
+    expect(source).toMatch(/<TypeFerme type="JOKE" className="lg:col-span-6" \/>\s*<TypeFerme type="TIP" className="lg:col-span-6" \/>/);
   });
 });
 

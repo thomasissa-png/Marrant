@@ -201,8 +201,12 @@ describe("S'entraîner : verrouillage réel", () => {
 
 describe("offre en haut : les trois adresses passées à `ApercuVerrouille`", () => {
   it("« Aujourd'hui », « Quoi répondre », « Bibliothèque », « S'entraîner », égales à `ADRESSES_APERCU`", () => {
-    expect(ADRESSES_OFFRE_EN_HAUT).toEqual([ADRESSES_APERCU.aujourdhui, ADRESSES_APERCU.quoiRepondre, ADRESSES_APERCU.bibliotheque, ADRESSES_APERCU.sEntrainer]);
+    // s26 (`docs/ux/favoris-carnet-s26.md` §1.2 et §2.2) : Favoris (aperçu `ApercuVerrouille`) et le carnet du non-abonné
+    // (hero 8/4, offre en haut, `/carnet` et `/carnet/<mois>`) s'ajoutent.
+    expect(ADRESSES_OFFRE_EN_HAUT).toEqual([ADRESSES_APERCU.aujourdhui, ADRESSES_APERCU.quoiRepondre, ADRESSES_APERCU.bibliotheque, ADRESSES_APERCU.sEntrainer, ADRESSES_APERCU.favoris, "/carnet"]);
     expect(offreEnHaut("/mon-espace/bibliotheque?x=1")).toBe(true);
-    for (const autre of [ADRESSES_APERCU.mesQuestions, ADRESSES_APERCU.mesRepliques, ADRESSES_APERCU.favoris]) expect(offreEnHaut(autre)).toBe(false);
+    expect(offreEnHaut("/favoris#x")).toBe(true);
+    expect(offreEnHaut("/carnet/2026-10?src=blog")).toBe(true);
+    for (const autre of [ADRESSES_APERCU.mesQuestions, ADRESSES_APERCU.mesRepliques, "/carnet/2026-10/x", "/carnetx"]) expect(offreEnHaut(autre)).toBe(false);
   });
 });

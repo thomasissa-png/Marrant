@@ -253,14 +253,17 @@ describe("point 8 : finitions /carnet et /lettre", () => {
   const lire = (f: string): unknown => JSON.parse(readFileSync(join(__dirname, "..", "..", "data", "carnet", f), "utf8"));
   const [precedent, courant] = parseCarnets([lire("2026-10.json"), lire("2026-11.json")]);
 
-  it("sommaire du carnet : numéros en largeur fixe, alignés à droite, chiffres tabulaires", () => {
+  // s26 (`docs/design/favoris-carnet-s26.md` §4) : sommaire en tuiles, le numéro en tête de chaque tuile (`META`, chiffres
+  // tabulaires) ; plus de colonne de numéros alignés à droite.
+  it("sommaire du carnet (s26) : numéro en tête de tuile, chiffres tabulaires", () => {
     ouvrir(true);
     const { container } = render(
       <CarnetPage view={carnetViewForPlan(courant, "PREMIUM")} months={[courant.mois, precedent.mois]} returnTo="/carnet" src="carnet" />,
     );
-    const numeros = [...container.querySelectorAll("[data-carnet-sommaire] li > span")] as HTMLElement[];
+    const numeros = [...container.querySelectorAll("[data-carnet-sommaire] a > span:first-child")] as HTMLElement[];
     expect(numeros.length).toBeGreaterThan(9);
-    for (const n of numeros) expect(classes(n)).toEqual(expect.arrayContaining(["tabular-nums", "min-w-[2.5ch]", "justify-end", "text-right", "shrink-0"]));
+    expect(numeros[9].textContent).toBe("10");
+    for (const n of numeros) expect(classes(n)).toEqual(expect.arrayContaining(["tabular-nums", "text-sm"]));
   });
 
   it("archive de la lettre : titre et objet en typographie française, texte inchangé", async () => {
