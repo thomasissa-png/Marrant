@@ -113,7 +113,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
             le bas du rail reste toujours atteignable (56rem avant : à 1280x900, les 118 derniers px du rail restaient sous l'écran tant qu'il collait). */}
         <div
           className={cn(
-            "min-w-0 md:col-span-2 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:self-start lg:[@media(min-height:74rem)]:sticky lg:[@media(min-height:74rem)]:top-24 xl:[@media(min-height:64rem)]:sticky xl:[@media(min-height:64rem)]:top-24",
+            "min-w-0 md:col-span-2 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:self-start lg:[@media(min-height:78rem)]:sticky lg:[@media(min-height:78rem)]:top-36 xl:[@media(min-height:68rem)]:sticky xl:[@media(min-height:68rem)]:top-36",
             prochaine && "lg:row-span-2",
           )}
           data-zone="filtres"

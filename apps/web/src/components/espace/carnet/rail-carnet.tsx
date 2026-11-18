@@ -55,7 +55,7 @@ export function RailCarnet({ lignes, titreId }: { lignes: LigneRail[]; titreId: 
   }, [courante]);
 
   return (
-    <nav ref={rail} aria-labelledby={titreId} className={cn(CADRE_CARTE_NEUTRE, "max-h-[calc(100vh-7rem)] overflow-y-auto p-6")} data-carnet-rail>
+    <nav ref={rail} aria-labelledby={titreId} className={cn(CADRE_CARTE_NEUTRE, "max-h-[calc(100vh-10rem)] overflow-y-auto p-6")} data-carnet-rail>
       <ol>
         {lignes.map((l) => {
           const ici = l.id === courante;

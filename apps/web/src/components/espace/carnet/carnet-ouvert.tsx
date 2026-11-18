@@ -103,7 +103,7 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
         {restantes > 0 && (
           <section
             aria-labelledby="carnet-reserve"
-            className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 lg:sticky lg:top-24 lg:col-span-4 lg:col-start-9 lg:row-start-1")}
+            className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 lg:sticky lg:top-36 lg:col-span-4 lg:col-start-9 lg:row-start-1")}
             data-carnet-programme
           >
             <h2 id="carnet-reserve" className={TITRE_CARTE}>{CARNET_PAYWALL.listeTitre}</h2>
@@ -190,7 +190,7 @@ function CarnetAbonne({ view, months, returnTo }: Props) {
         </ol>
       </nav>
       <div className="mt-12 lg:grid lg:grid-cols-12 lg:gap-6">
-        <div className="hidden lg:sticky lg:top-24 lg:col-span-3 lg:block lg:self-start">
+        <div className="hidden lg:sticky lg:top-36 lg:col-span-3 lg:block lg:self-start">
           <RailCarnet lignes={lignes} titreId={TITRE_ID} />
         </div>
         <div className="min-w-0 space-y-6 lg:col-span-9">

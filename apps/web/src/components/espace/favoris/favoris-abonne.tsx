@@ -109,7 +109,7 @@ export function FavorisAbonne() {
 
   return (
     <div className={GRILLE}>
-      <div className="min-w-0 lg:sticky lg:top-24 lg:col-span-3">
+      <div className="min-w-0 lg:sticky lg:top-36 lg:col-span-3">
         <OngletsFavoris actif={actif} choisir={setActif} effectifs={effectifs} />
       </div>
       <div className="min-w-0 lg:col-span-9" role="tabpanel" aria-label={onglet.label} data-liste-favoris>

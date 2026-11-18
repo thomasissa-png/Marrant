@@ -54,7 +54,7 @@ function Actions({ titre, texte, retirer }: { titre: string; texte: string; reti
   return (
     <div className="mt-auto pt-6" onClick={(e) => e.stopPropagation()}>
       <div className="flex items-center gap-6 border-t border-border pt-4">
-        <ShareButton title={titre} text={texte} className="-ml-2.5" />
+        <ShareButton title={titre} text={texte} className="-ml-1.5" />
         <button type="button" onClick={retirer} aria-label="Retirer des favoris" className={RETIRER}>
           Retirer
         </button>

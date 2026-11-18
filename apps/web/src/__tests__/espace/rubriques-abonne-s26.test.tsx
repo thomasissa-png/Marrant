@@ -90,14 +90,15 @@ describe("« Quoi répondre » abonné : prochaine action et progression", () =>
     const tuile = classes(container.querySelector("[data-prochaine-action]"));
     expect(tuile).toEqual(expect.arrayContaining(["lg:flex-row", "lg:items-center", "lg:gap-6"]));
     expect(tuile).not.toContain("lg:justify-between");
-    // Rail mesuré : 922 px dès 1280, 1082 à 1024 ; collé à 96 px, son bas tombe à 1018 (1280) et 1178 (1024).
+    // Rail mesuré : 922 px dès 1280, 1082 à 1024. s26 (relecture tour 3) : l'en-tête collant finit à 121 px, le rail se
+    // colle à 144 px (`top-36`, 24 px d'air) ; son bas tombe à 1066 (1280) et 1226 (1024), d'où 68rem et 78rem.
     const rail = classes(container.querySelector("[data-zone='filtres']"));
     expect(rail).toEqual(
       expect.arrayContaining([
-        "lg:[@media(min-height:74rem)]:sticky",
-        "lg:[@media(min-height:74rem)]:top-24",
-        "xl:[@media(min-height:64rem)]:sticky",
-        "xl:[@media(min-height:64rem)]:top-24",
+        "lg:[@media(min-height:78rem)]:sticky",
+        "lg:[@media(min-height:78rem)]:top-36",
+        "xl:[@media(min-height:68rem)]:sticky",
+        "xl:[@media(min-height:68rem)]:top-36",
       ]),
     );
     expect(rail.join(" ")).not.toContain("56rem");
