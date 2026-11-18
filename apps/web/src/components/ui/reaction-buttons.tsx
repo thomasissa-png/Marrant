@@ -12,6 +12,11 @@ interface ReactionButtonsProps {
   initialDislikes?: number;
   initialUserReaction?: boolean | null;
   className?: string;
+  /**
+   * s26 (espace ouvert seulement, carte de favori de l'abonné) : `"espace"` aligne les boutons sur l'échelle de
+   * l'espace (`typo.ts` : 14/600, gris secondaire au repos). Par défaut, les classes d'origine, au caractère près.
+   */
+  echelle?: "site" | "espace";
 }
 
 /**
@@ -44,6 +49,7 @@ export function ReactionButtons({
   initialDislikes = 0,
   initialUserReaction = null,
   className,
+  echelle = "site",
 }: ReactionButtonsProps) {
   const { data: session, status } = useSession();
   // Réaction en base = Premium (s15 §1.1) ; sinon localStorage, comme un visiteur.
@@ -158,10 +164,10 @@ export function ReactionButtons({
       <button
         onClick={(e) => handleReaction(e, true)}
         className={cn(
-          "relative flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all after:absolute after:inset-x-0 after:-inset-y-2.5 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+          `relative flex items-center gap-1 rounded-full px-3 py-1 ${echelle === "espace" ? "text-sm font-semibold" : "text-xs font-medium"} transition-all after:absolute after:inset-x-0 after:-inset-y-2.5 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary`,
           userReaction === true
             ? "bg-accent-primary/20 text-accent-link"
-            : "bg-background-elevated text-text-muted hover:text-accent-link"
+            : echelle === "espace" ? "bg-background-elevated text-text-secondary hover:text-accent-link" : "bg-background-elevated text-text-muted hover:text-accent-link"
         )}
         aria-label={`${likes} hilarant`}
       >
@@ -171,10 +177,10 @@ export function ReactionButtons({
       <button
         onClick={(e) => handleReaction(e, false)}
         className={cn(
-          "relative flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all after:absolute after:inset-x-0 after:-inset-y-2.5 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+          `relative flex items-center gap-1 rounded-full px-3 py-1 ${echelle === "espace" ? "text-sm font-semibold" : "text-xs font-medium"} transition-all after:absolute after:inset-x-0 after:-inset-y-2.5 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary`,
           userReaction === false
             ? "bg-error/20 text-error"
-            : "bg-background-elevated text-text-muted hover:text-text-secondary"
+            : echelle === "espace" ? "bg-background-elevated text-text-secondary hover:text-text-primary" : "bg-background-elevated text-text-muted hover:text-text-secondary"
         )}
         aria-label={`${dislikes} pas terrible`}
       >

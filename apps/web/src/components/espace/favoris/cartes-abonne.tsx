@@ -84,7 +84,7 @@ export function CarteVanneAbonne(p: { joke: JokeData; jokeId: string; ouverte: b
       />
       {p.ouverte && (
         <div onClick={(e) => e.stopPropagation()}>
-          <ReactionButtons jokeId={p.jokeId} className="mt-4" />
+          <ReactionButtons jokeId={p.jokeId} className="mt-4" echelle="espace" />
           {joke.comedyTechnique && (
             <BlocDeplie titre={`Pourquoi ça marche : ${contenuAffiche(joke.comedyTechnique)}`}>
               {joke.techniqueExplanation && <p>{joke.techniqueExplanation}</p>}
