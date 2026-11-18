@@ -96,10 +96,13 @@ describe("point 2 : un seul bouton de paiement en haut", () => {
     drapeau.__ESPACE_OUVERT__ = false;
   });
 
-  it("`offreEnHaut` : « Aujourd'hui » seulement (offre en haut de l'aperçu), paramètres ignorés", () => {
+  // s26 : « Quoi répondre », « Bibliothèque » et « S'entraîner » rejoignent « Aujourd'hui » (`apercus-s26-verrou.test.tsx`) ;
+  // l'adresse témoin sans offre en haut devient « Mes questions », encore sur l'ancien aperçu.
+  it("`offreEnHaut` : les aperçus verrouillés seulement (offre en haut de l'aperçu), paramètres ignorés", () => {
     expect(offreEnHaut("/mon-espace")).toBe(true);
     expect(offreEnHaut("/mon-espace?depuis=accueil#x")).toBe(true);
-    for (const autre of ["/", "/vannes", "/mon-espace/quoi-repondre", "/mon-espace/fiche/situation/coloc-la-poele", "/favoris", null]) {
+    expect(offreEnHaut("/mon-espace/quoi-repondre")).toBe(true);
+    for (const autre of ["/", "/vannes", "/mon-espace/questions", "/mon-espace/fiche/situation/coloc-la-poele", "/favoris", null]) {
       expect(offreEnHaut(autre)).toBe(false);
     }
   });
@@ -109,7 +112,7 @@ describe("point 2 : un seul bouton de paiement en haut", () => {
     ["gratuit", { data: { user: { id: "u1", plan: "FREE" } }, status: "authenticated" }],
   ])("%s : bouton d'offre de l'en-tête masqué sur /mon-espace, présent ailleurs", async (_nom, session) => {
     useSession.mockReturnValue(session);
-    for (const [chemin, attendu] of [["/mon-espace", 0], ["/", 1], ["/vannes", 1], ["/mon-espace/quoi-repondre", 1]] as const) {
+    for (const [chemin, attendu] of [["/mon-espace", 0], ["/mon-espace/s-entrainer", 0], ["/", 1], ["/vannes", 1], ["/mon-espace/questions", 1]] as const) {
       usePathname.mockReturnValue(chemin);
       const { unmount } = render(<EnTeteUniversel />);
       await act(async () => {});

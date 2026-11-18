@@ -6,7 +6,8 @@ import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { prisma } from "@/lib/prisma";
 import { garderEspace } from "@/lib/espace/garde";
 import { lireLecteurApercu } from "@/components/espace/apercu/acces";
-import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
+import { metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
+import { ApercuQuoiRepondre } from "@/components/espace/apercu/apercu-quoi-repondre";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import { envoyeesSiBesoin, fichesVisibles } from "@/lib/espace/lettres";
 import { idsFaits, ligneDeFiche } from "@/lib/espace/lignes-fiches";
@@ -51,7 +52,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
   // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
   // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
   const lecteur = await lireLecteurApercu();
-  if (lecteur) return <ApercuRubrique rubrique="quoiRepondre" visiteur={lecteur === "visiteur"} />;
+  if (lecteur) return <ApercuQuoiRepondre visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace(BASE);
   const acces = { acces: "ouvert" as const, userId };
   const toutes = [...chargeursFiches.listerFiches("situation", acces), ...chargeursFiches.listerFiches("a-plat", acces)];

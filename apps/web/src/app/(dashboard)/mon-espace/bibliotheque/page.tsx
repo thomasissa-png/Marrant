@@ -6,7 +6,8 @@ import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { prisma } from "@/lib/prisma";
 import { garderEspace } from "@/lib/espace/garde";
 import { lireLecteurApercu } from "@/components/espace/apercu/acces";
-import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
+import { metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
+import { ApercuBibliotheque } from "@/components/espace/apercu/apercu-bibliotheque";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import { bonusOuverts } from "@/lib/espace/bonus";
 import { lireCapDeblocage } from "@/lib/espace/caps-serveur";
@@ -45,7 +46,7 @@ export default async function BibliothequePage() {
   // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
   // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
   const lecteur = await lireLecteurApercu();
-  if (lecteur) return <ApercuRubrique rubrique="bibliotheque" visiteur={lecteur === "visiteur"} />;
+  if (lecteur) return <ApercuBibliotheque visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/bibliotheque");
   const acces = { acces: "ouvert" as const, userId };
   const f = chargeursFiches;
