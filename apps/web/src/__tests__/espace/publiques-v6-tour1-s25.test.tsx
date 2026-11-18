@@ -189,16 +189,29 @@ describe("point 11 : carnet de l'abonné, sommaire en tête", () => {
     const derniereFiche = fiches[fiches.length - 1] as HTMLElement;
     expect(sommaire.compareDocumentPosition(premiereFiche) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(derniereFiche.compareDocumentPosition(archives) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(premiereFiche.querySelector(":scope > [data-filet]")).not.toBeNull();
+    // s26 (18/11, filet violet des cartes retiré) : fiches au cadre neutre, sans filet.
+    expect(container.querySelector("[data-filet]")).toBeNull();
+    // s26 : « Retour au sommaire » après chacune des fiches.
+    expect(container.querySelectorAll("[data-carnet-retour-sommaire]")).toHaveLength(courant.fiches.length);
   });
 
-  it("ouvert, visiteur : pas de sommaire ; bloc d'achat à filet, réassurance à gauche", () => {
+  // s26 (`docs/ux/favoris-carnet-s26.md` §2.2) : offre EN HAUT (hero 8/4, `OffreApercu`), fiche offerte puis fin d'extrait
+  // (même lien, même source), programme fermé à part ; aucun filet ; réassurance à gauche.
+  it("ouvert, visiteur (s26) : pas de sommaire ; offre en haut, fiche offerte, fin d'extrait, programme fermé", () => {
     ouvrir(true);
     const { container } = render(page(null));
     expect(container.querySelector("[data-carnet-sommaire]")).toBeNull();
-    const reassurance = container.querySelector("[data-reassurance]") as HTMLElement;
-    expect(reassurance.className).toContain("text-left");
-    expect(reassurance.parentElement?.querySelector(":scope > [data-filet]")).not.toBeNull();
+    expect(container.querySelector("[data-filet]")).toBeNull();
+    const haut = (container.querySelector("[data-carnet-hero] [data-apercu-offre]") as HTMLElement).querySelector("a") as HTMLElement;
+    const fin = screen.getByTestId("carnet-paywall-bouton");
+    expect(haut.getAttribute("href")).toBe("/abonnement?returnTo=%2Fcarnet&src=carnet");
+    expect(fin.getAttribute("href")).toBe(haut.getAttribute("href"));
+    const fiche = container.querySelector('[id^="fiche-"]') as HTMLElement;
+    expect(haut.compareDocumentPosition(fiche) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(fiche.compareDocumentPosition(fin) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelectorAll("[data-carnet-programme] li")).toHaveLength(3);
+    // Réassurance de la fin d'extrait à gauche (celle du bloc d'offre suit le style d'`OffreApercu`).
+    expect((fin.parentElement?.querySelector("[data-reassurance]") as HTMLElement).className).toContain("text-left");
   });
 
   it("fermé, abonné : pas de sommaire, carnets précédents en bas, aucun filet", () => {

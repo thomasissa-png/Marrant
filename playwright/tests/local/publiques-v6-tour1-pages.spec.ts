@@ -138,7 +138,14 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
         const derniere = await boite(fiches.last());
         expect((await boite(archives)).y).toBeGreaterThanOrEqual(derniere.y + derniere.height);
       }
-      await attendreFilet(premiere);
+      // s26 (`docs/design/favoris-carnet-s26.md` §4) : fiches au cadre neutre (plus de filet) ; sommaire en tuiles 4/4/4
+      // à 1280 (trois tuiles sur la même rangée), la première marquée d'un filet blanc à gauche, chaque tuile de 44 px.
+      await expect(premiere.locator(":scope > [data-filet]")).toHaveCount(0);
+      const [t0, t1, t2] = [await boite(liens.nth(0)), await boite(liens.nth(1)), await boite(liens.nth(2))];
+      expect(Math.abs(t0.y - t2.y), "trois tuiles par rangée à 1280").toBeLessThanOrEqual(1);
+      expect(t1.height).toBeGreaterThanOrEqual(44);
+      expect(await liens.nth(0).evaluate((e) => getComputedStyle(e).borderLeftWidth)).toBe("2px");
+      await expect(page.locator("[data-carnet-retour-sommaire]")).toHaveCount(await fiches.count());
       const cible = fiches.nth(4);
       await liens.nth(4).click();
       await expect(page).toHaveURL(new RegExp(`#${await cible.getAttribute("id")}$`));
@@ -179,7 +186,9 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
     test("/profil gratuit 1280 : H1 à la hauteur de celui de /favoris, réassurance à gauche du bouton", async ({ browser }) => {
       const { c, page } = await contexte(browser, "FREE");
       await page.goto("/favoris");
-      const yFavoris = (await boite(page.getByRole("heading", { level: 1 }))).y;
+      // s26 : l'aperçu de Favoris passe au hero `ApercuVerrouille` ; la pastille « Premium » y tient la hauteur du H1 des
+      // autres pages (le H1 de l'aperçu est dessous), c'est elle qui sert de repère.
+      const yFavoris = (await boite(page.locator("[data-apercu-tete]"))).y;
       await page.goto("/profil");
       expect(Math.abs((await boite(page.getByRole("heading", { level: 1 }))).y - yFavoris)).toBeLessThanOrEqual(2);
       const reass = page.locator("[data-reassurance]");

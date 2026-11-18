@@ -6,9 +6,8 @@ import { buildLoginUrl } from "@/lib/auth-links";
 import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo-meta";
 import { BOUTON_PRINCIPAL, CADRE_CARTE, LIEN } from "@/components/espace/carte/styles";
 import { ADRESSES_APERCU } from "@/components/espace/apercu/acces";
-import { ExempleFavoris, ExempleFiche, ExempleQuestions, ExempleRepliques } from "@/components/espace/apercu/exemple";
+import { ExempleFiche, ExempleQuestions, ExempleRepliques } from "@/components/espace/apercu/exemple";
 import { categoriesQuoiRepondre, ficheApercu } from "@/components/espace/apercu/exemples";
-import type { ExemplesFavoris } from "@/components/espace/apercu/exemples-favoris";
 import { frEspace } from "@/lib/fr-typo";
 
 /** Source du clic d'offre (mesure du tunnel `/abonnement?src=`), une par rubrique : `apercu-{adresse}`. */
@@ -22,10 +21,12 @@ export function metadonneesApercu(rubrique: RubriqueApercu): Metadata {
   return { title: TEXTES_APERCU.titres[rubrique], ...NOINDEX_FOLLOW_ROBOTS };
 }
 
-function Exemple({ rubrique, favoris }: { rubrique: RubriqueApercu; favoris: ExemplesFavoris | null }) {
+/** s26 : Favoris est passé à `ApercuVerrouille` (`apercu-favoris.tsx`) ; cet aperçu ne le rend plus. */
+type RubriqueAncienApercu = Exclude<RubriqueApercu, "favoris">;
+
+function Exemple({ rubrique }: { rubrique: RubriqueAncienApercu }) {
   if (rubrique === "mesQuestions") return <ExempleQuestions />;
   if (rubrique === "mesRepliques") return <ExempleRepliques fiche={ficheApercu("mesRepliques")} />;
-  if (rubrique === "favoris") return <ExempleFavoris exemples={favoris} />;
   return <ExempleFiche fiche={ficheApercu(rubrique)} />;
 }
 
@@ -58,23 +59,19 @@ function CatalogueQuoiRepondre() {
  *
  * v6 tour 2 (arbitrage 1, Thomas 15/11) : plus de deux colonnes (colonne d'offre vide à 1280+). À toutes les
  * largeurs, une colonne centrée `mx-auto max-w-3xl` : titre et sous-titre centrés (langue de l'accueil), l'exemple,
- * puis la carte d'offre pleine largeur de la colonne, contenu centré ; plus de `sticky`. Favoris (arbitrage 3) :
- * deux contenus réels en lecture seule côte à côte, présentés comme des favoris ; Mes questions : le titre puis la
- * carte des exemples. Ces deux-là sans carte autour (ce sont déjà des cartes : un seul filet).
+ * puis la carte d'offre pleine largeur de la colonne, contenu centré ; plus de `sticky`. Mes questions : le titre
+ * puis la carte des exemples, sans carte autour (ce sont déjà des cartes : un seul filet).
  */
 export function ApercuRubrique({
   rubrique,
   visiteur,
-  favoris = null,
 }: {
-  rubrique: RubriqueApercu;
+  rubrique: RubriqueAncienApercu;
   visiteur: boolean;
-  /** Favoris seulement : la première vanne et le premier conseil gratuits du catalogue (lus par `FavorisOuvert`). */
-  favoris?: ExemplesFavoris | null;
 }) {
   const adresse = ADRESSES_APERCU[rubrique];
-  // Déjà des cartes (favoris réels, exemples de Mes questions) : pas de carte autour, un seul filet.
-  const sansCadre = (rubrique === "favoris" && favoris !== null) || rubrique === "mesQuestions";
+  // Déjà des cartes (exemples de Mes questions) : pas de carte autour, un seul filet.
+  const sansCadre = rubrique === "mesQuestions";
   return (
     <div className="mx-auto max-w-3xl" data-apercu={rubrique}>
       {/* Nav v6 : ni retour ni place réservée au-dessus du titre (la bande est le repère), comme les rubriques. */}
@@ -86,10 +83,10 @@ export function ApercuRubrique({
       </header>
       <div className="mt-6 flex flex-col gap-6">
         <article
-          aria-labelledby={sansCadre && rubrique === "favoris" ? "apercu-titre" : "apercu-exemple"}
+          aria-labelledby="apercu-exemple"
           className={sansCadre ? "min-w-0" : `${CADRE_CARTE} min-w-0 space-y-4 p-5 [overflow-wrap:anywhere] md:p-6`}
         >
-          <Exemple rubrique={rubrique} favoris={favoris} />
+          <Exemple rubrique={rubrique} />
         </article>
         {rubrique === "quoiRepondre" && <CatalogueQuoiRepondre />}
         <div className={`${CADRE_CARTE} flex flex-wrap items-center justify-center gap-x-6 gap-y-2 p-5 md:p-6`} data-apercu-offre>

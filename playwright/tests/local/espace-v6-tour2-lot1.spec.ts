@@ -7,7 +7,7 @@ import type { RubriqueApercu } from "@/config/textes/espace-apercu";
  * Navigation v6, tour 2, lot 1 (espace), en vrai navigateur, interrupteur OUVERT seulement (`E2E_ESPACE_OUVERT=1`) :
  * plan `docs/espace-client/travail-en-cours/plan-corrections-v6-tour-2.md`, points 1 à 7, 10 et 12.
  * - aperçu : une colonne centrée de 768 px au plus, titre centré, l'offre sous l'exemple, pleine largeur, jamais
- *   collante ; Mes questions : un seul filet ; Favoris : deux contenus l'un sous l'autre (tour 3) ;
+ *   collante ; Mes questions : un seul filet ; s26 : Favoris passe à l’aperçu en largeur (`APERCUS_S26`, 5/7) ;
  * - fiche situation : « Oui / À moitié / Rien » de 44 px, bord `#707070`, texte blanc ; « Ma réplique à moi » de
  *   96 px au moins, 200 caractères visibles en entier à 375 px ;
  * - séance : les 10 phrases de « Observation » en liste numérotée ;
@@ -28,11 +28,12 @@ const APERCUS_S26: [RubriqueApercu, string][] = [
   ["quoiRepondre", "/mon-espace/quoi-repondre"],
   ["bibliotheque", "/mon-espace/bibliotheque"],
   ["sEntrainer", "/mon-espace/s-entrainer"],
+  // s26 (`docs/ux/favoris-carnet-s26.md` §1.2) : Favoris passe à `ApercuVerrouille` (hero 8/4, extrait 5/7 sur 12 col).
+  ["favoris", "/favoris"],
 ];
 const APERCUS: [RubriqueApercu, string][] = [
   ["mesQuestions", "/mon-espace/questions"],
   ["mesRepliques", "/mon-espace/repliques"],
-  ["favoris", "/favoris"],
 ];
 
 const boite = async (l: Locator) => {
@@ -86,12 +87,7 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
           });
           expect(imbriques, `un seul filet, ${ou}`).toBe(0);
         }
-        const favoris = racine.locator("[data-favori-lecture]");
-        // v6 tour 3 (arbitrage 4, remplace le côte à côte du tour 2) : l'un sous l'autre à toutes les largeurs.
-        if (rubrique === "favoris" && (await favoris.count()) === 2) {
-          const [a, b] = [await boite(favoris.nth(0)), await boite(favoris.nth(1))];
-          expect(b.haut, `favoris l'un sous l'autre, ${ou}`).toBeGreaterThanOrEqual(a.bas);
-        }
+        // s26 : Favoris a quitté cette boucle (`APERCUS_S26`, grille 5/7 au lieu de l'empilement du tour 3).
         await capturer(page, `visiteur-apercu-${rubrique}`, largeur);
       }
     }
@@ -141,7 +137,19 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
         // s26 tour 3 (B1, S1) : une seule grille pour tout l'extrait de « Bibliothèque » et « S'entraîner » (8/4 depuis le 18/11) : dès 1024,
         // la tuile seule de la rangée 2 a les bords de la première tuile de la rangée 1 (gouttière alignée, plus de 6/6),
         // et la colonne de droite empile deux tuiles à leur hauteur, jamais plus basses que la rangée.
-        if (rubrique !== "quoiRepondre" && largeur >= 1024) {
+        // s26 (Favoris) : vanne 5 et conseil 7 sur la même rangée, la vidéo fermée de la rangée 2 sur les 12 colonnes.
+        if (rubrique === "favoris" && largeur >= 1024) {
+          const f = await racine.evaluate((r) => {
+            const l = (e: Element) => e.getBoundingClientRect();
+            const [vanne, conseil] = Array.from(r.querySelectorAll("[data-apercu-rangee='1'] > *")).map(l);
+            const [video] = Array.from(r.querySelectorAll("[data-apercu-rangee='2'] > *")).map(l);
+            return { meme: Math.abs(vanne.top - conseil.top), rapport: vanne.width / conseil.width, video: video.right - video.left, total: conseil.right - vanne.left };
+          });
+          expect(f.meme, `vanne et conseil côte à côte, ${ou}`).toBeLessThanOrEqual(1);
+          expect(f.rapport, `5/7, ${ou}`).toBeLessThan(0.8);
+          expect(Math.abs(f.video - f.total), `vidéo sur les 12 colonnes, ${ou}`).toBeLessThanOrEqual(1);
+        }
+        if ((rubrique === "bibliotheque" || rubrique === "sEntrainer") && largeur >= 1024) {
           const g = await racine.evaluate((r) => {
             const bords = (e: Element) => { const b = e.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.right)]; };
             const [gauche, pile] = Array.from(r.querySelectorAll("[data-apercu-rangee='1'] > *"));

@@ -36,7 +36,8 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 const SRC = join(__dirname, "../..");
 const lire = (f: string) => readFileSync(join(SRC, f), "utf8");
 const classes = (el: Element | null) => (el?.getAttribute("class") ?? "").split(/\s+/);
-const RUBRIQUES = ["aujourdhui", "quoiRepondre", "bibliotheque", "sEntrainer", "mesQuestions", "mesRepliques", "favoris"] as const;
+// s26 : Favoris passe à `ApercuVerrouille` (`apercu-rubriques.test.tsx`), il sort de cet ancien aperçu.
+const RUBRIQUES = ["aujourdhui", "quoiRepondre", "bibliotheque", "sEntrainer", "mesQuestions", "mesRepliques"] as const;
 
 describe("point 1 : aperçu en une colonne centrée, offre dessous", () => {
   it.each(RUBRIQUES)("%s", (rubrique) => {
@@ -61,8 +62,11 @@ describe("point 1 : aperçu en une colonne centrée, offre dessous", () => {
     expect(imbriques).toEqual([]);
   });
 
-  it("Favoris : les deux contenus réels l'un sous l'autre (v6 tour 3, arbitrage 4, remplace le côte à côte)", () => {
-    expect(lire("components/espace/apercu/exemple.tsx")).toContain('"grid grid-cols-1 gap-4" data-apercu-fiche="favoris-exemples"');
+  // s26 (`docs/design/favoris-carnet-s26.md` §1) : les deux contenus réels côte à côte sur 12 colonnes (5/7), 2 dès 768.
+  it("Favoris (s26) : vanne et conseil sur une grille 12 col, 5/7 dès 1024 px", () => {
+    const source = lire("components/espace/apercu/apercu-favoris.tsx");
+    expect(source).toContain('"grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1"');
+    expect(source).toMatch(/lg:col-span-5[\s\S]*lg:col-span-7/);
   });
 });
 

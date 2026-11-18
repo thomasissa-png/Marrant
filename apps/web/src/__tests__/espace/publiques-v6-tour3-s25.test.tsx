@@ -166,23 +166,31 @@ describe("points 1 et 9 : /carnet", () => {
   );
   const enTete = (c: HTMLElement) => c.querySelector("header") as HTMLElement;
 
-  it.each([["abonné", "PREMIUM"], ["visiteur", null]])("ouvert, %s : sur-titre AU-DESSUS du H1, en-tête centré", (_n, plan) => {
+  // s26 (`docs/design/favoris-carnet-s26.md` §3 et §4) : en-tête aligné à gauche (plus centré), sur-titre toujours
+  // AU-DESSUS du H1, sans capitales (`META`, « Carnet de novembre 2026, 30 situations »).
+  it.each([["abonné", "PREMIUM"], ["visiteur", null]])("ouvert, %s (s26) : sur-titre AU-DESSUS du H1, sans capitales, aligné à gauche", (_n, plan) => {
     ouvrir(true);
     const { container } = render(page(plan));
     const header = enTete(container);
-    expect(header.className.split(" ")).toContain("text-center");
-    expect((header.firstElementChild as HTMLElement).tagName).toBe("P");
+    expect(header.className.split(" ")).not.toContain("text-center");
+    const surTitre = header.firstElementChild as HTMLElement;
+    expect(surTitre.tagName).toBe("P");
+    expect(surTitre.textContent).toBe("Carnet de novembre 2026, 30 situations");
+    expect(surTitre.className).not.toMatch(/uppercase|tracking|text-xs|accent/);
     expect(header.children[1].tagName).toBe("H1");
   });
 
-  it("ouvert, abonné : sommaire visiblement cliquable (soulignés en permanence, 44 px, 2 colonnes dès `sm`)", () => {
+  // s26 : sommaire en TUILES (3, 2 puis 1 colonne), cible de 44 px ; la première fiche porte le filet blanc.
+  it("ouvert, abonné (s26) : sommaire en tuiles 4/4/4, 30 tuiles de 44 px au moins, première marquée", () => {
     ouvrir(true);
     const { container } = render(page("PREMIUM"));
     const sommaire = container.querySelector("[data-carnet-sommaire]") as HTMLElement;
-    expect((sommaire.querySelector("ol") as HTMLElement).className).toContain("sm:grid-cols-2");
-    for (const lien of within(sommaire).getAllByRole("link")) {
-      expect(lien.className.split(" ")).toEqual(expect.arrayContaining(["underline", "min-h-11"]));
-    }
+    expect((sommaire.querySelector("ol") as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["md:grid-cols-2", "lg:grid-cols-3"]));
+    const tuiles = within(sommaire).getAllByRole("link");
+    expect(tuiles).toHaveLength(30);
+    for (const lien of tuiles) expect(lien.className.split(" ")).toContain("min-h-11");
+    expect(tuiles[0].className.split(" ")).toEqual(expect.arrayContaining(["border-l-2", "border-l-text-primary"]));
+    expect(tuiles[1].className).not.toContain("border-l-2");
     // Carnets précédents en fin de page, après la dernière fiche.
     const fiches = container.querySelectorAll('[id^="fiche-"]');
     const archives = container.querySelector('[aria-labelledby="carnet-archives"]') as HTMLElement;

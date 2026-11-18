@@ -12,7 +12,7 @@
  * - Mes répliques : la consigne « À toi » de la première situation, là où s'écrit une réplique (aucune
  *   réplique d'abonné n'est montrée ni inventée) ;
  * - Mes questions : aucune fiche ; l'état « Mes envois » sans envoi, déjà validé (`EtatVideQuestions`) ;
- * - Favoris : aucune fiche ; l'état vide existant de la page (`TEXTES_APERCU.favorisVide`).
+ * - Favoris : aucune fiche ; deux contenus réels du catalogue (`exemples-favoris.ts`, `apercu-favoris.tsx`).
  * Lecture directe des fichiers validés (`validerFichier`), hors chargeurs de l'abonné : ces trois fiches sont
  * publiques par nature dès qu'elles sont ici. Jamais une reprise de lettre (contrôlé par le test).
  */

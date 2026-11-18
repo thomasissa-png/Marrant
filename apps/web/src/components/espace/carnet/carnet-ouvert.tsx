@@ -1,0 +1,185 @@
+import Link from "next/link";
+import { chipClass } from "@/components/ui/chip";
+import { Reassurance } from "@/components/ui/reassurance";
+import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { frTypo } from "@/lib/fr-typo";
+import { cn } from "@/lib/utils";
+import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL, CARNET_RETOUR_SOMMAIRE } from "@/config/textes/cta-pages";
+import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+import { BOUTON_OFFRE, OffreApercu } from "@/components/espace/apercu/offre-apercu";
+import { Verrou } from "@/components/espace/apercu/badge-premium";
+import { META, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
+import { FicheCarnet } from "@/components/espace/carnet/fiche-carnet";
+import { RailCarnet } from "@/components/espace/carnet/rail-carnet";
+
+/** Ancre du sommaire du carnet de l'abonné (décision de Thomas du 16/11, « Retour au sommaire »). */
+const ANCRE_SOMMAIRE = "carnet-sommaire";
+const TITRE_ID = "carnet-titre";
+
+type Props = { view: CarnetView; months: string[]; returnTo: string; src: string; visiteur: boolean };
+
+/** Fil d'Ariane : retiré sur /carnet (premier niveau, nav v6), gardé sur /carnet/<mois>. Classes d'avant. */
+function FilAriane({ view, returnTo }: Pick<Props, "view" | "returnTo">) {
+  if (returnTo === "/carnet") return null;
+  return (
+    <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
+      <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
+      <span className="mx-2">/</span>
+      <Link href="/carnet" className="hover:text-text-primary max-md:py-3.5">Carnet</Link>
+      <span className="mx-2">/</span>
+      <span className="text-text-secondary">{formatCarnetMonth(view.mois)}</span>
+    </nav>
+  );
+}
+
+/** Sur-titre sans capitales (s26) : « Carnet de novembre 2026, 30 situations » (textes existants, ponctuation seule). */
+const surTitre = (view: CarnetView) => `Carnet ${deCarnetMonth(view.mois)}, ${view.totalFiches} situations`;
+
+/** En-tête aligné à gauche : sur-titre `META`, H1 `TITRE_PAGE` (blanc), intro `TEXTE`. */
+function EnTete({ view }: { view: CarnetView }) {
+  return (
+    <header className="min-w-0">
+      <p className={META}>{surTitre(view)}</p>
+      <h1 id={TITRE_ID} className={cn("mt-2", TITRE_PAGE)}>{frTypo(view.titre)}</h1>
+      <p className={cn("mt-4 max-w-xl", TEXTE)}>{frTypo(view.intro)}</p>
+    </header>
+  );
+}
+
+/**
+ * `/carnet` et `/carnet/<mois>`, espace OUVERT seulement (s26, `docs/ux/favoris-carnet-s26.md` §2, design §3 et §4).
+ * Vue déjà filtrée par `carnetViewForPlan` : le verrouillage ne change pas (non-abonné : la fiche offerte, puis les
+ * titres et contextes des autres, rien d'autre dans le HTML). Fermé : `CarnetPage` d'avant, au caractère près.
+ */
+export function CarnetOuvert(props: Props) {
+  return props.view.premium ? <CarnetAbonne {...props} /> : <CarnetVisiteur {...props} />;
+}
+
+/**
+ * Visiteur et inscrit gratuit : hero 8/4 offre EN HAUT (décision du 16/11), le bloc d'offre des aperçus (`OffreApercu`,
+ * son style suivra la refonte des encarts Premium), lien vers `/abonnement` avec la source du carnet. Dessous, la fiche
+ * offerte (8) et le programme fermé (4, collant dès 1024 px), puis la fin d'extrait (`CARNET_PAYWALL`, mêmes textes).
+ */
+function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
+  const href = buildAbonnementUrl(returnTo, "monthly", src);
+  const offerte = view.fiches[0];
+  const restantes = view.apercus.length;
+  return (
+    <div className="pb-16" data-carnet="visiteur">
+      <FilAriane view={view} returnTo={returnTo} />
+      <div className="grid gap-4 md:grid-cols-5 md:gap-8 lg:grid-cols-12 lg:gap-12" data-carnet-hero>
+        <div className="min-w-0 md:col-span-3 lg:col-span-8">
+          <EnTete view={view} />
+        </div>
+        <div className="min-w-0 md:col-span-2 lg:col-span-4">
+          <OffreApercu href={href} adresse={returnTo} visiteur={visiteur} />
+        </div>
+      </div>
+      <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
+        {restantes > 0 && (
+          <section
+            aria-labelledby="carnet-reserve"
+            className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 lg:sticky lg:top-24 lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1")}
+            data-carnet-programme
+          >
+            <h2 id="carnet-reserve" className={TITRE_CARTE}>{CARNET_PAYWALL.listeTitre}</h2>
+            <ol className="mt-4">
+              {view.apercus.slice(0, CARNET_LISTE_VISIBLES).map((f) => (
+                <li key={f.id} className="flex min-h-11 items-center gap-4 border-t border-border py-2 first:border-t-0">
+                  <div className="min-w-0 flex-1 opacity-75">
+                    <p className={TEXTE_FORT}>{frTypo(f.titre)}</p>
+                    <p className={META}>{frTypo(f.contexte)}</p>
+                  </div>
+                  <Verrou />
+                </li>
+              ))}
+            </ol>
+            {restantes > CARNET_LISTE_VISIBLES && <p className={cn("mt-4", META)}>{CARNET_PAYWALL.listeReste(restantes - CARNET_LISTE_VISIBLES)}</p>}
+          </section>
+        )}
+        {offerte && (
+          <div className="min-w-0 lg:col-span-8 lg:col-start-1 lg:row-start-1">
+            <FicheCarnet fiche={offerte} numero={view.numeros[offerte.id]} offerte />
+          </div>
+        )}
+        {restantes > 0 && (
+          <div className="min-w-0 lg:col-span-8 lg:col-start-1" data-carnet-fin>
+            <p className={TITRE_CARTE}>{frTypo(CARNET_PAYWALL.titre(restantes))}</p>
+            <p className={cn("mt-2", TEXTE)}>{frTypo(CARNET_PAYWALL.paragraphe)}</p>
+            <Link href={href} data-testid="carnet-paywall-bouton" className={cn(BOUTON_OFFRE, "mt-6 w-full sm:w-auto sm:min-w-64")}>
+              {frTypo(CARNET_PAYWALL.bouton)}
+            </Link>
+            <Reassurance className={cn("text-left", META)} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Abonné : lieu de référence, sans bouton plein ni aplat violet. Sommaire en tuiles (3, 2 puis 1 colonne), la première
+ * fiche marquée d'un filet blanc (aucun suivi « lu » n'existe pour le carnet : jamais simulé). Fiches en 9 colonnes avec
+ * un rail collant de 3 dès 1024 px, « Retour au sommaire » sous chacune (16/11), puis les carnets précédents.
+ */
+function CarnetAbonne({ view, months, returnTo }: Props) {
+  const autresMois = months.filter((m) => m !== view.mois);
+  const lignes = view.fiches.map((f) => ({ id: f.id, numero: view.numeros[f.id], titre: frTypo(f.titre) }));
+  return (
+    <div className="pb-16" data-carnet="abonne">
+      <FilAriane view={view} returnTo={returnTo} />
+      <EnTete view={view} />
+      <nav id={ANCRE_SOMMAIRE} aria-labelledby={TITRE_ID} className="mt-8 scroll-mt-24" data-carnet-sommaire="">
+        <ol className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {view.fiches.map((f, i) => (
+            <li key={f.id} className="min-w-0">
+              <a
+                href={`#fiche-${f.id}`}
+                className={cn(
+                  CADRE_CARTE_NEUTRE,
+                  "flex h-full min-h-11 flex-col p-6 [overflow-wrap:anywhere] hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+                  i === 0 && "border-l-2 border-l-text-primary bg-background-elevated",
+                )}
+                data-carnet-tuile={f.id}
+              >
+                <span className={cn(META, "tabular-nums")}>{view.numeros[f.id]}</span>
+                <span className={cn("mt-2", TEXTE_FORT)}>{frTypo(f.titre)}</span>
+                <span className={cn("mt-2", META)}>{frTypo(f.contexte)}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <div className="mt-12 lg:grid lg:grid-cols-12 lg:gap-6">
+        <div className="hidden lg:sticky lg:top-24 lg:col-span-3 lg:block lg:self-start">
+          <RailCarnet lignes={lignes} titreId={TITRE_ID} />
+        </div>
+        <div className="min-w-0 space-y-6 lg:col-span-9">
+          {view.fiches.map((f) => (
+            <div key={f.id}>
+              <FicheCarnet fiche={f} numero={view.numeros[f.id]} offerte={false} />
+              <a href={`#${ANCRE_SOMMAIRE}`} className={cn(LIEN_NEUTRE, "mt-4")} data-carnet-retour-sommaire="">
+                {CARNET_RETOUR_SOMMAIRE}
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+      {autresMois.length > 0 && (
+        <section aria-labelledby="carnet-archives" className="mt-12">
+          <h2 id="carnet-archives" className={TITRE_CARTE}>Les carnets précédents</h2>
+          <ul className="mt-6 flex flex-wrap gap-2">
+            {autresMois.map((m) => (
+              <li key={m}>
+                <Link href={`/carnet/${m}`} className={chipClass()}>
+                  {formatCarnetMonth(m)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  );
+}

@@ -21,9 +21,7 @@ import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { Reassurance } from "@/components/ui/reassurance";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { RangeeOnglets } from "@/components/espace/rangee-onglets";
-import { DIFFICULTY_LABELS, DIFFICULTY_VARIANT, JOKE_CATEGORY_LABELS, TIP_CATEGORY_LABELS } from "@/components/favoris/libelles";
-
-type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
+import { DIFFICULTY_LABELS, DIFFICULTY_VARIANT, JOKE_CATEGORY_LABELS, TABS, TIP_CATEGORY_LABELS, type TabFilter } from "@/components/favoris/libelles";
 
 /**
  * Lot D11c (revue d'harmonie, défaut 5) : interrupteur de l'espace ouvert, rangée avec marge et indice de suite
@@ -62,45 +60,6 @@ function largeursCourtes(ids: readonly string[]): Map<string, string> {
     }),
   );
 }
-
-const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: string; emptyDesc: string; ctaLabel: string; ctaHref: string }[] = [
-  {
-    value: "ALL",
-    label: "Tout",
-    emptyEmoji: "⭐",
-    emptyTitle: "Aucun favori pour l’instant",
-    emptyDesc: "Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée.",
-    ctaLabel: "Explorer les vannes",
-    ctaHref: "/vannes",
-  },
-  {
-    value: "JOKE",
-    label: "Vannes",
-    emptyEmoji: "😅",
-    emptyTitle: "Pas encore de vanne en favoris",
-    emptyDesc: "Trouve ta prochaine punchline et garde-la ici pour la ressortir au bon moment.",
-    ctaLabel: "Parcourir les vannes",
-    ctaHref: "/vannes",
-  },
-  {
-    value: "TIP",
-    label: "Conseils",
-    emptyEmoji: "🎓",
-    emptyTitle: "Pas encore de conseil en favoris",
-    emptyDesc: "Sauvegarde les techniques qui te parlent pour les travailler à ton rythme.",
-    ctaLabel: "Découvrir les conseils",
-    ctaHref: "/conseils",
-  },
-  {
-    value: "VIDEO",
-    label: "Vidéos",
-    emptyEmoji: "🎬",
-    emptyTitle: "Pas encore de vidéo en favoris",
-    emptyDesc: "Garde tes vidéos préférées ici pour les revoir et t’en inspirer.",
-    ctaLabel: "Explorer les vidéos",
-    ctaHref: "/videos",
-  },
-];
 
 interface JokeData {
   content: string;

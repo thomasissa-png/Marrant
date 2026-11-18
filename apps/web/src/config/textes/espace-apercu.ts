@@ -30,15 +30,6 @@ export const TEXTES_APERCU = {
   } satisfies Record<RubriqueApercu, string>,
   offre: { bouton: EN_TETE.bouton, nomAccessible: EN_TETE.nomAccessible },
   connexion: TEXTES_CONNEXION.lienConnexionMobile,
-  /**
-   * Favoris (coordinateur, 15/11 : « l'état vide existant de la page avec l'offre, sans rien inventer ») : titre et
-   * phrase de l'onglet « Tout » vide, mot pour mot (`components/favoris/favoris-list.tsx`, `TABS[0]`, contrôlé par
-   * le test) ; ni l'émoji ni le bouton « Explorer les vannes » (un seul bouton plein par aperçu).
-   */
-  favorisVide: {
-    titre: "Aucun favori pour l’instant",
-    texte: "Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée.",
-  },
 } as const;
 
 /**
@@ -60,6 +51,9 @@ export const TEXTES_APERCU_VERROUILLE = {
    * et les séances ne notent rien (aucun score, aucune XP), la phrase est vraie pour toute la rubrique. */
   // validé par Thomas le 18/11 (docs/founder-preferences.md)
   promesseSEntrainer: "Ici, rien n'est noté : tu t'essaies avant que ça compte.",
+  /** Promesse du hero de l'aperçu de « Favoris » (s26, `docs/ux/favoris-carnet-s26.md` §1.2, emplacement `PROMESSE`). */
+  // À VALIDER PAR THOMAS (s26), reco @copywriter, voir docs/copy/promesses-apercus-s26.md
+  promesseFavoris: "Garde ce qui t'a servi, retrouve-le sans chercher.",
   /** T2 : phrase de fin d'extrait, toutes rubriques. */
   // validé par Thomas le 18/11
   suite: "La suite est dans Premium",
