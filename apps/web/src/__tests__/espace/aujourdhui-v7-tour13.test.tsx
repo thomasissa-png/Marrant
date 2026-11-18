@@ -3,7 +3,8 @@
  * RÉPLIQUES. 1. Z1 de l'extrait = vitrine : la situation en clair une seule fois, les répliques de la fiche par défaut
  * en trois cartes fermées (libellé réel, verrou, barres), leur texte ABSENT du rendu ; plus de bouton éteint.
  * 2. Un seul bouton de paiement en haut : l'en-tête masque le sien sur un aperçu à offre en haut (ouvert seulement).
- * 3. H1 de l'aperçu en texte dégradé (`text-gradient` de l'accueil), même taille. 4. Légende à 48 px de l'offre.
+ * 3. H1 de l'aperçu en texte dégradé (`text-gradient` de l'accueil), même taille ; s26, Thomas 18/11 : en BLANC comme
+ * chez l'abonné, plus de dégradé. 4. Légende à 48 px de l'offre.
  * 5. Abonné : bouton de Z1 à gauche sous le texte pour tous les comptes. Positions : specs Playwright.
  */
 import { act, render, screen } from "@testing-library/react";
@@ -123,12 +124,15 @@ describe("point 2 : un seul bouton de paiement en haut", () => {
   });
 });
 
-describe("point 3 : H1 de l'aperçu en texte dégradé, même taille", () => {
-  it("`text-gradient` (celui de l'accueil) et texte transparent, `TITRE_PAGE` gardé, sans couleur blanche qui l'écraserait", () => {
+// s26, Thomas 18/11 : le H1 de l'aperçu passe en BLANC comme chez l'abonné (`TITRE_PAGE` seul, plus de dégradé).
+describe("point 3 : H1 de l'aperçu en blanc (s26, Thomas 18/11), même taille", () => {
+  it("`TITRE_PAGE` seul (blanc `text-text-primary`), sans `text-gradient`, `text-transparent` ni `data-titre-degrade`", () => {
     render(<ApercuAujourdhui visiteur />);
     const h1 = document.querySelector("#apercu-titre") as HTMLElement;
-    expect(classes(h1)).toEqual(expect.arrayContaining(["text-gradient", "text-transparent", "text-2xl", "lg:text-3xl", "font-semibold", "font-display"]));
-    expect(classes(h1)).not.toContain("text-text-primary");
+    expect(classes(h1)).toEqual(expect.arrayContaining(["text-text-primary", "text-2xl", "lg:text-3xl", "font-semibold", "font-display"]));
+    expect(classes(h1)).not.toContain("text-gradient");
+    expect(classes(h1)).not.toContain("text-transparent");
+    expect(h1.hasAttribute("data-titre-degrade")).toBe(false);
   });
 });
 

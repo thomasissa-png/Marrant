@@ -421,6 +421,18 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       expect((await boite(offres.nth(1))).haut, `bouton de fin sous 900 px, ${largeur}`).toBeGreaterThanOrEqual(900);
       // Échelle s25 : la phrase de fin aussi (un seul « Premium » écrit hors offre au premier écran).
       expect((await boite(page.locator("[data-apercu-fin] p"))).haut, `phrase de fin sous 900 px, ${largeur}`).toBeGreaterThan(900);
+      // s26, Thomas 18/11 : une seule grille 8/4 pour le hero et l'extrait. « Ton cap » a les bords de la carte d'offre,
+      // Z1 ceux du texte du hero ; en rangée 2 (4/4/4), la dernière tuile a aussi ceux de la carte d'offre.
+      const grille = await page.evaluate(() => {
+        const bords = (e: Element) => { const b = e.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.right)]; };
+        const [texte] = Array.from(document.querySelectorAll("[data-apercu-hero] > *"));
+        const [gauche, droite] = Array.from(document.querySelectorAll("[data-apercu-rangee='1'] > *"));
+        const r2 = Array.from(document.querySelectorAll("[data-apercu-rangee='2'] > *"));
+        return { texte: bords(texte), offre: bords(document.querySelector("[data-apercu-offre]")!), gauche: bords(gauche), droite: bords(droite), fin2: bords(r2[r2.length - 1]) };
+      });
+      expect(grille.droite, `« Ton cap » sous la carte d'offre, ${largeur}`).toEqual(grille.offre);
+      expect(grille.gauche, `Z1 sous le texte du hero, ${largeur}`).toEqual(grille.texte);
+      expect(grille.fin2, `dernière tuile de la rangée 2 sous la carte d'offre, ${largeur}`).toEqual(grille.offre);
       // v7 tour 10 (faute 1 du tour 9, bande vide de 128 px) : au plus 64 px entre le bas du hero et la légende.
       const [heroBas, legHaut] = [(await boite(page.locator("[data-apercu-hero]"))).bas, (await boite(page.locator("[data-apercu-legende]"))).haut];
       expect(Math.round(legHaut - heroBas), `air entre le hero et la légende, ${largeur}`).toBeLessThanOrEqual(64);

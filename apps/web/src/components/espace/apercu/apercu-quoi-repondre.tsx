@@ -53,8 +53,8 @@ function ExtraitQuoiRepondre() {
   const aPlat = groupes.find((g) => g.cle === "sans-lieu");
   return (
     <div data-apercu-fiche="coloc-la-poele">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1">
-        <TuileFermee nette className="md:col-span-2 lg:col-span-7">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
+        <TuileFermee nette className="md:col-span-2 lg:col-span-8">
           <div className={TUILE} data-apercu-situation>
             <p className={ETIQUETTE}>{F.types.situation}</p>
             <h2 className={cn("pr-8", TITRE_TUILE)}>{frEspace(s.titre)}</h2>
@@ -63,7 +63,7 @@ function ExtraitQuoiRepondre() {
             <RepliquesFermees registres={s.registres} />
           </div>
         </TuileFermee>
-        <TuileFermee className="md:col-span-2 lg:col-span-5">
+        <TuileFermee className="md:col-span-2 lg:col-span-4">
           <div className={TUILE} data-apercu-filtres>
             <p className={cn("pr-8", ETIQUETTE)}>{Q.filtreOu}</p>
             <ul className="mt-2 flex flex-wrap gap-2">
@@ -84,7 +84,7 @@ function ExtraitQuoiRepondre() {
           « Rattraper un faux pas » sans le pied « Le carnet du mois » (il se lisait comme un lien actif et touchait les
           barres) : titre, effectif, verrou et barres, comme ses voisines. */}
       <SuiteCoupee entiere>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
           <TuileFermee className="lg:col-span-4">
             <div className={TUILE}>
               <TitreFerme titre={Q.pourQuoiFaire["rattraper-faux-pas"]} effectif={aPlat?.nombre} />
@@ -109,8 +109,10 @@ function ExtraitQuoiRepondre() {
 /**
  * Aperçu VERROUILLÉ de « Quoi répondre » (s26, `docs/ux/rubriques-premium-s26.md` §1.1), sur le squelette validé
  * d'« Aujourd'hui » (`ApercuVerrouille`) : hero 8/4 et offre en haut, puis la situation désignée en clair avec ses
- * trois répliques fermées (7) et l'étendue du catalogue en filtres inertes avec leurs effectifs (5) ; sous le fondu,
+ * trois répliques fermées (8) et l'étendue du catalogue en filtres inertes avec leurs effectifs (4) ; sous le fondu,
  * « Rattraper un faux pas », « L'erreur que tout le monde fait » et « Comment choisir » en titres fermés (4/4/4).
+ * s26 (décision de Thomas du 18/11) : 8/4 au lieu de 7/5 et gouttière de 48 px dès 1024, la grille du hero (bords de
+ * la carte d'offre pour les filtres, du texte du hero pour la situation).
  */
 export function ApercuQuoiRepondre({ visiteur }: { visiteur: boolean }) {
   return (

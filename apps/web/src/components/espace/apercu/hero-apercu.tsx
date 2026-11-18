@@ -52,6 +52,9 @@ import { cn } from "@/lib/utils";
  * premier écran pour le visiteur et le gratuit, le bouton d'offre aussi.
  * v7 tour 12 : les marges compactes des pastilles (`px-2 py-0.5`, sous 768) sont retirées : sous 768, la liste est en
  * `sr-only`, elles ne servaient plus. Une seule marge, `px-3 py-1`.
+ * s26 (décision de Thomas du 18/11) : une seule grille 8/4 pour le hero et l'extrait. Dès 1024, la gouttière du hero
+ * (`lg:gap-12`, 48 px) est reprise par les rangées de l'extrait des 4 aperçus (`lg:gap-x-12`, spans 8 et 4) : la colonne
+ * de droite de l'extrait a les bords de la carte d'offre, la colonne de gauche ceux du texte du hero.
  */
 export function HeroApercu({
   titre,
@@ -69,11 +72,9 @@ export function HeroApercu({
       <div className="flex min-w-0 flex-col md:col-span-3 lg:col-span-8">
         <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-col md:items-start md:justify-start" data-apercu-tete>
           <BadgePremium className="flex-none" />
-          {/* v7 tour 13 (décision de Thomas du 16/11) : la chaleur de l'accueil, son texte en dégradé (`text-gradient`,
-              celui de « personne rit » dans `hero-section.tsx`), à la même taille (`TITRE_PAGE`). Pas un aplat : le seul
-              aplat violet reste le bouton d'offre. Hors de `cn` : tailwind-merge prend `text-gradient` pour une couleur de
-              texte et l'écrasait. */}
-          <h1 id="apercu-titre" className={`${cn("min-w-0", TITRE_PAGE, "text-transparent")} text-gradient`} data-titre-degrade>
+          {/* s26 (décision de Thomas du 18/11) : titre en BLANC, comme chez l'abonné (`TITRE_PAGE` seul) ; le texte en
+              dégradé du tour 13 est retiré. Le seul aplat violet reste le bouton d'offre. */}
+          <h1 id="apercu-titre" className={cn("min-w-0", TITRE_PAGE)}>
             {titre}
           </h1>
         </div>

@@ -42,8 +42,8 @@ function ExtraitBibliotheque() {
   const nbFormules = validerFichier("formule", formules).length;
   return (
     <div data-apercu-fiche="le-faux-secret">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1">
-        <TuileFermee nette className="md:col-span-2 lg:col-span-7">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
+        <TuileFermee nette className="md:col-span-2 lg:col-span-8">
           <div className={TUILE} data-apercu-construction>
             <p className={ETIQUETTE}>{B.prefixes.construction}</p>
             <h2 className={cn("pr-8", TITRE_TUILE)}>{frEspace(c.titre)}</h2>
@@ -52,9 +52,10 @@ function ExtraitBibliotheque() {
             <BlocsFermes libelles={BLOCS_FERMES_CONSTRUCTION} className="md:grid-cols-2" />
           </div>
         </TuileFermee>
-        {/* s26 tour 3 (B1) : une seule grille 7/5 pour tout l'extrait. Colonne de droite : « Vannes, conseils, vidéos » puis
-            « Vocabulaire » fermé, empilés à la hauteur de leur contenu (`h-auto`) : plus de tuile étirée creuse. */}
-        <div className="flex min-w-0 flex-col gap-6 md:col-span-2 lg:col-span-5" data-apercu-pile>
+        {/* s26 tour 3 (B1) : une seule grille pour tout l'extrait (8/4 depuis la décision de Thomas du 18/11, celle
+            du hero). Colonne de droite : « Vannes, conseils, vidéos » puis « Vocabulaire » fermé, empilés à la hauteur
+            de leur contenu (`h-auto`) : plus de tuile étirée creuse. */}
+        <div className="flex min-w-0 flex-col gap-6 md:col-span-2 lg:col-span-4" data-apercu-pile>
           <TuileFermee className="h-auto">
             <div className={TUILE} data-apercu-catalogue>
               <p className={cn("pr-8", ETIQUETTE)}>{B.blocVannes}</p>
@@ -84,10 +85,10 @@ function ExtraitBibliotheque() {
         </div>
       </div>
       {/* s26 tour 2 : tuiles entières seulement (`entiere`). s26 tour 3 (B1) : « Formules à détourner » seule en rangée 2,
-          sur les 7 colonnes de gauche de la même grille (bords à x 32 et 731 à 1280, comme la construction). */}
+          sur les 8 colonnes de gauche de la même grille (bords de la construction et du texte du hero). */}
       <SuiteCoupee entiere>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="2">
-          <TuileFermee className="md:col-span-2 lg:col-span-7">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
+          <TuileFermee className="md:col-span-2 lg:col-span-8">
             <div className={TUILE}>
               <TitreFerme titre={B.prefixes.formule} effectif={nbFormules} />
             </div>
@@ -100,8 +101,8 @@ function ExtraitBibliotheque() {
 
 /**
  * Aperçu VERROUILLÉ de « Bibliothèque » (s26, `docs/ux/rubriques-premium-s26.md` §2.1), squelette `ApercuVerrouille` :
- * la construction désignée avec son schéma en clair et ses quatre blocs fermés (7), le catalogue en texte inerte puis
- * « Vocabulaire » fermé avec son effectif réel (5) ; sous le fondu, « Formules à détourner » et son effectif (7, même
+ * la construction désignée avec son schéma en clair et ses quatre blocs fermés (8), le catalogue en texte inerte puis
+ * « Vocabulaire » fermé avec son effectif réel (4) ; sous le fondu, « Formules à détourner » et son effectif (8, même
  * grille, s26 tour 3).
  */
 export function ApercuBibliotheque({ visiteur }: { visiteur: boolean }) {

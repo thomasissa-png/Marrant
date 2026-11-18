@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s26, aperçus verrouillés, décisions de Thomas du 18/11 (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : H1 de l'aperçu en blanc (`TITRE_PAGE` seul, plus de texte dégradé) ; une seule grille 8/4 pour le hero et l'extrait des 4 aperçus (Aujourd'hui, Quoi répondre, Bibliothèque, S'entraîner) : rangées de l'extrait en 8/4 avec la gouttière du hero dès 1024 (48 px), colonne de droite aux bords de la carte d'offre. Carte d'offre et bloc de fin d'extrait inchangés (placement seul). Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47).
+- **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
+
 ### s26, rubriques Premium tour 3 (Quoi répondre, Bibliothèque, S'entraîner ; interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
 - **Quoi** : Quoi répondre abonné, « Voir » suit le titre (plus de `lg:justify-between`), rail de filtres collant seulement si la fenêtre fait 64rem de haut dès 1280 (74rem de 1024 à 1279) ; aperçus Bibliothèque et S'entraîner en une seule grille 7/5 (colonne de droite empilée, une tuile seule en rangée 2) ; Bibliothèque abonné, colonnes rééquilibrées dès 1024 et « Comment c'est construit » en tête à 375 ; S'entraîner abonné, segments seulement si une carte est faite aujourd'hui et au moins deux au total. Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47).
 - **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.

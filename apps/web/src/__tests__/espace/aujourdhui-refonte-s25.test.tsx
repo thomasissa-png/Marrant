@@ -99,9 +99,11 @@ describe("textes neufs (spec UX §6.2)", () => {
     // Jour de Paris : 23 h 30 UTC le 16 = mardi 17 à Paris.
     expect(dateDuJour(new Date("2026-11-16T23:30:00Z"))).toBe("mardi 17 novembre");
     const fichier = lire("config/textes/espace-apercu.ts");
-    // v7 tour 13 : T1 validé par Thomas le 16/11 (version B) ; les trois autres restent à valider.
-    expect(fichier.match(/\/\/ À VALIDER PAR THOMAS \(s25\)/g)).toHaveLength(3);
+    // v7 tour 13 : T1 validé par Thomas le 16/11 (version B). s26, Thomas 18/11 : T2 (« La suite est dans Premium »)
+    // validé à son tour, avec les trois promesses des aperçus s26 ; les deux autres textes s25 restent à valider.
+    expect(fichier.match(/\/\/ À VALIDER PAR THOMAS \(s25\)/g)).toHaveLength(2);
     expect(fichier.match(/\/\/ validé par Thomas le 16\/11/g)).toHaveLength(1);
+    expect(fichier.match(/\/\/ validé par Thomas le 18\/11/g)).toHaveLength(4);
     expect(JSON.stringify(TEXTES_APERCU_VERROUILLE)).not.toMatch(/—/);
   });
 

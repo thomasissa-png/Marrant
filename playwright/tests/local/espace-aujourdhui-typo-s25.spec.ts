@@ -20,8 +20,9 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
  * - v7 tour 9 (faute dure design du tour 8) : aperçu (visiteur et gratuit), la carte Z1 de l'extrait est NEUTRE (ni
  *   bord ni teinte violette, `TUILE`) : AUCUN bord, fond ni filet violet dans tout l'extrait (premier écran ou non), et
  *   le seul aplat violet du premier écran est le bouton d'offre du hero (`[data-position="haut"]`) ;
- * - v7 tour 13 (décision de Thomas du 16/11) : le H1 de l'aperçu peut porter le TEXTE en dégradé de l'accueil (fond
- *   découpé au texte, `text-gradient`) ; ce n'est pas un aplat : il y a toujours un seul aplat violet, le bouton d'offre ;
+ * - v7 tour 13 (décision de Thomas du 16/11) : le H1 de l'aperçu portait le TEXTE en dégradé de l'accueil ; s26, Thomas
+ *   18/11 : il est en BLANC (#FFFFFF) comme chez l'abonné, aucun texte dégradé nulle part ; un seul aplat violet, le
+ *   bouton d'offre ;
  * - aperçu : le mot « Premium » au plus deux fois en repère visible (pastille du hero et bouton d'offre ; les phrases
  *   de la carte d'offre, réassurance et phrase d'objet, sont des textes validés, hors repère).
  */
@@ -45,8 +46,10 @@ type Mesure = {
   pleinsOffre: number;
   /** Tout l'extrait de l'aperçu, sans limite d'écran : éléments à bord, fond ou filet violet (bouton de fin exclu). */
   violetsExtrait: string[];
-  /** v7 tour 13 : H1 de l'aperçu en TEXTE dégradé (`text-gradient` de l'accueil, fond découpé au texte), pas un aplat. */
+  /** Titres en TEXTE dégradé (fond découpé au texte) : aucun depuis s26 (Thomas 18/11, H1 de l'aperçu en blanc). */
   titresDegrades: string[];
+  /** s26, Thomas 18/11 : couleur calculée du H1 de l'aperçu (`#apercu-titre`), null hors aperçu. */
+  couleurTitreApercu: string | null;
 };
 
 async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
@@ -92,10 +95,10 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
           const s = getComputedStyle(el, ps);
           return s.content !== "none" && (contientViolet(s.backgroundColor) || contientViolet(s.backgroundImage));
         });
-        // v7 tour 13 (décision de Thomas du 16/11) : le H1 de l'aperçu peut porter le texte en dégradé de l'accueil
-        // (fond découpé au texte, couleur transparente, aucun bord, aucun fond plein) : relevé à part, pas un aplat.
+        // v7 tour 13 : un H1 en texte dégradé (fond découpé au texte) est relevé à part. s26, Thomas 18/11 : il n'y en a
+        // plus (H1 de l'aperçu en blanc) ; le relevé reste pour le prouver.
         const clip = cs.backgroundClip || cs.getPropertyValue("-webkit-background-clip");
-        if (el.matches("h1[data-titre-degrade]") && clip === "text" && !bordViolet && !pseudoViolet && !contientViolet(cs.backgroundColor)) {
+        if (el.matches("h1") && clip === "text" && !bordViolet && !pseudoViolet && !contientViolet(cs.backgroundColor)) {
           titresDegrades.push(`${(el.textContent ?? "").trim().slice(0, 30)} | ${cs.color}`);
         } else if (z1 && el === z1 && (bordViolet || fondViolet) && !pseudoViolet && !(fond.teinte && fond.alpha >= 0.5)) {
           accentZ1.cadre += 1;
@@ -191,6 +194,10 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
         pleinsOffre,
         violetsExtrait,
         titresDegrades,
+        couleurTitreApercu: (() => {
+          const h1 = main.querySelector("#apercu-titre");
+          return h1 ? getComputedStyle(h1).color : null;
+        })(),
       };
     },
     { hauteur, violets: VIOLETS },
@@ -218,8 +225,9 @@ function controler(m: Mesure, ou: string, titre: number, apercu: boolean) {
     expect(m.accentZ1.cadre, `carte Z1 de l'extrait sans bord ni teinte violette, ${ou}`).toBe(0);
     expect(m.violetsExtrait, `bord, fond ou filet violet dans l'extrait, ${ou}`).toEqual([]);
     expect(m.pleinsOffre, `le seul aplat violet du premier écran est le bouton d'offre, ${ou}`).toBe(1);
-    // v7 tour 13 : le H1 en texte dégradé, une seule fois, texte transparent (le dégradé se lit à travers).
-    expect(m.titresDegrades, `H1 de l'aperçu en texte dégradé, ${ou}`).toEqual([expect.stringMatching(/\| rgba\(0, 0, 0, 0\)$/)]);
+    // s26, Thomas 18/11 : le H1 de l'aperçu en BLANC (#FFFFFF) comme chez l'abonné, plus de texte dégradé.
+    expect(m.couleurTitreApercu, `H1 de l'aperçu en blanc #FFFFFF, ${ou}`).toBe("rgb(255, 255, 255)");
+    expect(m.titresDegrades, `aucun texte dégradé dans l'aperçu, ${ou}`).toEqual([]);
   } else {
     expect(m.titresDegrades, `aucun texte dégradé chez l'abonné, ${ou}`).toEqual([]);
   }

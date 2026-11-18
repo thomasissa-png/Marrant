@@ -40,6 +40,8 @@ import BibliothequePage from "@/app/(dashboard)/mon-espace/bibliotheque/page";
 import SEntrainerPage from "@/app/(dashboard)/mon-espace/s-entrainer/page";
 import { ApercuBibliotheque } from "@/components/espace/apercu/apercu-bibliotheque";
 import { ApercuSEntrainer } from "@/components/espace/apercu/apercu-s-entrainer";
+import { ApercuQuoiRepondre } from "@/components/espace/apercu/apercu-quoi-repondre";
+import { ApercuAujourdhui } from "@/components/espace/apercu/tableau-verrouille";
 import { CarteRepliee } from "@/components/espace/carte/carte-repliee";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
 import { CADRE_CARTE_NEUTRE, CADRE_CARTE_RUBRIQUE } from "@/components/espace/carte/styles";
@@ -313,14 +315,14 @@ describe("« S'entraîner » abonné : prochaine action et progression", () => {
   });
 });
 
-describe("s26 tour 3 (B1, S1) : aperçus en une seule grille 7/5", () => {
+describe("s26 tour 3 (B1, S1) : aperçus en une seule grille (8/4 depuis s26, Thomas 18/11)", () => {
   it.each([
     ["Bibliothèque", () => render(<ApercuBibliotheque visiteur />), "[data-apercu-catalogue]"],
     ["S'entraîner", () => render(<ApercuSEntrainer visiteur />), "[data-apercu-mission]"],
-  ])("%s : colonne de droite empilée (deux tuiles à leur hauteur), une seule tuile en rangée 2 sur 7 colonnes", (_, rendre, premiere) => {
+  ])("%s : colonne de droite empilée (deux tuiles à leur hauteur), une seule tuile en rangée 2 sur 8 colonnes", (_, rendre, premiere) => {
     const { container } = rendre();
     const rangee1 = [...container.querySelectorAll("[data-apercu-rangee='1'] > *")];
-    expect(rangee1.map((e) => classes(e).find((c) => c.startsWith("lg:col-span-")))).toEqual(["lg:col-span-7", "lg:col-span-5"]);
+    expect(rangee1.map((e) => classes(e).find((c) => c.startsWith("lg:col-span-")))).toEqual(["lg:col-span-8", "lg:col-span-4"]);
     const pile = rangee1[1];
     expect(pile.hasAttribute("data-apercu-pile")).toBe(true);
     expect(classes(pile)).toEqual(expect.arrayContaining(["flex", "flex-col", "gap-6"]));
@@ -330,7 +332,29 @@ describe("s26 tour 3 (B1, S1) : aperçus en une seule grille 7/5", () => {
     expect(tuiles[0].querySelector(premiere)).not.toBeNull();
     const rangee2 = [...container.querySelectorAll("[data-apercu-rangee='2'] > *")];
     expect(rangee2).toHaveLength(1);
-    expect(classes(rangee2[0])).toEqual(expect.arrayContaining(["md:col-span-2", "lg:col-span-7"]));
+    expect(classes(rangee2[0])).toEqual(expect.arrayContaining(["md:col-span-2", "lg:col-span-8"]));
     expect(container.querySelector("[data-apercu-extrait]")!.innerHTML).not.toMatch(/lg:col-span-6|max-md:hidden/);
+  });
+});
+
+// s26, Thomas 18/11 : une seule grille 8/4 pour le hero et l'extrait des 4 aperçus. Dès 1024, les rangées de l'extrait
+// prennent la gouttière du hero (48 px) et ses spans : colonne de droite sous la carte d'offre, gauche sous le texte.
+// Bords mesurés en vrai navigateur : spec Playwright `espace-v6-tour2-lot1`.
+describe("s26, Thomas 18/11 : hero et extrait sur une seule grille 8/4", () => {
+  it.each([
+    ["Aujourd'hui", () => render(<ApercuAujourdhui visiteur />)],
+    ["Quoi répondre", () => render(<ApercuQuoiRepondre visiteur />)],
+    ["Bibliothèque", () => render(<ApercuBibliotheque visiteur />)],
+    ["S'entraîner", () => render(<ApercuSEntrainer visiteur />)],
+  ])("%s : rangée 1 en 8 + 4, gouttière du hero (48 px) sur les deux rangées", (_, rendre) => {
+    const { container } = rendre();
+    const hero = container.querySelector("[data-apercu-hero]")!;
+    expect(classes(hero)).toEqual(expect.arrayContaining(["lg:grid-cols-12", "lg:gap-12"]));
+    expect([...hero.children].map((e) => classes(e).find((c) => c.startsWith("lg:col-span-")))).toEqual(["lg:col-span-8", "lg:col-span-4"]);
+    const rangee1 = [...container.querySelectorAll("[data-apercu-rangee='1'] > *")];
+    expect(rangee1.map((e) => classes(e).find((c) => c.startsWith("lg:col-span-")))).toEqual(["lg:col-span-8", "lg:col-span-4"]);
+    for (const r of container.querySelectorAll("[data-apercu-rangee]")) {
+      expect(classes(r)).toEqual(expect.arrayContaining(["lg:grid-cols-12", "lg:gap-x-12", "gap-6"]));
+    }
   });
 });

@@ -28,11 +28,13 @@ import { SemainesTuile } from "@/components/espace/aujourdhui/semaines-tuile";
 const classes = (e: Element | null | undefined) => (e?.getAttribute("class") ?? "").split(/\s+/);
 
 describe("point 2 : Z1 en 7 colonnes, « Ton cap » en 5, dès 1024", () => {
-  it("extrait de l'aperçu : rangée 1 en 7 + 5", () => {
+  // s26, Thomas 18/11 : l'extrait de l'aperçu passe en 8 + 4, la grille du hero (bords de la carte d'offre) ; la page
+  // de l'abonné garde son 7 + 5.
+  it("extrait de l'aperçu : rangée 1 en 8 + 4 (s26, Thomas 18/11)", () => {
     render(<ApercuAujourdhui visiteur />);
     const [z1, cap] = Array.from(document.querySelectorAll("[data-apercu-rangee='1'] > [data-tuile-fermee]"));
-    expect(classes(z1)).toContain("lg:col-span-7");
-    expect(classes(cap)).toContain("lg:col-span-5");
+    expect(classes(z1)).toContain("lg:col-span-8");
+    expect(classes(cap)).toContain("lg:col-span-4");
   });
 
   it("page de l'abonné : même partage (lu dans la source, page serveur)", () => {

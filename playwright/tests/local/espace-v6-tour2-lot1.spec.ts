@@ -123,7 +123,22 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
         });
         expect(fin.coupees, `aucune tuile coupée, ${ou}`).toBe(0);
         expect(fin.ecart, `air avant « La suite est dans Premium », ${ou}`).toBeGreaterThanOrEqual(32);
-        // s26 tour 3 (B1, S1) : une seule grille 7/5 pour tout l'extrait de « Bibliothèque » et « S'entraîner » : dès 1024,
+        // s26, Thomas 18/11 : une seule grille 8/4 pour le hero ET l'extrait : dès 1024, la colonne de droite de la rangée 1
+        // a les bords de la carte d'offre, la colonne de gauche ceux du texte du hero ; « Quoi répondre » : la dernière
+        // tuile de la rangée 2 (4/4/4) aussi sous la carte d'offre.
+        if (largeur >= 1024) {
+          const a = await racine.evaluate((r) => {
+            const bords = (e: Element) => { const b = e.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.right)]; };
+            const [texte] = Array.from(r.querySelectorAll("[data-apercu-hero] > *"));
+            const [gauche, droite] = Array.from(r.querySelectorAll("[data-apercu-rangee='1'] > *"));
+            const r2 = Array.from(r.querySelectorAll("[data-apercu-rangee='2'] > *")).filter((t) => getComputedStyle(t).display !== "none");
+            return { texte: bords(texte), offre: bords(r.querySelector("[data-apercu-offre]")!), gauche: bords(gauche), droite: bords(droite), fin2: bords(r2[r2.length - 1]) };
+          });
+          expect(a.droite, `colonne de droite de l'extrait sous la carte d'offre, ${ou}`).toEqual(a.offre);
+          expect(a.gauche, `colonne de gauche de l'extrait sous le texte du hero, ${ou}`).toEqual(a.texte);
+          if (rubrique === "quoiRepondre") expect(a.fin2, `dernière tuile de la rangée 2 sous la carte d'offre, ${ou}`).toEqual(a.offre);
+        }
+        // s26 tour 3 (B1, S1) : une seule grille pour tout l'extrait de « Bibliothèque » et « S'entraîner » (8/4 depuis le 18/11) : dès 1024,
         // la tuile seule de la rangée 2 a les bords de la première tuile de la rangée 1 (gouttière alignée, plus de 6/6),
         // et la colonne de droite empile deux tuiles à leur hauteur, jamais plus basses que la rangée.
         if (rubrique !== "quoiRepondre" && largeur >= 1024) {
