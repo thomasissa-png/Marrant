@@ -210,8 +210,12 @@ describe("point 11 : carnet de l'abonné, sommaire en tête", () => {
     expect(haut.compareDocumentPosition(fiche) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(fiche.compareDocumentPosition(fin) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(container.querySelectorAll("[data-carnet-programme] li")).toHaveLength(3);
-    // Réassurance de la fin d'extrait à gauche (celle du bloc d'offre suit le style d'`OffreApercu`).
-    expect((fin.parentElement?.querySelector("[data-reassurance]") as HTMLElement).className).toContain("text-left");
+    // Réassurance de la fin d'extrait à gauche (celle du bloc d'offre suit le style d'`OffreApercu`). s26 tour 2 (C2) : la
+    // fin d'extrait est l'objet Premium des aperçus (carte centrée, bouton pleine largeur, réassurance centrée dessous).
+    const carteFin = container.querySelector("[data-carnet-fin]") as HTMLElement;
+    expect(carteFin.className).toEqual(expect.stringContaining("border-accent-primary"));
+    expect(carteFin.querySelector(":scope > [data-halo-premium]")).not.toBeNull();
+    expect((fin.parentElement?.querySelector("[data-reassurance]") as HTMLElement).className).not.toContain("text-left");
   });
 
   it("fermé, abonné : pas de sommaire, carnets précédents en bas, aucun filet", () => {

@@ -63,7 +63,8 @@ describe("point 4 : prospect à 375, première tuile au premier écran", () => {
     expect(classes(tete)).toEqual(expect.arrayContaining(["flex-row-reverse", "justify-between", "gap-4", "md:flex-col", "md:items-start"]));
     expect(classes(tete.children[1]).some((c) => /(^|:)mt-/.test(c))).toBe(false);
     const hero = document.querySelector("[data-apercu-hero]");
-    expect(classes(hero)).toEqual(expect.arrayContaining(["gap-4", "md:gap-8", "lg:gap-12"]));
+    // s26 tour 2 des encarts (E2) : de 768 à 1023, la carte d'offre passe sous le texte (24 px, `md:gap-6`).
+    expect(classes(hero)).toEqual(expect.arrayContaining(["gap-4", "md:gap-6", "lg:gap-12"]));
     const li = document.querySelector("[data-apercu-pastilles] li");
     // v7 tour 12 : `px-2 py-0.5` retirés (liste en `sr-only` sous 768 depuis le tour 11).
     expect(classes(li)).toEqual(expect.arrayContaining(["text-sm", "px-3", "py-1"]));
@@ -81,7 +82,8 @@ describe("point 5 : pistes", () => {
   it("gratuit : phrase d'objet à 8 px du bouton (16 dès 768), réassurance 24 px dessous", () => {
     const { container } = render(<OffreApercu href="/abonnement" adresse="/mon-espace" visiteur={false} />);
     const reassurance = container.querySelector("[data-reassurance]");
-    const objet = reassurance?.previousElementSibling;
+    // s26 tour 2 des encarts (E2) : la phrase d'objet suit le bouton dans le groupe de gauche (en ligne de 768 à 1023).
+    const objet = container.querySelector("[data-offre-gauche] > p");
     expect(classes(objet)).toEqual(expect.arrayContaining(["mt-2", "md:mt-4"]));
     expect(classes(reassurance)).toContain("mt-6");
     expect(classes(reassurance)).not.toContain("mt-4");

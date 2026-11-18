@@ -7,7 +7,7 @@ import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL, CARNET_RETOUR_SOMMAIRE } from "@/config/textes/cta-pages";
 import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
-import { BOUTON_OFFRE, OffreApercu } from "@/components/espace/apercu/offre-apercu";
+import { BOUTON_OFFRE, CARTE_PREMIUM, HaloPremium, OffreApercu, Preuve } from "@/components/espace/apercu/offre-apercu";
 import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { FicheCarnet } from "@/components/espace/carnet/fiche-carnet";
@@ -36,13 +36,17 @@ function FilAriane({ view, returnTo }: Pick<Props, "view" | "returnTo">) {
 /** Sur-titre sans capitales (s26) : « Carnet de novembre 2026, 30 situations » (textes existants, ponctuation seule). */
 const surTitre = (view: CarnetView) => `Carnet ${deCarnetMonth(view.mois)}, ${view.totalFiches} situations`;
 
-/** En-tête aligné à gauche : sur-titre `META`, H1 `TITRE_PAGE` (blanc), intro `TEXTE`. */
-function EnTete({ view }: { view: CarnetView }) {
+/**
+ * En-tête aligné à gauche : sur-titre `META`, H1 `TITRE_PAGE` (blanc), intro `TEXTE`. s26 tour 2 (C1) : chez le
+ * non-abonné (`preuve`), la preuve sort de la carte d'offre et se pose sous l'intro, comme dans `HeroApercu`.
+ */
+function EnTete({ view, preuve = false }: { view: CarnetView; preuve?: boolean }) {
   return (
     <header className="min-w-0">
       <p className={META}>{surTitre(view)}</p>
       <h1 id={TITRE_ID} className={cn("mt-2", TITRE_PAGE)}>{frTypo(view.titre)}</h1>
       <p className={cn("mt-4 max-w-xl", TEXTE)}>{frTypo(view.intro)}</p>
+      {preuve && <Preuve place="hero" />}
     </header>
   );
 }
@@ -60,6 +64,11 @@ export function CarnetOuvert(props: Props) {
  * Visiteur et inscrit gratuit : hero 8/4 offre EN HAUT (décision du 16/11), le bloc d'offre des aperçus (`OffreApercu`,
  * son style suivra la refonte des encarts Premium), lien vers `/abonnement` avec la source du carnet. Dessous, la fiche
  * offerte (8) et le programme fermé (4, collant dès 1024 px), puis la fin d'extrait (`CARNET_PAYWALL`, mêmes textes).
+ * s26 tour 2 (relectures du tour 1) : C1, la preuve passe sous l'intro (`preuveHors`, comme `HeroApercu`) et, de 768 à
+ * 1023, la carte d'offre passe sous le texte, en ligne (E2) : plus de 180 à 230 px vides à gauche. C3, la grille sous le
+ * hero reprend sa gouttière (`lg:gap-x-12`) : « Au programme » a les bords de la carte d'offre. C2, la fin d'extrait est
+ * le MÊME objet Premium que la carte de fin des aperçus (`CARTE_PREMIUM`, `HaloPremium`, 448 px au plus, centrée sur la
+ * page, mêmes paddings, bouton pleine largeur et réassurance dessous), mêmes textes dans le même ordre, sur sa rangée.
  */
 function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
   const href = buildAbonnementUrl(returnTo, "monthly", src);
@@ -68,19 +77,19 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
   return (
     <div className="pb-16" data-carnet="visiteur">
       <FilAriane view={view} returnTo={returnTo} />
-      <div className="grid gap-4 md:grid-cols-5 md:gap-8 lg:grid-cols-12 lg:gap-12" data-carnet-hero>
-        <div className="min-w-0 md:col-span-3 lg:col-span-8">
-          <EnTete view={view} />
+      <div className="grid gap-4 md:gap-6 lg:grid-cols-12 lg:gap-12" data-carnet-hero>
+        <div className="min-w-0 lg:col-span-8">
+          <EnTete view={view} preuve />
         </div>
-        <div className="min-w-0 md:col-span-2 lg:col-span-4">
-          <OffreApercu href={href} adresse={returnTo} visiteur={visiteur} />
+        <div className="min-w-0 lg:col-span-4">
+          <OffreApercu href={href} adresse={returnTo} visiteur={visiteur} preuveHors />
         </div>
       </div>
-      <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
+      <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start lg:gap-x-12">
         {restantes > 0 && (
           <section
             aria-labelledby="carnet-reserve"
-            className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 lg:sticky lg:top-24 lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1")}
+            className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 lg:sticky lg:top-24 lg:col-span-4 lg:col-start-9 lg:row-start-1")}
             data-carnet-programme
           >
             <h2 id="carnet-reserve" className={TITRE_CARTE}>{CARNET_PAYWALL.listeTitre}</h2>
@@ -104,13 +113,20 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
           </div>
         )}
         {restantes > 0 && (
-          <div className="min-w-0 lg:col-span-8 lg:col-start-1" data-carnet-fin>
-            <p className={TITRE_CARTE}>{frTypo(CARNET_PAYWALL.titre(restantes))}</p>
-            <p className={cn("mt-2", TEXTE)}>{frTypo(CARNET_PAYWALL.paragraphe)}</p>
-            <Link href={href} data-testid="carnet-paywall-bouton" className={cn(BOUTON_OFFRE, "mt-6 w-full sm:w-auto sm:min-w-64")}>
-              {frTypo(CARNET_PAYWALL.bouton)}
-            </Link>
-            <Reassurance className={cn("text-left", META)} />
+          <div className={cn(CARTE_PREMIUM, "mx-auto w-full min-w-0 max-w-md p-4 text-center md:p-6 lg:col-span-12")} data-carnet-fin>
+            <HaloPremium />
+            <div className="relative flex flex-col items-center gap-4">
+              <div>
+                <p className={TITRE_CARTE}>{frTypo(CARNET_PAYWALL.titre(restantes))}</p>
+                <p className={cn("mt-2", TEXTE)}>{frTypo(CARNET_PAYWALL.paragraphe)}</p>
+              </div>
+              <div className="w-full">
+                <Link href={href} data-testid="carnet-paywall-bouton" className={cn(BOUTON_OFFRE, "w-full")}>
+                  {frTypo(CARNET_PAYWALL.bouton)}
+                </Link>
+                <Reassurance className={cn("mt-2 md:mt-4", META)} />
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -122,6 +138,7 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
  * Abonné : lieu de référence, sans bouton plein ni aplat violet. Sommaire en tuiles (3, 2 puis 1 colonne), la première
  * fiche marquée d'un filet blanc (aucun suivi « lu » n'existe pour le carnet : jamais simulé). Fiches en 9 colonnes avec
  * un rail collant de 3 dès 1024 px, « Retour au sommaire » sous chacune (16/11), puis les carnets précédents.
+ * s26 tour 2 (C4, relecture UX du tour 1) : tuiles du sommaire compactes sous 768 px (`p-4`), 24 px dès 768.
  */
 function CarnetAbonne({ view, months, returnTo }: Props) {
   const autresMois = months.filter((m) => m !== view.mois);
@@ -138,7 +155,7 @@ function CarnetAbonne({ view, months, returnTo }: Props) {
                 href={`#fiche-${f.id}`}
                 className={cn(
                   CADRE_CARTE_NEUTRE,
-                  "flex h-full min-h-11 flex-col p-6 [overflow-wrap:anywhere] hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+                  "flex h-full min-h-11 flex-col p-4 [overflow-wrap:anywhere] md:p-6 hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
                   i === 0 && "border-l-2 border-l-text-primary bg-background-elevated",
                 )}
                 data-carnet-tuile={f.id}

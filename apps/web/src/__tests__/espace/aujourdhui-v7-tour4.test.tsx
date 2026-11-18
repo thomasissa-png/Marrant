@@ -53,10 +53,15 @@ describe("piste : hero 60/40 dès 768", () => {
   it("texte 3/5 et offre 2/5 de 768 à 1023, 8/4 dès 1024 ; pastilles rangées pour tomber en 3 + 3", () => {
     render(<ApercuAujourdhui visiteur />);
     const hero = document.querySelector("[data-apercu-hero]") as HTMLElement;
-    expect(classes(hero)).toEqual(expect.arrayContaining(["md:grid-cols-5", "lg:grid-cols-12"]));
+    // s26 tour 2 des encarts (E2, relecture design du tour 1 : carte de 268 px, 122 px vides à 768) : de 768 à 1023,
+    // plus de 3/5 et 2/5 : une colonne, la carte d'offre sous le texte, contenu en ligne ; 8/4 dès 1024 inchangé.
+    expect(classes(hero)).toEqual(expect.arrayContaining(["lg:grid-cols-12"]));
+    expect(classes(hero)).not.toContain("md:grid-cols-5");
     const [texte, offre] = Array.from(hero.children);
-    expect(classes(texte)).toEqual(expect.arrayContaining(["md:col-span-3", "lg:col-span-8"]));
-    expect(classes(offre)).toEqual(expect.arrayContaining(["md:col-span-2", "lg:col-span-4"]));
+    expect(classes(texte)).toEqual(expect.arrayContaining(["lg:col-span-8"]));
+    expect(classes(offre)).toEqual(expect.arrayContaining(["lg:col-span-4"]));
+    const ligne = classes(offre.querySelector("[data-apercu-offre] > div:not([data-halo-premium])"));
+    expect(ligne).toEqual(expect.arrayContaining(["md:max-lg:flex-row", "md:max-lg:items-center"]));
     expect(offre.querySelector("[data-apercu-offre]")).not.toBeNull();
     // v7 tour 8 (point 3, décision de l'orchestrateur) : retour à la ligne libre à écart constant (8 px) à toutes les
     // largeurs, plus aucune grille (les colonnes laissaient des trous inégaux au milieu d'une ligne à 768).

@@ -33,10 +33,12 @@ export function Preuve({ place = "carte", masqueeLg = false }: { place?: "carte"
   const m = /^(\d[\d\s]*\+?)\s(.*)$/u.exec(texte);
   // v7 tour 11 : la preuve du hero se lit aussi sous 768 px (16 px sous la promesse) ; celle de la carte, alors, seulement
   // de 768 à 1023 px (`masqueeLg` : la preuve est hors de la carte sous 768 et dès 1024).
+  // s26 tour 2 des encarts (E2) : de 768 à 1023, la carte d'offre passe SOUS le texte du hero, en ligne ; la preuve reste
+  // alors dans la colonne de texte (sous les pastilles, 24 px) à toutes les largeurs, la carte ne la rend plus (`hidden`).
   const classes =
     place === "hero"
-      ? "mt-4 md:hidden lg:mt-6 lg:block"
-      : cn("mt-4 border-t border-border pt-4 text-center md:mt-6 md:pt-6", masqueeLg && "max-md:hidden lg:hidden");
+      ? "mt-4 md:mt-6"
+      : cn("mt-4 border-t border-border pt-4 text-center md:mt-6 md:pt-6", masqueeLg && "hidden");
   return (
     <p className={cn(classes, META)} data-preuve={place}>
       {m ? (
@@ -59,12 +61,16 @@ export function Preuve({ place = "carte", masqueeLg = false }: { place?: "carte"
 export const CARTE_PREMIUM =
   "relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card shadow-lg shadow-accent-primary/10";
 
-/** Halo de l'objet Premium, premier enfant de la carte ; le contenu qui suit porte `relative` pour passer devant. */
+/**
+ * Halo de l'objet Premium, premier enfant de la carte ; le contenu qui suit porte `relative` pour passer devant.
+ * s26 tour 2 des encarts (E3, relecture design du tour 1 : halo « invisible en pratique », 38 % de sa surface dans la
+ * carte) : `-right-8 -top-8` au lieu de `-right-16 -top-16`, sur les deux cartes.
+ */
 export function HaloPremium() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl"
+      className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl"
       data-halo-premium
     />
   );
@@ -83,6 +89,10 @@ export function HaloPremium() {
  * plein à prix), 16 dès 768. Inscrit gratuit : la phrase d'objet et la réassurance, qui commencent toutes deux par
  * « Premium », sont séparées de 24 px, la phrase d'objet restant collée au bouton qu'elle explique.
  * v7 tour 9 et 11 : `preuveHors` (le hero) masque la preuve de la carte sous 768 et dès 1024 px (le hero la rend).
+ * s26 tour 2 des encarts (E2, relecture design du tour 1 : à 768, carte de 268 px, réassurance sur 3 lignes, 122 px vides
+ * à gauche) : de 768 à 1023, la carte est en pleine largeur SOUS le texte du hero, contenu en ligne ; `preuveHors` la
+ * masque alors à toutes les largeurs (la colonne de texte la rend). Dès 1024, rien ne change (8/4, colonne, filet de
+ * « Connexion » en pied) ; sous 768 non plus.
  */
 export function OffreApercu({
   href,
@@ -101,24 +111,30 @@ export function OffreApercu({
   return (
     <div className={cn(CARTE_PREMIUM, "p-4 md:p-6", etiree && "lg:h-full")} data-apercu-offre>
       <HaloPremium />
-      <div className="relative flex h-full flex-col">
-        <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
-          {TEXTES_APERCU.offre.bouton}
-        </Link>
-        {!visiteur && <p className={cn("mt-2 text-center md:mt-4", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
-        {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}
-        <Reassurance className={cn(visiteur ? "mt-2 md:mt-4" : "mt-6", META)} />
-        <Preuve masqueeLg={preuveHors} />
-        {visiteur && (
-          <div className="mt-auto pt-4 md:pt-6">
-            <p className={cn("flex justify-center border-t border-border pt-2", preuveHors ? "md:max-lg:border-t-0" : "border-t-0")}>
-              {/* v7 tour 2 (piste) : cible de 44 px en hauteur ET en largeur, posée ici (ne dépend pas seulement de `LIEN`). */}
-              <Link href={buildLoginUrl({ callbackUrl: adresse })} className={cn(LIEN, "inline-flex min-h-11 min-w-11 items-center justify-center text-text-secondary")}>
-                {TEXTES_APERCU.connexion}
-              </Link>
-            </p>
-          </div>
-        )}
+      {/* s26 tour 2 des encarts (E2) : de 768 à 1023, contenu en ligne (bouton et phrase d'objet à gauche, réassurance et
+          « Connexion » à droite) ; ailleurs, les deux groupes sont `display: contents` et la carte reste une colonne. */}
+      <div className="relative flex h-full flex-col md:max-lg:flex-row md:max-lg:items-center md:max-lg:gap-6">
+        <div className="contents md:max-lg:block md:max-lg:flex-1" data-offre-gauche>
+          <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
+            {TEXTES_APERCU.offre.bouton}
+          </Link>
+          {!visiteur && <p className={cn("mt-2 text-center md:mt-4", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
+        </div>
+        <div className="contents md:max-lg:block md:max-lg:flex-1" data-offre-droite>
+          {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}
+          <Reassurance className={cn(visiteur ? "mt-2 md:mt-4" : "mt-6", "md:max-lg:mt-0 md:max-lg:text-left", META)} />
+          <Preuve masqueeLg={preuveHors} />
+          {visiteur && (
+            <div className="mt-auto pt-4 md:pt-6 md:max-lg:pt-0">
+              <p className={cn("flex justify-center border-t border-border pt-2 md:max-lg:justify-start md:max-lg:border-t-0 md:max-lg:pt-0", !preuveHors && "border-t-0")}>
+                {/* v7 tour 2 (piste) : cible de 44 px en hauteur ET en largeur, posée ici (ne dépend pas seulement de `LIEN`). */}
+                <Link href={buildLoginUrl({ callbackUrl: adresse })} className={cn(LIEN, "inline-flex min-h-11 min-w-11 items-center justify-center text-text-secondary")}>
+                  {TEXTES_APERCU.connexion}
+                </Link>
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

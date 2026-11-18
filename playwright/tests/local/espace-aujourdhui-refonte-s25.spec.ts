@@ -22,7 +22,7 @@ import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
  *   haut (1280, 1456, 1920), le bouton d'offre de la fin d'extrait sous le premier écran ; éléments figés à 3,9:1 au
  *   moins ; à 768, la vidéo du jour n'est plus une dalle ;
  * - v7 tour 4 (fautes 1 et 2, pistes) : la fin d'extrait, phrase comprise, sous 900 px ; à 768, offre à droite du
- *   texte (60/40) ; v7 tour 6 (placement) : pastilles du hero à 24 px au plus sous la promesse à toutes les largeurs
+ *   texte (60/40 ; s26 tour 2 des encarts : sous le texte, en ligne) ; v7 tour 6 (placement) : pastilles du hero à 24 px au plus sous la promesse à toutes les largeurs
  *   (plus calées sur le bas de l'offre : le vide passe sous elles) ; à 768, tuile « Vidéo du jour » en
  *   ligne de média, au plus 32 px de vide au-dessus et au-dessous du texte en face de la vignette (titre sur deux
  *   lignes) ; dès 1024, titre « Contenu du jour » de l'extrait à la hauteur de ceux de ses voisines ;
@@ -335,13 +335,20 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       expect(tuilesB.haut, `tuiles sous la légende, ${ou}`).toBeGreaterThanOrEqual(legB.bas);
       expect(tuilesB.haut - legB.bas, `légende plus près des tuiles que du hero, ${ou}`).toBeLessThan(legB.haut - heroB.bas);
       expect(finB.haut, `fin sous les tuiles, ${ou}`).toBeGreaterThan(tuilesB.haut);
-      // v7 tour 4 (piste 768) : l'offre à droite du texte (60/40), plus une barre pleine largeur.
+      // v7 tour 4 (piste 768) : l'offre à droite du texte (60/40), plus une barre pleine largeur. s26 tour 2 des encarts
+      // (E2, relecture design du tour 1 : carte de 268 px et 122 px vides à 768) : de 768 à 1023, la carte passe en
+      // pleine largeur SOUS le texte, contenu en ligne (bouton à gauche, réassurance à droite) ; 8/4 dès 1024.
       const [texteHero, offreHero] = [await boite(page.locator("[data-apercu-hero] > div").first()), await boite(page.locator("[data-apercu-offre]"))];
-      if (largeur >= 768) {
+      if (largeur >= 1024) {
         expect(offreHero.gauche, `offre à droite du texte, ${ou}`).toBeGreaterThan(texteHero.droite);
         expect(offreHero.haut, `offre sur la ligne du texte, ${ou}`).toBeLessThan(texteHero.bas);
-        expect((await boite(offres.first())).largeur, `bouton d'offre de largeur raisonnable, ${ou}`).toBeLessThanOrEqual(400);
+      } else if (largeur >= 768) {
+        expect(offreHero.haut, `offre sous le texte, ${ou}`).toBeGreaterThanOrEqual(texteHero.bas);
+        expect(Math.round(offreHero.largeur), `offre en pleine largeur, ${ou}`).toBe(Math.round(texteHero.largeur));
+        const reassurance = await boite(page.locator("[data-apercu-offre] [data-reassurance]"));
+        expect(reassurance.gauche, `réassurance à droite du bouton, ${ou}`).toBeGreaterThan((await boite(offres.first())).droite);
       }
+      if (largeur >= 768) expect((await boite(offres.first())).largeur, `bouton d'offre de largeur raisonnable, ${ou}`).toBeLessThanOrEqual(400);
       // v7 tour 4 (piste), revu au tour 8 (35 px vides au-dessus du titre) : dès 1024, l'étiquette « Contenu du jour »
       // à la hauteur de « Étape conseillée », et sa première ligne à la hauteur du titre voisin, sans ligne vide.
       if (largeur >= 1024) {
@@ -458,11 +465,13 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       expect(Math.round(preuve.haut - pastilles.bas), `preuve à 24 px sous les pastilles, ${largeur}`).toBe(24);
       expect(Math.abs(Math.round(preuve.bas - offre.bas)), `bas du texte et de l'offre à 24 px près, ${largeur}`).toBeLessThanOrEqual(24);
     }
-    // v7 tour 9 : de 768 à 1023, la preuve reste dans la carte d'offre, celle du hero est masquée.
+    // v7 tour 9 : de 768 à 1023, la preuve restait dans la carte d'offre. s26 tour 2 des encarts (E2) : la carte passe
+    // sous le texte du hero, en ligne ; la preuve reste dans la colonne de texte, 24 px sous les pastilles.
     await page.setViewportSize({ width: 768, height: 900 });
     await page.goto("/mon-espace");
-    await expect(page.locator("[data-apercu-offre] [data-preuve]"), "preuve dans la carte, 768").toBeVisible();
-    await expect(page.locator("[data-apercu-hero] [data-preuve='hero']"), "preuve du hero masquée, 768").toBeHidden();
+    await expect(page.locator("[data-apercu-offre] [data-preuve]"), "preuve de la carte masquée, 768").toBeHidden();
+    const preuve768 = await boite(page.locator("[data-apercu-hero] [data-preuve='hero']"));
+    expect(Math.round(preuve768.haut - (await boite(page.locator("[data-apercu-pastilles]"))).bas), "preuve à 24 px sous les pastilles, 768").toBe(24);
     // v7 tour 11 (relecture UX du tour 10) : sous 768, la preuve sort de la carte, en ligne simple sous la promesse.
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/mon-espace");

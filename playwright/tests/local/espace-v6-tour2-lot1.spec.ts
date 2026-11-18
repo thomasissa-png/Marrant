@@ -122,7 +122,9 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
         // s26, Thomas 18/11 : une seule grille 8/4 pour le hero ET l'extrait : dès 1024, la colonne de droite de la rangée 1
         // a les bords de la carte d'offre, la colonne de gauche ceux du texte du hero ; « Quoi répondre » : la dernière
         // tuile de la rangée 2 (4/4/4) aussi sous la carte d'offre.
-        if (largeur >= 1024) {
+        // s26 (Favoris, `docs/design/favoris-carnet-s26.md` §1) : extrait en 5/7 sur 12 colonnes (contrôlé plus bas), hors de
+        // cette grille 8/4 ; seul son hero est en 8/4.
+        if (largeur >= 1024 && rubrique !== "favoris") {
           const a = await racine.evaluate((r) => {
             const bords = (e: Element) => { const b = e.getBoundingClientRect(); return [Math.round(b.left), Math.round(b.right)]; };
             const [texte] = Array.from(r.querySelectorAll("[data-apercu-hero] > *"));

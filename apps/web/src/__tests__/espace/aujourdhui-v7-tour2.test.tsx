@@ -150,16 +150,18 @@ describe("pistes", () => {
     const hero = lire("components/espace/apercu/hero-apercu.tsx");
     // v7 tour 4 (piste 768) : 3/5 et 2/5 de 768 à 1023, 8/4 dès 1024 inchangé.
     // Échelle s25 : la colonne de texte devient une colonne flex.
-    expect(hero).toContain('<div className="flex min-w-0 flex-col md:col-span-3 lg:col-span-8">');
+    // s26 tour 2 des encarts (E2) : plus de 3/5 et 2/5 de 768 à 1023 (carte d'offre sous le texte, en ligne).
+    expect(hero).toContain('<div className="flex min-w-0 flex-col lg:col-span-8">');
     // v7 tour 3 (piste hero) : l'offre s'aligne en haut sur la pastille. Échelle s25 : la colonne de texte (24/30 px)
     // a la hauteur de l'offre (grille étirée). v7 tour 6 : pastilles sous la promesse, plus calées en bas
     // (`md:mt-auto` creusait un vide au milieu) ; le surplus passe en bas de colonne.
-    expect(hero).toContain('<div className="min-w-0 md:col-span-2 lg:col-span-4">');
+    expect(hero).toContain('<div className="min-w-0 lg:col-span-4">');
     expect(hero).not.toContain("mt-auto");
     // v7 tour 8 : la tête (pastille et H1) porte son propre `md:items-start` (pastille calée à gauche, au-dessus du
     // H1) ; la règle vise la grille du hero et ses deux colonnes, jamais calées en haut ni au centre.
     const grille = /<div className="(grid [^"]*)" data-apercu-hero>/.exec(hero)?.[1] ?? "";
-    expect(grille).toContain("md:grid-cols-5");
+    expect(grille).not.toContain("md:grid-cols-5");
+    expect(grille).toContain("lg:grid-cols-12");
     expect(grille).not.toMatch(/items-(start|center)/);
     expect(hero.replace(/<div className="[^"]*" data-apercu-tete>/, "")).not.toMatch(/md:items-(start|center)/);
     expect(hero).not.toContain("md:max-w-2xl");

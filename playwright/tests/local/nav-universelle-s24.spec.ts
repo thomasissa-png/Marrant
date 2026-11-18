@@ -703,7 +703,9 @@ test.describe("navigation universelle v6 (s25)", () => {
     // le passait sous le titre chez l'abonné) ; c'est lui, première ligne de l'en-tête de page, qui s'aligne sur le H1
     // des autres rubriques (le H1 est 28 px plus bas, hauteur du sur-titre et de son espace).
     test("§4 : H1 des rubriques de premier niveau à la même hauteur entre elles (abonné, visiteur ; 375 et 1280 px)", async ({ browser }) => {
-      const APERCUS_EN_LARGEUR = ["/mon-espace", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer"];
+      // s26 (Favoris, `docs/ux/favoris-carnet-s26.md` §1.2) : l'aperçu de /favoris reprend le même hero (`HeroApercu`,
+      // pastille « Premium » au-dessus du H1 dès 768 px) : même règle (mesuré sur ce0c2ad7 : H1 44 px plus bas).
+      const APERCUS_EN_LARGEUR = ["/mon-espace", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris"];
       const PREMIER_NIVEAU = ["/mon-espace", "/parcours", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/vannes", "/conseils", "/videos", "/blog", "/lettre", "/favoris", "/carnet", "/mon-espace/questions", "/mon-espace/repliques"];
       for (const etat of ["PREMIUM", "visiteur"] as const) {
         const c = await contexte(browser, etat);

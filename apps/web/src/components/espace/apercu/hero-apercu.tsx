@@ -55,6 +55,9 @@ import { cn } from "@/lib/utils";
  * s26 (décision de Thomas du 18/11) : une seule grille 8/4 pour le hero et l'extrait. Dès 1024, la gouttière du hero
  * (`lg:gap-12`, 48 px) est reprise par les rangées de l'extrait des 4 aperçus (`lg:gap-x-12`, spans 8 et 4) : la colonne
  * de droite de l'extrait a les bords de la carte d'offre, la colonne de gauche ceux du texte du hero.
+ * s26 tour 2 des encarts (E2, relecture design du tour 1 : à 768, carte de 268 px et 122 px vides sous les pastilles) :
+ * plus de 3/2 de 768 à 1023 ; la carte d'offre passe en pleine largeur SOUS le texte (24 px), contenu en ligne, et la
+ * preuve reste sous les pastilles (24 px), comme dès 1024. Sous 768 et dès 1024 (8/4), rien ne change.
  */
 export function HeroApercu({
   titre,
@@ -68,8 +71,8 @@ export function HeroApercu({
   offre: React.ComponentProps<typeof OffreApercu>;
 }) {
   return (
-    <div className="grid gap-4 md:grid-cols-5 md:gap-8 lg:grid-cols-12 lg:gap-12" data-apercu-hero>
-      <div className="flex min-w-0 flex-col md:col-span-3 lg:col-span-8">
+    <div className="grid gap-4 md:gap-6 lg:grid-cols-12 lg:gap-12" data-apercu-hero>
+      <div className="flex min-w-0 flex-col lg:col-span-8">
         <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-col md:items-start md:justify-start" data-apercu-tete>
           <BadgePremium className="flex-none" />
           {/* s26 (décision de Thomas du 18/11) : titre en BLANC, comme chez l'abonné (`TITRE_PAGE` seul) ; le texte en
@@ -89,7 +92,7 @@ export function HeroApercu({
         </ul>
         <Preuve place="hero" />
       </div>
-      <div className="min-w-0 md:col-span-2 lg:col-span-4">
+      <div className="min-w-0 lg:col-span-4">
         <OffreApercu {...offre} preuveHors etiree />
       </div>
     </div>

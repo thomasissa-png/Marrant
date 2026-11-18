@@ -44,7 +44,9 @@ const RETIRER = cn(LIEN_NEUTRE, "hover:text-error-text");
 const CLIQUABLE = "cursor-pointer transition-colors hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
 
 /** Cadre : la carte de tête (la plus récente, prochaine action) prend `CARTE_ACTION`, les autres le cadre neutre. */
-const cadre = (enTete: boolean) => (enTete ? CARTE_ACTION : CARTE_FAVORI);
+// s26 tour 2 (F1) : dès 1024, chaque carte à sa hauteur propre (`lg:h-auto` sur `h-full`, grille en `lg:items-start`) :
+// la vanne n'est plus étirée à la hauteur du conseil voisin (73 à 86 px vides au-dessus du filet des actions).
+const cadre = (enTete: boolean) => cn(enTete ? CARTE_ACTION : CARTE_FAVORI, "lg:h-auto");
 
 /** Pied d'une carte : « Partager » (bouton existant, 44 px) et « Retirer », sous un filet, en bas de carte. */
 function Actions({ titre, texte, retirer }: { titre: string; texte: string; retirer: () => void }) {

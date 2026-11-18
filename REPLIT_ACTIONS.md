@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s26, tour 2 des encarts Premium, de Favoris et du Carnet (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : de 768 à 1023 px, la carte d'offre des aperçus et du Carnet passe sous le texte du hero, en pleine largeur, contenu en ligne (bouton à gauche, réassurance et « Connexion » à droite), la preuve reste sous le texte ; dès 1024, 8/4 inchangé. Halo de l'objet Premium visible (`-right-8 -top-8`). Favoris abonné dès 1024 : cartes à leur hauteur propre. Carnet non-abonné : preuve sous l'intro, grille sous le hero à la gouttière du hero (48 px), fin d'extrait = carte de fin des aperçus (même objet, mêmes textes) ; Carnet abonné : tuiles du sommaire en 16 px de marge sous 768. Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47 instantanés, empreintes du Carnet fermé identiques, 6 vues).
+- **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
+
 ### s26, encarts Premium des 4 aperçus verrouillés, retour de Thomas du 18/11 (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
 - **Quoi** : carte d'offre et fin d'extrait d'Aujourd'hui, Quoi répondre, Bibliothèque, S'entraîner deviennent « l'objet Premium » de l'accueil (bord violet 2 px, ombre et halo à 5 %, `rounded-2xl`), « Connexion » calée en pied sous un filet, fin d'extrait en carte de 448 px avec sa réassurance (`docs/design/encarts-premium-s26.md`) ; Quoi répondre de 1024 à 1279 : pastilles sur une ligne, « Pour quoi faire ? » en tête de la rangée 2. Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47).
 - **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
