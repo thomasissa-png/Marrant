@@ -128,7 +128,8 @@ export function FavorisAbonne() {
         ) : (
           // s26 tour 2 (F1, relectures du tour 1 : la vanne étirée à la hauteur du conseil voisin, 73 à 86 px vides entre
           // « Clique pour la chute » et le filet des actions) : dès 1024, chaque carte à sa hauteur propre (`lg:items-start`).
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start">
+          // s26 tour 3 : de 768 à 1023 aussi (deux colonnes ; 104 px vides dans la vanne à 768), donc dès `md`.
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-start lg:grid-cols-12">
             {liste.map((fav) => (
               <CarteFavori key={fav.id} fav={fav} enTete={fav.id === tete} ouverte={basculees.has(fav.id) !== (fav.id === tete)} basculer={() => basculer(fav.id)} retirer={() => removeFavorite(fav.id)} />
             ))}

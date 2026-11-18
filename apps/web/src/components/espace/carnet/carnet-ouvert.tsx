@@ -33,6 +33,20 @@ function FilAriane({ view, returnTo }: Pick<Props, "view" | "returnTo">) {
   );
 }
 
+/**
+ * Sommaire de l'abonné (s26 tour 3) : sous 768 px, une liste dans une seule carte (filets `divide-y`) ; dès 768, une
+ * grille de tuiles. Classes du cadre écrites en entier avec leur préfixe (`max-md:` sur la liste, `md:` sur la tuile) :
+ * ce sont celles de `CADRE_CARTE_NEUTRE`, que Tailwind ne peut pas préfixer s'il les reçoit construites.
+ */
+const SOMMAIRE =
+  "max-md:divide-y max-md:divide-border max-md:overflow-hidden max-md:rounded-xl max-md:border max-md:border-border max-md:bg-background-card md:grid md:grid-cols-2 md:gap-6 lg:grid-cols-3";
+/** Ligne (sous 768 : 44 px pour une ligne de titre, anneau de focus intérieur dans la carte) puis tuile (dès 768). */
+const ENTREE_SOMMAIRE = cn(
+  "flex min-h-11 items-baseline gap-3 px-4 py-2.5 [overflow-wrap:anywhere] max-md:focus-visible:ring-inset",
+  "md:relative md:h-full md:flex-col md:items-stretch md:gap-0 md:overflow-hidden md:rounded-xl md:border md:border-border md:bg-background-card md:p-6",
+  "hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+);
+
 /** Sur-titre sans capitales (s26) : « Carnet de novembre 2026, 30 situations » (textes existants, ponctuation seule). */
 const surTitre = (view: CarnetView) => `Carnet ${deCarnetMonth(view.mois)}, ${view.totalFiches} situations`;
 
@@ -139,6 +153,10 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
  * fiche marquée d'un filet blanc (aucun suivi « lu » n'existe pour le carnet : jamais simulé). Fiches en 9 colonnes avec
  * un rail collant de 3 dès 1024 px, « Retour au sommaire » sous chacune (16/11), puis les carnets précédents.
  * s26 tour 2 (C4, relecture UX du tour 1) : tuiles du sommaire compactes sous 768 px (`p-4`), 24 px dès 768.
+ * s26 tour 3 : sous 768 px, le sommaire devient une LISTE compacte (30 tuiles de 114 px, 4 116 px avant la première
+ * fiche à 375) : une ligne par fiche, numéro, titre et contexte, 44 px au moins, filets entre les lignes ; dès 768, les
+ * tuiles d'avant. La ligne ou la tuile active garde son filet blanc de 2 px sans décaler son texte (1 px de décalage
+ * avant, à toutes les largeurs) : en liste, marge gauche réduite de 2 px ; en tuile, bord de 1 px et filet intérieur.
  */
 function CarnetAbonne({ view, months, returnTo }: Props) {
   const autresMois = months.filter((m) => m !== view.mois);
@@ -148,21 +166,24 @@ function CarnetAbonne({ view, months, returnTo }: Props) {
       <FilAriane view={view} returnTo={returnTo} />
       <EnTete view={view} />
       <nav id={ANCRE_SOMMAIRE} aria-labelledby={TITRE_ID} className="mt-8 scroll-mt-24" data-carnet-sommaire="">
-        <ol className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ol className={SOMMAIRE}>
           {view.fiches.map((f, i) => (
             <li key={f.id} className="min-w-0">
               <a
                 href={`#fiche-${f.id}`}
                 className={cn(
-                  CADRE_CARTE_NEUTRE,
-                  "flex h-full min-h-11 flex-col p-4 [overflow-wrap:anywhere] md:p-6 hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
-                  i === 0 && "border-l-2 border-l-text-primary bg-background-elevated",
+                  ENTREE_SOMMAIRE,
+                  // Filet blanc de 2 px. En liste : bord de 2 px, marge gauche réduite de 2 px (`pl-3.5`). En tuile : bord de
+                  // 1 px comme les voisines, blanc, doublé d'un filet intérieur de 1 px (`before:`) ; les classes `md:` du
+                  // cadre l'emportant sur celles sans préfixe, le fond est répété en `md:`.
+                  i === 0 &&
+                    "border-l-2 border-l-text-primary bg-background-elevated pl-3.5 md:border-l md:border-l-text-primary md:bg-background-elevated md:before:absolute md:before:inset-y-0 md:before:left-0 md:before:w-px md:before:bg-text-primary",
                 )}
                 data-carnet-tuile={f.id}
               >
-                <span className={cn(META, "tabular-nums")}>{view.numeros[f.id]}</span>
-                <span className={cn("mt-2", TEXTE_FORT)}>{frTypo(f.titre)}</span>
-                <span className={cn("mt-2", META)}>{frTypo(f.contexte)}</span>
+                <span className={cn(META, "min-w-6 shrink-0 tabular-nums")}>{view.numeros[f.id]}</span>
+                <span className={cn("min-w-0 max-md:flex-1 md:mt-2", TEXTE_FORT)}>{frTypo(f.titre)}</span>
+                <span className={cn("shrink-0 md:mt-2", META)}>{frTypo(f.contexte)}</span>
               </a>
             </li>
           ))}

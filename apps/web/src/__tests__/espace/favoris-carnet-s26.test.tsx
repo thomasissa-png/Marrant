@@ -59,6 +59,18 @@ describe("Favoris, abonné (s26)", () => {
     expect(within(rail).getAllByRole("tab")[1]).toHaveAttribute("aria-selected", "true");
   });
 
+  // s26 tour 3 : à toutes les largeurs à deux colonnes (dès 768), chaque carte à sa hauteur propre ; 24 px entre la
+  // rangée d'onglets et la première carte sous 1024 (les 28 px de marge de la rangée sont repris).
+  it("liste à hauteurs propres dès 768, rangée d'onglets à 24 px de la liste", () => {
+    useFavoritesStore.setState({ favorites: [vanne("a", "2026-11-02", "Chute A"), vanne("b", "2026-11-01", "Chute B")] });
+    const { container } = render(<FavorisAbonne />);
+    const grille = (container.querySelector("[data-liste-favoris] > div") as HTMLElement).className.split(" ");
+    expect(grille).toEqual(expect.arrayContaining(["md:grid-cols-2", "md:items-start"]));
+    for (const carte of container.querySelectorAll("[data-favori]")) expect(carte.className.split(" ")).toContain("md:h-auto");
+    const rangee = container.querySelector('[role="tablist"]:not([data-rail-favoris])')!.closest(".lg\\:hidden") as HTMLElement;
+    expect(rangee.className.split(" ")).toContain("-mb-7");
+  });
+
   it("état vide par onglet : phrase existante, un seul bouton plein, aucun émoji", () => {
     const { container } = render(<FavorisAbonne />);
     const etat = container.querySelector("[data-favoris-etat]") as HTMLElement;
@@ -98,5 +110,28 @@ describe("Carnet ouvert (s26)", () => {
     expect(container.querySelectorAll("[data-carnet-rail] a")).toHaveLength(30);
     expect(container.querySelectorAll("[data-carnet-retour-sommaire]")).toHaveLength(30);
     expect(container.querySelector('[data-carnet-rail] a[aria-current="location"]')).not.toBeNull();
+  });
+
+  // s26 tour 3 (encarts, piste 1 du tour 2) : la zone « Connexion » de la carte d'offre descend de 14 px dans la marge
+  // (air sous le texte = air au-dessus du bouton, 24 px à 1280, 16 à 375), cible de 44 px gardée ; rien de 768 à 1023.
+  it("visiteur : zone « Connexion » de la carte d'offre calée sur l'air du haut, cible de 44 px", () => {
+    page(null);
+    const lien = screen.getByRole("link", { name: "Connexion" });
+    expect(lien.className.split(" ")).toEqual(expect.arrayContaining(["min-h-11", "min-w-11"]));
+    expect((lien.parentElement!.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["-mb-3.5", "md:max-lg:mb-0"]));
+  });
+
+  // s26 tour 3 : sommaire en liste sous 768 px (tuiles dès 768), numéros du rail à largeur fixe et `py-2` par ligne ;
+  // le défilement du rail vers la ligne courante est vérifié en vrai navigateur (`publiques-v6-tour1-pages`).
+  it("abonné : sommaire en liste sous 768 px, tuiles dès 768 ; rail à numéros de largeur fixe", () => {
+    const { container } = page("PREMIUM");
+    const liste = (container.querySelector("[data-carnet-sommaire] ol") as HTMLElement).className.split(" ");
+    expect(liste).toEqual(expect.arrayContaining(["max-md:divide-y", "max-md:rounded-xl", "md:grid", "md:grid-cols-2", "lg:grid-cols-3"]));
+    const [premiere, seconde] = [...container.querySelectorAll("[data-carnet-sommaire] a")].map((a) => a.className.split(" "));
+    expect(seconde).toEqual(expect.arrayContaining(["min-h-11", "px-4", "py-2.5", "md:rounded-xl", "md:border", "md:p-6"]));
+    expect(premiere).toEqual(expect.arrayContaining(["border-l-2", "pl-3.5", "md:border-l", "md:before:w-px"]));
+    const ligne = container.querySelector("[data-carnet-rail] a") as HTMLElement;
+    expect(ligne.className.split(" ")).toContain("py-2");
+    expect((ligne.firstElementChild as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["min-w-6", "tabular-nums"]));
   });
 });

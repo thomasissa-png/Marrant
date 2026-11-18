@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s26, tour 3 des encarts Premium, de Favoris et du Carnet (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : Carnet abonné, le rail des fiches défile jusqu'à la fiche en cours (la page ne bouge pas), numéros à largeur fixe, lignes aérées ; sous 768 px, sommaire en liste compacte (1 447 px au lieu de 4 116 à 375) ; tuile ou ligne active alignée sur ses voisines. Favoris abonné : cartes à leur hauteur propre dès 768, 24 px entre les onglets et la liste sous 1024. Carte d'offre : air sous « Connexion » égal à l'air au-dessus du bouton (cible de 44 px gardée). Aperçu de Favoris dès 1024 : la carte de fin passe sous le premier écran de 900 px. Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47 instantanés, empreintes du Carnet fermé identiques, 6 vues).
+- **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
+
 ### s26, tour 2 des encarts Premium, de Favoris et du Carnet (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
 - **Quoi** : de 768 à 1023 px, la carte d'offre des aperçus et du Carnet passe sous le texte du hero, en pleine largeur, contenu en ligne (bouton à gauche, réassurance et « Connexion » à droite), la preuve reste sous le texte ; dès 1024, 8/4 inchangé. Halo de l'objet Premium visible (`-right-8 -top-8`). Favoris abonné dès 1024 : cartes à leur hauteur propre. Carnet non-abonné : preuve sous l'intro, grille sous le hero à la gouttière du hero (48 px), fin d'extrait = carte de fin des aperçus (même objet, mêmes textes) ; Carnet abonné : tuiles du sommaire en 16 px de marge sous 768. Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47 instantanés, empreintes du Carnet fermé identiques, 6 vues).
 - **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.

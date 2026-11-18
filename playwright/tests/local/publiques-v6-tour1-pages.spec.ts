@@ -144,12 +144,59 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       const [t0, t1, t2] = [await boite(liens.nth(0)), await boite(liens.nth(1)), await boite(liens.nth(2))];
       expect(Math.abs(t0.y - t2.y), "trois tuiles par rangée à 1280").toBeLessThanOrEqual(1);
       expect(t1.height).toBeGreaterThanOrEqual(44);
-      expect(await liens.nth(0).evaluate((e) => getComputedStyle(e).borderLeftWidth)).toBe("2px");
+      // s26 tour 3 : filet blanc de la première tuile = bord de 1 px blanc + filet intérieur de 1 px (`::before`), au
+      // lieu d'un bord de 2 px qui décalait son texte de 1 px : texte aligné sur la tuile de dessous (même colonne).
+      const filet = await liens.nth(0).evaluate((e) => ({ bord: getComputedStyle(e).borderLeftWidth, dedans: getComputedStyle(e, "::before").width }));
+      expect(filet).toEqual({ bord: "1px", dedans: "1px" });
+      const texteX = async (i: number) => (await boite(liens.nth(i).locator("span").first())).x;
+      expect(Math.abs((await texteX(0)) - (await texteX(3))), "texte de la tuile active aligné").toBeLessThanOrEqual(0.5);
       await expect(page.locator("[data-carnet-retour-sommaire]")).toHaveCount(await fiches.count());
       const cible = fiches.nth(4);
       await liens.nth(4).click();
       await expect(page).toHaveURL(new RegExp(`#${await cible.getAttribute("id")}$`));
       await expect(cible).toBeInViewport();
+      await c.close();
+    });
+
+    // s26 tour 3 (fautes dures des relectures du tour 2) : à 1280 x 900, le rail défile jusqu'à la ligne courante, sans
+    // faire bouger la page ; numéros à largeur fixe (titres alignés de 1 à 30).
+    test("/carnet abonné : le rail suit la fiche courante jusqu'à la 30e, la page ne saute pas", async ({ browser }) => {
+      const { c, page } = await contexte(browser, "PREMIUM");
+      await page.goto("/carnet");
+      const rail = page.locator("[data-carnet-rail]");
+      const titres = await rail.locator("a > span:nth-child(2)").evaluateAll((s) => s.map((e) => Math.round(e.getBoundingClientRect().left)));
+      expect(new Set(titres).size, "titres du rail alignés").toBe(1);
+      const fiches = page.locator("main [id^='fiche-']");
+      const n = await fiches.count();
+      for (const i of [Math.floor(n * 0.6), n - 1]) {
+        const y = await fiches.nth(i).evaluate((e) => {
+          document.documentElement.style.scrollBehavior = "auto";
+          window.scrollTo(0, e.getBoundingClientRect().top + window.scrollY - 130);
+          return window.scrollY;
+        });
+        const courante = rail.locator(`a[href="#${await fiches.nth(i).getAttribute("id")}"]`);
+        await expect(courante).toHaveAttribute("aria-current", "location");
+        await expect.poll(async () => {
+          const [r, l] = [await boite(rail), await boite(courante)];
+          return l.y >= r.y - 1 && l.y + l.height <= r.y + r.height + 1;
+        }, `ligne ${i + 1} visible dans le rail`).toBe(true);
+        expect(await page.evaluate(() => window.scrollY), "la page ne bouge pas").toBe(y);
+      }
+      await c.close();
+    });
+
+    // s26 tour 3 : sous 768 px, sommaire en liste compacte (une ligne par fiche, 44 px au moins), plus 30 tuiles.
+    test("/carnet abonné à 375 : sommaire en liste compacte", async ({ browser }) => {
+      const { c, page } = await contexte(browser, "PREMIUM", 375);
+      await page.goto("/carnet");
+      const sommaire = page.locator("[data-carnet-sommaire]");
+      const liens = sommaire.getByRole("link");
+      const hauteurs = await liens.evaluateAll((l) => l.map((e) => e.getBoundingClientRect().height));
+      expect(Math.min(...hauteurs)).toBeGreaterThanOrEqual(44);
+      expect(Math.max(...hauteurs), "deux lignes de titre au plus").toBeLessThanOrEqual(72);
+      expect((await boite(sommaire)).height, "liste, pas 30 tuiles (4 116 px au tour 2)").toBeLessThan(1800);
+      const texteX = async (i: number) => (await boite(liens.nth(i).locator("span").first())).x;
+      expect(Math.abs((await texteX(0)) - (await texteX(1))), "ligne active alignée").toBeLessThanOrEqual(0.5);
       await c.close();
     });
 
