@@ -313,7 +313,7 @@ export function LettreInscription({
               QA s21 m3 : zone tactile de 44 px portée par un pseudo-élément ; le lien
               reste une boîte de la hauteur du texte, son anneau de focus ne chevauche
               plus la ligne du dessus. */}
-          <p className="mt-2 text-xs text-text-muted">
+          <p className={echelleEspace ? "mt-2 text-sm text-text-secondary" : "mt-2 text-xs text-text-muted"}>
             {textes || repliee ? "" : `${T.reassurance} `}
             {T.mention}
             {NBSP}
