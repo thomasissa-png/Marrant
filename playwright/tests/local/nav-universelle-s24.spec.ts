@@ -719,7 +719,9 @@ test.describe("navigation universelle v6 (s25)", () => {
           for (const chemin of PREMIER_NIVEAU) {
             await page.goto(chemin);
             await pret(page, etat);
-            const h1 = page.locator("main h1").first();
+            // s26 liste et détail, tour 1 : Quoi répondre de l'abonné rend deux H1, un seul affiché par largeur (page liste
+            // sous 1024, titre de la fiche du panneau dès 1024) : le H1 mesuré est le H1 VISIBLE.
+            const h1 = page.locator("main h1:visible").first();
             await expect(h1, `${chemin} (${etat}, ${largeur} px)`).toBeVisible();
             // Refonte s25 (spec UX §2.1) : l'aperçu d'« Aujourd'hui » porte la pastille « Premium » AU-DESSUS du H1 ; comme
             // le sur-titre de /carnet, c'est elle, première ligne de l'en-tête, qui s'aligne sur les autres rubriques.
@@ -728,10 +730,17 @@ test.describe("navigation universelle v6 (s25)", () => {
             // s26 : les aperçus de Quoi répondre, Bibliothèque et S'entraîner reprennent ce squelette (`ApercuVerrouille`,
             // même pastille au-dessus du H1 dès 768 px) : même règle (mesuré au tour 1 : H1 44 px plus bas, pastille alignée).
             // s26, Thomas 19/11 : le sur-titre de /carnet est retiré (il répétait le H1) ; son H1 ouvre l'en-tête.
+            // s26 liste et détail, tour 1 : dès 1024, l'abonné de Quoi répondre n'a plus de H1 de page au-dessus de la
+            // grille (spec design §1) : son H1 est celui de la fiche, DANS la carte A (24 px de marge et le pas de ligne de
+            // base avec le titre de la liste), il ne peut pas être à la hauteur des autres H1. Ce qui est mesuré à la place :
+            // le bord haut de la carte de liste (et celui de la fiche, à 0 px, `espace-liste-detail-s26.spec.ts`), première
+            // ligne de la page, aligné sur le H1 des autres rubriques.
             const tete =
               APERCUS_EN_LARGEUR.includes(chemin) && etat === "visiteur" && largeur >= 768
                 ? page.locator("[data-apercu-hero] [data-badge-premium]")
-                : h1;
+                : chemin === "/mon-espace/quoi-repondre" && etat === "PREMIUM" && largeur >= 1024
+                  ? page.locator("[data-colonne-liste]")
+                  : h1;
             await expect(tete, `en-tête de ${chemin} (${etat}, ${largeur} px)`).toBeVisible();
             hauts[chemin] = await tete.evaluate((e) => Math.round((e.getBoundingClientRect().top + window.scrollY) * 10) / 10);
           }

@@ -17,6 +17,16 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 const BASE = `${ESPACE_ACCUEIL}/quoi-repondre`;
 
+/** Identifiant de fiche d'une adresse `/mon-espace/quoi-repondre/<id>` (décodé, sans query ni barre finale). */
+function idDeChemin(chemin: string | null): string {
+  const segment = (chemin ?? "").split(/[?#]/)[0].replace(/\/$/, "").split("/").pop() ?? "";
+  try {
+    return decodeURIComponent(segment);
+  } catch {
+    return segment;
+  }
+}
+
 /**
  * s26 liste et détail, pilote (`docs/ux/liste-detail-quoi-repondre-s26.md`, `docs/design/liste-detail-quoi-repondre-s26.md`) :
  * la liste de Quoi répondre est un LAYOUT qui reste monté ; seule la fiche (`[id]`) change à droite, dès 1024 px. Sous
@@ -42,6 +52,10 @@ export default async function QuoiRepondreLayout({ children }: { children: React
   const acces = { acces: "ouvert" as const, userId };
   const toutes = [...chargeursFiches.listerFiches("situation", acces), ...chargeursFiches.listerFiches("a-plat", acces)];
   const servies = fichesVisibles(toutes, await envoyeesSiBesoin(prisma, toutes));
+  // s26 liste et détail, tour 1 (mesures §6 : 200 et page « introuvable » dans le flux) : fiche inconnue de l'abonné, la
+  // vraie 404 de statut. Posée ici, au-dessus des `loading.tsx` (sous eux, la réponse part en 200 avant `notFound()`) ;
+  // même règle que la page de fiche (situation ou « à plat », reprise seulement après l'envoi de sa lettre).
+  if (estFicheQuoiRepondre(chemin) && !servies.some((f) => f.id === idDeChemin(chemin))) notFound();
   const faits = await idsFaits(userId, servies.map((f) => f.id));
   const lignes = lignesQuoiRepondre(servies, faits);
   const lieux = [...UNIVERS.map((u) => ({ cle: u, titre: T.univers[u] })), { cle: "sans-lieu", titre: T.pourQuoiFaire["rattraper-faux-pas"] }];

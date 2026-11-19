@@ -286,6 +286,7 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         await expect(page.locator("[data-apercu-pastilles] li")).toHaveCount(6);
       } else {
       // v7 tour 6 (placement) : pastilles du hero juste sous la promesse (24 px au plus), jamais calées en bas.
+      // s26 liste et détail, tour 1 : règle inchangée (le pilote les avait passées à 32 px dès 1024, `lg:mt-8` retiré).
       const sousPromesse = await page.locator("[data-apercu-pastilles]").evaluate((ul) => {
         const p = ul.previousElementSibling as Element;
         return ul.getBoundingClientRect().top - p.getBoundingClientRect().bottom;
@@ -464,27 +465,19 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
       ];
       expect(Math.round(pastilles.haut - promesse.bas), `pastilles à 24 px au plus sous la promesse, ${largeur}`).toBeLessThanOrEqual(24);
       expect(pastilles.bas, `pastilles au-dessus du bas de l'offre, ${largeur}`).toBeLessThanOrEqual(offre.bas);
-      // v7 tour 9 (faute dure UX du tour 8) : dès 1024, la preuve passe sous les pastilles (24 px), celle de la carte
-      // est masquée (une seule affichée) ; les bas de la colonne de texte et de la carte d'offre à 24 px près.
-      await expect(page.locator("[data-apercu-offre] [data-preuve]"), `preuve de la carte masquée, ${largeur}`).toBeHidden();
-      const preuve = await boite(page.locator("[data-apercu-hero] [data-preuve='hero']"));
-      expect(Math.round(preuve.haut - pastilles.bas), `preuve à 24 px sous les pastilles, ${largeur}`).toBe(24);
-      expect(Math.abs(Math.round(preuve.bas - offre.bas)), `bas du texte et de l'offre à 24 px près, ${largeur}`).toBeLessThanOrEqual(24);
+      // s26 liste et détail, tour 1 : « 1 500+ » est retiré des aperçus de l'espace (spec design §5, interrupteur ouvert ;
+      // l'accueil et /abonnement gardent le leur). Les mesures de la preuve des tours 9 à 11 (24 px sous les pastilles,
+      // bas à 24 px près) n'ont plus d'objet : aucune preuve dans l'aperçu, et le bas du texte (les pastilles) et celui de
+      // la carte d'offre à 32 px près (spec design §8 #11).
+      await expect(page.locator("[data-apercu-verrouille] [data-preuve]"), `aucune preuve dans l'aperçu, ${largeur}`).toHaveCount(0);
+      expect(Math.abs(Math.round(pastilles.bas - offre.bas)), `bas du texte et de l'offre à 32 px près, ${largeur}`).toBeLessThanOrEqual(32);
     }
-    // v7 tour 9 : de 768 à 1023, la preuve restait dans la carte d'offre. s26 tour 2 des encarts (E2) : la carte passe
-    // sous le texte du hero, en ligne ; la preuve reste dans la colonne de texte, 24 px sous les pastilles.
-    await page.setViewportSize({ width: 768, height: 900 });
-    await page.goto("/mon-espace");
-    await expect(page.locator("[data-apercu-offre] [data-preuve]"), "preuve de la carte masquée, 768").toBeHidden();
-    const preuve768 = await boite(page.locator("[data-apercu-hero] [data-preuve='hero']"));
-    expect(Math.round(preuve768.haut - (await boite(page.locator("[data-apercu-pastilles]"))).bas), "preuve à 24 px sous les pastilles, 768").toBe(24);
-    // v7 tour 11 (relecture UX du tour 10) : sous 768, la preuve sort de la carte, en ligne simple sous la promesse.
-    await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("/mon-espace");
-    await expect(page.locator("[data-apercu-offre] [data-preuve]"), "preuve de la carte masquée, 375").toBeHidden();
-    const promesse375 = await boite(page.locator("[data-apercu-hero] [data-apercu-tete] ~ p:not(.sr-only):not([data-preuve])"));
-    const preuve375 = await boite(page.locator("[data-apercu-hero] [data-preuve='hero']"));
-    expect(Math.round(preuve375.haut - promesse375.bas), "preuve à 16 px sous la promesse, 375").toBe(16);
+    // s26 liste et détail, tour 1 : à 768 et 375 non plus, aucune preuve dans l'aperçu (ni dans la carte, ni sous le texte).
+    for (const [largeur, hauteur] of [[768, 900], [375, 812]] as const) {
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      await page.goto("/mon-espace");
+      await expect(page.locator("[data-apercu-verrouille] [data-preuve]"), `aucune preuve dans l'aperçu, ${largeur}`).toHaveCount(0);
+    }
   });
 
   test("abonné neuf : Z1 7/12 et « Ton cap » 5/12 sur une rangée dès 1024 px, rangées pleines, rien ne déborde", async ({ page }) => {

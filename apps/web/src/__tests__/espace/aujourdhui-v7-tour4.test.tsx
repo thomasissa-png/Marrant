@@ -44,7 +44,10 @@ describe("faute 1 : hero de l'aperçu équilibré dès 1024, sans grossir le tex
     expect(pastilles).toContain("md:mt-6");
     // s26 liste et détail (spec design §5.3) : la preuve quitte le hero, la colonne de texte s'étoffe par le rythme
     // seulement, pastilles à 32 px dès 1024 (`lg:mt-8`, +8) ; sous 1024 inchangé.
-    expect(pastilles.filter((c) => /(^|:)(mt|pt)-/.test(c))).toEqual(["mt-4", "md:mt-6", "lg:mt-8"]);
+    // s26 liste et détail, tour 1 (mesures §5 : 32 px, hors de la règle des 24 px du tour 6) : pastilles revenues à 24 px
+    // dès 768, les 8 px passent au-dessus de la promesse (`lg:mt-8`).
+    expect(pastilles.filter((c) => /(^|:)(mt|pt)-/.test(c))).toEqual(["mt-4", "md:mt-6"]);
+    expect(classes(document.querySelector("[data-apercu-tete] ~ p:not(.sr-only)"))).toEqual(expect.arrayContaining(["mt-4", "lg:mt-8"]));
     expect(classes(hero.children[0])).toEqual(expect.arrayContaining(["flex", "flex-col"]));
     // v7 tour 10 : 24 px sous 768 (la légende monte au-dessus de l'extrait) ; v7 tour 11 : 48 dès 768, plus de 64 dès 1024.
     expect(classes(document.querySelector("[data-apercu-extrait]"))).toEqual(expect.arrayContaining(["mt-6", "md:mt-12"]));

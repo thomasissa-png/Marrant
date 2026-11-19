@@ -10,6 +10,7 @@ import { SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
 import { RepliquesFermees, type RegistreReplique } from "@/components/espace/apercu/repliques-fermees";
 import { TitreFerme } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
+import { SignalOffre } from "@/components/espace/apercu/signal-offre";
 import { PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
 
@@ -72,6 +73,8 @@ function ExtraitQuoiRepondre() {
   const aPlat = groupes.find((g) => g.cle === "sans-lieu");
   return (
     <div data-apercu-fiche="coloc-la-poele">
+      {/* s26 liste et détail, tour 1 (spec UX §1) : clic sur une partie fermée, contour sur la carte d'offre. */}
+      <SignalOffre />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
         <TuileFermee nette className="md:col-span-2 lg:col-span-8">
           <div className={TUILE} data-apercu-situation>

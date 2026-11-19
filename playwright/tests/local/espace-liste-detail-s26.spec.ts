@@ -70,6 +70,10 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       clics++;
       await expect(page).toHaveURL(new RegExp(`ou=${lieu}`));
       const apresFiltre = page.url();
+      // s26 liste et détail, tour 1 (mesures §8.1) : le repli se referme après un choix, la liste garde sa hauteur utile
+      // (au moins 3 lignes de 44 px entre le titre et le pied), aucune ligne recouverte par le pied « carnet ».
+      await expect(colonne(page).locator("details[data-filtres-liste]")).not.toHaveAttribute("open", "");
+      expect(await corps.evaluate((c) => c.getBoundingClientRect().height), "corps de liste utile").toBeGreaterThanOrEqual(3 * 44);
 
       // Clic 4 : une fiche du filtre (pas la première : « Situation suivante » doit exister) ; lien filtré.
       const ligne2 = colonne(page).locator("a[data-ligne-qr]").nth(1);
@@ -96,12 +100,21 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       await page.getByRole("button", { name: "Essayé, bof" }).first().click();
       await expect(colonne(page).locator(`a[data-ligne-qr='${id3}'] [data-fait]`)).toBeVisible({ timeout: 15_000 });
       await expect(page.locator(`[data-fiche-panneau='${id3}']`)).toBeVisible();
+      // s26 liste et détail, tour 1 : « Situation suivante » prend l'aplat ET est ramenée dans l'écran.
+      await expect(suivante).toHaveAttribute("data-plein", "");
+      await expect(suivante).toBeInViewport({ ratio: 1, timeout: 2_000 });
 
-      // Retour navigateur : fiche 2, puis l'entrée de la fiche 1 remplacée par le filtre (aucune entrée par filtre).
+      // Retour navigateur : fiche 2, puis le filtre. s26 liste et détail, tour 1 (mesures §2, historique) : le filtre ne
+      // remplace plus l'entrée de la fiche 1 quand il la quitte (il en ajoute une) ; s'il la garde, son adresse porte le
+      // filtre. Dans les deux cas, la fiche 1 reste dans l'historique.
       await page.goBack();
       await expect(page).toHaveURL(new RegExp(`${LISTE}/${id2}\\?ou=${lieu}$`));
       await page.goBack();
       await expect(page).toHaveURL(apresFiltre);
+      if (!new URL(apresFiltre).pathname.endsWith(`/${id1}`)) {
+        await page.goBack();
+        await expect(page).toHaveURL(new RegExp(`${LISTE}/${id1}$`));
+      }
     });
   }
 
@@ -149,5 +162,27 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     expect(r?.status()).toBe(200);
     await expect(page.locator("[data-fiche-panneau='coloc-la-poele'] h1")).toBeVisible();
     await expect(actives(page)).toHaveAttribute("data-ligne-qr", "coloc-la-poele");
+    // s26 liste et détail, tour 1 (mesures §6) : id inconnu pour l'abonné, vrai 404 de statut (plus un 200 « introuvable »).
+    expect((await page.goto(`${LISTE}/inexistant-xyz`))?.status(), "id inconnu : 404").toBe(404);
   });
+
+  // s26 liste et détail, tour 1 (spec UX §1, mesures §7) : visiteur, clic sur une tuile fermée de l'aperçu : contour de la
+  // carte d'offre (ramenée dans l'écran si besoin), aucune navigation, extrait toujours sans élément focusable.
+  for (const [largeur, hauteur] of [[375, 812], [768, 1024], [1280, 900], [1920, 1080]] as const) {
+    test(`aperçu (${largeur}) : tuile fermée -> contour sur la carte d'offre, sans navigation`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      await page.goto(LISTE);
+      const tuile = page.locator("[data-apercu-extrait] [data-tuile-fermee='']:visible").first();
+      await tuile.scrollIntoViewIfNeeded();
+      const b = (await tuile.boundingBox())!;
+      const adresse = page.url();
+      await page.mouse.click(b.x + b.width / 2, b.y + Math.min(b.height / 2, 40));
+      const carte = page.locator("[data-apercu-hero] [data-apercu-offre]");
+      await expect(carte).toHaveAttribute("data-signal", "", { timeout: 1_500 });
+      await expect(carte).toBeInViewport({ ratio: 1 });
+      expect(page.url()).toBe(adresse);
+      await expect(page.locator("[data-apercu-extrait] > [aria-hidden='true']")).toHaveCount(1);
+      expect(await page.locator("[data-apercu-extrait] > [aria-hidden='true']").evaluate((e) => e.querySelectorAll("a, button, input, textarea, select, [tabindex]").length)).toBe(0);
+    });
+  }
 });

@@ -38,8 +38,25 @@ const ecrire = (cle: string, valeur: string | null) => {
 export function SituationSuivante({ ficheId, href, faitInitial }: { ficheId: string; href: string; faitInitial: boolean }) {
   const faits = useFaitsQuoiRepondre();
   const fait = faits?.faitDe(ficheId) ?? faitInitial;
+  const lien = useRef<HTMLAnchorElement>(null);
+  const avant = useRef(fait);
+  // s26 liste et détail, tour 1 (mesures §3 : après « Fait », le seul plein était sous le pli à 768 et 1280) : au passage
+  // à « Fait », le bouton est ramené dans l'écran s'il n'y est pas, en douceur (`nearest` : le moins de défilement
+  // possible ; instantané si le mouvement est réduit). Jamais au montage (fiche déjà faite : rien ne bouge).
+  useEffect(() => {
+    const el = lien.current;
+    if (fait && !avant.current && el) {
+      const r = el.getBoundingClientRect();
+      if (r.top < 0 || r.bottom > window.innerHeight) {
+        const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        el.scrollIntoView({ block: "nearest", behavior: reduit ? "auto" : "smooth" });
+      }
+    }
+    avant.current = fait;
+  }, [fait]);
   return (
     <Link
+      ref={lien}
       href={href}
       prefetch={false}
       onClick={() => faits?.demanderFocus()}
@@ -94,6 +111,10 @@ export function RetourListe({ href, label }: { href: string; label: string }) {
   );
 }
 
+/** Liens affichés de la page liste vers une même adresse (la prochaine action et sa ligne peuvent la partager). */
+const liensVisibles = (racine: Document, href: string) =>
+  Array.from(racine.querySelectorAll<HTMLAnchorElement>("[data-mode='page'] a[href]")).filter((a) => a.getAttribute("href") === href && a.offsetParent !== null);
+
 /**
  * Page liste (< 1024) : au clic sur une fiche, `scrollY` et l'adresse de la liste sont gardés (`sessionStorage`, clé
  * rubrique + filtres) avec l'adresse de la fiche ouverte (« Retour » = `router.back()`) ; au retour sur cette même
@@ -104,9 +125,14 @@ export function MemoireDefilementPage({ cle, children }: { cle: string; children
   useEffect(() => {
     const memoire = lire(cle);
     if (!memoire) return;
-    const { y, adresse } = JSON.parse(memoire) as { y: number; adresse: string };
+    const { y, adresse, href, rang, haut } = JSON.parse(memoire) as { y: number; adresse: string; href?: string; rang?: number; haut?: number };
     if (adresse !== `${window.location.pathname}${window.location.search}`) return;
-    window.scrollTo({ top: y });
+    // s26 liste et détail, tour 1 (mesures §2 : 1194 -> 1247 à 375, 587 -> 575 à 768) : la position est rendue par le
+    // lien cliqué, remis à la même hauteur dans l'écran (le contenu au-dessus peut avoir changé de hauteur entre-temps :
+    // repli des filtres, prochaine action) ; `scrollY` brut seulement si le lien n'est plus affiché.
+    const memes = href ? liensVisibles(document, href) : [];
+    const cible = memes[Math.min(rang ?? 0, memes.length - 1)];
+    window.scrollTo({ top: cible && haut !== undefined ? window.scrollY + cible.getBoundingClientRect().top - haut : y });
     ecrire(cle, null);
   }, [cle]);
   return (
@@ -114,7 +140,9 @@ export function MemoireDefilementPage({ cle, children }: { cle: string; children
       onClickCapture={(e) => {
         const lien = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="/mon-espace/quoi-repondre/"]');
         if (!lien) return;
-        ecrire(cle, JSON.stringify({ y: window.scrollY, adresse: `${window.location.pathname}${window.location.search}` }));
+        const href = lien.getAttribute("href") ?? "";
+        const memoire = { y: window.scrollY, adresse: `${window.location.pathname}${window.location.search}`, href, rang: liensVisibles(document, href).indexOf(lien), haut: lien.getBoundingClientRect().top };
+        ecrire(cle, JSON.stringify(memoire));
         ecrire(CLE_DEPUIS_LISTE, new URL(lien.href).pathname);
       }}
     >
