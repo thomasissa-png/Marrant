@@ -16,6 +16,10 @@ import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } f
  * s26 liste et détail, tour 5 : « Situation suivante » = prochaine non faite APRÈS la fiche (reprise au début seulement
  * après la dernière), même gabarit avant et après « Fait » ; carte d'offre de même hauteur visiteur et gratuit à 1280 ;
  * « Pour quoi faire ? » à la largeur de ses pastilles (écarts de 8 px).
+ * s26 liste et détail, tour 6 : aperçu à 1280 et 1920, chaque bord de carte sur la grille 8/4 (et 4/4/4) de la page,
+ * aucun vide de plus de 32 px (sous une carte, en fin de carte, à droite des pastilles), titres des tuiles fermées pas
+ * plus gros que celui de la carte d'exemple ; liste de l'abonné dès 1024 : dégradé en bas quand il reste des lignes
+ * dessous, en haut dès qu'on a défilé, sans capter le pointeur.
  */
 const MOT_DE_PASSE = "E2e-liste-detail-s26";
 const LISTE = "/mon-espace/quoi-repondre";
@@ -298,39 +302,116 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     expect((await page.goto(`${LISTE}/inexistant-xyz`))?.status(), "id inconnu : 404").toBe(404);
   });
 
-  // s26 liste et détail, tour 3 (mesures N2 : vide de fin de la carte d'exemple 159 px à 1280, la situation étirée à
-  // la hauteur de la colonne des filtres) : visiteur, 1280, la situation et les filtres finissent à 24 px au plus sous
-  // leur dernier bloc (répliques fermées, pastilles), mesuré du bas du bloc au bord intérieur bas de la carte.
-  test("aperçu (1280) : vide de fin de la carte d'exemple et des filtres <= 24 px", async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto(LISTE);
-    for (const carte of ["[data-apercu-situation]", "[data-apercu-filtres]"]) {
-      const vide = await page.locator(`[data-apercu-extrait] ${carte}`).evaluate((c) => {
-        const dernier = Array.from(c.children).filter((e) => (e as HTMLElement).offsetParent !== null && getComputedStyle(e).position !== "absolute").pop()!;
-        return Math.round(c.getBoundingClientRect().bottom - parseFloat(getComputedStyle(c).borderBottomWidth) - dernier.getBoundingClientRect().bottom);
+  // s26 liste et détail, tour 3 (mesures N2 : vide de fin de la carte d'exemple 159 px à 1280) et tour 6 (relectures
+  // v3 : vides à droite de « Pour quoi faire ? » et sous « Où et avec qui ? », bord droit à x 920 aligné sur rien,
+  // titres fermés lus plus gros que celui de l'exemple). Visiteur, 1280 et 1920 : chaque carte de l'extrait commence et
+  // finit sur une colonne de la grille de la page (12 colonnes, gouttière 48, entre le bord gauche du texte du hero et
+  // le bord droit de la carte d'offre ; bords utilisés 8/4 et 4/4/4) ; chaque rangée couvre toute la largeur sans autre
+  // vide que les gouttières ; aucune carte ne finit à plus de 32 px du bas de sa rangée ; en fin de carte (exemple,
+  // filtres), 32 px au plus sous le dernier bloc en plus de la marge de 24 ; « Pour quoi faire ? » sur une ligne,
+  // 8 px entre pastilles, rien à droite de la dernière ; titres des tuiles fermées <= titre de l'exemple.
+  for (const largeur of [1280, 1920]) {
+    test(`aperçu (${largeur}) : bords sur la grille 8/4, vides <= 32 px, titres fermés sous l'exemple`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto(LISTE);
+      const m = await page.evaluate(() => {
+        const R = (e: Element) => e.getBoundingClientRect();
+        const texte = R(document.querySelector("[data-apercu-hero] > *")!);
+        const offre = R(document.querySelector("[data-apercu-hero] [data-apercu-offre]")!);
+        const col = (offre.right - texte.left - 11 * 48) / 12;
+        const gauches = [0, 4, 8].map((c) => texte.left + c * (col + 48));
+        const droites = [3, 7, 11].map((c) => texte.left + c * (col + 48) + col);
+        const cartes = Array.from(document.querySelectorAll<HTMLElement>("[data-apercu-extrait] [data-tuile-fermee]"))
+          .filter((t) => t.offsetParent !== null)
+          .map((t) => R(t));
+        const rangees = new Map<number, DOMRect[]>();
+        for (const c of cartes) rangees.set(Math.round(c.top), [...(rangees.get(Math.round(c.top)) ?? []), c]);
+        const finDeCarte = (sel: string) => {
+          const c = document.querySelector<HTMLElement>(`[data-apercu-extrait] ${sel}`)!;
+          const s = getComputedStyle(c);
+          const dernier = Array.from(c.children).filter((e) => (e as HTMLElement).offsetParent !== null && getComputedStyle(e).position !== "absolute").pop()!;
+          return Math.round(R(c).bottom - parseFloat(s.borderBottomWidth) - parseFloat(s.paddingBottom) - R(dernier).bottom);
+        };
+        const pour = document.querySelector<HTMLElement>("[data-apercu-extrait] [data-apercu-filtres-pour]")!;
+        const lis = Array.from(pour.querySelectorAll<HTMLElement>("li")).map(R);
+        const sp = getComputedStyle(pour);
+        const taille = (h: Element) => parseFloat(getComputedStyle(h).fontSize);
+        const titres = Array.from(document.querySelectorAll("[data-apercu-extrait] h2"));
+        return {
+          horsGrille: cartes
+            .filter((c) => !gauches.some((x) => Math.abs(c.left - x) <= 1) || !droites.some((x) => Math.abs(c.right - x) <= 1))
+            .map((c) => `${Math.round(c.left)}-${Math.round(c.right)}`),
+          rangees: Array.from(rangees.values()).map((r) => {
+            const tri = [...r].sort((a, b) => a.left - b.left);
+            const bas = Math.max(...r.map((c) => c.bottom));
+            return {
+              debut: Math.round(tri[0].left - texte.left),
+              fin: Math.round(offre.right - tri[tri.length - 1].right),
+              gouttieres: tri.slice(1).map((c, i) => Math.round(c.left - tri[i].right)),
+              videSous: Math.round(Math.max(...r.map((c) => bas - c.bottom))),
+            };
+          }),
+          finExemple: finDeCarte("[data-apercu-situation]"),
+          finFiltres: finDeCarte("[data-apercu-filtres]"),
+          pour: {
+            lignes: new Set(lis.map((l) => Math.round(l.top))).size,
+            ecarts: lis.slice(1).map((l, i) => Math.round(l.left - lis[i].right)),
+            vide: Math.round(R(pour).right - parseFloat(sp.borderRightWidth) - parseFloat(sp.paddingRight) - lis[lis.length - 1].right),
+          },
+          titreExemple: taille(titres[0]),
+          titresFermes: titres.slice(1).filter((h) => (h as HTMLElement).offsetParent !== null).map(taille),
+        };
       });
-      expect(vide, `vide de fin ${carte}`).toBeLessThanOrEqual(24);
-    }
-    // s26 liste et détail, tour 5 (relecture design v2 D10 : pastilles du tour 4 étirées, trous de 90 px) : une ligne,
-    // 8 px entre pastilles, tuile à la largeur de son contenu (vide à droite des pastilles <= 8 px, aucun vide > 32 px
-    // dans la tuile), bord gauche de la tuile sur celui de la tuile de dessous.
-    const pour = await page.locator("[data-apercu-extrait] [data-apercu-filtres-pour]").evaluate((t) => {
-      const lis = Array.from(t.querySelectorAll<HTMLElement>("li")).map((l) => l.getBoundingClientRect());
-      const s = getComputedStyle(t);
-      const r = t.getBoundingClientRect();
-      const bordDroit = r.right - parseFloat(s.borderRightWidth) - parseFloat(s.paddingRight);
-      const dessous = t.closest("[data-apercu-rangee]")!.querySelectorAll<HTMLElement>("[data-tuile-fermee]")[1].getBoundingClientRect();
-      return {
-        lignes: new Set(lis.map((l) => Math.round(l.top))).size,
-        ecarts: lis.slice(1).map((l, i) => Math.round(l.left - lis[i].right)),
-        vide: Math.round(bordDroit - lis[lis.length - 1].right),
-        gauche: Math.round(r.left - dessous.left),
-      };
+      expect(m.horsGrille, "cartes hors de la grille 8/4").toEqual([]);
+      for (const r of m.rangees) {
+        expect([r.debut, r.fin], "rangée de bord à bord").toEqual([0, 0]);
+        expect(r.gouttieres, "seulement les gouttières de 48 px").toEqual(r.gouttieres.map(() => 48));
+        expect(r.videSous, "vide sous une carte de la rangée").toBeLessThanOrEqual(32);
+      }
+      expect(m.rangees.length, "trois rangées : exemple et lieux, buts, tuiles fermées").toBe(3);
+      expect(m.finExemple, "vide de fin de la carte d'exemple").toBeLessThanOrEqual(32);
+      expect(m.finFiltres, "vide de fin des filtres").toBeLessThanOrEqual(32);
+      expect(m.pour.lignes, "pastilles sur une ligne").toBe(1);
+      expect(m.pour.ecarts, "8 px entre pastilles").toEqual(m.pour.ecarts.map(() => 8));
+      expect(m.pour.vide, "vide à droite des pastilles").toBeLessThanOrEqual(8);
+      expect(m.titresFermes.length).toBe(3);
+      for (const t of m.titresFermes) expect(t, "titre fermé <= titre de l'exemple").toBeLessThanOrEqual(m.titreExemple);
     });
-    expect(pour.lignes, "pastilles sur une ligne").toBe(1);
-    expect(pour.ecarts, "8 px entre pastilles").toEqual(pour.ecarts.map(() => 8));
-    expect(pour.vide, "vide à droite des pastilles").toBeLessThanOrEqual(8);
-    expect(pour.gauche, "calée à gauche sur la tuile de dessous").toBe(0);
+  }
+
+  // s26 liste et détail, tour 6 (relecture design v3 : dernière ligne visible de la liste coupée sans indice) : abonné,
+  // 1024 x 768 (la liste défile) : en haut de liste, dégradé du bas visible, celui du haut éteint ; après défilement, les
+  // deux ; tout en bas, celui du bas éteint. Aucun ne capte le pointeur.
+  test("dès 1024 : dégradé de la liste quand elle défile, sans capter le pointeur", async ({ page }) => {
+    await abonne(page);
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await page.goto(LISTE);
+    const corps = page.locator("[data-liste-corps]");
+    await expect(corps).toBeVisible();
+    expect(await corps.evaluate((c) => c.scrollHeight > c.clientHeight + 100), "la liste défile").toBe(true);
+    const haut = page.locator("[data-degrade-liste='haut']");
+    const bas = page.locator("[data-degrade-liste='bas']");
+    const opacite = (l: typeof haut) => l.evaluate((e) => getComputedStyle(e).opacity);
+    const defiler = (y: number | "fin") => corps.evaluate((c, v) => c.scrollTo({ top: v === "fin" ? c.scrollHeight : v }), y);
+    await defiler(0);
+    await expect.poll(() => opacite(bas)).toBe("1");
+    await expect.poll(() => opacite(haut)).toBe("0");
+    await defiler(120);
+    await expect.poll(() => opacite(haut)).toBe("1");
+    await expect.poll(() => opacite(bas)).toBe("1");
+    await defiler("fin");
+    await expect.poll(() => opacite(bas)).toBe("0");
+    for (const d of [haut, bas]) {
+      expect(await d.evaluate((e) => getComputedStyle(e).pointerEvents)).toBe("none");
+      expect(await d.evaluate((e) => Math.round(e.getBoundingClientRect().height)), "dégradé discret").toBeLessThanOrEqual(16);
+    }
+    // La ligne sous le dégradé du bas reste cliquable : au point du dégradé, l'élément touché est un lien de la liste.
+    await defiler(120);
+    const touche = await bas.evaluate((e) => {
+      const r = e.getBoundingClientRect();
+      return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)?.closest("a[data-ligne-qr], summary, [data-liste-lignes]") !== null;
+    });
+    expect(touche, "dégradé transparent au pointeur").toBe(true);
   });
 
   // s26 liste et détail, tour 5 (relecture design v2 D3 : carte d'offre de 202 px chez le visiteur, 211 chez le gratuit,

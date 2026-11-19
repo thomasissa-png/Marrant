@@ -67,7 +67,9 @@ export function GesteFiche({
 
   return (
     <section aria-label={G.aToi} className={separe ? "space-y-4 border-t border-border pt-4" : "space-y-4"} data-testid="geste-fiche">
-      <div className="space-y-1">
+      {/* s26 liste et détail, tour 6 (relecture design v3 : « À toi » et « Fait » collés à la consigne, 4 px) : 8 px
+          entre l'étiquette et son texte, comme « La scène » et les autres blocs (`space-y-2`). */}
+      <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
           <h3 className={ETIQUETTE}>{G.aToi}</h3>
           {fait && <span className="rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary">{G.fait}</span>}

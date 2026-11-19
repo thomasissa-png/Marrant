@@ -27,6 +27,8 @@ import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 
 const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
+/** s26 liste et détail, tour 6 : dégradé de bord de la zone qui défile (16 px, fond de la carte vers transparent). */
+const DEGRADE = "pointer-events-none absolute inset-x-0 z-10 h-4 from-background-card to-transparent transition-opacity duration-150 motion-reduce:transition-none";
 
 /** Carte collante (spec design §1) : haut à 144 px (`top-36`), 24 px libres en bas, hauteur utile minimale avant départ. */
 const HAUT_COLLE = 144;
@@ -118,6 +120,28 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
     };
   }, []);
 
+  // s26 liste et détail, tour 6 (relecture design v3 : dernière ligne visible coupée sans indice) : un dégradé discret
+  // (16 px, vers le fond de la carte) en bas de la zone qui défile tant qu'il reste des lignes dessous, en haut dès
+  // qu'on a défilé. Posé par-dessus, sans capter le pointeur (`pointer-events-none`) : chaque ligne reste cliquable.
+  const [bords, setBords] = useState({ haut: false, bas: false });
+  const mesurerBords = () => {
+    const el = corps.current;
+    if (!el) return;
+    const haut = el.scrollTop > 0;
+    const bas = Math.ceil(el.scrollTop + el.clientHeight) < el.scrollHeight;
+    setBords((b) => (b.haut === haut && b.bas === bas ? b : { haut, bas }));
+  };
+  useEffect(() => {
+    const el = corps.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    // Taille de la zone (carte collante) et de son contenu (repli des filtres ouvert, filtre choisi, « Fait »).
+    const observateur = new ResizeObserver(() => mesurerBords());
+    observateur.observe(el);
+    Array.from(el.children).forEach((c) => observateur.observe(c));
+    return () => observateur.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Position de la liste : restaurée au montage (retour navigateur), remise en haut à chaque changement de filtre.
   const cleAvant = useRef<string | null>(null);
   useEffect(() => {
@@ -125,6 +149,8 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
     if (!el) return;
     el.scrollTop = cleAvant.current === null || cleAvant.current === cle ? Number(lire(cle) ?? 0) : 0;
     cleAvant.current = cle;
+    mesurerBords();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cle]);
 
   // Ligne active visible dans la liste (sans bouger la page) ; annonce polie du titre ouvert après un changement.
@@ -172,7 +198,19 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
           lignes recouvertes par le pied « carnet », pastilles hors de la carte) : le repli des filtres défile AVEC les
           lignes, dans le corps (la liste garde toute la hauteur entre le titre et le pied), et se referme après un choix
           (`key` du filtre : remonté fermé). */}
-      <div ref={corps} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" onKeyDown={surTouche} onScroll={(e) => ecrire(cle, String(e.currentTarget.scrollTop))} data-liste-corps>
+      <div className="relative flex min-h-0 flex-1 flex-col">
+      <span aria-hidden="true" className={cn(DEGRADE, "top-0 bg-gradient-to-b", bords.haut ? "opacity-100" : "opacity-0")} data-degrade-liste="haut" />
+      <span aria-hidden="true" className={cn(DEGRADE, "bottom-0 bg-gradient-to-t", bords.bas ? "opacity-100" : "opacity-0")} data-degrade-liste="bas" />
+      <div
+        ref={corps}
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain"
+        onKeyDown={surTouche}
+        onScroll={(e) => {
+          ecrire(cle, String(e.currentTarget.scrollTop));
+          mesurerBords();
+        }}
+        data-liste-corps
+      >
         <details key={cle} className="group/repli px-6 pb-4" data-filtres-liste>
           <summary className={SOMMAIRE_REPLIABLE}>
             <span className="min-w-0 [overflow-wrap:anywhere]">{resume || T.filtrerLesCartes}</span>
@@ -260,6 +298,7 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
             })
           )}
         </div>
+      </div>
       </div>
       <div className="flex-none border-t border-border">
         <Link href="/carnet" className={cn(META, "inline-flex min-h-11 items-center px-6 underline underline-offset-2 hover:text-text-primary")} data-carnet>
