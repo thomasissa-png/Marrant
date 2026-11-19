@@ -701,7 +701,8 @@ test.describe("navigation universelle v6 (s25)", () => {
     // a son propre en-tête de page, inchangé par la v6 (mesuré : +40 px) ; abonné, toutes les rubriques sont comparées.
     // v6 tour 3 (arbitrage 1) : sur /carnet, le sur-titre du mois est AU-DESSUS du H1 pour tous les comptes (le tour 2
     // le passait sous le titre chez l'abonné) ; c'est lui, première ligne de l'en-tête de page, qui s'aligne sur le H1
-    // des autres rubriques (le H1 est 28 px plus bas, hauteur du sur-titre et de son espace).
+    // des autres rubriques (le H1 est 28 px plus bas, hauteur du sur-titre et de son espace). s26, Thomas 19/11 : sur-titre
+    // retiré, le H1 de /carnet est la première ligne de l'en-tête.
     test("§4 : H1 des rubriques de premier niveau à la même hauteur entre elles (abonné, visiteur ; 375 et 1280 px)", async ({ browser }) => {
       // s26 (Favoris, `docs/ux/favoris-carnet-s26.md` §1.2) : l'aperçu de /favoris reprend le même hero (`HeroApercu`,
       // pastille « Premium » au-dessus du H1 dès 768 px) : même règle (mesuré sur ce0c2ad7 : H1 44 px plus bas).
@@ -724,12 +725,11 @@ test.describe("navigation universelle v6 (s25)", () => {
             // première ligne de l'en-tête (test adapté au tour 9).
             // s26 : les aperçus de Quoi répondre, Bibliothèque et S'entraîner reprennent ce squelette (`ApercuVerrouille`,
             // même pastille au-dessus du H1 dès 768 px) : même règle (mesuré au tour 1 : H1 44 px plus bas, pastille alignée).
+            // s26, Thomas 19/11 : le sur-titre de /carnet est retiré (il répétait le H1) ; son H1 ouvre l'en-tête.
             const tete =
-              chemin === "/carnet"
-                ? h1.locator("xpath=preceding-sibling::p[1]")
-                : APERCUS_EN_LARGEUR.includes(chemin) && etat === "visiteur" && largeur >= 768
-                  ? page.locator("[data-apercu-hero] [data-badge-premium]")
-                  : h1;
+              APERCUS_EN_LARGEUR.includes(chemin) && etat === "visiteur" && largeur >= 768
+                ? page.locator("[data-apercu-hero] [data-badge-premium]")
+                : h1;
             await expect(tete, `en-tête de ${chemin} (${etat}, ${largeur} px)`).toBeVisible();
             hauts[chemin] = await tete.evaluate((e) => Math.round((e.getBoundingClientRect().top + window.scrollY) * 10) / 10);
           }
@@ -737,7 +737,7 @@ test.describe("navigation universelle v6 (s25)", () => {
           const reference = hauts["/mon-espace"];
           for (const [chemin, haut] of Object.entries(hauts)) {
             if (etat === "visiteur" && chemin === "/lettre") continue;
-            expect(Math.abs(haut - reference), `${chemin === "/carnet" ? "Sur-titre" : "H1"} de ${chemin} à la hauteur du H1 d'Aujourd'hui (${etat}, ${largeur} px)`).toBeLessThanOrEqual(1);
+            expect(Math.abs(haut - reference), `H1 de ${chemin} à la hauteur du H1 d'Aujourd'hui (${etat}, ${largeur} px)`).toBeLessThanOrEqual(1);
           }
         }
         await c.close();

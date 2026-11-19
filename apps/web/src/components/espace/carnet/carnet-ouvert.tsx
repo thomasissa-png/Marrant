@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { chipClass } from "@/components/ui/chip";
 import { Reassurance } from "@/components/ui/reassurance";
-import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet";
+import { formatCarnetMonth, type CarnetView } from "@/lib/carnet";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL, CARNET_RETOUR_SOMMAIRE } from "@/config/textes/cta-pages";
 import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
-import { BOUTON_OFFRE, CARTE_PREMIUM, HaloPremium, OffreApercu, Preuve } from "@/components/espace/apercu/offre-apercu";
+import { BOUTON_OFFRE_FIN, CARTE_PREMIUM, HaloPremium, OffreApercu, Preuve } from "@/components/espace/apercu/offre-apercu";
 import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { FicheCarnet } from "@/components/espace/carnet/fiche-carnet";
@@ -47,18 +47,15 @@ const ENTREE_SOMMAIRE = cn(
   "hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
 );
 
-/** Sur-titre sans capitales (s26) : « Carnet de novembre 2026, 30 situations » (textes existants, ponctuation seule). */
-const surTitre = (view: CarnetView) => `Carnet ${deCarnetMonth(view.mois)}, ${view.totalFiches} situations`;
-
 /**
- * En-tête aligné à gauche : sur-titre `META`, H1 `TITRE_PAGE` (blanc), intro `TEXTE`. s26 tour 2 (C1) : chez le
- * non-abonné (`preuve`), la preuve sort de la carte d'offre et se pose sous l'intro, comme dans `HeroApercu`.
+ * En-tête aligné à gauche : H1 `TITRE_PAGE` (blanc), intro `TEXTE`. s26 tour 2 (C1) : chez le non-abonné (`preuve`), la
+ * preuve sort de la carte d'offre et se pose sous l'intro, comme dans `HeroApercu`. s26, Thomas 19/11 : le sur-titre
+ * « Carnet de … , N situations » est retiré (il répétait le H1) ; le H1 ouvre l'en-tête.
  */
 function EnTete({ view, preuve = false }: { view: CarnetView; preuve?: boolean }) {
   return (
     <header className="min-w-0">
-      <p className={META}>{surTitre(view)}</p>
-      <h1 id={TITRE_ID} className={cn("mt-2", TITRE_PAGE)}>{frTypo(view.titre)}</h1>
+      <h1 id={TITRE_ID} className={TITRE_PAGE}>{frTypo(view.titre)}</h1>
       <p className={cn("mt-4 max-w-xl", TEXTE)}>{frTypo(view.intro)}</p>
       {preuve && <Preuve place="hero" />}
     </header>
@@ -83,6 +80,8 @@ export function CarnetOuvert(props: Props) {
  * hero reprend sa gouttière (`lg:gap-x-12`) : « Au programme » a les bords de la carte d'offre. C2, la fin d'extrait est
  * le MÊME objet Premium que la carte de fin des aperçus (`CARTE_PREMIUM`, `HaloPremium`, 448 px au plus, centrée sur la
  * page, mêmes paddings, bouton pleine largeur et réassurance dessous), mêmes textes dans le même ordre, sur sa rangée.
+ * s26, Thomas 19/11 : 48 px entre la fiche offerte et la carte de fin (24 de gouttière et `mt-6`, 24 px avant) ; bouton
+ * de la carte de fin en contour sur fenêtre d'au moins 1000 px de haut (`BOUTON_OFFRE_FIN`).
  */
 function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
   const href = buildAbonnementUrl(returnTo, "monthly", src);
@@ -127,7 +126,7 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
           </div>
         )}
         {restantes > 0 && (
-          <div className={cn(CARTE_PREMIUM, "mx-auto w-full min-w-0 max-w-md p-4 text-center md:p-6 lg:col-span-12")} data-carnet-fin>
+          <div className={cn(CARTE_PREMIUM, "mx-auto mt-6 w-full min-w-0 max-w-md p-4 text-center md:p-6 lg:col-span-12")} data-carnet-fin>
             <HaloPremium />
             <div className="relative flex flex-col items-center gap-4">
               <div>
@@ -135,7 +134,7 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
                 <p className={cn("mt-2", TEXTE)}>{frTypo(CARNET_PAYWALL.paragraphe)}</p>
               </div>
               <div className="w-full">
-                <Link href={href} data-testid="carnet-paywall-bouton" className={cn(BOUTON_OFFRE, "w-full")}>
+                <Link href={href} data-testid="carnet-paywall-bouton" className={cn(BOUTON_OFFRE_FIN, "w-full")}>
                   {frTypo(CARNET_PAYWALL.bouton)}
                 </Link>
                 <Reassurance className={cn("mt-2 md:mt-4", META)} />

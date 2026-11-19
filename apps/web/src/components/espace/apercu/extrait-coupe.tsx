@@ -3,7 +3,7 @@ import { TEXTES_APERCU, TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-
 import { frEspace } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { Reassurance } from "@/components/ui/reassurance";
-import { BOUTON_OFFRE, CARTE_PREMIUM, HaloPremium } from "@/components/espace/apercu/offre-apercu";
+import { BOUTON_OFFRE_FIN, CARTE_PREMIUM, HaloPremium } from "@/components/espace/apercu/offre-apercu";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
 
 /** `inert` (hors des types de React 18.3) : posé tel quel, l'extrait sort de la tabulation et des clics. */
@@ -64,7 +64,8 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
           où était la phrase : 48 px sous la dernière tuile ; à 900 px de haut, phrase et bouton sous le premier écran.
           « Aujourd'hui » (suite à hauteur fixe, sans `entiere`) : ses 48 derniers px sont le bout du fondu, pas de l'air
           sous une tuile ; une carte posée dessus touchait la tuile coupée (0 px à 375, 32 dès 1024) : aucun
-          chevauchement, la carte commence 48 px sous le point transparent du fondu. */}
+          chevauchement, la carte commence 48 px sous le point transparent du fondu.
+          s26, Thomas 19/11 : bouton en contour sur fenêtre d'au moins 1000 px de haut (`BOUTON_OFFRE_FIN`). */}
       <div
         className={cn(CARTE_PREMIUM, "mx-auto w-full max-w-md p-4 text-center md:p-6", rubrique === "aujourdhui" ? "mt-0" : "-mt-12 lg:-mt-4")}
         data-apercu-fin
@@ -73,7 +74,7 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
         <div className="relative flex flex-col items-center gap-4">
           <p className={TITRE_CARTE}>{TEXTES_APERCU_VERROUILLE.suite}</p>
           <div className="w-full">
-            <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="fin">
+            <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE_FIN, "w-full")} data-position="fin">
               {TEXTES_APERCU.offre.bouton}
             </Link>
             <Reassurance className={cn("mt-2 md:mt-4", META)} />

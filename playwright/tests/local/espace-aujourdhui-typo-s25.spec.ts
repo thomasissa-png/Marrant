@@ -27,6 +27,9 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
  *   seul : la carte d'offre (`[data-apercu-offre]`) et la carte de fin (`[data-apercu-fin]`) par leur bord violet de
  *   2 px sur les quatre côtés (sans fond violet), et leur halo (`> [data-halo-premium]`, `aria-hidden`, flouté, fond
  *   violet à 10 % au plus, sans bord) ; tout autre bord, fond ou filet violet reste refusé ;
+ * - s26, Thomas 19/11 : sur une fenêtre d'au moins 1000 px de haut, le bouton de la carte de fin est en CONTOUR (bord
+ *   violet de 1 px, fond transparent) et compte dans l'objet Premium ; contrôle dédié à 1920 x 1200 sur les 6 aperçus
+ *   (un seul fond violet plein au premier écran, le bouton d'offre du hero) ;
  * - aperçu : le mot « Premium » au plus deux fois en repère visible (pastille du hero et bouton d'offre ; les phrases
  *   de la carte d'offre, réassurance et phrase d'objet, sont des textes validés, hors repère).
  */
@@ -90,6 +93,16 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
             cotes.every((c) => cs.getPropertyValue(`border-${c}-width`) === "2px" && contientViolet(cs.getPropertyValue(`border-${c}-color`))) &&
             !contientViolet(cs.backgroundColor) &&
             !contientViolet(cs.backgroundImage)
+          );
+        }
+        // s26, Thomas 19/11 : sur une fenêtre d'au moins 1000 px de haut, le bouton de la carte de fin passe en CONTOUR
+        // (bord violet de 1 px sur les quatre côtés, fond transparent) ; sous 1000 px, il reste plein (compté en aplat).
+        if (el.matches("[data-apercu-fin] a[data-position='fin'], [data-carnet-fin] a[data-testid='carnet-paywall-bouton']")) {
+          return (
+            window.innerHeight >= 1000 &&
+            cotes.every((c) => cs.getPropertyValue(`border-${c}-width`) === "1px" && contientViolet(cs.getPropertyValue(`border-${c}-color`))) &&
+            cs.backgroundColor === "rgba(0, 0, 0, 0)" &&
+            cs.backgroundImage === "none"
           );
         }
         if (el.matches("[data-apercu-offre] > [data-halo-premium], [data-apercu-fin] > [data-halo-premium]")) {
@@ -335,6 +348,59 @@ test.describe("@espace gate typographique d'« Aujourd'hui » s25 (ouvert)", () 
           expect(zones[0].y, "Z3 et Z4 sur la même rangée à 768").toBe(zones[1].y);
           expect(zones[0].l, "Z3 plus étroite que Z4 à 768 (5 + 7)").toBeLessThan(zones[1].l);
         }
+      }
+    });
+  }
+});
+
+/**
+ * s26, Thomas 19/11 : sur une fenêtre haute (1920 x 1200), la carte de fin entre dans le premier écran avec la carte
+ * d'offre : sur les 6 aperçus (visiteur et inscrit gratuit), UN SEUL fond violet plein au premier écran, le bouton
+ * d'offre du hero ; le bouton de la carte de fin y est en CONTOUR (bord violet 1 px, fond transparent, 44 px au moins,
+ * même lien que le hero), la carte garde son bord violet de 2 px. Sous 1000 px de haut (1280 x 900), il reste plein.
+ */
+test.describe("@espace carte de fin en contour sur fenêtre haute, s26 Thomas 19/11 (ouvert)", () => {
+  localSeulement();
+  test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
+  test.setTimeout(180_000);
+  const APERCUS = ["/mon-espace", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris", "/carnet"];
+  const BOUTON_FIN = "[data-apercu-fin] a[data-position='fin'], [data-carnet-fin] a[data-testid='carnet-paywall-bouton']";
+
+  for (const plan of [null, "FREE"] as const) {
+    test(`${plan ?? "visiteur"} : un seul fond violet plein au premier écran à 1920 x 1200 sur les 6 aperçus`, async ({ page }) => {
+      if (plan) {
+        const email = `e2e-fin-s26-${Date.now().toString(36)}-${randomBytes(2).toString("hex")}@example.com`;
+        await creerCompte(email, MOT_DE_PASSE, plan);
+        await connecter(page, email, MOT_DE_PASSE);
+      }
+      for (const adresse of APERCUS) {
+        const ou = `${adresse}, ${plan ?? "visiteur"}`;
+        await page.setViewportSize({ width: 1920, height: 1200 });
+        await page.goto(adresse);
+        await page.waitForLoadState("networkidle", { timeout: 10_000 }).catch(() => undefined);
+        const m = await mesurer(page, 1200);
+        expect(m.pleinsViolets, `fonds violets pleins au premier écran, ${ou}`).toHaveLength(1);
+        expect(m.pleinsOffre, `le seul aplat violet est le bouton d'offre du hero, ${ou}`).toBe(1);
+        const fin = page.locator(BOUTON_FIN);
+        await expect(fin, `bouton de la carte de fin, ${ou}`).toHaveCount(1);
+        const haut = await page.locator("[data-apercu-offre] a[data-position='haut']").getAttribute("href");
+        expect(await fin.getAttribute("href"), `même lien que le hero, ${ou}`).toBe(haut);
+        const style = await fin.evaluate((a) => {
+          const cs = getComputedStyle(a);
+          const carte = getComputedStyle(a.closest("[data-apercu-fin], [data-carnet-fin]")!);
+          return { bord: cs.borderTopWidth, couleurBord: cs.borderTopColor, fond: cs.backgroundColor, hauteur: a.getBoundingClientRect().height, bordCarte: carte.borderTopWidth };
+        });
+        expect(style.bord, `bouton de fin en contour, ${ou}`).toBe("1px");
+        expect(VIOLETS.some((v) => style.couleurBord.includes(v)), `bord violet du bouton de fin, ${ou}`).toBe(true);
+        expect(style.fond, `bouton de fin sans fond, ${ou}`).toBe("rgba(0, 0, 0, 0)");
+        expect(style.hauteur, `cible de 44 px au moins, ${ou}`).toBeGreaterThanOrEqual(44);
+        expect(style.bordCarte, `la carte de fin garde son bord de 2 px, ${ou}`).toBe("2px");
+        // Sous 1000 px de haut, le bouton de fin reste plein (attente : `transition-colors`, 150 ms, après le changement
+        // de taille de la fenêtre).
+        await page.setViewportSize({ width: 1280, height: 900 });
+        await expect
+          .poll(() => fin.evaluate((a) => getComputedStyle(a).backgroundColor), { message: `bouton de fin plein sous 1000 px de haut, ${ou}` })
+          .toBe("rgb(124, 58, 237)");
       }
     });
   }

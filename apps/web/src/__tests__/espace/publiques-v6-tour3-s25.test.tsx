@@ -166,18 +166,15 @@ describe("points 1 et 9 : /carnet", () => {
   );
   const enTete = (c: HTMLElement) => c.querySelector("header") as HTMLElement;
 
-  // s26 (`docs/design/favoris-carnet-s26.md` §3 et §4) : en-tête aligné à gauche (plus centré), sur-titre toujours
-  // AU-DESSUS du H1, sans capitales (`META`, « Carnet de novembre 2026, 30 situations »).
-  it.each([["abonné", "PREMIUM"], ["visiteur", null]])("ouvert, %s (s26) : sur-titre AU-DESSUS du H1, sans capitales, aligné à gauche", (_n, plan) => {
+  // s26 (`docs/design/favoris-carnet-s26.md` §3 et §4) : en-tête aligné à gauche (plus centré). s26, Thomas 19/11 : le
+  // sur-titre « Carnet de novembre 2026, 30 situations » est retiré (il répétait le H1) : le H1 ouvre l'en-tête.
+  it.each([["abonné", "PREMIUM"], ["visiteur", null]])("ouvert, %s (s26) : plus de sur-titre, le H1 ouvre l'en-tête, aligné à gauche", (_n, plan) => {
     ouvrir(true);
     const { container } = render(page(plan));
     const header = enTete(container);
     expect(header.className.split(" ")).not.toContain("text-center");
-    const surTitre = header.firstElementChild as HTMLElement;
-    expect(surTitre.tagName).toBe("P");
-    expect(surTitre.textContent).toBe("Carnet de novembre 2026, 30 situations");
-    expect(surTitre.className).not.toMatch(/uppercase|tracking|text-xs|accent/);
-    expect(header.children[1].tagName).toBe("H1");
+    expect(header.firstElementChild?.tagName).toBe("H1");
+    expect(header.textContent).not.toMatch(/Carnet de novembre 2026, 30 situations|30 situations/);
   });
 
   // s26 : sommaire en TUILES (3, 2 puis 1 colonne), cible de 44 px ; la première fiche porte le filet blanc.

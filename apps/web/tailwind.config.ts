@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   darkMode: "class",
@@ -112,7 +113,15 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    /**
+     * s26, Thomas 19/11 : variante `fenetre-haute:` (fenêtre d'au moins 1000 px de HAUT), posée une fois ici comme les
+     * points de rupture nommés ; pas un écran (`screens` reste en largeurs minimales simples, les `max-*` restent
+     * permises). Seul usage : le bouton de la carte de fin en contour (`BOUTON_OFFRE_FIN`). CSS seul, aucun JavaScript.
+     */
+    plugin(({ addVariant }) => addVariant("fenetre-haute", "@media (min-height: 1000px)")),
+  ],
 };
 
 export default config;

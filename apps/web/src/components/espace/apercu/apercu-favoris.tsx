@@ -33,10 +33,13 @@ function TypeFerme({ type, className }: { type: keyof typeof TYPE_FAVORI; classN
  * entrait dans le premier écran (64 px d'écart, proposés, le laissaient à 886). Dès 1024, 48 px de plus sous la vidéo
  * fermée, sur Favoris seulement : 96 px entre la dernière tuile et la carte de fin (48 sur les autres aperçus), bord à
  * y 909 à 1280, 1456 et 1920 (carte d'offre du hero raccourcie de 9 px au même tour), sous le pli à 900 px de haut.
+ * s26, Thomas 19/11 (48 px partout, sauf Favoris : la valeur minimale qui garde le haut de la carte de fin sous 900 px
+ * à 1280 x 900) : 40 px de plus dès 1024 (`lg:pb-10`, 48 avant), soit 88 px entre la vidéo fermée et la carte de fin,
+ * bord à y 901 à 1280, 1456 et 1920 ; 48 px sous 1024, comme ailleurs.
  */
 function ExtraitFavoris({ favoris }: { favoris: ExemplesFavoris | null }) {
   return (
-    <div className="lg:pb-12" data-apercu-fiche="favoris-exemples">
+    <div className="lg:pb-10" data-apercu-fiche="favoris-exemples">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12" data-apercu-rangee="1">
         {favoris ? (
           <>

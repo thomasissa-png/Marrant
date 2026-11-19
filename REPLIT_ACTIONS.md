@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### s26, décisions de Thomas du 19/11 : carte de fin et Carnet (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : sur une fenêtre d'au moins 1000 px de haut, le bouton de la carte de fin (aperçus et Carnet non-abonné) passe en contour (variante Tailwind nommée `fenetre-haute:` dans `tailwind.config.ts`, CSS seul), même libellé, même lien ; Carnet ouvert sans sur-titre « Carnet de …, N situations » ; 48 px entre la dernière tuile et la carte de fin partout (Carnet 24 avant), Favoris 88 dès 1024 (96 avant, haut de la carte à y 901 à 1280 x 900). Aucun texte nouveau. Interrupteur à `false` : site fermé identique (inertie 47/47 sans mise à jour, HTML fermé du Carnet identique).
+- **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
+
 ### s26, tour 3 des encarts Premium, de Favoris et du Carnet (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
 - **Quoi** : Carnet abonné, le rail des fiches défile jusqu'à la fiche en cours (la page ne bouge pas), numéros à largeur fixe, lignes aérées ; sous 768 px, sommaire en liste compacte (1 447 px au lieu de 4 116 à 375) ; tuile ou ligne active alignée sur ses voisines. Favoris abonné : cartes à leur hauteur propre dès 768, 24 px entre les onglets et la liste sous 1024. Carte d'offre : air sous « Connexion » égal à l'air au-dessus du bouton (cible de 44 px gardée). Aperçu de Favoris dès 1024 : la carte de fin passe sous le premier écran de 900 px. Aucun texte, aucune taille. Interrupteur à `false` : site fermé identique (inertie 47/47 instantanés, empreintes du Carnet fermé identiques, 6 vues).
 - **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
