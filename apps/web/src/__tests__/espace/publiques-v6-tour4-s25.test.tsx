@@ -124,7 +124,11 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
       expect(classes(carte)).not.toContain("lg:grid-cols-12");
       expect(carte.className).not.toMatch(/subgrid|row-span|\bmin-h-|\bmt-auto\b|\bjustify-between\b/);
       const texte = carte.querySelector("[data-parcours-texte]") as HTMLElement;
-      expect(classes(texte)).toEqual(expect.arrayContaining(["md:columns-2", "md:gap-6", "[orphans:1]", "[widows:1]"]));
+      // s26 parcours, tour 5 : test changé (raison : `columns-2` coupait le paragraphe entre les colonnes, faute dure D1 / F6
+      // des relectures v2 ; deux cellules de grille, une par bloc, largeurs au poids du texte, aucune colonne CSS).
+      expect(classes(texte)).toEqual(expect.arrayContaining(["grid", "md:grid-cols-[var(--colonnes-texte)]", "md:items-start", "md:gap-x-6"]));
+      expect(texte.className).not.toMatch(/columns-/);
+      expect(texte.style.getPropertyValue("--colonnes-texte")).toMatch(/^minmax\(0,0\.\d{3}fr\) minmax\(0,0\.\d{3}fr\)$/);
       expect(texte.children).toHaveLength(2);
       expect(classes(carte.querySelector("[data-parcours-pied]"))).toEqual(expect.arrayContaining(["lg:flex-row", "lg:items-start", "lg:gap-6"]));
     }

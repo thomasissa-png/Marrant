@@ -51,7 +51,7 @@ import { PathCompletionCard } from "@/components/parcours/path-completion-card";
 import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { MenuEtapes } from "@/components/espace/parcours/menu-etapes";
-import { LignesFiches } from "@/components/espace/parcours/lignes-fiches";
+import { FicheActiveContexte, LignesFiches } from "@/components/espace/parcours/lignes-fiches";
 import { PiedEtape } from "@/components/espace/parcours/navigation-etapes";
 import { LienRetour } from "@/components/espace/lien-retour";
 import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
@@ -183,6 +183,11 @@ export function ParcoursDetail({
   const [etapeVue, setEtapeVue] = useState<number | null>(null);
   const enteteClique = useRef<{ order: number; top: number } | null>(null);
   const allerAEtapeRef = useRef<((order: number) => void) | null>(null);
+  // s26 parcours, tour 5 (F1, relecture UX v2) : sous-étape choisie (`#fiche-N-M`), seul état actif des fiches ; fiche
+  // d'arrivée par l'adresse, recalée à la place de l'étape une fois le chargement abonné fini.
+  const [ficheActive, setFicheActive] = useState<string | null>(null);
+  const ficheARecaler = useRef<string | null>(null);
+  const allerAFicheRef = useRef<((ancre: string) => void) | null>(null);
 
   const { status, data: session } = useSession();
   const storeUser = useUserStore((s) => s.user);
@@ -353,6 +358,12 @@ export function ParcoursDetail({
     if (target === null) return;
     setExpandedStep(target);
     ancreARecaler.current = target;
+    // s26 parcours, tour 5 : `#fiche-N-M` de l'étape ouverte, le bloc de la fiche est recalé à la place de l'étape.
+    const fiche = ESPACE_CLIENT_PUBLIE ? window.location.hash.match(/^#(fiche-(\d{1,3})-\d{1,2})$/) : null;
+    if (fiche && Number(fiche[2]) === target) {
+      ficheARecaler.current = fiche[1];
+      setFicheActive(fiche[1]);
+    }
     requestAnimationFrame(() => document.getElementById(`etape-${target}`)?.scrollIntoView?.({ block: "start" }));
     // Lecture unique à l'arrivée.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -375,6 +386,12 @@ export function ParcoursDetail({
     // s26 parcours connecté (`docs/ux/parcours-connecte-s26.md` §5, « Reprendre ») : ouvert, recalé aussi à chaque
     // changement de hauteur de la page jusqu'à 600 ms de calme, puis focus sur l'en-tête de l'étape sans défilement.
     if (ESPACE_CLIENT_PUBLIE) {
+      const fiche = ficheARecaler.current;
+      ficheARecaler.current = null;
+      if (fiche && fiche.startsWith(`fiche-${cible}-`) && document.getElementById(fiche)) {
+        recalerAncre(fiche, { focusId: fiche });
+        return;
+      }
       recalerAncre(`etape-${cible}`, { focusId: `etape-${cible}-entete` });
       return;
     }
@@ -486,6 +503,9 @@ export function ParcoursDetail({
     const suivre = () => {
       const m = window.location.hash.match(/^#etape-(\d{1,3})$/);
       if (m) allerAEtapeRef.current?.(Number(m[1]));
+      // s26 parcours, tour 5 : idem pour une sous-étape `#fiche-N-M`.
+      const f = window.location.hash.match(/^#(fiche-\d{1,3}-\d{1,2})$/);
+      if (f) allerAFicheRef.current?.(f[1]);
     };
     window.addEventListener("hashchange", suivre);
     return () => window.removeEventListener("hashchange", suivre);
@@ -504,6 +524,7 @@ export function ParcoursDetail({
   const allerAEtape = (order: number) => {
     if (expandedStep !== order) openTrigger.current = "manuel";
     setExpandedStep(order);
+    setFicheActive(null);
     const reduit = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     requestAnimationFrame(() => {
       // s26 parcours connecté, tour 3 : ouvert, défilement gardé sur l'étape tant que la page change de hauteur (étape
@@ -525,6 +546,27 @@ export function ParcoursDetail({
   };
 
   allerAEtapeRef.current = allerAEtape;
+
+  /**
+   * s26 parcours, tour 5 (F1, relecture UX v2) : clic sur une sous-étape (menu ou liste de la carte). Son étape s'ouvre si
+   * besoin, la fiche devient le seul état actif, son bloc arrive à 137 px (en-tête collant) et y reste pendant que la page
+   * change de hauteur ; l'adresse prend `#fiche-N-M` sans nouvelle entrée d'historique (le retour quitte la page).
+   */
+  const allerAFiche = (ancre: string) => {
+    const m = ancre.match(/^fiche-(\d{1,3})-\d{1,2}$/);
+    if (!m) return;
+    const order = Number(m[1]);
+    if (expandedStep !== order) {
+      openTrigger.current = "manuel";
+      setExpandedStep(order);
+    }
+    setFicheActive(ancre);
+    window.history.replaceState(window.history.state, "", `#${ancre}`);
+    const reduit = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() => recalerAncre(ancre, { focusId: ancre, behavior: reduit ? "instant" : "smooth" }));
+  };
+  allerAFicheRef.current = allerAFiche;
+  const ficheContexte = { active: ficheActive, choisir: allerAFiche };
 
   const handleCompleteStep = async (stepOrder: number) => {
     if (!path || !isPremium) {
@@ -841,22 +883,31 @@ export function ParcoursDetail({
     const etapeMenu = expandedStep ?? etapeVue;
     const faites = completedSteps.length;
     const aReprendre = isPremium && progressionConnue && !isPathCompleted ? etapeAFaire : null;
+    // s26 parcours, tour 5 (F8 de la relecture UX v2, D14 design) : même libellé que la carte « En cours » de /parcours
+    // (« Étape n sur N », n = première étape à faire ; « Étape 3 sur 3 » des deux côtés au lieu de « 2 sur 3 étapes »),
+    // texte existant ; parcours fini : « N sur N étapes » (texte existant).
     const avancee = !isPremium ? (
       progressionVisiteurTexte()
     ) : progressionConnue ? (
-      frEspace(TEXTES_PARCOURS_ESPACE.sommaire.faites(faites, totalSteps))
+      frEspace(
+        etapeAFaire && !isPathCompleted
+          ? TEXTES_PARCOURS_ESPACE.etapeSurTotal(etapeAFaire.order, totalSteps)
+          : TEXTES_PARCOURS_ESPACE.sommaire.faites(faites, totalSteps),
+      )
     ) : (
       <span aria-hidden="true" data-testid="progression-squelette" className="inline-block h-4 w-32 animate-pulse rounded bg-background-elevated motion-reduce:animate-none" />
     );
     const etapeActive = etapeMenu !== null ? path.steps.find((s) => s.order === etapeMenu) : undefined;
     const argumentaireEnTete = !isPathCompleted && !argumentaireApresProgramme;
     return (
+      <FicheActiveContexte.Provider value={ficheContexte}>
       <div className="flex flex-col gap-6 lg:col-span-12 lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[22.5rem_minmax(0,1fr)] xl:gap-x-8" data-parcours-detail="">
         <div className="-mb-2 lg:col-span-2 lg:row-start-1">
           <nav aria-label="Fil d’Ariane" className="text-sm text-text-muted max-lg:hidden">
             <Link href="/" className="hover:text-text-primary">Accueil</Link>
             <span className="mx-2">/</span>
-            <Link href="/parcours" className="hover:text-text-primary">Parcours</Link>
+            {/* s26 parcours, tour 5 (F3, relecture UX v2) : même ancre que « Retour : Parcours » (carte du parcours). */}
+            <Link href={`/parcours#parcours-${slug}`} className="hover:text-text-primary">Parcours</Link>
             <span className="mx-2">/</span>
             <span className="text-text-secondary">{frTypoTexte(path.title)}</span>
           </nav>
@@ -876,13 +927,25 @@ export function ParcoursDetail({
             slug={slug}
             titre={path.title}
             avancee={avancee}
-            etapes={path.steps.map((s) => ({ order: s.order, titre: s.moduleTitle ?? s.tip.title, libre: !isPremium && (!!s.free || s.order === 1) }))}
+            etapes={path.steps.map((s) => ({
+              order: s.order,
+              titre: s.moduleTitle ?? s.tip.title,
+              libre: !isPremium && (!!s.free || s.order === 1),
+              // s26 parcours, tour 5 (F2, relecture UX v2) : visiteur et gratuit, cadenas sur les étapes réservées.
+              verrouillee: !isPremium && !s.free && s.order !== 1,
+            }))}
             faites={completedSteps}
             active={etapeMenu}
             onChoisir={allerAEtape}
             sousEtapes={
               espaceOuvert && etapeActive && etapeAccessible(etapeActive.order) ? (
-                <LignesFiches slug={slug} etape={etapeActive} etapeFaite={completedSteps.includes(etapeActive.order)} variante="menu" />
+                <LignesFiches
+                  slug={slug}
+                  etape={etapeActive}
+                  etapeFaite={completedSteps.includes(etapeActive.order)}
+                  quizFait={quizDone.has(etapeActive.order)}
+                  variante="menu"
+                />
               ) : undefined
             }
             reprendre={
@@ -961,6 +1024,7 @@ export function ParcoursDetail({
           {annonce}
         </div>
       </div>
+      </FicheActiveContexte.Provider>
     );
   };
 

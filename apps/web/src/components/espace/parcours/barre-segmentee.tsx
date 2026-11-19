@@ -40,7 +40,9 @@ export function BarreSegmentee({
             key={n}
             className={cn(
               "block h-2 rounded-full",
-              etat === "en-cours" ? "border border-text-primary bg-transparent" : etat === "fait" ? "bg-text-primary" : "bg-border",
+              // s26 parcours, tour 5 (D9 de la relecture design v2 : segments vides noirs sur noir) : « à venir » en contour
+              // `border-input` (3,33:1 sur le fond de carte, `tailwind.config.ts`), sans fond ; en cours, contour blanc ; fait, plein blanc.
+              etat === "en-cours" ? "border border-text-primary bg-transparent" : etat === "fait" ? "bg-text-primary" : "border border-border-input bg-transparent",
             )}
             data-segment={etat}
           />

@@ -223,10 +223,12 @@ export interface ParcoursStepCardProps {
   classeOuverte?: string;
 }
 
-/** Repère d'ancre `#fiche-N-M` (lot D4), sans hauteur ni texte. */
-function AncreFiche({ id }: { id: string }) {
-  return <span id={id} aria-hidden="true" className="!mt-0 block scroll-mt-28" />;
-}
+/**
+ * s26 parcours, tour 5 (F1 de la relecture UX v2) : l'ancre `#fiche-N-M` est posée sur le bloc titré de la fiche (plus
+ * sur un repère vide placé avant lui) ; son haut arrive à 137 px (128 de `scroll-padding-top` + 9), comme une étape.
+ * Focus programmatique seulement (`tabIndex={-1}`), sans anneau.
+ */
+const BLOC_FICHE = "scroll-mt-[9px] focus:outline-none";
 
 export function ParcoursStepCard(props: ParcoursStepCardProps) {
   // s21 (décision du 18/10) : toute étape se déplie ; l'abonné les ouvre toutes, le visiteur voit l'aperçu des étapes 2+.
@@ -412,10 +414,18 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   const ancres = props.ancresFiches === true;
   const fiche = (rang: number) => `fiche-${step.order}-${rang}`;
   const rangQuiz = 3 + (step.videos?.length ?? 0);
+  // s26 parcours, tour 5 : blocs des fiches, mêmes conditions que la liste (`blocRendu`) ; la fiche 1 (conseil) est titrée
+  // du titre du conseil, texte existant déjà lu dans la liste des fiches.
+  const vannesRendues = isPremium && (step.jokes?.length ?? 0) > 0;
+  const quizRendu = hasQuiz && (!isQuizDone || !isPremium) && !isCompleted;
   return (
     <div className="space-y-6">
-      {ancres && <LignesFiches slug={slug} etape={step} etapeFaite={isCompleted} className="lg:hidden" />}
-      {ancres && <AncreFiche id={fiche(1)} />}
+      {ancres && <LignesFiches slug={slug} etape={step} etapeFaite={isCompleted} quizFait={isQuizDone} className="lg:hidden" />}
+      {ancres && step.tip.title.trim() !== "" && (
+        <h4 id={fiche(1)} tabIndex={-1} className={cn(sectionTitre(), "mb-0", BLOC_FICHE)}>
+          {frTypoParcours(step.tip.title)}
+        </h4>
+      )}
       {versionSansRisque && (
         // s19 iter 4 (S13 @ux) : -my-2, le blanc autour du lien passe de 40 à 32 px environ, cible de 44 px intacte.
         <a
@@ -523,8 +533,13 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         </Section>
       )}
 
-      {ancres && <AncreFiche id={fiche(2)} />}
-      <StepJokes step={step} isPremium={isPremium} />
+      {ancres && vannesRendues ? (
+        <div id={fiche(2)} tabIndex={-1} className={BLOC_FICHE}>
+          <StepJokes step={step} isPremium={isPremium} />
+        </div>
+      ) : (
+        <StepJokes step={step} isPremium={isPremium} />
+      )}
 
       {step.videos && step.videos.length > 0 && (
         // DES-1-06 : filet avant la zone facultative.
@@ -533,7 +548,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
           <div className="grid gap-3 sm:grid-cols-2">
             {step.videos.map((v, i) =>
               ancres ? (
-                <div key={v.youtubeId} id={fiche(3 + i)} className="scroll-mt-28">
+                <div key={v.youtubeId} id={fiche(3 + i)} tabIndex={-1} className={BLOC_FICHE}>
                   <VideoCard video={v} seule={step.videos!.length === 1} />
                 </div>
               ) : (
@@ -544,10 +559,13 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         </div>
       )}
 
-      {ancres && hasQuiz && <AncreFiche id={fiche(rangQuiz)} />}
       {/* Visiteur : le quiz reste affiché une fois fini (résultat, « Refaire le quiz »), UXV-1-04. */}
-      {hasQuiz && (!isQuizDone || !isPremium) && !isCompleted && (
-        <div className="border-t border-border pt-6">
+      {quizRendu && (
+        <div
+          id={ancres ? fiche(rangQuiz) : undefined}
+          tabIndex={ancres ? -1 : undefined}
+          className={cn("border-t border-border pt-6", ancres && BLOC_FICHE)}
+        >
           <h4 className={sectionTitre()}>{isPremium ? QUIZ_TITRE.abonne : QUIZ_TITRE.visiteur}</h4>
           <StepQuiz quiz={step.quiz!} canValidate={isPremium} onComplete={props.onQuizComplete} />
         </div>
