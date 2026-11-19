@@ -9,9 +9,9 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 
 import { CarteEnCours } from "@/components/espace/parcours/carte-en-cours";
-import { ListeEtapesVisiteur, PiedEtape } from "@/components/espace/parcours/navigation-etapes";
+import { PiedEtape } from "@/components/espace/parcours/navigation-etapes";
 import { QuatreSemaines } from "@/components/espace/quatre-semaines";
-import { SommaireParcours } from "@/components/espace/parcours/sommaire-parcours";
+import { MenuEtapes } from "@/components/espace/parcours/menu-etapes";
 import { TonCap } from "@/components/espace/ton-cap";
 import { trackUmami } from "@/lib/umami";
 import { lirePosition, noterPosition, recalerAncre, recalerPosition } from "@/lib/espace/recaler-ancre";
@@ -23,25 +23,41 @@ const ETAPE = { slug: "repartie", titreParcours: "Répartie", ordre: 2, total: 5
 const CAPS = { cap: 2 as const, serie: 3, ecart: false };
 
 describe("carte « En cours »", () => {
-  it("rangée 1 (étape et LE plein) puis « Ton cap » en ligne derrière un filet, barre sur 4 colonnes", () => {
+  // s26 parcours v2 : tests changés (raison : trois rangées sur la même grille, barre segmentée et « Étape n sur N » sous
+  // le bouton, « Ton cap » seul sur la 3e rangée, `docs/design/parcours-connecte-v2-s26.md` §4).
+  it("rangée 1 (étape et LE plein), rangée 2 (barre segmentée, « Étape n sur N »), rangée 3 « Ton cap » derrière un filet", () => {
     const { container } = render(<CarteEnCours etat="ok" etape={ETAPE} caps={CAPS} />);
     const carte = screen.getByTestId("carte-en-cours");
     expect(within(carte).getByRole("heading", { level: 2, name: "Répartie" })).toBeInTheDocument();
     const bouton = within(carte).getByRole("link", { name: "Reprendre" });
     expect(bouton).toHaveAttribute("href", "/parcours/repartie#etape-2");
     expect(bouton.className.split(" ")).toEqual(expect.arrayContaining(["lg:col-span-3", "lg:self-center", "lg:justify-self-end", "w-full", "sm:w-auto"]));
+    const barre = within(carte).getByRole("progressbar");
+    expect(barre).toHaveAttribute("aria-valuenow", "1");
+    expect(barre).toHaveAttribute("aria-valuemax", "5");
+    expect(barre).toHaveAttribute("aria-valuetext", "Étape 2 sur 5");
+    expect(barre.className.split(" ")).toContain("lg:col-span-9");
+    expect(Array.from(barre.children).map((e) => e.getAttribute("data-segment"))).toEqual(["fait", "en-cours", "a-venir", "a-venir", "a-venir"]);
+    expect(barre.innerHTML).not.toMatch(/accent/);
+    const avancee = within(carte).getByText("Étape 2 sur 5");
+    expect(avancee.className.split(" ")).toEqual(expect.arrayContaining(["lg:col-span-3", "lg:justify-self-end"]));
+    expect(bouton.compareDocumentPosition(barre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     const cap = container.querySelector("#cap") as HTMLElement;
     expect(cap.getAttribute("aria-labelledby")).toBe("ton-cap-titre");
-    expect(cap.className.split(" ")).toEqual(expect.arrayContaining(["lg:col-span-8"]));
     expect(cap.className).not.toMatch(/lg:sticky|(^|\s)before:hidden|rounded-xl|\bp-6\b/);
     expect((cap.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["mt-6", "border-t", "pt-6"]));
-    expect(container.querySelector("[data-barre-etapes]")?.className).toContain("lg:col-span-4");
   });
 
-  it("nouvel abonné (étape conseillée) : pas de barre, « Ton cap » sur 12 colonnes", () => {
+  it("« Étape 3 sur 3 » : deux segments pleins et un cerné", () => {
+    render(<CarteEnCours etat="ok" etape={{ ...ETAPE, ordre: 3, total: 3 }} caps={CAPS} />);
+    expect(Array.from(screen.getByRole("progressbar").children).map((e) => e.getAttribute("data-segment"))).toEqual(["fait", "fait", "en-cours"]);
+  });
+
+  it("nouvel abonné (étape conseillée) : pas de barre ni « Étape n sur N », « Ton cap » seul", () => {
     const { container } = render(<CarteEnCours etat="ok" etape={{ ...ETAPE, ordre: 1, enCours: false }} caps={CAPS} />);
-    expect(container.querySelector("[data-barre-etapes]")).toBeNull();
-    expect((container.querySelector("#cap") as HTMLElement).className).toContain("lg:col-span-12");
+    expect(screen.queryByRole("progressbar")).toBeNull();
+    expect(screen.queryByText(/^Étape 1 sur/)).toBeNull();
+    expect(container.querySelector("#cap")).not.toBeNull();
   });
 
   it("chargement : squelette `aria-busy` sans `min-h` ; échec : rien", () => {
@@ -92,43 +108,41 @@ describe("/parcours/[slug] : navigation entre étapes", () => {
     expect(screen.getAllByRole("link")).toHaveLength(1);
   });
 
-  // s26 parcours connecté, tour 2 : test changé (raison : sous 1024 px, la liste du visiteur passe dans un `details`
-  // FERMÉ dont le résumé porte la ligne d'offre, UX §4 ; dès 1024 px, liste dépliée dont les lignes s'étirent à la hauteur
-  // de la carte ; deux rendus choisis par CSS seul, la page est rendue côté serveur).
-  it("visiteur : ligne d'offre puis liens d'ancre, « Lecture libre » sur l'étape 1 seulement, aucun bouton ; replié sous 1024 px", () => {
+  // s26 parcours v2 : tests changés (raison : la liste du visiteur et le sommaire de l'abonné deviennent un seul menu
+  // d'étapes, `MenuEtapes`, collant dès 1024 px et replié derrière un bouton sous 1024, `docs/design/parcours-connecte-v2-s26.md` §1).
+  it("visiteur : ligne d'offre, liens d'ancre, « Lecture libre » en contour neutre sur l'étape 1, aucun bouton hors bascule", () => {
     const aller = jest.fn();
-    const { container } = render(<ListeEtapesVisiteur slug="repartie" etapes={[{ order: 1, titre: "Un", libre: true }, { order: 2, titre: "Deux", libre: false }]} allerAEtape={aller} />);
-    const large = container.querySelector("[data-liste-large]") as HTMLElement;
-    const repliee = container.querySelector("details[data-liste-repliee]") as HTMLDetailsElement;
-    expect(large.className.split(" ")).toEqual(expect.arrayContaining(["hidden", "lg:flex", "lg:flex-1", "lg:flex-col"]));
-    expect(repliee.className.split(" ")).toContain("lg:hidden");
-    expect(repliee.open).toBe(false);
-    expect(within(repliee.querySelector("summary") as HTMLElement).getByText(progressionVisiteurTexte())).toBeInTheDocument();
-    expect(screen.getAllByText(progressionVisiteurTexte())).toHaveLength(2);
-    for (const liste of [large, repliee.querySelector("ol") as HTMLElement]) {
-      const liens = within(liste).getAllByRole("link");
-      expect(liens.map((l) => l.getAttribute("href"))).toEqual(["#etape-1", "#etape-2"]);
-      expect(within(liste).getAllByText(ETAPE_LIBRE_BADGE)).toHaveLength(1);
-      expect(liens[0].className.split(" ")).toEqual(expect.arrayContaining(["min-h-11", "flex-1"]));
-    }
-    expect(screen.queryByRole("button")).toBeNull();
-    fireEvent.click(within(large).getAllByRole("link")[1]);
+    render(
+      <MenuEtapes slug="repartie" titre="Répartie" avancee={progressionVisiteurTexte()} etapes={[{ order: 1, titre: "Un", libre: true }, { order: 2, titre: "Deux" }]} faites={[]} active={1} onChoisir={aller} />,
+    );
+    const nav = screen.getByRole("navigation", { name: "Répartie" });
+    const liens = within(nav).getAllByRole("link");
+    expect(liens.map((l) => l.getAttribute("href"))).toEqual(["#etape-1", "#etape-2"]);
+    expect(liens[0]).toHaveAttribute("aria-current", "step");
+    expect(liens[0].className.split(" ")).toEqual(expect.arrayContaining(["min-h-11", "bg-background-elevated", "before:bg-text-primary"]));
+    const libre = within(nav).getByText(ETAPE_LIBRE_BADGE);
+    expect(libre.className.split(" ")).toEqual(expect.arrayContaining(["rounded-xl", "border", "border-border"]));
+    expect(libre.className).not.toMatch(/success|bg-/);
+    expect(within(nav).queryByRole("button")).toBeNull();
+    fireEvent.click(liens[1]);
     expect(aller).toHaveBeenCalledWith(2);
   });
 
-  it("sommaire de l'abonné : `details` dont le résumé porte « n sur N étapes » et la barre ; replié sous 1024 px", () => {
-    const mq = window.matchMedia;
-    window.matchMedia = ((q: string) => ({ matches: false, media: q, addEventListener: jest.fn(), removeEventListener: jest.fn() })) as unknown as typeof window.matchMedia;
-    try {
-      const { container } = render(<SommaireParcours etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }]} faites={[1]} onOuvrir={jest.fn()} />);
-      const details = screen.getByTestId("sommaire-parcours");
-      expect(details.tagName).toBe("DETAILS");
-      expect((details as HTMLDetailsElement).open).toBe(false);
-      const resume = container.querySelector("summary") as HTMLElement;
-      expect(within(resume).getByRole("progressbar")).toHaveAttribute("aria-valuenow", "1");
-    } finally {
-      window.matchMedia = mq;
-    }
+  it("menu replié sous 1024 px (liste et « Reprendre » en `display: none`), collant à 144 px dès 1024", () => {
+    const { container } = render(
+      <MenuEtapes slug="repartie" titre="Répartie" avancee="1 sur 2 étapes" etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }]} faites={[1]} active={2} onChoisir={jest.fn()} reprendre={{ order: 2, libelle: "Reprendre" }} />,
+    );
+    const bascule = container.querySelector("[data-menu-bascule]") as HTMLElement;
+    expect(bascule).toHaveAttribute("aria-expanded", "false");
+    expect(bascule.className.split(" ")).toContain("lg:hidden");
+    const nav = container.querySelector("[data-menu-etapes]") as HTMLElement;
+    expect(nav.className.split(" ")).toEqual(expect.arrayContaining(["max-lg:hidden", "lg:sticky", "lg:top-36", "lg:max-h-[calc(100dvh-10.5rem)]"]));
+    expect((nav.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["lg:h-0", "lg:min-h-full"]));
+    expect((container.querySelector("[data-menu-corps]") as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["overflow-y-auto", "overscroll-contain"]));
+    fireEvent.click(bascule);
+    expect(bascule).toHaveAttribute("aria-expanded", "true");
+    expect(nav.className.split(" ")).not.toContain("max-lg:hidden");
+    expect(screen.getAllByRole("button", { name: "Reprendre" })).toHaveLength(1);
   });
 });
 
@@ -158,19 +172,8 @@ describe("tour 2 : retour du navigateur et en-tête 7/5", () => {
     }
   });
 
-  // s26 parcours connecté, tour 3 : test changé (raison : les lignes passent de `lg:flex-1`, hauteurs égales, à
-  // `lg:flex-auto`, surplus à parts égales avec les deux cales de la liste ; voir le bloc « tour 3 »).
-  it("sommaire : lignes de 48 px dès 1024 px, qui se partagent la hauteur de la carte étirée", () => {
-    const { container } = render(<SommaireParcours etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }]} faites={[]} onOuvrir={jest.fn()} />);
-    const details = screen.getByTestId("sommaire-parcours");
-    expect(details.className.split(" ")).toEqual(expect.arrayContaining(["lg:flex", "lg:flex-1", "lg:flex-col", "lg:[&::details-content]:flex"]));
-    expect((container.querySelector("ol") as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["lg:flex", "lg:flex-1", "lg:mt-2"]));
-    for (const li of Array.from(container.querySelectorAll("li"))) {
-      expect(li.className.split(" ")).toEqual(expect.arrayContaining(["lg:flex-auto", "lg:py-0.5"]));
-      expect(li.className).not.toMatch(/min-h-/);
-    }
-  });
-
+  // s26 parcours v2 : test « sommaire : lignes de 48 px dès 1024 px » retiré (raison : sommaire remplacé par le menu
+  // d'étapes collant, testé plus haut).
   it("200 % de texte : filet de « Ton cap » resserré sous 300 px", () => {
     const { container } = render(<CarteEnCours etat="ok" etape={ETAPE} caps={CAPS} />);
     const cap = container.querySelector("#cap") as HTMLElement;
@@ -235,13 +238,5 @@ describe("tour 3 : recalage unique, sommaire replié sans boîte, rythme du somm
     e.remove();
   });
 
-  it("sommaire replié : liste en `display: none` ; étiré : lignes et deux cales (poids 0,8) se partagent le surplus, sans `min-h`", () => {
-    const { container } = render(
-      <SommaireParcours etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }, { order: 3, titre: "Trois" }]} faites={[]} onOuvrir={jest.fn()} />,
-    );
-    expect(screen.getByTestId("sommaire-parcours").className.split(" ")).toContain("[&:not([open])>ol]:hidden");
-    const ol = container.querySelector("ol") as HTMLElement;
-    expect(ol.className.split(" ")).toEqual(expect.arrayContaining(["lg:before:flex-[0.8_1_auto]", "lg:before:content-['']", "lg:after:flex-[0.8_1_auto]", "lg:after:content-['']"]));
-    for (const li of Array.from(container.querySelectorAll("li"))) expect(li.className).not.toMatch(/min-h-/);
-  });
+  // s26 parcours v2 : test « sommaire replié » retiré (raison : sommaire remplacé par le menu d'étapes, testé plus haut).
 });

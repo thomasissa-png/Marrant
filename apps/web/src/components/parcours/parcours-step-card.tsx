@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { cn } from "@/lib/utils";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
-import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META, META_FORT, TEXTE_FORT } from "@/components/espace/typo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -71,7 +70,9 @@ function LockIcon({ className }: { className: string }) {
 const SECTION_TITRE_FERME = "mb-2 font-display text-base font-bold text-text-primary";
 const sectionTitre = () => (ESPACE_CLIENT_PUBLIE ? cn("mb-2", TEXTE_FORT) : SECTION_TITRE_FERME);
 const CORPS_LECTURE_FERME = "max-w-[68ch] text-base leading-7 text-text-secondary sm:text-[15px]";
-const corpsLecture = () => (ESPACE_CLIENT_PUBLIE ? "max-w-[68ch] text-base leading-7 text-text-secondary" : CORPS_LECTURE_FERME);
+// s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §1, mesure de ligne) : ouvert, plus de 68ch dans la carte
+// d'étape (tiers droit vide à 1280) : le texte prend la largeur de la carte, à côté du menu d'étapes (≈ 90 signes au plus).
+const corpsLecture = () => (ESPACE_CLIENT_PUBLIE ? "text-base leading-7 text-text-secondary" : CORPS_LECTURE_FERME);
 const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
 /** Encadré du défi (s18), repris pour le second défi. */
 const ENCADRE_DEFI = "rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3";
@@ -218,6 +219,8 @@ export interface ParcoursStepCardProps {
    * suivante), passé par la page de l'abonné, espace ouvert seulement. Absent (défaut) : rendu d'aujourd'hui.
    */
   pied?: React.ReactNode;
+  /** s26 parcours v2 : classes ajoutées à la carte, espace ouvert seulement (`lg:hidden` hors de l'étape du menu). */
+  classeOuverte?: string;
 }
 
 /** Repère d'ancre `#fiche-N-M` (lot D4), sans hauteur ni texte. */
@@ -242,7 +245,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
       // s26 parcours connecté (§5) : ouvert, 137 px (en-tête collant de 121 px + 16), à toutes les largeurs. Tour 2 : le
       // `scroll-padding-top` de 128 px de l'en-tête universel (site entier, inchangé) s'y ajoute, d'où 9 px (128 + 9).
       className={ouvert(
-        cn(CADRE_CARTE_NEUTRE, "scroll-mt-[9px] p-6", muted && "border-dashed"),
+        cn(CADRE_CARTE_NEUTRE, "scroll-mt-[9px] p-6", muted && "border-dashed", props.classeOuverte),
         `scroll-mt-28 ${isCompleted ? "border-accent-primary/30 bg-accent-primary/5" : muted ? "border-dashed" : ""}`,
       )}
     >
@@ -292,10 +295,12 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                   {props.contexte}
                 </p>
               )}
-              {/* DES-1-11 : titre verrouillé en secondaire (tentant, pas éteint). */}
+              {/* DES-1-11 : titre verrouillé en secondaire (tentant, pas éteint).
+                  s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §2) : ouvert, titres d'étape jamais soulignés
+                  (le soulignement au survol se lisait comme un état actif sur une seule étape) ; l'actif est dans le menu. */}
               <CardTitle
                 className={ouvert(
-                  cn("font-sans", TEXTE_FORT, "decoration-text-secondary underline-offset-4 group-hover:underline", muted && "text-text-secondary"),
+                  cn("font-sans", TEXTE_FORT, muted && "text-text-secondary"),
                   `text-base decoration-text-muted underline-offset-4 group-hover:underline ${muted ? "text-text-secondary" : ""}`,
                 )}
               >
@@ -309,7 +314,8 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                   <span className={ouvert(META, `text-xs ${muted ? "text-text-muted" : "text-accent-link"}`)}>+{stepXp} XP</span>
                 )}
                 {/* s19 (N3 @ux rendu) : « Lecture libre » ne parle qu'au visiteur. */}
-                {!isPremium && (step.free || step.order === 1) && <Badge variant="primary" className={ouvert(cn(PASTILLE, "font-normal text-success"))}>{ETAPE_LIBRE_BADGE}</Badge>}
+                {/* s26 parcours v2 (§1) : « Lecture libre » en contour neutre, comme dans le menu (fin du vert). */}
+                {!isPremium && (step.free || step.order === 1) && <Badge variant="primary" className={ouvert(cn(META, "rounded-xl border border-border bg-transparent px-2 py-0 font-normal"))}>{ETAPE_LIBRE_BADGE}</Badge>}
               </div>
             </div>
           </div>
@@ -408,7 +414,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   const rangQuiz = 3 + (step.videos?.length ?? 0);
   return (
     <div className="space-y-6">
-      {ancres && <LignesFiches slug={slug} etape={step} />}
+      {ancres && <LignesFiches slug={slug} etape={step} etapeFaite={isCompleted} className="lg:hidden" />}
       {ancres && <AncreFiche id={fiche(1)} />}
       {versionSansRisque && (
         // s19 iter 4 (S13 @ux) : -my-2, le blanc autour du lien passe de 40 à 32 px environ, cible de 44 px intacte.

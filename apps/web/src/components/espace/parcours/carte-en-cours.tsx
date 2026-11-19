@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { ETIQUETTE, META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
-import { BarreProgression } from "@/components/espace/aujourdhui/tableau";
+import { BarreSegmentee } from "@/components/espace/parcours/barre-segmentee";
 import { TonCap } from "@/components/espace/ton-cap";
 
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -58,26 +58,28 @@ export const CarteEnCours = forwardRef<
   if (etat === "echec" || (!etape && !caps)) return null;
 
   const barre = etape?.enCours === true;
+  // s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §4) : trois rangées sur la même grille de 12 colonnes
+  // (gauche 9, droite 3) : étape et bouton ; barre segmentée et « Étape n sur N » sous le bouton (plus de « Étape 3 sur 3 »
+  // au-dessus d'une barre aux deux tiers) ; « Ton cap » en ligne sur 12, sous un filet.
   const ligneCap = caps && (
     // s26 parcours connecté, tour 2 (200 % de texte, 188 x 406 : premier parcours à 895 px pour 812 au plus) : sous
     // 300 px, filet à 8 px au lieu de 24 (`max-e300:*`), comme les autres resserrages de l'en-tête de l'abonné.
-    <div className={cn("grid gap-x-6 gap-y-4 lg:grid-cols-12 lg:items-center", etape && "mt-6 border-t border-border pt-6 max-e300:mt-2 max-e300:pt-2")}>
-      {barre && etape && <BarreProgression faites={etape.ordre - 1} total={etape.total} className="lg:col-span-4" />}
-      <TonCap enLigne cap={caps.cap} serie={caps.serie} ecart={caps.ecart} className={barre ? "lg:col-span-8" : "lg:col-span-12"} />
+    <div className={cn(etape && "mt-6 border-t border-border pt-6 max-e300:mt-2 max-e300:pt-2")}>
+      <TonCap enLigne cap={caps.cap} serie={caps.serie} ecart={caps.ecart} />
     </div>
   );
+  const avancee = etape ? P.etapeSurTotal(etape.ordre, etape.total) : "";
 
   return (
     <section aria-labelledby={etape ? "en-cours-titre" : undefined} data-testid="carte-en-cours" className={cn(CADRE_CARTE_NEUTRE, "p-6 max-e300:px-3 max-e300:py-2", className)}>
       {etape && (
         <div className="grid gap-y-4 max-e300:gap-y-2 lg:grid-cols-12 lg:gap-x-6">
-          <div className="min-w-0 space-y-2 max-e300:space-y-1 lg:col-span-9">
+          <div className="min-w-0 lg:col-span-9">
             <p className={ETIQUETTE}>{etape.enCours ? E.enCours : E.conseillee}</p>
-            <h2 id="en-cours-titre" className={TITRE_CARTE}>
+            <h2 id="en-cours-titre" className={cn(TITRE_CARTE, "mt-2 max-e300:mt-1")}>
               {etape.titreParcours}
             </h2>
-            {etape.enCours && <p className={cn(META, "tabular-nums")}>{P.etapeSurTotal(etape.ordre, etape.total)}</p>}
-            <p className={cn(TEXTE_FORT, "[overflow-wrap:anywhere]")}>{frEspace(etape.titreEtape)}</p>
+            <p className={cn(TEXTE_FORT, "mt-2 [overflow-wrap:anywhere] max-e300:mt-1")}>{frEspace(etape.titreEtape)}</p>
           </div>
           <Link
             ref={ref}
@@ -90,6 +92,14 @@ export const CarteEnCours = forwardRef<
           >
             {etape.enCours ? E.reprendre : E.commencerEtape1.replace("1", String(etape.ordre))}
           </Link>
+          {barre && (
+            <>
+              <BarreSegmentee faites={etape.ordre - 1} total={etape.total} enCours={etape.ordre} texte={avancee} className="min-w-0 lg:col-span-9 lg:self-center" />
+              <p className={cn(META, "tabular-nums max-lg:-mt-2 lg:col-span-3 lg:self-center lg:justify-self-end")} aria-hidden="true">
+                {avancee}
+              </p>
+            </>
+          )}
         </div>
       )}
       {ligneCap}

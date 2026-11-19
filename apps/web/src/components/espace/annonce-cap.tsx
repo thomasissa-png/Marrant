@@ -4,12 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import type { MarqueAnnonce, NumeroCap } from "@/lib/espace/caps";
-import { buttonVariants } from "@/components/ui/button";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { META_FORT } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_CAPS);
+/** s26 parcours v2 (§5) : « Ouvrir » et « Fermer » en liens soulignés, cible de 44 px. */
+const LIEN_ANNONCE = cn(
+  "inline-flex min-h-11 items-center whitespace-normal rounded-md px-2 underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+  META_FORT,
+);
 
 export interface AnnonceApi {
   cap: NumeroCap | null;
@@ -68,17 +74,20 @@ export function AnnonceCap({
 
   return (
     <div
-      className={cn(montree && "rounded-lg border border-border-input bg-background-light px-4 py-3", className)}
+      // s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §5) : carte neutre comme les autres (plus de
+      // `border-border-input`), texte en méta forte et « Fermer » en lien souligné ; dès 768 px sur une ligne (Fermer à
+      // droite, centrés), au-dessous à gauche. Aucun aplat.
+      className={cn(montree && cn(CADRE_CARTE_NEUTRE, "flex flex-col gap-2 px-6 py-4 md:flex-row md:items-center md:justify-between"), className)}
       data-testid="annonce-cap"
     >
-      <div aria-live="polite">{phrases && <p className="text-base text-text-primary">{phrases}</p>}</div>
+      <div aria-live="polite" className="min-w-0">{phrases && <p className={META_FORT}>{phrases}</p>}</div>
       {montree && (
-        <div role="group" aria-label={T.annonce.groupe} className="mt-3 flex flex-wrap gap-x-3 gap-y-2">
+        <div role="group" aria-label={T.annonce.groupe} className="-ml-2 flex shrink-0 flex-wrap gap-x-3 md:ml-0">
           {montree.bonus && (
             <Link
               href={montree.bonus.href}
               aria-label={T.annonce.ouvrirLu(montree.bonus.titre)}
-              className={cn(buttonVariants({ variant: "outline" }), "min-h-11 whitespace-normal max-e300:w-full")}
+              className={LIEN_ANNONCE}
             >
               {T.annonce.ouvrir}
             </Link>
@@ -87,7 +96,7 @@ export function AnnonceCap({
             type="button"
             onClick={fermer}
             aria-label={T.annonce.fermerLu}
-            className={cn(buttonVariants({ variant: "outline" }), "min-h-11 whitespace-normal max-e300:w-full")}
+            className={LIEN_ANNONCE}
           >
             {T.annonce.fermer}
           </button>

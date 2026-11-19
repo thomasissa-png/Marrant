@@ -49,7 +49,7 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
           <p className="font-display text-base font-bold text-text-primary">Ce que tu vas apprendre</p>
           {/* s19 : sauts de paragraphe rendus ; typographie française (import-boulot.md §5), tous parcours
               depuis l'iter 5 (H @design, S17 @ux). s19 (N4 @design rendu) : même corps que la scène de l'étape ouverte. */}
-          <p className={ESPACE_CLIENT_PUBLIE ? "mt-1 max-w-[68ch] whitespace-pre-line text-base leading-7 text-text-secondary" : "mt-1 max-w-[68ch] whitespace-pre-line text-base leading-7 text-text-secondary sm:text-[15px]"}>
+          <p className={ESPACE_CLIENT_PUBLIE ? "mt-1 whitespace-pre-line text-base leading-7 text-text-secondary" : "mt-1 max-w-[68ch] whitespace-pre-line text-base leading-7 text-text-secondary sm:text-[15px]"}>
             {frTypoParcours(step.moduleDetail || step.why || "")}
           </p>
         </div>

@@ -7,7 +7,7 @@ import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { TonCap } from "@/components/espace/ton-cap";
 import { TesBonus } from "@/components/espace/tes-bonus";
 import { AnnonceCap } from "@/components/espace/annonce-cap";
-import { SommaireParcours } from "@/components/espace/parcours/sommaire-parcours";
+import { MenuEtapes } from "@/components/espace/parcours/menu-etapes";
 import { ParcoursEspace } from "@/components/espace/parcours/parcours-espace";
 import { QuestionAise } from "@/components/espace/aujourdhui/question-aise";
 import { FicheBonusVue } from "@/components/espace/bonus/fiche-bonus";
@@ -65,33 +65,37 @@ describe("carte « Ton cap » : XP, cap et série = User et lib/espace/caps sur 
   });
 });
 
-describe("sommaire d'un parcours (liste numérotée, un bouton par ligne, « Fait » en texte)", () => {
+// s26 parcours v2 : tests changés (raison : le sommaire de l'abonné devient le menu d'étapes `MenuEtapes`, lignes en liens
+// d'ancre et un seul bouton « Reprendre » / « Commencer » en pied, `docs/design/parcours-connecte-v2-s26.md` §1).
+describe("menu d'étapes d'un parcours (liste numérotée, lignes en liens, « Fait » en texte, un seul bouton)", () => {
   const etapes = (n: number) => Array.from({ length: n }, (_, i) => ({ order: i + 1, titre: `Titre ${i + 1}` }));
 
-  it.each([3, 4, 6])("parcours à %i étapes, aucune faite : « 0 sur N étapes », « Commencer » puis « Voir »", (n) => {
-    render(<SommaireParcours etapes={etapes(n)} faites={[]} onOuvrir={() => undefined} />);
-    expect(screen.getByText(`0 sur ${n} étapes`)).toBeInTheDocument();
-    const barre = screen.getByRole("progressbar");
-    expect(barre).toHaveAttribute("aria-valuenow", "0");
-    expect(barre).toHaveAttribute("aria-valuemax", String(n));
+  it.each([3, 4, 6])("parcours à %i étapes, aucune faite : « 0 sur N étapes », une ligne par étape, « Commencer » en pied", (n) => {
+    render(
+      <MenuEtapes slug="repartie" titre="Répartie" avancee={`0 sur ${n} étapes`} etapes={etapes(n)} faites={[]} active={1} onChoisir={() => undefined} reprendre={{ order: 1, libelle: "Commencer" }} />,
+    );
+    expect(screen.getAllByText(`0 sur ${n} étapes`).length).toBeGreaterThan(0);
     const lignes = screen.getAllByRole("listitem");
     expect(lignes).toHaveLength(n);
-    lignes.forEach((l) => expect(within(l).getAllByRole("button")).toHaveLength(1));
-    expect(within(lignes[0]).getByRole("button")).toHaveTextContent("Commencer");
+    lignes.forEach((l) => expect(within(l).getAllByRole("link")).toHaveLength(1));
+    expect(within(lignes[0]).getByRole("link")).toHaveAttribute("aria-current", "step");
+    expect(screen.getByRole("button", { name: "Commencer" })).toHaveAttribute("id", "sommaire-reprendre");
     expect(screen.queryByText("Fait")).toBeNull();
   });
 
-  it("parcours à 6 étapes, 2 faites : « Fait » en texte, « Reprendre » sur la 3e, barre à 2", () => {
+  it("parcours à 6 étapes, 2 faites : « Fait » en texte, « Reprendre » vers la 3e", () => {
     const ouvrir = jest.fn();
-    render(<SommaireParcours etapes={etapes(6)} faites={[1, 2]} onOuvrir={ouvrir} />);
-    expect(screen.getByText("2 sur 6 étapes")).toBeInTheDocument();
-    expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuetext", "2 sur 6 étapes");
+    render(
+      <MenuEtapes slug="repartie" titre="Répartie" avancee="2 sur 6 étapes" etapes={etapes(6)} faites={[1, 2]} active={3} onChoisir={ouvrir} reprendre={{ order: 3, libelle: "Reprendre" }} />,
+    );
     expect(screen.getAllByText("Fait")).toHaveLength(2);
     const reprendre = screen.getByRole("button", { name: "Reprendre" });
     expect(reprendre).toHaveAttribute("id", "sommaire-reprendre");
     fireEvent.click(reprendre);
     expect(ouvrir).toHaveBeenCalledWith(3);
-    expect(screen.getAllByRole("button", { name: "Voir" })).toHaveLength(5);
+    fireEvent.click(screen.getByRole("link", { name: /Titre 5/ }));
+    expect(ouvrir).toHaveBeenCalledWith(5);
+    expect(screen.queryByRole("button", { name: "Voir" })).toBeNull();
   });
 });
 

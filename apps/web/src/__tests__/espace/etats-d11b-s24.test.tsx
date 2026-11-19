@@ -141,7 +141,9 @@ describe("Q-4 et Q-5 : 200 % de texte et contraste des bordures", () => {
     expect(etapeDecoupee("machine-a-cafe", 1)).not.toBeNull();
     const etape = { order: 1, tip: { title: "Un titre de conseil assez long pour passer à la ligne" }, videos: [] };
     const { container } = render(<LignesFiches slug="machine-a-cafe" etape={etape} />);
-    const lignes = container.querySelectorAll("li");
+    // s26 parcours v2 : test changé (raison : la ligne entière devient le lien, plus de « Voir » ; la règle des 128 px
+    // porte sur le lien de chaque ligne, `docs/design/parcours-connecte-v2-s26.md` §3).
+    const lignes = container.querySelectorAll("li > a");
     expect(lignes.length).toBeGreaterThan(0);
     for (const ligne of Array.from(lignes)) {
       expect(ligne.className).toMatch(/\bflex-wrap\b/);

@@ -168,20 +168,24 @@ describe("arbitrage 1 : /parcours/repartie, « Pour qui ? », « Le programme »
   // s26 (`docs/design/parcours-vannes-s26.md` §2) : titres et intro alignés à gauche dans la colonne de 8, échelle `typo.ts`.
   // s26 parcours connecté : test changé (raison : programme sur 12 colonnes, plus de colonne de 8,
   // `docs/design/parcours-connecte-s26.md` §3 rangée C).
-  it("ouvert : titres et intro à gauche, programme sur 12 colonnes, échelle `typo.ts`", async () => {
+  // s26 parcours v2 : test changé (raison : menu d'étapes à gauche dès 1024 px ; « Le programme » réservé aux lecteurs
+  // d'écran dès 1024 (une seule étape visible), intro et « Pour qui ? » sur toute la carte d'en-tête, « Pour qui ? » sous
+  // un filet, `docs/design/parcours-connecte-v2-s26.md` §1).
+  it("ouvert : titres et intro à gauche, carte d'en-tête pleine largeur, échelle `typo.ts`", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursDetail slug="repartie" initialPath={chemin()} />);
     await act(async () => undefined);
     const programme = titre(container, TITRES_SECTIONS.programme);
-    expect(classes(programme)).toEqual(expect.arrayContaining(["text-xl", "font-semibold", "lg:col-span-12"]));
+    expect(classes(programme)).toEqual(expect.arrayContaining(["text-xl", "font-semibold", "lg:sr-only"]));
     expect(classes(programme)).not.toContain("text-center");
     const pourQui = titre(container, TITRES_SECTIONS.pourQui);
     expect(classes(pourQui)).toEqual(expect.arrayContaining(["text-base", "font-semibold"]));
     expect(classes(pourQui)).not.toContain("text-center");
-    expect(classes(pourQui.parentElement)).toContain("max-w-2xl");
+    expect(classes(pourQui.parentElement)).toEqual(expect.arrayContaining(["mt-6", "border-t", "pt-6"]));
+    expect(classes(pourQui.parentElement)).not.toContain("max-w-2xl");
     expect(classes(pourQui.parentElement)).not.toContain("mx-auto");
     const intro = screen.getByText("Une description du parcours.");
-    expect(classes(intro)).toContain("max-w-2xl");
+    expect(classes(intro)).not.toContain("max-w-2xl");
     expect(classes(intro)).not.toContain("text-center");
   });
 
