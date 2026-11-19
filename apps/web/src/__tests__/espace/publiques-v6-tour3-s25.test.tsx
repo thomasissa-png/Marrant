@@ -127,12 +127,16 @@ describe("point 10 : /lettre, intertitres du dernier numéro (texte réel du n°
     ]);
   });
 
-  it("page, ouvert : objet et corps dans une carte à filet ; fermé : rendu d'avant", async () => {
+  // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §6.1) : la carte du dernier numéro devient neutre (plus de
+  // filet violet), colonne de droite (5) à côté de l'inscription (7).
+  it("page, ouvert : objet et corps dans une carte neutre à droite ; fermé : rendu d'avant", async () => {
     ouvrir(true);
     const { container } = render(<div dangerouslySetInnerHTML={{ __html: await serveur(LettrePage({ searchParams: {} })) }} />);
     const carte = container.querySelector("[data-lettre-apercu]") as HTMLElement;
-    expect(carte.firstElementChild).toHaveAttribute("data-filet");
-    expect(carte.className).toContain("rounded-xl");
+    expect(carte.querySelector("[data-filet]")).toBeNull();
+    expect(carte.className.split(" ")).toEqual(expect.arrayContaining(["rounded-xl", "lg:col-span-5"]));
+    // Le dernier numéro est long : c'est la colonne d'inscription qui colle sous l'en-tête (`lg:top-36`).
+    expect(container.querySelector("[data-lettre-inscription-colonne]")?.className).toContain("lg:top-36");
     expect(carte.querySelector("[data-lettre-corps]")).not.toBeNull();
     ouvrir(false);
     const ferme = await serveur(LettrePage({ searchParams: {} }));
@@ -144,16 +148,19 @@ describe("point 10 : /lettre, intertitres du dernier numéro (texte réel du n°
 });
 
 describe("point 11 : /lettre de l'abonné", () => {
-  it("chaque carte porte un chevron, un survol violet et un anneau au focus ; plus de hauteur minimale", async () => {
+  // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §6.2) : carte entière cliquable (lien étiré), anneau au
+  // focus sur la carte, survol neutre (plus de violet ni de chevron) ; plus de hauteur minimale.
+  it("s26 : chaque carte entière est un lien, anneau au focus sur la carte, survol neutre ; plus de hauteur minimale", async () => {
     const { container } = render(<div dangerouslySetInnerHTML={{ __html: await serveur(LettresAbonneCartes()) }} />);
     const racine = container.querySelector("[data-lettres-abonne]") as HTMLElement;
     expect(racine.className).not.toContain("min-h-");
-    const cartes = [...racine.querySelectorAll("a[data-lettre]")];
-    expect(cartes).toHaveLength(2);
-    for (const carte of cartes) {
-      expect(carte.querySelector("[data-lettre-chevron]")).toHaveAttribute("aria-hidden", "true");
-      expect(carte.className).toContain("hover:border-accent-primary/50");
-      expect(carte.className).toContain("focus-visible:ring-2");
+    const liens = [...racine.querySelectorAll("a[data-lettre]")];
+    expect(liens).toHaveLength(2);
+    for (const lien of liens) {
+      expect(lien.className).toContain("after:absolute");
+      const carte = lien.closest("[data-lettre-derniere], li") as HTMLElement;
+      expect(carte.className).toContain("focus-within:ring-2");
+      expect(carte.className).not.toContain("hover:border-accent-primary");
     }
   });
 });

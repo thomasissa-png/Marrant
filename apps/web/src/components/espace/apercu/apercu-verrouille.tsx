@@ -8,7 +8,8 @@ import { ExtraitCoupe } from "@/components/espace/apercu/extrait-coupe";
 /**
  * Aperçu verrouillé d'une rubrique Premium (refonte s25, spec UX §2, design §3) : le motif qui remplacera
  * `ApercuRubrique` rubrique par rubrique (« Aujourd'hui », puis en s26 « Quoi répondre », « Bibliothèque » et
- * « S'entraîner » ; Mes questions, Mes répliques et Favoris gardent l'ancien aperçu).
+ * « S'entraîner », puis Favoris, et Mes questions et Mes répliques au dernier lot s26 : plus aucune page sur l'ancien
+ * aperçu ; `ApercuRubrique` ne reste importé que par ses tests d'origine, `sourceApercu` et `metadonneesApercu` y vivent).
  * Hero (A, B) puis légende (E, en tête de l'extrait depuis le v7 tour 10), extrait coupé (C) et fin d'extrait (D). Une seule action : l'offre, deux boutons
  * identiques (hero, fin d'extrait) vers le même lien, source de mesure de la rubrique (`data-position` haut / fin).
  * Rendu serveur statique, sans appel à l'espace (rien ne s'enregistre depuis un aperçu). Squelette constant ;

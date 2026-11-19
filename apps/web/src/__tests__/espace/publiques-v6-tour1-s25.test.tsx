@@ -142,13 +142,14 @@ describe("point 9 : réassurance alignée sur son bloc", () => {
 });
 
 describe("point 10 : /lettre, inscription", () => {
-  it("ouvert : titre centré, formulaire dans une carte à filet, « Envoie-moi la lettre » en plein", () => {
+  // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §6.1) : titre à gauche, carte neutre (plus de filet).
+  it("ouvert : titre à gauche, formulaire dans une carte neutre, « Envoie-moi la lettre » en plein", () => {
     ouvrir(true);
     const { container } = render(<LettrePageInscription />);
-    expect(container.querySelector("header")?.className).toContain("text-center");
+    expect(container.querySelector("header")?.className ?? "").not.toContain("text-center");
     const carte = container.querySelector("[data-lettre-carte]") as HTMLElement;
     expect(carte.className).toContain("rounded-xl");
-    expect(carte.querySelector(":scope > [data-filet]")).not.toBeNull();
+    expect(carte.querySelector(":scope > [data-filet]")).toBeNull();
     const bouton = within(carte).getByRole("button", { name: TEXTES_LETTRE.formulaire.bouton });
     expect(bouton.className).toContain("bg-accent-secondary-hover");
     expect(bouton.className).not.toContain("border-accent-primary/80");
@@ -284,7 +285,8 @@ describe("point 13 : profil", () => {
   it("ouvert : plus de place réservée au-dessus du H1", () => {
     ouvrir(true);
     const html = renderToStaticMarkup(<ProfilPage searchParams={{}} />);
-    // v6 tour 3, point 1 : en-tête centré comme le hero de l'accueil.
-    expect(html.startsWith('<div class="mb-8 text-center"><h1')).toBe(true);
+    // s26 (`questions-repliques-lettre-profil-s26.md` §4) : en-tête à gauche (plus de centrage), H1 en tête de page.
+    expect(html.startsWith('<div class="pb-16"><header><h1')).toBe(true);
+    expect(html).not.toContain("text-center");
   });
 });

@@ -111,13 +111,15 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       await c.close();
     });
 
-    test("/lettre visiteur : titre centré, carte à filet, bouton plein", async ({ browser }) => {
+    // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §6.1) : titre à gauche, carte neutre (plus de filet),
+    // bouton plein seul aplat.
+    test("/lettre visiteur (s26) : titre à gauche, carte neutre, bouton plein", async ({ browser }) => {
       const { c, page } = await contexte(browser, "visiteur");
       await page.goto("/lettre");
       const h1 = page.getByRole("heading", { level: 1 });
-      expect(await h1.evaluate((el) => getComputedStyle(el).textAlign)).toBe("center");
+      expect(await h1.evaluate((el) => getComputedStyle(el).textAlign)).not.toBe("center");
       const carte = page.locator("[data-lettre-carte]");
-      await attendreFilet(carte);
+      await expect(carte.locator("[data-filet]")).toHaveCount(0);
       const bouton = carte.getByRole("button", { name: TEXTES_LETTRE.formulaire.bouton });
       expect(await bouton.evaluate((el) => getComputedStyle(el).backgroundColor)).not.toBe("rgba(0, 0, 0, 0)");
       await c.close();

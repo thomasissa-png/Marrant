@@ -162,12 +162,13 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
     await expect(sommaire.locator("svg")).toHaveCount(1);
     await capturer(page, "nouvel-fiche-jeu", 1280);
 
-    // v6 tour 3 (arbitrages 1 et 3, remplace le tour 2) : titre centré, l'état vide en colonne centrée sous lui.
+    // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §5, remplace le tour 3 centré) : titre à gauche, l'état
+    // vide en tuile d'action de 8 colonnes sous lui, même bord gauche.
     await page.goto("/mon-espace/repliques");
     const vide = page.getByTestId("repliques-vide");
     const titre = await boite(page.getByRole("heading", { level: 1 }));
     const carte = await boite(vide);
-    expect(Math.abs((titre.gauche + titre.droite) / 2 - (carte.gauche + carte.droite) / 2)).toBeLessThanOrEqual(1);
+    expect(Math.abs(titre.gauche - carte.gauche)).toBeLessThanOrEqual(1);
     const bouton = vide.getByRole("link", { name: TEXTES_REPLIQUES.ecrirePremiere });
     expect(await bouton.evaluate((a) => getComputedStyle(a).backgroundColor)).not.toBe("rgba(0, 0, 0, 0)");
     await capturer(page, "nouvel-repliques", 1280);

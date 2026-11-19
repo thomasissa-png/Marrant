@@ -7,12 +7,19 @@ import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
 import type { RepliqueListee } from "@/lib/espace/repliques";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
-import { BOUTON_DESTRUCTIF, BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CARTE } from "@/components/espace/carte/styles";
+import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
+import { BOUTON_DESTRUCTIF, BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CADRE_CARTE_NEUTRE, CARTE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+import { CARTE_ACTION } from "@/components/espace/aujourdhui/tableau";
+import { buttonVariants } from "@/components/ui/button";
+import { META, TEXTE, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { FINE, frEspace, frEspaceProfond } from "@/lib/fr-typo";
+import { cn } from "@/lib/utils";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const R = frEspaceProfond(TEXTES_REPLIQUES);
 const G = frEspaceProfond(TEXTES_GESTE);
+const N = frEspaceProfond(TEXTES_ESPACE_NAVIGATION);
+const QUOI_REPONDRE = "/mon-espace/quoi-repondre";
 
 type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
 
@@ -25,9 +32,14 @@ type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
  * pleine coque (`md:grid-cols-2 xl:grid-cols-3`, cartes de même hauteur, actions en bas) ; l'état vide en colonne
  * centrée `mx-auto max-w-3xl`, comme une réplique seule (une carte de 389 px calée à gauche d'une grille de trois
  * colonnes laissait les deux tiers vides, mesuré à 1280). Sans `grille` (historique du profil) : le rendu d'avant.
+ * s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §2.2, design §5) : `grille` porte aussi l'en-tête de la page
+ * (titre à gauche, compteur à droite, lien « Écrire ma prochaine réplique » quand il y a des répliques : compteur et
+ * lien suivent la liste vivante). Liste en 3 colonnes dès 1024, 2 dès 768, cartes neutres, « Modifier » et
+ * « Supprimer » en liens gris au bas de la carte. Vide : tuile d'action (8, seul aplat) et rappel de « Quoi répondre » (4).
  */
-const GRILLE_REPLIQUES = "grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3";
-const COLONNE_CENTREE = "mx-auto flex w-full max-w-3xl flex-col gap-3";
+const GRILLE_REPLIQUES = "mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
+const CARTE_GRILLE = cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col p-6 [overflow-wrap:anywhere]");
+const ACTION_GRILLE = cn(LIEN_NEUTRE, "bg-transparent");
 export function ListeRepliques({
   initiales,
   lectureSeule,
@@ -72,8 +84,55 @@ export function ListeRepliques({
     setStatut(R.supprimee);
   };
 
+  if (grille && liste.length === 0) {
+    return (
+      <section aria-labelledby="h-repliques">
+        <h1 id="h-repliques" className={TITRE_PAGE}>
+          {R.titre}
+        </h1>
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
+          <div className={cn(CARTE_ACTION, "lg:col-span-8")} data-testid="repliques-vide">
+            <p className={TEXTE}>{R.vide}</p>
+            {!lectureSeule && (
+              <Link href={QUOI_REPONDRE} className={cn(buttonVariants({ size: "lg" }), "mt-4 w-full whitespace-normal md:w-auto md:self-start")}>
+                {R.ecrirePremiere}
+              </Link>
+            )}
+          </div>
+          {!lectureSeule && (
+            <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-span-4")} data-repliques-rappel>
+              <Link href={QUOI_REPONDRE} className={LIEN_NEUTRE}>
+                {N.index.quoiRepondre}
+              </Link>
+            </div>
+          )}
+        </div>
+        <p role="status" className={cn("mt-4", META)}>
+          {statut}
+        </p>
+      </section>
+    );
+  }
+
   return (
-    <section aria-label={R.titre} className="space-y-3">
+    <section aria-label={grille ? undefined : R.titre} aria-labelledby={grille ? "h-repliques" : undefined} className={grille ? undefined : "space-y-3"}>
+      {grille && (
+        <header className="flex flex-wrap items-baseline justify-between gap-4">
+          <h1 id="h-repliques" className={TITRE_PAGE}>
+            {R.titre}
+          </h1>
+          <div className="flex flex-wrap items-baseline gap-x-6">
+            {!lectureSeule && (
+              <Link href={QUOI_REPONDRE} className={LIEN_NEUTRE} data-repliques-ecrire>
+                {R.ecrireProchaine}
+              </Link>
+            )}
+            <p className={cn("tabular-nums", META)} data-compteur-repliques>
+              {liste.length}
+            </p>
+          </div>
+        </header>
+      )}
       {lectureSeule && <p className="text-sm text-text-secondary">{R.lectureSeule}</p>}
       {liste.length === 0 ? (
         // Relecture des captures nav s24 (design 4, ux F5) : état vide à sa largeur de lecture, avec une sortie.
@@ -87,23 +146,30 @@ export function ListeRepliques({
           )}
         </div>
       ) : (
-        <ul className={!grille ? "flex flex-col gap-3" : liste.length > 1 ? GRILLE_REPLIQUES : COLONNE_CENTREE}>
+        <ul className={grille ? GRILLE_REPLIQUES : "flex flex-col gap-3"}>
           {liste.map((r) => {
             const enEdition = mode?.ficheId === r.ficheId && mode.quoi === "modifier";
             const enConfirmation = mode?.ficheId === r.ficheId && mode.quoi === "confirmer";
             return (
-              <li key={r.ficheId} className={grille ? `${CARTE} flex flex-col` : CARTE} data-replique={r.ficheId}>
+              <li key={r.ficheId} className={grille ? CARTE_GRILLE : CARTE} data-replique={r.ficheId}>
                 {r.titre &&
                   (r.href && !lectureSeule ? (
-                    <Link href={r.href} className="inline-flex min-h-11 items-center font-semibold text-accent-link underline underline-offset-2">
+                    <Link
+                      href={r.href}
+                      className={
+                        grille
+                          ? cn(TITRE_CARTE, "hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary")
+                          : "inline-flex min-h-11 items-center font-semibold text-accent-link underline underline-offset-2"
+                      }
+                    >
                       {frEspace(r.titre)}
                     </Link>
                   ) : (
-                    <p className="font-semibold text-text-primary">{frEspace(r.titre)}</p>
+                    <p className={grille ? TITRE_CARTE : "font-semibold text-text-primary"}>{frEspace(r.titre)}</p>
                   ))}
                 {enEdition ? (
                   <form
-                    className="space-y-2"
+                    className={grille ? "mt-4 space-y-2" : "space-y-2"}
                     onSubmit={(e) => {
                       e.preventDefault();
                       void enregistrer(r.ficheId);
@@ -119,7 +185,11 @@ export function ListeRepliques({
                       maxLength={REPLIQUE_MAX_CLIENT}
                       onChange={(e) => setBrouillon(e.target.value)}
                       aria-describedby={`c-${r.ficheId}`}
-                      className="block w-full min-w-0 rounded-md border border-border-input bg-background-light px-3 py-2 text-base text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                      className={
+                        grille
+                          ? "block w-full min-w-0 rounded-xl border border-border-input bg-background-elevated p-4 text-base text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                          : "block w-full min-w-0 rounded-md border border-border-input bg-background-light px-3 py-2 text-base text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                      }
                     />
                     <div className="flex flex-wrap items-center gap-2">
                       <button type="submit" className={BOUTON_PRINCIPAL} aria-busy={occupe} disabled={brouillon.trim() === ""}>
@@ -128,18 +198,18 @@ export function ListeRepliques({
                       <button type="button" className={BOUTON_SECONDAIRE} onClick={() => setMode(null)}>
                         {R.annuler}
                       </button>
-                      <span id={`c-${r.ficheId}`} className="text-xs text-text-muted">
+                      <span id={`c-${r.ficheId}`} className={grille ? META : "text-xs text-text-muted"}>
                         {G.note.compteur(brouillon.length, REPLIQUE_MAX_CLIENT)}
                       </span>
                     </div>
                   </form>
                 ) : (
                   // v6 tour 3 : en grille, la réplique prend la hauteur libre (actions au bas des cartes d'une rangée).
-                  <p className={grille ? "flex-1 text-base text-text-primary" : "text-base text-text-primary"}>«{FINE}{r.texte}{FINE}»</p>
+                  <p className={grille ? cn("mt-2 flex-1", TEXTE) : "text-base text-text-primary"}>«{FINE}{r.texte}{FINE}»</p>
                 )}
                 {enConfirmation ? (
-                  <div role="group" aria-labelledby={`q-${r.ficheId}`} className="space-y-2">
-                    <p id={`q-${r.ficheId}`} className="text-sm text-text-secondary">
+                  <div role="group" aria-labelledby={`q-${r.ficheId}`} className={grille ? "mt-4 space-y-2 border-t border-border pt-4" : "space-y-2"}>
+                    <p id={`q-${r.ficheId}`} className={grille ? META : "text-sm text-text-secondary"}>
                       {R.confirmer}
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -154,11 +224,11 @@ export function ListeRepliques({
                   </div>
                 ) : (
                   !enEdition && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className={grille ? "mt-4 flex flex-wrap gap-x-6 border-t border-border pt-4" : "flex flex-wrap gap-2"}>
                       {!lectureSeule && (
                         <button
                           type="button"
-                          className={BOUTON_SECONDAIRE}
+                          className={grille ? ACTION_GRILLE : BOUTON_SECONDAIRE}
                           onClick={() => {
                             setBrouillon(r.texte);
                             setStatut("");
@@ -170,7 +240,7 @@ export function ListeRepliques({
                       )}
                       <button
                         type="button"
-                        className={BOUTON_SECONDAIRE}
+                        className={grille ? ACTION_GRILLE : BOUTON_SECONDAIRE}
                         onClick={() => {
                           setStatut("");
                           setMode({ ficheId: r.ficheId, quoi: "confirmer" });
@@ -187,7 +257,7 @@ export function ListeRepliques({
           })}
         </ul>
       )}
-      <p role="status" className="text-sm text-text-secondary">
+      <p role="status" className={grille ? cn("mt-4", META) : "text-sm text-text-secondary"}>
         {statut}
       </p>
     </section>

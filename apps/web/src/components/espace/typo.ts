@@ -26,3 +26,12 @@ export const META_FORT = "text-sm font-semibold text-text-primary";
 
 /** Étiquette (casse normale) : 14/20, 600, gris secondaire, pour distinguer une étiquette d'une valeur. */
 export const ETIQUETTE = "text-sm font-semibold text-text-secondary";
+
+/**
+ * s26 (Profil, /lettre ; `docs/design/questions-repliques-lettre-profil-s26.md` §8.1) : ramène à l'échelle les cartes
+ * PARTAGÉES avec le site fermé (abonnement, prénom, rappel, lettre hebdomadaire, inscription à la lettre), sans toucher
+ * leur code (rendu fermé au caractère près) : posé sur un conteneur de l'espace ouvert, 12 -> 14 px, 18 -> 20 px,
+ * 500 et 700 -> 600, gris atténué -> gris secondaire, texte violet -> blanc.
+ */
+export const ECHELLE_CARTES_PARTAGEES =
+  "[&_.text-xs]:text-sm [&_.text-lg]:text-xl [&_.font-bold]:font-semibold [&_.font-medium]:font-semibold [&_.text-text-muted]:text-text-secondary [&_.text-accent-link]:text-text-primary";

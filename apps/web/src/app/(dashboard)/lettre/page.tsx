@@ -4,14 +4,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LettrePageInscription } from "@/components/lettre/lettre-page-inscription";
 import { LettreStatut } from "@/components/lettre/lettre-statut";
-import { LettreCorpsApercu } from "@/components/lettre/lettre-corps-apercu";
 import { LETTRE_EMPLACEMENTS, LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { AvecContact } from "@/components/lettre/avec-contact";
 import { lireApercuLettre } from "@/lib/lettre/apercu";
 import { frPonctuation } from "@/lib/fr-typo";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
-import { Card } from "@/components/ui/card";
+import { LettrePageOuverte } from "@/components/espace/lettre-page-ouverte";
 
 /**
  * Page de la lettre mensuelle (s21, spec §1.4 et §5) : présentation, formulaire,
@@ -60,6 +59,12 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
   const emplacement = (LETTRE_EMPLACEMENTS as readonly string[]).includes(searchParams.emplacement ?? "")
     ? (searchParams.emplacement as string)
     : null;
+
+  // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §3.1) : interrupteur ouvert, mêmes contenus et mêmes états
+  // sur la grille de 12 colonnes (inscription 7, dernier numéro 5). Fermé : le rendu ci-dessous, au caractère près.
+  if (ESPACE_CLIENT_PUBLIE) {
+    return <LettrePageOuverte statut={statut} mesure={searchParams.mesure} emplacement={emplacement} dernier={apercu.dernier} />;
+  }
 
   return (
     <div className="mx-auto max-w-3xl space-y-8 py-10">
@@ -110,21 +115,11 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
           <h2 id="lettre-dernier" className="text-sm font-medium uppercase tracking-wider text-text-muted">
             {TEXTES_LETTRE.page.dernierNumero}
           </h2>
-          {/* v6 tour 2, point 8 (ouvert seulement) : plus de débordement à 375 px, adresses brutes en liens courts.
-              v6 tour 3, point 10 (ouvert seulement) : objet et corps dans une carte à filet de l'accueil.
-              Décision de Thomas du 16/11 (s25) : fermé aussi, le corps se coupe partout (`min-w-0
-              [overflow-wrap:anywhere]`), plus de débordement à 375 px ; texte et adresses inchangés. */}
-          {ESPACE_CLIENT_PUBLIE ? (
-            <Card filet className="mt-3 p-5 hover:border-border sm:p-6" data-lettre-apercu="">
-              <p className="font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
-              <LettreCorpsApercu texte={apercu.dernier.bodyText} />
-            </Card>
-          ) : (
-            <>
-              <p className="mt-2 font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
-              <div className="mt-2 min-w-0 whitespace-pre-line text-text-secondary [overflow-wrap:anywhere]">{frPonctuation(apercu.dernier.bodyText)}</div>
-            </>
-          )}
+          {/* Décision de Thomas du 16/11 (s25) : fermé aussi, le corps se coupe partout (`min-w-0
+              [overflow-wrap:anywhere]`), plus de débordement à 375 px ; texte et adresses inchangés. Ouvert : s26,
+              `LettrePageOuverte` (carte neutre, adresses brutes en liens courts). */}
+          <p className="mt-2 font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
+          <div className="mt-2 min-w-0 whitespace-pre-line text-text-secondary [overflow-wrap:anywhere]">{frPonctuation(apercu.dernier.bodyText)}</div>
         </section>
       )}
     </div>

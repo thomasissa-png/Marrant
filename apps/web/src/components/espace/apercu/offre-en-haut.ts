@@ -20,6 +20,10 @@ export const ADRESSES_OFFRE_EN_HAUT: readonly string[] = [
   // visiteur et de l'inscrit gratuit pose son bouton d'offre en haut (hero 8/4). L'abonné n'a jamais ce bouton.
   "/favoris",
   "/carnet",
+  // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.1 et §2.1) : Mes questions et Mes répliques passent à
+  // `ApercuVerrouille`. Plus aucune rubrique sur l'ancien aperçu.
+  `${ESPACE_ACCUEIL}/questions`,
+  `${ESPACE_ACCUEIL}/repliques`,
 ];
 
 /** s26 : les carnets d'un mois (`/carnet/<mois>`) ont le même hero que `/carnet`. */

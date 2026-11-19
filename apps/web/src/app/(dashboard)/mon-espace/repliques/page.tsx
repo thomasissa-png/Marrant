@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/layout/page-header";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { garderEspace } from "@/lib/espace/garde";
 import { lireLecteurApercu } from "@/components/espace/apercu/acces";
-import { ApercuRubrique, metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
+import { metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
+import { ApercuRepliques } from "@/components/espace/apercu/apercu-repliques";
 import { listerRepliques } from "@/lib/espace/repliques";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { ListeRepliques } from "@/components/espace/repliques/liste-repliques";
-import { EN_TETE_CENTRE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -20,6 +19,8 @@ const R = frEspaceProfond(TEXTES_REPLIQUES);
  * confirmation. Rendu : SSR dynamique (données de l'abonné, jamais en cache). Garde EN PREMIER. L'état
  * « abonnement terminé » (lecture seule) vit dans « Mon profil » (lot D10) : la garde envoie tout compte
  * sans abonnement actif vers `/abonnement`.
+ * s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §2) : l'aperçu passe au modèle verrouillé (`ApercuRepliques`,
+ * sans lecture des répliques) ; l'abonné a son titre à gauche, son compteur et la grille 4/4/4 (`ListeRepliques grille`).
  */
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,7 @@ export default async function MesRepliquesPage() {
   // Nav v6 (lot B) : 404 interrupteur fermé (avant toute lecture) ; visiteur et inscrit gratuit, l'aperçu à cette
   // adresse, sans redirection ; sinon la garde d'avant (abonné actif : la rubrique ; ancien abonné : /abonnement).
   const lecteur = await lireLecteurApercu();
-  if (lecteur) return <ApercuRubrique rubrique="mesRepliques" visiteur={lecteur === "visiteur"} />;
+  if (lecteur) return <ApercuRepliques visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/repliques");
   const repliques = await listerRepliques(userId, { acces: "ouvert", userId });
   return (
@@ -43,11 +44,9 @@ export default async function MesRepliquesPage() {
     // plus de place selon le compte ; plus de carte de réplique de 1 216 px presque vide). v6 tour 2 (point 6) : même
     // coque et même gabarit que Mes questions (titre aligné sur le logo, comme l'aperçu) ; la liste garde sa
     // largeur de lecture (`max-w-3xl`), calée à gauche sous le titre, jamais une colonne étroite centrée. v6 tour 3
-    // (arbitrages 1 et 3) : titre centré comme l'accueil ; la liste en grille pleine coque, l'état vide centré.
-    <div>
-      <div className={EN_TETE_CENTRE}>
-        <PageHeader title={R.titre} />
-      </div>
+    // (arbitrages 1 et 3) : titre centré comme l'accueil ; la liste en grille pleine coque, l'état vide centré. s26 : titre
+    // à gauche, rendu par `ListeRepliques` (le compteur et le lien suivent la liste vivante).
+    <div className="pb-16">
       <ListeRepliques initiales={repliques} lectureSeule={false} grille />
     </div>
   );

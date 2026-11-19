@@ -43,8 +43,17 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
     expect(EN_TETE_CENTRE).toBe("text-center [&_header>p]:mx-auto");
   });
 
-  it.each(["questions", "repliques"])("rubrique %s : `PageHeader` dans le conteneur centré", (r) => {
-    expect(lire(`app/(dashboard)/mon-espace/${r}/page.tsx`)).toMatch(/<div className=\{EN_TETE_CENTRE\}>\s*<PageHeader /);
+  // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.2 et §2.2) : Mes questions et Mes répliques passent à
+  // gauche à leur tour (Mes répliques : H1 rendu par `ListeRepliques grille`, avec son compteur).
+  it("rubrique questions (s26) : en-tête à gauche, H1 en `TITRE_PAGE`, plus centré", () => {
+    const page = lire("app/(dashboard)/mon-espace/questions/page.tsx");
+    expect(page).toMatch(/<header>\s*<h1 className=\{TITRE_PAGE\}>/);
+    expect(page).not.toMatch(/EN_TETE_CENTRE|PageHeader|text-center/);
+  });
+
+  it("rubrique repliques (s26) : plus d'en-tête centré, H1 `TITRE_PAGE` dans `ListeRepliques`", () => {
+    expect(lire("app/(dashboard)/mon-espace/repliques/page.tsx")).not.toMatch(/EN_TETE_CENTRE|PageHeader|text-center/);
+    expect(lire("components/espace/repliques/liste-repliques.tsx")).toMatch(/<h1 id="h-repliques" className=\{TITRE_PAGE\}>/);
   });
 
   // s26 (`docs/design/rubriques-abonne-s26.md` §0, spec UX §2.2) : vue abonné alignée à gauche comme « Aujourd'hui ».
@@ -108,24 +117,32 @@ describe("point 2 : S'entraîner, aucun trou dans une carte ni à côté (colonn
   });
 });
 
-describe("point 3 : Mes répliques, grille pleine coque, état vide centré", () => {
+// s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §5) : grille 4/4/4 dès 1024 (2 dès 768), même avec une
+// seule réplique (plus de colonne centrée) ; état vide en tuile d'action 8 colonnes et rappel 4 colonnes.
+describe("point 3 (s26) : Mes répliques, grille 4/4/4, état vide 8/4", () => {
   const r = { ficheId: "f1", texte: "Ma réplique", titre: null, href: null, modifieLe: "2026-11-15" };
 
-  it("page : grille dès deux répliques (`md:grid-cols-2 xl:grid-cols-3`, cartes de même hauteur)", () => {
+  it("page : grille `md:grid-cols-2 lg:grid-cols-3`, cartes de même hauteur, compteur et lien d'écriture à droite du titre", () => {
     render(<ListeRepliques initiales={[r, { ...r, ficheId: "f2" }]} lectureSeule={false} grille />);
     const ul = screen.getByRole("list");
-    expect(classes(ul)).toEqual(expect.arrayContaining(["grid", "md:grid-cols-2", "xl:grid-cols-3"]));
-    expect(classes(ul.querySelector("li"))).toEqual(expect.arrayContaining(["flex", "flex-col"]));
+    expect(classes(ul)).toEqual(expect.arrayContaining(["grid", "md:grid-cols-2", "lg:grid-cols-3"]));
+    expect(classes(ul.querySelector("li"))).toEqual(expect.arrayContaining(["flex", "flex-col", "h-full"]));
+    expect(document.querySelector("[data-compteur-repliques]")?.textContent).toBe("2");
+    expect(screen.getByRole("link", { name: "Écrire ma prochaine réplique" })).toHaveAttribute("href", "/mon-espace/quoi-repondre");
   });
 
-  it("page, une seule réplique : colonne centrée `mx-auto max-w-3xl` (jamais une carte calée à gauche)", () => {
+  it("page, une seule réplique : la même grille (jamais une colonne centrée)", () => {
     render(<ListeRepliques initiales={[r]} lectureSeule={false} grille />);
-    expect(classes(screen.getByRole("list"))).toEqual(expect.arrayContaining(["mx-auto", "max-w-3xl"]));
+    expect(classes(screen.getByRole("list"))).not.toContain("mx-auto");
+    expect(classes(screen.getByRole("list"))).toContain("lg:grid-cols-3");
   });
 
-  it("page, sans réplique : l'état vide en colonne centrée `mx-auto max-w-3xl`", () => {
+  it("page, sans réplique : tuile d'action en 8 colonnes (seul aplat), rappel de « Quoi répondre » en 4", () => {
     render(<ListeRepliques initiales={[]} lectureSeule={false} grille />);
-    expect(classes(screen.getByTestId("repliques-vide"))).toEqual(expect.arrayContaining(["mx-auto", "max-w-3xl"]));
+    const vide = screen.getByTestId("repliques-vide");
+    expect(classes(vide)).toContain("lg:col-span-8");
+    expect(classes(vide)).not.toContain("mx-auto");
+    expect(classes(document.querySelector("[data-repliques-rappel]"))).toContain("lg:col-span-4");
   });
 
   it("profil (lecture seule, sans `grille`) : le rendu d'avant", () => {

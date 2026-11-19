@@ -5,8 +5,9 @@ import { LettreInscription } from "@/components/lettre/lettre-inscription";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { TitreDisplay } from "@/components/ui/titre-display";
-import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { ECHELLE_CARTES_PARTAGEES, TEXTE, TITRE_PAGE } from "@/components/espace/typo";
 import { lierComposes } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 
@@ -23,20 +24,16 @@ export function LettrePageInscription({ ignorerDrapeau = false }: { ignorerDrape
 
   // v6 tour 1, point 10 (interrupteur ouvert) : titre centré comme les sections de l'accueil, formulaire dans la
   // carte à filet de l'accueil, « Envoie-moi la lettre » en plein (seule action de la page). Fermé : inchangé.
+  // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §6.1) : titre BLANC à gauche (même texte, même `id`),
+  // échelle `typo.ts`, carte neutre (plus de filet violet : le bouton plein reste le seul aplat).
   if (ESPACE_CLIENT_PUBLIE) {
     return (
       <>
-        <header className="mx-auto max-w-2xl text-center">
-          <TitreDisplay
-            as="h1"
-            id="lettre-titre-page"
-            texte={TEXTES_LETTRE.titre}
-            className="text-balance font-display text-2xl font-bold text-text-primary sm:text-3xl"
-          />
-          <p className="mt-2 text-text-secondary">{lierComposes(TEXTES_LETTRE.phrase)}</p>
+        <header>
+          <TitreDisplay as="h1" id="lettre-titre-page" texte={TEXTES_LETTRE.titre} className={TITRE_PAGE} />
+          <p className={cn("mt-2 max-w-xl", TEXTE)}>{lierComposes(TEXTES_LETTRE.phrase)}</p>
         </header>
-        <div className={cn("border border-border bg-background-card p-6 md:p-8", CARTE_A_FILET)} data-lettre-carte="">
-          <FiletCarte />
+        <div className={`${CADRE_CARTE_NEUTRE} mt-6 p-6 ${ECHELLE_CARTES_PARTAGEES}`} data-lettre-carte="">
           <LettreInscription emplacement="page" titreId="lettre-titre-page" ignorerDrapeau={ignorerDrapeau} plein />
         </div>
       </>

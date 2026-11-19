@@ -64,22 +64,23 @@ test.describe("v6 tour 2, lot 2 : pages publiques", () => {
       }
     });
 
-    test("/lettre abonné : colonne centrée, H1 centré, cartes deux par ligne dès 640 px", async ({ browser }) => {
+    // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §6.2, remplace la colonne centrée du tour 2) : H1 à
+    // gauche, archive sur toute la coque (largeur utile de 1100 px au moins dès 1280), dernière lettre en tuile pleine
+    // largeur, précédentes trois par ligne dès 1024.
+    test("/lettre abonné (s26) : H1 à gauche, pleine coque, dernière lettre en tête, précédentes 3 par ligne", async ({ browser }) => {
       for (const largeur of [768, 1280, 1456, 1920]) {
         const { c, page } = await contexte(browser, "PREMIUM", largeur);
         await page.goto("/lettre");
         const archive = page.locator("[data-lettres-abonne]");
         await expect(archive).toBeVisible();
-        expect(await alignement(page.getByRole("heading", { level: 1 }))).toBe("center");
+        expect(await alignement(page.getByRole("heading", { level: 1 }))).not.toBe("center");
         const b = await boite(archive);
-        expect(b.width).toBeLessThanOrEqual(768 + 1);
-        expect(Math.abs(b.x + b.width / 2 - largeur / 2)).toBeLessThanOrEqual(24);
-        const cartes = archive.locator("[data-lettre]");
-        if ((await cartes.count()) >= 2) {
-          const [a, d] = [await boite(cartes.nth(0)), await boite(cartes.nth(1))];
-          expect(Math.abs(a.y - d.y)).toBeLessThanOrEqual(1);
-          // Deux cartes remplissent la colonne (écart de 16 px entre elles), plus de tiers droit vide.
-          expect(a.width + d.width).toBeGreaterThan(b.width - 40);
+        if (largeur >= 1280) expect(b.width).toBeGreaterThanOrEqual(1100);
+        const precedentes = archive.locator("li");
+        if (largeur >= 1024 && (await precedentes.count()) >= 3) {
+          const [a, d, e] = [await boite(precedentes.nth(0)), await boite(precedentes.nth(1)), await boite(precedentes.nth(2))];
+          expect(Math.abs(a.y - e.y)).toBeLessThanOrEqual(1);
+          expect(Math.abs(a.width - d.width)).toBeLessThanOrEqual(1);
         }
         await c.close();
       }
@@ -109,15 +110,13 @@ test.describe("v6 tour 2, lot 2 : pages publiques", () => {
       }
     });
 
-    test("/profil abonné : « Ta question à l'équipe » dans le cadre à filet", async ({ browser }) => {
+    // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §7) : cadre neutre (plus de filet violet), rayon 12 px.
+    test("/profil abonné (s26) : « Ta question à l'équipe » dans un cadre neutre", async ({ browser }) => {
       const { c, page } = await contexte(browser, "PREMIUM");
       await page.goto("/profil");
       const cadre = page.locator("[data-profil-questions-cadre]");
       await expect(cadre).toBeVisible();
-      const filet = cadre.locator(":scope > [data-filet]");
-      const [b, f] = [await boite(cadre), await boite(filet)];
-      expect(Math.round(f.height)).toBe(4);
-      expect(Math.abs(f.y - b.y)).toBeLessThanOrEqual(1);
+      await expect(cadre.locator("[data-filet]")).toHaveCount(0);
       expect(await cadre.evaluate((el) => getComputedStyle(el).borderTopLeftRadius)).toBe("12px");
       await c.close();
     });

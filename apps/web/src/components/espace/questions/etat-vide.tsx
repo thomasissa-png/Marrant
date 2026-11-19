@@ -1,31 +1,34 @@
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
-import { CARTE } from "@/components/espace/carte/styles";
+import { ETIQUETTE, META, TEXTE } from "@/components/espace/typo";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { cn } from "@/lib/utils";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
-const TAG = "inline-block rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary";
-const CITATION = "border-l-2 border-accent-primary px-4 py-2 text-base text-text-primary max-e300:px-3";
+/** Ordre de la maquette : l'exemple de « Une question » (annoncé par la phrase d'intro), puis les deux autres types. */
+const AUTRES = ["PROBLEME", "SITUATION"] as const;
 
 /**
  * Aucun envoi (architecture 2.6 : jamais un tableau vide) : un exemple de message par type, puis la phrase
  * sur le délai (maquette `mes-questions.html#etat=vide`). Exemples : libellés 23 et 24.
+ * s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §1 et §2) : contenu seul, le cadre vient de l'appelant
+ * (tuile de l'aperçu, carte de l'abonné). Échelle `typo.ts` : type en `ETIQUETTE`, exemple en `TEXTE`, délai en
+ * `META` ; plus de pastille en `text-xs` ni de citation à bord violet (un seul aplat violet par écran). Rendu
+ * interrupteur ouvert seulement (Mes questions et Mon profil sont fermés en 404 ou sans ce bloc).
  */
-export function EtatVideQuestions() {
+export function EtatVideQuestions({ className }: { className?: string }) {
   return (
-    <div className={`${CARTE} !space-y-2`} data-etat="vide">
-      <p className="text-sm text-text-secondary">{Q.envois.exempleIntro}</p>
-      <p className={CITATION}>{Q.types.QUESTION.exemple}</p>
-      <div>
-        <span className={TAG}>{Q.types.PROBLEME.nom}</span>
-      </div>
-      <p className={CITATION}>{Q.types.PROBLEME.exemple}</p>
-      <div>
-        <span className={TAG}>{Q.types.SITUATION.nom}</span>
-      </div>
-      <p className={CITATION}>{Q.types.SITUATION.exemple}</p>
-      <p className="text-sm text-text-secondary">{Q.ecrire.delai}</p>
+    <div className={cn("min-w-0 [overflow-wrap:anywhere]", className)} data-etat="vide">
+      <p className={ETIQUETTE}>{Q.envois.exempleIntro}</p>
+      <p className={cn("mt-2", TEXTE)}>{Q.types.QUESTION.exemple}</p>
+      {AUTRES.map((t) => (
+        <div key={t} className="mt-4" data-exemple-type={t}>
+          <p className={ETIQUETTE}>{Q.types[t].nom}</p>
+          <p className={cn("mt-2", TEXTE)}>{Q.types[t].exemple}</p>
+        </div>
+      ))}
+      <p className={cn("mt-4", META)}>{Q.ecrire.delai}</p>
     </div>
   );
 }

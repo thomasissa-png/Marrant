@@ -4,6 +4,8 @@
 
 ### s26, décisions de Thomas du 19/11 : carte de fin et Carnet (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
 - **Quoi** : sur une fenêtre d'au moins 1000 px de haut, le bouton de la carte de fin (aperçus et Carnet non-abonné) passe en contour (variante Tailwind nommée `fenetre-haute:` dans `tailwind.config.ts`, CSS seul), même libellé, même lien ; Carnet ouvert sans sur-titre « Carnet de …, N situations » ; 48 px entre la dernière tuile et la carte de fin partout (Carnet 24 avant), Favoris 88 dès 1024 (96 avant, haut de la carte à y 901 à 1280 x 900). Aucun texte nouveau. Interrupteur à `false` : site fermé identique (inertie 47/47 sans mise à jour, HTML fermé du Carnet identique).
+### s26, Mes questions, Mes répliques, La lettre, Profil (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
+- **Quoi** : aperçus verrouillés de Mes questions et Mes répliques (hero 8/4, offre en haut, extrait 8/4 sans aucune donnée d'abonné) ; Mes questions abonné en grille 4/8 (formulaire collant, réponse non lue en tête), fil en 8/4 avec rail des fils ; Mes répliques en 4/4/4 avec compteur ; /lettre en 7/5 (inscription, dernier numéro), archive de l'abonné pleine coque, une lettre en 8/4 avec précédente et suivante ; /profil en 8/4. Trois textes à valider par Thomas (deux promesses, « Écrire ma prochaine réplique »). Interrupteur à `false` : site fermé identique (inertie 47/47 instantanés ; empreintes sha256 du HTML fermé de /lettre et /profil identiques, 48 vues).
 - **Env / migrations / packages** : aucun. Production : rien sans le go écrit de Thomas.
 
 ### s26, tour 3 des encarts Premium, de Favoris et du Carnet (interrupteur ouvert seulement), COMMITÉ, NON DÉPLOYÉ : rien ne change en ligne
