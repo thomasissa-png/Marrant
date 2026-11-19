@@ -160,15 +160,14 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     // ne coupe aucun lien ni bouton de la page par le bas de l'en-tête ; pour cela, elle peut s'écarter du `scrollY`
     // quitté d'une demi-ligne au plus (32 px : ligne de 56 px et 8 px d'air), en plus des 8 px de tolérance.
     const ecartMax = 8 + 32;
-    const aucuneLigneCoupee = () =>
-      page.evaluate(() => {
+    // s26 liste et détail, tour 3 bis (orchestrateur) : le critère N3 porte sur la ligne RESTAURÉE (celle qu'on avait
+    // ouverte), qui doit être entière sous l'en-tête. Une autre ligne peut passer sous l'en-tête collant au bord haut,
+    // comme à n'importe quelle position de défilement (capture du 19/11 : bas d'une tuile précédente, rien de gênant).
+    const cibleEntiere = () =>
+      cible.evaluate((e) => {
         const bord = Math.max(0, ...Array.from(document.querySelectorAll<HTMLElement>("header")).filter((h) => getComputedStyle(h).position === "sticky" && h.offsetParent !== null).map((h) => h.getBoundingClientRect().bottom));
-        return Array.from(document.querySelectorAll<HTMLElement>("[data-mode='page'] a[href], [data-mode='page'] button, [data-mode='page'] summary"))
-          .filter((e) => e.offsetParent !== null)
-          .filter((e) => {
-            const r = e.getBoundingClientRect();
-            return r.top < bord - 0.5 && r.bottom > bord + 0.5;
-          }).length;
+        const r = e.getBoundingClientRect();
+        return r.top >= bord - 0.5 && r.bottom <= window.innerHeight + 0.5;
       });
 
     // `scrollY` une fois le défilement doux terminé (-1 tant qu'il bouge).
@@ -181,7 +180,7 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     await page.locator("main [data-lien-retour]").click();
     await expect(page).toHaveURL(new RegExp(`${LISTE}$`));
     await expect.poll(scrollStable).toBeGreaterThan(y - ecartMax - 1);
-    expect(await aucuneLigneCoupee(), "aucun lien coupé par l'en-tête").toBe(0);
+    expect(await cibleEntiere(), "ligne restaurée entière sous l'en-tête").toBe(true);
     expect(Math.abs((await page.evaluate(() => window.scrollY)) - y)).toBeLessThanOrEqual(ecartMax);
 
     // Retour du navigateur : même règle.
@@ -190,7 +189,7 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     await page.goBack();
     await expect(page).toHaveURL(new RegExp(`${LISTE}$`));
     await expect.poll(scrollStable).toBeGreaterThan(y - ecartMax - 1);
-    expect(await aucuneLigneCoupee(), "aucun lien coupé par l'en-tête").toBe(0);
+    expect(await cibleEntiere(), "ligne restaurée entière sous l'en-tête").toBe(true);
     expect(Math.abs((await page.evaluate(() => window.scrollY)) - y)).toBeLessThanOrEqual(ecartMax);
   });
 
