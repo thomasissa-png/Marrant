@@ -26,6 +26,7 @@ import { stripEmDashesWithStats } from "@/lib/em-dash";
 import { stripVideoEmDashesTask } from "@/lib/video-em-dash";
 import { applyVideoContentS20Task } from "@/lib/video-content-s20";
 import { applyVideoDurationsS20Task } from "@/lib/video-durations-s20";
+import { applyVideoRemplacementsS26Task } from "@/lib/video-remplacements-s26";
 import { applyVideoDefi39S24Task } from "@/lib/video-defi-39-s24";
 import { applyParcoursContentTask } from "@/lib/parcours-content-sync";
 import { applyStorytellingImportTask } from "@/lib/parcours-storytelling-sync";
@@ -1464,6 +1465,11 @@ export async function runStartupTasks(): Promise<void> {
   // (la fiche Dany Boon y prend son nouveau youtubeId). Garde-fou : durée en base
   // === `attendu`. Non bloquante : capture ses erreurs et ne lève jamais.
   await applyVideoDurationsS20Task();
+  // s26 : remplacement sur place des vidéos à risque (supprimée, revendiquée, copie
+  // tierce) par une chaîne officielle : youtubeId, titre, chaîne, durée de la ligne
+  // existante (même id). APRÈS les durées s20 (garde-fou sur le texte s20 v1).
+  // Entrées « en-attente » ignorées. Ne lève jamais.
+  await applyVideoRemplacementsS26Task();
   // s21 : numéros préparés de la lettre mensuelle (data/lettre/numeros.json). Fichier
   // vide : aucune requête. Jamais un numéro ENVOYE modifié. Ne lève jamais.
   await applyLettreNumerosTask();

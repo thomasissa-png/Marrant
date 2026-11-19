@@ -7,6 +7,7 @@ import { withDbRetry } from "@/lib/db-retry";
 import { buildVideoMetaDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { fixInvertedCase } from "@/lib/learning-format";
 import { buildVideoSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
+import { anciensSlugsVideo } from "@/lib/video-anciens-slugs";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -69,7 +70,9 @@ async function findVideoBySlug(slug: string) {
       }),
     { label: "findVideoBySlug" },
   );
-  return resolveBySlug(candidates, slug, buildVideoSlug);
+  // s26 : ancienne URL d'une vidéo remplacée dont le titre a changé, reconnue
+  // exactement (avant le score de mots) puis redirigée vers le slug canonique.
+  return resolveBySlug(candidates, slug, buildVideoSlug, anciensSlugsVideo);
 }
 
 export function generateStaticParams() {
