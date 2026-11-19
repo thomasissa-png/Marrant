@@ -8,6 +8,9 @@ import { LigneRetour } from "@/components/espace/carte/ligne-retour";
 import { NoteReplique } from "@/components/espace/carte/note-replique";
 import { ETIQUETTE } from "@/components/espace/carte/styles";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+import { useFaitsQuoiRepondre } from "@/components/espace/quoi-repondre/faits-contexte";
+
+const estFait = (r: RetourGeste | null) => r === "essaye-bof" || r === "essaye-ca-a-marche";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const TEXTES_CARTES = frEspaceProfond(TEXTES_CARTES_BRUT);
@@ -45,17 +48,21 @@ export function GesteFiche({
   const [retour, setRetour] = useState<RetourGeste | null>(retourInitial);
   const [occupe, setOccupe] = useState(false);
   const [echec, setEchec] = useState(false);
-  const fait = retour === "essaye-bof" || retour === "essaye-ca-a-marche";
+  // s26 liste et détail : dans Quoi répondre, la liste voisine et « Situation suivante » suivent le « Fait » (null ailleurs).
+  const faits = useFaitsQuoiRepondre();
+  const fait = estFait(retour);
 
   const choisir = async (r: RetourGeste) => {
     if (occupe) return;
     const avant = retour;
     setRetour(r);
     setOccupe(true);
+    faits?.marquer(ficheId, estFait(r), false);
     const ok = await appelEspace<{ ok: true }>("/api/espace/fiche-fait", "POST", { ficheId, retour: r });
     setOccupe(false);
     setEchec(!ok);
     if (!ok) setRetour(avant);
+    faits?.marquer(ficheId, estFait(ok ? r : avant), Boolean(ok));
   };
 
   return (
@@ -83,7 +90,7 @@ export function GesteFiche({
           {TEXTES_CARTES.echec}
         </p>
       )}
-      <NoteReplique ficheId={ficheId} initiale={repliqueInitiale} />
+      <NoteReplique ficheId={ficheId} initiale={repliqueInitiale} secondaire={Boolean(faits) && fait} />
     </section>
   );
 }

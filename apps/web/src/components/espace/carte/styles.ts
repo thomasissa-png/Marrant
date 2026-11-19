@@ -1,4 +1,4 @@
-import { META } from "@/components/espace/typo";
+import { META, META_FORT } from "@/components/espace/typo";
 
 /**
  * Classes communes des cartes, du geste et des missions (s24, lot D5) : tokens existants seulement,
@@ -85,6 +85,17 @@ export const puce = (choisie: boolean) =>
   [
     "inline-flex min-h-11 min-w-11 items-center gap-1 whitespace-normal rounded-full border px-4 py-2 text-left text-sm font-semibold text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     choisie ? "border-2 border-accent-link bg-background-elevated px-3.5" : "border-border-input hover:border-text-muted hover:bg-background-elevated",
+  ].join(" ");
+
+/**
+ * Pastille de filtre (s26, `docs/design/rubriques-abonne-s26.md` §1.3) : 44 px, bord de 1 px, `META` ; choisie,
+ * bord blanc, fond élevé et `META_FORT` (plus de contour violet de 2 px ni de 500 : hors échelle). L'état se lit
+ * par la bordure ET la graisse, jamais la couleur seule ; `aria-current` pour les lecteurs d'écran.
+ */
+export const pastilleFiltre = (choisie: boolean) =>
+  [
+    "inline-flex min-h-11 items-center whitespace-normal rounded-full border px-4 py-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background max-e300:w-full",
+    choisie ? `border-text-primary bg-background-elevated ${META_FORT}` : `border-border-input hover:border-border-hover hover:bg-background-elevated ${META}`,
   ].join(" ");
 
 /** Clé d'idempotence d'un geste (une par toucher, gardée pour la suite du même geste). */

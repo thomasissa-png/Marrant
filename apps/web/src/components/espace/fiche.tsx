@@ -2,7 +2,9 @@ import Link from "next/link";
 import { TEXTES_BILAN as TEXTES_BILAN_BRUT, TEXTES_FICHE, TEXTES_FICHE_LIGNE } from "@/config/textes/espace-bibliotheque";
 import type { Fiche } from "@/lib/espace/fiches-schema";
 import type { RetourGeste } from "@/lib/espace/retours";
-import { CARTE, ETIQUETTE, LIEN } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE, CARTE, ETIQUETTE, LIEN } from "@/components/espace/carte/styles";
+import { ETIQUETTE as ETIQUETTE_ECHELLE, META, TEXTE, TITRE_PAGE } from "@/components/espace/typo";
+import { cn } from "@/lib/utils";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
 import { CorpsSituation } from "@/components/espace/fiche/corps-situation";
 import { CorpsConstruction, CorpsFormule, CorpsVocabulaire } from "@/components/espace/fiche/corps-technique";
@@ -187,6 +189,89 @@ export function FicheVue({
           ))}
         </ul>
       )}
+    </article>
+  );
+}
+
+/**
+ * s26 liste et détail, fiche dans le panneau de Quoi répondre (`docs/design/liste-detail-quoi-repondre-s26.md` §3) :
+ * carte A (H1 `TITRE_PAGE`, type et durée, accroche, corps sous un filet), carte B (le geste), liens du catalogue sans
+ * carte, puis `apres` (« Situation suivante »). Colonne `gap-6`, cartes neutres en `p-6`, aucun `max-w` (le panneau
+ * entier, aucun blanc à droite). Pas de « Retour » ici : la page le pose sous 1024 (dès 1024, la liste est à gauche).
+ * H1 focalisable (`tabIndex={-1}`) : le focus lui est rendu à l'ouverture depuis la liste. `FicheVue` (autres
+ * rubriques) inchangée.
+ */
+export function FicheVuePanneau({
+  fiche,
+  retour,
+  replique,
+  lettre,
+  apres = null,
+}: {
+  fiche: Fiche;
+  retour: RetourGeste | null;
+  replique: string | null;
+  lettre: { titre: string; href: string } | null;
+  apres?: React.ReactNode;
+}) {
+  const parent = parente(fiche);
+  return (
+    <article className="flex min-w-0 flex-col gap-6" data-fiche-type={fiche.type} data-fiche-panneau={fiche.id}>
+      <div className={cn(CADRE_CARTE_NEUTRE, "p-6")}>
+        <h1 id="fiche-titre" tabIndex={-1} className={cn(TITRE_PAGE, "[overflow-wrap:anywhere] focus:outline-none")}>
+          {fiche.titre}
+        </h1>
+        <p className={cn("mt-2", META)}>
+          {T.types[fiche.type] !== parent.label && (
+            <>
+              <span className={ETIQUETTE_ECHELLE}>{T.types[fiche.type]}</span>
+              {" · "}
+            </>
+          )}
+          {L.minutes(fiche.dureeMinutes)}
+        </p>
+        {fiche.accroche && <p className={cn("mt-4", TEXTE)}>{fiche.accroche}</p>}
+        {lettre && (
+          <Link href={lettre.href} className={cn("mt-2", LIEN)}>
+            {lettre.titre}
+          </Link>
+        )}
+        <div className="mt-6 border-t border-border pt-6">
+          <Corps fiche={fiche} />
+        </div>
+      </div>
+      {fiche.geste && (
+        <div className={cn(CADRE_CARTE_NEUTRE, "p-6")}>
+          <GesteFiche
+            ficheId={fiche.id}
+            consigne={fiche.geste.consigne}
+            pourAllerPlusLoin={fiche.geste.pourAllerPlusLoin ?? null}
+            grille={fiche.geste.grille ?? null}
+            retourInitial={retour}
+            repliqueInitiale={replique}
+            separe={false}
+          />
+        </div>
+      )}
+      {fiche.type === "a-plat" && fiche.contenu.lienCoin && (
+        <p>
+          <Link href={HREF_ENTREE_COIN} className={LIEN}>
+            {fiche.contenu.lienCoin}
+          </Link>
+        </p>
+      )}
+      {fiche.liens && fiche.liens.length > 0 && (
+        <ul aria-labelledby="fiche-titre" className="flex flex-wrap gap-x-6" data-testid="fiche-liens">
+          {fiche.liens.map((h) => (
+            <li key={h}>
+              <Link href={h} className={cn(META, "inline-flex min-h-11 items-center underline underline-offset-2 hover:text-text-primary")}>
+                {nomDuLien(h)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+      {apres}
     </article>
   );
 }

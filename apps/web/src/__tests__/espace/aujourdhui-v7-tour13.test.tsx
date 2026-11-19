@@ -146,6 +146,8 @@ describe("point 4 : légende à 48 px de l'offre", () => {
   it("48 px au-dessus de l'extrait dès 768, plus de 64 dès 1024 ; carte d'offre étirée au bas du hero dès 1024", () => {
     render(<ApercuAujourdhui visiteur />);
     expect(classes(document.querySelector("[data-apercu-extrait]")).filter((c) => /(^|:)mt-/.test(c))).toEqual(["mt-6", "md:mt-12"]);
-    expect(classes(document.querySelector("[data-apercu-offre]"))).toContain("lg:h-full");
+    // s26 liste et détail (spec design §5.1) : sans la preuve, la carte d'offre n'est plus étirée au bas du hero (elle
+    // créait un vide sous « Connexion ») : hauteur propre dès 1024, l'ancienne attente `lg:h-full` n'a plus cours.
+    expect(classes(document.querySelector("[data-apercu-offre]"))).not.toContain("lg:h-full");
   });
 });

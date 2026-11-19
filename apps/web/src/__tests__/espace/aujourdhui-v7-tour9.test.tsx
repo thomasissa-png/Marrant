@@ -47,32 +47,23 @@ describe("point 1 : Z1 figée au cadre neutre", () => {
   });
 });
 
-describe("point 2 : preuve sous les pastilles dès 1024", () => {
+describe("point 2 : preuve sous les pastilles dès 1024 (retirée en s26 liste et détail)", () => {
   const offre = { href: "/abonnement", adresse: "/mon-espace", visiteur: true };
 
-  it("hero : preuve de la colonne de texte affichée dès 1024 seulement, à 24 px sous les pastilles", () => {
+  // s26 liste et détail (spec design §5, critère UX 11) : « 1 500+ » est retiré des aperçus de l'espace, hero ET carte
+  // d'offre (composants partagés par les 4 aperçus). Les trois anciennes attentes (preuve sous les pastilles dès 1024,
+  // preuve de la carte masquée, preuve de la carte seule affichée) n'ont plus cours ; « Connexion » reste.
+  it("hero : plus aucune preuve, ni dans la colonne de texte ni dans la carte ; « Connexion » gardée", () => {
     const { container } = render(<HeroApercu titre="Aujourd'hui" promesse="P" pastilles={["a", "b"]} offre={offre} />);
-    const hero = container.querySelector("[data-preuve='hero']");
-    expect(hero?.previousElementSibling?.hasAttribute("data-apercu-pastilles")).toBe(true);
-    // v7 tour 11 : aussi sous 768 (16 px sous la promesse, pastilles en `sr-only`), masquée de 768 à 1023. s26 tour 2 des
-    // encarts (E2) : de 768 à 1023 aussi (la carte d'offre passe sous le texte), à 24 px sous les pastilles.
-    expect(classes(hero)).toEqual(expect.arrayContaining(["mt-4", "md:mt-6", "text-sm"]));
-    expect(classes(hero).some((c) => /hidden/.test(c))).toBe(false);
-    expect(hero?.querySelector("span")?.className).toContain("text-xl");
-  });
-
-  it("hero : preuve de la carte masquée dès 1024 (une seule affichée à chaque largeur), « Connexion » gardée", () => {
-    const { container } = render(<HeroApercu titre="Aujourd'hui" promesse="P" pastilles={["a"]} offre={offre} />);
-    const carte = container.querySelector("[data-apercu-offre] [data-preuve='carte']");
-    // s26 tour 2 des encarts (E2) : la preuve de la carte n'est plus affichée à aucune largeur quand le hero la rend.
-    expect(classes(carte)).toEqual(expect.arrayContaining(["hidden", "mt-4", "pt-4", "md:mt-6", "md:pt-6"]));
-    expect(container.querySelectorAll("[data-preuve]")).toHaveLength(2);
+    expect(container.querySelectorAll("[data-preuve]")).toHaveLength(0);
+    expect(container.textContent).not.toContain("1 500+");
+    expect(container.querySelector("[data-apercu-pastilles]")?.nextElementSibling).toBeNull();
     expect(container.querySelector("[data-apercu-offre] a[href*='login'], [data-apercu-offre] a[href*='connexion']")).not.toBeNull();
   });
 
-  it("carte d'offre seule (sans `preuveHors`) : preuve affichée à toutes les largeurs", () => {
+  it("carte d'offre seule : pas de preuve non plus", () => {
     const { container } = render(<OffreApercu {...offre} />);
-    expect(classes(container.querySelector("[data-preuve]"))).not.toContain("lg:hidden");
+    expect(container.querySelector("[data-preuve]")).toBeNull();
   });
 });
 

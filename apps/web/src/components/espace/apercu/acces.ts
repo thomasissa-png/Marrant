@@ -39,6 +39,15 @@ export function estAdresseApercu(chemin: string | null | undefined): boolean {
   return ADRESSES.has(chemin.split(/[?#]/)[0]);
 }
 
+/**
+ * s26 liste et détail : adresse d'une fiche de Quoi répondre (`/mon-espace/quoi-repondre/[id]`). Visiteur et inscrit
+ * gratuit n'y voient jamais de fiche ni de 404 : le layout de la rubrique les renvoie (307) vers l'aperçu de la liste.
+ */
+export function estFicheQuoiRepondre(chemin: string | null | undefined): boolean {
+  if (!chemin) return false;
+  return /^\/mon-espace\/quoi-repondre\/[^/]+\/?$/.test(chemin.split(/[?#]/)[0]);
+}
+
 // `cache` existe dans le React de Next (serveur) ; absent du React 18 de Jest : lecture simple, même résultat.
 const parRequete: <T extends () => Promise<unknown>>(f: T) => T = React.cache ?? ((f) => f);
 

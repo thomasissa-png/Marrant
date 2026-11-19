@@ -25,7 +25,16 @@ export function couperReplique(valeur: string): { texte: string; aLaLimite: bool
  * suppression (un seul « Supprimer » à l'écran, focus sur « Annuler »), supprimée. Le texte ne quitte
  * le navigateur que vers `/api/espace/replique` ; il n'est jamais journalisé ni mesuré.
  */
-export function NoteReplique({ ficheId, initiale }: { ficheId: string; initiale: string | null }) {
+export function NoteReplique({
+  ficheId,
+  initiale,
+  secondaire = false,
+}: {
+  ficheId: string;
+  initiale: string | null;
+  /** s26 liste et détail : « Fait » posé dans Quoi répondre, « Situation suivante » prend l'aplat (un seul à l'écran). */
+  secondaire?: boolean;
+}) {
   const [texte, setTexte] = useState(initiale ?? "");
   const [enregistre, setEnregistre] = useState(Boolean(initiale));
   const [etat, setEtat] = useState<Etat>("repos");
@@ -105,7 +114,7 @@ export function NoteReplique({ ficheId, initiale }: { ficheId: string; initiale:
       />
       <div className="flex flex-wrap items-center gap-2">
         {etat !== "confirmer" && (
-          <button type="submit" className={BOUTON_PRINCIPAL} aria-busy={occupe} disabled={texte.trim() === ""}>
+          <button type="submit" className={secondaire ? BOUTON_SECONDAIRE : BOUTON_PRINCIPAL} aria-busy={occupe} disabled={texte.trim() === ""}>
             {etat === "echec" ? G.note.reessayer : G.note.enregistrer}
           </button>
         )}

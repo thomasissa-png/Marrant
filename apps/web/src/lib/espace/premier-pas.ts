@@ -41,8 +41,15 @@ export const ENTREE_PAR_DEFAUT = ENTREES_QUIZ.PUNCHLINEUR;
 /** Durée de la scène par défaut (libellé 29, « 5 min »). */
 export const MINUTES_PAR_DEFAUT = 5;
 
-/** Adresse d'une fiche de l'espace (lot D6 : `mon-espace/fiche/[type]/[id]`). */
-export const hrefFiche = (type: string, id: string) => `${ESPACE_ACCUEIL}/fiche/${type}/${id}`;
+/** s26 liste et détail : les fiches de « Quoi répondre » (situations et « à plat ») s'ouvrent dans leur rubrique. */
+export const TYPES_QUOI_REPONDRE: readonly string[] = ["situation", "a-plat"];
+
+/**
+ * Adresse d'une fiche de l'espace (lot D6 : `mon-espace/fiche/[type]/[id]`). s26 liste et détail : situation et
+ * « à plat » sous `/mon-espace/quoi-repondre/[id]` (l'ancienne adresse répond 308, espace ouvert seulement).
+ */
+export const hrefFiche = (type: string, id: string) =>
+  TYPES_QUOI_REPONDRE.includes(type) ? `${ESPACE_ACCUEIL}/quoi-repondre/${id}` : `${ESPACE_ACCUEIL}/fiche/${type}/${id}`;
 
 /** Ce que dit le lien de retour, avant lecture en base. */
 export type Origine =
