@@ -1,0 +1,22 @@
+# Captures profil (2026-11-19T10:55, http://localhost:5400)
+
+- visiteur-profil-375.png : /profil (page), HTTP 200, hauteur 812px
+- visiteur-profil-768.png : /profil (page), HTTP 200, hauteur 900px
+- visiteur-profil-1280.png : /profil (page), HTTP 200, hauteur 900px
+- visiteur-profil-1456.png : /profil (page), HTTP 200, hauteur 900px
+- visiteur-profil-1920.png : /profil (page), HTTP 200, hauteur 900px
+- gratuit-profil-375.png : /profil (page), HTTP 200, hauteur 2778px
+- gratuit-profil-768.png : /profil (page), HTTP 200, hauteur 2029px
+- gratuit-profil-1280.png : /profil (page), HTTP 200, hauteur 1477px
+- gratuit-profil-1456.png : /profil (page), HTTP 200, hauteur 1477px
+- gratuit-profil-1920.png : /profil (page), HTTP 200, hauteur 1477px
+- en-cours-profil-375.png : /profil (page), HTTP 200, hauteur 4290px
+- en-cours-profil-768.png : /profil (page), HTTP 200, hauteur 3274px
+- en-cours-profil-1280.png : /profil (page), HTTP 200, hauteur 2280px
+- en-cours-profil-1456.png : /profil (page), HTTP 200, hauteur 2280px
+- en-cours-profil-1920.png : /profil (page), HTTP 200, hauteur 2280px
+- nouvel-profil-375.png : /profil (page), HTTP 200, hauteur 4544px
+- nouvel-profil-768.png : /profil (page), HTTP 200, hauteur 3386px
+- nouvel-profil-1280.png : /profil (page), HTTP 200, hauteur 2280px
+- nouvel-profil-1456.png : /profil (page), HTTP 200, hauteur 2280px
+- nouvel-profil-1920.png : /profil (page), HTTP 200, hauteur 2280px

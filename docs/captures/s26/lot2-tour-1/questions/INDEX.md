@@ -1,0 +1,22 @@
+# Captures questions (2026-11-19T10:53, http://localhost:5400)
+
+- visiteur-questions-375.png : /mon-espace/questions (page), HTTP 200, hauteur 3008px
+- visiteur-questions-768.png : /mon-espace/questions (page), HTTP 200, hauteur 2495px
+- visiteur-questions-1280.png : /mon-espace/questions (page), HTTP 200, hauteur 1815px
+- visiteur-questions-1456.png : /mon-espace/questions (page), HTTP 200, hauteur 1815px
+- visiteur-questions-1920.png : /mon-espace/questions (page), HTTP 200, hauteur 1815px
+- gratuit-questions-375.png : /mon-espace/questions (page), HTTP 200, hauteur 3017px
+- gratuit-questions-768.png : /mon-espace/questions (page), HTTP 200, hauteur 2515px
+- gratuit-questions-1280.png : /mon-espace/questions (page), HTTP 200, hauteur 1815px
+- gratuit-questions-1456.png : /mon-espace/questions (page), HTTP 200, hauteur 1815px
+- gratuit-questions-1920.png : /mon-espace/questions (page), HTTP 200, hauteur 1815px
+- en-cours-questions-375.png : /mon-espace/questions (page), HTTP 200, hauteur 2669px
+- en-cours-questions-768.png : /mon-espace/questions (page), HTTP 200, hauteur 2185px
+- en-cours-questions-1280.png : /mon-espace/questions (page), HTTP 200, hauteur 1535px
+- en-cours-questions-1456.png : /mon-espace/questions (page), HTTP 200, hauteur 1535px
+- en-cours-questions-1920.png : /mon-espace/questions (page), HTTP 200, hauteur 1535px
+- nouvel-questions-375.png : /mon-espace/questions (page), HTTP 200, hauteur 2659px
+- nouvel-questions-768.png : /mon-espace/questions (page), HTTP 200, hauteur 2059px
+- nouvel-questions-1280.png : /mon-espace/questions (page), HTTP 200, hauteur 1535px
+- nouvel-questions-1456.png : /mon-espace/questions (page), HTTP 200, hauteur 1535px
+- nouvel-questions-1920.png : /mon-espace/questions (page), HTTP 200, hauteur 1535px
