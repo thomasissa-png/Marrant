@@ -6,7 +6,7 @@ import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { QUIZ_TITRE, VANNES_ETAPE } from "@/config/textes/parcours";
 import { frTypoParcours, frEspaceProfond } from "@/lib/fr-typo";
 import { Chevron, Coche } from "@/components/espace/aujourdhui/tableau";
-import { META, META_FORT } from "@/components/espace/typo";
+import { META } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -73,7 +73,7 @@ export function libelleFiche(ref: BlocReference, etape: EtapeVue): string {
  * Lot D11b (Q-4, @design D1) : ligne qui passe à la ligne et titre de 128 px au moins (jamais une lettre par ligne à 200 %).
  * s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §3) : la ligne ENTIÈRE est le lien (44 px), chevron seul à
  * droite ; plus de « Voir » (cinq liens au même nom). Fiche active (choisie, sinon première fiche d'une étape non
- * validée) : filet blanc de 2 px et titre en méta forte ; étape validée : coche et titres gris, « Fait » lu. `variante`
+ * validée) : filet blanc de 2 px et titre en blanc (tour 6 : même graisse que les autres) ; étape validée : coche et titres gris, « Fait » lu. `variante`
  * « menu » : sous l'étape active du menu d'étapes (`pl-14 pr-6`, sans cadre). Tour 5 : sans soulignement au repos ; dans
  * la page d'un parcours (`FicheActiveContexte`), le clic amène le bloc de la fiche sous l'en-tête collant.
  */
@@ -98,7 +98,10 @@ export function LignesFiches({
   const lignes = decoupe.fiches
     .filter((f) => blocRendu(f.ref, etape, { etapeFaite, quizFait }))
     .map((f) => ({ ...f, titre: libelleFiche(f.ref, etape) }))
-    .filter((f) => f.titre !== "");
+    .filter((f) => f.titre !== "")
+    // s26 parcours, tour 6 (D8 UX, D2 design v3 : « 2.1, 2.3, 2.4 », il manque une étape) : numéro par position parmi les
+    // sous-étapes AFFICHÉES, le même dans le menu et dans la liste de la carte ; l'ancre `#fiche-N-M` ne change pas.
+    .map((f, i) => ({ ...f, numero: `${etape.order}.${i + 1}` }));
   if (lignes.length === 0) return null;
   const menu = variante === "menu";
   const choisie = lignes.some((f) => f.ancre === contexte?.active) ? contexte?.active : null;
@@ -130,12 +133,15 @@ export function LignesFiches({
                 active && "before:bg-text-primary",
               )}
             >
-              <span className={cn("flex-none tabular-nums", SOULIGNE_SURVOL, active ? META_FORT : META)}>{f.numero}</span>
+              {/* s26 parcours, tour 6 (D3 design v3 : le gras de la ligne active la passait sur 2 lignes, menu +12 px) :
+                  graisse constante, l'état actif est le filet et le blanc, les autres lignes en gris ; 0 px de saut. */}
+              <span className={cn("flex-none tabular-nums", SOULIGNE_SURVOL, META, active && "text-text-primary")}>{f.numero}</span>
               <span
                 className={cn(
                   "min-w-[min(8rem,100%)] flex-1 [overflow-wrap:anywhere]",
                   SOULIGNE_SURVOL,
-                  active ? META_FORT : etapeFaite ? META : cn(META, "text-text-primary"),
+                  META,
+                  active && "text-text-primary",
                 )}
               >
                 {frTypoParcours(f.titre)}

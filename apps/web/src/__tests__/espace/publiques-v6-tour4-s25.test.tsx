@@ -92,13 +92,15 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
     // 1024 px ; plus de piste `md:row-start-5`, `MESURES.md` B1 du tour 2).
     for (const carte of cartes(container)) {
       const pied = carte.querySelector("[data-parcours-pied]") as HTMLElement;
-      expect(classes(pied)).toEqual(expect.arrayContaining(["mt-6", "flex", "flex-col", "gap-4", "lg:flex-row"]));
+      // s26 parcours, tour 6 : test changé (raison : pied en grille fixe 10/7 dès 1024 px, la même que le texte, au lieu de
+      // deux moitiés en flex ; D1 de la relecture design v3, témoignage aligné sur le bord du bouton).
+      expect(classes(pied)).toEqual(expect.arrayContaining(["mt-6", "flex", "flex-col", "gap-4", "lg:grid", "lg:grid-cols-[minmax(0,10fr)_minmax(0,7fr)]"]));
       expect(classes(pied)).not.toContain("mt-auto");
       const details = pied.firstElementChild as HTMLElement;
       expect(details.tagName).toBe("DETAILS");
-      expect(details.className).toBe("group lg:min-w-0 lg:flex-1");
+      expect(details.className).toBe("group lg:min-w-0");
       const bloc = pied.lastElementChild as HTMLElement;
-      expect(bloc.className).toBe("flex flex-col gap-2 lg:flex-1");
+      expect(bloc.className).toBe("flex flex-col gap-2 lg:min-w-0");
       const bouton = within(bloc).getByRole("button");
       expect(classes(bouton)).toEqual(expect.arrayContaining(["min-h-12", "w-full", "sm:w-auto"]));
       // Un seul bloc de fin : rien après lui dans la carte.
@@ -126,11 +128,16 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
       const texte = carte.querySelector("[data-parcours-texte]") as HTMLElement;
       // s26 parcours, tour 5 : test changé (raison : `columns-2` coupait le paragraphe entre les colonnes, faute dure D1 / F6
       // des relectures v2 ; deux cellules de grille, une par bloc, largeurs au poids du texte, aucune colonne CSS).
-      expect(classes(texte)).toEqual(expect.arrayContaining(["grid", "md:grid-cols-[var(--colonnes-texte)]", "md:items-start", "md:gap-x-6"]));
+      // s26 parcours, tour 6 : test changé (raison : grille FIXE 10/7, identique dans les 5 cartes et dans le pied, au lieu de
+      // largeurs au poids du texte ; D1 de la relecture design v3, témoignage à x 699, 769 ou 719 selon la carte).
+      const grilleFixe = "md:grid-cols-[minmax(0,10fr)_minmax(0,7fr)]";
+      expect(classes(texte)).toEqual(expect.arrayContaining(["grid", grilleFixe, "md:items-start", "md:gap-x-6"]));
       expect(texte.className).not.toMatch(/columns-/);
-      expect(texte.style.getPropertyValue("--colonnes-texte")).toMatch(/^minmax\(0,0\.\d{3}fr\) minmax\(0,0\.\d{3}fr\)$/);
+      expect(texte.getAttribute("style")).toBeNull();
       expect(texte.children).toHaveLength(2);
-      expect(classes(carte.querySelector("[data-parcours-pied]"))).toEqual(expect.arrayContaining(["lg:flex-row", "lg:items-start", "lg:gap-6"]));
+      expect(classes(carte.querySelector("[data-parcours-pied]"))).toEqual(
+        expect.arrayContaining(["lg:grid", grilleFixe.replace("md:", "lg:"), "lg:items-start", "lg:gap-x-6"]),
+      );
     }
   });
 

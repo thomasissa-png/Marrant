@@ -1,7 +1,7 @@
 "use client";
 
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
-import { useState, useEffect, type CSSProperties, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Card, CardContent, CardHeader, CardTitle, FILET_MASQUE } from "@/components/ui/card";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
@@ -57,28 +57,24 @@ export const GRILLE_CARTES_OUVERTE = "grid gap-6 lg:col-span-12";
  */
 const CARTE_RANGEE = "flex scroll-mt-[9px] flex-col p-6";
 
-/**
- * s26 parcours connecté, tour 2 : description et témoignage côte à côte dès 768 px ; fermé, un fragment.
- */
 /*
+ * s26 parcours connecté, tour 2 : description et témoignage côte à côte dès 768 px ; fermé, un fragment.
  * s26 parcours, tour 5 (faute dure D1 / F6 des relectures v2 : `columns-2` coupait le paragraphe de Storytelling et de
  * Boulot entre les deux colonnes) : plus aucune colonne CSS. Dès 768 px, une grille de deux cellules, une par bloc
- * (description, témoignage), `items-start` ; largeurs proportionnelles au poids de chaque texte (signes x corps : 16 px
- * pour la description, 14 px pour le témoignage) pour que les deux blocs finissent à une ligne près (vide ≤ 32 px, mesuré
- * en e2e), bornées à 1/3 et 2/3. Sous 768 px, l'un sous l'autre (16 px).
+ * (description, témoignage), `items-start`. Sous 768 px, l'un sous l'autre (16 px).
+ * s26 parcours, tour 6 (D1 de la relecture design v3 : témoignage à x 699, 769 ou 719 selon la carte, bouton à 652) :
+ * grille FIXE, la même dans les 5 cartes et dans le pied : le témoignage commence sur la ligne du bouton. Proportion 10/7
+ * (description 16 px, témoignage 14 px) mesurée sur les 5 textes : bas des deux blocs à une ligne (24 px) près à 768,
+ * 850 à 1024, 1280, 1366, 1440 et 1920 (moitiés, 3/2 ou 7/5 laissaient 48 à 96 px ; vers 800 px, Boulot garde 48 px).
  */
-function ColonnesTexte({ children, description, temoignage }: { children: ReactNode; description: string; temoignage: string }) {
+const GRILLE_TEXTE = "md:grid-cols-[minmax(0,10fr)_minmax(0,7fr)] md:gap-x-6";
+/** Même grille pour le pied dès 1024 px (« Programme », bouton) : bord gauche du bouton = bord gauche du témoignage. */
+const GRILLE_PIED = "lg:grid lg:grid-cols-[minmax(0,10fr)_minmax(0,7fr)] lg:gap-x-6";
+
+function ColonnesTexte({ children }: { children: ReactNode }) {
   if (!ESPACE_CLIENT_PUBLIE) return <>{children}</>;
-  const d = description.length * 16;
-  const t = temoignage.length * 14;
-  const part = d + t > 0 ? Math.min(2 / 3, Math.max(1 / 3, d / (d + t))) : 0.5;
-  const colonnes = `minmax(0,${part.toFixed(3)}fr) minmax(0,${(1 - part).toFixed(3)}fr)`;
   return (
-    <div
-      className="mt-4 grid gap-4 md:grid-cols-[var(--colonnes-texte)] md:items-start md:gap-x-6 md:gap-y-0"
-      style={{ "--colonnes-texte": colonnes } as CSSProperties}
-      data-parcours-texte=""
-    >
+    <div className={cn("mt-4 grid gap-4 md:items-start md:gap-y-0", GRILLE_TEXTE)} data-parcours-texte="">
       {children}
     </div>
   );
@@ -502,7 +498,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 </p>
               </CardHeader>
               <CardContent className={ESPACE_CLIENT_PUBLIE ? "contents" : undefined}>
-                <ColonnesTexte description={p.description} temoignage={p.testimonial}>
+                <ColonnesTexte>
                 <p className={o(cn(TEXTE, "text-pretty"), "mb-4 text-pretty text-text-secondary")}>{frTypoTexte(stripEmDashes(p.description))}</p>
 
                 {/* Testimonial (s26 : méta en italique, sans fond) */}
@@ -552,11 +548,12 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 <PiedCarte
                   // s26 tour 2 : 16 px au-dessus dès 768 px, les colonnes équilibrées gardant jusqu'à 16 px de jeu sous leur
                   // texte (marge du témoignage) : 32 px au plus entre le texte et « Programme ».
-                  className={o(cn("mt-6 flex flex-col gap-4", zones && "lg:flex-row lg:items-start lg:gap-6"))}
+                  // s26 parcours, tour 6 : dès 1024 px, la grille fixe du texte (`GRILLE_PIED`) au lieu de deux moitiés en flex.
+                  className={o(cn("mt-6 flex flex-col gap-4", zones && cn("lg:items-start", GRILLE_PIED)))}
                 >
                 {/* Programme replié par défaut (T24) */}
                 <details
-                  className={ESPACE_CLIENT_PUBLIE ? cn("group", zones && "lg:min-w-0 lg:flex-1") : "group mb-6"}
+                  className={ESPACE_CLIENT_PUBLIE ? cn("group", zones && "lg:min-w-0") : "group mb-6"}
                   open={openSlugs.has(p.slug)}
                   onToggle={(e) => setProgrammeOpen(p.slug, e.currentTarget.open)}
                 >
@@ -615,7 +612,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
 
                 {/* v6 tour 3, point 12 : cartes jumelles de même hauteur ; tour 4, point 2 : le `mt-auto` passe au bloc
                     commun (`PiedCarte`). Forme et place du bouton inchangées (cta-forme-place-s21 §1.3). */}
-                <div className={cn("flex flex-col gap-2", zones && "lg:flex-1")}>
+                <div className={cn("flex flex-col gap-2", zones && "lg:min-w-0")}>
                   {/* s21 B15 (froid) : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous. */}
                   <Button
                     // v6 tour 1, point 12 (interrupteur ouvert, abonné) : un seul plein, celui du parcours en cours
@@ -627,7 +624,14 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                     // dans « l'étape à reprendre » : un plein de carte ferait deux aplats violets dans le même écran.
                     variant={ESPACE_CLIENT_PUBLIE ? "outline" : "primary"}
                     size="lg"
-                    className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", ESPACE_CLIENT_PUBLIE ? CONTOUR_CARTE : CORPS_APPEL_MOBILE, zones && "lg:w-full")}
+                    // s26 parcours, tour 6 (D3 de la relecture design v3) : sous 768 px, le parcours dont « Tester l'étape 1 »
+                    // est remonté en tête de liste (`premierEtape1`) n'a pas de second bouton dans sa carte.
+                    className={cn(
+                      "h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto",
+                      ESPACE_CLIENT_PUBLIE ? CONTOUR_CARTE : CORPS_APPEL_MOBILE,
+                      zones && "lg:w-full",
+                      premierEtape1?.slug === p.slug && etape1Slug && "max-md:hidden",
+                    )}
                     onClick={() => handleCta(p.slug, etape1Slug !== null)}
                   >
                     {etape1Slug

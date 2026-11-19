@@ -230,6 +230,17 @@ export interface ParcoursStepCardProps {
  */
 const BLOC_FICHE = "scroll-mt-[9px] focus:outline-none";
 
+/**
+ * s26 parcours, tour 6 (D7 UX v3 : clic sur 2.3, le titre de section « Pour aller plus loin, facultatif » coupé sous
+ * l'en-tête) : une vidéo de la PREMIÈRE rangée amène le titre de la section à 137 px (9 + 32 de titre et marge, 2,5625rem),
+ * la carte juste dessous ; rangées suivantes, la carte elle-même à 137 px. Une colonne sous 640 px, deux au-delà.
+ * Repère : la sous-étape cliquée porte `data-fiche-reperee` 1,5 s (`parcours-detail.tsx`), contour neutre, pour que
+ * deux cartes voisines (2.3 et 2.4 à 1280) ne donnent pas le même écran sans repère.
+ */
+const REPERE_FICHE =
+  "data-[fiche-reperee]:!outline data-[fiche-reperee]:!outline-2 data-[fiche-reperee]:!outline-offset-4 data-[fiche-reperee]:!outline-text-muted";
+const MARGE_VIDEO = (i: number) => (i === 0 ? "scroll-mt-[2.5625rem]" : i === 1 ? "sm:scroll-mt-[2.5625rem]" : undefined);
+
 export function ParcoursStepCard(props: ParcoursStepCardProps) {
   // s21 (décision du 18/10) : toute étape se déplie ; l'abonné les ouvre toutes, le visiteur voit l'aperçu des étapes 2+.
   const { step, slug, isPremium, isCompleted, isExpanded, isPremiumLocked } = props;
@@ -422,7 +433,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
     <div className="space-y-6">
       {ancres && <LignesFiches slug={slug} etape={step} etapeFaite={isCompleted} quizFait={isQuizDone} className="lg:hidden" />}
       {ancres && step.tip.title.trim() !== "" && (
-        <h4 id={fiche(1)} tabIndex={-1} className={cn(sectionTitre(), "mb-0", BLOC_FICHE)}>
+        <h4 id={fiche(1)} tabIndex={-1} className={cn(sectionTitre(), "mb-0 rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
           {frTypoParcours(step.tip.title)}
         </h4>
       )}
@@ -534,7 +545,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       )}
 
       {ancres && vannesRendues ? (
-        <div id={fiche(2)} tabIndex={-1} className={BLOC_FICHE}>
+        <div id={fiche(2)} tabIndex={-1} className={cn("rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
           <StepJokes step={step} isPremium={isPremium} />
         </div>
       ) : (
@@ -548,7 +559,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
           <div className="grid gap-3 sm:grid-cols-2">
             {step.videos.map((v, i) =>
               ancres ? (
-                <div key={v.youtubeId} id={fiche(3 + i)} tabIndex={-1} className={BLOC_FICHE}>
+                <div key={v.youtubeId} id={fiche(3 + i)} tabIndex={-1} className={cn("rounded-xl", BLOC_FICHE, MARGE_VIDEO(i), REPERE_FICHE)}>
                   <VideoCard video={v} seule={step.videos!.length === 1} />
                 </div>
               ) : (
@@ -564,7 +575,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         <div
           id={ancres ? fiche(rangQuiz) : undefined}
           tabIndex={ancres ? -1 : undefined}
-          className={cn("border-t border-border pt-6", ancres && BLOC_FICHE)}
+          className={cn("border-t border-border pt-6", ancres && cn(BLOC_FICHE, REPERE_FICHE))}
         >
           <h4 className={sectionTitre()}>{isPremium ? QUIZ_TITRE.abonne : QUIZ_TITRE.visiteur}</h4>
           <StepQuiz quiz={step.quiz!} canValidate={isPremium} onComplete={props.onQuizComplete} />

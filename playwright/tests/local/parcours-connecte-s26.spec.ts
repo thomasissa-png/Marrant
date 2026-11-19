@@ -14,6 +14,9 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
  *   la carte d'en-tête, une seule étape visible, menu toujours à 137 px après un clic d'étape, tour 5) ; à 375, l'en-tête d'étape
  *   cliqué ne saute pas (8 px au plus) ; visiteur et gratuit à 375, « Tester l'étape 1 » dans le premier écran, puis
  *   l'étape 1 ouverte à l'arrivée.
+ * - s26 parcours, tour 6 (relectures v3) : /parcours en grille fixe 10/7 (témoignage sur la ligne du bouton, vide ≤ 32 px) ;
+ *   un seul « Tester l'étape 1 » visible par parcours à 375 ; sous-étapes numérotées sans trou, titre entier sous l'en-tête,
+ *   repère neutre 1,5 s, menu immobile au changement d'actif ; quiz sans option violette avant la réponse.
  */
 const MOT_DE_PASSE = "E2e-parcours-connecte-s26";
 const SLUG = "machine-a-cafe";
@@ -253,8 +256,39 @@ test.describe("Parcours connecté (s26)", () => {
         await lien.click();
         await expect(page).toHaveURL(new RegExp(`#${ancre}$`));
         const bloc = page.locator(`#${ancre}`);
+        // s26 parcours, tour 6 (D7 UX v3 : 2.3 et 2.4 côte à côte à 1280 donnaient le même écran sans repère) : la
+        // sous-étape cliquée, et elle seule, porte le repère neutre (contour gris, aucun violet) ; il part au bout de 1,5 s.
+        await expect(page.locator("[data-fiche-reperee]")).toHaveCount(1);
+        await expect(bloc).toHaveAttribute("data-fiche-reperee", "");
+        const contour = await bloc.evaluate((e) => ({ style: getComputedStyle(e).outlineStyle, couleur: getComputedStyle(e).outlineColor }));
+        expect(contour.style, ancre).toBe("solid");
+        expect(contour.couleur, ancre).toBe("rgb(154, 154, 154)");
         const haut = await hautStable(bloc);
-        expect(Math.abs(haut - ANCRE), `${ancre} (« ${titre} ») : haut du bloc ${haut}`).toBeLessThanOrEqual(2);
+        // s26 parcours, tour 6 : test changé (raison : une vidéo de la première rangée amène le titre de sa section à 137 px,
+        // la carte 32 px dessous ; D7 UX v3, « Pour aller plus loin, facultatif » coupé sous l'en-tête). Attendu : haut du
+        // bloc = `scroll-padding-top` (128) + sa `scroll-margin-top` (9, ou 41 pour la première rangée de vidéos).
+        const marge = await bloc.evaluate((e) => parseFloat(getComputedStyle(e).scrollMarginTop));
+        const attendu = ANCRE - 9 + marge;
+        expect(Math.abs(haut - attendu), `${ancre} (« ${titre} ») : haut du bloc ${haut}, attendu ${attendu}`).toBeLessThanOrEqual(2);
+        // Tour 6 : le titre de la sous-étape est visible ENTIER sous l'en-tête, et aucun titre de section n'est coupé par lui.
+        const vue = await bloc.evaluate((b, morceaux) => {
+          const plat = (t: string | null) => (t ?? "").replace(/\s+/g, " ").trim();
+          const basEntete = Math.max(...Array.from(document.querySelectorAll("header")).map((h) => h.getBoundingClientRect().bottom), 0);
+          const titres = morceaux.map((m) => {
+            const els = [b, ...Array.from(b.querySelectorAll("*"))].filter((e) => plat(e.textContent).includes(m));
+            const r = els[els.length - 1]?.getBoundingClientRect();
+            return r ? { m, haut: Math.round(r.top), bas: Math.round(r.bottom) } : { m, haut: -1, bas: -1 };
+          });
+          const coupes = Array.from(document.querySelectorAll("main h4"))
+            .map((h) => h.getBoundingClientRect())
+            .filter((r) => r.height > 0 && r.top < basEntete - 1 && r.bottom > basEntete + 1).length;
+          return { basEntete: Math.round(basEntete), hauteur: window.innerHeight, titres, coupes };
+        }, titre.split(" · "));
+        for (const t of vue.titres) {
+          expect(t.haut, `${ancre} : « ${t.m} » sous l'en-tête (${JSON.stringify(vue)})`).toBeGreaterThanOrEqual(vue.basEntete);
+          expect(t.bas, `${ancre} : « ${t.m} » dans la fenêtre (${JSON.stringify(vue)})`).toBeLessThanOrEqual(vue.hauteur);
+        }
+        expect(vue.coupes, `${ancre} : titres coupés par l'en-tête`).toBe(0);
         // Le bloc porte le titre de la ligne (vidéo : titre et artiste de la carte).
         const texteBloc = ((await bloc.textContent()) ?? "").replace(/\s+/g, " ");
         for (const morceau of titre.split(" · ")) expect(texteBloc, ancre).toContain(morceau);
@@ -266,13 +300,15 @@ test.describe("Parcours connecté (s26)", () => {
         expect(actives, `fiches actives après ${ancre}`).toEqual([ancre]);
         await expect(page.locator(`a[data-fiche='${ancre}'][aria-current='location']`).first()).toBeAttached();
         if (largeur >= 1024) {
-          // Menu collé au même haut que le bloc (D6 : au pixel).
+          // Menu collé au même haut que le bloc (D6 : au pixel ; tour 6, première rangée de vidéos : que son titre de section).
           const hautMenu = await hautStable(menu);
-          expect(Math.abs(hautMenu - haut), `menu ${hautMenu}, bloc ${haut}`).toBeLessThanOrEqual(1);
+          expect(Math.abs(hautMenu - (haut - marge + 9)), `menu ${hautMenu}, bloc ${haut}`).toBeLessThanOrEqual(1);
         } else {
           await page.locator("#etape-2").getByTestId("lignes-fiches").scrollIntoViewIfNeeded();
         }
       }
+      // Tour 6 : le repère est parti (1,5 s après le dernier clic).
+      await expect(page.locator("[data-fiche-reperee]")).toHaveCount(0, { timeout: 3_000 });
       // Sous-étapes sans soulignement au repos (D2) : pointeur hors de la liste, focus rendu au corps de page.
       await page.mouse.move(0, 0);
       await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
@@ -399,4 +435,122 @@ test.describe("Parcours connecté (s26)", () => {
     await expect(enTeteMenu).toHaveText("Étape 3 sur 3");
     await expect(page.locator("main")).not.toContainText("2 sur 3 étapes");
   });
+
+  // s26 parcours, tour 6 (relectures à l'aveugle v3 : design Parcours liste D1, D3 ; détail D2, D3, D5 ; UX D8, D11a).
+  for (const [largeur, hauteur] of [[768, 1024], [1024, 768], [1280, 900], [1920, 1080]] as const) {
+    test(`${largeur} : /parcours, grille fixe identique dans les 5 cartes, témoignage sur la ligne du bouton, vide ≤ 32 px`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      await page.goto("/parcours");
+      const cartes = page.locator("[data-parcours-cartes] > [id^='parcours-']");
+      await expect(cartes.first()).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      const mesures = await cartes.evaluateAll((cs) =>
+        cs.map((c) => {
+          const texte = c.querySelector<HTMLElement>("[data-parcours-texte]")!;
+          const [d, t] = Array.from(texte.children).map((e) => e.getBoundingClientRect());
+          const pied = c.querySelector<HTMLElement>("[data-parcours-pied]")!;
+          const bouton = (pied.lastElementChild as HTMLElement).getBoundingClientRect();
+          return {
+            id: c.id,
+            colonnes: getComputedStyle(texte).gridTemplateColumns,
+            xTemoignage: Math.round(t.left - c.getBoundingClientRect().left),
+            xBouton: Math.round(bouton.left - c.getBoundingClientRect().left),
+            vide: Math.round(Math.abs(d.bottom - t.bottom)),
+          };
+        }),
+      );
+      expect(mesures.length).toBe(5);
+      // Même grille (mêmes pistes) et même colonne de départ du témoignage dans les 5 cartes.
+      expect(new Set(mesures.map((m) => m.colonnes)).size, JSON.stringify(mesures)).toBe(1);
+      expect(new Set(mesures.map((m) => m.xTemoignage)).size, JSON.stringify(mesures)).toBe(1);
+      for (const m of mesures) {
+        // Dès 1024, pied en ligne sur la même grille : le témoignage commence au bord gauche du bouton.
+        if (largeur >= 1024) expect(Math.abs(m.xTemoignage - m.xBouton), `${m.id} : témoignage ${m.xTemoignage}, bouton ${m.xBouton}`).toBeLessThanOrEqual(1);
+        expect(m.vide, `${m.id} : vide sous la colonne courte`).toBeLessThanOrEqual(32);
+      }
+    });
+  }
+
+  for (const compte of ["visiteur", "gratuit"] as const) {
+    test(`375, ${compte} : un seul « Tester l'étape 1 » visible par parcours, celui du premier parcours dans le premier écran`, async ({ page }) => {
+      if (compte === "gratuit") {
+        const email = `e2e-pc-s26-g6-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}@example.com`;
+        await creerCompte(email, MOT_DE_PASSE, "FREE");
+        await connecter(page, email, MOT_DE_PASSE);
+      }
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/parcours");
+      await expect(page.getByTestId("tester-etape-1-mobile")).toBeInViewport();
+      const visibles = await page.evaluate(() =>
+        Array.from(document.querySelectorAll<HTMLElement>("main a, main button"))
+          .filter((e) => {
+            const r = e.getBoundingClientRect();
+            return /^Tester l’étape 1 de /.test(e.textContent?.trim() ?? "") && r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== "hidden";
+          })
+          .map((e) => (e.textContent ?? "").trim()),
+      );
+      expect(visibles.length, JSON.stringify(visibles)).toBeGreaterThanOrEqual(4);
+      expect(new Set(visibles).size, `boutons en double : ${JSON.stringify(visibles)}`).toBe(visibles.length);
+    });
+  }
+
+  for (const [largeur, hauteur] of [[1280, 900], [375, 812]] as const) {
+    test(`${largeur} : sous-étapes numérotées sans trou (menu et carte), menu immobile quand la sous-étape active change`, async ({ page }) => {
+      await abonne(page);
+      await valider(page, SLUG, [1]);
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      await page.goto(`/parcours/${SLUG}`);
+      const menu = page.locator("[data-menu-etapes]");
+      await expect(menu.locator("a[aria-current='step']")).toHaveAttribute("href", "#etape-2");
+      await page.evaluate(() => document.fonts.ready);
+      const numeros = (sel: string) =>
+        page.locator(sel).evaluateAll((as) => as.map((a) => (a.querySelector("span")?.textContent ?? "").trim()));
+      await expect(page.locator("[data-menu-etapes] [data-testid='lignes-fiches-menu'] a[data-fiche]").first()).toBeAttached();
+      await expect(page.locator("#etape-2 [data-testid='lignes-fiches'] a[data-fiche]").first()).toBeAttached();
+      const duMenu = await numeros("[data-menu-etapes] [data-testid='lignes-fiches-menu'] a[data-fiche]");
+      const deLaCarte = await numeros("#etape-2 [data-testid='lignes-fiches'] a[data-fiche]");
+      expect(duMenu.length, "sous-étapes de l'étape 2").toBeGreaterThanOrEqual(3);
+      expect(duMenu).toEqual(duMenu.map((_, i) => `2.${i + 1}`));
+      expect(deLaCarte).toEqual(duMenu);
+      if (largeur < 1024) return;
+      // 1280 : la ligne qui devient active garde sa hauteur, le menu ne bouge pas (0 px).
+      const lignes = menu.getByTestId("lignes-fiches-menu").locator("a[data-fiche]");
+      const hauteurs = () => lignes.evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
+      const hauteurMenu = () => menu.getByTestId("lignes-fiches-menu").evaluate((l) => Math.round(l.getBoundingClientRect().height));
+      const avant = { lignes: await hauteurs(), menu: await hauteurMenu() };
+      for (let i = 0; i < avant.lignes.length; i++) {
+        await lignes.nth(i).click();
+        await expect(lignes.nth(i)).toHaveAttribute("aria-current", "location");
+        expect(await hauteurs(), `après le clic sur la ligne ${i + 1}`).toEqual(avant.lignes);
+        expect(await hauteurMenu(), `menu après le clic sur la ligne ${i + 1}`).toBe(avant.menu);
+        const graisses = await lignes.evaluateAll((as) => Array.from(new Set(as.flatMap((a) => Array.from(a.querySelectorAll("span")).slice(0, 2).map((s) => getComputedStyle(s).fontWeight)))));
+        expect(graisses, "une seule graisse dans les sous-étapes").toEqual(["400"]);
+      }
+    });
+  }
+
+  for (const [largeur, hauteur] of [[375, 812], [1280, 900]] as const) {
+    test(`${largeur}, visiteur : quiz d'étape, aucune option cernée de violet à l'arrivée ni au survol`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      await page.goto(`/parcours/${SLUG}#etape-1`);
+      await expect(page.locator("#etape-1-entete")).toHaveAttribute("aria-expanded", "true");
+      const options = page.locator("#etape-1 [role='group'][aria-labelledby^='quiz-q-'] > button");
+      await options.first().scrollIntoViewIfNeeded();
+      await expect(options.first()).toBeVisible();
+      const violets = () =>
+        options.evaluateAll((bs) =>
+          bs
+            .map((b, i) => ({ i, c: getComputedStyle(b).borderTopColor }))
+            .filter(({ c }) => ["rgb(139, 92, 246)", "rgb(167, 139, 250)", "rgb(109, 40, 217)"].includes(c))
+            .map(({ i }) => i),
+        );
+      expect(await violets(), "options violettes à l'arrivée").toEqual([]);
+      const n = await options.count();
+      expect(n).toBeGreaterThanOrEqual(2);
+      for (let i = 0; i < n; i++) {
+        await options.nth(i).hover();
+        expect(await violets(), `options violettes au survol de l'option ${i + 1}`).toEqual([]);
+      }
+    });
+  }
 });

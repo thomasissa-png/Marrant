@@ -138,3 +138,36 @@ export function lireRetourListe(): string | null {
   const slug = (etat as Record<string, unknown>)[CLE_RETOUR_LISTE];
   return typeof slug === "string" && /^[a-z0-9-]{1,60}$/.test(slug) ? slug : null;
 }
+
+let repereEnCours: (() => void) | null = null;
+
+/**
+ * s26 parcours, tour 6 (D7 de la relecture UX v3 : à 1280, 2.3 et 2.4 donnaient le même écran sans repère) : pose
+ * `data-fiche-reperee` sur l'élément `id` pendant `dureeMs` (contour neutre, `parcours-step-card.tsx`) ; attend son rendu
+ * (étape qui s'ouvre) une soixantaine d'images au plus. Un seul repère à la fois. Renvoie la fonction d'arrêt.
+ */
+export function repererBloc(id: string, dureeMs = 1_500): () => void {
+  repereEnCours?.();
+  let el: HTMLElement | null = null;
+  let essais = 0;
+  let image = 0;
+  let minuterie: ReturnType<typeof setTimeout> | undefined;
+  const fin = () => {
+    cancelAnimationFrame(image);
+    clearTimeout(minuterie);
+    el?.removeAttribute("data-fiche-reperee");
+    if (repereEnCours === fin) repereEnCours = null;
+  };
+  const poser = () => {
+    el = document.getElementById(id);
+    if (!el) {
+      if (essais++ < 60) image = requestAnimationFrame(poser);
+      return;
+    }
+    el.setAttribute("data-fiche-reperee", "");
+    minuterie = setTimeout(fin, dureeMs);
+  };
+  repereEnCours = fin;
+  poser();
+  return fin;
+}

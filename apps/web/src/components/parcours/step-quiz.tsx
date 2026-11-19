@@ -145,6 +145,9 @@ export function StepQuiz({
           if (isCorrectOption) className += " border-success bg-success/10 text-success";
           else if (isWrongPick) className += " border-error bg-error/10 text-error-text";
           else if (showResult) className += " border-border bg-background-card text-text-muted";
+          // s26 parcours, tour 6 (D5 design, D11a UX v3 : option C cernée de violet sans clic, survol resté après un toucher) :
+          // espace ouvert, survol en bordure neutre ; aucune option violette avant la réponse. Fermé : inchangé.
+          else if (ESPACE_CLIENT_PUBLIE) className += " border-border bg-background-card hover:border-border-input hover:bg-background-elevated cursor-pointer";
           else className += " border-border bg-background-card hover:border-accent-primary hover:bg-background-elevated cursor-pointer";
           // Pastille en contour : un fond teinté ferait passer la lettre sous 4,5:1.
           const pastille = isCorrectOption

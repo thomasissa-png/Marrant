@@ -56,7 +56,7 @@ import { PiedEtape } from "@/components/espace/parcours/navigation-etapes";
 import { LienRetour } from "@/components/espace/lien-retour";
 import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
-import { lirePosition, noterPosition, recalerAncre, recalerPosition, type PositionParcours } from "@/lib/espace/recaler-ancre";
+import { lirePosition, noterPosition, recalerAncre, recalerPosition, repererBloc, type PositionParcours } from "@/lib/espace/recaler-ancre";
 import { AnnonceApresValidation } from "@/components/espace/parcours/annonce-apres-validation";
 
 export type { PathData, UserProgress } from "@/components/parcours/parcours-types";
@@ -563,7 +563,10 @@ export function ParcoursDetail({
     setFicheActive(ancre);
     window.history.replaceState(window.history.state, "", `#${ancre}`);
     const reduit = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    requestAnimationFrame(() => recalerAncre(ancre, { focusId: ancre, behavior: reduit ? "instant" : "smooth" }));
+    requestAnimationFrame(() => {
+      recalerAncre(ancre, { focusId: ancre, behavior: reduit ? "instant" : "smooth" });
+      repererBloc(ancre);
+    });
   };
   allerAFicheRef.current = allerAFiche;
   const ficheContexte = { active: ficheActive, choisir: allerAFiche };
@@ -805,11 +808,14 @@ export function ParcoursDetail({
   // ouvert, l'invitation au rappel (64 px sur deux lignes dans la carte de 5 colonnes) sort de la carte de progression ;
   // en-tête 7/5, elle ferme la colonne de gauche (qui gagne la hauteur que la carte perd), sinon elle suit la carte.
   // Mêmes textes, même lien. Fermé : dans la carte, inchangé.
+  // s26 parcours, tour 6 (D5 design v3 : interligne de ~32 px à 375, le lien `inline-flex` de 44 px gonflait sa ligne) :
+  // lien en ligne, interligne de la méta (14/20, `typo.ts`) ; cible de 44 px gardée par la marge interne verticale, qui ne
+  // compte pas dans la hauteur de ligne.
   const invitationRappel =
     ESPACE_CLIENT_PUBLIE && isPremium && carteProgression && !isPathCompleted && rappelInvite ? (
       <>
         {frTypoTexte(RAPPEL_LIEN.texte)}{" "}
-        <Link href="/profil#rappel-parcours" className="inline-flex min-h-11 items-center text-text-primary underline underline-offset-2">
+        <Link href="/profil#rappel-parcours" className="py-3.5 text-text-primary underline underline-offset-2">
           {frTypoTexte(RAPPEL_LIEN.lien)}
         </Link>
       </>
