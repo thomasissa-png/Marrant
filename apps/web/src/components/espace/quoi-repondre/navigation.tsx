@@ -86,12 +86,23 @@ export function OuvertureFiche() {
   const faits = useFaitsQuoiRepondre();
   const repere = useRef<HTMLSpanElement>(null);
   useEffect(() => {
-    if (!faits?.consommerFocus()) return;
-    const titre = document.getElementById("fiche-titre");
-    const haut = repere.current?.getBoundingClientRect().top ?? 0;
+    if (!faits) return;
     const large = window.matchMedia?.("(min-width: 1024px)").matches ?? false;
-    if (haut < (large ? HAUT_PANNEAU : 0)) window.scrollTo({ top: Math.max(0, window.scrollY + haut - HAUT_PANNEAU) });
-    titre?.focus({ preventScroll: true });
+    if (faits.consommerFocus()) {
+      const titre = document.getElementById("fiche-titre");
+      const haut = repere.current?.getBoundingClientRect().top ?? 0;
+      if (haut < (large ? HAUT_PANNEAU : 0)) window.scrollTo({ top: Math.max(0, window.scrollY + haut - HAUT_PANNEAU) });
+      titre?.focus({ preventScroll: true });
+      return;
+    }
+    // s26 liste et détail, tour 3 (mesures N1 : retour navigateur dès 1024, panneau rendu à la position quittée, haut
+    // du H1 à 37 px à 1024 et 115 à 1280, sous l'en-tête de 121 px) : la fiche montée par un retour du navigateur
+    // revient comme à l'ouverture, son haut à 144 px s'il est passé au-dessus. Le focus n'est pas déplacé (retour).
+    if (!faits.consommerRetour() || !large) return;
+    requestAnimationFrame(() => {
+      const haut = repere.current?.getBoundingClientRect().top;
+      if (haut !== undefined && haut < HAUT_PANNEAU) window.scrollTo({ top: Math.max(0, window.scrollY + haut - HAUT_PANNEAU) });
+    });
   }, [faits]);
   return <span ref={repere} aria-hidden="true" className="block h-0" />;
 }
@@ -124,6 +135,33 @@ export function RetourListe({ href, label }: { href: string; label: string }) {
 const liensVisibles = (racine: Document, href: string) =>
   Array.from(racine.querySelectorAll<HTMLAnchorElement>("[data-mode='page'] a[href]")).filter((a) => a.getAttribute("href") === href && a.offsetParent !== null);
 
+/** Bas de l'en-tête collant du site (0 s'il ne colle pas : fenêtre de moins de 500 px de haut). */
+const basEnTete = (racine: Document) =>
+  Math.max(0, ...Array.from(racine.querySelectorAll<HTMLElement>("header")).filter((h) => getComputedStyle(h).position === "sticky" && h.offsetParent !== null).map((h) => h.offsetHeight));
+
+/**
+ * s26 liste et détail, tour 3 (mesures N3 : à 768, retour à `scrollY` 206, « Voir » à y 108, à moitié sous l'en-tête de
+ * 121 px) : position de retour `top` corrigée pour qu'aucun lien ni bouton de la page liste ne soit coupé par le bas de
+ * l'en-tête. Le plus petit des deux déplacements : le montrer entier, 8 px sous l'en-tête, ou le passer entier dessous.
+ * Au plus une demi-ligne : la ligne cliquée reste dans l'écran.
+ */
+function sansLigneCoupee(racine: Document, top: number) {
+  const bord = basEnTete(racine);
+  if (bord === 0) return top;
+  const coupe = Array.from(racine.querySelectorAll<HTMLElement>("[data-mode='page'] a[href], [data-mode='page'] button, [data-mode='page'] summary"))
+    .filter((e) => e.offsetParent !== null)
+    .map((e) => {
+      const r = e.getBoundingClientRect();
+      return { haut: r.top + window.scrollY - top, bas: r.bottom + window.scrollY - top };
+    })
+    .find((e) => e.haut < bord && e.bas > bord);
+  if (!coupe) return top;
+  const montrer = top + coupe.haut - bord - 8;
+  const cacher = top + coupe.bas - bord;
+  const max = racine.documentElement.scrollHeight - window.innerHeight;
+  return Math.max(0, top - montrer < cacher - top || cacher > max ? montrer : cacher);
+}
+
 /**
  * Page liste (< 1024) : au clic sur une fiche, `scrollY` et l'adresse de la liste sont gardés (`sessionStorage`, clé
  * rubrique + filtres) avec l'adresse de la fiche ouverte (« Retour » = `router.back()`) ; au retour sur cette même
@@ -141,7 +179,8 @@ export function MemoireDefilementPage({ cle, children }: { cle: string; children
     // repli des filtres, prochaine action) ; `scrollY` brut seulement si le lien n'est plus affiché.
     const memes = href ? liensVisibles(document, href) : [];
     const cible = memes[Math.min(rang ?? 0, memes.length - 1)];
-    window.scrollTo({ top: cible && haut !== undefined ? window.scrollY + cible.getBoundingClientRect().top - haut : y });
+    const top = cible && haut !== undefined ? window.scrollY + cible.getBoundingClientRect().top - haut : y;
+    window.scrollTo({ top: sansLigneCoupee(document, top) });
     ecrire(cle, null);
   }, [cle]);
   return (

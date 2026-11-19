@@ -23,7 +23,17 @@ interface FaitsQuoiRepondre {
   /** Demande le focus au titre de la prochaine fiche ouverte (clic dans la liste), consommé par le panneau. */
   demanderFocus: () => void;
   consommerFocus: () => boolean;
+  /** Vrai une fois si la fiche montée arrive d'un retour (ou d'une avance) du navigateur, il y a moins de 2 s. */
+  consommerRetour: () => boolean;
 }
+
+/**
+ * s26 liste et détail, tour 3 (mesures N1 : retour navigateur dès 1024, haut du H1 à 37 px à 1024 et 115 à 1280, sous
+ * l'en-tête de 121 px) : heure du dernier `popstate`, notée au niveau du module (un retour depuis une autre page arrive
+ * avant le montage du fournisseur). Lue par `OuvertureFiche`.
+ */
+let dernierPopstate = 0;
+if (typeof window !== "undefined") window.addEventListener("popstate", () => (dernierPopstate = Date.now()));
 
 const Contexte = createContext<FaitsQuoiRepondre | null>(null);
 
@@ -38,6 +48,28 @@ export function FournisseurFaits({ versionServeur, children }: { versionServeur:
 
   // Les « Fait » du serveur ont changé (après `router.refresh()`) : ils font foi de nouveau.
   useEffect(() => setOptimistes({}), [versionServeur]);
+
+  // s26 liste et détail, tour 3 (N1) : dès 1024, le navigateur ne rend plus lui-même le défilement de la page au retour
+  // (`scrollRestoration` manuel, posé sur l'entrée courante, reprise par les entrées suivantes) : il animait la page vers
+  // la position quittée APRÈS `popstate` (mesuré : 9 -> 141 px en 200 ms à 1024), le haut de la fiche sous l'en-tête.
+  // `OuvertureFiche` ramène le panneau à 144 px. La liste garde son `scrollTop` (son propre conteneur, collant). Sous
+  // 1024, restauration automatique, complétée par `MemoireDefilementPage` comme avant. Au démontage, mode d'avant.
+  useEffect(() => {
+    const large = window.matchMedia?.("(min-width: 1024px)");
+    if (!large || !("scrollRestoration" in window.history)) return;
+    const avant = window.history.scrollRestoration;
+    const appliquer = () => {
+      window.history.scrollRestoration = large.matches ? "manual" : "auto";
+    };
+    appliquer();
+    large.addEventListener("change", appliquer);
+    window.addEventListener("popstate", appliquer);
+    return () => {
+      large.removeEventListener("change", appliquer);
+      window.removeEventListener("popstate", appliquer);
+      window.history.scrollRestoration = avant;
+    };
+  }, []);
 
   const marquer = useCallback(
     (id: string, fait: boolean, confirme: boolean) => {
@@ -65,6 +97,11 @@ export function FournisseurFaits({ versionServeur, children }: { versionServeur:
         const demande = focus.current;
         focus.current = false;
         return demande;
+      },
+      consommerRetour: () => {
+        const recent = Date.now() - dernierPopstate < 2000;
+        dernierPopstate = 0;
+        return recent;
       },
     }),
     [optimistes, marquer],

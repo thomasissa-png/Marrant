@@ -75,8 +75,14 @@ function ExtraitQuoiRepondre() {
     <div data-apercu-fiche="coloc-la-poele">
       {/* s26 liste et détail, tour 1 (spec UX §1) : clic sur une partie fermée, contour sur la carte d'offre. */}
       <SignalOffre />
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
-        <TuileFermee nette className="md:col-span-2 lg:col-span-8">
+      {/* s26 liste et détail, tour 3 (mesures N2 : vide de fin de la situation 159 px à 1280 et 1920, 115 à 1024) : les
+          deux tuiles ne s'étirent plus (`items-start`, `h-auto`), chacune finit 24 px sous son dernier bloc. Les deux
+          règles se contredisaient ici (même hauteur dans une rangée / aucun vide visible en fin de carte : situation
+          320 px, filtres 394 à 1024 et 438 dès 1280, texte fixe) : l'absence de vide prime (Thomas, 19/11). Écart des
+          bas rééquilibré : dès 1024, « Pour quoi faire ? » passe en rangée 2 (filtres 286 dès 1280, 34 px de moins que
+          la situation au lieu de 118 de plus) ; à 1024, 74 px (la colonne 4/12 de Thomas, 18/11, ne descend pas plus). */}
+      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
+        <TuileFermee nette className="h-auto md:col-span-2 lg:col-span-8">
           <div className={TUILE} data-apercu-situation>
             <p className={ETIQUETTE}>{F.types.situation}</p>
             <h2 className={cn("pr-8", TITRE_TUILE)}>{frEspace(s.titre)}</h2>
@@ -85,7 +91,7 @@ function ExtraitQuoiRepondre() {
             <RepliquesFermees registres={s.registres} />
           </div>
         </TuileFermee>
-        <TuileFermee className="md:col-span-2 lg:col-span-4">
+        <TuileFermee className="h-auto md:col-span-2 lg:col-span-4">
           <div className={TUILE} data-apercu-filtres>
             <p className={cn("pr-8", ETIQUETTE)}>{Q.filtreOu}</p>
             <ul className="mt-2 flex flex-wrap gap-2">
@@ -93,7 +99,7 @@ function ExtraitQuoiRepondre() {
                 <PastilleEffectif key={g.cle} libelle={frEspace(g.titre)} nombre={g.nombre} />
               ))}
             </ul>
-            <div className="lg:max-xl:hidden">
+            <div className="lg:hidden">
               <FiltresPour className="mt-6" />
             </div>
           </div>
@@ -106,23 +112,30 @@ function ExtraitQuoiRepondre() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
           {/* s26 (mission 2) : de 1024 à 1279, la colonne 4/12 (293 px à 1024) empilait les deux groupes de filtres et
               allongeait la rangée 1 à 618 px (vide sous la situation) ; « Pour quoi faire ? » passe ici, en tête de la
-              rangée 2, sur toute la largeur (une ligne de pastilles). Ailleurs, il reste sous « Où et avec qui ? ». */}
-          <TuileFermee className="hidden lg:col-span-12 lg:max-xl:block">
+              rangée 2, sur toute la largeur (une ligne de pastilles). Ailleurs, il reste sous « Où et avec qui ? ».
+              s26 liste et détail, tour 3 : dès 1024 (plus seulement jusqu'à 1279), voir la rangée 1. Titres fermés
+              (vide de fin 52 px à 768 et 1024 : un titre sur une ligne étiré à côté d'un titre sur deux) : chaque rangée
+              n'a que des titres d'un même nombre de lignes. 768 : « L'erreur que tout le monde fait » (289 px de texte,
+              266 de place en demi-largeur) passe sur toute la largeur, en dernier ; 1024 : 6/6 puis « Comment choisir »
+              sur toute la largeur (en 4/12, 211 px de place : deux titres sur deux lignes, un sur une) ; dès 1280, 4/4/4
+              (une ligne chacun). Extrait inerte et masqué aux lecteurs d'écran : l'ordre visuel ne change rien à la
+              lecture. */}
+          <TuileFermee className="hidden lg:col-span-12 lg:block">
             <div className={TUILE} data-apercu-filtres-pour>
               <FiltresPour />
             </div>
           </TuileFermee>
-          <TuileFermee className="lg:col-span-4">
+          <TuileFermee className="lg:col-span-6 xl:col-span-4">
             <div className={TUILE}>
               <TitreFerme titre={Q.pourQuoiFaire["rattraper-faux-pas"]} effectif={aPlat?.nombre} />
             </div>
           </TuileFermee>
-          <TuileFermee className="max-md:hidden lg:col-span-4">
+          <TuileFermee className="max-md:hidden md:col-span-2 md:max-lg:order-last lg:col-span-6 xl:col-span-4">
             <div className={TUILE}>
               <TitreFerme titre={F.erreur} />
             </div>
           </TuileFermee>
-          <TuileFermee className="max-md:hidden md:col-span-2 lg:col-span-4">
+          <TuileFermee className="max-md:hidden lg:col-span-12 xl:col-span-4">
             <div className={TUILE}>
               <TitreFerme titre={F.commentChoisir} />
             </div>
