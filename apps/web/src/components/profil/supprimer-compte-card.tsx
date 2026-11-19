@@ -115,7 +115,7 @@ export function SupprimerCompteCard({
             {T.ouvrir}
           </Button>
         ) : (
-          <form className="mt-4 flex flex-col gap-3" onSubmit={supprimer}>
+          <form className={ESPACE_CLIENT_PUBLIE ? "mt-4 flex flex-col gap-4" : "mt-4 flex flex-col gap-3"} onSubmit={supprimer}>
             <label htmlFor="confirmation-suppression" className="text-sm text-text-primary">
               {T.consigne}
             </label>
@@ -171,7 +171,11 @@ export function SupprimerCompteCard({
 
 function AvertissementAbonne({ fin, resilie }: { fin: string | null; resilie: boolean }) {
   return (
-    <div className="mt-3 rounded-lg border border-warning/40 bg-warning/10 p-3 text-sm text-text-primary" role="note">
+    // s26 finitions (relecture design tour 3, point 4), ouvert seulement : marge et marge intérieure au pas de 8 (12 -> 16 px).
+    <div
+      className={ESPACE_CLIENT_PUBLIE ? "mt-4 rounded-lg border border-warning/40 bg-warning/10 p-4 text-sm text-text-primary" : "mt-3 rounded-lg border border-warning/40 bg-warning/10 p-3 text-sm text-text-primary"}
+      role="note"
+    >
       <p>{resilie && fin ? T.avecAbonnementResilie(fin) : T.avecAbonnement(fin)}</p>
       <p className="mt-2">
         {T.retractationAvant}

@@ -24,6 +24,12 @@ export type EtatAbonnement = "impaye" | "resilie" | "actif" | "premium-sans-resu
 export const ANCRE_ABONNEMENT = "abonnement";
 
 /**
+ * s26 finitions (relecture design tour 3, « Mon profil »), ouvert seulement : texte courant en gris secondaire, comme les
+ * autres cartes de la colonne ; le blanc reste aux valeurs (formule, date de fin). Fermé : inchangé.
+ */
+const TEXTE_OUVERT = "text-sm text-text-secondary";
+
+/**
  * État affiché, à partir du plan (session) et du résumé base/Stripe.
  * Pendant le chargement du résumé (`undefined`), on affiche tout de suite
  * l'état déduit du plan ; l'impayé prend la main dès que le résumé arrive.
@@ -118,13 +124,13 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
 
         {(etat === "actif" || etat === "resilie" || etat === "premium-sans-resume" || etat === "premium-hors-stripe") && (
           <div>
-            <p className="text-sm text-text-primary">
+            <p className={ESPACE_CLIENT_PUBLIE ? TEXTE_OUVERT : "text-sm text-text-primary"}>
               Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres et les parcours complets.
             </p>
             {summary === undefined && (
               <div className="mt-3 h-4 w-1/2 animate-pulse rounded bg-background-elevated" aria-hidden="true" />
             )}
-            {summary && formuleLigne(summary) && <p className="mt-3 text-sm text-text-primary">{formuleLigne(summary)}</p>}
+            {summary && formuleLigne(summary) && <p className={ESPACE_CLIENT_PUBLIE ? "mt-3 text-sm font-semibold text-text-primary" : "mt-3 text-sm text-text-primary"}>{formuleLigne(summary)}</p>}
             {etat === "actif" && fin && <p className="mt-1 text-sm text-text-secondary">{T.prochainPrelevement(fin)}</p>}
             {etat === "resilie" && (
               <>
@@ -166,12 +172,12 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
           <>
             {/* Concision v5 (`PROFIL_ABONNEMENT_OFFRE`, config/textes/cta-pages.ts) : une phrase, le
                 plein `OUVRIR`, la REASS dessous. */}
-            <p className="mb-4 text-sm text-text-primary">{frTypo(OFFRE.phrase)}</p>
+            <p className={ESPACE_CLIENT_PUBLIE ? `mb-4 ${TEXTE_OUVERT}` : "mb-4 text-sm text-text-primary"}>{frTypo(OFFRE.phrase)}</p>
             <Button variant="primary" size="sm" className="h-auto min-h-11 w-full whitespace-normal py-2 sm:w-auto" onClick={onCheckout} disabled={isCheckoutLoading}>
               {isCheckoutLoading ? "On t’emmène au paiement…" : frTypo(OFFRE.bouton)}
             </Button>
             {/* v6 tour 1 (points 9 et 13), interrupteur ouvert : réassurance à gauche, comme la phrase et le bouton. */}
-            <Reassurance className={ESPACE_CLIENT_PUBLIE ? "text-left" : undefined} />
+            <Reassurance className={ESPACE_CLIENT_PUBLIE ? "text-left text-text-secondary" : undefined} />
           </>
         )}
       </CardContent>

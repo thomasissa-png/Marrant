@@ -15,6 +15,11 @@ interface ListPaginationProps {
    * Absent (liste rendue par le serveur seul, ex. pages thème) : lien classique.
    */
   onNavigate?: (page: number) => void;
+  /**
+   * s26 finitions (relecture design parcours/vannes tour 3, point 1) : cellules de 44 px de haut et de large dès 768 px
+   * aussi. Passé seulement par l'appel ouvert de /vannes (`ESPACE_CLIENT_PUBLIE`) ; absent : rendu d'avant, au caractère près.
+   */
+  cibles44?: boolean;
 }
 
 const GHOST_SM = buttonVariants({ variant: "ghost", size: "sm" });
@@ -31,6 +36,7 @@ const STEP_CELL = cn(
   COARSE,
 );
 const TAP = "touch-manipulation active:bg-background-elevated";
+const CIBLE_44 = "md:h-11 md:min-w-11";
 
 function StepContent({ direction }: { direction: "prev" | "next" }) {
   return (
@@ -56,8 +62,11 @@ function StepContent({ direction }: { direction: "prev" | "next" }) {
  * - Extrémité sans voisine : `<span aria-hidden>` de même taille (la grille ne bouge pas).
  * - Sous 768 px : grille à rangées égales (colonnes calculées au rendu serveur).
  */
-export function ListPagination({ basePath, page, totalPages, onNavigate }: ListPaginationProps) {
+export function ListPagination({ basePath, page, totalPages, onNavigate, cibles44 = false }: ListPaginationProps) {
   if (totalPages <= 1) return null;
+
+  const numberCell = cibles44 ? cn(NUMBER_CELL, CIBLE_44) : NUMBER_CELL;
+  const stepCell = cibles44 ? cn(STEP_CELL, CIBLE_44) : STEP_CELL;
 
   const items = paginationItems(page, totalPages);
   const { cols, colsXs } = paginationGridColumns(items.length + 2);
@@ -84,13 +93,13 @@ export function ListPagination({ basePath, page, totalPages, onNavigate }: ListP
         // Extrémité sans voisine : libellé grisé par la couleur (`text-muted`, environ 7:1 sur le
         // fond) et non par une opacité de 50 % qui faisait tomber « Précédent » sous 4,5:1
         // (axe color-contrast, smoke s21). Sous 768 px, chevron seul (libellé sr-only) : opacité gardée.
-        <span aria-hidden="true" className={cn(GHOST_SM, STEP_CELL, "pointer-events-none text-text-muted max-md:opacity-50")}>
+        <span aria-hidden="true" className={cn(GHOST_SM, stepCell, "pointer-events-none text-text-muted max-md:opacity-50")}>
           <StepContent direction={direction} />
         </span>
       );
     }
     const label = direction === "prev" ? `Page précédente (page ${target})` : `Page suivante (page ${target})`;
-    return link(target, <StepContent direction={direction} />, STEP_CELL, label);
+    return link(target, <StepContent direction={direction} />, stepCell, label);
   };
 
   const gridStyle = { "--cols": cols, "--cols-xs": colsXs } as CSSProperties;
@@ -110,7 +119,7 @@ export function ListPagination({ basePath, page, totalPages, onNavigate }: ListP
         {items.map((item, index) =>
           item === "ellipsis" ? (
             <li key={`ellipsis-${index}`} aria-hidden="true" className="flex">
-              <span className={cn("inline-flex h-8 items-center justify-center text-sm text-text-secondary", NUMBER_CELL)}>…</span>
+              <span className={cn("inline-flex h-8 items-center justify-center text-sm text-text-secondary", numberCell)}>…</span>
             </li>
           ) : (
             <li key={item} className="flex">
@@ -119,7 +128,7 @@ export function ListPagination({ basePath, page, totalPages, onNavigate }: ListP
                   aria-current="page"
                   className={cn(
                     GHOST_SM,
-                    NUMBER_CELL,
+                    numberCell,
                     "cursor-default bg-accent-secondary-hover font-semibold text-white hover:bg-accent-secondary-hover hover:text-white",
                   )}
                 >
@@ -128,7 +137,7 @@ export function ListPagination({ basePath, page, totalPages, onNavigate }: ListP
                   <span className="sr-only"> sur {totalPages}</span>
                 </span>
               ) : (
-                link(item, String(item), NUMBER_CELL, `Page ${item}`)
+                link(item, String(item), numberCell, `Page ${item}`)
               )}
             </li>
           ),

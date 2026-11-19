@@ -51,6 +51,18 @@ interface LettreInscriptionProps {
   className?: string;
 }
 
+/**
+ * s26 finitions (`docs/design/relectures/lettre-profil-s26-tour3-design.md` points 2 et 3), page /lettre ouverte
+ * seulement (`echelleEspace`) : contour `border-input` (#707070, 3:1 au moins sur la carte, l'ancien #2A2A2A faisait
+ * 1,15:1, WCAG 1.4.11), indication en gris secondaire (deux gris de texte), marges au pas de 8. Case sans marge haute :
+ * `mt-2` (demandé) la mettait 11 px sous le centre de la première ligne (5 px avec l'ancien `mt-0.5`), 0 la met à 2 px.
+ * Fermé : inchangé.
+ */
+const CHAMP_EMAIL_OUVERT =
+  "h-12 w-full rounded-lg border border-border-input bg-background-light px-4 text-base text-text-primary placeholder:text-text-secondary focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary";
+const CASE_OUVERTE =
+  "h-6 w-6 shrink-0 accent-accent-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary";
+
 const T = TEXTES_LETTRE.formulaire;
 const E = TEXTES_LETTRE.erreurs;
 
@@ -235,7 +247,7 @@ export function LettreInscription({
                 }}
                 aria-invalid={erreur === "email" || undefined}
                 aria-describedby={erreur === "email" ? `${id}-erreur-email` : undefined}
-                className="h-12 w-full rounded-lg border border-border bg-background-light px-3 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
+                className={echelleEspace ? CHAMP_EMAIL_OUVERT : "h-12 w-full rounded-lg border border-border bg-background-light px-3 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"}
               />
               {erreur === "email" && (
                 <p id={`${id}-erreur-email`} role="alert" className="mt-1 text-sm text-error-text">
@@ -246,7 +258,7 @@ export function LettreInscription({
             </div>
 
             <div>
-              <label className="flex min-h-11 cursor-pointer items-start gap-3 text-sm text-text-secondary">
+              <label className={echelleEspace ? "flex min-h-11 cursor-pointer items-start gap-4 text-sm text-text-secondary" : "flex min-h-11 cursor-pointer items-start gap-3 text-sm text-text-secondary"}>
                 <input
                   ref={caseRef}
                   type="checkbox"
@@ -260,7 +272,7 @@ export function LettreInscription({
                   }}
                   aria-invalid={erreur === "case" || undefined}
                   aria-describedby={erreur === "case" ? `${id}-erreur-case` : undefined}
-                  className="mt-0.5 h-6 w-6 shrink-0 accent-accent-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+                  className={echelleEspace ? CASE_OUVERTE : "mt-0.5 h-6 w-6 shrink-0 accent-accent-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"}
                 />
                 <span>{T.case}</span>
               </label>

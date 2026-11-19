@@ -425,6 +425,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           page={page}
           totalPages={totalPages}
           onNavigate={goToPage}
+          cibles44={ESPACE_CLIENT_PUBLIE}
         />
       )}
     </>

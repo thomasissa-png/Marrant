@@ -13,6 +13,17 @@ import { frTypo } from "@/lib/fr-typo";
 /** Lien couvrant toute la carte (pseudo-élément) : une seule cible, le titre reste le nom accessible. */
 const LIEN_ETIRE = "after:absolute after:inset-0 after:content-[''] focus-visible:outline-none";
 const ANNEAU = "focus-within:ring-2 focus-within:ring-accent-link";
+/** s26 finitions (relectures tour 3, design point 1, UX critère 2) : contenu à gauche, chevron à droite, centré en hauteur. */
+const LIGNE_CHEVRON = "flex-row items-center justify-between gap-4";
+
+/** Signe d'action de la carte (aucun texte, le titre reste le nom du lien). */
+function Chevron() {
+  return (
+    <svg aria-hidden="true" className="h-4 w-4 shrink-0 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  );
+}
 
 /**
  * « La lettre » vue par l'abonné actif à `/lettre` (décision de Thomas du 14/11) : même lecture, même compteur anonyme
@@ -45,22 +56,28 @@ export async function LettresAbonneCartes() {
         </div>
       ) : (
         <>
-          <div className={cn(CARTE_ACTION, "relative mt-8", ANNEAU)} data-lettre-derniere={derniere.numero}>
-            <h2 className={TITRE_CARTE}>
-              <Link href={hrefLettre(derniere.numero)} data-lettre={derniere.numero} className={LIEN_ETIRE}>
-                {frTypo(derniere.titre)}
-              </Link>
-            </h2>
-            <p className={cn("mt-2", TEXTE)}>{frTypo(derniere.objet)}</p>
+          <div className={cn(CARTE_ACTION, "relative mt-8", LIGNE_CHEVRON, ANNEAU)} data-lettre-derniere={derniere.numero}>
+            <div className="min-w-0">
+              <h2 className={TITRE_CARTE}>
+                <Link href={hrefLettre(derniere.numero)} data-lettre={derniere.numero} className={LIEN_ETIRE}>
+                  {frTypo(derniere.titre)}
+                </Link>
+              </h2>
+              <p className={cn("mt-2", TEXTE)}>{frTypo(derniere.objet)}</p>
+            </div>
+            <Chevron />
           </div>
           {precedentes.length > 0 && (
             <ul className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {precedentes.map((l) => (
-                <li key={l.numero} className={cn(CADRE_CARTE_NEUTRE, "min-h-11 p-6 transition-colors hover:border-border-hover [overflow-wrap:anywhere]", ANNEAU)}>
-                  <Link href={hrefLettre(l.numero)} data-lettre={l.numero} className={cn(TEXTE_FORT, LIEN_ETIRE)}>
-                    {frTypo(l.titre)}
-                  </Link>
-                  <p className={cn("mt-2", META)}>{frTypo(l.objet)}</p>
+                <li key={l.numero} className={cn(CADRE_CARTE_NEUTRE, "flex min-h-11 p-6 transition-colors hover:border-border-hover [overflow-wrap:anywhere]", LIGNE_CHEVRON, ANNEAU)}>
+                  <div className="min-w-0">
+                    <Link href={hrefLettre(l.numero)} data-lettre={l.numero} className={cn(TEXTE_FORT, LIEN_ETIRE)}>
+                      {frTypo(l.titre)}
+                    </Link>
+                    <p className={cn("mt-2", META)}>{frTypo(l.objet)}</p>
+                  </div>
+                  <Chevron />
                 </li>
               ))}
             </ul>
