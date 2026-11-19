@@ -55,11 +55,18 @@ export function SommaireParcours({
   // s26 parcours connecté, tour 2 (C3, en-tête 7/5 dès 1024 px) : lignes de 48 px (bouton de 44 + 4) au lieu de 68, et le
   // sommaire déplié remplit la carte étirée à la hauteur de la colonne de gauche (les lignes se partagent le surplus,
   // `::details-content` en colonne) : plus de vide en bas de carte ni de carte qui dépasse de 130 px.
+  // s26 parcours connecté, tour 3 :
+  // - replié, la liste est `display: none` (`[&:not([open])>ol]:hidden`). Le contenu d'un `details` fermé n'est que
+  //   `content-visibility: hidden` dans Chromium : boîtes calculées, « Reprendre » comptait comme visible à 375 px.
+  // - carte étirée d'un parcours court (Machine à Café, 3 étapes : 38 à 46 px de vide par ligne), le surplus se partage
+  //   entre les lignes (`flex-auto`) ET deux cales de liste (`before`/`after`, poids 0,8 : avec les 8 px de marge qui les
+  //   bordent, même vide que dans une ligne) : rythme régulier, aucun vide > 32 px, sans hauteur minimale. Carte non
+  //   étirée : cales et lignes sans surplus, rien ne change.
   return (
     <details
       ref={details}
       data-testid="sommaire-parcours"
-      className="group lg:flex lg:flex-1 lg:flex-col lg:[&::details-content]:flex lg:[&::details-content]:flex-1 lg:[&::details-content]:flex-col"
+      className="group [&:not([open])>ol]:hidden lg:flex lg:flex-1 lg:flex-col lg:[&::details-content]:flex lg:[&::details-content]:flex-1 lg:[&::details-content]:flex-col"
       onToggle={() => (touche.current ||= document.activeElement?.tagName === "SUMMARY")}
     >
       {/* Le résumé porte « n sur N étapes » et la barre : visibles replié comme déplié. */}
@@ -84,13 +91,13 @@ export function SommaireParcours({
         <span className="block h-full rounded-full bg-text-secondary" style={{ width: total > 0 ? `${(n / total) * 100}%` : "0%" }} />
       </span>
       </summary>
-      <ol className="mt-4 divide-y divide-border lg:mt-2 lg:flex lg:flex-1 lg:flex-col">
+      <ol className="mt-4 divide-y divide-border lg:mt-2 lg:flex lg:flex-1 lg:flex-col lg:before:flex-[0.8_1_auto] lg:before:content-[''] lg:after:flex-[0.8_1_auto] lg:after:content-['']">
         {etapes.map((e) => {
           const fait = faites.includes(e.order);
           const bouton = e.order === aReprendre ? (n === 0 ? P.sommaire.commencer : P.sommaire.reprendre) : P.sommaire.voir;
           const principal = e.order === aReprendre;
           return (
-            <li key={e.order} className="flex flex-wrap items-center gap-x-3 gap-y-2 py-3 max-e300:py-2 lg:flex-1 lg:py-0.5">
+            <li key={e.order} className="flex flex-wrap items-center gap-x-3 gap-y-2 py-3 max-e300:py-2 lg:flex-auto lg:py-0.5">
               <span className="text-base font-semibold tabular-nums text-text-secondary" aria-hidden="true">
                 {e.order}
               </span>
