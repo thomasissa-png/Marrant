@@ -24,9 +24,7 @@ export function AnnonceApresValidation({ validations }: { validations: number })
     };
   }, [validations]);
 
-  return (
-    <div className="mb-6 empty:hidden lg:col-span-8 lg:col-start-1">
-      <AnnonceCap annonce={annonce} retour={() => document.getElementById("sommaire-reprendre")} />
-    </div>
-  );
+  // s26 parcours v2 : dans la colonne de l'étape (`gap-6`), hors flux tant qu'elle est vide (`sr-only` : la région polie
+  // reste montée, sans creuser 24 px), carte de l'annonce sinon. L'enveloppe `mb-6 empty:hidden` ne se vidait jamais.
+  return <AnnonceCap annonce={annonce} retour={() => document.getElementById("sommaire-reprendre")} className="[&:not(:has(p))]:sr-only" />;
 }

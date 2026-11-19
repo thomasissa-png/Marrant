@@ -224,10 +224,13 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       await expect(sommaire).toContainText(P.sommaire.faites(2, 3));
       // s26 parcours connecté : test changé (raison : sous 1024 px, la liste du sommaire et son « Reprendre » sont repliés,
       // un seul « Reprendre » visible à 375 ; on déplie par le résumé, `docs/ux/parcours-connecte-s26.md` §4).
+      // s26 parcours v2 : test changé (raison : le sommaire devient le menu d'étapes, déplié par un bouton de bascule, une
+      // ligne-lien par étape et un seul bouton « Reprendre » en pied, `docs/design/parcours-connecte-v2-s26.md` §1).
       await expect(sommaire.getByRole("button", { name: P.sommaire.reprendre })).toBeHidden();
-      await sommaire.locator("summary").click();
-      await expect(sommaire.getByText(P.sommaire.fait, { exact: true })).toHaveCount(2);
-      await expect(sommaire.getByRole("button")).toHaveCount(3);
+      await sommaire.locator("[data-menu-bascule]").click();
+      await expect(sommaire.locator("[data-menu-etapes]").getByText(P.sommaire.fait, { exact: true })).toHaveCount(2);
+      await expect(sommaire.locator("a[data-ligne-etape]")).toHaveCount(3);
+      await expect(sommaire.locator("[data-menu-etapes]").getByRole("button")).toHaveCount(1);
       await sommaire.getByRole("button", { name: P.sommaire.reprendre }).click();
       await page.waitForTimeout(800);
       const fiches = page.getByTestId("lignes-fiches");

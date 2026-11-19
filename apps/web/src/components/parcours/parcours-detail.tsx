@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Card, CardContent, FILET_MASQUE } from "@/components/ui/card";
@@ -14,7 +14,7 @@ import { trackUmami } from "@/lib/umami";
 import { signalerAcces } from "@/lib/mesure/signal-acces";
 import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
-import { frTypoTexte } from "@/lib/fr-typo";
+import { frEspace, frTypoTexte } from "@/lib/fr-typo";
 import { canAccessParcoursStep, isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { buildRegisterUrl } from "@/lib/auth-links";
@@ -50,8 +50,12 @@ import { isParcoursSlug } from "@/lib/entrees-parcours";
 import { PathCompletionCard } from "@/components/parcours/path-completion-card";
 import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
-import { SommaireParcours } from "@/components/espace/parcours/sommaire-parcours";
-import { ListeEtapesVisiteur, PiedEtape } from "@/components/espace/parcours/navigation-etapes";
+import { MenuEtapes } from "@/components/espace/parcours/menu-etapes";
+import { LignesFiches } from "@/components/espace/parcours/lignes-fiches";
+import { PiedEtape } from "@/components/espace/parcours/navigation-etapes";
+import { LienRetour } from "@/components/espace/lien-retour";
+import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
+import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { lirePosition, noterPosition, recalerAncre, recalerPosition, type PositionParcours } from "@/lib/espace/recaler-ancre";
 import { AnnonceApresValidation } from "@/components/espace/parcours/annonce-apres-validation";
 
@@ -117,6 +121,11 @@ const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? clas
  * et bords violets (classes à barre oblique, hors de portée d'un sélecteur Tailwind) sont neutralisés dans les composants.
  */
 const ECHELLE_ETAPES = cn(ECHELLE_CARTES_PARTAGEES, "[&_.rounded-lg]:rounded-xl");
+/** s26 parcours v2 : haut d'une étape ouverte par ancre ou lien (128 px de `scroll-padding-top` + 9 de marge d'ancre). */
+const ANCRE_ETAPE = 137;
+const useLayoutEffectNavigateur = typeof window === "undefined" ? useEffect : useLayoutEffect;
+/** s26 parcours v2 : menu d'étapes et étape unique dès 1024 px (sans `matchMedia`, tests : étroit). */
+const estLarge = () => typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1024px)").matches;
 
 export function ParcoursDetail({
   slug,
@@ -169,6 +178,11 @@ export function ParcoursDetail({
   const positionARestaurer = useRef<PositionParcours | null>(null);
   const cacheApplique = useRef(false);
   const reessayerRef = useRef<HTMLButtonElement>(null);
+  // s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §2), espace ouvert : dès 1024 px, une seule étape visible,
+  // la dernière ouverte (gardée si on la replie) ; sous 1024, haut de l'en-tête cliqué noté avant l'ouverture, rendu après.
+  const [etapeVue, setEtapeVue] = useState<number | null>(null);
+  const enteteClique = useRef<{ order: number; top: number } | null>(null);
+  const allerAEtapeRef = useRef<((order: number) => void) | null>(null);
 
   const { status, data: session } = useSession();
   const storeUser = useUserStore((s) => s.user);
@@ -452,8 +466,37 @@ export function ParcoursDetail({
     document.getElementById(`etape-${target.suivante}-entete`)?.focus({ preventScroll: true });
   }, [progress, expandedStep]);
 
+  useEffect(() => {
+    if (ESPACE_CLIENT_PUBLIE && expandedStep !== null) setEtapeVue(expandedStep);
+  }, [expandedStep]);
+
+  // s26 parcours v2 (§2, sous 1024 px) : l'étape quittée se replie au-dessus de celle qu'on ouvre ; l'en-tête cliqué reste
+  // sous le doigt (même haut avant et après, sans animation), au lieu du saut de 440 px mesuré.
+  useLayoutEffectNavigateur(() => {
+    const note = enteteClique.current;
+    if (!note) return;
+    enteteClique.current = null;
+    const entete = document.getElementById(`etape-${note.order}-entete`);
+    if (entete) window.scrollBy({ top: entete.getBoundingClientRect().top - note.top, behavior: "instant" });
+  }, [expandedStep]);
+
+  // s26 parcours v2 (§2) : l'ouverture suit aussi l'ancre `#etape-N` qui change après l'arrivée.
+  useEffect(() => {
+    if (!ESPACE_CLIENT_PUBLIE) return;
+    const suivre = () => {
+      const m = window.location.hash.match(/^#etape-(\d{1,3})$/);
+      if (m) allerAEtapeRef.current?.(Number(m[1]));
+    };
+    window.addEventListener("hashchange", suivre);
+    return () => window.removeEventListener("hashchange", suivre);
+  }, []);
+
   const toggleStep = (order: number, isExpanded: boolean) => {
     openTrigger.current = "manuel";
+    if (ESPACE_CLIENT_PUBLIE && !estLarge()) {
+      const entete = document.getElementById(`etape-${order}-entete`);
+      if (entete) enteteClique.current = { order, top: entete.getBoundingClientRect().top };
+    }
     setExpandedStep(isExpanded ? null : order);
   };
 
@@ -466,6 +509,13 @@ export function ParcoursDetail({
       // s26 parcours connecté, tour 3 : ouvert, défilement gardé sur l'étape tant que la page change de hauteur (étape
       // quittée refermée au-dessus, contenu chargé) ; arrête le recalage d'arrivée encore actif (`recaler-ancre.ts`).
       if (ESPACE_CLIENT_PUBLIE) {
+        // s26 parcours v2 (§2) : dès 1024 px, l'étape choisie remplace la précédente à la même place ; défilement seulement
+        // si son haut est passé sous l'en-tête collant ou hors de l'écran, sinon focus seul (aucun saut).
+        const haut = document.getElementById(`etape-${order}`)?.getBoundingClientRect().top;
+        if (estLarge() && haut !== undefined && haut >= ANCRE_ETAPE - 2 && haut <= window.innerHeight - 120) {
+          document.getElementById(`etape-${order}-entete`)?.focus({ preventScroll: true });
+          return;
+        }
         recalerAncre(`etape-${order}`, { focusId: `etape-${order}-entete`, behavior: reduit ? "instant" : "smooth" });
         return;
       }
@@ -473,6 +523,8 @@ export function ParcoursDetail({
       document.getElementById(`etape-${order}-entete`)?.focus({ preventScroll: true });
     });
   };
+
+  allerAEtapeRef.current = allerAEtape;
 
   const handleCompleteStep = async (stepOrder: number) => {
     if (!path || !isPremium) {
@@ -543,6 +595,9 @@ export function ParcoursDetail({
         if (pathCompleted || !nextStep) {
           focusAfterValidation.current = "fin";
           setExpandedStep(null);
+        } else if (ESPACE_CLIENT_PUBLIE && estLarge()) {
+          // s26 parcours v2 (§2) : dès 1024 px, une seule étape visible ; l'étape validée reste affichée avec son gain
+          // (sinon remplacée aussitôt, le résultat ne se verrait pas) ; la suivante est au menu et au pied de l'étape.
         } else {
           focusAfterValidation.current = { validee: stepOrder, suivante: nextStep.order };
           setExpandedStep(nextStep.order);
@@ -662,10 +717,11 @@ export function ParcoursDetail({
   // Fermé : classes d'avant.
   const argumentaire = (
     <>
-      {/* s26 (§2) : argumentaire aligné à gauche, sans violet (persona en texte courant, témoignage en méta italique). */}
-      <p className={ESPACE_CLIENT_PUBLIE ? cn(TEXTE, "mt-4 max-w-2xl text-pretty") : "mt-4 text-pretty text-text-secondary"}>{frTypoTexte(stripEmDashes(path.description))}</p>
+      {/* s26 (§2) : argumentaire aligné à gauche, sans violet (persona en texte courant, témoignage en méta italique).
+          s26 parcours v2 (§1) : dans la carte d'en-tête, sur toute sa largeur, « Pour qui ? » sous un filet. */}
+      <p className={ESPACE_CLIENT_PUBLIE ? cn(TEXTE, "mt-4 text-pretty") : "mt-4 text-pretty text-text-secondary"}>{frTypoTexte(stripEmDashes(path.description))}</p>
       {(path.personaTagline || path.testimonial) && (
-        <section aria-labelledby="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? "mt-6 max-w-2xl" : "mt-4"}>
+        <section aria-labelledby="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? "mt-6 border-t border-border pt-6" : "mt-4"}>
           <h2 id="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? TEXTE_FORT : "font-display text-lg font-bold"}>{TITRES_SECTIONS.pourQui}</h2>
           {path.personaTagline && (
             <p className={ESPACE_CLIENT_PUBLIE ? cn(TEXTE, "mt-2 text-pretty") : "mt-2 text-pretty text-sm font-medium text-accent-link"}>{frTypoTexte(path.personaTagline)}</p>
@@ -678,6 +734,29 @@ export function ParcoursDetail({
         </section>
       )}
     </>
+  );
+
+  const titreParcours = (
+    <div className="flex items-center gap-3">
+      <span className={ouvert("font-display text-2xl font-semibold lg:text-3xl", "text-4xl")} aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
+      <div>
+        <h1 className={ouvert(TITRE_PAGE, "font-display text-3xl font-bold")}>{frTypoTexte(path.title)}</h1>
+        <div className={ESPACE_CLIENT_PUBLIE ? "mt-2 flex flex-wrap items-center gap-2" : "mt-1 flex flex-wrap items-center gap-2"}>
+          <Badge variant="primary" className={ouvert(cn(META_FORT, "rounded-none bg-transparent px-0 py-0"))}>{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
+          {/* s19 (N1 @ux rendu) : le rythme promis par le hub et la meta, repris dans l'en-tête ;
+              durée et rythme forment un seul bloc (jamais « · » seul en bout ou en début de ligne). */}
+          <span className={ouvert(cn(META, "whitespace-nowrap"), "whitespace-nowrap text-sm text-text-muted")}>
+            {path.duration}
+            {path.timePerWeek && (
+              <>
+                <span aria-hidden="true" className="mx-2">·</span>
+                {path.timePerWeek}
+              </>
+            )}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 
   // s26 parcours connecté, tour 2 (C3 : la carte du nouvel abonné dépassait la colonne de gauche de 127 à 147 px) : espace
@@ -694,6 +773,199 @@ export function ParcoursDetail({
       </>
     ) : null;
 
+  const rendreEtape = (step: Step, stepIndex: number, classeEtape?: (order: number) => string | undefined) => {
+    if (carteFinEtape1 && step.order === 2) return null;
+    const isCompleted = completedSteps.includes(step.order);
+    return (
+      <ParcoursStepCard
+        key={step.id}
+        classeOuverte={classeEtape?.(step.order)}
+        step={step}
+        slug={slug}
+        timePerWeek={path.timePerWeek}
+        isPremium={isPremium}
+        isCompleted={isCompleted}
+        isExpanded={expandedStep === step.order}
+        // D1 : le visiteur ouvre l'aperçu ; l'abonné ouvre toutes les étapes (décision du 18/10).
+        isPremiumLocked={!etapeAccessible(step.order)}
+        etapeSuivante={path.steps[stepIndex + 1] ?? null}
+        isQuizDone={quizDone.has(step.order)}
+        isSeedFallback={isSeedFallback}
+        completing={completing === step.order}
+        abonnementHref={abonnementHref}
+        finEtape1Href={finEtape1Href}
+        loadFailed={enrich === "echec"}
+        onRetryLoad={() => setReloadKey((k) => k + 1)}
+        reessayerRef={stepIndex === etapeEnEchec ? reessayerRef : undefined}
+        onToggle={() => toggleStep(step.order, expandedStep === step.order)}
+        onQuizComplete={(score, total) => {
+          setQuizDone((prev) => new Set(prev).add(step.order));
+          trackUmami("quiz-etape-termine", { parcours: slug, etape: step.order, score, total, statut });
+          postQuiet("quiz", { stepOrder: step.order });
+        }}
+        retour={retours[step.order] ?? null}
+        onRetour={(resultat) => {
+          setRetours((prev) => ({ ...prev, [step.order]: resultat }));
+          postQuiet("retour", { stepOrder: step.order, retour: resultat });
+        }}
+        onComplete={() => handleCompleteStep(step.order)}
+        erreurValidation={completionError?.order === step.order ? completionError.message : null}
+        resultat={stepResults[step.order] ?? null}
+        contexte={stepIndex === 0 ? etapeContexteTexte(path.title, path.duration) : null}
+        ancresFiches={espaceOuvert}
+        pied={
+          espaceOuvert && etapeAccessible(step.order) ? (
+            <PiedEtape
+              slug={slug}
+              suivante={
+                path.steps[stepIndex + 1]
+                  ? { order: path.steps[stepIndex + 1].order, titre: path.steps[stepIndex + 1].moduleTitle ?? path.steps[stepIndex + 1].tip.title }
+                  : null
+              }
+              allerAEtape={allerAEtape}
+            />
+          ) : undefined
+        }
+      />
+    );
+  };
+
+  /*
+   * s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §1 et §2, espace ouvert seulement, 4 comptes) : dès 1024 px,
+   * menu d'étapes collant à gauche (320 puis 360 px dès 1280, gouttière 24 puis 32) et, à droite, la carte d'en-tête puis UNE
+   * étape (celle du menu) : plus d'accordéon ni de saut. Le fil d'Ariane porte le retour. Sous 1024 px : « Retour : Parcours »
+   * en haut, carte d'en-tête, menu replié, étapes en accordéon (une seule ouverte, en-tête cliqué gardé sous le doigt).
+   * Fermé : rendu d'avant, plus bas, inchangé.
+   */
+  const renduOuvert = () => {
+    const etapeMenu = expandedStep ?? etapeVue;
+    const faites = completedSteps.length;
+    const aReprendre = isPremium && progressionConnue && !isPathCompleted ? etapeAFaire : null;
+    const avancee = !isPremium ? (
+      progressionVisiteurTexte()
+    ) : progressionConnue ? (
+      frEspace(TEXTES_PARCOURS_ESPACE.sommaire.faites(faites, totalSteps))
+    ) : (
+      <span aria-hidden="true" data-testid="progression-squelette" className="inline-block h-4 w-32 animate-pulse rounded bg-background-elevated motion-reduce:animate-none" />
+    );
+    const etapeActive = etapeMenu !== null ? path.steps.find((s) => s.order === etapeMenu) : undefined;
+    const argumentaireEnTete = !isPathCompleted && !argumentaireApresProgramme;
+    return (
+      <div className="flex flex-col gap-6 lg:col-span-12 lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[22.5rem_minmax(0,1fr)] xl:gap-x-8" data-parcours-detail="">
+        <div className="-mb-2 lg:col-span-2 lg:row-start-1">
+          <nav aria-label="Fil d’Ariane" className="text-sm text-text-muted max-lg:hidden">
+            <Link href="/" className="hover:text-text-primary">Accueil</Link>
+            <span className="mx-2">/</span>
+            <Link href="/parcours" className="hover:text-text-primary">Parcours</Link>
+            <span className="mx-2">/</span>
+            <span className="text-text-secondary">{frTypoTexte(path.title)}</span>
+          </nav>
+          <div className="lg:hidden">
+            <LienRetour href={`/parcours#parcours-${slug}`} label={TEXTES_ESPACE_NAVIGATION.parcours} />
+          </div>
+        </div>
+
+        <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-start-2 lg:row-start-2")} data-entete-parcours="">
+          {titreParcours}
+          {argumentaireEnTete && argumentaire}
+          {invitationRappel && <p className={cn(META, "mt-6 border-t border-border pt-6")}>{invitationRappel}</p>}
+        </div>
+
+        <div className="lg:col-start-1 lg:row-span-2 lg:row-start-2">
+          <MenuEtapes
+            slug={slug}
+            titre={path.title}
+            avancee={avancee}
+            etapes={path.steps.map((s) => ({ order: s.order, titre: s.moduleTitle ?? s.tip.title, libre: !isPremium && (!!s.free || s.order === 1) }))}
+            faites={completedSteps}
+            active={etapeMenu}
+            onChoisir={allerAEtape}
+            sousEtapes={
+              espaceOuvert && etapeActive && etapeAccessible(etapeActive.order) ? (
+                <LignesFiches slug={slug} etape={etapeActive} etapeFaite={completedSteps.includes(etapeActive.order)} variante="menu" />
+              ) : undefined
+            }
+            reprendre={
+              aReprendre
+                ? { order: aReprendre.order, libelle: frEspace(faites === 0 ? TEXTES_PARCOURS_ESPACE.sommaire.commencer : TEXTES_PARCOURS_ESPACE.sommaire.reprendre) }
+                : null
+            }
+            details={
+              isPremium && !isPathCompleted && !echecPremium && progressionConnue ? (
+                <>
+                  <p className={cn(META, "mt-2")}>{xpProgressionTexte(xpGagnesParcours(path.steps, completedSteps), totalXp)}</p>
+                  {showRythme && (
+                    <p className={cn(META, "mt-2")}>{nextDate ? prochaineEtapeTexte(formatDateConseillee(nextDate)) : PROCHAINE_ETAPE_DISPONIBLE}</p>
+                  )}
+                </>
+              ) : undefined
+            }
+          />
+        </div>
+
+        <div className="flex min-w-0 flex-col gap-6 lg:col-start-2 lg:row-start-3" aria-busy={chargementPremium || undefined}>
+          {chargementPremium && <p role="status" className={META}>{CHARGEMENT_PREMIUM.enCours}</p>}
+          {echecPremium && etapeEnEchec >= 0 && (
+            <p className={META} data-testid="echec-premium-neutre">
+              {CHARGEMENT_PREMIUM.echecTexte}
+            </p>
+          )}
+          {echecPremium && etapeEnEchec < 0 && (
+            <div role="alert" className="rounded-xl border-l-2 border-error-text bg-error/10 p-4 text-sm text-error-text">
+              <p className="font-semibold">{CHARGEMENT_PREMIUM.echec}</p>
+              <p className="mt-1">{CHARGEMENT_PREMIUM.echecTexte}</p>
+              <Button ref={reessayerRef} variant="outline" className="mt-3 min-h-11 w-full border-text-muted hover:border-text-primary sm:w-auto" onClick={() => setReloadKey((k) => k + 1)}>
+                {CHARGEMENT_PREMIUM.reessayer}
+              </Button>
+            </div>
+          )}
+          {espaceOuvert && <AnnonceApresValidation validations={validationsEspace} />}
+          {isPathCompleted && (
+            <PathCompletionCard
+              ref={completionHeading}
+              className="mb-0 rounded-xl border-border bg-background-card"
+              slug={slug}
+              title={path.title}
+              totalXp={totalXp}
+              stepTitles={path.steps.map((s) => s.moduleTitle ?? s.tip.title)}
+              retours={retours}
+              nextParcours={path.nextParcours}
+              nextParcoursReason={path.nextParcoursReason}
+              nextParcoursRanking={path.nextParcoursRanking}
+            />
+          )}
+          <section aria-labelledby="parcours-programme">
+            <h2 id="parcours-programme" className={cn(TITRE_CARTE, "mb-4 lg:sr-only")}>
+              {TITRES_SECTIONS.programme}
+            </h2>
+            <div className={cn("space-y-4 [overflow-anchor:none] lg:space-y-0", ECHELLE_ETAPES)} role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
+              {path.steps.map((step, stepIndex) => rendreEtape(step, stepIndex, (order) => (order === etapeMenu ? undefined : "lg:hidden")))}
+            </div>
+          </section>
+          {carteFinEtape1 && <LettreRepliee emplacement="parcours" slug={slug} ligne={FIN_ETAPE_1.lettre.ligne} />}
+          {!argumentaireEnTete && <div className={cn(CADRE_CARTE_NEUTRE, "p-6 [&>p:first-child]:mt-0")}>{argumentaire}</div>}
+          {!isPathCompleted && !isPremium && path.nextParcours && (
+            <div className={cn(CADRE_CARTE_NEUTRE, "p-6")}>
+              <p className={META}>
+                Tu y prends goût ?{" "}
+                <Link href={`/parcours/${path.nextParcours}?src=suite`} className="text-text-primary underline underline-offset-2 hover:text-text-secondary">
+                  Jette un œil au parcours suivant
+                </Link>
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Zone d'annonce permanente du gain d'XP (UX-05, UX-09 c) : hors flux (`sr-only`), elle ne se démonte pas. */}
+        <div aria-live="polite" aria-atomic="true" className="sr-only">
+          {annonce}
+        </div>
+      </div>
+    );
+  };
+
+  if (ESPACE_CLIENT_PUBLIE) return renduOuvert();
+
   return (
     <>
       <div className={ouvert(cn("mb-8", enTete75 ? EN_TETE_GAUCHE : COLONNE_DETAIL), "mb-8")}>
@@ -709,26 +981,7 @@ export function ParcoursDetail({
             rythme) ; le fil d'Ariane et l'argumentaire gardent leur alignement. Fermé : inchangé. */}
         {/* s26 (§2) : en-tête aligné à gauche, titre blanc `TITRE_PAGE`, icône à la taille du titre, niveau en méta forte
             sans fond. */}
-        <div className="flex items-center gap-3">
-          <span className={ouvert("font-display text-2xl font-semibold lg:text-3xl", "text-4xl")} aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
-          <div>
-            <h1 className={ouvert(TITRE_PAGE, "font-display text-3xl font-bold")}>{frTypoTexte(path.title)}</h1>
-            <div className={ESPACE_CLIENT_PUBLIE ? "mt-2 flex flex-wrap items-center gap-2" : "mt-1 flex flex-wrap items-center gap-2"}>
-              <Badge variant="primary" className={ouvert(cn(META_FORT, "rounded-none bg-transparent px-0 py-0"))}>{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
-              {/* s19 (N1 @ux rendu) : le rythme promis par le hub et la meta, repris dans l'en-tête ;
-                  durée et rythme forment un seul bloc (jamais « · » seul en bout ou en début de ligne). */}
-              <span className={ouvert(cn(META, "whitespace-nowrap"), "whitespace-nowrap text-sm text-text-muted")}>
-                {path.duration}
-                {path.timePerWeek && (
-                  <>
-                    <span aria-hidden="true" className="mx-2">·</span>
-                    {path.timePerWeek}
-                  </>
-                )}
-              </span>
-            </div>
-          </div>
-        </div>
+        {titreParcours}
         {!isPathCompleted && !argumentaireApresProgramme && argumentaire}
         {/* s26 tour 2 : en-tête 7/5, l'invitation au rappel ferme la colonne de gauche (voir `invitationRappel`). */}
         {invitationRappel && enTete75 && <p className={cn(META, "mt-4")}>{invitationRappel}</p>}
@@ -749,14 +1002,7 @@ export function ParcoursDetail({
             <>
               {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16).
                   s17 tour 2 : progression inconnue = squelette, jamais « 0/N » par défaut. */}
-              {progressionConnue && espaceOuvert ? (
-                // s24 lot D4 : espace ouvert, abonné : barre globale, « n sur N étapes », liste numérotée.
-                <SommaireParcours
-                  etapes={path.steps.map((s) => ({ order: s.order, titre: s.moduleTitle ?? s.tip.title }))}
-                  faites={completedSteps}
-                  onOuvrir={allerAEtape}
-                />
-              ) : progressionConnue ? (
+              {progressionConnue ? (
                 <ProgressBar
                   label={isPathCompleted ? "Parcours terminé !" : `${completedSteps.length}/${totalSteps} étapes complétées`}
                   value={completedSteps.length}
@@ -848,13 +1094,6 @@ export function ParcoursDetail({
                 </p>
               )}
             </>
-          ) : ESPACE_CLIENT_PUBLIE ? (
-            // s26 parcours connecté (§3) : visiteur et compte gratuit, liste des étapes en liens d'ancre (aucun bouton).
-            <ListeEtapesVisiteur
-              slug={slug}
-              etapes={path.steps.map((s) => ({ order: s.order, titre: s.moduleTitle ?? s.tip.title, libre: !!s.free || s.order === 1 }))}
-              allerAEtape={allerAEtape}
-            />
           ) : (
             // QA-13 : pas de barre immobile pour un non-abonné.
             <p className="text-sm text-text-secondary">{progressionVisiteurTexte()}</p>
@@ -893,61 +1132,7 @@ export function ParcoursDetail({
       {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
       <h2 className={ESPACE_CLIENT_PUBLIE ? cn(TITRE_CARTE, "mb-4", COLONNE_DETAIL) : "mb-4 font-display text-xl font-bold"}>{TITRES_SECTIONS.programme}</h2>
       <div className={ouvert(cn("space-y-4", COLONNE_DETAIL, ECHELLE_ETAPES), "space-y-4")} role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
-        {path.steps.map((step, stepIndex) => {
-          if (carteFinEtape1 && step.order === 2) return null;
-          const isCompleted = completedSteps.includes(step.order);
-          return (
-            <ParcoursStepCard
-              key={step.id}
-              step={step}
-              slug={slug}
-              timePerWeek={path.timePerWeek}
-              isPremium={isPremium}
-              isCompleted={isCompleted}
-              isExpanded={expandedStep === step.order}
-              // D1 : le visiteur ouvre l'aperçu ; l'abonné ouvre toutes les étapes (décision du 18/10).
-              isPremiumLocked={!etapeAccessible(step.order)}
-              etapeSuivante={path.steps[stepIndex + 1] ?? null}
-              isQuizDone={quizDone.has(step.order)}
-              isSeedFallback={isSeedFallback}
-              completing={completing === step.order}
-              abonnementHref={abonnementHref}
-              finEtape1Href={finEtape1Href}
-              loadFailed={enrich === "echec"}
-              onRetryLoad={() => setReloadKey((k) => k + 1)}
-              reessayerRef={stepIndex === etapeEnEchec ? reessayerRef : undefined}
-              onToggle={() => toggleStep(step.order, expandedStep === step.order)}
-              onQuizComplete={(score, total) => {
-                setQuizDone((prev) => new Set(prev).add(step.order));
-                trackUmami("quiz-etape-termine", { parcours: slug, etape: step.order, score, total, statut });
-                postQuiet("quiz", { stepOrder: step.order });
-              }}
-              retour={retours[step.order] ?? null}
-              onRetour={(resultat) => {
-                setRetours((prev) => ({ ...prev, [step.order]: resultat }));
-                postQuiet("retour", { stepOrder: step.order, retour: resultat });
-              }}
-              onComplete={() => handleCompleteStep(step.order)}
-              erreurValidation={completionError?.order === step.order ? completionError.message : null}
-              resultat={stepResults[step.order] ?? null}
-              contexte={stepIndex === 0 ? etapeContexteTexte(path.title, path.duration) : null}
-              ancresFiches={espaceOuvert}
-              pied={
-                espaceOuvert && etapeAccessible(step.order) ? (
-                  <PiedEtape
-                    slug={slug}
-                    suivante={
-                      path.steps[stepIndex + 1]
-                        ? { order: path.steps[stepIndex + 1].order, titre: path.steps[stepIndex + 1].moduleTitle ?? path.steps[stepIndex + 1].tip.title }
-                        : null
-                    }
-                    allerAEtape={allerAEtape}
-                  />
-                ) : undefined
-              }
-            />
-          );
-        })}
+        {path.steps.map((step, stepIndex) => rendreEtape(step, stepIndex))}
       </div>
 
       {/* Finition du tour 3 (T3) : la lettre gratuite sous la liste des étapes, loin du bouton payant. */}

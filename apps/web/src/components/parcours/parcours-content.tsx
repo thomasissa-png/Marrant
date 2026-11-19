@@ -5,6 +5,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import { Card, CardContent, CardHeader, CardTitle, FILET_MASQUE } from "@/components/ui/card";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
+import { BarreSegmentee } from "@/components/espace/parcours/barre-segmentee";
 import { META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -346,9 +347,14 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
 
   // L'étape 1 se lit sans compte : « Commencer ce parcours » mène au parcours
   // pour tout le monde (s15 §2.7, avant : /register pour un visiteur).
-  const handleCta = (slug: string) => {
-    router.push(`/parcours/${slug}?src=hub`);
+  // s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §6) : espace ouvert, « Tester l'étape 1 » mène sur
+  // l'étape 1 (`#etape-1`, ouverte à l'arrivée) au lieu du haut de la page du parcours. Fermé : inchangé.
+  const handleCta = (slug: string, etape1 = false) => {
+    router.push(`/parcours/${slug}?src=hub${ESPACE_CLIENT_PUBLIE && etape1 ? "#etape-1" : ""}`);
   };
+  // s26 parcours v2 (§6) : visiteur et compte gratuit sous 768 px, le bouton « Tester l'étape 1 » du premier parcours
+  // remonte dans le premier écran (sous l'introduction, avant les cartes), en contour comme celui de la carte.
+  const premierEtape1 = ESPACE_CLIENT_PUBLIE && statut !== "premium" ? parcours.find((p) => isParcoursSlug(p.slug)) : undefined;
 
   return (
     <>
@@ -381,6 +387,16 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
             )}
           </p>
         </div>
+      )}
+
+      {premierEtape1 && isParcoursSlug(premierEtape1.slug) && (
+        <Link
+          href={`/parcours/${premierEtape1.slug}?src=hub#etape-1`}
+          data-testid="tester-etape-1-mobile"
+          className={cn(buttonVariants({ variant: "outline", size: "lg" }), "mb-8 h-auto min-h-12 w-full whitespace-normal py-2 md:hidden", CONTOUR_CARTE)}
+        >
+          {LISTE_PARCOURS_CTA.bouton(premierEtape1.slug)}
+        </Link>
       )}
 
       {!parcoursEntame && quizOrientation}
@@ -420,20 +436,24 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
               id={`parcours-${p.slug}`}
               filet={ESPACE_CLIENT_PUBLIE}
             >
-              <CardHeader className={o("space-y-0 pb-0", "pb-2")}>
+              {/* s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §7) : `space-y-2` au lieu de `space-y-0`, qui
+                  annulait les `mt-2` du titre et de la phrase (titre collé à sa phrase) : méta-titre 8 px, titre-texte 8 px. */}
+              <CardHeader className={o("space-y-2 pb-0", "pb-2")}>
                 {/* s26 tour 3 (point 2, ouvert seulement) : plus aucun « · » (ni en fin ni en début de ligne), les items sont
                     séparés par l'espace seul (`gap-x-4`). Fermé : les spans d'avant. */}
                 {/* s26 tour 2 (200 % de texte, 188 x 406) : sous 300 px, lignes de la méta jointives ; niveau sur plusieurs
                     lignes si besoin (« Débutant → Intermédiaire » débordait de 29 px à 188). */}
-                <div className={o(cn("flex min-h-6 flex-wrap items-center gap-x-4 gap-y-1 max-e300:gap-y-0", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
+                {/* s26 parcours v2 (§7) : items en `whitespace-nowrap` (« 325 XP à gagner » ne s'orpheline plus), lignes
+                    jointives. */}
+                <div className={o(cn("flex min-h-6 flex-wrap items-center gap-x-4 gap-y-0", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
                   <Badge variant="primary" className={o(cn(META_FORT, "min-w-0 shrink whitespace-normal rounded-none bg-transparent px-0 py-0"))}>{p.difficulty}</Badge>
-                  <span className="text-sm text-text-secondary">
+                  <span className={o("whitespace-nowrap text-sm text-text-secondary", "text-sm text-text-secondary")}>
                     {p.duration}
                   </span>
                   {!ESPACE_CLIENT_PUBLIE && <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>}
-                  <span className={o(META, "text-sm text-text-muted")}>{p.timePerWeek}</span>
+                  <span className={o(cn(META, "whitespace-nowrap"), "text-sm text-text-muted")}>{p.timePerWeek}</span>
                   {!ESPACE_CLIENT_PUBLIE && <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>}
-                  <span className={o(META, "text-sm text-text-muted")}>{totalXp} XP à gagner</span>
+                  <span className={o(cn(META, "whitespace-nowrap"), "text-sm text-text-muted")}>{totalXp} XP à gagner</span>
                   {isDone && <Badge variant="success" className={o(cn(PASTILLE, "font-normal text-success"))}>{LISTE_PARCOURS.termine}</Badge>}
                 </div>
                 <CardTitle className={o(cn(TITRE_CARTE, "mt-2"), "mt-3 text-2xl")}>
@@ -467,12 +487,27 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   <div className={o("mt-4", "mb-6")}>
                     {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). s26 : en tête de carte,
                         remplissage gris clair sur rail visible (comme `BarreProgression`), aucun violet. */}
+                    {/* s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §4, piste 4) : même barre segmentée que la
+                        carte « En cours » (étape à reprendre cernée ; pas entamé : tous les segments « à venir »). */}
+                    {ESPACE_CLIENT_PUBLIE ? (
+                      <div className="tabular-nums">
+                        <p id={`parcours-avancee-${p.slug}`} className={cn(META, "mb-2")}>{`${progressValue}/${progressMax} étapes`}</p>
+                        <BarreSegmentee
+                          faites={progressValue}
+                          total={progressMax}
+                          enCours={progressValue > 0 && !isDone ? (prog?.nextStep ?? null) : null}
+                          texte={`${progressValue}/${progressMax} étapes`}
+                          labelledBy={`parcours-avancee-${p.slug}`}
+                        />
+                      </div>
+                    ) : (
                     <ProgressBar
                       label={`${progressValue}/${progressMax} étapes`}
                       value={progressValue}
                       max={progressMax}
                       className={o("tabular-nums [&_[role=progressbar]>div]:bg-none [&_[role=progressbar]>div]:bg-text-secondary [&_[role=progressbar]]:bg-border-hover [&_span]:text-text-secondary")}
                     />
+                    )}
                     {/* s26 tour 2 (P2) : ouvert, « XP à gagner » une seule fois par carte (déjà dans la méta). */}
                     {!ESPACE_CLIENT_PUBLIE && <p className="mt-2 text-right text-xs text-text-muted">{totalXp} XP à gagner</p>}
                   </div>
@@ -484,7 +519,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 <PiedCarte
                   // s26 tour 2 : 16 px au-dessus dès 768 px, les colonnes équilibrées gardant jusqu'à 16 px de jeu sous leur
                   // texte (marge du témoignage) : 32 px au plus entre le texte et « Programme ».
-                  className={o(cn("mt-6 flex flex-col gap-4 md:mt-4", zones && "lg:flex-row lg:items-start lg:gap-6"))}
+                  className={o(cn("mt-6 flex flex-col gap-4", zones && "lg:flex-row lg:items-start lg:gap-6"))}
                 >
                 {/* Programme replié par défaut (T24) */}
                 <details
@@ -560,7 +595,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                     variant={ESPACE_CLIENT_PUBLIE ? "outline" : "primary"}
                     size="lg"
                     className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", ESPACE_CLIENT_PUBLIE ? CONTOUR_CARTE : CORPS_APPEL_MOBILE, zones && "lg:w-full")}
-                    onClick={() => handleCta(p.slug)}
+                    onClick={() => handleCta(p.slug, etape1Slug !== null)}
                   >
                     {etape1Slug
                       ? LISTE_PARCOURS_CTA.bouton(etape1Slug)

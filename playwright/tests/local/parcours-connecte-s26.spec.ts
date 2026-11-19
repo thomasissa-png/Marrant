@@ -9,7 +9,11 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
  *   137 ± 2 px du haut de la fenêtre ; étape suivante en 1 clic (même mesure) ; « Retour : Parcours » ramène sur la
  *   carte `#parcours-{slug}` de /parcours, visible.
  * - Mesure (1280 et 1920) : aucune colonne ni carte avec un vide de plus de 32 px en bas (cartes de parcours, carte
- *   « En cours », « Explore aussi », en-tête 7/5 du parcours).
+ *   « En cours », « Explore aussi »).
+ * - s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §1, §2, §6) : menu d'étapes collant dès 1024 (même haut que
+ *   la carte d'en-tête, une seule étape visible, menu toujours à 144 px après un clic d'étape) ; à 375, l'en-tête d'étape
+ *   cliqué ne saute pas (8 px au plus) ; visiteur et gratuit à 375, « Tester l'étape 1 » dans le premier écran, puis
+ *   l'étape 1 ouverte à l'arrivée.
  */
 const MOT_DE_PASSE = "E2e-parcours-connecte-s26";
 const SLUG = "machine-a-cafe";
@@ -123,15 +127,19 @@ test.describe("Parcours connecté (s26)", () => {
       await expect(visiteur.locator("[data-parcours-cartes] > [id^='parcours-']").first()).toBeVisible();
       await visiteur.evaluate(() => document.fonts.ready);
       expect(await videsEnBas(visiteur, blocsListe), "/parcours visiteur").toEqual([]);
+      // s26 parcours v2 : test changé (raison : plus d'en-tête 7/5 ni de carte de progression à droite ; menu d'étapes à
+      // gauche, 360 px et 32 px de gouttière dès 1280, haut du menu = haut de la carte d'en-tête, §8 lignes 1 et 2).
       await visiteur.goto(`/parcours/${SLUG}`);
-      await expect(visiteur.getByTestId("liste-etapes-visiteur")).toBeVisible();
-      const gaucheV = await visiteur.locator("main nav[aria-label='Fil d’Ariane']").evaluate((n) => {
-        const g = n.parentElement as HTMLElement;
-        const d = document.querySelector("[data-testid='liste-etapes-visiteur']")?.closest("[class*='lg:col-start-8']") as HTMLElement;
-        const bas = (e: Element) => Array.from(e.querySelectorAll("*")).reduce((b, x) => (x.getClientRects().length ? Math.max(b, x.getBoundingClientRect().bottom) : b), 0);
-        return { gauche: bas(g), droite: d.getBoundingClientRect().bottom - parseFloat(getComputedStyle(d).paddingBottom), contenuDroite: bas(d) };
+      const menuV = visiteur.locator("[data-menu-etapes]");
+      await expect(menuV).toBeVisible();
+      const mesureV = await menuV.evaluate((m) => {
+        const r = m.getBoundingClientRect();
+        const e = document.querySelector("[data-entete-parcours]")?.getBoundingClientRect();
+        return { largeur: Math.round(r.width), haut: Math.round(r.top), hautEntete: Math.round(e?.top ?? -1), gouttiere: Math.round((e?.left ?? 0) - r.right) };
       });
-      expect(Math.abs(gaucheV.gauche - gaucheV.droite) <= 32 || Math.abs(gaucheV.gauche - gaucheV.contenuDroite) <= 32, `en-tête 7/5 visiteur ${JSON.stringify(gaucheV)}`).toBe(true);
+      expect(mesureV.largeur, JSON.stringify(mesureV)).toBe(360);
+      expect(mesureV.gouttiere, JSON.stringify(mesureV)).toBe(32);
+      expect(Math.abs(mesureV.haut - mesureV.hautEntete), JSON.stringify(mesureV)).toBeLessThanOrEqual(2);
       await visiteur.close();
 
       // Abonné avancé.
@@ -151,6 +159,72 @@ test.describe("Parcours connecté (s26)", () => {
         if (rangees[i].haut !== rangees[i + 1].haut) continue;
         expect(Math.abs(rangees[i].bas - rangees[i + 1].bas), `bas des cartes ${i} et ${i + 1}`).toBeLessThanOrEqual(1);
       }
+    });
+  }
+
+  // s26 parcours v2 (§1, §2) : menu d'étapes persistant dès 1024.
+  for (const [largeur, hauteur] of [[1024, 768], [1280, 900]] as const) {
+    test(`${largeur} : menu d'étapes visible et collant après clic sur une étape, une seule étape visible`, async ({ page }) => {
+      await abonne(page);
+      await valider(page, SLUG, [1]);
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      await page.goto(`/parcours/${SLUG}`);
+      const menu = page.locator("[data-menu-etapes]");
+      await expect(menu).toBeVisible();
+      await expect(menu.locator("a[aria-current='step']")).toHaveAttribute("href", "#etape-2");
+      await menu.locator("a[href='#etape-3']").click();
+      await expect(page.locator("#etape-3-entete")).toHaveAttribute("aria-expanded", "true");
+      await expect(menu.locator("a[aria-current='step']")).toHaveAttribute("href", "#etape-3");
+      const etapesVisibles = await page.locator("[role='list'][aria-label='Étapes du parcours'] > [id^='etape-']").evaluateAll((cs) => cs.filter((c) => c.getBoundingClientRect().height > 0).map((c) => c.id));
+      expect(etapesVisibles).toEqual(["etape-3"]);
+      await page.evaluate(() => window.scrollBy({ top: 700, behavior: "instant" }));
+      await page.waitForTimeout(500);
+      const haut = await hautStable(menu);
+      expect(Math.abs(haut - 144), `haut collé du menu : ${haut}`).toBeLessThanOrEqual(2);
+      await expect(menu).toBeInViewport();
+      await expect(menu.locator("#sommaire-reprendre")).toBeVisible();
+    });
+  }
+
+  test("375 : ouvrir une étape sous une étape ouverte ne fait pas sauter son en-tête (8 px au plus)", async ({ page }) => {
+    await abonne(page);
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(`/parcours/${SLUG}`);
+    await expect(page.locator("#etape-1-entete")).toHaveAttribute("aria-expanded", "true");
+    await expect(page.getByTestId("lignes-fiches")).toBeVisible();
+    const entete = page.locator("#etape-2-entete");
+    await entete.evaluate((e) => {
+      e.scrollIntoView({ block: "start", behavior: "instant" });
+      window.scrollBy({ top: -400, behavior: "instant" });
+    });
+    const avant = await hautStable(entete);
+    await entete.click();
+    await expect(entete).toHaveAttribute("aria-expanded", "true");
+    await expect(page.locator("#etape-1-entete")).toHaveAttribute("aria-expanded", "false");
+    const apres = await hautStable(entete);
+    expect(Math.abs(apres - avant), `en-tête de l'étape 2 : ${avant} puis ${apres}`).toBeLessThanOrEqual(8);
+  });
+
+  for (const compte of ["visiteur", "gratuit"] as const) {
+    test(`375, ${compte} : « Tester l'étape 1 » dans le premier écran, étape 1 ouverte à l'arrivée`, async ({ page }) => {
+      if (compte === "gratuit") {
+        const email = `e2e-pc-s26-g-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}@example.com`;
+        await creerCompte(email, MOT_DE_PASSE, "FREE");
+        await connecter(page, email, MOT_DE_PASSE);
+      }
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/parcours");
+      const bouton = page.getByTestId("tester-etape-1-mobile");
+      await expect(bouton).toBeVisible();
+      await expect(bouton).toHaveText(/^Tester l’étape 1 de .+, gratuite$/);
+      const bas = await bouton.evaluate((e) => Math.round(e.getBoundingClientRect().bottom));
+      expect(bas, `bas du bouton : ${bas}`).toBeLessThanOrEqual(700);
+      // Contour : aucun aplat violet sur le bouton.
+      expect(await bouton.evaluate((e) => e.className)).not.toMatch(/(^|\s)bg-accent/);
+      await bouton.click();
+      await expect(page).toHaveURL(/\/parcours\/[a-z-]+\?src=hub#etape-1$/);
+      await expect(page.locator("#etape-1-entete")).toHaveAttribute("aria-expanded", "true");
+      await expect(page.locator("#etape-1")).toBeInViewport();
     });
   }
 });
