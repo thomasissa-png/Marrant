@@ -1,0 +1,82 @@
+{
+ "_meta": {
+  "version": 1,
+  "genere": "2026-11-19",
+  "doc": "docs/qa/remplacements-videos-s26.md (premiers choix retenus par l'orchestrateur le 19/11 ; décision de Thomas du 19/11)",
+  "empreinte": "attendu = sha256(JSON.stringify([title, description, learnings, exercise])) du texte en base APRÈS video-content-s20 v1 (titre et textes de la cible s20), 16 hex. C'est sur ce texte qu'a été jugée la cohérence avec la nouvelle vidéo.",
+  "statut": "« appliquer » : la tâche écrit. « en-attente » : la tâche n'écrit rien tant que la cible n'a pas de textes réécrits (description, learnings, exercise) par @copywriter et relus à l'aveugle (P0 s18) : le texte en base décrit l'ancienne vidéo.",
+  "duree": "Vide (\"\") : oEmbed ne donne pas la durée, pas de clé YouTube Data. Aucun affichage public de la durée ; le JSON-LD VideoObject omet une durée hors ISO 8601 (components/seo/json-ld.tsx). Ne jamais garder la durée de l'ancienne vidéo.",
+  "preuve": "oEmbed 200 relevé le 19/11 (author_name = channelName de la cible)."
+ },
+ "videos": [
+  {
+   "seedId": 21,
+   "youtubeId": "agciwdzBH3w",
+   "statut": "appliquer",
+   "memePassage": "probable (même titre)",
+   "attendu": "a9575fa8dcda7748",
+   "anciensTitres": [],
+   "cible": { "youtubeId": "PaF0YbHim2E", "title": "Bun Hay Mean - Le Chinois marrant", "channelName": "Montreux Comedy", "duration": "" }
+  },
+  {
+   "seedId": 58,
+   "youtubeId": "XwG5Ie10rEg",
+   "statut": "appliquer",
+   "memePassage": "même spectacle, autre captation",
+   "attendu": "2d6e787710a4d7e2",
+   "anciensTitres": [],
+   "cible": { "youtubeId": "z563EqfnqQE", "title": "Fellag - Petits chocs des civilisations", "channelName": "Fellag", "duration": "" }
+  },
+  {
+   "seedId": 59,
+   "youtubeId": "CdRedv9PM40",
+   "statut": "appliquer",
+   "memePassage": "extrait du même spectacle (sketch des véganes de « Plus rien à perdre »)",
+   "attendu": "e6e1cd3ece44505e",
+   "anciensTitres": ["Fabrice Éboué - Plus rien à perdre (spectacle complet)"],
+   "cible": { "youtubeId": "gBILqA2eVrk", "title": "Fabrice Éboué - Les vegans (Plus rien à perdre)", "channelName": "CHEYENNE PROD", "duration": "" }
+  },
+  {
+   "seedId": 14,
+   "youtubeId": "v-ySkBGAXLI",
+   "statut": "appliquer",
+   "memePassage": "non (autre passage au Jamel Comedy Club ; texte s20 générique, sans référence au voisin)",
+   "attendu": "c32be182465cd6d6",
+   "anciensTitres": ["Thomas Ngijol au Jamel Comedy Club", "Thomas Ngijol - Le voisin"],
+   "parcours": "storytelling 1.4 (parcours-storytelling-s18.json, steps[0].videos[1]) GARDÉ sur v-ySkBGAXLI : title « Le voisin » et why (« Un voisin banal, puis agaçant, puis dément ») décrivent l'ancien passage ; à réécrire (@copywriter, relecture à l'aveugle) avant d'y changer l'id",
+   "cible": { "youtubeId": "l__Xirj2N6c", "title": "Thomas Ngijol - Superman (Jamel Comedy Club)", "channelName": "Jamel Comedy Club - CANAL+", "duration": "" }
+  },
+  {
+   "seedId": 15,
+   "youtubeId": "PrQTbXOz2iU",
+   "statut": "en-attente",
+   "raison": "description en base : « au Jamel Comedy Club » ; la nouvelle vidéo vient de la Topito Comedy Night",
+   "attendu": "3fe19c6e7a752e78",
+   "anciensTitres": ["Laura Domenge - Jamel Comedy Club", "Laura Domenge - La vie de couple"],
+   "aReecrire": ["description (« au Jamel Comedy Club »)", "learnings et exercise à relire au visionnage"],
+   "parcours": "storytelling 2.4 (parcours-storytelling-s18.json, steps[1].videos[1]) GARDÉ sur PrQTbXOz2iU : title « La vie de couple » et why (« Un couple, rejoué avec les voix ») à réécrire",
+   "cible": { "youtubeId": "W7i0KRn_GLY", "title": "Laura Domenge - Se remettre avec son ex", "channelName": "Topito", "duration": "" }
+  },
+  {
+   "seedId": 57,
+   "youtubeId": "6lHjXqelKGo",
+   "statut": "en-attente",
+   "raison": "description, learnings et exercise en base décrivent le spectacle complet « Décalages » (1997), pas l'extrait « La visite d'appartement »",
+   "attendu": "5e8d76618600b107",
+   "anciensTitres": ["Gad Elmaleh - Décalages (spectacle complet 1997)"],
+   "aReecrire": ["description (« Décalages »)", "learnings (personnages récurrents, spectacle de 1997)", "exercise à relire au visionnage"],
+   "cible": { "youtubeId": "BY8kpWBf57M", "title": "Gad Elmaleh - La visite d'appartement (La vie normale)", "channelName": "Comédie+", "duration": "" }
+  },
+  {
+   "seedId": 5,
+   "youtubeId": "3v8Y4C9Q5hE",
+   "statut": "en-attente",
+   "raison": "description en base : « Du côté de chez vous », extrait de « The Young Man Show » ; learnings et exercise sur le quartier",
+   "attendu": "abfe2cae229d253c",
+   "anciensTitres": ["Kev Adams - Du côté de chez vous"],
+   "aReecrire": ["description (« Du côté de chez vous », « The Young Man Show »)", "learnings (portrait de quartier)", "exercise (DÉFI QUARTIER)"],
+   "parcours": "boulot 3.4 (parcours-boulot-s19.json, steps[2].videos[1]) GARDÉ sur 3v8Y4C9Q5hE : title « Du côté de chez vous » et why (« les codes de son quartier ») à réécrire",
+   "cible": { "youtubeId": "fSMhy3-7Xpk", "title": "Kev Adams - Le tennis", "channelName": "Montreux Comedy", "duration": "" }
+  }
+ ]
+}

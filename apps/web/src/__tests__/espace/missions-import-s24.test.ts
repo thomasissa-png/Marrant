@@ -11,6 +11,12 @@
  * (le tiret cadratin remplacé par « » « », 1 caractère retiré, 3 posés) ; aucune autre ligne ne change
  * (ancienne empreinte 13e31701175c5e3dfb184915e552387ac7d670cd8dcbc4b071769c039398166c). La mission
  * video-39, revalidée, est importée : 107 missions.
+ * s26 (remplacement des vidéos à risque, `src/data/video-remplacements-s26.json`) : empreinte du seed
+ * vidéo mise à jour, 26 lignes changées SUR PLACE (aucune ajoutée ni retirée, AUCUN champ `exercise`
+ * touché : citations des missions valides, missions.json inchangé) : fiches 14, 21, 58, 59 (youtubeId,
+ * title, channelName ; duration et recommendedTimestamp vidés ; description, category et learnings de
+ * la production s20 v1) et 68 (youtubeId JNo86HEt86w et durée, posés en production en s20).
+ * (ancienne empreinte 397ec8b3a3073ba735ae7172e86cf3a1e833b6e861b0e3647c6acb6b59031e39).
  */
 import { createHash } from "crypto";
 import { readFileSync } from "fs";
@@ -26,7 +32,7 @@ const { missions: resultat } = construireImport();
 
 const EMPREINTES_SEEDS: Record<keyof typeof SEEDS_MISSIONS, string> = {
   conseil: "3271f7ec83289ce1adc7297923947c16869ea99aeee160bda0543e0ad5bf97db",
-  video: "397ec8b3a3073ba735ae7172e86cf3a1e833b6e861b0e3647c6acb6b59031e39",
+  video: "68a2f945c4e740cb03998fd25cf23bfb1d4b28bba356c21f8565951ff19439c3",
 };
 
 /** Ligne de la table (sections 2 et 3) d'un id : [défi, « l. N », marche]. */
