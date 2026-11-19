@@ -190,13 +190,14 @@ export function MenuEtapes({
         </div>
         {reprendre && (
           // Dès 1024, masqué quand l'étape affichée est déjà celle à reprendre (il ne ferait rien, et « Valider » de l'étape
-          // est alors le plein de l'écran) ; sous 1024, gardé dans le menu déplié.
+          // est alors le plein de l'écran) ; sous 1024, gardé dans le menu déplié. Arbitrage de l'orchestrateur (s26 v2) :
+          // bouton de navigation, donc en CONTOUR, pour qu'il ne fasse jamais un second aplat à côté de « Valider ».
           <div className={cn("flex-none border-t border-border", reprendre.order === active && "lg:hidden")}>
             <button
               type="button"
               id="sommaire-reprendre"
               onClick={() => onChoisir(reprendre.order)}
-              className={cn(buttonVariants({ size: "lg" }), "m-6 mt-4 h-auto min-h-12 w-auto whitespace-normal py-2")}
+              className={cn(buttonVariants({ variant: "outline", size: "lg" }), "m-6 mt-4 h-auto min-h-12 w-auto whitespace-normal py-2")}
             >
               {reprendre.libelle}
             </button>
