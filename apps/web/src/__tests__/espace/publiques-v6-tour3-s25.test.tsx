@@ -240,8 +240,11 @@ describe("point 12 : /parcours, cartes en deux colonnes dès `lg`", () => {
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
     const grille = container.querySelector("[data-parcours-cartes]") as HTMLElement;
-    // s26 tour 2 (P1) : `items-start`, chaque carte à sa hauteur propre.
-    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["grid", "gap-6", "md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2", "items-start"]));
+    // s26 tour 3 (point 1) : `items-stretch`, cartes d'une rangée à la même hauteur, sans pied poussé en bas.
+    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["grid", "gap-6", "md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2", "items-stretch"]));
+    // s26 tour 3 (point 2) : plus aucun séparateur « · » en pseudo-élément dans la méta, items séparés par `gap-x-4`.
+    expect(container.innerHTML).not.toContain("before:content");
+    expect((grille.querySelector("[id^='parcours-'] div.flex-wrap") as HTMLElement).className.split(" ")).toContain("gap-x-4");
     expect(grille.children).toHaveLength(catalogue.length);
     expect(pleins()).toHaveLength(0);
     const boutons = screen.getAllByRole("button").filter((b) => b.closest("[data-parcours-pied]"));

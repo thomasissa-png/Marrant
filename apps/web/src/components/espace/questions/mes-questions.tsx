@@ -37,7 +37,9 @@ export function MesQuestions({ initiaux, lectureSeule }: { initiaux: FilListe[];
   const nonLu = lectureSeule ? undefined : envois.find((e): e is FilListe => !("retire" in e) && e.nonLu);
   return (
     <div className={cn("grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start", !lectureSeule && "lg:grid-rows-[auto_1fr]")} data-mes-questions>
-      {nonLu && <ReponseNonLue fil={nonLu} className="md:col-span-2 lg:col-span-8 lg:col-start-5 lg:row-start-1" />}
+      {/* s26 tour 3 (point 7) : dès 1024, la tuile descend de la hauteur du titre « Écrire à l'équipe » (28 px + 16 px
+          de marge, `lg:mt-11`) : elle et la carte du formulaire démarrent à la même hauteur (44 px d'écart au tour 2). */}
+      {nonLu && <ReponseNonLue fil={nonLu} className="md:col-span-2 lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:mt-11" />}
       {!lectureSeule && (
         <div className={COLONNE_FORMULAIRE}>
           <FormulaireQuestion onEnvoye={maj} principal={!nonLu} />

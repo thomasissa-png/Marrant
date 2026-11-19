@@ -120,16 +120,20 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
       await controlerSEntrainerS26(page, `nouvel ${largeur}`);
       await capturer(page, "nouvel-s-entrainer", largeur);
 
-      // s26 tour 2 (R1, remplace la tuile 8 + rappel 4 du tour 1) : plus de tuile de droite creuse ; le lien « Quoi
-      // répondre » est dans la tuile d'action, sous le bouton, et la tuile prend la largeur de la page.
+      // s26 tour 3 (point 9, remplace la tuile pleine largeur du tour 2 dès 1024) : tuile d'action en 8 colonnes, le lien
+      // « Quoi répondre » dans une tuile neutre de 4 à sa droite, en bouton secondaire de 44 px (sous 1024 : dans la tuile
+      // d'action, sous le bouton, comme au tour 2).
       await page.goto("/mon-espace/repliques");
       const tuile = page.getByTestId("repliques-vide");
       const vide = await boite(tuile);
       const page12 = await boite(page.locator("section[aria-labelledby='h-repliques']"));
-      expect(Math.abs(vide.largeur - page12.largeur), `tuile pleine largeur, ${largeur}`).toBeLessThanOrEqual(1);
-      const rappel = await boite(tuile.locator("[data-repliques-rappel]"));
-      const bouton = await boite(tuile.getByRole("link").first());
-      expect(rappel.haut, `lien sous le bouton, ${largeur}`).toBeGreaterThanOrEqual(bouton.bas);
+      expect(vide.largeur, `tuile d'action en 8 colonnes, ${largeur}`).toBeLessThan(page12.largeur * 0.7);
+      await expect(tuile.locator("[data-repliques-rappel]")).toBeHidden();
+      const droite = page.locator("[data-repliques-tuile]");
+      const d = await boite(droite);
+      expect(Math.abs(d.haut - vide.haut), `tuiles sur la même rangée, ${largeur}`).toBeLessThanOrEqual(1);
+      expect(Math.abs(d.gauche - vide.droite - 24), `24 px entre les tuiles, ${largeur}`).toBeLessThanOrEqual(1);
+      const rappel = await boite(droite.getByRole("link"));
       expect(rappel.hauteur, `cible de 44 px, ${largeur}`).toBeGreaterThanOrEqual(44);
       await capturer(page, "nouvel-repliques", largeur);
     }

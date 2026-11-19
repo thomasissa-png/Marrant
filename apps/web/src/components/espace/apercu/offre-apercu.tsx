@@ -126,12 +126,14 @@ export function OffreApercu({
       <HaloPremium />
       {/* s26 tour 2 des encarts (E2) : de 768 à 1023, contenu en ligne (bouton et phrase d'objet à gauche, réassurance et
           « Connexion » à droite) ; ailleurs, les deux groupes sont `display: contents` et la carte reste une colonne. */}
-      <div className="relative flex h-full flex-col md:max-lg:flex-row md:max-lg:items-center md:max-lg:gap-6">
+      {/* s26 tour 3 (point 6) : de 768 à 1023, les deux groupes alignés en haut (plus de centrage vertical) et le texte à
+          gauche (phrase d'objet comprise). */}
+      <div className="relative flex h-full flex-col md:max-lg:flex-row md:max-lg:items-start md:max-lg:gap-6 md:max-lg:text-left">
         <div className="contents md:max-lg:block md:max-lg:flex-1" data-offre-gauche>
           <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
             {TEXTES_APERCU.offre.bouton}
           </Link>
-          {!visiteur && <p className={cn("mt-2 text-center md:mt-4", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
+          {!visiteur && <p className={cn("mt-2 text-center md:mt-4 md:max-lg:text-left", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
         </div>
         <div className="contents md:max-lg:block md:max-lg:flex-1" data-offre-droite>
           {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}

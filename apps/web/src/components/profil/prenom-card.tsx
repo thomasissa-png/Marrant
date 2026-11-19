@@ -84,7 +84,8 @@ export function PrenomCard({ prenom }: { prenom: string | null }) {
               aria-describedby={erreur ? "profil-prenom-erreur" : undefined}
               aria-invalid={!!erreur}
               // s22 (revue design C1) : même bordure à 3:1 que le champ voisin « Ta question à l'équipe ».
-              className="border-border-input"
+              // s26 tour 3 (point 11, ouvert seulement) : 44 px de haut à toutes les largeurs, aligné sur son bouton.
+              className={ESPACE_CLIENT_PUBLIE ? "h-11 border-border-input" : "border-border-input"}
             />
           </div>
           <Button type="submit" variant="outline" className={ESPACE_CLIENT_PUBLIE ? "min-h-11 md:h-11" : "min-h-11"} disabled={enCours}>

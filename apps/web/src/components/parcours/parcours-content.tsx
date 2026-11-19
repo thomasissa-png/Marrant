@@ -47,17 +47,13 @@ export const GRILLE_CARTES_OUVERTE = cn(
   // s26 (`docs/design/parcours-vannes-s26.md` §1.1) : la dernière carte seule (nombre impair) prend toute la rangée dès
   // 768 px (plus de carte centrée de 50 %) ; dès 1024 px, ses zones internes passent en 7/5 (`zones`, plus bas).
   "md:[&>:last-child:nth-child(odd)]:col-span-2",
-  // s26 tour 2 (relectures du tour 1, P1) : cartes à leur hauteur propre (plus d'étirement à la hauteur de la voisine,
-  // qui creusait 34 à 105 px au MILIEU de la carte, pied poussé en bas), comme décidé pour Favoris.
-  "items-start",
+  // s26 tour 3 (point 1) : cartes d'une rangée à la même hauteur (`items-stretch`), SANS `mt-auto` ni pied poussé en
+  // bas : le contenu reste empilé en haut, le vide éventuel passe en FIN de carte et les bas s'alignent (au tour 2,
+  // `items-start` laissait des bas inégaux de 68 px à 1280 et de 116 px à 768).
+  "items-stretch",
 );
-/**
- * s26 tour 2 (P2) : séparateur « · » de la méta porté par l'item qui le suit, sur la même ligne (aucun texte ajouté au
- * HTML : pseudo-élément décoratif, texte alternatif vide pour les lecteurs d'écran). Sous 640 px, comme avant, pas de séparateur.
- */
-const SEPARATEUR_AVANT = "sm:before:mr-2 sm:before:content-['·'_/_'']";
-/** s26 (§1.2) : abonné, une colonne de cartes dans la colonne de 8 (le rail de 4 est à droite). */
-const GRILLE_CARTES_ABONNE = "grid items-start gap-6 lg:col-span-8";
+/** s26 (§1.2) : abonné, une colonne de cartes dans la colonne de 8 (le rail de 4 est à droite). s26 tour 3 : `items-stretch`. */
+const GRILLE_CARTES_ABONNE = "grid items-stretch gap-6 lg:col-span-8";
 
 /** s26 (§1.3) : contour neutre des boutons de carte (un seul aplat violet par écran : le bouton d'offre de l'en-tête). */
 const CONTOUR_CARTE = "border-border-input hover:border-text-muted";
@@ -372,11 +368,13 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           const etape1Slug = statut !== "premium" && !isDone && progressValue === 0 && isParcoursSlug(p.slug) ? p.slug : null;
           const progressMax = prog ? prog.total : p.modules.length;
           // s26 (`docs/design/parcours-vannes-s26.md` §1.3) : zones internes 7/5 dès 1024 px (infos à gauche, progression
-          // et « Programme » à droite) pour toute carte de l'abonné et pour la dernière carte seule du visiteur. Les blocs
-          // de `CardContent` rejoignent la carte (`contents`) : la barre de progression passe en tête par `order`.
+          // et « Programme » à droite) pour la dernière carte seule du visiteur et du compte gratuit. Les blocs de
+          // `CardContent` rejoignent la carte (`contents`) : la barre de progression passe en tête par `order`.
+          // s26 tour 3 (point 3) : plus de 7/5 pour l'abonné (125 à 130 px vides au milieu de ses cartes au tour 2) :
+          // barre `n/total`, « Programme » et bouton empilés SOUS le texte, sur la largeur de la carte.
           // Sous 300 px (200 % de texte), marges de la carte réduites comme les cartes de l'en-tête de l'abonné
           // (`max-e300:px-3 max-e300:py-2`) : premier parcours dans les deux premiers écrans (N2, 188 x 406).
-          const zones = ESPACE_CLIENT_PUBLIE && (enteteEspace || (parcours.length % 2 === 1 && index === parcours.length - 1));
+          const zones = ESPACE_CLIENT_PUBLIE && !enteteEspace && parcours.length % 2 === 1 && index === parcours.length - 1;
           const commence = progressValue > 0;
           const o = (ouvert: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? ouvert : ferme);
           return (
@@ -391,17 +389,17 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
               filet={ESPACE_CLIENT_PUBLIE}
             >
               <CardHeader className={o(cn("space-y-0 pb-0", zones && "lg:col-span-7"), "pb-2")}>
-                {/* s26 tour 2 (P2, ouvert seulement) : le « · » est porté par l'item qui le suit (`before:`, sur sa ligne) ; un
-                    séparateur ne finit plus jamais une ligne (4 cartes sur 5 à 1280 au tour 1). Fermé : les spans d'avant. */}
-                <div className={o(cn("flex flex-wrap items-center gap-x-2 gap-y-1", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
+                {/* s26 tour 3 (point 2, ouvert seulement) : plus aucun « · » (ni en fin ni en début de ligne), les items sont
+                    séparés par l'espace seul (`gap-x-4`). Fermé : les spans d'avant. */}
+                <div className={o(cn("flex flex-wrap items-center gap-x-4 gap-y-1", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
                   <Badge variant="primary" className={o(cn(META_FORT, "rounded-none bg-transparent px-0 py-0"))}>{p.difficulty}</Badge>
                   <span className="text-sm text-text-secondary">
                     {p.duration}
                   </span>
                   {!ESPACE_CLIENT_PUBLIE && <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>}
-                  <span className={o(cn(META, SEPARATEUR_AVANT), "text-sm text-text-muted")}>{p.timePerWeek}</span>
+                  <span className={o(META, "text-sm text-text-muted")}>{p.timePerWeek}</span>
                   {!ESPACE_CLIENT_PUBLIE && <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>}
-                  <span className={o(cn(META, SEPARATEUR_AVANT), "text-sm text-text-muted")}>{totalXp} XP à gagner</span>
+                  <span className={o(META, "text-sm text-text-muted")}>{totalXp} XP à gagner</span>
                   {isDone && <Badge variant="success" className={o(cn(PASTILLE, "font-normal text-success"))}>{LISTE_PARCOURS.termine}</Badge>}
                 </div>
                 <CardTitle className={o(cn(TITRE_CARTE, "mt-2"), "mt-3 text-2xl")}>
@@ -426,7 +424,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
 
                 {/* Progression : affichée seulement une fois le parcours commencé (T26) */}
                 {progressValue > 0 && (
-                  <div className={o(cn("-order-1 mb-4", zones && "lg:order-none lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mb-0"), "mb-6")}>
+                  <div className={o(enteteEspace ? "mt-6" : cn("-order-1 mb-4", zones && "lg:order-none lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mb-0"), "mb-6")}>
                     {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). s26 : en tête de carte,
                         remplissage gris clair sur rail visible (comme `BarreProgression`), aucun violet. */}
                     <ProgressBar

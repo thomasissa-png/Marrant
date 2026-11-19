@@ -14,6 +14,7 @@ import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
+import { NEUTRE_CAP } from "@/components/espace/carte/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -65,7 +66,12 @@ export async function lireCaps(): Promise<EtatCapsApi | null> {
  * retirés (décision du 18/11) : cadres neutres.
  */
 const COLONNE = "lg:col-span-8";
-const RAIL_CAP = "p-6 before:hidden md:p-6 [&_h2]:font-semibold lg:sticky lg:top-36 lg:col-span-4 lg:col-start-9 lg:row-span-5 lg:row-start-1 lg:self-start";
+// s26 tour 3 (point 4) : repères et flamme de « Ton cap » en neutre (`NEUTRE_CAP`, comme sur Mon profil) : le seul
+// aplat violet de l'écran reste « Reprendre ».
+const RAIL_CAP = cn(
+  "p-6 before:hidden md:p-6 [&_h2]:font-semibold lg:sticky lg:top-36 lg:col-span-4 lg:col-start-9 lg:row-span-5 lg:row-start-1 lg:self-start",
+  NEUTRE_CAP,
+);
 const RAIL_BONUS = "lg:col-span-4 lg:col-start-9 lg:row-start-6 lg:mt-12 lg:self-start";
 
 export function ParcoursEspace() {

@@ -16,22 +16,22 @@ import { CapProfil } from "@/components/espace/cap-profil";
 import { LigneMesQuestions } from "@/components/espace/profil/ligne-mes-questions";
 import { ErreurProfil } from "@/components/espace/profil/erreur-profil";
 import { ConnexionProfil, MesParcours, ProchaineEtape, SqueletteProfil, Statistiques, type ParcoursProgress } from "@/components/espace/profil/profil-cartes";
-import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE, NEUTRE_CAP } from "@/components/espace/carte/styles";
 import { ECHELLE_CARTES_PARTAGEES } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 
 /** Grille 12 colonnes ; les cartes partagées (`Card filet`) perdent leur filet violet ici seulement (un seul aplat). */
-// « Ton cap » (`TonCap`, partagé) : points, flamme et filet en gris comme les segments d'« Aujourd'hui » ; le seul fond
-// violet reste le bouton plein.
-const NEUTRE_CAP =
-  "[&_.bg-accent-primary]:bg-text-secondary [&_.border-accent-primary]:border-text-secondary [&_.text-accent-primary-hover]:text-text-secondary [&_[aria-labelledby=ton-cap-titre]]:before:hidden";
+// « Ton cap » (`TonCap`, partagé) : `NEUTRE_CAP` (`carte/styles.ts`), aussi posé sur le rail de « Parcours » (s26 tour 3).
 // s26 tour 2 (Pr3) : un seul aplat violet par écran. Interrupteurs cochés (« La lettre de la semaine », rappel, cartes
 // partagées) en NEUTRE : piste blanche (`bg-text-primary`), pastille sombre (`bg-background`) ; l'état se lit à la
 // position et au contraste de la pastille (blanc sur fond de carte, sombre sur piste blanche : bien au-delà de 3:1).
 // Pastille « Premium » de la carte Abonnement (Badge `primary`) sur fond neutre, comme « Aucun abonnement ».
 const NEUTRE_INTERRUPTEURS =
   "[&_[role=switch]:checked]:border-text-primary [&_[role=switch]:checked]:bg-text-primary [&_[role=switch]:checked:hover]:border-text-primary [&_[role=switch]:checked:hover]:bg-text-primary [&_[role=switch]:checked~.inset-0]:border-text-primary [&_[role=switch]:checked~.inset-0]:bg-text-primary [&_[role=switch]:checked:hover~.inset-0]:bg-text-primary [&_[role=switch]:checked~.h-5]:bg-background [&_.rounded-full.text-accent-link]:bg-background-elevated";
-const GRILLE = `mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start [&_[data-filet]]:hidden ${NEUTRE_CAP} ${NEUTRE_INTERRUPTEURS} ${ECHELLE_CARTES_PARTAGEES}`;
+// s26 tour 3 (point 10) : les cartes PARTAGÉES (`Card`, `p-4` : Abonnement, Rappel, La lettre de la semaine, Prénom,
+// Supprimer mon compte) passent à 24 px de marge intérieure ici seulement, comme « Statistiques » ; code des cartes inchangé.
+const MARGE_CARTES_PARTAGEES = "[&_.bg-background-card.p-4]:p-6";
+const GRILLE = `mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start [&_[data-filet]]:hidden ${NEUTRE_CAP} ${NEUTRE_INTERRUPTEURS} ${ECHELLE_CARTES_PARTAGEES} ${MARGE_CARTES_PARTAGEES}`;
 // s26 tour 2 (Pr1) : `[&>*]:shrink-0`, les cartes d'une colonne gardent leur hauteur propre (sous 1024, « Statistiques »
 // et « Mes parcours » rétrécissaient et leur cadre rognait le contenu).
 const COLONNE = "flex min-w-0 flex-col gap-6 [&>*]:shrink-0";
@@ -132,7 +132,8 @@ export function ProfilOuvert() {
         </div>
         {premium && (
           <div className={cn(COLONNE, "md:col-span-2")} data-profil-zone="progression">
-            <CapProfil xp={user.xp} serie={user.streak} />
+            {/* s26 tour 3 (point 10) : 24 px de marge intérieure, comme les autres cartes de la page. */}
+            <CapProfil xp={user.xp} serie={user.streak} className="p-6" />
             <Statistiques stats={user.stats} />
             <MesParcours parcours={parcours} />
           </div>
