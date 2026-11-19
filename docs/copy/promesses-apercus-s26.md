@@ -58,6 +58,50 @@ Avis sur la proposition @ux « Garde la vanne qui t'a sauvé, retrouve-la le jou
 **Reco : C.** Reprend l'idée de @ux sans « sauvé » ni « jour J », couvre les trois types de contenu, et « sans chercher » est le bénéfice réel d'une liste triée par onglets.
 Aucun mot des 4 promesses validées (réplique, main, moment, chambre, repère, rire, façon, noté, essaies, oser, taire). Aucun tiret cadratin, émoji, exclamation, chiffre.
 
+## Mes questions, Mes répliques (s26, 19/11)
+
+Contenu réel relu : `espace-questions.ts` (trois types : problème, « Une situation à gérer » = « une scène que tu vas vivre ou que tu viens de vivre », question ; aide « Évite les noms : décris la scène. » ; délai « L'équipe répond en général sous 1 à 2 jours ouvrés ») et `espace-repliques.ts` (écrire, modifier, supprimer, relire ; état vide « Écrire ma première réplique », validé 14/11).
+Les deux promesses évitent les mots des 5 validées (réplique, répondre, garde, retrouve, jour, moment, sans, rien, noté, etc.). Le titre « Mes répliques » est déjà au-dessus du hero, le mot n'a pas à se répéter.
+Pas de délai dans les promesses : il est sur l'écran d'écriture (« en général sous 1 à 2 jours ouvrés »), on ne le duplique pas dans un hero.
+
+### 1. Mes questions
+
+Avis sur la proposition @ux « Pose ta question, l'équipe te répond. » (36 car.) : correcte mais pas retenue. « Pose ta question » redit le titre de la rubrique, « te répond » reprend la racine de « Quoi répondre » et ne dit pas l'essentiel : c'est une scène vécue (ou à venir), traitée pour toi. Repli acceptable, pas une promesse qui donne envie.
+
+- **A** : « Décris ta scène, l'équipe t'écrit en retour. » (44 car.)
+  Pourquoi : reprend « décris la scène » du formulaire, le bénéfice (une réponse écrite) sans délai ni garantie de contenu.
+- **B** : « Une scène à venir ou déjà vécue ? Raconte-la à l'équipe. » (55 car.)
+  Pourquoi : couvre les deux cas du type « situation », la question fait entrer le lecteur, mais ne dit pas qu'on reçoit une réponse.
+- **C** : « Ta situation à toi, pas un conseil pour tout le monde. » (54 car.)
+  Pourquoi : l'envie (du sur-mesure), mais la plus ambitieuse : à garder seulement si Thomas confirme que les réponses sont écrites au cas par cas.
+
+**Reco : A.** Dit ce qu'on fait et ce qu'on reçoit, ton de pote, rien d'invérifiable.
+
+### 2. Mes répliques
+
+Avis sur la proposition @ux « Tes meilleures répliques, au même endroit, prêtes pour le jour J. » (61 car.) : écartée. 1 car. au-dessus du plafond, « jour J » déjà refusé pour Favoris, « meilleures » suppose un tri qui n'existe pas, et « au même endroit » est l'idée de Favoris (garder puis retrouver). L'écran se distingue par l'écriture : ce sont les mots de l'abonné.
+
+- **A** : « Tes mots à toi, écrits une fois, relus quand il le faut. » (56 car.)
+  Pourquoi : écrire et relire, les deux gestes réels de l'écran, sans mot de la rubrique.
+- **B** : « Écris ce que tu dirais vraiment, relis-le à ton rythme. » (54 car.)
+  Pourquoi : la plus concrète, invite à écrire comme on parle (Yanis), mais « dirais » frôle la consigne « dis-la à voix haute ».
+- **C** : « Ce que tu inventes mérite une place à côté du catalogue. » (56 car.)
+  Pourquoi : valorise l'abonné, la plus envie pour un prospect, mais plus abstraite sur ce qu'on fait.
+
+**Reco : A.** Chaque geste promis existe à l'écran (écrire, relire), ton simple, aucune promesse de résultat. C en deuxième choix si Thomas veut plus d'élan.
+
+### 3. Libellé du lien quand l'abonné a déjà des répliques
+
+Validé pour l'état vide : « Écrire ma première réplique ».
+
+- **A** : « Écrire une autre réplique » (26 car.), proposition @ux : claire, neutre, mais « une » rompt le « ma » du libellé validé.
+- **B** : « Écrire ma prochaine réplique » (29 car.) : même construction que « ma première » (verbe + ma + rang), la suite naturelle.
+- **C** : « Ajouter une réplique » (21 car.) : la plus courte, mais change de verbe, donc la paire n'est plus cohérente.
+
+**Reco : B.** Le lien se lit comme la suite du libellé validé. Si Thomas préfère la neutralité, A est sûr.
+
+Vérifs : toutes les promesses ≤ 60 car. (comptage mot par mot), tutoiement, zéro tiret cadratin, émoji, exclamation, chiffre. Framework : bénéfice direct, Problem-Aware. Aucun fichier de code touché.
+
 ## Vérifications faites
 Aucun tiret cadratin, émoji, point d'exclamation, chiffre, concurrent. Aucun mot de l'étalon (« oser répondre », « te taire », « cinq minutes »).
 
