@@ -52,7 +52,7 @@ export const TEXTES_APERCU_VERROUILLE = {
   // validé par Thomas le 18/11 (docs/founder-preferences.md)
   promesseSEntrainer: "Ici, rien n'est noté : tu t'essaies avant que ça compte.",
   /** Promesse du hero de l'aperçu de « Favoris » (s26, `docs/ux/favoris-carnet-s26.md` §1.2, emplacement `PROMESSE`). */
-  // À VALIDER PAR THOMAS (s26), reco @copywriter, voir docs/copy/promesses-apercus-s26.md
+  // validé par Thomas le 19/11 (docs/founder-preferences.md)
   promesseFavoris: "Garde ce qui t'a servi, retrouve-le sans chercher.",
   /** T2 : phrase de fin d'extrait, toutes rubriques. */
   // validé par Thomas le 18/11
