@@ -124,10 +124,19 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       // Retour navigateur : fiche 2, puis le filtre. s26 liste et détail, tour 1 (mesures §2, historique) : le filtre ne
       // remplace plus l'entrée de la fiche 1 quand il la quitte (il en ajoute une) ; s'il la garde, son adresse porte le
       // filtre. Dans les deux cas, la fiche 1 reste dans l'historique.
+      // s26 liste et détail, tour 3 (mesures N1 : au retour navigateur, panneau rendu à la position quittée, haut du H1 à
+      // 37 px à 1024 et 115 à 1280, sous l'en-tête de 121 px) : à chaque retour, la fiche revient comme à l'ouverture,
+      // son H1 à 144 px au moins ; la liste garde son `scrollTop`.
+      const hautH1ApresRetour = async () => {
+        await expect.poll(() => page.locator("[data-fiche-panneau] h1").evaluate((h) => Math.round(h.getBoundingClientRect().top)), "haut du H1 sous l'en-tête après retour").toBeGreaterThanOrEqual(144);
+        expect(await colonne(page).evaluate((n) => (n as HTMLElement & { __marque?: number }).__marque), "liste jamais remontée").toBe(26);
+      };
       await page.goBack();
       await expect(page).toHaveURL(new RegExp(`${LISTE}/${id2}\\?ou=${lieu}$`));
+      await hautH1ApresRetour();
       await page.goBack();
       await expect(page).toHaveURL(apresFiltre);
+      await hautH1ApresRetour();
       if (!new URL(apresFiltre).pathname.endsWith(`/${id1}`)) {
         await page.goBack();
         await expect(page).toHaveURL(new RegExp(`${LISTE}/${id1}$`));
@@ -147,22 +156,42 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     const y = await page.evaluate(() => window.scrollY);
     expect(y).toBeGreaterThan(200);
 
+    // s26 liste et détail, tour 3 (mesures N3 : à 768, « Voir » à moitié sous l'en-tête au retour) : la position rendue
+    // ne coupe aucun lien ni bouton de la page par le bas de l'en-tête ; pour cela, elle peut s'écarter du `scrollY`
+    // quitté d'une demi-ligne au plus (32 px : ligne de 56 px et 8 px d'air), en plus des 8 px de tolérance.
+    const ecartMax = 8 + 32;
+    const aucuneLigneCoupee = () =>
+      page.evaluate(() => {
+        const bord = Math.max(0, ...Array.from(document.querySelectorAll<HTMLElement>("header")).filter((h) => getComputedStyle(h).position === "sticky" && h.offsetParent !== null).map((h) => h.getBoundingClientRect().bottom));
+        return Array.from(document.querySelectorAll<HTMLElement>("[data-mode='page'] a[href], [data-mode='page'] button, [data-mode='page'] summary"))
+          .filter((e) => e.offsetParent !== null)
+          .filter((e) => {
+            const r = e.getBoundingClientRect();
+            return r.top < bord - 0.5 && r.bottom > bord + 0.5;
+          }).length;
+      });
+
+    // `scrollY` une fois le défilement doux terminé (-1 tant qu'il bouge).
+    const scrollStable = () => page.evaluate(() => new Promise<number>((r) => { const a = window.scrollY; setTimeout(() => r(window.scrollY === a ? a : -1), 150); }));
+
     // « Retour » de la fiche : router.back(), position restaurée.
     await cible.click();
     await expect(page.locator("[data-fiche-panneau] h1")).toBeVisible();
     await expect(page.locator("main [data-lien-retour]")).toBeVisible();
     await page.locator("main [data-lien-retour]").click();
     await expect(page).toHaveURL(new RegExp(`${LISTE}$`));
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(y - 9);
-    expect(Math.abs((await page.evaluate(() => window.scrollY)) - y)).toBeLessThanOrEqual(8);
+    await expect.poll(scrollStable).toBeGreaterThan(y - ecartMax - 1);
+    expect(await aucuneLigneCoupee(), "aucun lien coupé par l'en-tête").toBe(0);
+    expect(Math.abs((await page.evaluate(() => window.scrollY)) - y)).toBeLessThanOrEqual(ecartMax);
 
     // Retour du navigateur : même règle.
     await cible.click();
     await expect(page.locator("[data-fiche-panneau] h1")).toBeVisible();
     await page.goBack();
     await expect(page).toHaveURL(new RegExp(`${LISTE}$`));
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(y - 9);
-    expect(Math.abs((await page.evaluate(() => window.scrollY)) - y)).toBeLessThanOrEqual(8);
+    await expect.poll(scrollStable).toBeGreaterThan(y - ecartMax - 1);
+    expect(await aucuneLigneCoupee(), "aucun lien coupé par l'en-tête").toBe(0);
+    expect(Math.abs((await page.evaluate(() => window.scrollY)) - y)).toBeLessThanOrEqual(ecartMax);
   });
 
   test("308 de l'ancienne adresse (espace ouvert) ; non-abonné sur une fiche : 307 vers l'aperçu de la liste", async ({ page }) => {
@@ -181,6 +210,21 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     await expect(actives(page)).toHaveAttribute("data-ligne-qr", "coloc-la-poele");
     // s26 liste et détail, tour 1 (mesures §6) : id inconnu pour l'abonné, vrai 404 de statut (plus un 200 « introuvable »).
     expect((await page.goto(`${LISTE}/inexistant-xyz`))?.status(), "id inconnu : 404").toBe(404);
+  });
+
+  // s26 liste et détail, tour 3 (mesures N2 : vide de fin de la carte d'exemple 159 px à 1280, la situation étirée à
+  // la hauteur de la colonne des filtres) : visiteur, 1280, la situation et les filtres finissent à 24 px au plus sous
+  // leur dernier bloc (répliques fermées, pastilles), mesuré du bas du bloc au bord intérieur bas de la carte.
+  test("aperçu (1280) : vide de fin de la carte d'exemple et des filtres <= 24 px", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(LISTE);
+    for (const carte of ["[data-apercu-situation]", "[data-apercu-filtres]"]) {
+      const vide = await page.locator(`[data-apercu-extrait] ${carte}`).evaluate((c) => {
+        const dernier = Array.from(c.children).filter((e) => (e as HTMLElement).offsetParent !== null && getComputedStyle(e).position !== "absolute").pop()!;
+        return Math.round(c.getBoundingClientRect().bottom - parseFloat(getComputedStyle(c).borderBottomWidth) - dernier.getBoundingClientRect().bottom);
+      });
+      expect(vide, `vide de fin ${carte}`).toBeLessThanOrEqual(24);
+    }
   });
 
   // s26 liste et détail, tour 1 (spec UX §1, mesures §7) : visiteur, clic sur une tuile fermée de l'aperçu : contour de la
