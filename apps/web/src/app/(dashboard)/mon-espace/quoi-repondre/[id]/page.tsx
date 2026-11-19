@@ -57,7 +57,7 @@ export default async function FicheQuoiRepondrePage({ params, searchParams }: { 
   const lu = await ficheDeLaPage(params.id);
   if (!lu) notFound();
   const { userId, fiche } = lu;
-  const [{ filtres, ordre }, lettre, faitsFiche] = await Promise.all([chargerListeQuoiRepondre(userId, searchParams), lettreDeFiche(fiche), idsFaits(userId, [fiche.id])]);
+  const [{ filtres, ordre, faits }, lettre, faitsFiche] = await Promise.all([chargerListeQuoiRepondre(userId, searchParams), lettreDeFiche(fiche), idsFaits(userId, [fiche.id])]);
   if (lettre === undefined) notFound();
   return (
     <div className="min-w-0">
@@ -65,7 +65,9 @@ export default async function FicheQuoiRepondrePage({ params, searchParams }: { 
       <div className="mb-4 lg:hidden">
         <RetourListe href={`${BASE}${queryFiltres(filtres)}`} label={T.titre} />
       </div>
-      <PanneauFiche {...await donneesPanneau({ userId, fiche, lettre, ordre, filtres, faits: faitsFiche })} />
+      {/* s26 liste et détail, tour 4 : les « Fait » de toute la liste filtrée (« Situation suivante » = prochaine non
+          faite), plus celui de la fiche (hors filtre, elle n'y est pas). */}
+      <PanneauFiche {...await donneesPanneau({ userId, fiche, lettre, ordre, filtres, faits: new Set([...faits, ...faitsFiche]) })} />
     </div>
   );
 }

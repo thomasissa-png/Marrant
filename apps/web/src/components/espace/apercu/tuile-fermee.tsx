@@ -10,6 +10,8 @@ import { VerrouSeul } from "@/components/espace/apercu/badge-premium";
  * hero) ; le verrou sans mot dit encore « fermé » dans chaque bloc, sans le bruit de 5 pastilles.
  * v7 tour 11 (relectures du tour 10 : extrait « entièrement grisé ») : `nette` (Z1 « Ton premier pas », la vitrine)
  * garde son contenu à pleine netteté, sans atténuation ; le verrou reste, son bouton reste un contour éteint.
+ * s26 liste et détail, tour 4 : `data-survol` (posé par `SignalOffre`, aperçu de Quoi répondre) éclaircit le bord du
+ * cadre, comme le survol d'une carte cliquable ; ailleurs, jamais posé.
  */
 export function TuileFermee({
   children,
@@ -28,7 +30,7 @@ export function TuileFermee({
 }) {
   return (
     <div
-      className={cn("relative h-full min-w-0", !nette && "[&>*:not([data-verrou-ferme])>*]:opacity-75", className)}
+      className={cn("relative h-full min-w-0 [&[data-survol]>*:not([data-verrou-ferme])]:border-border-input", !nette && "[&>*:not([data-verrou-ferme])>*]:opacity-75", className)}
       data-tuile-fermee={nette ? "nette" : ""}
     >
       <VerrouSeul className={verrouDansLaMarge ? "right-1 top-0.5 max-e300:right-1 max-e300:top-0.5" : undefined} />

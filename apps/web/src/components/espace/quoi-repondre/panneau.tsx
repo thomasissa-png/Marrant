@@ -6,7 +6,7 @@ import { idsFaits } from "@/lib/espace/lignes-fiches";
 import { lireRetour } from "@/lib/espace/fiche-fait";
 import { lireReplique } from "@/lib/espace/repliques";
 import { filtrerSituations, lireFiltres, ordreParLieu, type FicheQuoiRepondre, type FiltresSituations } from "@/lib/espace/quoi-repondre";
-import { ADRESSE_LISTE_QUOI_REPONDRE, hrefFicheListe, queryFiltres, suivanteDe } from "@/lib/espace/quoi-repondre-liste";
+import { ADRESSE_LISTE_QUOI_REPONDRE, hrefFicheListe, prochaineNonFaite, queryFiltres } from "@/lib/espace/quoi-repondre-liste";
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { TEXTES_LETTRES as TEXTES_LETTRES_BRUT, TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { FicheVuePanneau } from "@/components/espace/fiche";
@@ -42,7 +42,7 @@ export async function lettreDeFiche(fiche: FicheQuoiRepondre): Promise<{ titre: 
 
 /**
  * Le panneau d'une fiche (spec design §3) : la fiche, puis « Situation suivante » dans l'ordre de la liste filtrée
- * (traverse les lieux). Dernière du filtre : dès 1024 rien (la liste est à gauche), sous 1024 le lien vers la liste
+ * (traverse les lieux ; tour 4 : la prochaine non faite, `prochaineNonFaite`). Dernière du filtre : dès 1024 rien (la liste est à gauche), sous 1024 le lien vers la liste
  * avec ses filtres (libellé existant « Retour : Quoi répondre »).
  */
 export async function donneesPanneau({
@@ -61,7 +61,8 @@ export async function donneesPanneau({
   faits: ReadonlySet<string>;
 }) {
   const [retour, replique] = fiche.geste ? await Promise.all([lireRetour(userId, fiche.id), lireReplique(userId, fiche.id)]) : [null, null];
-  const suivante = suivanteDe(ordre, fiche.id);
+  // s26 liste et détail, tour 4 : la prochaine NON FAITE du filtre (`faits` couvre toute la liste filtrée).
+  const suivante = prochaineNonFaite(ordre, fiche.id, faits);
   return { fiche, lettre, filtres, retour, replique, fait: faits.has(fiche.id), hrefSuivante: suivante ? hrefFicheListe(suivante.id, filtres) : null };
 }
 

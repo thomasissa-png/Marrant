@@ -52,12 +52,18 @@ function PastilleEffectif({ libelle, nombre }: { libelle: string; nombre?: numbe
   );
 }
 
-/** Groupe « Pour quoi faire ? » et ses cinq valeurs, en pastilles inertes. */
-function FiltresPour({ className }: { className?: string }) {
+/**
+ * Groupe « Pour quoi faire ? » et ses cinq valeurs, en pastilles inertes.
+ * s26 liste et détail, tour 4 (relecture design D2 : tuile pleine largeur dès 1024, pastilles calées à gauche, environ
+ * 350 px vides à droite à 1280) : `reparties`, les cinq pastilles réparties sur la largeur de la tuile (la première au
+ * bord gauche, sous l'étiquette ; la dernière au bord droit du contenu). Une seule ligne dès 1024 (pastilles 838 px,
+ * place 912 à 1024), aucun texte ajouté.
+ */
+function FiltresPour({ className, reparties = false }: { className?: string; reparties?: boolean }) {
   return (
     <>
       <p className={cn(className, ETIQUETTE)}>{Q.filtrePour}</p>
-      <ul className="mt-2 flex flex-wrap gap-2">
+      <ul className={cn("mt-2 flex flex-wrap gap-2", reparties && "lg:justify-between")} data-pastilles-reparties={reparties ? "" : undefined}>
         {Object.entries(Q.pourQuoiFaire).map(([cle, libelle]) => (
           <PastilleEffectif key={cle} libelle={libelle} />
         ))}
@@ -122,7 +128,7 @@ function ExtraitQuoiRepondre() {
               lecture. */}
           <TuileFermee className="hidden lg:col-span-12 lg:block">
             <div className={TUILE} data-apercu-filtres-pour>
-              <FiltresPour />
+              <FiltresPour reparties />
             </div>
           </TuileFermee>
           <TuileFermee className="lg:col-span-6 xl:col-span-4">

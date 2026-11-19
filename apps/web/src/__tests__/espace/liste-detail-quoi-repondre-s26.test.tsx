@@ -38,7 +38,7 @@ import { hrefFiche } from "@/lib/espace/premier-pas";
 import { parentEspace, rubriqueAllumee } from "@/components/espace/rubriques";
 import { estFicheQuoiRepondre } from "@/components/espace/apercu/acces";
 import { lignesQuoiRepondre } from "@/lib/espace/quoi-repondre";
-import { ficheParDefaut, filtrerLignes, queryFiltres, suivanteDe } from "@/lib/espace/quoi-repondre-liste";
+import { ficheParDefaut, filtrerLignes, prochaineNonFaite, queryFiltres, suivanteDe } from "@/lib/espace/quoi-repondre-liste";
 import { ColonneListe } from "@/components/espace/quoi-repondre/colonne-liste";
 import { FournisseurFaits } from "@/components/espace/quoi-repondre/faits-contexte";
 import FicheQuoiRepondrePage from "@/app/(dashboard)/mon-espace/quoi-repondre/[id]/page";
@@ -111,6 +111,16 @@ describe("liste légère et ordre", () => {
     expect(ficheParDefaut(coloc, new Set(coloc.map((l) => l.id)))?.id).toBe(coloc[0].id);
     expect(suivanteDe(lignes, coloc[0].id)?.id).toBe(lignes[lignes.indexOf(coloc[0]) + 1].id);
     expect(suivanteDe(lignes, lignes[lignes.length - 1].id)).toBeNull();
+    // s26 liste et détail, tour 4 : « Situation suivante » = prochaine non faite. Fiche faite : la première non faite du
+    // filtre (celle de l'arrivée), même placée avant ; fiche non faite (passée) : la non faite d'après, en reprenant au
+    // début ; tout fait : la règle d'avant.
+    const [a, b, c, d] = coloc;
+    expect(prochaineNonFaite(coloc, c.id, new Set([a.id, c.id]))?.id).toBe(b.id);
+    expect(prochaineNonFaite(coloc, c.id, new Set([a.id, c.id]))?.id).toBe(ficheParDefaut(coloc, new Set([a.id, c.id]))?.id);
+    expect(prochaineNonFaite(coloc, b.id, new Set([a.id, c.id]))?.id).toBe(d.id);
+    expect(prochaineNonFaite(coloc, d.id, new Set([a.id, c.id]))?.id).toBe(b.id);
+    expect(prochaineNonFaite(coloc, a.id, new Set(coloc.map((l) => l.id)))?.id).toBe(b.id);
+    expect(prochaineNonFaite(coloc, coloc[coloc.length - 1].id, new Set(coloc.map((l) => l.id)))).toBeNull();
     expect(queryFiltres({ ou: "coloc", pour: "desamorcer" })).toBe("?ou=coloc&pour=desamorcer");
     expect(queryFiltres({ ou: null, pour: null })).toBe("");
   });
@@ -198,14 +208,21 @@ describe("fiche dans le panneau (`/mon-espace/quoi-repondre/[id]`)", () => {
   // s26 liste et détail, tour 1 (mesures §3 et §4) : un seul aplat avant « Fait », celui de l'action principale du geste ;
   // « Enregistrer » en contour (même désactivé) ; panneau ramené à l'échelle de `typo.ts` (plus de 12 px ni de capitales,
   // zone d'état vide hors du flux) ; blocs du corps à 24 px.
-  it("tour 1 : avant « Fait », un seul aplat (« Essayé, ça a marché ») ; « Enregistrer » en contour ; échelle du panneau", async () => {
+  // s26 liste et détail, tour 4 (relectures à l'aveugle : « Essayé, ça a marché » plein avant tout clic, lu comme déjà
+  // choisi) : avant « Fait », AUCUN aplat ; les trois retours en contour, à égalité, aucun pressé.
+  it("tour 4 : avant « Fait », aucun aplat, les trois retours en contour à égalité ; « Enregistrer » en contour ; échelle du panneau", async () => {
     const avecGeste = situations().find((f) => f.geste)!;
     nav.segment = avecGeste.id;
     const { container, getByRole } = render(
       <FournisseurFaits versionServeur="">{await FicheQuoiRepondrePage({ params: { id: avecGeste.id }, searchParams: {} })}</FournisseurFaits>,
     );
-    const principale = getByRole("button", { name: /ça a marché/ });
-    expect(aplats(container)).toEqual([principale]);
+    expect(aplats(container)).toEqual([]);
+    const retours = Array.from(container.querySelectorAll<HTMLButtonElement>("[data-testid='geste-fiche'] [role='group'] button[aria-pressed]"));
+    expect(retours).toHaveLength(3);
+    expect(retours.every((b) => b.getAttribute("aria-pressed") === "false")).toBe(true);
+    // Même classe pour les trois : aucun ne se distingue avant le clic.
+    expect(new Set(retours.map((b) => b.className)).size).toBe(1);
+    expect(classes(retours[0])).toContain("border");
     const enregistrer = getByRole("button", { name: "Enregistrer" });
     expect(enregistrer).toBeDisabled();
     expect(classes(enregistrer)).toEqual(expect.arrayContaining(["border", "disabled:text-text-muted"]));

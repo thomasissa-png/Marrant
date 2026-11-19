@@ -86,8 +86,11 @@ export function GesteFiche({
       </div>
       {/* s26 liste et détail, tour 1 (spec design §6, mesures §3) : dans Quoi répondre, un seul aplat par fiche. Avant
           « Fait », « Essayé, ça a marché » (l'action principale du geste) ; après, « Situation suivante ». « Enregistrer »
-          reste en contour (il passait pour un aplat, même désactivé). Ailleurs (`faits` nul) : rendu inchangé. */}
-      <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} principale={faits && !fait ? "essaye-ca-a-marche" : null} />
+          reste en contour (il passait pour un aplat, même désactivé). Ailleurs (`faits` nul) : rendu inchangé.
+          s26 liste et détail, tour 4 (relectures à l'aveugle) : « Essayé, ça a marché » n'est plus en plein avant « Fait »
+          (lu comme déjà choisi) : les trois retours en contour, à égalité ; le seul plein reste « Situation suivante »
+          après « Fait ». */}
+      <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} />
       {echec && (
         <p role="status" className="text-sm text-text-secondary">
           {TEXTES_CARTES.echec}
