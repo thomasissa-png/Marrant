@@ -52,7 +52,8 @@ export function TonCap({
 }) {
   if (enLigne) {
     return (
-      <section id="cap" aria-labelledby="ton-cap-titre" className={cn("flex min-w-0 flex-wrap items-center gap-x-6 gap-y-2", NEUTRE_CAP, className)}>
+      // s26 parcours connecté, tour 2 : sous 300 px (200 % de texte), lignes à 4 px l'une de l'autre au lieu de 8.
+      <section id="cap" aria-labelledby="ton-cap-titre" className={cn("flex min-w-0 flex-wrap items-center gap-x-6 gap-y-2 max-e300:gap-y-1", NEUTRE_CAP, className)}>
         <h2 id="ton-cap-titre" className={META_FORT}>
           {T.titre}
         </h2>

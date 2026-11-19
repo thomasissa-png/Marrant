@@ -59,7 +59,9 @@ export const CarteEnCours = forwardRef<
 
   const barre = etape?.enCours === true;
   const ligneCap = caps && (
-    <div className={cn("grid gap-x-6 gap-y-4 lg:grid-cols-12 lg:items-center", etape && "mt-6 border-t border-border pt-6")}>
+    // s26 parcours connecté, tour 2 (200 % de texte, 188 x 406 : premier parcours à 895 px pour 812 au plus) : sous
+    // 300 px, filet à 8 px au lieu de 24 (`max-e300:*`), comme les autres resserrages de l'en-tête de l'abonné.
+    <div className={cn("grid gap-x-6 gap-y-4 lg:grid-cols-12 lg:items-center", etape && "mt-6 border-t border-border pt-6 max-e300:mt-2 max-e300:pt-2")}>
       {barre && etape && <BarreProgression faites={etape.ordre - 1} total={etape.total} className="lg:col-span-4" />}
       <TonCap enLigne cap={caps.cap} serie={caps.serie} ecart={caps.ecart} className={barre ? "lg:col-span-8" : "lg:col-span-12"} />
     </div>
@@ -68,8 +70,8 @@ export const CarteEnCours = forwardRef<
   return (
     <section aria-labelledby={etape ? "en-cours-titre" : undefined} data-testid="carte-en-cours" className={cn(CADRE_CARTE_NEUTRE, "p-6 max-e300:px-3 max-e300:py-2", className)}>
       {etape && (
-        <div className="grid gap-y-4 lg:grid-cols-12 lg:gap-x-6">
-          <div className="min-w-0 space-y-2 lg:col-span-9">
+        <div className="grid gap-y-4 max-e300:gap-y-2 lg:grid-cols-12 lg:gap-x-6">
+          <div className="min-w-0 space-y-2 max-e300:space-y-1 lg:col-span-9">
             <p className={ETIQUETTE}>{etape.enCours ? E.enCours : E.conseillee}</p>
             <h2 id="en-cours-titre" className={TITRE_CARTE}>
               {etape.titreParcours}

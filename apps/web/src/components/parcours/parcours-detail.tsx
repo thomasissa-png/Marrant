@@ -52,7 +52,7 @@ import type { PathData, StatutParcours, Step, UserProgress } from "@/components/
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { SommaireParcours } from "@/components/espace/parcours/sommaire-parcours";
 import { ListeEtapesVisiteur, PiedEtape } from "@/components/espace/parcours/navigation-etapes";
-import { recalerAncre } from "@/lib/espace/recaler-ancre";
+import { lirePosition, noterPosition, recalerAncre, recalerPosition, type PositionParcours } from "@/lib/espace/recaler-ancre";
 import { AnnonceApresValidation } from "@/components/espace/parcours/annonce-apres-validation";
 
 export type { PathData, UserProgress } from "@/components/parcours/parcours-types";
@@ -104,7 +104,8 @@ function stepToOpen(steps: Step[], completed: number[], hashStep: number | null)
  */
 const COLONNE_DETAIL = "lg:col-span-12";
 const EN_TETE_GAUCHE = "lg:col-span-7";
-const CARTE_DROITE = "lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mt-9 lg:self-stretch";
+// s26 tour 2 : `lg:flex lg:flex-col`, le contenu (liste des étapes) remplit la carte étirée au lieu de laisser 100 px vides.
+const CARTE_DROITE = "lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mt-9 lg:self-stretch lg:flex lg:flex-col";
 const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
 /**
  * s26 tour 2 (P3, relectures du tour 1 : corps des étapes hors échelle, au moins 5 accents violets) : posé sur la liste
@@ -162,6 +163,8 @@ export function ParcoursDetail({
   const hashStep = useRef<number | null>(null);
   // s17 tour 4 (QA) : étape d'arrivée par ancre à recaler une fois le chargement abonné terminé.
   const ancreARecaler = useRef<number | null>(null);
+  // s26 tour 2 : position notée au départ, rendue au retour du navigateur (étape ouverte et défilement).
+  const positionARestaurer = useRef<PositionParcours | null>(null);
   const cacheApplique = useRef(false);
   const reessayerRef = useRef<HTMLButtonElement>(null);
 
@@ -221,7 +224,9 @@ export function ParcoursDetail({
       ? stepToOpen(data.path.steps, data.userProgress?.completedSteps ?? [], hashStep.current)
       : null;
     // UXV-1-03 : parcours terminé sans ancre = toutes les étapes repliées (next vaut alors null).
-    if (next !== null || data.userProgress?.completedAt) setExpandedStep(next);
+    // s26 tour 2 : retour du navigateur, l'étape ouverte au départ est rouverte telle quelle.
+    if (positionARestaurer.current) setExpandedStep(positionARestaurer.current.etape);
+    else if (next !== null || data.userProgress?.completedAt) setExpandedStep(next);
     setLastValidation(derniereValidation(data.stepValidations));
   }, [slug, userId]);
 
@@ -257,7 +262,11 @@ export function ParcoursDetail({
       if (cache && !cacheApplique.current) {
         cacheApplique.current = true;
         setProgress((prev) => prev ?? cache);
-        setExpandedStep(stepToOpen(initialPath.steps, cache.completedSteps, hashStep.current ?? readHashStep()));
+        setExpandedStep(
+          positionARestaurer.current
+            ? positionARestaurer.current.etape
+            : stepToOpen(initialPath.steps, cache.completedSteps, hashStep.current ?? readHashStep()),
+        );
       }
       fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`, { signal: controller.signal })
         .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
@@ -296,8 +305,32 @@ export function ParcoursDetail({
     if (enrich === "echec" && reloadKey > 0) reessayerRef.current?.focus();
   }, [enrich, reloadKey]);
 
+  // s26 parcours connecté, tour 2 (`docs/ux/parcours-connecte-s26.md` §5, `goBack()`) : espace ouvert, un clic sur un
+  // lien qui quitte la page (« Retour : Parcours », fil d'Ariane…) note l'étape ouverte et le défilement dans l'entrée
+  // d'historique courante ; le retour du navigateur sur cette entrée les rend (effet d'arrivée plus bas), au lieu de
+  // repartir de l'ancre `#etape-N` de l'adresse.
+  useEffect(() => {
+    if (!ESPACE_CLIENT_PUBLIE) return;
+    const noter = (e: MouseEvent) => {
+      const lien = e.target instanceof Element ? e.target.closest("a[href]") : null;
+      if (!(lien instanceof HTMLAnchorElement)) return;
+      const cible = new URL(lien.href, window.location.href);
+      if (cible.origin !== window.location.origin || cible.pathname === window.location.pathname) return;
+      noterPosition({ etape: expandedStep, y: window.scrollY });
+    };
+    document.addEventListener("click", noter, true);
+    return () => document.removeEventListener("click", noter, true);
+  }, [expandedStep]);
+
   // Ancre #etape-N à l'arrivée (HTML ISR) : l'étape s'ouvre et vient à l'écran.
   useEffect(() => {
+    // s26 tour 2 : retour du navigateur sur une position notée, l'étape notée s'ouvre, l'ancre de l'adresse est ignorée.
+    const position = ESPACE_CLIENT_PUBLIE ? lirePosition() : null;
+    if (position) {
+      positionARestaurer.current = position;
+      setExpandedStep(position.etape);
+      return;
+    }
     hashStep.current = readHashStep();
     if (!initialPath || hashStep.current === null) return;
     const target = stepToOpen(initialPath.steps, initialProgress?.completedSteps ?? [], hashStep.current);
@@ -313,6 +346,13 @@ export function ParcoursDetail({
   // chargement abonné aboutit (contenu) ou échoue (message), la page raccourcit et la carte passait
   // sous l'en-tête fixe. Recalage unique sous l'en-tête (scroll-mt-28), sans toucher au focus.
   useEffect(() => {
+    // s26 tour 2 : position notée rendue une fois la page à sa hauteur (abonné : progression lue ; visiteur : tout de suite).
+    if (positionARestaurer.current && (enrich !== "attente" || status === "unauthenticated")) {
+      const { y } = positionARestaurer.current;
+      positionARestaurer.current = null;
+      recalerPosition(y);
+      return;
+    }
     if (ancreARecaler.current === null || enrich === "attente") return;
     const cible = expandedStep ?? ancreARecaler.current;
     ancreARecaler.current = null;
@@ -323,7 +363,7 @@ export function ParcoursDetail({
       return;
     }
     document.getElementById(`etape-${cible}`)?.scrollIntoView?.({ behavior: "instant", block: "start" });
-  }, [enrich, expandedStep]);
+  }, [enrich, expandedStep, status]);
 
   // parcours-ouvert : une fois par affichage, session résolue (data-analyst §5.1).
   useEffect(() => {
@@ -628,6 +668,20 @@ export function ParcoursDetail({
     </>
   );
 
+  // s26 parcours connecté, tour 2 (C3 : la carte du nouvel abonné dépassait la colonne de gauche de 127 à 147 px) : espace
+  // ouvert, l'invitation au rappel (64 px sur deux lignes dans la carte de 5 colonnes) sort de la carte de progression ;
+  // en-tête 7/5, elle ferme la colonne de gauche (qui gagne la hauteur que la carte perd), sinon elle suit la carte.
+  // Mêmes textes, même lien. Fermé : dans la carte, inchangé.
+  const invitationRappel =
+    ESPACE_CLIENT_PUBLIE && isPremium && carteProgression && !isPathCompleted && rappelInvite ? (
+      <>
+        {frTypoTexte(RAPPEL_LIEN.texte)}{" "}
+        <Link href="/profil#rappel-parcours" className="inline-flex min-h-11 items-center text-text-primary underline underline-offset-2">
+          {frTypoTexte(RAPPEL_LIEN.lien)}
+        </Link>
+      </>
+    ) : null;
+
   return (
     <>
       <div className={ouvert(cn("mb-8", enTete75 ? EN_TETE_GAUCHE : COLONNE_DETAIL), "mb-8")}>
@@ -664,6 +718,8 @@ export function ParcoursDetail({
           </div>
         </div>
         {!isPathCompleted && !argumentaireApresProgramme && argumentaire}
+        {/* s26 tour 2 : en-tête 7/5, l'invitation au rappel ferme la colonne de gauche (voir `invitationRappel`). */}
+        {invitationRappel && enTete75 && <p className={cn(META, "mt-4")}>{invitationRappel}</p>}
       </div>
 
       {/* DES-1-16 : carte resserrée (une ligne pour le visiteur).
@@ -674,7 +730,9 @@ export function ParcoursDetail({
         aria-busy={chargementPremium || undefined}
         filet={ESPACE_CLIENT_PUBLIE}
       >
-        <CardContent className={isPremium ? "py-2" : ""}>
+        {/* s26 tour 2 : ouvert, plus de `py-2` (la carte a déjà ses 24 px) ; dès 1024 px, contenu en colonne qui occupe la
+            carte étirée (les lignes de la liste se partagent la hauteur). Fermé : inchangé. */}
+        <CardContent className={ouvert("lg:flex lg:flex-1 lg:flex-col", isPremium ? "py-2" : "")}>
           {isPremium ? (
             <>
               {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16).
@@ -764,8 +822,9 @@ export function ParcoursDetail({
               {showRythme && !nextDate && (!etapeAFaire || sommaireAffiche) && (
                 <p className="mt-2 text-sm text-text-secondary">{PROCHAINE_ETAPE_DISPONIBLE}</p>
               )}
-              {/* s19 iter 4 (C @design) : -mb-3 sous 640 px, le lien de 44 px ne creuse plus 40 px sous la carte. */}
-              {!isPathCompleted && rappelInvite && (
+              {/* s19 iter 4 (C @design) : -mb-3 sous 640 px, le lien de 44 px ne creuse plus 40 px sous la carte.
+                  s26 tour 2 : espace ouvert, l'invitation sort de la carte (sous l'en-tête, ci-dessous). */}
+              {!ESPACE_CLIENT_PUBLIE && !isPathCompleted && rappelInvite && (
                 <p className={ouvert(cn(META, "-mb-3 mt-2 sm:mb-0"), "-mb-3 mt-2 text-xs text-text-muted sm:mb-0")}>
                   {frTypoTexte(RAPPEL_LIEN.texte)}{" "}
                   <Link
@@ -791,6 +850,8 @@ export function ParcoursDetail({
         </CardContent>
       </Card>
       )}
+      {/* s26 tour 2 : sans en-tête 7/5 (abonné qui a validé une étape), l'invitation suit la carte, sur toute la largeur. */}
+      {invitationRappel && !enTete75 && <p className={cn(META, "-mt-4 mb-8", COLONNE_DETAIL)}>{invitationRappel}</p>}
 
       {/* Zone d'annonce permanente du gain d'XP (UX-05, UX-09 c) : elle ne se démonte pas avec l'étape.
           s17 tour 1 : le texte visible est dans la carte validée ; ici, l'annonce vocale seule (plus de 16 px morts). */}

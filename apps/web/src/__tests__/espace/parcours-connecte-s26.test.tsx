@@ -14,6 +14,7 @@ import { QuatreSemaines } from "@/components/espace/quatre-semaines";
 import { SommaireParcours } from "@/components/espace/parcours/sommaire-parcours";
 import { TonCap } from "@/components/espace/ton-cap";
 import { trackUmami } from "@/lib/umami";
+import { lirePosition, noterPosition, recalerPosition } from "@/lib/espace/recaler-ancre";
 import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import { progressionVisiteurTexte } from "@/config/textes/parcours";
@@ -91,15 +92,27 @@ describe("/parcours/[slug] : navigation entre étapes", () => {
     expect(screen.getAllByRole("link")).toHaveLength(1);
   });
 
-  it("visiteur : ligne d'offre puis liens d'ancre, « Lecture libre » sur l'étape 1 seulement, aucun bouton", () => {
+  // s26 parcours connecté, tour 2 : test changé (raison : sous 1024 px, la liste du visiteur passe dans un `details`
+  // FERMÉ dont le résumé porte la ligne d'offre, UX §4 ; dès 1024 px, liste dépliée dont les lignes s'étirent à la hauteur
+  // de la carte ; deux rendus choisis par CSS seul, la page est rendue côté serveur).
+  it("visiteur : ligne d'offre puis liens d'ancre, « Lecture libre » sur l'étape 1 seulement, aucun bouton ; replié sous 1024 px", () => {
     const aller = jest.fn();
-    render(<ListeEtapesVisiteur slug="repartie" etapes={[{ order: 1, titre: "Un", libre: true }, { order: 2, titre: "Deux", libre: false }]} allerAEtape={aller} />);
-    expect(screen.getByText(progressionVisiteurTexte())).toBeInTheDocument();
-    const liens = screen.getAllByRole("link");
-    expect(liens.map((l) => l.getAttribute("href"))).toEqual(["#etape-1", "#etape-2"]);
-    expect(screen.getAllByText(ETAPE_LIBRE_BADGE)).toHaveLength(1);
+    const { container } = render(<ListeEtapesVisiteur slug="repartie" etapes={[{ order: 1, titre: "Un", libre: true }, { order: 2, titre: "Deux", libre: false }]} allerAEtape={aller} />);
+    const large = container.querySelector("[data-liste-large]") as HTMLElement;
+    const repliee = container.querySelector("details[data-liste-repliee]") as HTMLDetailsElement;
+    expect(large.className.split(" ")).toEqual(expect.arrayContaining(["hidden", "lg:flex", "lg:flex-1", "lg:flex-col"]));
+    expect(repliee.className.split(" ")).toContain("lg:hidden");
+    expect(repliee.open).toBe(false);
+    expect(within(repliee.querySelector("summary") as HTMLElement).getByText(progressionVisiteurTexte())).toBeInTheDocument();
+    expect(screen.getAllByText(progressionVisiteurTexte())).toHaveLength(2);
+    for (const liste of [large, repliee.querySelector("ol") as HTMLElement]) {
+      const liens = within(liste).getAllByRole("link");
+      expect(liens.map((l) => l.getAttribute("href"))).toEqual(["#etape-1", "#etape-2"]);
+      expect(within(liste).getAllByText(ETAPE_LIBRE_BADGE)).toHaveLength(1);
+      expect(liens[0].className.split(" ")).toEqual(expect.arrayContaining(["min-h-11", "flex-1"]));
+    }
     expect(screen.queryByRole("button")).toBeNull();
-    fireEvent.click(liens[1]);
+    fireEvent.click(within(large).getAllByRole("link")[1]);
     expect(aller).toHaveBeenCalledWith(2);
   });
 
@@ -116,5 +129,50 @@ describe("/parcours/[slug] : navigation entre étapes", () => {
     } finally {
       window.matchMedia = mq;
     }
+  });
+});
+
+// s26 parcours connecté, tour 2 (`docs/captures/s26/tour-2-quoi-repondre-parcours/MESURES.md` B2, B3) : retour du
+// navigateur, sommaire de l'en-tête 7/5, resserrages sous 300 px.
+describe("tour 2 : retour du navigateur et en-tête 7/5", () => {
+  it("la position quittée est notée dans l'entrée d'historique courante, état de Next conservé, puis relue", () => {
+    window.history.replaceState({ __NA: true, arbre: "x" }, "");
+    expect(lirePosition()).toBeNull();
+    noterPosition({ etape: 3, y: 4390 });
+    expect(window.history.state).toEqual({ __NA: true, arbre: "x", parcoursPosition: { etape: 3, y: 4390 } });
+    expect(lirePosition()).toEqual({ etape: 3, y: 4390 });
+    window.history.replaceState({ parcoursPosition: { etape: "3", y: "a" } }, "");
+    expect(lirePosition()).toBeNull();
+    window.history.replaceState(null, "");
+  });
+
+  it("recalerPosition rend le défilement noté", () => {
+    const scrollTo = jest.fn();
+    const avant = window.scrollTo;
+    window.scrollTo = scrollTo as unknown as typeof window.scrollTo;
+    try {
+      recalerPosition(2755)();
+      expect(scrollTo).toHaveBeenCalledWith({ top: 2755, behavior: "instant" });
+    } finally {
+      window.scrollTo = avant;
+    }
+  });
+
+  it("sommaire : lignes de 48 px dès 1024 px, qui se partagent la hauteur de la carte étirée", () => {
+    const { container } = render(<SommaireParcours etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }]} faites={[]} onOuvrir={jest.fn()} />);
+    const details = screen.getByTestId("sommaire-parcours");
+    expect(details.className.split(" ")).toEqual(expect.arrayContaining(["lg:flex", "lg:flex-1", "lg:flex-col", "lg:[&::details-content]:flex"]));
+    expect((container.querySelector("ol") as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["lg:flex", "lg:flex-1", "lg:mt-2"]));
+    for (const li of Array.from(container.querySelectorAll("li"))) {
+      expect(li.className.split(" ")).toEqual(expect.arrayContaining(["lg:flex-1", "lg:py-0.5"]));
+      expect(li.className).not.toMatch(/min-h-/);
+    }
+  });
+
+  it("200 % de texte : filet de « Ton cap » resserré sous 300 px", () => {
+    const { container } = render(<CarteEnCours etat="ok" etape={ETAPE} caps={CAPS} />);
+    const cap = container.querySelector("#cap") as HTMLElement;
+    expect(cap.className.split(" ")).toContain("max-e300:gap-y-1");
+    expect((cap.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["max-e300:mt-2", "max-e300:pt-2"]));
   });
 });

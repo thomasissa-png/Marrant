@@ -99,8 +99,8 @@ export function ValidationWall({
   const plein = cn(
     buttonVariants({ variant: "primary", size: "lg" }),
     "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
-    CORPS_APPEL_MOBILE,
-    ESPACE_CLIENT_PUBLIE && CONTOUR_NEUTRE,
+    // s26 parcours connecté, tour 2 : ouvert, 16/600 de l'échelle `typo.ts` sous 400 px aussi (plus de 15 px).
+    ESPACE_CLIENT_PUBLIE ? CONTOUR_NEUTRE : CORPS_APPEL_MOBILE,
   );
   if (quizPending || !isParcoursSlug(slug)) {
     return (

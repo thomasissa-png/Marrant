@@ -52,11 +52,14 @@ export function SommaireParcours({
 
   // s26 (`docs/design/parcours-vannes-s26.md` §2, rail de /parcours/{slug}) : barre grise sur rail visible (plus de violet),
   // numéros en 16/600 secondaire, « Fait » en méta avec coche verte. Le bouton de l'étape à reprendre reste le plein.
+  // s26 parcours connecté, tour 2 (C3, en-tête 7/5 dès 1024 px) : lignes de 48 px (bouton de 44 + 4) au lieu de 68, et le
+  // sommaire déplié remplit la carte étirée à la hauteur de la colonne de gauche (les lignes se partagent le surplus,
+  // `::details-content` en colonne) : plus de vide en bas de carte ni de carte qui dépasse de 130 px.
   return (
     <details
       ref={details}
       data-testid="sommaire-parcours"
-      className="group"
+      className="group lg:flex lg:flex-1 lg:flex-col lg:[&::details-content]:flex lg:[&::details-content]:flex-1 lg:[&::details-content]:flex-col"
       onToggle={() => (touche.current ||= document.activeElement?.tagName === "SUMMARY")}
     >
       {/* Le résumé porte « n sur N étapes » et la barre : visibles replié comme déplié. */}
@@ -81,13 +84,13 @@ export function SommaireParcours({
         <span className="block h-full rounded-full bg-text-secondary" style={{ width: total > 0 ? `${(n / total) * 100}%` : "0%" }} />
       </span>
       </summary>
-      <ol className="mt-4 divide-y divide-border">
+      <ol className="mt-4 divide-y divide-border lg:mt-2 lg:flex lg:flex-1 lg:flex-col">
         {etapes.map((e) => {
           const fait = faites.includes(e.order);
           const bouton = e.order === aReprendre ? (n === 0 ? P.sommaire.commencer : P.sommaire.reprendre) : P.sommaire.voir;
           const principal = e.order === aReprendre;
           return (
-            <li key={e.order} className="flex flex-wrap items-center gap-x-3 gap-y-2 py-3 max-e300:py-2">
+            <li key={e.order} className="flex flex-wrap items-center gap-x-3 gap-y-2 py-3 max-e300:py-2 lg:flex-1 lg:py-0.5">
               <span className="text-base font-semibold tabular-nums text-text-secondary" aria-hidden="true">
                 {e.order}
               </span>

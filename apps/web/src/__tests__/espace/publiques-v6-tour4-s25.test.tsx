@@ -88,16 +88,17 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
     await act(async () => undefined);
     // s26 parcours connecté : test changé (raison : le pied est la piste 5 de la sous-grille, `mt-6 md:row-start-5` au lieu
     // de `pt-6` ; la dernière carte seule passe son pied en ligne dès 1024 px, `docs/design/parcours-connecte-s26.md` §2.4).
-    for (const [i, carte] of cartes(container).entries()) {
-      const seule = i === catalogue.length - 1 && catalogue.length % 2 === 1;
+    // s26 parcours connecté, tour 2 : test changé (raison : une carte par rangée, pied de CHAQUE carte en ligne dès
+    // 1024 px ; plus de piste `md:row-start-5`, `MESURES.md` B1 du tour 2).
+    for (const carte of cartes(container)) {
       const pied = carte.querySelector("[data-parcours-pied]") as HTMLElement;
-      expect(classes(pied)).toEqual(expect.arrayContaining(["mt-6", "flex", "flex-col", "gap-4", "md:row-start-5"]));
+      expect(classes(pied)).toEqual(expect.arrayContaining(["mt-6", "flex", "flex-col", "gap-4", "lg:flex-row"]));
       expect(classes(pied)).not.toContain("mt-auto");
       const details = pied.firstElementChild as HTMLElement;
       expect(details.tagName).toBe("DETAILS");
-      expect(details.className).toBe(seule ? "group lg:min-w-0 lg:flex-1" : "group");
+      expect(details.className).toBe("group lg:min-w-0 lg:flex-1");
       const bloc = pied.lastElementChild as HTMLElement;
-      expect(bloc.className).toBe(seule ? "flex flex-col gap-2 lg:flex-1" : "flex flex-col gap-2");
+      expect(bloc.className).toBe("flex flex-col gap-2 lg:flex-1");
       const bouton = within(bloc).getByRole("button");
       expect(classes(bouton)).toEqual(expect.arrayContaining(["min-h-12", "w-full", "sm:w-auto"]));
       // Un seul bloc de fin : rien après lui dans la carte.
@@ -109,19 +110,24 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
   // (plus de carte centrée de 50 %) et passe en zones internes 7/5 dès 1024 px.
   // s26 parcours connecté : test changé (raison : plus de zones 7/5, qui laissaient un côté droit vide ; la carte seule
   // reste empilée, seul son pied passe en ligne dès 1024 px, `docs/design/parcours-connecte-s26.md` §2.4).
-  it("ouvert : carte impaire seule sur toute la rangée, empilée, pied en ligne à `lg`", async () => {
+  // s26 parcours connecté, tour 2 : test changé (raison : une carte par rangée pour toutes, texte en deux colonnes
+  // équilibrées dès 768 px, pied en ligne dès 1024 px ; la sous-grille de deux cartes laissait jusqu'à 114 px de vide,
+  // `docs/captures/s26/tour-2-quoi-repondre-parcours/MESURES.md` B1).
+  it("ouvert : une carte par rangée, texte en deux colonnes équilibrées dès 768 px, pied en ligne à `lg`", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
     const grille = container.querySelector("[data-parcours-cartes]") as HTMLElement;
     expect(grille.className).toBe(GRILLE_CARTES_OUVERTE);
-    expect(classes(grille)).toEqual(expect.arrayContaining(["md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2"]));
-    expect(classes(grille)).not.toContain("lg:[&>:last-child:nth-child(odd)]:w-[calc(50%-0.75rem)]");
-    const derniere = cartes(container)[catalogue.length - 1];
-    expect(catalogue.length % 2).toBe(1);
-    expect(classes(derniere)).not.toContain("lg:grid-cols-12");
-    expect(classes(derniere.querySelector("[data-parcours-pied]"))).toEqual(expect.arrayContaining(["lg:flex-row", "lg:items-start", "lg:gap-6"]));
-    expect(classes(cartes(container)[0].querySelector("[data-parcours-pied]"))).not.toContain("lg:flex-row");
+    expect(classes(grille)).toEqual(["grid", "gap-6", "lg:col-span-12"]);
+    for (const carte of cartes(container)) {
+      expect(classes(carte)).not.toContain("lg:grid-cols-12");
+      expect(carte.className).not.toMatch(/subgrid|row-span|\bmin-h-|\bmt-auto\b|\bjustify-between\b/);
+      const texte = carte.querySelector("[data-parcours-texte]") as HTMLElement;
+      expect(classes(texte)).toEqual(expect.arrayContaining(["md:columns-2", "md:gap-6", "[orphans:1]", "[widows:1]"]));
+      expect(texte.children).toHaveLength(2);
+      expect(classes(carte.querySelector("[data-parcours-pied]"))).toEqual(expect.arrayContaining(["lg:flex-row", "lg:items-start", "lg:gap-6"]));
+    }
   });
 
   it("fermé : pile d'avant, `details` en `group mb-6`, bloc du bouton sans `mt-auto`, aucun bloc ajouté", async () => {
