@@ -55,10 +55,10 @@ export const TEXTES_APERCU_VERROUILLE = {
   // validé par Thomas le 19/11 (docs/founder-preferences.md)
   promesseFavoris: "Garde ce qui t'a servi, retrouve-le sans chercher.",
   /** Promesse du hero de l'aperçu de « Mes questions » (s26, `docs/ux/questions-repliques-lettre-profil-s26.md` §1.1). */
-  // À VALIDER PAR THOMAS (s26), reco @copywriter, voir docs/copy/promesses-apercus-s26.md
+  // validé par Thomas le 19/11 (docs/founder-preferences.md)
   promesseQuestions: "Décris ta scène, l'équipe t'écrit en retour.",
   /** Promesse du hero de l'aperçu de « Mes répliques » (s26, même spec §2.1). */
-  // À VALIDER PAR THOMAS (s26), reco @copywriter, voir docs/copy/promesses-apercus-s26.md
+  // validé par Thomas le 19/11 (docs/founder-preferences.md)
   promesseRepliques: "Tes mots à toi, écrits une fois, relus quand il le faut.",
   /** T2 : phrase de fin d'extrait, toutes rubriques. */
   // validé par Thomas le 18/11

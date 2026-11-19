@@ -13,7 +13,7 @@ export const TEXTES_REPLIQUES = {
   /** Relecture des captures nav s24 (ux F5) : sortie de l'état vide, vers « Quoi répondre ». Libellé validé par Thomas le 14/11. */
   ecrirePremiere: "Écrire ma première réplique",
   /** s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §2.2, emplacement `LIEN_AUTRE_REPLIQUE`) : lien de l'en-tête quand l'abonné a déjà des répliques. */
-  // À VALIDER PAR THOMAS (s26), reco @copywriter, voir docs/copy/promesses-apercus-s26.md
+  // validé par Thomas le 19/11 (docs/founder-preferences.md)
   ecrireProchaine: "Écrire ma prochaine réplique",
   modifier: "Modifier", // (28)
   annuler: "Annuler", // (28)
