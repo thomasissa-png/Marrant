@@ -116,11 +116,11 @@ const config: Config = {
   plugins: [
     require("tailwindcss-animate"),
     /**
-     * s26, Thomas 19/11 : variante `fenetre-haute:` (fenêtre d'au moins 1000 px de HAUT), posée une fois ici comme les
+     * s26, Thomas 19/11 : variante `fenetre-haute:` (fenêtre d'au moins 960 px de HAUT (1000 au départ, abaissé à 960 pour Favoris de 972 à 999 px)), posée une fois ici comme les
      * points de rupture nommés ; pas un écran (`screens` reste en largeurs minimales simples, les `max-*` restent
      * permises). Seul usage : le bouton de la carte de fin en contour (`BOUTON_OFFRE_FIN`). CSS seul, aucun JavaScript.
      */
-    plugin(({ addVariant }) => addVariant("fenetre-haute", "@media (min-height: 1000px)")),
+    plugin(({ addVariant }) => addVariant("fenetre-haute", "@media (min-height: 960px)")),
   ],
 };
 

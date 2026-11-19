@@ -23,11 +23,11 @@ export const BOUTON_OFFRE = cn(
 
 /**
  * Bouton de la CARTE DE FIN (fin d'extrait des aperçus, fin du Carnet non-abonné). s26, Thomas 19/11 : sur une fenêtre
- * d'au moins 1000 px de haut, la carte de fin entre dans le premier écran avec la carte d'offre ; son bouton passe en
+ * d'au moins 960 px de haut, la carte de fin entre dans le premier écran avec la carte d'offre ; son bouton passe en
  * CONTOUR (bord violet 1 px, fond transparent, texte blanc, survol discret), même gabarit (`min-h-12`, `rounded-lg`),
  * même libellé, même lien : jamais deux aplats violets dans le même écran. La carte garde son bord et son halo. Sous
- * 1000 px de haut, bouton plein. Variante CSS par media query de hauteur (`fenetre-haute:`, `@media (min-height:
- * 1000px)`, nommée dans `tailwind.config.ts` : pas de valeur en px dans les composants de l'espace), aucun JavaScript.
+ * 960 px de haut, bouton plein. Variante CSS par media query de hauteur (`fenetre-haute:`, `@media (min-height:
+ * 960px)`, nommée dans `tailwind.config.ts` : pas de valeur en px dans les composants de l'espace), aucun JavaScript.
  */
 export const BOUTON_OFFRE_FIN = cn(
   BOUTON_OFFRE,

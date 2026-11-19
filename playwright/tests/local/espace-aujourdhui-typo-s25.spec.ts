@@ -99,7 +99,7 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
         // (bord violet de 1 px sur les quatre côtés, fond transparent) ; sous 1000 px, il reste plein (compté en aplat).
         if (el.matches("[data-apercu-fin] a[data-position='fin'], [data-carnet-fin] a[data-testid='carnet-paywall-bouton']")) {
           return (
-            window.innerHeight >= 1000 &&
+            window.innerHeight >= 960 &&
             cotes.every((c) => cs.getPropertyValue(`border-${c}-width`) === "1px" && contientViolet(cs.getPropertyValue(`border-${c}-color`))) &&
             cs.backgroundColor === "rgba(0, 0, 0, 0)" &&
             cs.backgroundImage === "none"

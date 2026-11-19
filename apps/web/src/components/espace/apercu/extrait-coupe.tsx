@@ -65,7 +65,7 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
           « Aujourd'hui » (suite à hauteur fixe, sans `entiere`) : ses 48 derniers px sont le bout du fondu, pas de l'air
           sous une tuile ; une carte posée dessus touchait la tuile coupée (0 px à 375, 32 dès 1024) : aucun
           chevauchement, la carte commence 48 px sous le point transparent du fondu.
-          s26, Thomas 19/11 : bouton en contour sur fenêtre d'au moins 1000 px de haut (`BOUTON_OFFRE_FIN`). */}
+          s26, Thomas 19/11 : bouton en contour sur fenêtre d'au moins 960 px de haut (`BOUTON_OFFRE_FIN`). */}
       <div
         className={cn(CARTE_PREMIUM, "mx-auto w-full max-w-md p-4 text-center md:p-6", rubrique === "aujourdhui" ? "mt-0" : "-mt-12 lg:-mt-4")}
         data-apercu-fin

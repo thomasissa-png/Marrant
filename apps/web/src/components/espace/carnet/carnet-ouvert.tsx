@@ -81,7 +81,7 @@ export function CarnetOuvert(props: Props) {
  * le MÊME objet Premium que la carte de fin des aperçus (`CARTE_PREMIUM`, `HaloPremium`, 448 px au plus, centrée sur la
  * page, mêmes paddings, bouton pleine largeur et réassurance dessous), mêmes textes dans le même ordre, sur sa rangée.
  * s26, Thomas 19/11 : 48 px entre la fiche offerte et la carte de fin (24 de gouttière et `mt-6`, 24 px avant) ; bouton
- * de la carte de fin en contour sur fenêtre d'au moins 1000 px de haut (`BOUTON_OFFRE_FIN`).
+ * de la carte de fin en contour sur fenêtre d'au moins 960 px de haut (`BOUTON_OFFRE_FIN`).
  */
 function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
   const href = buildAbonnementUrl(returnTo, "monthly", src);
