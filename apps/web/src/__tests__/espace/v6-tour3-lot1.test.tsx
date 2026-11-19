@@ -58,9 +58,12 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
     expect(lire(`app/(dashboard)/mon-espace/${f}`)).toContain("[&>header]:text-center");
   });
 
-  it("/parcours abonné (`ParcoursEspace`, rendu ouvert seulement) : H1 centré", () => {
+  // s26 (`docs/design/parcours-vannes-s26.md` §1.2) : /parcours de l'abonné sort de cette règle, titre blanc à gauche
+  // (`TITRE_PAGE`) dans la colonne de 8.
+  it("/parcours abonné (`ParcoursEspace`, rendu ouvert seulement) : H1 à gauche (s26)", () => {
     const source = lire("components/espace/parcours/parcours-espace.tsx");
-    expect(source).toContain('<h1 className="mb-8 text-center font-display text-3xl');
+    expect(source).toContain('<h1 className={cn(TITRE_PAGE, "mb-8 max-e300:mb-3", COLONNE)}>');
+    expect(source).not.toContain("text-center");
     expect(source).toContain("if (!ESPACE_CLIENT_PUBLIE || !premium) return null;");
   });
 

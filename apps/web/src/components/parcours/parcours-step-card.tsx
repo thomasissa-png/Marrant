@@ -4,6 +4,11 @@ import { Fragment, useEffect, useRef } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { cn } from "@/lib/utils";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
+import { ETIQUETTE, META, META_FORT, TEXTE_FORT } from "@/components/espace/typo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { tipProse } from "@/lib/tip-prose";
@@ -58,9 +63,16 @@ function LockIcon({ className }: { className: string }) {
   );
 }
 
-/** s17 tour 1 (DES-1-06) : titres de bloc lisibles d'un coup d'œil, corps à longueur de ligne lisible. */
-const SECTION_TITRE = "mb-2 font-display text-base font-bold text-text-primary";
-const CORPS_LECTURE = "max-w-[68ch] text-base leading-7 text-text-secondary sm:text-[15px]";
+/**
+ * s17 tour 1 (DES-1-06) : titres de bloc lisibles d'un coup d'œil, corps à longueur de ligne lisible.
+ * s26 (`docs/design/parcours-vannes-s26.md` §2, interrupteur ouvert seulement) : échelle de `typo.ts` (titres 16/600,
+ * corps 16 px à toutes les largeurs, plus de 15 px ni de 700), cadre neutre, aucun violet ni capitale. Fermé : inchangé.
+ */
+const SECTION_TITRE_FERME = "mb-2 font-display text-base font-bold text-text-primary";
+const sectionTitre = () => (ESPACE_CLIENT_PUBLIE ? cn("mb-2", TEXTE_FORT) : SECTION_TITRE_FERME);
+const CORPS_LECTURE_FERME = "max-w-[68ch] text-base leading-7 text-text-secondary sm:text-[15px]";
+const corpsLecture = () => (ESPACE_CLIENT_PUBLIE ? "max-w-[68ch] text-base leading-7 text-text-secondary" : CORPS_LECTURE_FERME);
+const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
 /** Encadré du défi (s18), repris pour le second défi. */
 const ENCADRE_DEFI = "rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3";
 /** s19 iter 4 (N-b @design) : « Version sans risque » en retrait du défi, pointillés neutres, sans fond. */
@@ -70,7 +82,7 @@ function Section({ title, id, children }: { title: string; id?: string; children
   return (
     // scroll-mt-28 : 112 px sous la barre fixe (64 px), cible des liens internes (« Aller au défi »).
     <div id={id} className={id ? "scroll-mt-28" : undefined}>
-      <h4 className={SECTION_TITRE}>{title}</h4>
+      <h4 className={sectionTitre()}>{title}</h4>
       {children}
     </div>
   );
@@ -220,7 +232,10 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
       // Ancre des liens d'entrée (lot C) : /parcours/<slug>#etape-N.
       id={`etape-${step.order}`}
       // s17 tour 3 (DES-3-05) : 112 px sous la barre fixe (64 px), « Le programme » reste entier au-dessus de l'étape 1.
-      className={`scroll-mt-28 ${isCompleted ? "border-accent-primary/30 bg-accent-primary/5" : muted ? "border-dashed" : ""}`}
+      className={ouvert(
+        cn(CADRE_CARTE_NEUTRE, "scroll-mt-36 p-6", muted && "border-dashed"),
+        `scroll-mt-28 ${isCompleted ? "border-accent-primary/30 bg-accent-primary/5" : muted ? "border-dashed" : ""}`,
+      )}
     >
       <CardHeader
         id={`etape-${step.order}-entete`}
@@ -243,9 +258,12 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-3">
             <div
-              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                isCompleted ? "bg-accent-primary text-white" : "bg-background-elevated text-text-muted"
-              }`}
+              className={ouvert(
+                `flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-background-elevated text-sm font-semibold ${isCompleted ? "text-success" : "text-text-secondary"}`,
+                `flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+                  isCompleted ? "bg-accent-primary text-white" : "bg-background-elevated text-text-muted"
+                }`,
+              )}
               aria-hidden="true"
             >
               {isCompleted ? (
@@ -261,13 +279,16 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
             <div>
               {props.contexte && (
                 // Répète le H1 : masqué au lecteur d'écran (nom du bouton « Étape 1 : … » inchangé).
-                <p aria-hidden="true" className="mb-0.5 text-xs font-semibold uppercase tracking-wide text-accent-link">
+                <p aria-hidden="true" className={ouvert(cn(ETIQUETTE, "mb-1"), "mb-0.5 text-xs font-semibold uppercase tracking-wide text-accent-link")}>
                   {props.contexte}
                 </p>
               )}
               {/* DES-1-11 : titre verrouillé en secondaire (tentant, pas éteint). */}
               <CardTitle
-                className={`text-base decoration-text-muted underline-offset-4 group-hover:underline ${muted ? "text-text-secondary" : ""}`}
+                className={ouvert(
+                  cn("font-sans", TEXTE_FORT, "decoration-text-secondary underline-offset-4 group-hover:underline", muted && "text-text-secondary"),
+                  `text-base decoration-text-muted underline-offset-4 group-hover:underline ${muted ? "text-text-secondary" : ""}`,
+                )}
               >
                 <span className="sr-only">Étape {step.order} : </span>
                 {frTypoParcours(title)}
@@ -276,10 +297,10 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
               <div className="mt-1 flex flex-wrap items-center gap-2">
                 {/* s17 tour 2 (DES-2-04) : pas de « +N XP » statique au-dessus du gain qui vient d'être affiché. */}
                 {!(isCompleted && props.resultat?.xp) && (
-                  <span className={`text-xs ${muted ? "text-text-muted" : "text-accent-link"}`}>+{stepXp} XP</span>
+                  <span className={ouvert(META, `text-xs ${muted ? "text-text-muted" : "text-accent-link"}`)}>+{stepXp} XP</span>
                 )}
                 {/* s19 (N3 @ux rendu) : « Lecture libre » ne parle qu'au visiteur. */}
-                {!isPremium && (step.free || step.order === 1) && <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>}
+                {!isPremium && (step.free || step.order === 1) && <Badge variant="primary" className={ouvert(cn(PASTILLE, "font-normal text-success"))}>{ETAPE_LIBRE_BADGE}</Badge>}
               </div>
             </div>
           </div>
@@ -390,16 +411,16 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         </a>
       )}
       {step.why && (
-        <div className="rounded-lg bg-background-elevated p-3">
-          <p className="text-sm font-medium text-accent-link">Pourquoi cette étape ?</p>
-          <p className="mt-1 text-sm text-text-secondary">{texteEtape(step.why)}</p>
+        <div className={ouvert("rounded-xl bg-background-elevated p-4", "rounded-lg bg-background-elevated p-3")}>
+          <p className={ouvert(META_FORT, "text-sm font-medium text-accent-link")}>Pourquoi cette étape ?</p>
+          <p className={ouvert(cn(META, "mt-2"), "mt-1 text-sm text-text-secondary")}>{texteEtape(step.why)}</p>
         </div>
       )}
 
       {step.moduleDetail && (
         <Section title="Ce que tu vas apprendre">
           {/* s19 : sauts de paragraphe du moduleDetail (phrase du test, Boulot) rendus tels quels. */}
-          <p className={`${CORPS_LECTURE} whitespace-pre-line`}>{texteEtape(step.moduleDetail)}</p>
+          <p className={`${corpsLecture()} whitespace-pre-line`}>{texteEtape(step.moduleDetail)}</p>
           {step.moduleFormat && <p className="mt-2 text-xs text-text-muted">Format : {step.moduleFormat}</p>}
           {props.timePerWeek && (
             <p className="mt-1 text-xs text-text-muted">
@@ -412,7 +433,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       {/* Conseil : masqué s'il répète mot pour mot le bloc précédent (T28). */}
       {step.tip.content && step.tip.content.trim() !== step.moduleDetail?.trim() && (
         <Section title="Le conseil">
-          <p className={CORPS_LECTURE}>{prose(step.tip.content)}</p>
+          <p className={corpsLecture()}>{prose(step.tip.content)}</p>
           {step.tipHref ? (
             <Link href={step.tipHref} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
               {LIENS_FICHES.conseil}
@@ -492,7 +513,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       {step.videos && step.videos.length > 0 && (
         // DES-1-06 : filet avant la zone facultative.
         <div className="border-t border-border pt-6">
-          <h4 className={SECTION_TITRE}>{VIDEOS_ETAPE.titre}</h4>
+          <h4 className={sectionTitre()}>{VIDEOS_ETAPE.titre}</h4>
           <div className="grid gap-3 sm:grid-cols-2">
             {step.videos.map((v, i) =>
               ancres ? (
@@ -511,7 +532,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       {/* Visiteur : le quiz reste affiché une fois fini (résultat, « Refaire le quiz »), UXV-1-04. */}
       {hasQuiz && (!isQuizDone || !isPremium) && !isCompleted && (
         <div className="border-t border-border pt-6">
-          <h4 className={SECTION_TITRE}>{isPremium ? QUIZ_TITRE.abonne : QUIZ_TITRE.visiteur}</h4>
+          <h4 className={sectionTitre()}>{isPremium ? QUIZ_TITRE.abonne : QUIZ_TITRE.visiteur}</h4>
           <StepQuiz quiz={step.quiz!} canValidate={isPremium} onComplete={props.onQuizComplete} />
         </div>
       )}

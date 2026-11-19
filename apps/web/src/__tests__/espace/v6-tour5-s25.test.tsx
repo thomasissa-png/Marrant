@@ -73,12 +73,14 @@ beforeEach(() => {
 describe("arbitrage 1 : /parcours, titres de section centrés comme l'accueil", () => {
   const TITRES_LISTE = ["Quel parcours est fait pour toi ?", "Explore aussi", "Questions fréquentes"];
 
-  it("liste, ouvert : « Quel parcours… », « Explore aussi », « Questions fréquentes » centrés, taille inchangée", async () => {
+  // s26 (`docs/design/parcours-vannes-s26.md` §1.1) : titres de section à gauche, 20/600 (`TITRE_CARTE`).
+  it("liste, ouvert : « Quel parcours… », « Explore aussi », « Questions fréquentes » à gauche, 20/600", async () => {
     ouvrir(true);
     const { container } = render(<div dangerouslySetInnerHTML={{ __html: renderToStaticMarkup(await ParcoursPage()) }} />);
     for (const t of TITRES_LISTE) {
       const h2 = titre(container, t);
-      expect(classes(h2)).toEqual(expect.arrayContaining(["text-center", "text-xl", "font-bold"]));
+      expect(classes(h2)).toEqual(expect.arrayContaining(["text-xl", "font-semibold"]));
+      expect(classes(h2)).not.toContain("text-center");
       expect(h2.className).not.toMatch(/md:text-2xl/);
     }
   });
@@ -98,20 +100,24 @@ describe("arbitrage 1 : /parcours, titres de section centrés comme l'accueil", 
     expect(titre(sans, "Questions fréquentes").className).toBe("font-display font-bold text-text-primary mb-4 text-xl");
   });
 
-  it("abonné, ouvert : « Les parcours » centré", async () => {
+  // s26 (§1.2) : « Les parcours » à gauche, dans la colonne de 8.
+  it("abonné, ouvert : « Les parcours » à gauche, colonne de 8", async () => {
     ouvrir(true);
     useSession.mockReturnValue(PREMIUM);
     const { container } = render(<ParcoursEspace />);
     await act(async () => undefined);
-    expect(classes(titre(container, "Les parcours"))).toEqual(expect.arrayContaining(["text-center", "text-xl"]));
+    expect(classes(titre(container, "Les parcours"))).toEqual(expect.arrayContaining(["text-xl", "lg:col-span-8"]));
+    expect(classes(titre(container, "Les parcours"))).not.toContain("text-center");
   });
 
-  it("quiz d'orientation : centré ouvert, à gauche fermé", async () => {
+  // s26 (§1.1) : quiz compact à gauche dans les 4 colonnes de droite du hero.
+  it("quiz d'orientation : à gauche ouvert comme fermé", async () => {
     const catalogue = getParcoursCatalogue();
     ouvrir(true);
     const ouvert = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
-    expect(classes(titre(ouvert.container, "Quel parcours est fait pour toi ?"))).toContain("text-center");
+    expect(classes(titre(ouvert.container, "Quel parcours est fait pour toi ?"))).not.toContain("text-center");
+    expect(classes(titre(ouvert.container, "Quel parcours est fait pour toi ?").parentElement)).toContain("lg:col-start-9");
     ouvert.unmount();
     ouvrir(false);
     const ferme = render(<ParcoursContent parcours={catalogue} />);
@@ -154,16 +160,22 @@ describe("arbitrage 1 : /parcours/repartie, « Pour qui ? », « Le programme »
     window.history.replaceState(null, "", "/parcours/repartie");
   });
 
-  it("ouvert : titres centrés, intro et « Pour qui ? » dans une colonne centrée de 672 px", async () => {
+  // s26 (`docs/design/parcours-vannes-s26.md` §2) : titres et intro alignés à gauche dans la colonne de 8, échelle `typo.ts`.
+  it("ouvert : titres et intro à gauche, colonne de 8, échelle `typo.ts`", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursDetail slug="repartie" initialPath={chemin()} />);
     await act(async () => undefined);
-    expect(classes(titre(container, TITRES_SECTIONS.programme))).toEqual(expect.arrayContaining(["text-center", "text-xl"]));
+    const programme = titre(container, TITRES_SECTIONS.programme);
+    expect(classes(programme)).toEqual(expect.arrayContaining(["text-xl", "font-semibold", "lg:col-span-8"]));
+    expect(classes(programme)).not.toContain("text-center");
     const pourQui = titre(container, TITRES_SECTIONS.pourQui);
-    expect(classes(pourQui)).toEqual(expect.arrayContaining(["text-center", "text-lg"]));
-    expect(classes(pourQui.parentElement)).toEqual(expect.arrayContaining(["mx-auto", "max-w-2xl"]));
+    expect(classes(pourQui)).toEqual(expect.arrayContaining(["text-base", "font-semibold"]));
+    expect(classes(pourQui)).not.toContain("text-center");
+    expect(classes(pourQui.parentElement)).toContain("max-w-2xl");
+    expect(classes(pourQui.parentElement)).not.toContain("mx-auto");
     const intro = screen.getByText("Une description du parcours.");
-    expect(classes(intro)).toEqual(expect.arrayContaining(["mx-auto", "max-w-2xl", "text-center"]));
+    expect(classes(intro)).toContain("max-w-2xl");
+    expect(classes(intro)).not.toContain("text-center");
   });
 
   it("fermé : classes d'avant", async () => {

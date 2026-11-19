@@ -318,6 +318,8 @@ const HACHAGES = {
     // v6 tour 3, lot 2 (points 1 et 12) : en-tête centré, page sur la coque et colonne centrée des blocs autres que
     // la liste des cartes, sous l'interrupteur ; aucun texte touché.
     // v6 tour 5 (arbitrage 1) : « Explore aussi » et le titre de la FAQ centrés sous l'interrupteur ; aucun texte touché.
-    "app/(dashboard)/parcours/(liste)/page.tsx": "570b78ad010379b00661eb220f372b3e8b808c390c7c363878964ea28c698809",
+    // s26 (Parcours et Vannes) : grille 8/4 et classes de `typo.ts` sous l'interrupteur, classes seules (HTML serveur
+    // ouvert identique hors attributs `class`, rendu fermé identique au caractère près) ; aucun texte touché.
+    "app/(dashboard)/parcours/(liste)/page.tsx": "07d315c1132c1d7bc6e43e54d11b18dfbc4cb38cbb5a50a901136117de077f9f",
   } as Record<string, string>,
 };

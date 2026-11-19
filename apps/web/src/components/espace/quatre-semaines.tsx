@@ -8,7 +8,8 @@ import { TEXTES_AUJOURDHUI as TEXTES_AUJOURDHUI_BRUT } from "@/config/textes/esp
 import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { ETIQUETTE, META, TITRE_CARTE } from "@/components/espace/typo";
 import { frPonctuation, frEspaceProfond } from "@/lib/fr-typo";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -24,8 +25,8 @@ const E = TEXTES_AUJOURDHUI.etape;
  * l'étape 1 ». `etape` null : chargement ou erreur, seul le calendrier est rendu (rien d'inventé).
  * Le bouton porte la `ref` : l'annonce de passage y rend le focus à sa fermeture.
  */
-export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeAReprendre | null; ecouterPublie: boolean }>(function QuatreSemaines(
-  { etape, ecouterPublie },
+export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeAReprendre | null; ecouterPublie: boolean; className?: string }>(function QuatreSemaines(
+  { etape, ecouterPublie, className },
   ref,
 ) {
   // Lot D11b (@ux D-1) : la semaine 4 ne promet « Écouter, repérer » que si une fiche est publiée.
@@ -43,13 +44,15 @@ export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeARepre
   }, []);
 
   return (
-    <section aria-labelledby="semaines-titre" className={`${CADRE_CARTE} p-4 md:p-6 max-e300:px-3 max-e300:py-2`}>
+    // s26 (`docs/design/parcours-vannes-s26.md` §1.2, décision du 18/11) : cadre neutre sans filet violet, échelle de
+    // `typo.ts` (titres 20/600, étiquette 14/600 en casse normale) ; le bouton reste LE plein de la page de l'abonné.
+    <section aria-labelledby="semaines-titre" className={cn(CADRE_CARTE_NEUTRE, "p-6 max-e300:px-3 max-e300:py-2", className)}>
       <details ref={details} open onToggle={() => (touche.current ||= document.activeElement?.tagName === "SUMMARY")}>
         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary [&::-webkit-details-marker]:hidden">
-          <h2 id="semaines-titre" className="font-display text-xl font-bold text-text-primary">
+          <h2 id="semaines-titre" className={TITRE_CARTE}>
             {P.semaines.titre}
           </h2>
-          <svg className="h-5 w-5 flex-none text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+          <svg className="h-5 w-5 flex-none text-text-secondary" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
         </summary>
@@ -67,14 +70,14 @@ export const QuatreSemaines = forwardRef<HTMLAnchorElement, { etape: EtapeARepre
       </details>
       {etape && (
         <div className="mt-4 space-y-2 border-t border-border pt-4 max-e300:mt-1 max-e300:space-y-1 max-e300:pt-1">
-          <p className="text-xs font-semibold text-text-muted">{etape.enCours ? E.enCours : E.conseillee}</p>
-          <h3 className="font-display text-xl font-bold text-text-primary">{etape.titreParcours}</h3>
-          {etape.enCours && <p className="text-sm text-text-secondary">{P.etapeSurTotal(etape.ordre, etape.total)}</p>}
+          <p className={ETIQUETTE}>{etape.enCours ? E.enCours : E.conseillee}</p>
+          <h3 className={TITRE_CARTE}>{etape.titreParcours}</h3>
+          {etape.enCours && <p className={cn(META, "tabular-nums")}>{P.etapeSurTotal(etape.ordre, etape.total)}</p>}
           <p className="text-base text-text-primary [overflow-wrap:anywhere]">{frEspace(etape.titreEtape)}</p>
           <Link
             ref={ref}
             href={etape.href}
-            className={cn(buttonVariants({ variant: "primary" }), "mt-4 h-12 w-full whitespace-normal sm:w-auto sm:px-8 max-e300:mt-2 max-e300:h-11")}
+            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-4 h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto sm:px-8 max-e300:mt-2 max-e300:min-h-11")}
           >
             {etape.enCours ? E.reprendre : E.commencerEtape1.replace("1", String(etape.ordre))}
           </Link>

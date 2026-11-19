@@ -251,24 +251,25 @@ describe("point 12 : /parcours de l'abonné, un seul plein", () => {
     useSession.mockReturnValue({ data: null, status: "unauthenticated" });
   });
 
-  it("ouvert, parcours en cours : son bouton seul en plein, les autres en contour", async () => {
+  // s26 (`docs/ux/parcours-vannes-s26.md` §1.3) : le seul plein de l'abonné est « l'étape à reprendre » (`QuatreSemaines`,
+  // au-dessus de la liste) ; toutes les cartes passent en contour neutre (plus de bordure violette).
+  it("ouvert, parcours en cours : aucun plein de carte, toutes en contour neutre", async () => {
     ouvrir(true);
     const enCours = catalogue[catalogue.length - 1].slug;
     progression(enCours);
     render(<ParcoursContent parcours={catalogue} />);
     await screen.findByText("Continuer ce parcours");
-    expect(pleins()).toHaveLength(1);
-    expect(pleins()[0].closest(`#parcours-${enCours}`)).not.toBeNull();
-    expect(boutons().filter((b) => b.className.includes("border-accent-primary/80"))).toHaveLength(catalogue.length - 1);
+    expect(pleins()).toHaveLength(0);
+    expect(boutons().filter((b) => b.className.includes("border-border-input"))).toHaveLength(catalogue.length);
+    expect(boutons().filter((b) => b.className.includes("border-accent-primary/80"))).toHaveLength(0);
   });
 
-  it("ouvert, aucun parcours entamé : le parcours conseillé (Répartie) seul en plein", async () => {
+  it("ouvert, aucun parcours entamé : aucun plein de carte", async () => {
     ouvrir(true);
     progression(null);
     render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
-    expect(pleins()).toHaveLength(1);
-    expect(pleins()[0].closest("#parcours-repartie")).not.toBeNull();
+    expect(pleins()).toHaveLength(0);
   });
 
   it("fermé : un plein par carte, comme avant", async () => {

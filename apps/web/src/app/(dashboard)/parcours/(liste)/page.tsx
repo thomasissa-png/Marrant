@@ -21,8 +21,10 @@ import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { frTypoTexte } from "@/lib/fr-typo";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { ParcoursEspace } from "@/components/espace/parcours/parcours-espace";
-import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
+import { FILET_MASQUE, FiletCarte } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { META, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 
 // Rendu : Server Component statique (ISR du layout) ; progression et quiz côté client.
 // D8 (seo.md §6) : title « Cours d'humour en ligne » ; « première étape gratuite », jamais « cours gratuit ».
@@ -53,8 +55,17 @@ export const metadata: Metadata = {
 };
 
 const CARTE_EXPLORE_FERME = "rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40";
-/** v6 tour 1, arbitrage 1 : interrupteur ouvert, cartes « Explore aussi » à filet (langue de l'accueil). */
-const carteExplore = () => (ESPACE_CLIENT_PUBLIE ? cn(CARTE_EXPLORE_FERME, CARTE_A_FILET) : CARTE_EXPLORE_FERME);
+/**
+ * v6 tour 1, arbitrage 1 : interrupteur ouvert, cartes « Explore aussi » à filet (langue de l'accueil).
+ * s26 (`docs/design/parcours-vannes-s26.md` §1.1, filet retiré le 18/11) : cadre neutre de 24 px ; le filet est
+ * masqué par classe, son `<span>` reste dans le HTML (page publique : seuls les attributs `class` changent).
+ */
+const carteExplore = () =>
+  ESPACE_CLIENT_PUBLIE
+    ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "block p-6 transition-colors hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary")
+    : CARTE_EXPLORE_FERME;
+const titreExplore = () => (ESPACE_CLIENT_PUBLIE ? TEXTE_FORT : "font-display text-base font-bold text-text-primary");
+const texteExplore = () => (ESPACE_CLIENT_PUBLIE ? cn(META, "mt-2") : "mt-1 text-sm text-text-secondary");
 
 /** Arbitrage @ux D4 n°1 (lot D5) : masque de l'introduction pour l'abonné, espace ouvert seulement. */
 const MasqueIntroduction = ESPACE_CLIENT_PUBLIE ? MasqueSiPremium : Fragment;
@@ -65,13 +76,20 @@ const MasqueIntroduction = ESPACE_CLIENT_PUBLIE ? MasqueSiPremium : Fragment;
  */
 function ColonneParcours({ children }: { children: React.ReactNode }) {
   if (!ESPACE_CLIENT_PUBLIE) return <div className="mx-auto max-w-3xl">{children}</div>;
-  // v6 tour 3, point 12 : la page occupe la coque (liste des cartes en `lg:grid-cols-2`, `parcours-content.tsx`) ;
-  // en-tête, en-tête de l'abonné, « Explore aussi » et FAQ gardent la colonne centrée de 768 px (`colonne()`).
-  return <AxeEspace visiteur="w-full">{children}</AxeEspace>;
+  // v6 tour 3, point 12 : la page occupe la coque. s26 (`docs/design/parcours-vannes-s26.md` §1) : grille de 12
+  // colonnes dès 1024 px, posée sur ce parent commun (aucun élément ajouté) ; chaque bloc y prend sa place par ses
+  // propres classes (en-tête 8 et quiz 4 pour le visiteur, colonne de 8 et rail de 4 pour l'abonné, le reste sur 12).
+  // Sous 1024 px, une colonne ; `order` place le quiz du visiteur sous la liste (`parcours-content.tsx`).
+  return <AxeEspace visiteur="grid w-full grid-cols-1 lg:grid-cols-12 lg:gap-x-6">{children}</AxeEspace>;
 }
 
-/** Colonne de lecture centrée des blocs autres que la liste des cartes, interrupteur ouvert seulement. */
-const colonne = () => (ESPACE_CLIENT_PUBLIE ? "mx-auto max-w-3xl" : undefined);
+/**
+ * s26 : l'enveloppe de l'en-tête de l'abonné (`ParcoursEspace`) s'efface de la mise en page (`contents`) : ses blocs
+ * prennent place dans la grille de la page (colonne de 8, rail de 4). Interrupteur ouvert seulement.
+ */
+const colonne = () => (ESPACE_CLIENT_PUBLIE ? "contents" : undefined);
+/** s26 : blocs de bas de page sur toute la largeur de la grille, après le quiz (ordre visuel sous 1024 px). */
+const basDePage = () => (ESPACE_CLIENT_PUBLIE ? "mt-12 border-t border-border pt-12 max-lg:order-2 lg:col-span-12" : "mt-12 border-t border-border pt-8");
 
 export default async function ParcoursPage() {
   const stats = await getContentStatsRounded();
@@ -86,13 +104,15 @@ export default async function ParcoursPage() {
           <span className="text-text-secondary">Parcours</span>
         </nav>
       )}
-      {/* v6 tour 3, point 1 (ouvert seulement) : H1 et sous-titre centrés comme le hero de l'accueil. */}
-      <div className={ESPACE_CLIENT_PUBLIE ? "mx-auto mb-8 max-w-3xl text-center" : "mb-8"}>
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
+      {/* v6 tour 3, point 1 (ouvert seulement) : H1 et sous-titre centrés comme le hero de l'accueil.
+          s26 (§1.1) : hero 8/4, titre blanc à gauche (échelle `typo.ts`), chapô en `TEXTE` ; le quiz prend les 4 colonnes
+          de droite sur la même rangée. */}
+      <div className={ESPACE_CLIENT_PUBLIE ? "mb-8 lg:col-span-8 lg:mb-0" : "mb-8"}>
+        <h1 className={ESPACE_CLIENT_PUBLIE ? TITRE_PAGE : "font-display text-3xl font-bold md:text-4xl"}>
           {/* v3 M6 : espace insécable avant « : » (jamais en début de ligne). */}
           Parcours humour&nbsp;: deviens drôle pas à pas
         </h1>
-        <p className={ESPACE_CLIENT_PUBLIE ? "mx-auto mt-2 max-w-2xl text-text-secondary" : "mt-2 text-text-secondary"}>
+        <p className={ESPACE_CLIENT_PUBLIE ? cn(TEXTE, "mt-4 max-w-2xl") : "mt-2 text-text-secondary"}>
           {PARCOURS_COUNT} parcours pour progresser en humour, chacun taillé pour une
           situation : {listeFr(NOMS_PARCOURS)}. Compte
           15 à 20 min/semaine selon le parcours, soit moins qu’un épisode de
@@ -153,37 +173,39 @@ export default async function ParcoursPage() {
       <JsonLd data={buildFaqJsonLd(faqSectionFaqs)} />
 
       {/* Cross-linking SEO */}
-      <nav className={cn("mt-12 border-t border-border pt-8", colonne())}>
-        {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
-        <h2 className={ESPACE_CLIENT_PUBLIE ? "font-display mb-4 text-center text-xl font-bold" : "font-display mb-4 text-xl font-bold"}>Explore aussi</h2>
+      <nav className={basDePage()}>
+        {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé.
+            s26 (§1.1) : titre à gauche, cartes 4/4/4 de 24 px. */}
+        <h2 className={ESPACE_CLIENT_PUBLIE ? TITRE_CARTE : "font-display mb-4 text-xl font-bold"}>Explore aussi</h2>
         {/* v6 tour 1, point 12 : interrupteur ouvert, deux colonnes quand l'abonné n'a que 2 cartes (Abonnement masqué),
             trois sinon ; cartes à filet de l'accueil. Fermé : inchangé. */}
-        <div className={ESPACE_CLIENT_PUBLIE ? "grid gap-4 sm:grid-cols-2 sm:[&:has(>:nth-child(3))]:grid-cols-3" : "grid gap-4 sm:grid-cols-3"}>
+        <div className={ESPACE_CLIENT_PUBLIE ? "mt-6 grid gap-6 sm:grid-cols-2 sm:[&:has(>:nth-child(3))]:grid-cols-3" : "grid gap-4 sm:grid-cols-3"}>
           {/* s21 (revue v2 m-1) : source `parcours-liste`, suivie jusqu'à `checkout-ouvert`.
               QA v4 m-6 : masqué pour l'abonné (aucun prix pour lui). */}
           <MasqueSiPremium>
             <Link href={buildAbonnementUrl(null, "monthly", "parcours-liste")} className={carteExplore()}>
               {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
-              <h3 className="font-display text-base font-bold text-text-primary">Abonnement {PREMIUM_PRICE_LABEL}</h3>
-              <p className="mt-1 text-sm text-text-secondary">Premium : tous les parcours, vannes, conseils et vidéos.</p>
+              <h3 className={titreExplore()}>Abonnement {PREMIUM_PRICE_LABEL}</h3>
+              <p className={texteExplore()}>Premium : tous les parcours, vannes, conseils et vidéos.</p>
             </Link>
           </MasqueSiPremium>
           <Link href="/conseils" className={carteExplore()}>
             {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
-            <h3 className="font-display text-base font-bold text-text-primary">Conseils de répartie</h3>
-            <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes avec exemples et exercices.</p>
+            <h3 className={titreExplore()}>Conseils de répartie</h3>
+            <p className={texteExplore()}>{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes avec exemples et exercices.</p>
           </Link>
           <Link href="/glossaire" className={carteExplore()}>
             {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
-            <h3 className="font-display text-base font-bold text-text-primary">Glossaire humour</h3>
-            <p className="mt-1 text-sm text-text-secondary">Le vocabulaire des humoristes, expliqué sans jargon.</p>
+            <h3 className={titreExplore()}>Glossaire humour</h3>
+            <p className={texteExplore()}>Le vocabulaire des humoristes, expliqué sans jargon.</p>
           </Link>
         </div>
       </nav>
 
       {/* FAQ */}
-      <section className={cn("mt-12 border-t border-border pt-8", colonne())}>
-        <FaqSection align="left" titreCentre={ESPACE_CLIENT_PUBLIE} />
+      {/* s26 (§1.1, §1.2) : FAQ en 4/8 ; question du prix masquée pour l'abonné (14/11, `FaqSection`). */}
+      <section className={basDePage()}>
+        <FaqSection align="left" titreCentre={ESPACE_CLIENT_PUBLIE} disposition={ESPACE_CLIENT_PUBLIE ? "split" : undefined} />
       </section>
     </ColonneParcours>
   );

@@ -25,7 +25,16 @@ export interface AnnonceApi {
  * Fermer rend le focus à `retour` (« Reprendre »). Montrée une fois : acquittée auprès du serveur dès
  * l'affichage (`POST /api/espace/caps`), jamais dans « Aujourd'hui ».
  */
-export function AnnonceCap({ annonce, retour }: { annonce: AnnonceApi | null; retour?: () => HTMLElement | null }) {
+export function AnnonceCap({
+  annonce,
+  retour,
+  className,
+}: {
+  annonce: AnnonceApi | null;
+  retour?: () => HTMLElement | null;
+  /** s26 (/parcours de l'abonné) : place dans la grille de la page. Absent : inchangé. */
+  className?: string;
+}) {
   const [montree, setMontree] = useState<AnnonceApi | null>(null);
   // Une annonce (ses marques) n'est montrée et acquittée qu'une fois, même relue après une validation.
   const derniere = useRef("");
@@ -59,7 +68,7 @@ export function AnnonceCap({ annonce, retour }: { annonce: AnnonceApi | null; re
 
   return (
     <div
-      className={cn(montree && "rounded-lg border border-border-input bg-background-light px-4 py-3")}
+      className={cn(montree && "rounded-lg border border-border-input bg-background-light px-4 py-3", className)}
       data-testid="annonce-cap"
     >
       <div aria-live="polite">{phrases && <p className="text-base text-text-primary">{phrases}</p>}</div>

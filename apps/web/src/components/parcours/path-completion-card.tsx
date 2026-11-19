@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
@@ -79,9 +80,11 @@ export const PathCompletionCard = forwardRef<
     nextParcours?: string | null;
     nextParcoursReason?: string | null;
     nextParcoursRanking?: readonly string[];
+    /** s26 (/parcours/{slug}, interrupteur ouvert) : place dans la grille de la page. Absent : inchangé. */
+    className?: string;
   }
 >(function PathCompletionCard(
-  { slug, title, totalXp, stepTitles, retours, nextParcours, nextParcoursReason, nextParcoursRanking },
+  { slug, title, totalXp, stepTitles, retours, nextParcours, nextParcoursReason, nextParcoursRanking, className },
   ref,
 ) {
   const [suite, setSuite] = useState<Suite>({ kind: "chargement" });
@@ -113,7 +116,7 @@ export const PathCompletionCard = forwardRef<
 
   return (
     // s17 tour 1 (DES-1-07) : pastille de succès, titre / XP / suite centrés, bilan dans un bloc aligné à gauche.
-    <Card className="mb-8 border-accent-primary/30 bg-accent-primary/5">
+    <Card className={cn("mb-8 border-accent-primary/30 bg-accent-primary/5", className)}>
       <CardContent className="py-8 text-center">
         <div
           className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-accent-primary text-white"

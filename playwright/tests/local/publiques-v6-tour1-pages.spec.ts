@@ -61,11 +61,18 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
 
     // v6 tour 2 (point 11, voulu) : « Pourquoi » et la réassurance passent du rendu en deux colonnes et aligné à gauche du
     // tour 1 au rendu centré de l'accueil ; le filet et les chevrons du tour 1 restent.
-    test("/vannes visiteur 1280 : filet, chevrons, « Pourquoi » centré sur une colonne, réassurance centrée", async ({ browser }) => {
+    // s26 (`docs/design/parcours-vannes-s26.md` §3, décision de Thomas du 18/11 étendue à /vannes) : filet violet masqué
+    // (le `<span data-filet>` reste dans le HTML, classes seules), cartes en 3 colonnes, « Pourquoi » en 3 colonnes sous un
+    // titre à gauche, offre de fin de liste sans centrage forcé. Les chevrons du tour 1 restent.
+    test("/vannes visiteur 1280 : sans filet, 3 colonnes, chevrons, « Pourquoi » en 3 colonnes à gauche", async ({ browser }) => {
       const { c, page } = await contexte(browser, "visiteur");
       await page.goto("/vannes");
       const main = page.locator("main");
-      await attendreFilet(main.locator("[role='tabpanel'] > div").first());
+      const premiere = main.locator("[role='tabpanel'] > div").first();
+      await expect(premiere).toBeVisible();
+      await expect(premiere.locator(":scope > [data-filet]")).toBeHidden();
+      const [v1, v3] = [await boite(main.locator("[role='tabpanel'] > div").nth(0)), await boite(main.locator("[role='tabpanel'] > div").nth(2))];
+      expect(Math.abs(v1.y - v3.y), "trois vannes sur la première rangée").toBeLessThanOrEqual(1);
       const rangee = main.getByRole("tablist", { name: "Catégories de vannes" });
       const droite = main.locator('[data-chevron="droite"]');
       await expect(droite).toBeVisible();
@@ -87,20 +94,20 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       await expect(main.locator('[data-chevron="gauche"]')).toBeVisible();
       const [r, d] = [await boite(rangee), await boite(derniere)];
       expect(d.x + d.width).toBeLessThanOrEqual(r.x + r.width + 1);
-      // « Pourquoi ces vannes sont différentes » (tour 2) : titre centré, texte dessous dans une colonne centrée sur lui.
+      // « Pourquoi ces vannes sont différentes » (s26) : titre à gauche, un paragraphe par colonne (3 colonnes) dessous.
       const titre = main.getByRole("heading", { name: "Pourquoi ces vannes sont différentes" });
       const texte = titre.locator("xpath=following-sibling::div[1]");
-      expect(await titre.evaluate((el) => getComputedStyle(el).textAlign)).toBe("center");
+      expect(await titre.evaluate((el) => getComputedStyle(el).textAlign)).not.toBe("center");
       const [bt, bx] = [await boite(titre), await boite(texte)];
       expect(bx.y).toBeGreaterThanOrEqual(bt.y + bt.height - 1);
-      expect(Math.abs(bx.x + bx.width / 2 - (bt.x + bt.width / 2))).toBeLessThanOrEqual(2);
-      // Mur (tour 2) : réassurance centrée, sur l'axe du bouton.
+      expect(Math.abs(bx.x - bt.x)).toBeLessThanOrEqual(1);
+      const paragraphes = texte.locator(":scope > p");
+      const [p1, p3] = [await boite(paragraphes.nth(0)), await boite(paragraphes.nth(2))];
+      expect(Math.abs(p1.y - p3.y), "trois paragraphes côte à côte").toBeLessThanOrEqual(1);
+      // Mur (s26) : l'objet Premium n'est pas restylé ; plus de centrage forcé de sa réassurance.
       const mur = main.locator("[data-mur-liste]");
-      await attendreFilet(mur);
-      const [bouton, reass] = [await boite(mur.locator("[data-mur-cta='premium']")), await boite(mur.locator("[data-reassurance]"))];
-      const texteReass = await mur.locator("[data-reassurance]").evaluate((el) => getComputedStyle(el).textAlign);
-      expect(texteReass).toBe("center");
-      expect(Math.abs(reass.x + reass.width / 2 - (bouton.x + bouton.width / 2))).toBeLessThanOrEqual(2);
+      await expect(mur).toBeVisible();
+      expect(await mur.locator("[data-reassurance]").evaluate((el) => getComputedStyle(el).textAlign)).not.toBe("center");
       await c.close();
     });
 
@@ -200,18 +207,20 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       await c.close();
     });
 
-    test("/parcours abonné : un seul plein dans la liste, « Explore aussi » sur deux colonnes", async ({ browser }) => {
+    // s26 (`docs/ux/parcours-vannes-s26.md` §1.3) : le seul plein de l'abonné est « l'étape à reprendre » au-dessus de la
+    // liste ; toutes les cartes en contour, filet violet masqué (décision du 18/11, `<span data-filet>` gardé dans le HTML).
+    test("/parcours abonné : aucun plein dans la liste, « Explore aussi » sur deux colonnes", async ({ browser }) => {
       const { c, page } = await contexte(browser, "PREMIUM");
       await page.goto("/parcours");
       const cartes = page.locator("main [id^='parcours-']").filter({ has: page.locator(":scope > [data-filet]") });
       await expect(cartes.first()).toBeVisible();
+      await expect(cartes.first().locator(":scope > [data-filet]")).toBeHidden();
       const boutons = page.locator("main [id^='parcours-'] button").filter({ hasText: /Commencer ce parcours|Continuer ce parcours|Revoir/ });
       await expect(boutons.first()).toBeVisible();
-      // Le plein unique dépend du statut de l'abonné, connu après l'hydratation (session, progression) ; les boutons
-      // passent alors au contour avec une transition de couleur : lire l'état stable, pas un état intermédiaire.
+      // Statut de l'abonné connu après l'hydratation (session, progression) : lire l'état stable.
       await expect
-        .poll(() => boutons.evaluateAll((els) => els.map((el) => getComputedStyle(el).backgroundColor).filter((f) => f !== "rgba(0, 0, 0, 0)").length), { message: "un seul bouton plein dans la liste", timeout: 10_000 })
-        .toBe(1);
+        .poll(() => boutons.evaluateAll((els) => els.map((el) => getComputedStyle(el).backgroundColor).filter((f) => f !== "rgba(0, 0, 0, 0)").length), { message: "aucun bouton plein dans la liste", timeout: 10_000 })
+        .toBe(0);
       const explore = page.getByRole("heading", { name: "Explore aussi" }).locator("xpath=following-sibling::div[1]/a");
       await expect(explore).toHaveCount(2);
       const [a, b] = [await boite(explore.nth(0)), await boite(explore.nth(1))];

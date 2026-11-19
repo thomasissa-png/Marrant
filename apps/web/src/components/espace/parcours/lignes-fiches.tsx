@@ -49,12 +49,12 @@ export function LignesFiches({ slug, etape }: { slug: string; etape: EtapeVue })
     <ol className="divide-y divide-border rounded-lg border border-border" data-testid="lignes-fiches">
       {lignes.map((f) => (
         <li key={f.ancre} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-1">
-          <span className="text-xs font-semibold text-text-muted">{f.numero}</span>
+          <span className="text-sm font-semibold tabular-nums text-text-secondary">{f.numero}</span>
           <span className="min-w-[min(8rem,100%)] flex-1 text-sm text-text-primary [overflow-wrap:anywhere]">{frTypoParcours(f.titre)}</span>
           <a
             href={`#${f.ancre}`}
             aria-label={`${P.sommaire.voir} : ${f.titre}`}
-            className="inline-flex min-h-11 items-center px-2 text-sm text-accent-link underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+            className="inline-flex min-h-11 items-center px-2 text-sm text-text-primary underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
           >
             {P.sommaire.voir}
           </a>

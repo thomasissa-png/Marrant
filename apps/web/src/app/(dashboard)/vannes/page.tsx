@@ -16,7 +16,9 @@ import {
 } from "@/components/seo/json-ld";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { PageHeader } from "@/components/layout/page-header";
-import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
+import { FILET_MASQUE, FiletCarte } from "@/components/ui/card";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { META, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { getJokesPage } from "@/lib/catalogue-pages";
 import { listCanonical, parsePageParam } from "@/lib/list-pagination";
@@ -56,8 +58,21 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
 }
 
 const CARTE_SUITE_FERME = "rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40";
-/** v6 tour 1, arbitrage 1 : interrupteur ouvert, cartes « La suite » à filet (langue de l'accueil). Fermé : inchangées. */
-const carteSuite = () => (ESPACE_CLIENT_PUBLIE ? cn(CARTE_SUITE_FERME, CARTE_A_FILET) : CARTE_SUITE_FERME);
+/**
+ * v6 tour 1, arbitrage 1 : interrupteur ouvert, cartes « La suite » à filet (langue de l'accueil). Fermé : inchangées.
+ * s26 (`docs/design/parcours-vannes-s26.md` §3.4, filet retiré le 18/11) : cadre neutre de 24 px, filet masqué par
+ * classe (le `<span>` reste dans le HTML : page publique, seuls les attributs `class` changent).
+ */
+const carteSuite = () =>
+  ESPACE_CLIENT_PUBLIE
+    ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "block p-6 transition-colors hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary")
+    : CARTE_SUITE_FERME;
+// s26 : titres de section à gauche, échelle de `typo.ts`, liens neutres soulignés (fermé : classes d'avant).
+const titreSection = () => (ESPACE_CLIENT_PUBLIE ? TITRE_CARTE : "font-display mb-4 text-xl font-bold");
+const titreSuite = () => (ESPACE_CLIENT_PUBLIE ? TEXTE_FORT : "font-display text-base font-bold text-text-primary");
+const texteSuite = () => (ESPACE_CLIENT_PUBLIE ? cn(META, "mt-2") : "mt-1 text-sm text-text-secondary");
+const LIEN_SEO_OUVERT = "text-text-primary underline underline-offset-2 hover:text-text-secondary";
+const fortSeo = () => (ESPACE_CLIENT_PUBLIE ? "font-semibold text-text-primary" : "text-text-primary");
 
 /**
  * v6 tour 2, point 11 : réponse validée par Thomas (`docs/copy/faq-vannes-filtres-v6-a-valider.md`), mot pour mot,
@@ -133,9 +148,12 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
       {/* v6 tour 2, point 11 (interrupteur ouvert) : page publique à hero, en-tête centré comme l'accueil (même H1 et
           même chapô que `PageHeader`, chapô en colonne `max-w-2xl` centrée). Fermé : `PageHeader`, inchangé. */}
       {ESPACE_CLIENT_PUBLIE ? (
-        <header className="mb-8 text-center md:mb-10" data-vannes-entete="">
-          <h1 className="font-display text-3xl font-bold md:text-4xl">Vannes drôles à ressortir ce soir, pas trois jours plus tard</h1>
-          <p className="mx-auto mt-3 max-w-2xl text-lg text-text-secondary md:mt-4">
+        // s26 (`docs/design/parcours-vannes-s26.md` §3.1 et §3.5) : titre blanc à gauche (échelle `typo.ts`), chapô en
+        // `TEXTE`, plus de centrage. La carte d'offre du hero (8/4) demandait un élément nouveau : non ajoutée (HTML
+        // serveur public : classes seules) ; l'offre reste le bouton de l'en-tête.
+        <header className="mb-6 lg:max-w-[66%]" data-vannes-entete="">
+          <h1 className={TITRE_PAGE}>Vannes drôles à ressortir ce soir, pas trois jours plus tard</h1>
+          <p className={cn(TEXTE, "mt-4 max-w-xl")}>
             {/* Relecture des captures nav s24 (ux F3) : la phrase de vente n'est plus montrée à l'abonné (masquée dans
                 le navigateur ; HTML serveur et visiteur inchangés). */}
             Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique pour révéler la chute.{" "}
@@ -177,47 +195,49 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
 
       {/* FAQ SEO */}
       {/* Accordéon fermé (passe UX s12, T19) : le contenu reste dans le DOM pour le SEO. */}
-      <section className="mt-12 border-t border-border pt-8">
-        {/* v6 tour 2, point 11 : interrupteur ouvert, FAQ en colonne centrée et titre centré (FAQ de l'accueil). */}
-        <FaqSection items={faqs} align={ESPACE_CLIENT_PUBLIE ? "center" : "left"} />
+      <section className={ESPACE_CLIENT_PUBLIE ? "mt-12 border-t border-border pt-12" : "mt-12 border-t border-border pt-8"}>
+        {/* v6 tour 2, point 11 : interrupteur ouvert, FAQ en colonne centrée et titre centré (FAQ de l'accueil).
+            s26 : FAQ en 4/8 (titre à gauche, questions à droite) ; mêmes questions, même JSON-LD. */}
+        <FaqSection items={faqs} align={ESPACE_CLIENT_PUBLIE ? "center" : "left"} disposition={ESPACE_CLIENT_PUBLIE ? "split" : undefined} />
       </section>
 
       {/* Contenu SEO — pourquoi nos vannes */}
       {/* v6 tour 2, point 11 : interrupteur ouvert, titre de section centré comme l'accueil et texte dans une colonne
           `max-w-3xl` centrée (remplace les deux colonnes du tour 1 : plus de vide d'un seul côté). Fermé : inchangé. */}
-      <section className="mt-12 border-t border-border pt-8">
-        <h2 className={ESPACE_CLIENT_PUBLIE ? "font-display mb-4 text-center text-xl font-bold" : "font-display mb-4 text-xl font-bold"}>Pourquoi ces vannes sont différentes</h2>
-        <div className={ESPACE_CLIENT_PUBLIE ? "mx-auto max-w-3xl space-y-3 text-sm text-text-secondary lg:text-base" : "max-w-3xl space-y-3 text-sm text-text-secondary"}>
+      {/* s26 (§3.4) : titre à gauche, un paragraphe par colonne dès 1024 px (3 colonnes), liens neutres soulignés. */}
+      <section className={ESPACE_CLIENT_PUBLIE ? "mt-12 border-t border-border pt-12" : "mt-12 border-t border-border pt-8"}>
+        <h2 className={titreSection()}>Pourquoi ces vannes sont différentes</h2>
+        <div className={ESPACE_CLIENT_PUBLIE ? cn("mt-6 grid gap-6 lg:grid-cols-3", TEXTE) : "max-w-3xl space-y-3 text-sm text-text-secondary"}>
           <p>
-            Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-⁠Up</strong> : «&nbsp;est-⁠ce que je peux la sortir ce soir et faire rire ?&nbsp;» Si la réponse est non, elle n’est pas sur le site. Pas de blagues Carambar, pas de grille-⁠pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
+            Chaque vanne de notre catalogue passe le <strong className={fortSeo()}>Test Stand-⁠Up</strong> : «&nbsp;est-⁠ce que je peux la sortir ce soir et faire rire ?&nbsp;» Si la réponse est non, elle n’est pas sur le site. Pas de blagues Carambar, pas de grille-⁠pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
           </p>
           <p>
-            Nos vannes sont classées par situation (<strong className="text-text-primary">boulot, couple, soirées, famille, gaming</strong>) pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
+            Nos vannes sont classées par situation (<strong className={fortSeo()}>boulot, couple, soirées, famille, gaming</strong>) pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className={ESPACE_CLIENT_PUBLIE ? LIEN_SEO_OUVERT : "text-accent-link underline underline-offset-2"}>comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
           </p>
           <p>
-            Tu veux aller plus loin ? Apprends à <Link href="/blog/comment-raconter-une-blague-sans-la-rater" className="text-accent-link underline underline-offset-2">raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className="text-accent-link underline underline-offset-2">5 erreurs qui tuent tes blagues</Link>.
+            Tu veux aller plus loin ? Apprends à <Link href="/blog/comment-raconter-une-blague-sans-la-rater" className={ESPACE_CLIENT_PUBLIE ? LIEN_SEO_OUVERT : "text-accent-link underline underline-offset-2"}>raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className={ESPACE_CLIENT_PUBLIE ? LIEN_SEO_OUVERT : "text-accent-link underline underline-offset-2"}>5 erreurs qui tuent tes blagues</Link>.
           </p>
         </div>
       </section>
 
       {/* Cross-linking SEO */}
-      <nav className="mt-12 border-t border-border pt-8">
-        <h2 className={ESPACE_CLIENT_PUBLIE ? "font-display mb-4 text-center text-xl font-bold" : "font-display mb-4 text-xl font-bold"}>La suite, si tu as pris goût</h2>
-        <div className="grid gap-4 sm:grid-cols-3">
+      <nav className={ESPACE_CLIENT_PUBLIE ? "mt-12 border-t border-border pt-12" : "mt-12 border-t border-border pt-8"}>
+        <h2 className={titreSection()}>La suite, si tu as pris goût</h2>
+        <div className={ESPACE_CLIENT_PUBLIE ? "mt-6 grid gap-6 md:grid-cols-3" : "grid gap-4 sm:grid-cols-3"}>
           <Link href="/conseils" className={carteSuite()}>
             {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
-            <h3 className="font-display text-base font-bold text-text-primary">Techniques de répartie</h3>
-            <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
+            <h3 className={titreSuite()}>Techniques de répartie</h3>
+            <p className={texteSuite()}>{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
           </Link>
           <Link href="/videos" className={carteSuite()}>
             {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
-            <h3 className="font-display text-base font-bold text-text-primary">Vidéos stand-⁠up analysées</h3>
-            <p className="mt-1 text-sm text-text-secondary">Regarde comment les pros de la scène construisent leurs blagues.</p>
+            <h3 className={titreSuite()}>Vidéos stand-⁠up analysées</h3>
+            <p className={texteSuite()}>Regarde comment les pros de la scène construisent leurs blagues.</p>
           </Link>
           <Link href="/blog/timing-humour" className={carteSuite()}>
             {ESPACE_CLIENT_PUBLIE && <FiletCarte />}
-            <h3 className="font-display text-base font-bold text-text-primary">Timing : bide ou carton, même vanne</h3>
-            <p className="mt-1 text-sm text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-⁠il savoir combien de temps le tenir.</p>
+            <h3 className={titreSuite()}>Timing : bide ou carton, même vanne</h3>
+            <p className={texteSuite()}>Le silence juste avant la chute fait la moitié du travail. Encore faut-⁠il savoir combien de temps le tenir.</p>
           </Link>
         </div>
       </nav>

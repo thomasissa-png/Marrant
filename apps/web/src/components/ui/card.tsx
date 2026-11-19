@@ -10,6 +10,12 @@ export const CARTE_A_FILET = "relative overflow-hidden rounded-xl";
 export const FILET_CARTE =
   "pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent-primary to-accent-secondary";
 
+/**
+ * s26 (Parcours et Vannes, décision de Thomas du 18/11 étendue à ces pages) : filet masqué par une classe du parent,
+ * sans retirer le `<span data-filet>` du HTML serveur (pages publiques : seuls les attributs `class` changent).
+ */
+export const FILET_MASQUE = "[&>[data-filet]]:hidden";
+
 export function FiletCarte() {
   return <span aria-hidden="true" data-filet="" className={FILET_CARTE} />;
 }
