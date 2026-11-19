@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
-import { CLE_DEPUIS_LISTE } from "@/lib/espace/quoi-repondre-liste";
+import { CLE_DEPUIS_LISTE, CLE_FICHE_QUITTEE } from "@/lib/espace/quoi-repondre-liste";
 import { useFaitsQuoiRepondre } from "@/components/espace/quoi-repondre/faits-contexte";
 import { LienRetour } from "@/components/espace/lien-retour";
 import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
@@ -117,6 +117,9 @@ export function RetourListe({ href, label }: { href: string; label: string }) {
   const chemin = usePathname();
   const [depuisListe, setDepuisListe] = useState(false);
   useEffect(() => setDepuisListe(lire(CLE_DEPUIS_LISTE) === chemin), [chemin]);
+  // s26 liste et détail, tour 4 : en quittant la fiche (« Retour », retour du navigateur, autre lien), son adresse est
+  // notée ; la page liste montée dans la foulée se recale sur sa ligne (`MemoireDefilementPage`).
+  useEffect(() => () => ecrire(CLE_FICHE_QUITTEE, JSON.stringify({ chemin, t: Date.now() })), [chemin]);
   return (
     <LienRetour
       href={href}
@@ -162,6 +165,32 @@ function sansLigneCoupee(racine: Document, top: number) {
   return Math.max(0, top - montrer < cacher - top || cacher > max ? montrer : cacher);
 }
 
+/** Chemin d'une adresse de fiche (sans les filtres). */
+const cheminDe = (href: string) => href.split(/[?#]/)[0];
+
+/** Fiche quittée il y a moins de 5 s (`RetourListe`), sinon `null`. */
+function lireQuittee(): string | null {
+  try {
+    const { chemin, t } = JSON.parse(lire(CLE_FICHE_QUITTEE) ?? "null") as { chemin: string; t: number };
+    return Date.now() - t < 5000 ? chemin : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * s26 liste et détail, tour 4 : `scrollY` qui centre la ligne de la fiche dans la zone sous l'en-tête collant (la ligne
+ * de la liste, pas la prochaine action en tête de page) ; `null` si elle n'est pas affichée (dès 1024, autre filtre).
+ */
+function topLigneCentree(racine: Document, chemin: string): number | null {
+  const ligne = Array.from(racine.querySelectorAll<HTMLAnchorElement>("[data-mode='page'] [data-etat='liste'] a[href]")).find((a) => cheminDe(a.getAttribute("href") ?? "") === chemin && a.offsetParent !== null);
+  if (!ligne) return null;
+  const bord = basEnTete(racine);
+  const r = ligne.getBoundingClientRect();
+  const max = racine.documentElement.scrollHeight - window.innerHeight;
+  return Math.min(max, Math.max(0, window.scrollY + r.top - bord - (window.innerHeight - bord - r.height) / 2));
+}
+
 /**
  * Page liste (< 1024) : au clic sur une fiche, `scrollY` et l'adresse de la liste sont gardés (`sessionStorage`, clé
  * rubrique + filtres) avec l'adresse de la fiche ouverte (« Retour » = `router.back()`) ; au retour sur cette même
@@ -170,10 +199,26 @@ function sansLigneCoupee(racine: Document, top: number) {
  */
 export function MemoireDefilementPage({ cle, children }: { cle: string; children: React.ReactNode }) {
   useEffect(() => {
+    // s26 liste et détail, tour 4 (relecture UX : « la liste revient en haut au lieu de la ligne courante », séquence
+    // ligne 3, « Fait », « Situation suivante », « Retour ») : la fiche quittée il y a moins de 5 s fait foi. Si ce n'est
+    // pas celle qu'on avait ouverte depuis la liste (ou si rien n'était gardé), la page se recale sur SA ligne, centrée
+    // sous l'en-tête ; sinon, la position gardée est rendue comme avant.
+    const quittee = lireQuittee();
+    ecrire(CLE_FICHE_QUITTEE, null);
     const memoire = lire(cle);
-    if (!memoire) return;
-    const { y, adresse, href, rang, haut } = JSON.parse(memoire) as { y: number; adresse: string; href?: string; rang?: number; haut?: number };
-    if (adresse !== `${window.location.pathname}${window.location.search}`) return;
+    const garde = memoire ? (JSON.parse(memoire) as { y: number; adresse: string; href?: string; rang?: number; haut?: number }) : null;
+    const ici = `${window.location.pathname}${window.location.search}`;
+    const valable = garde && garde.adresse === ici ? garde : null;
+    if (quittee && (!valable?.href || cheminDe(valable.href) !== quittee)) {
+      const top = topLigneCentree(document, quittee);
+      if (top !== null) {
+        window.scrollTo({ top: sansLigneCoupee(document, top) });
+        if (valable) ecrire(cle, null);
+        return;
+      }
+    }
+    if (!valable) return;
+    const { y, href, rang, haut } = valable;
     // s26 liste et détail, tour 1 (mesures §2 : 1194 -> 1247 à 375, 587 -> 575 à 768) : la position est rendue par le
     // lien cliqué, remis à la même hauteur dans l'écran (le contenu au-dessus peut avoir changé de hauteur entre-temps :
     // repli des filtres, prochaine action) ; `scrollY` brut seulement si le lien n'est plus affiché.

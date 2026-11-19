@@ -21,7 +21,8 @@ export function RepliquesFermees({ registres }: { registres: readonly RegistreRe
   return (
     <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3" data-repliques-fermees>
       {registres.map((r) => (
-        <li key={r} className="min-w-0 rounded-xl border border-border p-4" data-replique-fermee={r}>
+        // s26 liste et détail, tour 4 : `data-survol` (posé par `SignalOffre`) éclaircit le bord ; barres inchangées.
+        <li key={r} className="min-w-0 rounded-xl border border-border p-4 data-[survol]:border-border-input" data-replique-fermee={r}>
           <div className="flex items-center justify-between gap-2">
             <p className={META_FORT}>{C.registres[r]}</p>
             <Verrou />

@@ -109,8 +109,8 @@ export function HaloPremium() {
  */
 export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse: string; visiteur: boolean }) {
   return (
-    // s26 liste et détail, tour 1 (spec UX §1) : `data-signal` (posé 600 ms par `SignalOffre`) = contour violet de 2 px,
-    // hors de la bordure, sans mouvement ni aplat.
+    // s26 liste et détail, tour 1 (spec UX §1) : `data-signal` (posé par `SignalOffre`, 1,5 s depuis le tour 4) = contour
+    // violet de 2 px, hors de la bordure, sans mouvement ni aplat.
     <div className={cn(CARTE_PREMIUM, "p-4 md:p-6 data-[signal]:outline data-[signal]:outline-2 data-[signal]:outline-offset-4 data-[signal]:outline-accent-primary")} data-apercu-offre>
       <HaloPremium />
       {/* s26 tour 2 des encarts (E2) : de 768 à 1023, contenu en ligne (bouton et phrase d'objet à gauche, réassurance et
@@ -119,7 +119,14 @@ export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse
           gauche (phrase d'objet comprise). */}
       <div className="relative flex h-full flex-col md:max-lg:flex-row md:max-lg:items-start md:max-lg:gap-6 md:max-lg:text-left">
         <div className="contents md:max-lg:block md:max-lg:flex-1" data-offre-gauche>
-          <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
+          {/* s26 liste et détail, tour 4 : focus posé par `SignalOffre` après un clic sur une partie fermée ; son anneau
+              (`data-focus-signal`, jusqu'à la perte du focus) est celui de `:focus-visible`. */}
+          <Link
+            href={href}
+            aria-label={TEXTES_APERCU.offre.nomAccessible}
+            className={cn(BOUTON_OFFRE, "w-full data-[focus-signal]:ring-2 data-[focus-signal]:ring-accent-link data-[focus-signal]:ring-offset-2 data-[focus-signal]:ring-offset-background")}
+            data-position="haut"
+          >
             {TEXTES_APERCU.offre.bouton}
           </Link>
           {/* s26 liste et détail, tour 2 (mesures A1 #11 : gratuit à 1024, 34 px entre le bas du texte du hero et celui de

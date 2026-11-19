@@ -10,6 +10,9 @@ import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } f
  *   liste ; retour navigateur fiche par fiche (une entrée d'historique par fiche, aucune par filtre) ;
  * - sous 1024 : page liste, fiche plein écran, « Retour » (`router.back()`) et retour navigateur, `scrollY` à 8 px près ;
  * - 308 de l'ancienne adresse (espace ouvert), 307 du non-abonné vers l'aperçu de la liste.
+ * s26 liste et détail, tour 4 : retours en contour à égalité avant clic, « Situation suivante » = prochaine non faite,
+ * retour mobile sur la ligne de la fiche quittée (après « Situation suivante »), focus sur l'offre après clic sur une
+ * tuile fermée de l'aperçu (contour tenu 1,2 s au moins), « Pour quoi faire ? » sans vide à droite à 1280.
  */
 const MOT_DE_PASSE = "E2e-liste-detail-s26";
 const LISTE = "/mon-espace/quoi-repondre";
@@ -100,10 +103,26 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       expect(Math.round(await page.locator(`[data-fiche-panneau='${id2}'] h1`).evaluate((h) => h.getBoundingClientRect().top)), "haut du H1 sous l'en-tête").toBeGreaterThanOrEqual(144);
       expect(await corps.evaluate((c) => c.scrollTop), "scrollTop de la liste gardé").toBe(avant2);
 
+      // s26 liste et détail, tour 4 (relectures à l'aveugle : « Essayé, ça a marché » plein avant tout clic, lu comme
+      // déjà choisi) : avant tout clic, les trois retours en contour, à égalité (aucun pressé, même fond transparent).
+      const retours = page.locator(`[data-fiche-panneau='${id2}'] [data-testid='geste-fiche'] [role='group'] button[aria-pressed]`);
+      if ((await retours.count()) > 0) {
+        await expect(retours).toHaveCount(3);
+        const etats = await retours.evaluateAll((bs) => bs.map((b) => `${b.getAttribute("aria-pressed")}|${getComputedStyle(b).backgroundColor}|${getComputedStyle(b).borderTopStyle}`));
+        expect(new Set(etats).size, `retours à égalité : ${etats.join(" ; ")}`).toBe(1);
+        expect(etats[0]).toMatch(/^false\|rgba\(0, 0, 0, 0\)\|solid$/);
+      }
+
       // Clic 5 : « Situation suivante » (contour avant « Fait »), 1 clic, aucun retour à la liste.
+      // s26 liste et détail, tour 4 : compte neuf, rien n'est fait : la suivante est la prochaine non faite après la fiche.
       const suivante = page.locator("[data-situation-suivante]");
       await expect(suivante).not.toHaveAttribute("data-plein", "");
       const href3 = (await suivante.getAttribute("href"))!;
+      const apresId2 = await colonne(page).evaluate((n, courante) => {
+        const ids = Array.from(n.querySelectorAll<HTMLElement>("a[data-ligne-qr]")).map((a) => a.dataset.ligneQr ?? "");
+        return ids[ids.indexOf(courante) + 1] ?? "";
+      }, id2);
+      expect(href3).toBe(`${LISTE}/${apresId2}?ou=${lieu}`);
       await suivante.click();
       clics++;
       await expect(page).toHaveURL(new RegExp(`${href3.replace(/[?]/g, "\\?")}$`));
@@ -120,6 +139,11 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       // s26 liste et détail, tour 1 : « Situation suivante » prend l'aplat ET est ramenée dans l'écran.
       await expect(suivante).toHaveAttribute("data-plein", "");
       await expect(suivante).toBeInViewport({ ratio: 1, timeout: 2_000 });
+      // s26 liste et détail, tour 4 : « Situation suivante » = la prochaine NON FAITE du filtre, dans l'ordre de la liste
+      // (fiche faite : la première non faite, celle que le panneau propose à l'arrivée).
+      const premiereNonFaite = () =>
+        colonne(page).evaluate((n, courante) => Array.from(n.querySelectorAll<HTMLElement>("a[data-ligne-qr]")).find((a) => a.dataset.ligneQr !== courante && !a.querySelector("[data-fait]"))?.dataset.ligneQr ?? "", id3);
+      await expect.poll(async () => `${await suivante.getAttribute("href")}`).toBe(`${LISTE}/${await premiereNonFaite()}?ou=${lieu}`);
 
       // Retour navigateur : fiche 2, puis le filtre. s26 liste et détail, tour 1 (mesures §2, historique) : le filtre ne
       // remplace plus l'entrée de la fiche 1 quand il la quitte (il en ajoute une) ; s'il la garde, son adresse porte le
@@ -191,6 +215,44 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     await expect.poll(scrollStable).toBeGreaterThan(y - ecartMax - 1);
     expect(await cibleEntiere(), "ligne restaurée entière sous l'en-tête").toBe(true);
     expect(Math.abs((await page.evaluate(() => window.scrollY)) - y)).toBeLessThanOrEqual(ecartMax);
+
+    // s26 liste et détail, tour 4 (relecture UX : « la liste revient en haut au lieu de la ligne courante », séquence
+    // ligne, « Situation suivante », « Retour ») : fiche ouverte depuis la page liste, puis la suivante ; « Retour »
+    // ramène la page sur la ligne de la fiche QUITTÉE (la courante), entière sous l'en-tête, jamais en haut de page.
+    const ligneEntiere = (id: string) =>
+      page.locator(`[data-mode='page'] [data-etat='liste'] a[data-fiche][href='${LISTE}/${id}']`).first().evaluate((e) => {
+        const bord = Math.max(0, ...Array.from(document.querySelectorAll<HTMLElement>("header")).filter((h) => getComputedStyle(h).position === "sticky" && h.offsetParent !== null).map((h) => h.getBoundingClientRect().bottom));
+        const r = e.getBoundingClientRect();
+        return r.top >= bord - 0.5 && r.bottom <= window.innerHeight + 0.5;
+      });
+    // La ligne ouverte posée tout en bas de l'écran : la suivante est sous le pli à la position gardée (le cas mesuré).
+    const enBas = () => cible.evaluate((e) => window.scrollTo({ top: window.scrollY + e.getBoundingClientRect().bottom - window.innerHeight + 2, behavior: "instant" }));
+    await enBas();
+    await cible.click();
+    await expect(page.locator("[data-fiche-panneau] h1")).toBeVisible();
+    const suivante = page.locator("[data-situation-suivante]");
+    if ((await suivante.count()) > 0) {
+      const idSuivante = (await suivante.getAttribute("href"))!.split("?")[0].split("/").pop()!;
+      await suivante.click();
+      await expect(page.locator(`[data-fiche-panneau='${idSuivante}'] h1`)).toBeVisible();
+      await page.locator("main [data-lien-retour]").click();
+      await expect(page).toHaveURL(new RegExp(`${LISTE}$`));
+      await expect.poll(scrollStable).toBeGreaterThan(0);
+      expect(await ligneEntiere(idSuivante), "ligne de la fiche quittée entière sous l'en-tête").toBe(true);
+
+      // Même chemin, retour du navigateur : la fiche ouverte depuis la liste, puis la liste sur sa ligne.
+      await enBas();
+      await cible.click();
+      await expect(page.locator("[data-fiche-panneau] h1")).toBeVisible();
+      await suivante.click();
+      await expect(page.locator(`[data-fiche-panneau='${idSuivante}'] h1`)).toBeVisible();
+      await page.goBack();
+      await expect(page.locator("[data-fiche-panneau] h1")).toBeVisible();
+      await page.goBack();
+      await expect(page).toHaveURL(new RegExp(`${LISTE}$`));
+      await expect.poll(scrollStable).toBeGreaterThan(0);
+      expect(await cibleEntiere(), "ligne de la fiche quittée entière sous l'en-tête").toBe(true);
+    }
   });
 
   test("308 de l'ancienne adresse (espace ouvert) ; non-abonné sur une fiche : 307 vers l'aperçu de la liste", async ({ page }) => {
@@ -224,22 +286,43 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       });
       expect(vide, `vide de fin ${carte}`).toBeLessThanOrEqual(24);
     }
+    // s26 liste et détail, tour 4 (relecture design D2 : « Pour quoi faire ? » pleine largeur, 350 px vides à droite) :
+    // pastilles réparties sur une ligne, la dernière au bord droit du contenu de la tuile (8 px près).
+    const reparties = await page.locator("[data-apercu-extrait] [data-apercu-filtres-pour]").evaluate((t) => {
+      const lis = Array.from(t.querySelectorAll<HTMLElement>("li"));
+      const s = getComputedStyle(t);
+      const bordDroit = t.getBoundingClientRect().right - parseFloat(s.borderRightWidth) - parseFloat(s.paddingRight);
+      return { lignes: new Set(lis.map((l) => Math.round(l.getBoundingClientRect().top))).size, vide: Math.round(bordDroit - lis[lis.length - 1].getBoundingClientRect().right) };
+    });
+    expect(reparties.lignes, "pastilles sur une ligne").toBe(1);
+    expect(reparties.vide, "vide à droite des pastilles").toBeLessThanOrEqual(8);
   });
 
   // s26 liste et détail, tour 1 (spec UX §1, mesures §7) : visiteur, clic sur une tuile fermée de l'aperçu : contour de la
   // carte d'offre (ramenée dans l'écran si besoin), aucune navigation, extrait toujours sans élément focusable.
   for (const [largeur, hauteur] of [[375, 812], [768, 1024], [1280, 900], [1920, 1080]] as const) {
-    test(`aperçu (${largeur}) : tuile fermée -> contour sur la carte d'offre, sans navigation`, async ({ page }) => {
+    test(`aperçu (${largeur}) : tuile fermée -> contour sur la carte d'offre et focus sur son bouton, sans navigation`, async ({ page }) => {
       await page.setViewportSize({ width: largeur, height: hauteur });
       await page.goto(LISTE);
       const tuile = page.locator("[data-apercu-extrait] [data-tuile-fermee='']:visible").first();
       await tuile.scrollIntoViewIfNeeded();
       const b = (await tuile.boundingBox())!;
       const adresse = page.url();
+      // s26 liste et détail, tour 4 : au survol, curseur main et bord éclairci (pas l'air d'un bouton mort).
+      await page.mouse.move(b.x + b.width / 2, b.y + Math.min(b.height / 2, 40));
+      expect(await page.locator("[data-apercu-extrait]").evaluate((e) => getComputedStyle(e).cursor)).toBe("pointer");
+      await expect(page.locator("[data-apercu-extrait] [data-survol]")).toHaveCount(1);
       await page.mouse.click(b.x + b.width / 2, b.y + Math.min(b.height / 2, 40));
       const carte = page.locator("[data-apercu-hero] [data-apercu-offre]");
       await expect(carte).toHaveAttribute("data-signal", "", { timeout: 1_500 });
       await expect(carte).toBeInViewport({ ratio: 1 });
+      // s26 liste et détail, tour 4 (relectures à l'aveugle : captures avant et après le clic identiques) : focus sur le
+      // bouton d'offre, anneau visible ; contour tenu au moins 1,2 s.
+      const bouton = carte.locator("a[data-position='haut']");
+      await expect(bouton).toBeFocused();
+      expect(await bouton.evaluate((a) => getComputedStyle(a).boxShadow), "anneau de focus").not.toBe("none");
+      await page.waitForTimeout(1_100);
+      await expect(carte).toHaveAttribute("data-signal", "");
       expect(page.url()).toBe(adresse);
       await expect(page.locator("[data-apercu-extrait] > [aria-hidden='true']")).toHaveCount(1);
       expect(await page.locator("[data-apercu-extrait] > [aria-hidden='true']").evaluate((e) => e.querySelectorAll("a, button, input, textarea, select, [tabindex]").length)).toBe(0);
