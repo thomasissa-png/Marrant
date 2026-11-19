@@ -36,7 +36,7 @@ for (const compte of Object.keys(COMPTES)) {
     const h = w < 768 ? 812 : 900;
     const ctx = await b.newContext({ viewport: { width: w, height: h }, colorScheme: "dark", storageState });
     const p = await ctx.newPage();
-    await p.goto(BASE + (process.env.PAGE || "/mon-espace"), { waitUntil: "networkidle" });
+    await p.goto(BASE + (process.env.PAGE || "/mon-espace"), { waitUntil: process.env.ATTENTE || "networkidle" }); if (process.env.ATTENTE) await p.waitForTimeout(1500);
     const r = await p.evaluate((h) => {
       const m = new Map();
       const root = document.querySelector("main") || document.body;
