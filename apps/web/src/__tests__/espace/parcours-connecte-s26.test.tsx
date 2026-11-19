@@ -14,7 +14,7 @@ import { QuatreSemaines } from "@/components/espace/quatre-semaines";
 import { SommaireParcours } from "@/components/espace/parcours/sommaire-parcours";
 import { TonCap } from "@/components/espace/ton-cap";
 import { trackUmami } from "@/lib/umami";
-import { lirePosition, noterPosition, recalerPosition } from "@/lib/espace/recaler-ancre";
+import { lirePosition, noterPosition, recalerAncre, recalerPosition } from "@/lib/espace/recaler-ancre";
 import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import { progressionVisiteurTexte } from "@/config/textes/parcours";
@@ -158,13 +158,15 @@ describe("tour 2 : retour du navigateur et en-tête 7/5", () => {
     }
   });
 
+  // s26 parcours connecté, tour 3 : test changé (raison : les lignes passent de `lg:flex-1`, hauteurs égales, à
+  // `lg:flex-auto`, surplus à parts égales avec les deux cales de la liste ; voir le bloc « tour 3 »).
   it("sommaire : lignes de 48 px dès 1024 px, qui se partagent la hauteur de la carte étirée", () => {
     const { container } = render(<SommaireParcours etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }]} faites={[]} onOuvrir={jest.fn()} />);
     const details = screen.getByTestId("sommaire-parcours");
     expect(details.className.split(" ")).toEqual(expect.arrayContaining(["lg:flex", "lg:flex-1", "lg:flex-col", "lg:[&::details-content]:flex"]));
     expect((container.querySelector("ol") as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["lg:flex", "lg:flex-1", "lg:mt-2"]));
     for (const li of Array.from(container.querySelectorAll("li"))) {
-      expect(li.className.split(" ")).toEqual(expect.arrayContaining(["lg:flex-1", "lg:py-0.5"]));
+      expect(li.className.split(" ")).toEqual(expect.arrayContaining(["lg:flex-auto", "lg:py-0.5"]));
       expect(li.className).not.toMatch(/min-h-/);
     }
   });
@@ -174,5 +176,72 @@ describe("tour 2 : retour du navigateur et en-tête 7/5", () => {
     const cap = container.querySelector("#cap") as HTMLElement;
     expect(cap.className.split(" ")).toContain("max-e300:gap-y-1");
     expect((cap.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["max-e300:mt-2", "max-e300:pt-2"]));
+  });
+});
+
+// s26 parcours connecté, tour 3 (spec Playwright `parcours-connecte-s26.spec.ts`, trajet 375 et 1280 ; vides de l'en-tête).
+describe("tour 3 : recalage unique, sommaire replié sans boîte, rythme du sommaire étiré", () => {
+  const avantRO = global.ResizeObserver;
+  const observateurs: Array<{ rappel: () => void; actif: boolean }> = [];
+  beforeAll(() => {
+    global.ResizeObserver = class {
+      private o: { rappel: () => void; actif: boolean };
+      constructor(rappel: () => void) {
+        this.o = { rappel, actif: true };
+        observateurs.push(this.o);
+      }
+      observe() {}
+      unobserve() {}
+      disconnect() {
+        this.o.actif = false;
+      }
+    } as unknown as typeof ResizeObserver;
+  });
+  afterAll(() => {
+    global.ResizeObserver = avantRO;
+  });
+
+  function cible(id: string) {
+    const e = document.createElement("div");
+    e.id = id;
+    e.scrollIntoView = jest.fn();
+    document.body.appendChild(e);
+    return e;
+  }
+  const changerDeHauteur = () => observateurs.filter((o) => o.actif).forEach((o) => o.rappel());
+
+  it("un nouveau recalage arrête le précédent : la page qui change de hauteur ne ramène plus l'étape quittée", () => {
+    const e2 = cible("etape-2");
+    const e3 = cible("etape-3");
+    const fin2 = recalerAncre("etape-2");
+    const fin3 = recalerAncre("etape-3", { behavior: "smooth" });
+    changerDeHauteur();
+    expect(e2.scrollIntoView).toHaveBeenCalledTimes(1);
+    expect(e3.scrollIntoView).toHaveBeenCalledTimes(2);
+    expect(e3.scrollIntoView).toHaveBeenLastCalledWith({ behavior: "smooth", block: "start" });
+    fin2();
+    fin3();
+    e2.remove();
+    e3.remove();
+  });
+
+  it("un clic (`pointerdown`) arrête le recalage en cours", () => {
+    const e = cible("etape-2");
+    const fin = recalerAncre("etape-2");
+    window.dispatchEvent(new Event("pointerdown"));
+    changerDeHauteur();
+    expect(e.scrollIntoView).toHaveBeenCalledTimes(1);
+    fin();
+    e.remove();
+  });
+
+  it("sommaire replié : liste en `display: none` ; étiré : lignes et deux cales (poids 0,8) se partagent le surplus, sans `min-h`", () => {
+    const { container } = render(
+      <SommaireParcours etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }, { order: 3, titre: "Trois" }]} faites={[]} onOuvrir={jest.fn()} />,
+    );
+    expect(screen.getByTestId("sommaire-parcours").className.split(" ")).toContain("[&:not([open])>ol]:hidden");
+    const ol = container.querySelector("ol") as HTMLElement;
+    expect(ol.className.split(" ")).toEqual(expect.arrayContaining(["lg:before:flex-[0.8_1_auto]", "lg:before:content-['']", "lg:after:flex-[0.8_1_auto]", "lg:after:content-['']"]));
+    for (const li of Array.from(container.querySelectorAll("li"))) expect(li.className).not.toMatch(/min-h-/);
   });
 });

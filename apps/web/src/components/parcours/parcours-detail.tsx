@@ -106,6 +106,8 @@ const COLONNE_DETAIL = "lg:col-span-12";
 const EN_TETE_GAUCHE = "lg:col-span-7";
 // s26 tour 2 : `lg:flex lg:flex-col`, le contenu (liste des étapes) remplit la carte étirée au lieu de laisser 100 px vides.
 const CARTE_DROITE = "lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mt-9 lg:self-stretch lg:flex lg:flex-col";
+/** s26 tour 3 : nombre d'étapes dès lequel le sommaire de l'abonné passe sous l'en-tête (12 colonnes au lieu de 7/5). */
+const SOMMAIRE_SOUS_EN_TETE_DES = 5;
 const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
 /**
  * s26 tour 2 (P3, relectures du tour 1 : corps des étapes hors échelle, au moins 5 accents violets) : posé sur la liste
@@ -461,6 +463,12 @@ export function ParcoursDetail({
     setExpandedStep(order);
     const reduit = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     requestAnimationFrame(() => {
+      // s26 parcours connecté, tour 3 : ouvert, défilement gardé sur l'étape tant que la page change de hauteur (étape
+      // quittée refermée au-dessus, contenu chargé) ; arrête le recalage d'arrivée encore actif (`recaler-ancre.ts`).
+      if (ESPACE_CLIENT_PUBLIE) {
+        recalerAncre(`etape-${order}`, { focusId: `etape-${order}-entete`, behavior: reduit ? "instant" : "smooth" });
+        return;
+      }
       document.getElementById(`etape-${order}`)?.scrollIntoView?.({ behavior: reduit ? "auto" : "smooth", block: "start" });
       document.getElementById(`etape-${order}-entete`)?.focus({ preventScroll: true });
     });
@@ -643,7 +651,11 @@ export function ParcoursDetail({
   const argumentaireApresProgramme = !isPathCompleted && isPremium && progressionConnue && completedSteps.length > 0;
   // s26 parcours connecté (§3) : carte de progression affichée, et en-tête 7/5 quand l'argumentaire reste en tête.
   const carteProgression = !isPathCompleted || chargementPremium || echecPremium;
-  const enTete75 = carteProgression && !argumentaireApresProgramme;
+  // s26 parcours connecté, tour 3 (arbitrage de l'orchestrateur) : dès 5 étapes, le sommaire de l'abonné (lignes de 48 px)
+  // dépasse la colonne de gauche (Confiance : 23 à 47 px vides sous l'en-tête ; Storytelling, Boulot : 61 à 109) ; il
+  // passe sous l'en-tête sur 12 colonnes. 3 et 4 étapes : 7/5 gardé.
+  const sommaireSous = isPremium && path.steps.length >= SOMMAIRE_SOUS_EN_TETE_DES;
+  const enTete75 = carteProgression && !argumentaireApresProgramme && !sommaireSous;
   // s19 (N1 @design rendu) : typographie française au rendu (« 6 semaines », « « Redis-moi », « à midi »), tous parcours.
   // v6 tour 5, arbitrage 1 (ouvert seulement) : l'intro devient une colonne centrée de 672 px sous l'en-tête centré
   // (comme le sous-titre de la liste), « Pour qui ? » et la phrase du persona centrés ; le témoignage garde son encart.
