@@ -24,6 +24,10 @@ export const ADRESSES_OFFRE_EN_HAUT: readonly string[] = [
   // `ApercuVerrouille`. Plus aucune rubrique sur l'ancien aperçu.
   `${ESPACE_ACCUEIL}/questions`,
   `${ESPACE_ACCUEIL}/repliques`,
+  // s26 (règle de Thomas : un seul aplat violet par écran) : le Profil du compte gratuit porte son bouton d'offre dans
+  // la carte d'abonnement (« S'abonner ») ; l'en-tête masque le sien. L'abonné n'a jamais ce bouton ; le visiteur n'a
+  // pas de Profil (renvoyé à la connexion).
+  "/profil",
 ];
 
 /** s26 : les carnets d'un mois (`/carnet/<mois>`) ont le même hero que `/carnet`. */

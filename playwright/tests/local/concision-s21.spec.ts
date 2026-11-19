@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { test, expect, localSeulement, requete, connecter } from "../support/base-locale";
+import { test, expect, localSeulement, requete, connecter, ESPACE_OUVERT } from "../support/base-locale";
 
 /**
  * s21 concision du tunnel (choix de Thomas du 18/10), changements de STRUCTURE seulement :
@@ -56,7 +56,14 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     await page.goto("/vannes");
     const mur = page.locator("[data-mur-liste='vannes']");
     await mur.scrollIntoViewIfNeeded();
-    await expect(mur.locator("a.bg-accent-secondary-hover")).toHaveCount(1);
+    // s26 (règle de Thomas : un seul aplat violet par écran ; interrupteur ouvert seulement) : l'en-tête collant porte le
+    // plein d'offre sur toute la page, le bouton d'offre du mur passe en contour (bord violet, fond transparent). Fermé : un plein.
+    await expect(mur.locator("a.bg-accent-secondary-hover")).toHaveCount(ESPACE_OUVERT ? 0 : 1);
+    if (ESPACE_OUVERT) {
+      const offre = mur.locator("a[data-mur-cta='premium']");
+      await expect(offre).toHaveClass(/\bborder-accent-primary\b/);
+      expect(await offre.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgba(0, 0, 0, 0)");
+    }
     const gratuit = mur.locator("a[data-mur-cta='etape-1']");
     await expect(gratuit).toBeVisible();
     expect(await gratuit.getAttribute("class")).toContain("underline");

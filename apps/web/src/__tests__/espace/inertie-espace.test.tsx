@@ -264,6 +264,10 @@ describe("garde-fou de construction", () => {
     "components/profil/abonnement-card.tsx",
     "components/profil/prenom-card.tsx",
     "components/profil/supprimer-compte-card.tsx",
+    // s26 (règle de Thomas : un seul aplat violet par écran) : « Passer à l'étape 2 » de la fin d'étape 1 passe en
+    // contour, ouvert seulement (`ESPACE_CLIENT_PUBLIE && CONTOUR_OFFRE` ajouté au `cn` du plein : fermé, classe d'avant
+    // au caractère près, instantanés identiques).
+    "components/parcours/step-blocks.tsx",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

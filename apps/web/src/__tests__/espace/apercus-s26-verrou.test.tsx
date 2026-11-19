@@ -204,6 +204,7 @@ describe("offre en haut : les trois adresses passées à `ApercuVerrouille`", ()
     // s26 (`docs/ux/favoris-carnet-s26.md` §1.2 et §2.2) : Favoris (aperçu `ApercuVerrouille`) et le carnet du non-abonné
     // (hero 8/4, offre en haut, `/carnet` et `/carnet/<mois>`) s'ajoutent.
     // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.1 et §2.1) : Mes questions et Mes répliques s'ajoutent.
+    // s26 (un seul aplat violet par écran) : /profil s'ajoute (bouton « S'abonner » de la carte du compte gratuit).
     expect(ADRESSES_OFFRE_EN_HAUT).toEqual([
       ADRESSES_APERCU.aujourdhui,
       ADRESSES_APERCU.quoiRepondre,
@@ -213,6 +214,7 @@ describe("offre en haut : les trois adresses passées à `ApercuVerrouille`", ()
       "/carnet",
       ADRESSES_APERCU.mesQuestions,
       ADRESSES_APERCU.mesRepliques,
+      "/profil",
     ]);
     expect(offreEnHaut("/mon-espace/bibliotheque?x=1")).toBe(true);
     expect(offreEnHaut("/favoris#x")).toBe(true);

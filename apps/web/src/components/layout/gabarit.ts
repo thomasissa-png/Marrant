@@ -59,3 +59,12 @@ export const BOUTON_PRIX_UNE_LIGNE = `h-auto min-h-12 px-3 py-2 [text-wrap:balan
 
 /** Bouton plein d'un bloc d'appel (à combiner avec `buttonVariants({ variant: "primary", size: "lg" })`). */
 export const BOUTON_BLOC_APPEL = `h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto ${CORPS_APPEL_MOBILE}`;
+
+/**
+ * s26, espace ouvert seulement (règle de Thomas : un seul aplat violet par écran ; l'en-tête collant montre son bouton
+ * plein d'offre sur toute la page) : bouton d'offre passé en CONTOUR, même style que `BOUTON_OFFRE_FIN` en fenêtre
+ * haute (`components/espace/apercu/offre-apercu.tsx` : bord violet 1 px, fond transparent, texte blanc, survol
+ * discret), à toutes les hauteurs. Même libellé, même lien, même gabarit. Posé APRÈS
+ * `buttonVariants({ variant: "primary" })` dans `cn` (qui retire alors le fond plein et le texte du plein).
+ */
+export const CONTOUR_OFFRE = "border border-accent-primary bg-transparent text-text-primary hover:bg-background-elevated";

@@ -363,6 +363,8 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           // s26 (`docs/design/parcours-vannes-s26.md` §1.3) : zones internes 7/5 dès 1024 px (infos à gauche, progression
           // et « Programme » à droite) pour toute carte de l'abonné et pour la dernière carte seule du visiteur. Les blocs
           // de `CardContent` rejoignent la carte (`contents`) : la barre de progression passe en tête par `order`.
+          // Sous 300 px (200 % de texte), marges de la carte réduites comme les cartes de l'en-tête de l'abonné
+          // (`max-e300:px-3 max-e300:py-2`) : premier parcours dans les deux premiers écrans (N2, 188 x 406).
           const zones = ESPACE_CLIENT_PUBLIE && (enteteEspace || (parcours.length % 2 === 1 && index === parcours.length - 1));
           const commence = progressValue > 0;
           const o = (ouvert: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? ouvert : ferme);
@@ -371,7 +373,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
               key={p.title}
               className={
                 ESPACE_CLIENT_PUBLIE
-                  ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "flex flex-col p-6", zones && "lg:grid lg:grid-cols-12 lg:content-start lg:gap-x-6")
+                  ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "flex flex-col p-6 max-e300:px-3 max-e300:py-2", zones && "lg:grid lg:grid-cols-12 lg:content-start lg:gap-x-6")
                   : "p-4 sm:p-6"
               }
               id={`parcours-${p.slug}`}

@@ -5,7 +5,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { cn } from "@/lib/utils";
 import { LIEN_L2 } from "@/components/ui/liens";
-import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, CONTOUR_OFFRE, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { MUR_LISTE, MUR_PARCOURS, type ListeMur } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
 import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
@@ -13,6 +13,12 @@ import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 interface MurListeProps {
   liste: ListeMur;
+  /**
+   * s26 (/vannes, espace ouvert seulement ; règle de Thomas : un seul aplat violet par écran, l'en-tête collant porte
+   * déjà le plein d'offre) : bouton d'offre en contour (`CONTOUR_OFFRE`), même libellé, même lien, même gabarit.
+   * Sans effet interrupteur fermé.
+   */
+  boutonContour?: boolean;
 }
 
 /** Destination unique des murs de liste (B7) : /abonnement, retour à la liste. */
@@ -38,7 +44,7 @@ export function MurListeLimite({ liste }: { liste: ListeMur }) {
  * Revue visuelle s21 : pleine largeur de la colonne de la liste (plus de carte centrée, plus
  * étroite et décalée), même cadre que les autres blocs d'appel (`BLOC_APPEL`).
  */
-export function MurListe({ liste }: MurListeProps) {
+export function MurListe({ liste, boutonContour = false }: MurListeProps) {
   const t = MUR_LISTE[liste];
   return (
     <section
@@ -56,7 +62,7 @@ export function MurListe({ liste }: MurListeProps) {
       <div className="mt-4">
         <Link
           href={murAbonnementHref(liste)}
-          className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
+          className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL, ESPACE_CLIENT_PUBLIE && boutonContour && CONTOUR_OFFRE)}
           data-mur-cta="premium"
         >
           {t.bouton}

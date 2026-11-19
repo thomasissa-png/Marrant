@@ -71,7 +71,15 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       const premiere = main.locator("[role='tabpanel'] > div").first();
       await expect(premiere).toBeVisible();
       await expect(premiere.locator(":scope > [data-filet]")).toBeHidden();
-      const [v1, v3] = [await boite(main.locator("[role='tabpanel'] > div").nth(0)), await boite(main.locator("[role='tabpanel'] > div").nth(2))];
+      // Rangée lue une fois l'entrée des cartes finie (`animate-stagger-in` : montée de 12 px, 50 ms de décalage par carte),
+      // les trois boîtes dans la même image, comme `attendreFilet` : lue pendant l'entrée, la 3e carte était encore à
+      // +12 px (translateY de départ) alors que la mise en page est alignée (397 / 397 / 397 à 1280, mesure du 19/11).
+      const [v1, v3] = await main.locator("[role='tabpanel']").evaluate(async (el) => {
+        const finies = document.getAnimations().filter((a) => a.effect?.getComputedTiming().iterations !== Infinity);
+        await Promise.all(finies.map((a) => a.finished.catch(() => undefined)));
+        await new Promise((ok) => requestAnimationFrame(() => requestAnimationFrame(ok)));
+        return [el.children[0].getBoundingClientRect(), el.children[2].getBoundingClientRect()].map((r) => ({ y: r.top }));
+      });
       expect(Math.abs(v1.y - v3.y), "trois vannes sur la première rangée").toBeLessThanOrEqual(1);
       const rangee = main.getByRole("tablist", { name: "Catégories de vannes" });
       const droite = main.locator('[data-chevron="droite"]');

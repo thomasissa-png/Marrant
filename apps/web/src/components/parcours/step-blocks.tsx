@@ -25,7 +25,8 @@ import {
   VANNES_ETAPE,
 } from "@/config/textes/parcours";
 import type { Step, VideoRef } from "@/components/parcours/parcours-types";
-import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
+import { CONTOUR_OFFRE, CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 /**
  * Aperçu d'une étape 2+ pour un non-abonné (D1, étalon 3.1 validé) : titre
@@ -89,10 +90,13 @@ export function ValidationWall({
   useEffect(() => {
     trackUmami("mur-vu", { type: "parcours-validation", src: slug, etape: 1 });
   }, [slug]);
+  // s26, espace ouvert seulement (règle de Thomas : un seul aplat violet par écran ; l'en-tête collant porte le plein
+  // d'offre) : « Passer à l'étape 2 » en contour (`CONTOUR_OFFRE`), même libellé, même lien, même gabarit. Fermé : plein.
   const plein = cn(
     buttonVariants({ variant: "primary", size: "lg" }),
     "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
     CORPS_APPEL_MOBILE,
+    ESPACE_CLIENT_PUBLIE && CONTOUR_OFFRE,
   );
   if (quizPending || !isParcoursSlug(slug)) {
     return (

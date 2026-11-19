@@ -387,9 +387,10 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           (titre, bouton, réassurance et lien gratuit ; la réassurance du bloc est forcée à gauche ouvert, d'où la
           seconde classe). Le bloc lui-même (`components/premium/mur-liste.tsx`) n'est pas touché. Fermé : inchangé. */}
       {limited && (jokes.length > 0 || page > 1) && (ESPACE_CLIENT_PUBLIE ? (
-        // s26 (§3.3) : plus de centrage forcé, 48 px d’air au-dessus (24 ici + 24 du bloc) ; l'objet Premium (`MurListe`) n'est pas restylé.
+        // s26 (§3.3) : plus de centrage forcé, 48 px d’air au-dessus (24 ici + 24 du bloc) ; l'objet Premium (`MurListe`) n'est pas restylé,
+        // sauf son bouton d'offre en contour (règle de Thomas : un seul aplat violet par écran, l'en-tête collant porte le plein).
         <div className="mt-6" data-mur-centre="">
-          <MurListe liste="vannes" />
+          <MurListe liste="vannes" boutonContour />
         </div>
       ) : (
         <MurListe liste="vannes" />
