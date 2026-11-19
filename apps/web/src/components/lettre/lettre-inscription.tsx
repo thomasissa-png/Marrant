@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import { NBSP, frPonctuation, lierComposes } from "@/lib/fr-typo";
 import { LettreSucces } from "@/components/lettre/lettre-succes";
 import { LIGNE_REPLIEE_CLASSES } from "@/components/lettre/lettre-repliee-style";
+import { META_FORT } from "@/components/espace/typo";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 interface LettreInscriptionProps {
   emplacement: LettreEmplacement;
@@ -90,6 +92,9 @@ export function LettreInscription({
   const [hauteur, setHauteur] = useState<number | undefined>(undefined);
   const [ouvert, setOuvert] = useState(!repliee || ouverteAuDepart);
   const [focusOuverture, setFocusOuverture] = useState(Boolean(repliee && ouverteAuDepart));
+  // s26 tour 2 (L1) : /lettre, interrupteur ouvert (`plein` n'est passé que là) : marges et graisse du formulaire à
+  // l'échelle de l'espace (plus de `mt-1`, `mt-3`, `gap-2.5` ni de 500). Ailleurs et fermé : classes d'avant.
+  const echelleEspace = ESPACE_CLIENT_PUBLIE && plein;
 
   useLettreVu(sectionRef, LETTRE_INSCRIPTIONS_OUVERTES && !isPremium && !sansMesureVu, mesure);
 
@@ -188,7 +193,7 @@ export function LettreInscription({
           action="/api/newsletter"
           onSubmit={soumettre}
           // Revue visuelle s21 (décision 3) : formulaire déplié en colonne centrée de 448 px dans le bloc centré.
-          className={repliee ? "mx-auto mt-1 w-full max-w-md text-left" : "mt-3"}
+          className={repliee ? "mx-auto mt-1 w-full max-w-md text-left" : echelleEspace ? "mt-4" : "mt-3"}
         >
           <input type="hidden" name="emplacement" value={emplacement} />
           {slug && <input type="hidden" name="slug" value={slug} />}
@@ -199,12 +204,12 @@ export function LettreInscription({
             </label>
           </div>
 
-          <label htmlFor={`${id}-email`} className={repliee ? "sr-only" : "text-sm font-medium text-text-primary"}>
+          <label htmlFor={`${id}-email`} className={repliee ? "sr-only" : echelleEspace ? META_FORT : "text-sm font-medium text-text-primary"}>
             {T.label}
           </label>
           {/* Une seule colonne à toutes les largeurs : ordre visuel = ordre du clavier
               (champ, case, bouton, mention ; WCAG 2.4.3, vérification visuelle s21). */}
-          <div className="mt-1 grid gap-2.5">
+          <div className={echelleEspace ? "mt-2 grid gap-4" : "mt-1 grid gap-2.5"}>
             <div>
               <input
                 ref={emailRef}

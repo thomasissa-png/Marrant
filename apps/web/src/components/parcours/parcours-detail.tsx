@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, FILET_MASQUE } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
-import { META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
+import { ECHELLE_CARTES_PARTAGEES, META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
@@ -96,6 +96,14 @@ function stepToOpen(steps: Step[], completed: number[], hashStep: number | null)
 const COLONNE_DETAIL = "lg:col-span-8 lg:col-start-1";
 const RAIL_DETAIL = "lg:sticky lg:top-36 lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:mb-0 lg:self-start lg:[grid-row-end:span_8]";
 const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
+/**
+ * s26 tour 2 (P3, relectures du tour 1 : corps des étapes hors échelle, au moins 5 accents violets) : posé sur la liste
+ * des étapes, interrupteur ouvert seulement, ramène à l'échelle `typo.ts` les blocs PARTAGÉS avec le site fermé
+ * (`step-blocks.tsx`, `parcours-step-card.tsx`, `step-quiz.tsx`) sans toucher leur HTML fermé : 12 -> 14 px, 18 -> 20 px,
+ * 500 et 700 -> 600, gris atténué -> secondaire, liens de fiche violets -> blancs (soulignés), rayons 12 px. Les fonds
+ * et bords violets (classes à barre oblique, hors de portée d'un sélecteur Tailwind) sont neutralisés dans les composants.
+ */
+const ECHELLE_ETAPES = cn(ECHELLE_CARTES_PARTAGEES, "[&_.rounded-lg]:rounded-xl");
 
 export function ParcoursDetail({
   slug,
@@ -785,7 +793,7 @@ export function ParcoursDetail({
 
       {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
       <h2 className={ESPACE_CLIENT_PUBLIE ? cn(TITRE_CARTE, "mb-4", COLONNE_DETAIL) : "mb-4 font-display text-xl font-bold"}>{TITRES_SECTIONS.programme}</h2>
-      <div className={ouvert(cn("space-y-4", COLONNE_DETAIL), "space-y-4")} role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
+      <div className={ouvert(cn("space-y-4", COLONNE_DETAIL, ECHELLE_ETAPES), "space-y-4")} role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
           if (carteFinEtape1 && step.order === 2) return null;
           const isCompleted = completedSteps.includes(step.order);

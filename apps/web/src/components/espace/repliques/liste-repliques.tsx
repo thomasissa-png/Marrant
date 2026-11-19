@@ -35,7 +35,7 @@ type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
  * s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §2.2, design §5) : `grille` porte aussi l'en-tête de la page
  * (titre à gauche, compteur à droite, lien « Écrire ma prochaine réplique » quand il y a des répliques : compteur et
  * lien suivent la liste vivante). Liste en 3 colonnes dès 1024, 2 dès 768, cartes neutres, « Modifier » et
- * « Supprimer » en liens gris au bas de la carte. Vide : tuile d'action (8, seul aplat) et rappel de « Quoi répondre » (4).
+ * « Supprimer » en liens gris au bas de la carte. Vide : tuile d'action pleine largeur (seul aplat), lien « Quoi répondre » dessous (s26 tour 2).
  */
 const GRILLE_REPLIQUES = "mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
 const CARTE_GRILLE = cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col p-6 [overflow-wrap:anywhere]");
@@ -90,21 +90,19 @@ export function ListeRepliques({
         <h1 id="h-repliques" className={TITRE_PAGE}>
           {R.titre}
         </h1>
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
-          <div className={cn(CARTE_ACTION, "lg:col-span-8")} data-testid="repliques-vide">
-            <p className={TEXTE}>{R.vide}</p>
-            {!lectureSeule && (
+        {/* s26 tour 2 (R1) : plus de tuile de droite creuse (un lien seul, 389 x 94 px au tour 1) : le lien « Quoi
+            répondre » passe dans la tuile d'action, sous le bouton, et la tuile prend la largeur de la page. */}
+        <div className={cn(CARTE_ACTION, "mt-8")} data-testid="repliques-vide">
+          <p className={TEXTE}>{R.vide}</p>
+          {!lectureSeule && (
+            <>
               <Link href={QUOI_REPONDRE} className={cn(buttonVariants({ size: "lg" }), "mt-4 w-full whitespace-normal md:w-auto md:self-start")}>
                 {R.ecrirePremiere}
               </Link>
-            )}
-          </div>
-          {!lectureSeule && (
-            <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-span-4")} data-repliques-rappel>
-              <Link href={QUOI_REPONDRE} className={LIEN_NEUTRE}>
+              <Link href={QUOI_REPONDRE} className={cn("mt-2 self-start", LIEN_NEUTRE)} data-repliques-rappel>
                 {N.index.quoiRepondre}
               </Link>
-            </div>
+            </>
           )}
         </div>
         <p role="status" className={cn("mt-4", META)}>

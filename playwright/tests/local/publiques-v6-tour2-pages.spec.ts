@@ -121,6 +121,31 @@ test.describe("v6 tour 2, lot 2 : pages publiques", () => {
       await c.close();
     });
 
+    // s26 tour 2 (Pr1, Pr2, Pr3, Pr4) : sous 1024, ordre du DOM = ordre affiché (WCAG 2.4.3), aucune carte rognée ;
+    // interrupteur coché et pastille « Premium » neutres (un seul aplat violet) ; « Ta question à l'équipe » en `p-6`.
+    test("/profil abonné (s26 tour 2) : ordre du DOM affiché, cartes entières, réglages neutres", async ({ browser }) => {
+      for (const largeur of [375, 768, 1023]) {
+        const { c, page } = await contexte(browser, "PREMIUM", largeur);
+        await page.goto("/profil");
+        await expect(page.locator("[data-profil-zone='progression'] [data-profil-stats]")).toBeVisible();
+        const zones = page.locator("[data-profil-zone]");
+        const ordre = await zones.evaluateAll((els) => els.map((e) => e.getAttribute("data-profil-zone")));
+        expect(ordre, `DOM ${largeur}`).toEqual(["action", "progression", "abonnement", "reglages", "suppression"]);
+        const hauts = await zones.evaluateAll((els) => els.map((e) => e.getBoundingClientRect().top));
+        expect([...hauts].sort((a, b) => a - b), `ordre affiché ${largeur}`).toEqual(hauts);
+        for (const carte of ["[data-profil-stats]", "[data-profil-parcours]", "#cap"]) {
+          const rogne = await page.locator(carte).evaluate((el) => el.scrollHeight - el.clientHeight);
+          expect(rogne, `${carte} entière à ${largeur}`).toBeLessThanOrEqual(0);
+        }
+        const coche = page.locator("[role=switch]:checked").first();
+        if (await coche.count()) expect(await coche.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(255, 255, 255)");
+        const cadre = await boite(page.locator("[data-profil-questions-cadre]"));
+        const reglages = await boite(page.locator("[data-profil-zone='reglages']"));
+        expect(Math.abs(cadre.width - reglages.width), `question pleine largeur à ${largeur}`).toBeLessThanOrEqual(1);
+        await c.close();
+      }
+    });
+
     test("/profil nouvel abonné : « Prochaine étape » en tête", async ({ browser }) => {
       test.skip(PREVERSION, "compte neuf requis (aucun parcours)");
       const { c, page } = await contexte(browser, "PREMIUM");

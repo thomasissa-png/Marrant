@@ -8,7 +8,7 @@ import { LIEN_L2 } from "@/components/ui/liens";
 import { BLOC_APPEL, BOUTON_BLOC_APPEL, CONTOUR_OFFRE, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { MUR_LISTE, MUR_PARCOURS, type ListeMur } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
-import { CARTE_A_FILET, FiletCarte } from "@/components/ui/card";
+import { CARTE_A_FILET, FILET_MASQUE, FiletCarte } from "@/components/ui/card";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 interface MurListeProps {
@@ -16,9 +16,10 @@ interface MurListeProps {
   /**
    * s26 (/vannes, espace ouvert seulement ; règle de Thomas : un seul aplat violet par écran, l'en-tête collant porte
    * déjà le plein d'offre) : bouton d'offre en contour (`CONTOUR_OFFRE`), même libellé, même lien, même gabarit.
-   * Sans effet interrupteur fermé.
+   * s26 tour 2 (P4) : aussi le filet violet du bloc masqué et le lien « Tester l'étape 1 » en blanc souligné (plus de
+   * second accent violet). Sans effet interrupteur fermé.
    */
-  boutonContour?: boolean;
+  sansViolet?: boolean;
 }
 
 /** Destination unique des murs de liste (B7) : /abonnement, retour à la liste. */
@@ -44,12 +45,13 @@ export function MurListeLimite({ liste }: { liste: ListeMur }) {
  * Revue visuelle s21 : pleine largeur de la colonne de la liste (plus de carte centrée, plus
  * étroite et décalée), même cadre que les autres blocs d'appel (`BLOC_APPEL`).
  */
-export function MurListe({ liste, boutonContour = false }: MurListeProps) {
+export function MurListe({ liste, sansViolet = false }: MurListeProps) {
+  const neutre = ESPACE_CLIENT_PUBLIE && sansViolet;
   const t = MUR_LISTE[liste];
   return (
     <section
       aria-labelledby={`mur-liste-${liste}-titre`}
-      className={cn("mt-6", BLOC_APPEL, ESPACE_CLIENT_PUBLIE && CARTE_A_FILET)}
+      className={cn("mt-6", BLOC_APPEL, ESPACE_CLIENT_PUBLIE && CARTE_A_FILET, neutre && FILET_MASQUE)}
       data-mur-liste={liste}
     >
       {/* v6 tour 1 (arbitrage 1, point 9), interrupteur ouvert : carte à filet de l'accueil, réassurance à gauche
@@ -62,7 +64,7 @@ export function MurListe({ liste, boutonContour = false }: MurListeProps) {
       <div className="mt-4">
         <Link
           href={murAbonnementHref(liste)}
-          className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL, ESPACE_CLIENT_PUBLIE && boutonContour && CONTOUR_OFFRE)}
+          className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL, neutre && CONTOUR_OFFRE)}
           data-mur-cta="premium"
         >
           {t.bouton}
@@ -73,7 +75,7 @@ export function MurListe({ liste, boutonContour = false }: MurListeProps) {
       <div className="-mb-3 mt-1">
         <Link
           href={parcoursEtape1Href(MUR_PARCOURS, `mur-${liste}`)}
-          className={LIEN_L2}
+          className={cn(LIEN_L2, neutre && "text-text-primary hover:text-text-secondary")}
           data-mur-cta="etape-1"
         >
           {frTypo(t.contour(MUR_PARCOURS))}

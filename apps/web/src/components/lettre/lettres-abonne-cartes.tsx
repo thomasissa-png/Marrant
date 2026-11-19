@@ -29,7 +29,8 @@ export async function LettresAbonneCartes() {
   const [derniere, ...precedentes] = lettres;
   return (
     <div className="pb-16" data-lettres-abonne>
-      <header className="flex flex-wrap items-baseline justify-between gap-4">
+      {/* s26 tour 2 (L3) : le nombre suit le titre (au tour 1, 1 089 px d'écart à 1280 : il se lisait comme un résidu). */}
+      <header className="flex flex-wrap items-baseline justify-start gap-4">
         <h1 className={TITRE_PAGE}>{TEXTES_LETTRE.menu}</h1>
         {lettres.length > 0 && (
           <p className={cn("tabular-nums", META)} data-compteur-lettres>

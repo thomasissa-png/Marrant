@@ -32,7 +32,7 @@ function ficheEnClair() {
 /** Trois répliques FERMÉES : verrou et barres, aucun texte (il n'y a pas de réplique d'abonné dans un aperçu). */
 function RepliquesSansTexte() {
   return (
-    <ul className="grid grid-cols-1 gap-4 pr-8" data-repliques-sans-texte>
+    <ul className="grid grid-cols-1 gap-4" data-repliques-sans-texte>
       {[0, 1, 2].map((i) => (
         <li key={i} className="min-w-0 rounded-xl border border-border p-4">
           <Verrou className="ml-auto" />
@@ -54,10 +54,10 @@ function ExtraitRepliques() {
   return (
     <div data-apercu-fiche={f.id}>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
-        <TuileFermee nette className="md:col-span-2 lg:col-span-8">
+        <TuileFermee nette verrouDansLaMarge className="md:col-span-2 lg:col-span-8">
           <div className={TUILE} data-apercu-ecrire>
             <p className={META}>{L.minutes(f.minutes)}</p>
-            <h2 className={cn("mt-2 pr-8", TITRE_CARTE)}>{frEspace(f.titre)}</h2>
+            <h2 className={cn("mt-2", TITRE_CARTE)}>{frEspace(f.titre)}</h2>
             {f.consigne && (
               <>
                 <p className={cn("mt-4", ETIQUETTE)}>{G.aToi}</p>
@@ -70,7 +70,7 @@ function ExtraitRepliques() {
             </div>
           </div>
         </TuileFermee>
-        <TuileFermee className="md:col-span-2 lg:col-span-4">
+        <TuileFermee verrouDansLaMarge className="md:col-span-2 lg:col-span-4">
           <div className={TUILE} data-apercu-repliques-fermees>
             <RepliquesSansTexte />
           </div>
@@ -78,9 +78,9 @@ function ExtraitRepliques() {
       </div>
       <SuiteCoupee entiere>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
-          <TuileFermee className="md:col-span-2 lg:col-span-12">
+          <TuileFermee verrouDansLaMarge className="md:col-span-2 lg:col-span-12">
             <div className={TUILE} data-apercu-gestes-fermes>
-              <BlocsFermes libelles={[R.modifier, R.supprimer]} className="mt-0 pr-8 md:grid-cols-2" />
+              <BlocsFermes libelles={[R.modifier, R.supprimer]} className="mt-0 md:grid-cols-2" />
             </div>
           </TuileFermee>
         </div>

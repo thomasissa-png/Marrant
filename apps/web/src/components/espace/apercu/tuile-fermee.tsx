@@ -11,13 +11,27 @@ import { VerrouSeul } from "@/components/espace/apercu/badge-premium";
  * v7 tour 11 (relectures du tour 10 : extrait « entièrement grisé ») : `nette` (Z1 « Ton premier pas », la vitrine)
  * garde son contenu à pleine netteté, sans atténuation ; le verrou reste, son bouton reste un contour éteint.
  */
-export function TuileFermee({ children, className, nette = false }: { children: React.ReactNode; className?: string; nette?: boolean }) {
+export function TuileFermee({
+  children,
+  className,
+  nette = false,
+  verrouDansLaMarge = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  nette?: boolean;
+  /**
+   * s26 tour 2 (Q3, aperçus de Mes questions et Mes répliques) : verrou posé dans la marge de 24 px du cadre (centré dans
+   * le coin, 4 px du bord), le contenu ne lui réserve plus de colonne : marges internes 24/24 (25/57 px au tour 1).
+   */
+  verrouDansLaMarge?: boolean;
+}) {
   return (
     <div
       className={cn("relative h-full min-w-0", !nette && "[&>*:not([data-verrou-ferme])>*]:opacity-75", className)}
       data-tuile-fermee={nette ? "nette" : ""}
     >
-      <VerrouSeul />
+      <VerrouSeul className={verrouDansLaMarge ? "right-1 top-0.5 max-e300:right-1 max-e300:top-0.5" : undefined} />
       {children}
     </div>
   );

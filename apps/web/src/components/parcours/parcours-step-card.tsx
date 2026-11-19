@@ -75,6 +75,8 @@ const corpsLecture = () => (ESPACE_CLIENT_PUBLIE ? "max-w-[68ch] text-base leadi
 const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
 /** Encadré du défi (s18), repris pour le second défi. */
 const ENCADRE_DEFI = "rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3";
+/** s26 tour 2 (P3, ouvert seulement) : « Exercice pratique » en bloc neutre, comme « Pourquoi cette étape ? ». */
+const encadreDefi = () => (ESPACE_CLIENT_PUBLIE ? "rounded-xl bg-background-elevated p-4" : ENCADRE_DEFI);
 /** s19 iter 4 (N-b @design) : « Version sans risque » en retrait du défi, pointillés neutres, sans fond. */
 const ENCADRE_REPLI = "rounded-lg border border-dashed border-border p-3";
 
@@ -465,7 +467,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
             return (
               <Fragment key={i}>
                 {/* s18 (D5 @ux) : le second défi (après la ligne vide) a son propre encadré et son titre. */}
-                <div className={`${i > 0 ? "mt-3 " : ""}${ENCADRE_DEFI}`}>
+                <div className={`${i > 0 ? "mt-3 " : ""}${encadreDefi()}`}>
                   {i > 0 && <p className="mb-1 text-sm font-semibold text-text-primary">{step.exerciceSecondTitre}</p>}
                   {/* s19 (N2 @design rendu) : interligne aéré et libellé « DÉFI X : » repérable, texte inchangé.
                       s19 iter 4 (point 4) : tous les parcours ; sans libellé « DÉFI X : », texte tel quel. */}
@@ -478,7 +480,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
                   // s19 iter 5 (S16 @ux, N-1 @design) : 12 → 13 px. 14 px égalerait la taille du « DÉFI X » et du
                   // texte du repli, le titre ne s'en distinguerait plus que par la graisse : 13 px garde l'écart.
                   <div className={`mt-3 ${ENCADRE_REPLI}`} data-testid="version-sans-risque">
-                    <p className="mb-1 text-[13px] font-medium leading-5 text-text-secondary">{DEFI_BOULOT.versionSansRisque}</p>
+                    <p className={ouvert(cn("mb-1", ETIQUETTE), "mb-1 text-[13px] font-medium leading-5 text-text-secondary")}>{DEFI_BOULOT.versionSansRisque}</p>
                     <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">{repli[1]}</p>
                   </div>
                 )}

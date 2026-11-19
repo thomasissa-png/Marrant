@@ -15,6 +15,12 @@ import {
   quizLettre,
 } from "@/config/textes/parcours";
 import type { QuizQuestion } from "@/components/parcours/parcours-types";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+
+/** s26 tour 2 (P3, ouvert seulement) : résultat du quiz en bloc neutre (plus de teinte ni de bord violets). */
+const BLOC_FIN_QUIZ = ESPACE_CLIENT_PUBLIE
+  ? "rounded-xl bg-background-elevated p-4 text-center"
+  : "rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 text-center";
 
 /**
  * Quiz d'une étape. Accessibilité (F17, QA-06, UX-09) : la correction est
@@ -77,7 +83,7 @@ export function StepQuiz({
   if (finished && !canValidate) {
     // Étalon 3.2 B : une ligne de résultat ; « Valider l'étape fait partie de Premium. » suit dans la page.
     return (
-      <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 text-center" role="status">
+      <div className={BLOC_FIN_QUIZ} role="status">
         <p className="font-display text-lg font-bold">{quizFinVisiteur(score, quiz.length)}</p>
         {/* s21 concision (18/10) : « Refaire le quiz » devient un lien texte (L2) ; le seul plein
             de la fin d'étape 1 reste celui de Premium. Action sur place : un <button> stylé en lien. */}
@@ -93,7 +99,7 @@ export function StepQuiz({
   if (finished) {
     const allCorrect = score === quiz.length;
     return (
-      <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 text-center" role="status">
+      <div className={BLOC_FIN_QUIZ} role="status">
         <p className="font-display text-lg font-bold">
           {allCorrect ? "Sans faute !" : `${score}/${quiz.length} bonnes réponses`}
         </p>
@@ -122,7 +128,8 @@ export function StepQuiz({
   return (
     // DES-1-12 : conteneur du quiz, lettres en pastille, explication en encadré.
     <div className="space-y-3 rounded-lg border border-border bg-background-elevated/40 p-4">
-      <Badge variant="secondary">
+      {/* s26 tour 2 (P3, ouvert seulement) : pastille neutre (plus de fond ni de texte violets). */}
+      <Badge variant={ESPACE_CLIENT_PUBLIE ? "default" : "secondary"}>
         Quiz {currentQ + 1}/{quiz.length}
       </Badge>
       <p className="text-base font-medium text-text-primary" id={`quiz-q-${currentQ}`}>

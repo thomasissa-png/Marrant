@@ -47,9 +47,17 @@ export const GRILLE_CARTES_OUVERTE = cn(
   // s26 (`docs/design/parcours-vannes-s26.md` §1.1) : la dernière carte seule (nombre impair) prend toute la rangée dès
   // 768 px (plus de carte centrée de 50 %) ; dès 1024 px, ses zones internes passent en 7/5 (`zones`, plus bas).
   "md:[&>:last-child:nth-child(odd)]:col-span-2",
+  // s26 tour 2 (relectures du tour 1, P1) : cartes à leur hauteur propre (plus d'étirement à la hauteur de la voisine,
+  // qui creusait 34 à 105 px au MILIEU de la carte, pied poussé en bas), comme décidé pour Favoris.
+  "items-start",
 );
+/**
+ * s26 tour 2 (P2) : séparateur « · » de la méta porté par l'item qui le suit, sur la même ligne (aucun texte ajouté au
+ * HTML : pseudo-élément décoratif, texte alternatif vide pour les lecteurs d'écran). Sous 640 px, comme avant, pas de séparateur.
+ */
+const SEPARATEUR_AVANT = "sm:before:mr-2 sm:before:content-['·'_/_'']";
 /** s26 (§1.2) : abonné, une colonne de cartes dans la colonne de 8 (le rail de 4 est à droite). */
-const GRILLE_CARTES_ABONNE = "grid gap-6 lg:col-span-8";
+const GRILLE_CARTES_ABONNE = "grid items-start gap-6 lg:col-span-8";
 
 /** s26 (§1.3) : contour neutre des boutons de carte (un seul aplat violet par écran : le bouton d'offre de l'en-tête). */
 const CONTOUR_CARTE = "border-border-input hover:border-text-muted";
@@ -58,11 +66,14 @@ const CARTE_QUIZ_OUVERTE = cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "mt-4 p-6");
 /** s26 (§1.3) : pastille ramenée à une méta (sans fond ni capitale), pour « Question n/2 » et la semaine d'une étape. */
 const SANS_FOND_META = cn(META, "rounded-none bg-transparent px-0 py-0 font-normal");
 
-/** Pied d'une carte de /parcours (« Programme » + bouton) : bloc `mt-auto` ouvert, fragment fermé (v6 tour 4, point 2). */
+/**
+ * Pied d'une carte de /parcours (« Programme » + bouton) : bloc ouvert, fragment fermé (v6 tour 4, point 2). s26 tour 2 :
+ * plus de `mt-auto` (cartes à leur hauteur propre, le pied suit le témoignage à 24 px).
+ */
 function PiedCarte({ children, className }: { children: ReactNode; className?: string }) {
   if (!ESPACE_CLIENT_PUBLIE) return <>{children}</>;
   return (
-    <div className={className ?? "mt-auto flex flex-col gap-6"} data-parcours-pied="">
+    <div className={className ?? "flex flex-col gap-6"} data-parcours-pied="">
       {children}
     </div>
   );
@@ -380,15 +391,17 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
               filet={ESPACE_CLIENT_PUBLIE}
             >
               <CardHeader className={o(cn("space-y-0 pb-0", zones && "lg:col-span-7"), "pb-2")}>
+                {/* s26 tour 2 (P2, ouvert seulement) : le « · » est porté par l'item qui le suit (`before:`, sur sa ligne) ; un
+                    séparateur ne finit plus jamais une ligne (4 cartes sur 5 à 1280 au tour 1). Fermé : les spans d'avant. */}
                 <div className={o(cn("flex flex-wrap items-center gap-x-2 gap-y-1", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
                   <Badge variant="primary" className={o(cn(META_FORT, "rounded-none bg-transparent px-0 py-0"))}>{p.difficulty}</Badge>
                   <span className="text-sm text-text-secondary">
                     {p.duration}
                   </span>
-                  <span aria-hidden="true" className={o("hidden text-sm text-text-secondary sm:inline", "hidden text-sm text-text-muted sm:inline")}>·</span>
-                  <span className={o(META, "text-sm text-text-muted")}>{p.timePerWeek}</span>
-                  <span aria-hidden="true" className={o("hidden text-sm text-text-secondary sm:inline", "hidden text-sm text-text-muted sm:inline")}>·</span>
-                  <span className={o(META, "text-sm text-text-muted")}>{totalXp} XP à gagner</span>
+                  {!ESPACE_CLIENT_PUBLIE && <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>}
+                  <span className={o(cn(META, SEPARATEUR_AVANT), "text-sm text-text-muted")}>{p.timePerWeek}</span>
+                  {!ESPACE_CLIENT_PUBLIE && <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>}
+                  <span className={o(cn(META, SEPARATEUR_AVANT), "text-sm text-text-muted")}>{totalXp} XP à gagner</span>
                   {isDone && <Badge variant="success" className={o(cn(PASTILLE, "font-normal text-success"))}>{LISTE_PARCOURS.termine}</Badge>}
                 </div>
                 <CardTitle className={o(cn(TITRE_CARTE, "mt-2"), "mt-3 text-2xl")}>
@@ -422,7 +435,8 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                       max={progressMax}
                       className={o("tabular-nums [&_[role=progressbar]>div]:bg-none [&_[role=progressbar]>div]:bg-text-secondary [&_[role=progressbar]]:bg-border-hover [&_span]:text-text-secondary")}
                     />
-                    <p className={o(cn(META, "mt-2 text-right"), "mt-2 text-right text-xs text-text-muted")}>{totalXp} XP à gagner</p>
+                    {/* s26 tour 2 (P2) : ouvert, « XP à gagner » une seule fois par carte (déjà dans la méta). */}
+                    {!ESPACE_CLIENT_PUBLIE && <p className="mt-2 text-right text-xs text-text-muted">{totalXp} XP à gagner</p>}
                   </div>
                 )}
 
@@ -432,7 +446,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 <PiedCarte
                   className={o(
                     cn(
-                      "mt-auto flex flex-col gap-4 pt-6",
+                      "flex flex-col gap-4 pt-6",
                       zones && "lg:col-span-5 lg:col-start-8 lg:mt-0 lg:pt-0",
                       zones && (commence ? "lg:row-span-3 lg:row-start-2 lg:mt-4" : "lg:row-span-3 lg:row-start-1"),
                     ),

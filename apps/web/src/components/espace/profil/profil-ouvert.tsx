@@ -25,14 +25,28 @@ import { cn } from "@/lib/utils";
 // violet reste le bouton plein.
 const NEUTRE_CAP =
   "[&_.bg-accent-primary]:bg-text-secondary [&_.border-accent-primary]:border-text-secondary [&_.text-accent-primary-hover]:text-text-secondary [&_[aria-labelledby=ton-cap-titre]]:before:hidden";
-const GRILLE = `mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:items-start [&_[data-filet]]:hidden ${NEUTRE_CAP} ${ECHELLE_CARTES_PARTAGEES}`;
-const COLONNE = "flex min-w-0 flex-col gap-6";
+// s26 tour 2 (Pr3) : un seul aplat violet par écran. Interrupteurs cochés (« La lettre de la semaine », rappel, cartes
+// partagées) en NEUTRE : piste blanche (`bg-text-primary`), pastille sombre (`bg-background`) ; l'état se lit à la
+// position et au contraste de la pastille (blanc sur fond de carte, sombre sur piste blanche : bien au-delà de 3:1).
+// Pastille « Premium » de la carte Abonnement (Badge `primary`) sur fond neutre, comme « Aucun abonnement ».
+const NEUTRE_INTERRUPTEURS =
+  "[&_[role=switch]:checked]:border-text-primary [&_[role=switch]:checked]:bg-text-primary [&_[role=switch]:checked:hover]:border-text-primary [&_[role=switch]:checked:hover]:bg-text-primary [&_[role=switch]:checked~.inset-0]:border-text-primary [&_[role=switch]:checked~.inset-0]:bg-text-primary [&_[role=switch]:checked:hover~.inset-0]:bg-text-primary [&_[role=switch]:checked~.h-5]:bg-background [&_.rounded-full.text-accent-link]:bg-background-elevated";
+const GRILLE = `mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start [&_[data-filet]]:hidden ${NEUTRE_CAP} ${NEUTRE_INTERRUPTEURS} ${ECHELLE_CARTES_PARTAGEES}`;
+// s26 tour 2 (Pr1) : `[&>*]:shrink-0`, les cartes d'une colonne gardent leur hauteur propre (sous 1024, « Statistiques »
+// et « Mes parcours » rétrécissaient et leur cadre rognait le contenu).
+const COLONNE = "flex min-w-0 flex-col gap-6 [&>*]:shrink-0";
+/**
+ * s26 tour 2 (Pr2, WCAG 2.4.3) : deux enveloppes, effacées sous 1024 (`contents`) : ordre du DOM = ordre affiché (action,
+ * progression, abonnement, réglages, suppression). Dès 1024, deux colonnes 8/4 comme avant.
+ */
+const ENVELOPPE_GAUCHE = "contents lg:col-span-8 lg:flex lg:min-w-0 lg:flex-col lg:gap-6";
+const ENVELOPPE_DROITE = "contents lg:col-span-4 lg:col-start-9 lg:flex lg:min-w-0 lg:flex-col lg:gap-6";
 
 /**
  * « Mon profil », interrupteur OUVERT (s26, `docs/ux/questions-repliques-lettre-profil-s26.md` §4, design §7). Mêmes
  * lectures que `ProfilDashboard` (compte, parcours, résumé d'abonnement), mêmes cartes et mêmes textes ; la page fermée
- * garde `ProfilDashboard`, au caractère près. Ordre du DOM : prochaine action, abonnement, progression, réglages,
- * suppression. Dès 1024 : 8 colonnes à gauche (prochaine action, puis cap, statistiques et parcours), 4 à droite
+ * garde `ProfilDashboard`, au caractère près. Ordre du DOM (s26 tour 2) : prochaine action, progression, abonnement,
+ * réglages, suppression, le même que l'ordre affiché à toutes les largeurs. Dès 1024 : 8 colonnes à gauche (prochaine action, puis cap, statistiques et parcours), 4 à droite
  * (abonnement, puis réglages) ; suppression en bas, pleine largeur, discrète. Gratuit : pas de progression, ses
  * réglages passent sous la prochaine étape (8). Ancres `#abonnement` et `#rappel-parcours` portées par les cartes.
  */
@@ -101,43 +115,42 @@ export function ProfilOuvert() {
       <LettreHebdoReglage className="md:col-span-2" />
       <PrenomCard key={user.id} prenom={user.name} />
       {premium && (
-        <div className={cn(CADRE_CARTE_NEUTRE, "min-w-0")} data-profil-questions-cadre="">
-          <LigneMesQuestions className="rounded-xl" />
+        // s26 tour 2 (Pr4) : cadre `p-6`, ligne sans carte interne (texte en haut), pleine largeur à 768.
+        <div className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 md:col-span-2")} data-profil-questions-cadre="">
+          <LigneMesQuestions nue />
         </div>
       )}
     </>
   );
 
   return (
-    // Dès 1024 : la colonne de droite (abonnement puis réglages) est UN bloc sur deux rangées, la progression monte
-    // juste sous la prochaine action (pas de rangée commune qui creuserait un vide sous la plus courte). Sous 1024, ce
-    // bloc s'efface (`contents`) et `order` rend l'ordre de la spec : action, abonnement, progression, réglages.
-    // Rangées `auto 1fr` : la hauteur de la colonne de droite va à la 2e rangée, jamais sous la prochaine action.
     <div className={GRILLE} data-profil-ouvert>
-      <div className={cn(COLONNE, "order-1 md:col-span-2 lg:col-span-8 lg:row-start-1")} data-profil-zone="action">
-        {premium && <ReprendreParcours src="profil" />}
-        {!enCours && <ProchaineEtape tips={user.stats.tipsCompleted} jokes={user.stats.jokesRead} aDesParcours={parcours.length > 0} />}
+      <div className={ENVELOPPE_GAUCHE} data-profil-colonne-principale>
+        <div className={cn(COLONNE, "md:col-span-2")} data-profil-zone="action">
+          {premium && <ReprendreParcours src="profil" />}
+          {!enCours && <ProchaineEtape tips={user.stats.tipsCompleted} jokes={user.stats.jokesRead} aDesParcours={parcours.length > 0} />}
+        </div>
+        {premium && (
+          <div className={cn(COLONNE, "md:col-span-2")} data-profil-zone="progression">
+            <CapProfil xp={user.xp} serie={user.streak} />
+            <Statistiques stats={user.stats} />
+            <MesParcours parcours={parcours} />
+          </div>
+        )}
       </div>
-      <div className="contents lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1 lg:flex lg:min-w-0 lg:flex-col lg:gap-6" data-profil-colonne>
-        <div className={cn(COLONNE, "order-2 md:col-span-2")} data-profil-zone="abonnement">
+      <div className={ENVELOPPE_DROITE} data-profil-colonne>
+        <div className={cn(COLONNE, "md:col-span-2")} data-profil-zone="abonnement">
           <AbonnementCard plan={user.plan} onCheckout={payer} isCheckoutLoading={paiementEnCours} abonnement={abonnement} />
         </div>
         <div
           // `md:col-span-2` des cartes partagées neutralisé dès 1024 (une colonne : sinon une piste implicite s'ajoute).
-          className="order-4 grid min-w-0 grid-cols-1 gap-6 md:col-span-2 md:grid-cols-2 lg:grid-cols-1 lg:[&>*:nth-child(n)]:col-span-1"
+          className="grid min-w-0 grid-cols-1 gap-6 md:col-span-2 md:grid-cols-2 lg:grid-cols-1 lg:[&>*:nth-child(n)]:col-span-1"
           data-profil-zone="reglages"
         >
           {reglages}
         </div>
       </div>
-      {premium && (
-        <div className={cn(COLONNE, "order-3 md:col-span-2 lg:col-span-8 lg:row-start-2")} data-profil-zone="progression">
-          <CapProfil xp={user.xp} serie={user.streak} />
-          <Statistiques stats={user.stats} />
-          <MesParcours parcours={parcours} />
-        </div>
-      )}
-      <div className="order-5 mt-6 border-t border-border pt-6 md:col-span-2 lg:col-span-12" data-profil-zone="suppression">
+      <div className="mt-6 border-t border-border pt-6 md:col-span-2 lg:col-span-12" data-profil-zone="suppression">
         <SupprimerCompteCard abonne={premium} finPeriode={abonnement.summary?.currentPeriodEnd ?? null} resilie={abonnement.summary?.cancelAtPeriodEnd ?? false} />
       </div>
     </div>

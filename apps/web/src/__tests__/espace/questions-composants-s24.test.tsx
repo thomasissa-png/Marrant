@@ -72,6 +72,23 @@ it("libellés validés : formulaire, types, délai, bouton ; aucun tiret cadrati
   expect(EMAIL_REPONSE_VALIDE).toBe(true);
 });
 
+// s26 tour 2 (Q1, Q2 ; espace ouvert) : réponse non lue EN TÊTE du DOM (avant le formulaire : premier affichage et premier
+// arrêt du clavier sous 1024) ; colonne du formulaire sans `max-h` ni défilement interne, collante seulement si elle tient.
+it("s26 tour 2 : tuile « réponse non lue » avant le formulaire ; formulaire jamais coupé, collant sous condition de hauteur", () => {
+  const { container } = render(<MesQuestions initiaux={[repondu]} lectureSeule={false} />);
+  const grille = container.querySelector("[data-mes-questions]") as HTMLElement;
+  const tuile = grille.querySelector("[data-reponse-non-lue]") as HTMLElement;
+  const formulaire = grille.querySelector("[data-formulaire-question]") as HTMLElement;
+  expect(grille.firstElementChild).toBe(tuile);
+  expect(tuile.compareDocumentPosition(formulaire) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  const colonne = formulaire.closest("[data-mes-questions] > div") as HTMLElement;
+  const c = colonne.className.split(" ");
+  expect(c.some((k) => k.includes("max-h") || k.includes("overflow"))).toBe(false);
+  expect(c).not.toContain("lg:sticky");
+  expect(c).toEqual(expect.arrayContaining(["lg:[@media(min-height:70rem)]:sticky", "xl:[@media(min-height:64rem)]:sticky", "lg:row-span-2"]));
+  expect(tuile.className.split(" ")).toEqual(expect.arrayContaining(["lg:col-start-5", "lg:row-start-1"]));
+});
+
 it("état vide : un exemple par type et la phrase sur le délai, jamais une liste vide", () => {
   render(<MesQuestions initiaux={[]} lectureSeule={false} />);
   const vide = document.querySelector("[data-etat='vide']") as HTMLElement;

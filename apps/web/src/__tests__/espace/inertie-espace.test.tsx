@@ -268,6 +268,11 @@ describe("garde-fou de construction", () => {
     // contour, ouvert seulement (`ESPACE_CLIENT_PUBLIE && CONTOUR_OFFRE` ajouté au `cn` du plein : fermé, classe d'avant
     // au caractère près, instantanés identiques).
     "components/parcours/step-blocks.tsx",
+    // s26 tour 2 (relectures du tour 1, ouvert seulement ; fermé : classes d'avant au caractère près, instantanés
+    // identiques sans mise à jour) : pastille « Quiz n/N » et résultat du quiz neutres (`step-quiz.tsx`) ; formulaire de
+    // /lettre à l'échelle de l'espace, sous `ESPACE_CLIENT_PUBLIE && plein` (`plein` n'est passé que par /lettre ouvert).
+    "components/parcours/step-quiz.tsx",
+    "components/lettre/lettre-inscription.tsx",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

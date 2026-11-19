@@ -93,7 +93,9 @@ const PUNCHLINE_TEASERS = [
  * capitales, trois colonnes dès 1024 px ; pastille active de la rangée sans aplat violet (le seul aplat de l'écran
  * reste le bouton d'offre).
  */
-const GRILLE_OUVERTE = "grid gap-6 md:grid-cols-2 lg:grid-cols-3";
+// s26 tour 2 (P1) : `items-start`, chaque carte à sa hauteur propre (au tour 1, une amorce courte voisine d'une amorce de
+// 6 lignes laissait 97 à 130 px vides entre le texte et « Révéler la chute »).
+const GRILLE_OUVERTE = "grid items-start gap-6 md:grid-cols-2 lg:grid-cols-3";
 const PASTILLE_ACTIVE_OUVERTE = cn("border-text-primary bg-background-elevated", META_FORT);
 const PASTILLE_INACTIVE_OUVERTE = cn("border-border-input bg-transparent hover:border-border-hover hover:bg-background-elevated", META);
 const LIEN_NEUTRE_OUVERT = "text-text-primary underline underline-offset-2 hover:text-text-secondary";
@@ -266,7 +268,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
               // Revue visuelle s21 (T2-02) : carte en colonne, rangée d'action en pied à la même place d'une carte à l'autre.
               // Règle commune aux trois murs : une dernière carte seule prend la rangée (vanne : texte court).
               className={ESPACE_CLIENT_PUBLIE
-                ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "flex h-full cursor-pointer flex-col p-6 transition-colors hover:border-border-hover animate-stagger-in", derniereSeule(jokes.length, index))
+                ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "flex cursor-pointer flex-col p-6 transition-colors hover:border-border-hover animate-stagger-in", derniereSeule(jokes.length, index))
                 : `flex h-full cursor-pointer flex-col transition-colors hover:bg-background-light animate-stagger-in${
                 jokes.length % 2 === 1 && index === jokes.length - 1 ? " md:col-span-2" : ""
               }`}
@@ -340,7 +342,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                 {/* T2-02 : en pied (mt-auto) ; sous 1 280 px toujours sur 2 lignes, dès 1 280 px sur une ;
                     « Révéler la chute » aligné sur le texte de la carte (-ml-3 compense son padding). s26 (ouvert) : cartes sur
                     3 colonnes, pied toujours sur 2 lignes (le bouton ne se coupe plus en deux). */}
-                <div className="mt-auto flex items-end gap-2 pt-4">
+                <div className={ESPACE_CLIENT_PUBLIE ? "flex items-end gap-2 pt-4" : "mt-auto flex items-end gap-2 pt-4"}>
                   {!revealedIds.has(joke.id) && (
                     <div className={ESPACE_CLIENT_PUBLIE ? "flex min-w-0 flex-1 flex-col items-start gap-1" : "flex min-w-0 flex-1 flex-col items-start gap-1 xl:flex-row xl:items-center xl:gap-3"}>
                       <Button
@@ -390,7 +392,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         // s26 (§3.3) : plus de centrage forcé, 48 px d’air au-dessus (24 ici + 24 du bloc) ; l'objet Premium (`MurListe`) n'est pas restylé,
         // sauf son bouton d'offre en contour (règle de Thomas : un seul aplat violet par écran, l'en-tête collant porte le plein).
         <div className="mt-6" data-mur-centre="">
-          <MurListe liste="vannes" boutonContour />
+          <MurListe liste="vannes" sansViolet />
         </div>
       ) : (
         <MurListe liste="vannes" />

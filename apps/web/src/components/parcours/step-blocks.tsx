@@ -25,8 +25,11 @@ import {
   VANNES_ETAPE,
 } from "@/config/textes/parcours";
 import type { Step, VideoRef } from "@/components/parcours/parcours-types";
-import { CONTOUR_OFFRE, CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+
+/** s26 tour 2 (P3) : contour neutre posé après `buttonVariants({ variant: "primary" })` (retire fond et texte du plein). */
+const CONTOUR_NEUTRE = "border border-border-input bg-transparent text-text-primary hover:border-text-muted hover:bg-background-elevated";
 
 /**
  * Aperçu d'une étape 2+ pour un non-abonné (D1, étalon 3.1 validé) : titre
@@ -46,7 +49,7 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
           <p className="font-display text-base font-bold text-text-primary">Ce que tu vas apprendre</p>
           {/* s19 : sauts de paragraphe rendus ; typographie française (import-boulot.md §5), tous parcours
               depuis l'iter 5 (H @design, S17 @ux). s19 (N4 @design rendu) : même corps que la scène de l'étape ouverte. */}
-          <p className="mt-1 max-w-[68ch] whitespace-pre-line text-base leading-7 text-text-secondary sm:text-[15px]">
+          <p className={ESPACE_CLIENT_PUBLIE ? "mt-1 max-w-[68ch] whitespace-pre-line text-base leading-7 text-text-secondary" : "mt-1 max-w-[68ch] whitespace-pre-line text-base leading-7 text-text-secondary sm:text-[15px]"}>
             {frTypoParcours(step.moduleDetail || step.why || "")}
           </p>
         </div>
@@ -91,12 +94,13 @@ export function ValidationWall({
     trackUmami("mur-vu", { type: "parcours-validation", src: slug, etape: 1 });
   }, [slug]);
   // s26, espace ouvert seulement (règle de Thomas : un seul aplat violet par écran ; l'en-tête collant porte le plein
-  // d'offre) : « Passer à l'étape 2 » en contour (`CONTOUR_OFFRE`), même libellé, même lien, même gabarit. Fermé : plein.
+  // d'offre) : « Passer à l'étape 2 » en contour, même libellé, même lien, même gabarit. Fermé : plein. s26 tour 2 (P3) :
+  // contour NEUTRE (ce bouton n'est pas l'objet Premium : plus de bord violet dans le corps des étapes).
   const plein = cn(
     buttonVariants({ variant: "primary", size: "lg" }),
     "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
     CORPS_APPEL_MOBILE,
-    ESPACE_CLIENT_PUBLIE && CONTOUR_OFFRE,
+    ESPACE_CLIENT_PUBLIE && CONTOUR_NEUTRE,
   );
   if (quizPending || !isParcoursSlug(slug)) {
     return (
@@ -158,6 +162,9 @@ export function VideoCard({ video, seule = false }: { video: VideoRef; seule?: b
   );
 }
 
+/** s26 tour 2 (P3, ouvert seulement) : « Vannes à pratiquer » en bloc neutre (plus de teinte ni de bord violets). */
+const BLOC_VANNES = ESPACE_CLIENT_PUBLIE ? "rounded-xl bg-background-elevated p-4" : "rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4";
+
 /**
  * Vannes de l'étape (D4). Abonné : les vannes actives servies par l'API, avec
  * lien vers leur fiche. Non-abonné (étape 1) : leur nombre, sans contenu.
@@ -166,7 +173,7 @@ export function StepJokes({ step, isPremium }: { step: Step; isPremium: boolean 
   const jokes = step.jokes ?? [];
   if (isPremium && jokes.length > 0) {
     return (
-      <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+      <div className={BLOC_VANNES}>
         <h4 className="mb-1 font-display text-base font-bold text-text-primary">{VANNES_ETAPE.titre}</h4>
         {/* s17 tour 1 (DES-1-15) : amorce en retrait, chute en avant, vannes séparées d'un filet. */}
         <ul className="divide-y divide-border">
@@ -188,7 +195,7 @@ export function StepJokes({ step, isPremium }: { step: Step; isPremium: boolean 
   const count = step.jokeCount ?? step.jokeIds?.length ?? 0;
   if (isPremium || count === 0) return null;
   return (
-    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+    <div className={BLOC_VANNES}>
       <h4 className="mb-2 font-display text-base font-bold text-text-primary">{VANNES_ETAPE.titre}</h4>
       <p className="text-sm text-text-secondary">{VANNES_ETAPE.apercuVisiteur(count)}</p>
     </div>

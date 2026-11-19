@@ -120,14 +120,17 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
       await controlerSEntrainerS26(page, `nouvel ${largeur}`);
       await capturer(page, "nouvel-s-entrainer", largeur);
 
-      // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §5, remplace la colonne centrée du tour 3) : état vide
-      // en tuile d'action de 8 colonnes, rappel de « Quoi répondre » en 4 à sa droite, même haut.
+      // s26 tour 2 (R1, remplace la tuile 8 + rappel 4 du tour 1) : plus de tuile de droite creuse ; le lien « Quoi
+      // répondre » est dans la tuile d'action, sous le bouton, et la tuile prend la largeur de la page.
       await page.goto("/mon-espace/repliques");
-      const vide = await boite(page.getByTestId("repliques-vide"));
-      const rappel = await boite(page.locator("[data-repliques-rappel]"));
-      expect(rappel.gauche, `rappel à droite de l'état vide, ${largeur}`).toBeGreaterThan(vide.droite);
-      expect(Math.abs(rappel.haut - vide.haut), `même rangée, ${largeur}`).toBeLessThanOrEqual(1);
-      expect(vide.largeur / rappel.largeur, `8/4, ${largeur}`).toBeGreaterThan(1.8);
+      const tuile = page.getByTestId("repliques-vide");
+      const vide = await boite(tuile);
+      const page12 = await boite(page.locator("section[aria-labelledby='h-repliques']"));
+      expect(Math.abs(vide.largeur - page12.largeur), `tuile pleine largeur, ${largeur}`).toBeLessThanOrEqual(1);
+      const rappel = await boite(tuile.locator("[data-repliques-rappel]"));
+      const bouton = await boite(tuile.getByRole("link").first());
+      expect(rappel.haut, `lien sous le bouton, ${largeur}`).toBeGreaterThanOrEqual(bouton.bas);
+      expect(rappel.hauteur, `cible de 44 px, ${largeur}`).toBeGreaterThanOrEqual(44);
       await capturer(page, "nouvel-repliques", largeur);
     }
 

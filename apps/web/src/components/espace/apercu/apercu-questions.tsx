@@ -1,7 +1,6 @@
 import { TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-apercu";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
-import { cn } from "@/lib/utils";
 import { ApercuVerrouille } from "@/components/espace/apercu/apercu-verrouille";
 import { SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
 import { BlocsFermes } from "@/components/espace/apercu/blocs-fermes";
@@ -28,23 +27,23 @@ function ExtraitQuestions() {
   return (
     <div data-apercu-fiche="questions-exemples">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
-        <TuileFermee nette className="md:col-span-2 lg:col-span-8">
+        <TuileFermee nette verrouDansLaMarge className="md:col-span-2 lg:col-span-8">
           <div className={TUILE} data-apercu-envois>
-            <h2 className={cn("pr-8", TITRE_CARTE)}>{Q.envois.titre}</h2>
+            <h2 className={TITRE_CARTE}>{Q.envois.titre}</h2>
             <EtatVideQuestions className="mt-4" />
           </div>
         </TuileFermee>
-        <TuileFermee className="md:col-span-2 lg:col-span-4">
+        <TuileFermee verrouDansLaMarge className="md:col-span-2 lg:col-span-4">
           <div className={TUILE} data-apercu-historique>
-            <BlocsFermes libelles={PASTILLES_QUESTIONS} className="mt-0 pr-8" />
+            <BlocsFermes libelles={PASTILLES_QUESTIONS} className="mt-0" />
           </div>
         </TuileFermee>
       </div>
       <SuiteCoupee entiere>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
-          <TuileFermee className="md:col-span-2 lg:col-span-12">
+          <TuileFermee verrouDansLaMarge className="md:col-span-2 lg:col-span-12">
             <div className={TUILE} data-apercu-fil-ferme>
-              <BlocsFermes libelles={[Q.envois.tonMessage, Q.envois.signature]} className="mt-0 pr-8 md:grid-cols-2" />
+              <BlocsFermes libelles={[Q.envois.tonMessage, Q.envois.signature]} className="mt-0 md:grid-cols-2" />
             </div>
           </TuileFermee>
         </div>

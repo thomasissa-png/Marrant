@@ -81,13 +81,15 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
   const cartes = (c: HTMLElement) => catalogue.map((p) => c.querySelector(`#parcours-${p.slug}`) as HTMLElement);
 
   // s26 (`docs/design/parcours-vannes-s26.md` §1.3) : écart du pied ramené à 16 px (`gap-4`), 24 px au-dessus (`pt-6`).
-  it("ouvert : « Programme » et le bouton dans un même bloc `mt-auto` (écart `gap-4`, plus de `mb-6`), forme du bouton inchangée", async () => {
+  // s26 tour 2 (P1) : le bloc n'a plus de `mt-auto` (cartes à leur hauteur propre, `items-start` sur la grille).
+  it("ouvert : « Programme » et le bouton dans un même bloc (écart `gap-4`, plus de `mb-6` ni de `mt-auto`), forme du bouton inchangée", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
     for (const carte of cartes(container)) {
       const pied = carte.querySelector("[data-parcours-pied]") as HTMLElement;
-      expect(classes(pied)).toEqual(expect.arrayContaining(["mt-auto", "flex", "flex-col", "gap-4", "pt-6"]));
+      expect(classes(pied)).toEqual(expect.arrayContaining(["flex", "flex-col", "gap-4", "pt-6"]));
+      expect(classes(pied)).not.toContain("mt-auto");
       const details = pied.firstElementChild as HTMLElement;
       expect(details.tagName).toBe("DETAILS");
       expect(details.className).toBe("group");

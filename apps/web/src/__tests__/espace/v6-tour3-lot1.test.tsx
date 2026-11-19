@@ -137,12 +137,16 @@ describe("point 3 (s26) : Mes répliques, grille 4/4/4, état vide 8/4", () => {
     expect(classes(screen.getByRole("list"))).toContain("lg:grid-cols-3");
   });
 
-  it("page, sans réplique : tuile d'action en 8 colonnes (seul aplat), rappel de « Quoi répondre » en 4", () => {
+  // s26 tour 2 (R1) : plus de tuile de droite creuse ; le lien « Quoi répondre » est dans la tuile d'action, pleine largeur.
+  it("page, sans réplique : tuile d'action pleine largeur (seul aplat), lien « Quoi répondre » dans la tuile", () => {
     render(<ListeRepliques initiales={[]} lectureSeule={false} grille />);
     const vide = screen.getByTestId("repliques-vide");
-    expect(classes(vide)).toContain("lg:col-span-8");
+    expect(classes(vide)).not.toContain("lg:col-span-8");
     expect(classes(vide)).not.toContain("mx-auto");
-    expect(classes(document.querySelector("[data-repliques-rappel]"))).toContain("lg:col-span-4");
+    const rappel = document.querySelector("[data-repliques-rappel]") as HTMLElement;
+    expect(rappel.tagName).toBe("A");
+    expect(vide.contains(rappel)).toBe(true);
+    expect(vide.querySelectorAll("a")).toHaveLength(2);
   });
 
   it("profil (lecture seule, sans `grille`) : le rendu d'avant", () => {

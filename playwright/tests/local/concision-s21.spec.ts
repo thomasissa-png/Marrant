@@ -63,6 +63,9 @@ test.describe("Concision du tunnel (structure) @s21", () => {
       const offre = mur.locator("a[data-mur-cta='premium']");
       await expect(offre).toHaveClass(/\bborder-accent-primary\b/);
       expect(await offre.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgba(0, 0, 0, 0)");
+      // s26 tour 2 (P4) : plus de filet violet sur le mur, lien gratuit en blanc souligné (plus de second accent violet).
+      await expect(mur.locator(":scope > [data-filet]")).toBeHidden();
+      expect(await mur.locator("a[data-mur-cta='etape-1']").evaluate((el) => getComputedStyle(el).color)).toBe("rgb(255, 255, 255)");
     }
     const gratuit = mur.locator("a[data-mur-cta='etape-1']");
     await expect(gratuit).toBeVisible();

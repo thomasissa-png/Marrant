@@ -240,15 +240,17 @@ describe("point 12 : /parcours, cartes en deux colonnes dès `lg`", () => {
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
     const grille = container.querySelector("[data-parcours-cartes]") as HTMLElement;
-    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["grid", "gap-6", "md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2"]));
+    // s26 tour 2 (P1) : `items-start`, chaque carte à sa hauteur propre.
+    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["grid", "gap-6", "md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2", "items-start"]));
     expect(grille.children).toHaveLength(catalogue.length);
     expect(pleins()).toHaveLength(0);
     const boutons = screen.getAllByRole("button").filter((b) => b.closest("[data-parcours-pied]"));
     expect(boutons).toHaveLength(catalogue.length);
     for (const b of boutons) {
       expect(b.className).toContain("w-full");
-      // v6 tour 4, point 2 : le `mt-auto` passe du bloc du bouton au bloc commun « Programme » + bouton.
-      expect((b.closest("[data-parcours-pied]") as HTMLElement).className.split(" ")).toContain("mt-auto");
+      // v6 tour 4, point 2 : bloc commun « Programme » + bouton. s26 tour 2 (P1) : plus de `mt-auto` (cartes à leur
+      // hauteur propre : le pied n'est plus poussé en bas, plus de vide au milieu de la carte).
+      expect((b.closest("[data-parcours-pied]") as HTMLElement).className.split(" ")).not.toContain("mt-auto");
     }
   });
 
