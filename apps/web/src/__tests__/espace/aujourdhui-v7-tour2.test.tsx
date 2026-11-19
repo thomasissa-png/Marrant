@@ -162,7 +162,11 @@ describe("pistes", () => {
     const grille = /<div className="(grid [^"]*)" data-apercu-hero>/.exec(hero)?.[1] ?? "";
     expect(grille).not.toContain("md:grid-cols-5");
     expect(grille).toContain("lg:grid-cols-12");
-    expect(grille).not.toMatch(/items-(start|center)/);
+    // s26 liste et détail (spec design §5.1) : sans la preuve, la carte d'offre n'est plus étirée et la grille du hero
+    // passe en `lg:items-start` (carte à sa hauteur propre, dès 1024 seulement) ; jamais calée au centre, rien sous 1024.
+    expect(grille).not.toMatch(/(^|\s)(md:)?items-(start|center)/);
+    expect(grille).not.toMatch(/items-center/);
+    expect(grille).toContain("lg:items-start");
     expect(hero.replace(/<div className="[^"]*" data-apercu-tete>/, "")).not.toMatch(/md:items-(start|center)/);
     expect(hero).not.toContain("md:max-w-2xl");
   });

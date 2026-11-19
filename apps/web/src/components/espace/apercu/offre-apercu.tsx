@@ -107,22 +107,9 @@ export function HaloPremium() {
  * masque alors à toutes les largeurs (la colonne de texte la rend). Dès 1024, rien ne change (8/4, colonne, filet de
  * « Connexion » en pied) ; sous 768 non plus.
  */
-export function OffreApercu({
-  href,
-  adresse,
-  visiteur,
-  preuveHors = false,
-  etiree = false,
-}: {
-  href: string;
-  adresse: string;
-  visiteur: boolean;
-  preuveHors?: boolean;
-  /** v7 tour 13 : dès 1024 px, la carte descend jusqu'au bas de la colonne de texte du hero. */
-  etiree?: boolean;
-}) {
+export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse: string; visiteur: boolean }) {
   return (
-    <div className={cn(CARTE_PREMIUM, "p-4 md:p-6", etiree && "lg:h-full")} data-apercu-offre>
+    <div className={cn(CARTE_PREMIUM, "p-4 md:p-6")} data-apercu-offre>
       <HaloPremium />
       {/* s26 tour 2 des encarts (E2) : de 768 à 1023, contenu en ligne (bouton et phrase d'objet à gauche, réassurance et
           « Connexion » à droite) ; ailleurs, les deux groupes sont `display: contents` et la carte reste une colonne. */}
@@ -137,15 +124,17 @@ export function OffreApercu({
         </div>
         <div className="contents md:max-lg:block md:max-lg:flex-1" data-offre-droite>
           {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}
-          <Reassurance className={cn(visiteur ? "mt-2 md:mt-4" : "mt-6", "md:max-lg:mt-0 md:max-lg:text-left", META)} />
-          <Preuve masqueeLg={preuveHors} />
+          {/* s26 liste et détail (spec design §5.2) : réassurance du visiteur `md:mt-4` -> `mt-2` et « Connexion » `pt-6` -> `pt-4`
+              (-16 px), plus de preuve « 1 500+ » dans la carte (retirée des aperçus de l'espace) : le filet de « Connexion »
+              est toujours là. */}
+          <Reassurance className={cn(visiteur ? "mt-2" : "mt-6", "md:max-lg:mt-0 md:max-lg:text-left", META)} />
           {visiteur && (
             // s26 tour 3 (piste 1 de la relecture design du tour 2) : le lien de 44 px centre son texte, d'où 38 px d'air
             // sous le texte contre 24 au-dessus du bouton (1280 ; 30 contre 16 à 375). `-mb-3.5` : la cible garde ses
             // 44 px et descend de 14 px dans la marge de la carte, l'air sous le texte égale celui du haut. De 768 à 1023
             // (contenu en ligne, centré), rien ne change.
-            <div className="-mb-3.5 mt-auto pt-4 md:pt-6 md:max-lg:mb-0 md:max-lg:pt-0">
-              <p className={cn("flex justify-center border-t border-border pt-2 md:max-lg:justify-start md:max-lg:border-t-0 md:max-lg:pt-0", !preuveHors && "border-t-0")}>
+            <div className="-mb-3.5 mt-auto pt-4 md:max-lg:mb-0 md:max-lg:pt-0">
+              <p className="flex justify-center border-t border-border pt-2 md:max-lg:justify-start md:max-lg:border-t-0 md:max-lg:pt-0">
                 {/* v7 tour 2 (piste) : cible de 44 px en hauteur ET en largeur, posée ici (ne dépend pas seulement de `LIEN`). */}
                 <Link href={buildLoginUrl({ callbackUrl: adresse })} className={cn(LIEN, "inline-flex min-h-11 min-w-11 items-center justify-center text-text-secondary")}>
                   {TEXTES_APERCU.connexion}

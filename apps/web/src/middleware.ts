@@ -28,6 +28,9 @@ const ABONNEMENT_DEPUIS_ONBOARDING = buildAbonnementUrl(null, "monthly", "onboar
 /** v6 tour 2 (point 10) : ancienne adresse de l'archive des lettres, 308 vers `/lettre` (interrupteur ouvert). */
 export const ANCIENNE_ARCHIVE_LETTRES = `${ESPACE_ACCUEIL}/lettres`;
 
+/** s26 liste et détail : ancienne adresse d'une fiche de Quoi répondre, 308 vers la rubrique (interrupteur ouvert). */
+export const ANCIENNE_FICHE_QUOI_REPONDRE = /^\/mon-espace\/fiche\/(?:situation|a-plat)\/([^/]+)\/?$/;
+
 /** Lot D11c : témoin du saut /abonnement → « Aujourd'hui » (anti-boucle, voir plus bas). */
 export const TEMOIN_ARRIVEE_ESPACE = "dm_arrivee_espace";
 
@@ -170,6 +173,16 @@ export default async function middleware(req: NextRequest) {
   // Fermé : la réécriture vers la 404 ci-dessus passe avant, comme aujourd'hui.
   if (ESPACE_CLIENT_PUBLIE && req.nextUrl.pathname === ANCIENNE_ARCHIVE_LETTRES) {
     return NextResponse.redirect(new URL("/lettre", req.url), 308);
+  }
+
+  // s26 liste et détail : ouvert seulement, l'ancienne adresse d'une fiche de Quoi répondre (situation, « à plat »)
+  // renvoie en 308 vers `/mon-espace/quoi-repondre/[id]`, query (`?ou=&pour=`) gardée, un seul saut. Couvre les liens
+  // des e-mails déjà envoyés. Fermé : la réécriture vers la 404 ci-dessus passe avant, comme aujourd'hui.
+  const ancienneFiche = ESPACE_CLIENT_PUBLIE ? ANCIENNE_FICHE_QUOI_REPONDRE.exec(req.nextUrl.pathname) : null;
+  if (ancienneFiche) {
+    const cible = req.nextUrl.clone();
+    cible.pathname = `${ESPACE_ACCUEIL}/quoi-repondre/${ancienneFiche[1]}`;
+    return NextResponse.redirect(cible, 308);
   }
 
   // Lot D11b (Q-1) : ouvert, l'adresse demandée sous /mon-espace est transmise au layout de l'espace

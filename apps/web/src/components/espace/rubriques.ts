@@ -113,6 +113,8 @@ export function parentEspace(pathname: string | null): Parent | null {
     return cle ? vers(cle) : null;
   }
   if (section === "bonus" && type) return vers("bibliotheque");
+  // s26 liste et détail : une fiche de Quoi répondre (`/mon-espace/quoi-repondre/[id]`) ramène à sa liste.
+  if (section === "quoi-repondre" && type) return vers("quoiRepondre");
   // Lot C (s25) : `/mon-espace/lettres` renvoie en 308 vers `/lettre`, qui sert l'archive à l'abonné.
   if (section === "lettres") return vers("lettre");
   if (section === "questions" && type) return vers("mesQuestions");
@@ -132,6 +134,8 @@ export function rubriqueAllumee(pathname: string | null): CleRubrique | "compte"
   if (sousAdresse(pathname, ESPACE_ACCUEIL)) {
     const [, , section, type] = pathname.split("/");
     if (section === "fiche") return type === "bilan" ? "parcours" : (type && FICHES_PAR_RUBRIQUE[type]) || null;
+    // s26 liste et détail : `/mon-espace/quoi-repondre/[id]` allume Quoi répondre (sous-adresse de la rubrique).
+    if (section === "quoi-repondre") return "quoiRepondre";
     if (section === "bonus") return "bibliotheque";
     if (section === "lettres") return "lettre";
   }

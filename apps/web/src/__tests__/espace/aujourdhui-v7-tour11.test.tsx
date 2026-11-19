@@ -53,13 +53,10 @@ describe("point 2 : prospect à 375", () => {
     render(<ApercuAujourdhui visiteur />);
     expect(classes(document.querySelector("[data-apercu-pastilles]"))).toContain("max-md:sr-only");
     expect(document.querySelectorAll("[data-apercu-pastilles] li").length).toBe(6);
-    const hero = document.querySelector("[data-apercu-hero] [data-preuve='hero']");
-    // s26 tour 2 des encarts (E2) : la preuve du hero se lit à toutes les largeurs (de 768 à 1023 aussi, la carte
-    // d'offre passant sous le texte), celle de la carte jamais.
-    expect(classes(hero)).toEqual(expect.arrayContaining(["mt-4", "md:mt-6"]));
-    expect(classes(hero).some((c) => /hidden/.test(c))).toBe(false);
-    const carte = document.querySelector("[data-apercu-offre] [data-preuve='carte']");
-    expect(classes(carte)).toContain("hidden");
+    // s26 liste et détail (spec design §5, critère UX 11) : « 1 500+ » retiré des aperçus de l'espace, du hero comme de
+    // la carte d'offre ; l'ancienne attente (preuve du hero lue à toutes les largeurs) n'a plus cours.
+    expect(document.querySelector("[data-apercu-hero] [data-preuve]")).toBeNull();
+    expect(document.body.textContent).not.toContain("1 500+");
   });
 });
 

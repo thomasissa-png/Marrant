@@ -144,7 +144,10 @@ describe("aperçu verrouillé d'« Aujourd'hui » (spec UX §2 et §3)", () => {
     );
     const offre = hero.querySelector("[data-apercu-offre]") as HTMLElement;
     expect(offre.querySelector("[data-reassurance]")?.textContent).toBe(frTypo(REASSURANCE_UNIQUE));
-    expect(offre.querySelector("[data-preuve]")?.textContent).toBe(frTypo("1 500+ inscrits bossent leur humour."));
+    // s26 liste et détail (spec design §5, UX §1 et critère 11) : « 1 500+ » retiré des aperçus de l'espace, carte d'offre
+    // comprise ; l'ancienne attente (preuve dans la carte) n'a plus cours. L'accueil et /abonnement gardent la leur.
+    expect(offre.querySelector("[data-preuve]")).toBeNull();
+    expect(hero.textContent).not.toContain("1 500+");
     expect(offre.textContent).not.toContain(frTypo(PHRASE_OBJET_CONNECTE));
     expect(within(offre).getAllByRole("link").map((l) => l.textContent)).toEqual([EN_TETE.bouton, TEXTES_APERCU.connexion]);
   });

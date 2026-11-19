@@ -95,7 +95,8 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
           <EnTete view={view} preuve />
         </div>
         <div className="min-w-0 lg:col-span-4">
-          <OffreApercu href={href} adresse={returnTo} visiteur={visiteur} preuveHors />
+          {/* s26 liste et détail : la carte d'offre partagée ne porte plus de preuve (la preuve du Carnet reste sous l'intro). */}
+          <OffreApercu href={href} adresse={returnTo} visiteur={visiteur} />
         </div>
       </div>
       <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start lg:gap-x-12">

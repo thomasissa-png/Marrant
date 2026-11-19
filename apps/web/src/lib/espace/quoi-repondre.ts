@@ -6,6 +6,7 @@
  */
 import { POUR_QUOI_FAIRE, UNIVERS } from "@/lib/espace/fiches-schema";
 import type { FicheDeType } from "@/lib/espace/fiches";
+import type { LigneQuoiRepondre } from "@/lib/espace/quoi-repondre-liste";
 
 export type Univers = (typeof UNIVERS)[number];
 export type PourQuoiFaire = (typeof POUR_QUOI_FAIRE)[number];
@@ -53,4 +54,30 @@ export function hrefFiltre(base: string, filtres: FiltresSituations, cle: keyof 
   if (suivant.pour) q.set("pour", suivant.pour);
   const s = q.toString();
   return s ? `${base}?${s}` : base;
+}
+
+/**
+ * s26 liste et détail : fiches dans l'ordre d'affichage de la liste (lieux dans l'ordre des filtres, puis « sans lieu »,
+ * rangé sous « Rattraper un faux pas »), le même ordre pour la liste, la fiche d'office et « Situation suivante ».
+ */
+export function ordreParLieu<F extends FicheQuoiRepondre>(fiches: readonly F[]): F[] {
+  return [...UNIVERS.flatMap((u) => fiches.filter((f) => f.univers === u)), ...fiches.filter((f) => !f.univers)];
+}
+
+/**
+ * Lignes légères de la colonne de liste (titre, durée, lieu, buts, « Fait »), dans l'ordre d'affichage. Seuls les types
+ * de la rubrique (situation, « à plat ») passent : une fiche du coin « Humour noir » n'y figure jamais, cookie d'entrée
+ * ou non (elle reste dans la Bibliothèque, derrière son écran d'entrée).
+ */
+export function lignesQuoiRepondre(fiches: readonly { type: string }[], faits: ReadonlySet<string>): LigneQuoiRepondre[] {
+  const rubrique = fiches.filter((f): f is FicheQuoiRepondre => f.type === "situation" || f.type === "a-plat");
+  return ordreParLieu(rubrique).map((f) => ({
+    id: f.id,
+    titre: f.titre,
+    minutes: f.dureeMinutes,
+    lieu: f.univers ?? "sans-lieu",
+    univers: f.univers ?? null,
+    buts: butsDeFiche(f),
+    fait: faits.has(f.id),
+  }));
 }

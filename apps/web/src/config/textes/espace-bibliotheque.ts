@@ -48,6 +48,12 @@ export const TEXTES_QUOI_REPONDRE = {
   vide: "Ta situation n'est pas dans la liste ?",
   raconte: "Raconte-la à l'équipe",
   reessayer: "Réessayer",
+  /**
+   * À VALIDER (s26) : bouton de fin de fiche du pilote liste et détail (`docs/design/liste-detail-quoi-repondre-s26.md`
+   * §3 point 4), vers la situation suivante du filtre. Proposé, pas encore validé par Thomas (interrupteur fermé : rien
+   * de visible en production).
+   */
+  situationSuivante: "Situation suivante",
 } as const;
 
 export const TEXTES_FICHE_LIGNE = {

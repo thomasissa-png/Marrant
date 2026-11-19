@@ -15,7 +15,10 @@ jest.mock("@/lib/prisma", () => ({
   prisma: {
     ficheFait: {
       findMany: async ({ where }: { where: { ficheId: { in: string[] } } }) => where.ficheId.in.filter((id) => faits.ids.has(id)).map((ficheId) => ({ ficheId })),
+      // s26 liste et détail : dès 1024 la page rend aussi la fiche ouverte d'office (retour du geste, réplique).
+      findUnique: async ({ where }: { where: { userId_ficheId: { ficheId: string } } }) => (faits.ids.has(where.userId_ficheId.ficheId) ? { retour: "essaye-bof" } : null),
     },
+    userReplique: { findUnique: async () => null },
   },
 }));
 jest.mock("@/lib/espace/lettres", () => ({ ...jest.requireActual("@/lib/espace/lettres"), envoyeesSiBesoin: async () => new Map() }));
@@ -27,7 +30,13 @@ const retours = jest.fn();
 jest.mock("@/lib/espace/missions-serveur", () => ({ lireRetoursMission: (...a: unknown[]) => retours(...a) }));
 const appel = jest.fn();
 jest.mock("@/components/espace/carte/appel", () => ({ appelEspace: (...a: unknown[]) => appel(...a) }));
-jest.mock("next/navigation", () => ({ useRouter: () => ({ refresh: jest.fn(), push: jest.fn() }), usePathname: () => "/mon-espace" }));
+// s26 liste et détail : le fournisseur des « Fait » de Quoi répondre lit aussi la query et le segment ouvert.
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ refresh: jest.fn(), push: jest.fn(), replace: jest.fn() }),
+  usePathname: () => "/mon-espace",
+  useSearchParams: () => new URLSearchParams(),
+  useSelectedLayoutSegment: () => null,
+}));
 
 import situationPoele from "@/lib/espace/fixtures/situation-coloc-la-poele.json";
 import { ficheSchema, type Fiche } from "@/lib/espace/fiches-schema";
@@ -36,6 +45,7 @@ import { marchesReussies, missionsServiesValidees } from "@/lib/espace/missions"
 import { filtrerSituations, premiereSansFait } from "@/lib/espace/quoi-repondre";
 import { chargeursFiches } from "@/lib/espace/fiches";
 import QuoiRepondrePage from "@/app/(dashboard)/mon-espace/quoi-repondre/page";
+import { FournisseurFaits } from "@/components/espace/quoi-repondre/faits-contexte";
 import BibliothequePage from "@/app/(dashboard)/mon-espace/bibliotheque/page";
 import SEntrainerPage from "@/app/(dashboard)/mon-espace/s-entrainer/page";
 import { ApercuBibliotheque } from "@/components/espace/apercu/apercu-bibliotheque";
@@ -76,32 +86,29 @@ describe("le filet violet des cartes : une seule constante (arbitrage à confirm
 describe("« Quoi répondre » abonné : prochaine action et progression", () => {
   const situations = () => chargeursFiches.listerFiches("situation", acces);
 
-  it("grille 3/9 : rail de filtres (3), action puis liste (9), plus d'en-tête centré", async () => {
+  // s26 liste et détail : la grille 3/9 (rail de filtres collant, action puis liste) n'existe plus dès 1024 ; la liste y est
+  // la colonne du layout (`colonne-liste.tsx`) et la page rend la fiche ouverte d'office. Les anciennes attentes `lg:`
+  // (rail 3, tuile et liste 9, rail collant selon la hauteur) n'ont plus cours ; sous 1024, la page liste reste.
+  it("s26 liste et détail : page liste sous 1024 seulement, fiche ouverte d'office dès 1024 (première sans « Fait »)", async () => {
+    const liste = situations();
+    faits.ids = new Set([liste[0].id]);
     const { container } = render(await QuoiRepondrePage({ searchParams: {} }));
-    const rail = container.querySelector("[data-zone='filtres']")!;
-    expect(classes(rail)).toEqual(expect.arrayContaining(["lg:col-span-3", "lg:col-start-1", "lg:row-span-2"]));
-    expect(classes(container.querySelector("[data-prochaine-action]"))).toEqual(expect.arrayContaining(["lg:col-span-9", "lg:col-start-4", "lg:row-start-1"]));
-    expect(classes(container.querySelector("[data-etat='liste']"))).toEqual(expect.arrayContaining(["lg:col-span-9", "lg:row-start-2"]));
+    expect(classes(container.querySelector("[data-mode='page']"))).toContain("lg:hidden");
+    expect(classes(container.querySelector("[data-mode='panneau']"))).toEqual(expect.arrayContaining(["hidden", "lg:block"]));
+    const prochaine = container.querySelector("[data-prochaine-action]")!.getAttribute("data-prochaine-action");
+    expect(container.querySelector("[data-mode='panneau'] [data-fiche-panneau]")).toHaveAttribute("data-fiche-panneau", prochaine!);
+    expect(container.querySelector("[data-mode='panneau'] h1")).toHaveAttribute("id", "fiche-titre");
     expect(container.querySelector("[data-carnet]")).toHaveAttribute("href", "/carnet");
+    expect(container.querySelector("[data-zone='filtres']")!.className).not.toMatch(/sticky|lg:col-span/);
   });
 
-  it("s26 tour 3 (Q1, Q2) : « Voir » suit le titre (plus de `lg:justify-between`) ; rail collant seulement s'il tient", async () => {
-    const { container } = render(await QuoiRepondrePage({ searchParams: {} }));
+  it("s26 liste et détail : liens de fiche sous `/mon-espace/quoi-repondre/[id]`, filtres reportés", async () => {
+    const { container } = render(await QuoiRepondrePage({ searchParams: { ou: "coloc" } }));
+    const liens = [...container.querySelectorAll("[data-etat='liste'] a[data-fiche]")];
+    expect(liens.length).toBeGreaterThan(0);
+    for (const a of liens) expect(a.getAttribute("href")).toBe(`/mon-espace/quoi-repondre/${a.getAttribute("data-fiche")}?ou=coloc`);
     const tuile = classes(container.querySelector("[data-prochaine-action]"));
-    expect(tuile).toEqual(expect.arrayContaining(["lg:flex-row", "lg:items-center", "lg:gap-6"]));
     expect(tuile).not.toContain("lg:justify-between");
-    // Rail mesuré : 922 px dès 1280, 1082 à 1024. s26 (relecture tour 3) : l'en-tête collant finit à 121 px, le rail se
-    // colle à 144 px (`top-36`, 24 px d'air) ; son bas tombe à 1066 (1280) et 1226 (1024), d'où 68rem et 78rem.
-    const rail = classes(container.querySelector("[data-zone='filtres']"));
-    expect(rail).toEqual(
-      expect.arrayContaining([
-        "lg:[@media(min-height:78rem)]:sticky",
-        "lg:[@media(min-height:78rem)]:top-36",
-        "xl:[@media(min-height:68rem)]:sticky",
-        "xl:[@media(min-height:68rem)]:top-36",
-      ]),
-    );
-    expect(rail.join(" ")).not.toContain("56rem");
   });
 
   it("prochaine action : la première situation sans « Fait » dans l'ordre de la liste, « Voir » seul aplat", async () => {
@@ -114,20 +121,28 @@ describe("« Quoi répondre » abonné : prochaine action et progression", () =>
     expect(tuile.getAttribute("data-prochaine-action")).toBe(attendue);
     const voir = within(tuile).getByRole("link", { name: L.voir });
     expect(voir.getAttribute("href")).toBe(container.querySelector(`a[data-fiche='${attendue}']`)!.getAttribute("href"));
-    expect(aplats(container)).toEqual([voir]);
+    // s26 liste et détail : la page porte deux modes (un seul affiché par largeur) ; « Voir » est le seul aplat du mode
+    // page, le panneau (dès 1024) a le sien (le geste de la fiche), jamais deux.
+    expect(aplats(container.querySelector("[data-mode='page']")!)).toEqual([voir]);
+    expect(aplats(container.querySelector("[data-mode='panneau']")!)).toHaveLength(1);
     expect(tuile.textContent).toContain(frEspace(L.minutes(liste.find((f) => f.id === attendue)!.dureeMinutes)));
   });
 
   it("chaque lieu : « faits/total » et sa barre ; tout fait : plus de tuile d'action, la liste reste", async () => {
     const liste = situations();
     faits.ids = new Set(liste.filter((f) => f.univers === "coloc").map((f) => f.id));
-    const { container } = render(await QuoiRepondrePage({ searchParams: { ou: "coloc" } }));
+    // s26 liste et détail : rendu dans le fournisseur des « Fait » (comme sous le layout de la rubrique).
+    const { container } = render(<FournisseurFaits versionServeur="">{await QuoiRepondrePage({ searchParams: { ou: "coloc" } })}</FournisseurFaits>);
     const lieu = container.querySelector("[data-lieu='coloc']")!;
     const n = faits.ids.size;
     expect(lieu.querySelector("[data-compte-faits]")!.textContent).toBe(`${n}/${n}`);
     expect((lieu.querySelector("[data-barre-etapes] > span") as HTMLElement).style.width).toBe("100%");
     expect(container.querySelector("[data-prochaine-action]")).toBeNull();
-    expect(aplats(container)).toEqual([]);
+    // Mode page : aucun aplat (rien à faire). Panneau (dès 1024) : la première du filtre, « Fait », et « Situation
+    // suivante » passe en plein (le geste perd le sien) : exactement un aplat.
+    expect(aplats(container.querySelector("[data-mode='page']")!)).toEqual([]);
+    const panneau = container.querySelector("[data-mode='panneau']")!;
+    expect(aplats(panneau)).toEqual([panneau.querySelector("[data-situation-suivante]")]);
     expect(lieu.querySelectorAll("[data-fait]")).toHaveLength(n);
   });
 

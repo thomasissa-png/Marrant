@@ -9,13 +9,23 @@ import { PLACE_REPERE } from "@/components/layout/gabarit";
  * aligné sur la colonne (gabarit A) ou sur le logo (gabarit B). Parent fixé par le type de page, jamais
  * par l'historique. Texte secondaire, chevron gauche décoratif, cible de 44 px.
  */
-export function LienRetour({ href, label }: { href: string; label: string }) {
+export function LienRetour({
+  href,
+  label,
+  onClick,
+}: {
+  href: string;
+  label: string;
+  /** s26 liste et détail : « Retour » de Quoi répondre, `router.back()` quand on vient de la liste. */
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+}) {
   // Relecture des captures nav s24, tour 2 : 36 px de haut comme le fil d'Ariane du site (`PLACE_REPERE`) ; la
   // cible du lien garde 44 px (elle déborde de 12 px en haut et en bas, sans rien chevaucher).
   return (
     <div className={`${PLACE_REPERE} flex items-center`}>
     <Link
       href={href}
+      onClick={onClick}
       data-lien-retour
       className="-ml-1 inline-flex min-h-11 items-center gap-1 self-start rounded-md pr-2 text-sm text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
     >

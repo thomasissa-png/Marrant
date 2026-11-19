@@ -2,25 +2,18 @@ import Link from "next/link";
 import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { POUR_QUOI_FAIRE, UNIVERS } from "@/lib/espace/fiches-schema";
 import { hrefFiltre, type FiltresSituations } from "@/lib/espace/quoi-repondre";
-import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE, pastilleFiltre } from "@/components/espace/carte/styles";
 import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
-import { ETIQUETTE, META, META_FORT } from "@/components/espace/typo";
+import { ETIQUETTE, META_FORT } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 
-/**
- * Pastille de filtre (s26, `docs/design/rubriques-abonne-s26.md` §1.3) : 44 px, bord de 1 px, `META` ; choisie,
- * bord blanc, fond élevé et `META_FORT` (plus de contour violet de 2 px ni de 500 : hors échelle). L'état se lit
- * par la bordure ET la graisse, jamais la couleur seule ; `aria-current` pour les lecteurs d'écran.
- */
-export const pastilleFiltre = (choisie: boolean) =>
-  cn(
-    "inline-flex min-h-11 items-center whitespace-normal rounded-full border px-4 py-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background max-e300:w-full",
-    choisie ? `border-text-primary bg-background-elevated ${META_FORT}` : `border-border-input hover:border-border-hover hover:bg-background-elevated ${META}`,
-  );
+// s26 liste et détail : la pastille vit dans `carte/styles.ts` (importée aussi par la colonne de liste, côté navigateur,
+// sans le schéma des fiches) ; réexportée ici pour les appels existants.
+export { pastilleFiltre };
 
 /**
  * Filtres de « Quoi répondre » (s24, lot D6 ; architecture v20 3.3) : « Où et avec qui ? » (12 univers du schéma) et

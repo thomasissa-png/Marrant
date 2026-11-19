@@ -73,8 +73,11 @@ describe("point 4 : prospect à 375, première tuile au premier écran", () => {
   it("carte d'offre resserrée sous 768 (`p-4`, preuve à 16 px), inchangée dès 768", () => {
     const { container } = render(<OffreApercu href="/abonnement" adresse="/mon-espace" visiteur />);
     expect(classes(container.querySelector("[data-apercu-offre]"))).toEqual(expect.arrayContaining(["p-4", "md:p-6"]));
-    expect(classes(container.querySelector("[data-preuve]"))).toEqual(expect.arrayContaining(["mt-4", "pt-4", "md:mt-6", "md:pt-6"]));
-    expect(classes(container.querySelector("[data-reassurance]"))).toEqual(expect.arrayContaining(["mt-2", "md:mt-4"]));
+    // s26 liste et détail (spec design §5.2) : plus de preuve dans la carte, réassurance du visiteur à 8 px du bouton à
+    // toutes les largeurs (`md:mt-4` retiré, -8 px) : les anciennes attentes (preuve, `md:mt-4`) n'ont plus cours.
+    expect(container.querySelector("[data-preuve]")).toBeNull();
+    expect(classes(container.querySelector("[data-reassurance]"))).toContain("mt-2");
+    expect(classes(container.querySelector("[data-reassurance]"))).not.toContain("md:mt-4");
   });
 });
 
