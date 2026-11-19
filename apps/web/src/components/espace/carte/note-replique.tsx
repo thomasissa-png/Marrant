@@ -32,7 +32,10 @@ export function NoteReplique({
 }: {
   ficheId: string;
   initiale: string | null;
-  /** s26 liste et détail : « Fait » posé dans Quoi répondre, « Situation suivante » prend l'aplat (un seul à l'écran). */
+  /**
+   * s26 liste et détail : dans Quoi répondre, « Enregistrer » en contour (tour 1 : toujours, l'aplat de la fiche est
+   * l'action principale du geste, puis « Situation suivante » après « Fait » ; un seul à l'écran).
+   */
   secondaire?: boolean;
 }) {
   const [texte, setTexte] = useState(initiale ?? "");
@@ -114,7 +117,7 @@ export function NoteReplique({
       />
       <div className="flex flex-wrap items-center gap-2">
         {etat !== "confirmer" && (
-          <button type="submit" className={secondaire ? BOUTON_SECONDAIRE : BOUTON_PRINCIPAL} aria-busy={occupe} disabled={texte.trim() === ""}>
+          <button type="submit" className={secondaire ? `${BOUTON_SECONDAIRE} disabled:border-border disabled:text-text-muted` : BOUTON_PRINCIPAL} aria-busy={occupe} disabled={texte.trim() === ""}>
             {etat === "echec" ? G.note.reessayer : G.note.enregistrer}
           </button>
         )}

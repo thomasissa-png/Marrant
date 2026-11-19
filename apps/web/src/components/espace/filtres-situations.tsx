@@ -105,7 +105,9 @@ export function FiltresSituations({ base, filtres }: { base: string; filtres: Fi
   return (
     <>
       <div className="lg:hidden" data-filtres-replies>
-        <details className={cn(CADRE_CARTE_NEUTRE, "group/repli")}>
+        {/* s26 liste et détail, tour 1 (mesures §2 : repli resté ouvert après « Soirée », la liste sous le pli et un retour
+            qui retombait 53 px plus bas) : `key` des filtres choisis, le repli est remonté FERMÉ après chaque choix. */}
+        <details key={resumeFiltres(filtres)} className={cn(CADRE_CARTE_NEUTRE, "group/repli")}>
           <summary
             className={cn(
               "flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 px-6 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary [&::-webkit-details-marker]:hidden",

@@ -84,13 +84,16 @@ export function GesteFiche({
           </ol>
         )}
       </div>
-      <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} />
+      {/* s26 liste et détail, tour 1 (spec design §6, mesures §3) : dans Quoi répondre, un seul aplat par fiche. Avant
+          « Fait », « Essayé, ça a marché » (l'action principale du geste) ; après, « Situation suivante ». « Enregistrer »
+          reste en contour (il passait pour un aplat, même désactivé). Ailleurs (`faits` nul) : rendu inchangé. */}
+      <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} principale={faits && !fait ? "essaye-ca-a-marche" : null} />
       {echec && (
         <p role="status" className="text-sm text-text-secondary">
           {TEXTES_CARTES.echec}
         </p>
       )}
-      <NoteReplique ficheId={ficheId} initiale={repliqueInitiale} secondaire={Boolean(faits) && fait} />
+      <NoteReplique ficheId={ficheId} initiale={repliqueInitiale} secondaire={Boolean(faits)} />
     </section>
   );
 }

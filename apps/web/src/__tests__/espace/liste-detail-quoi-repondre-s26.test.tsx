@@ -195,6 +195,38 @@ describe("fiche dans le panneau (`/mon-espace/quoi-repondre/[id]`)", () => {
     expect(nav.refresh).toHaveBeenCalled();
   });
 
+  // s26 liste et détail, tour 1 (mesures §3 et §4) : un seul aplat avant « Fait », celui de l'action principale du geste ;
+  // « Enregistrer » en contour (même désactivé) ; panneau ramené à l'échelle de `typo.ts` (plus de 12 px ni de capitales,
+  // zone d'état vide hors du flux) ; blocs du corps à 24 px.
+  it("tour 1 : avant « Fait », un seul aplat (« Essayé, ça a marché ») ; « Enregistrer » en contour ; échelle du panneau", async () => {
+    const avecGeste = situations().find((f) => f.geste)!;
+    nav.segment = avecGeste.id;
+    const { container, getByRole } = render(
+      <FournisseurFaits versionServeur="">{await FicheQuoiRepondrePage({ params: { id: avecGeste.id }, searchParams: {} })}</FournisseurFaits>,
+    );
+    const principale = getByRole("button", { name: /ça a marché/ });
+    expect(aplats(container)).toEqual([principale]);
+    const enregistrer = getByRole("button", { name: "Enregistrer" });
+    expect(enregistrer).toBeDisabled();
+    expect(classes(enregistrer)).toEqual(expect.arrayContaining(["border", "disabled:text-text-muted"]));
+    const panneau = container.querySelector("[data-fiche-panneau]")!;
+    expect(classes(panneau)).toEqual(expect.arrayContaining(["[&_.text-xs]:text-sm", "[&_.uppercase]:normal-case", "[&_[role=status]:empty]:absolute"]));
+    expect(classes(panneau.querySelector("h1#fiche-titre")!.parentElement!.querySelector(".border-t"))).toContain("space-y-6");
+  });
+
+  it("tour 1 : le repli des filtres se referme après un choix (remonté par la clé du filtre)", () => {
+    const { container, rerender } = render(<ColonneListe lignes={lignesQuoiRepondre(toutes(), new Set())} lieux={LIEUX} valides={VALIDES} />);
+    const avant = container.querySelector<HTMLDetailsElement>("details[data-filtres-liste]")!;
+    avant.open = true;
+    nav.query = new URLSearchParams("ou=coloc");
+    rerender(<ColonneListe lignes={lignesQuoiRepondre(toutes(), new Set())} lieux={LIEUX} valides={VALIDES} />);
+    const apres = container.querySelector<HTMLDetailsElement>("details[data-filtres-liste]")!;
+    expect(apres).not.toBe(avant);
+    expect(apres.open).toBe(false);
+    // Le repli défile avec les lignes (dans le corps) : il ne réduit plus la liste.
+    expect(container.querySelector("[data-liste-corps] > details[data-filtres-liste]")).not.toBeNull();
+  });
+
   it("fiche du coin « Humour noir » ou id inconnu : la vraie 404, jamais servie ici", async () => {
     const coin = chargeursFiches.listerFiches("humour-noir", acces)[0];
     await expect(FicheQuoiRepondrePage({ params: { id: coin.id }, searchParams: {} })).rejects.toThrow("NEXT_NOT_FOUND");

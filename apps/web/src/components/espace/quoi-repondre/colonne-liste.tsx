@@ -28,6 +28,11 @@ import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
 
+/** Carte collante (spec design §1) : haut à 144 px (`top-36`), 24 px libres en bas, hauteur utile minimale avant départ. */
+const HAUT_COLLE = 144;
+const BAS_LIBRE = 24;
+const HAUTEUR_MIN = 240;
+
 export interface Lieu {
   cle: string;
   titre: string;
@@ -61,14 +66,15 @@ const ecrire = (cle: string, valeur: string) => {
  * carte collante à défilement propre, titre de la rubrique, filtres repliés, situations par lieu (une colonne), une ligne
  * `aria-current` (filet blanc de 2 px, arbitrage du 19/11), carnet en pied. Montée dans le layout : jamais démontée entre
  * deux fiches, `scrollTop` gardé (et en `sessionStorage` pour le retour navigateur). Filtres lus dans la query (le layout
- * ne reçoit pas `searchParams`), reportés sur chaque lien de fiche ; un filtre remplace l'entrée d'historique, une fiche
- * en ajoute une. Clavier : flèches haut et bas d'une ligne à l'autre, Entrée ouvre.
+ * ne reçoit pas `searchParams`), reportés sur chaque lien de fiche ; un filtre remplace l'entrée d'historique (sauf s'il
+ * quitte la fiche ouverte, tour 1), une fiche en ajoute une. Clavier : flèches haut et bas d'une ligne à l'autre, Entrée ouvre.
  */
 export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly LigneQuoiRepondre[]; lieux: readonly Lieu[]; valides: { ou: readonly string[]; pour: readonly string[] } }) {
   const parametres = useSearchParams();
   const segment = useSelectedLayoutSegment();
   const faits = useFaitsQuoiRepondre();
   const corps = useRef<HTMLDivElement>(null);
+  const carte = useRef<HTMLElement>(null);
   const [annonce, setAnnonce] = useState("");
 
   const filtres = filtresDeQuery((c) => parametres.get(c), valides);
@@ -78,6 +84,39 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
   const idOuvert = segment ? decodeURIComponent(segment) : null;
   const actif = idOuvert ?? ficheParDefaut(ordre, new Set(ordre.filter((l) => l.fait).map((l) => l.id)))?.id ?? null;
   const groupes = lieux.map((g) => ({ ...g, lignes: ordre.filter((l) => l.lieu === g.cle) })).filter((g) => g.lignes.length > 0);
+
+  // s26 liste et détail, tour 1 (mesures §1 #5 : haut collé à 24 px à 1920x1080, sous l'en-tête) : la carte collante ne
+  // peut pas dépasser sa cellule (bas du panneau). Sa hauteur suit donc la place réelle entre son haut (144 px, ou le haut
+  // de la cellule avant collage) et le bas du panneau, plafonnée à `100dvh - 168` : le haut reste à 144 px tant qu'il
+  // reste au moins `HAUTEUR_MIN` px de panneau à l'écran ; en deçà, la carte part avec la fin du panneau.
+  useEffect(() => {
+    const el = carte.current;
+    const cellule = el?.parentElement;
+    if (!el || !cellule) return;
+    let image = 0;
+    const ajuster = () => {
+      image = 0;
+      const c = cellule.getBoundingClientRect();
+      if (c.height === 0) return; // Sous 1024 : colonne masquée.
+      const plafond = window.innerHeight - HAUT_COLLE - BAS_LIBRE;
+      const dispo = c.bottom - Math.max(HAUT_COLLE, c.top);
+      el.style.maxHeight = `${Math.round(Math.max(HAUTEUR_MIN, Math.min(plafond, dispo)))}px`;
+    };
+    const demander = () => {
+      if (!image) image = window.requestAnimationFrame(ajuster);
+    };
+    ajuster();
+    window.addEventListener("scroll", demander, { passive: true });
+    window.addEventListener("resize", demander);
+    const observateur = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(demander);
+    observateur?.observe(cellule);
+    return () => {
+      window.removeEventListener("scroll", demander);
+      window.removeEventListener("resize", demander);
+      observateur?.disconnect();
+      if (image) window.cancelAnimationFrame(image);
+    };
+  }, []);
 
   // Position de la liste : restaurée au montage (retour navigateur), remise en haut à chaque changement de filtre.
   const cleAvant = useRef<string | null>(null);
@@ -107,104 +146,122 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
     liens[Math.min(liens.length - 1, Math.max(0, i + (e.key === "ArrowDown" ? 1 : -1)))]?.focus();
   };
 
-  /** Lien d'un filtre (bascule) : la fiche ouverte est gardée si elle est dans le nouveau filtre, sinon la liste. */
-  const hrefFiltre = (c: keyof FiltresListe, v: string) => {
+  /**
+   * Lien d'un filtre (bascule) : la fiche ouverte est gardée si elle est dans le nouveau filtre, sinon la liste.
+   * s26 liste et détail, tour 1 (mesures §2, historique) : un filtre remplace l'entrée d'historique (`replace`), sauf s'il
+   * quitte la fiche ouverte : il en ajoute alors une, et la fiche reste derrière lui (fiche, filtre, retour, retour).
+   */
+  const lienFiltre = (c: keyof FiltresListe, v: string) => {
     const suivant = { ...filtres, [c]: filtres[c] === v ? null : v };
-    const garde = idOuvert && filtrerLignes(lignes.filter((l) => l.id === idOuvert), suivant).length > 0;
-    return garde ? hrefFicheListe(idOuvert, suivant) : `${ADRESSE_LISTE_QUOI_REPONDRE}${queryFiltres(suivant)}`;
+    const garde = idOuvert !== null && filtrerLignes(lignes.filter((l) => l.id === idOuvert), suivant).length > 0;
+    return garde && idOuvert !== null
+      ? { href: hrefFicheListe(idOuvert, suivant), replace: true }
+      : { href: `${ADRESSE_LISTE_QUOI_REPONDRE}${queryFiltres(suivant)}`, replace: idOuvert === null };
   };
+  // Titre de la liste : H1 de la page quand aucune fiche n'occupe le panneau (filtre vide, dès 1024), sinon H2 (le H1 est
+  // celui de la fiche ; spec design §1).
+  const Titre = groupes.length === 0 && idOuvert === null ? "h1" : "h2";
   const resume = [filtres.ou ? T.univers[filtres.ou as keyof typeof T.univers] : null, filtres.pour ? T.pourQuoiFaire[filtres.pour as keyof typeof T.pourQuoiFaire] : null].filter(Boolean).join(", ");
 
   return (
-    <nav aria-labelledby="qr-liste-titre" className={cn(CADRE_CARTE_NEUTRE, "flex flex-col lg:sticky lg:top-36 lg:max-h-[calc(100dvh-10.5rem)]")} data-colonne-liste>
-      <h2 id="qr-liste-titre" className={cn(TITRE_CARTE, "px-6 pb-4 pt-8")}>
+    <nav ref={carte} aria-labelledby="qr-liste-titre" className={cn(CADRE_CARTE_NEUTRE, "flex flex-col lg:sticky lg:top-36 lg:max-h-[calc(100dvh-10.5rem)]")} data-colonne-liste>
+      <Titre id="qr-liste-titre" className={cn(TITRE_CARTE, "px-6 pb-4 pt-8")}>
         {T.titre}
-      </h2>
-      <details className="group/repli px-6 pb-4" data-filtres-liste>
-        <summary className={SOMMAIRE_REPLIABLE}>
-          <span className="min-w-0 [overflow-wrap:anywhere]">{resume || T.filtrerLesCartes}</span>
-          <ChevronRepli />
-        </summary>
-        {(
-          [
-            ["ou", T.filtreOu, valides.ou, T.univers],
-            ["pour", T.filtrePour, valides.pour, T.pourQuoiFaire],
-          ] as const
-        ).map(([c, titre, valeurs, libelles]) => (
-          <div key={c} className="mt-4">
-            <h3 id={`qr-filtre-${c}`} className={ETIQUETTE}>
-              {titre}
-            </h3>
-            <ul aria-labelledby={`qr-filtre-${c}`} className="mt-2 flex flex-wrap gap-2">
-              {valeurs.map((v) => (
-                <li key={v}>
-                  <Link href={hrefFiltre(c, v)} replace scroll={false} prefetch={false} aria-current={filtres[c] === v ? "true" : undefined} className={pastilleFiltre(filtres[c] === v)} data-filtre={v}>
-                    {(libelles as Record<string, string>)[v]}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </details>
-      <div ref={corps} className="min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-border" onKeyDown={surTouche} onScroll={(e) => ecrire(cle, String(e.currentTarget.scrollTop))} data-liste-corps>
-        {groupes.length === 0 ? (
-          <div className="p-6" data-testid="quoi-repondre-vide-liste">
-            <p className={TEXTE_FORT}>{T.vide}</p>
-            <Link href={`${ESPACE_ACCUEIL}/questions`} className={cn("mt-2", LIEN_NEUTRE)}>
-              {T.raconte}
-            </Link>
-          </div>
-        ) : (
-          groupes.map((g) => {
-            const n = g.lignes.filter((l) => l.fait).length;
-            return (
-              <section key={g.cle} aria-labelledby={`qr-lieu-${g.cle}`} data-lieu={g.cle}>
-                <div className="flex items-baseline justify-between gap-4 px-6 pb-2 pt-4">
-                  <h3 id={`qr-lieu-${g.cle}`} className={ETIQUETTE}>
-                    {g.titre}
-                  </h3>
-                  <CompteFaits faits={n} total={g.lignes.length} />
-                </div>
-                <ul aria-labelledby={`qr-lieu-${g.cle}`}>
-                  {g.lignes.map((l) => {
-                    const estActif = l.id === actif;
-                    const titre = frEspace(sansPrefixe(l.titre, g.titre));
-                    return (
-                      <li key={l.id}>
-                        <Link
-                          href={hrefFicheListe(l.id, filtres)}
-                          scroll={false}
-                          prefetch={false}
-                          aria-current={estActif ? "page" : undefined}
-                          onClick={() => faits?.demanderFocus()}
-                          data-ligne-qr={l.id}
-                          data-titre={titre}
-                          className={cn(
-                            "relative flex min-h-11 items-center gap-3 px-6 py-2 hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary before:absolute before:inset-y-0 before:left-0 before:w-0.5",
-                            estActif && "bg-background-elevated before:bg-text-primary",
-                          )}
-                        >
-                          <span className={cn("min-w-0 flex-1 [overflow-wrap:anywhere]", estActif ? META_FORT : l.fait ? META : `${META} text-text-primary`)}>{titre}</span>
-                          {l.fait ? (
-                            <span className={cn("inline-flex flex-none items-center gap-2", META)} data-fait>
-                              <Coche className="h-4 w-4 text-success" />
-                              {L.fait}
-                            </span>
-                          ) : (
-                            <span className={cn("flex-none tabular-nums", META)}>{L.minutes(l.minutes)}</span>
-                          )}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-            );
-          })
-        )}
+      </Titre>
+      {/* s26 liste et détail, tour 1 (mesures §2 et §8.1 : repli resté ouvert après un choix, corps de liste réduit à 1 px,
+          lignes recouvertes par le pied « carnet », pastilles hors de la carte) : le repli des filtres défile AVEC les
+          lignes, dans le corps (la liste garde toute la hauteur entre le titre et le pied), et se referme après un choix
+          (`key` du filtre : remonté fermé). */}
+      <div ref={corps} className="min-h-0 flex-1 overflow-y-auto overscroll-contain" onKeyDown={surTouche} onScroll={(e) => ecrire(cle, String(e.currentTarget.scrollTop))} data-liste-corps>
+        <details key={cle} className="group/repli px-6 pb-4" data-filtres-liste>
+          <summary className={SOMMAIRE_REPLIABLE}>
+            <span className="min-w-0 [overflow-wrap:anywhere]">{resume || T.filtrerLesCartes}</span>
+            <ChevronRepli />
+          </summary>
+          {(
+            [
+              ["ou", T.filtreOu, valides.ou, T.univers],
+              ["pour", T.filtrePour, valides.pour, T.pourQuoiFaire],
+            ] as const
+          ).map(([c, titre, valeurs, libelles]) => (
+            <div key={c} className="mt-4">
+              <h3 id={`qr-filtre-${c}`} className={ETIQUETTE}>
+                {titre}
+              </h3>
+              <ul aria-labelledby={`qr-filtre-${c}`} className="mt-2 flex flex-wrap gap-2">
+                {valeurs.map((v) => {
+                  const lien = lienFiltre(c, v);
+                  return (
+                    <li key={v} className="min-w-0 max-w-full">
+                      <Link href={lien.href} replace={lien.replace} scroll={false} prefetch={false} aria-current={filtres[c] === v ? "true" : undefined} className={pastilleFiltre(filtres[c] === v)} data-filtre={v}>
+                        {(libelles as Record<string, string>)[v]}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </details>
+        <div className="border-t border-border" data-liste-lignes>
+          {groupes.length === 0 ? (
+            <div className="p-6" data-testid="quoi-repondre-vide-liste">
+              <p className={TEXTE_FORT}>{T.vide}</p>
+              <Link href={`${ESPACE_ACCUEIL}/questions`} className={cn("mt-2", LIEN_NEUTRE)}>
+                {T.raconte}
+              </Link>
+            </div>
+          ) : (
+            groupes.map((g) => {
+              const n = g.lignes.filter((l) => l.fait).length;
+              return (
+                <section key={g.cle} aria-labelledby={`qr-lieu-${g.cle}`} data-lieu={g.cle}>
+                  <div className="flex items-baseline justify-between gap-4 px-6 pb-2 pt-4">
+                    <h3 id={`qr-lieu-${g.cle}`} className={ETIQUETTE}>
+                      {g.titre}
+                    </h3>
+                    <CompteFaits faits={n} total={g.lignes.length} />
+                  </div>
+                  <ul aria-labelledby={`qr-lieu-${g.cle}`}>
+                    {g.lignes.map((l) => {
+                      const estActif = l.id === actif;
+                      const titre = frEspace(sansPrefixe(l.titre, g.titre));
+                      return (
+                        <li key={l.id}>
+                          <Link
+                            href={hrefFicheListe(l.id, filtres)}
+                            scroll={false}
+                            prefetch={false}
+                            aria-current={estActif ? "page" : undefined}
+                            onClick={() => faits?.demanderFocus()}
+                            data-ligne-qr={l.id}
+                            data-titre={titre}
+                            className={cn(
+                              "relative flex min-h-11 items-center gap-3 px-6 py-2 hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary before:absolute before:inset-y-0 before:left-0 before:w-0.5",
+                              estActif && "bg-background-elevated before:bg-text-primary",
+                            )}
+                          >
+                            <span className={cn("min-w-0 flex-1 [overflow-wrap:anywhere]", estActif ? META_FORT : l.fait ? META : `${META} text-text-primary`)}>{titre}</span>
+                            {l.fait ? (
+                              <span className={cn("inline-flex flex-none items-center gap-2", META)} data-fait>
+                                <Coche className="h-4 w-4 text-success" />
+                                {L.fait}
+                              </span>
+                            ) : (
+                              <span className={cn("flex-none tabular-nums", META)}>{L.minutes(l.minutes)}</span>
+                            )}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              );
+            })
+          )}
+        </div>
       </div>
-      <div className="border-t border-border">
+      <div className="flex-none border-t border-border">
         <Link href="/carnet" className={cn(META, "inline-flex min-h-11 items-center px-6 underline underline-offset-2 hover:text-text-primary")} data-carnet>
           {T.carnet}
         </Link>

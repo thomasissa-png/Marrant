@@ -63,6 +63,9 @@ import { cn } from "@/lib/utils";
  * de 8 px : grille `lg:items-start` et carte d'offre à sa hauteur propre (plus d'`etiree`), promesse `lg:mt-6` (+8),
  * pastilles `lg:mt-8` (+8) ; la carte se resserre de 16 px (`OffreApercu`). Cible : bas du texte et bas de la carte à
  * 32 px près dès 768 (`[ESTIMÉ]` environ 12 px à 1280, mesure @qa).
+ * s26 liste et détail, tour 1 (mesures §5 : pastilles à 32 px de la promesse, au-delà de la règle des 24 du tour 6 ;
+ * gratuit à 38 px du bas de la carte) : pastilles revenues à 24 px (`md:mt-6`), les 8 px passent au-dessus de la promesse
+ * (`lg:mt-8`) ; la carte du gratuit se resserre de 8 px (`OffreApercu`). Cible : 13 px (visiteur), 30 px (gratuit).
  */
 export function HeroApercu({
   titre,
@@ -87,8 +90,8 @@ export function HeroApercu({
           </h1>
         </div>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
-        <p className={cn("mt-4 max-w-xl [text-wrap:balance] lg:mt-6", TEXTE)}>{promesse}</p>
-        <ul className="mt-4 flex flex-wrap gap-2 max-md:sr-only md:mt-6 lg:mt-8" data-apercu-pastilles>
+        <p className={cn("mt-4 max-w-xl [text-wrap:balance] lg:mt-8", TEXTE)}>{promesse}</p>
+        <ul className="mt-4 flex flex-wrap gap-2 max-md:sr-only md:mt-6" data-apercu-pastilles>
           {pastilles.map((p) => (
             <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-3 py-1", META)}>
               {p}

@@ -194,6 +194,16 @@ export function FicheVue({
 }
 
 /**
+ * s26 liste et détail, tour 1 (mesures §4 et §5) : les blocs partagés de la fiche (`CorpsSituation`, `GesteFiche`,
+ * `NoteReplique`, `BoutonsReponse` : rafale, autres fiches, aperçu) gardent leur code ; posé sur le panneau, ce jeu les
+ * ramène à l'échelle de `typo.ts` : 12 -> 14 px, capitales et interlettrage retirés (« La scène », « À toi », « Fait »,
+ * compteur de caractères), gris atténué -> gris secondaire. Une zone d'état vide (`role="status"` sans texte) sort du
+ * flux : elle ajoutait 8 px sous le dernier élément des cartes A et B (32 px de fin de carte au lieu de 24).
+ */
+const ECHELLE_PANNEAU =
+  "[&_.text-xs]:text-sm [&_.uppercase]:normal-case [&_.tracking-wide]:tracking-normal [&_.text-text-muted]:text-text-secondary [&_[role=status]:empty]:absolute";
+
+/**
  * s26 liste et détail, fiche dans le panneau de Quoi répondre (`docs/design/liste-detail-quoi-repondre-s26.md` §3) :
  * carte A (H1 `TITRE_PAGE`, type et durée, accroche, corps sous un filet), carte B (le geste), liens du catalogue sans
  * carte, puis `apres` (« Situation suivante »). Colonne `gap-6`, cartes neutres en `p-6`, aucun `max-w` (le panneau
@@ -216,7 +226,7 @@ export function FicheVuePanneau({
 }) {
   const parent = parente(fiche);
   return (
-    <article className="flex min-w-0 flex-col gap-6" data-fiche-type={fiche.type} data-fiche-panneau={fiche.id}>
+    <article className={cn("flex min-w-0 flex-col gap-6", ECHELLE_PANNEAU)} data-fiche-type={fiche.type} data-fiche-panneau={fiche.id}>
       <div className={cn(CADRE_CARTE_NEUTRE, "p-6")}>
         <h1 id="fiche-titre" tabIndex={-1} className={cn(TITRE_PAGE, "[overflow-wrap:anywhere] focus:outline-none")}>
           {fiche.titre}
@@ -236,7 +246,8 @@ export function FicheVuePanneau({
             {lettre.titre}
           </Link>
         )}
-        <div className="mt-6 border-t border-border pt-6">
+        {/* Tour 1 : blocs du corps à 24 px (spec design §3.1 ; « Ta réponse d'abord » était collé à la citation). */}
+        <div className="mt-6 space-y-6 border-t border-border pt-6">
           <Corps fiche={fiche} />
         </div>
       </div>

@@ -109,7 +109,9 @@ export function HaloPremium() {
  */
 export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse: string; visiteur: boolean }) {
   return (
-    <div className={cn(CARTE_PREMIUM, "p-4 md:p-6")} data-apercu-offre>
+    // s26 liste et détail, tour 1 (spec UX §1) : `data-signal` (posé 600 ms par `SignalOffre`) = contour violet de 2 px,
+    // hors de la bordure, sans mouvement ni aplat.
+    <div className={cn(CARTE_PREMIUM, "p-4 md:p-6 data-[signal]:outline data-[signal]:outline-2 data-[signal]:outline-offset-4 data-[signal]:outline-accent-primary")} data-apercu-offre>
       <HaloPremium />
       {/* s26 tour 2 des encarts (E2) : de 768 à 1023, contenu en ligne (bouton et phrase d'objet à gauche, réassurance et
           « Connexion » à droite) ; ailleurs, les deux groupes sont `display: contents` et la carte reste une colonne. */}
@@ -127,7 +129,9 @@ export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse
           {/* s26 liste et détail (spec design §5.2) : réassurance du visiteur `md:mt-4` -> `mt-2` et « Connexion » `pt-6` -> `pt-4`
               (-16 px), plus de preuve « 1 500+ » dans la carte (retirée des aperçus de l'espace) : le filet de « Connexion »
               est toujours là. */}
-          <Reassurance className={cn(visiteur ? "mt-2" : "mt-6", "md:max-lg:mt-0 md:max-lg:text-left", META)} />
+          {/* Tour 1 (mesures §5 : gratuit, 38 px entre le bas du texte du hero et celui de la carte) : dès 1024, 16 px sous la
+              phrase d'objet au lieu de 24 (-8 px). */}
+          <Reassurance className={cn(visiteur ? "mt-2" : "mt-6 lg:mt-4", "md:max-lg:mt-0 md:max-lg:text-left", META)} />
           {visiteur && (
             // s26 tour 3 (piste 1 de la relecture design du tour 2) : le lien de 44 px centre son texte, d'où 38 px d'air
             // sous le texte contre 24 au-dessus du bouton (1280 ; 30 contre 16 à 375). `-mb-3.5` : la cible garde ses
