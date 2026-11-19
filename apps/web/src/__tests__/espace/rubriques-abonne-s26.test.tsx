@@ -369,8 +369,13 @@ describe("s26, Thomas 18/11 : hero et extrait sur une seule grille 8/4", () => {
     expect([...hero.children].map((e) => classes(e).find((c) => c.startsWith("lg:col-span-")))).toEqual(["lg:col-span-8", "lg:col-span-4"]);
     const rangee1 = [...container.querySelectorAll("[data-apercu-rangee='1'] > *")];
     expect(rangee1.map((e) => classes(e).find((c) => c.startsWith("lg:col-span-")))).toEqual(["lg:col-span-8", "lg:col-span-4"]);
+    // s26 liste et détail, tour 6 : dans Quoi répondre, les rangées passent en `lg:contents` dès 1024 ; la grille
+    // (mêmes 12 colonnes, gouttière de 48 px, 24 px entre rangées) est celle de l'extrait entier (`data-apercu-fiche`).
     for (const r of container.querySelectorAll("[data-apercu-rangee]")) {
-      expect(classes(r)).toEqual(expect.arrayContaining(["lg:grid-cols-12", "lg:gap-x-12", "gap-6"]));
+      const grille = classes(r).includes("lg:contents") ? r.closest("[data-apercu-fiche]")! : r;
+      expect(classes(r)).toEqual(expect.arrayContaining(["gap-6"]));
+      expect(classes(grille)).toEqual(expect.arrayContaining(["lg:grid-cols-12", "lg:gap-x-12"]));
+      if (grille !== r) expect(classes(grille)).toEqual(expect.arrayContaining(["lg:grid", "lg:gap-y-6"]));
     }
   });
 });

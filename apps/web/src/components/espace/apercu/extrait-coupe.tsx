@@ -106,15 +106,20 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
  * 16 recouverts (`lg:-mt-4`), soit 48 px aussi. Le fondu suit le bas de la rangée : il efface les 24 derniers px des
  * tuiles (leur marge basse et leur bord, jamais les barres ni le titre), puis tout l'air est transparent. Sans
  * `entiere` (« Aujourd'hui ») : hauteur fixe et fondu d'avant, rendu inchangé.
+ * s26 liste et détail, tour 6 : `className` en plus (aperçu de Quoi répondre : `lg:contents`, le fondu y passe dès 1024 sur
+ * la grille entière de l'extrait, avec `FONDU_ENTIER_LG`) ; sans lui, rendu inchangé.
  */
-export function SuiteCoupee({ children, entiere = false }: { children: React.ReactNode; entiere?: boolean }) {
+export const FONDU_ENTIER_LG = "lg:pb-16 lg:[mask-image:linear-gradient(to_bottom,black_calc(100%_-_5.5rem),transparent_calc(100%_-_4rem))]";
+
+export function SuiteCoupee({ children, entiere = false, className }: { children: React.ReactNode; entiere?: boolean; className?: string }) {
   return (
     <div
       className={cn(
         "mt-6 overflow-hidden",
         entiere
-          ? "pb-24 [mask-image:linear-gradient(to_bottom,black_calc(100%_-_7.5rem),transparent_calc(100%_-_6rem))] lg:pb-16 lg:[mask-image:linear-gradient(to_bottom,black_calc(100%_-_5.5rem),transparent_calc(100%_-_4rem))]"
+          ? `pb-24 [mask-image:linear-gradient(to_bottom,black_calc(100%_-_7.5rem),transparent_calc(100%_-_6rem))] ${FONDU_ENTIER_LG}`
           : "h-[13.5rem] [mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]",
+        className,
       )}
       data-apercu-suite
     >
