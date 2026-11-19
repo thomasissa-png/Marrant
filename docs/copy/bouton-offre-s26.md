@@ -117,3 +117,10 @@ Libellé substitué dans l'en-tête après hydratation (script `docs/espace-clie
 | 1280 | tient | tient | tient |
 
 Actuel (« Premium · 1,99 €/mois ») : 175 px. Seul « Tout ouvrir » tient à toutes les largeurs sans toucher à l'en-tête. Les deux autres demandent de repousser le repli « Premium » au-delà de 768 px (le bouton complet disparaîtrait alors de 640 à ~800 px). Captures : `docs/captures/s26/bouton-offre/`.
+
+## Verdict de l'orchestrateur (19/11, après 2 relectures à l'aveugle)
+
+- Notes : @growth « Tout ouvrir » 31/40, premier (actuel 25/40) ; @ux actuel 8/10, « Tout ouvrir » 7/10, avec une seule objection forte : le repli « Premium » change de mot selon la largeur.
+- Objection levée par la mesure : le repli « Tout ouvrir » (sans prix) tient de 320 à 639 px (98 px au lieu de 84, air ≥ 21 px à 320, aucun débordement, visiteur et gratuit). Espace ouvert, l'en-tête universel n'a pas de repli de 1 024 à 1 279 : le libellé complet y tient (188 px, aucun débordement).
+- **Retenu : « Tout ouvrir · {prix} », repli « Tout ouvrir »**, nom accessible « Tout ouvrir, 1,99 € par mois : voir l’offre Premium » (commence par le texte visible à toutes les largeurs). Posé DERRIÈRE l'interrupteur : le site fermé garde « Premium · 1,99 €/mois » au caractère près ; visible sur la page de test, puis au lancement. Thomas peut encore l'arrêter en regardant la page de test.
+- Mesure après lancement (@growth) : clics sur le bouton / sessions (Umami), puis taux d'abonnement à 30 jours.
