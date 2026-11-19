@@ -111,16 +111,25 @@ describe("liste légère et ordre", () => {
     expect(ficheParDefaut(coloc, new Set(coloc.map((l) => l.id)))?.id).toBe(coloc[0].id);
     expect(suivanteDe(lignes, coloc[0].id)?.id).toBe(lignes[lignes.indexOf(coloc[0]) + 1].id);
     expect(suivanteDe(lignes, lignes[lignes.length - 1].id)).toBeNull();
-    // s26 liste et détail, tour 4 : « Situation suivante » = prochaine non faite. Fiche faite : la première non faite du
-    // filtre (celle de l'arrivée), même placée avant ; fiche non faite (passée) : la non faite d'après, en reprenant au
-    // début ; tout fait : la règle d'avant.
-    const [a, b, c, d] = coloc;
-    expect(prochaineNonFaite(coloc, c.id, new Set([a.id, c.id]))?.id).toBe(b.id);
-    expect(prochaineNonFaite(coloc, c.id, new Set([a.id, c.id]))?.id).toBe(ficheParDefaut(coloc, new Set([a.id, c.id]))?.id);
-    expect(prochaineNonFaite(coloc, b.id, new Set([a.id, c.id]))?.id).toBe(d.id);
-    expect(prochaineNonFaite(coloc, d.id, new Set([a.id, c.id]))?.id).toBe(b.id);
-    expect(prochaineNonFaite(coloc, a.id, new Set(coloc.map((l) => l.id)))?.id).toBe(b.id);
-    expect(prochaineNonFaite(coloc, coloc[coloc.length - 1].id, new Set(coloc.map((l) => l.id)))).toBeNull();
+    // s26 liste et détail, tour 5 (relecture UX v2 F5) : « Situation suivante » = la prochaine non faite APRÈS la fiche,
+    // faite ou non, en reprenant au début seulement après la dernière ; jamais un retour vers la première non faite tant
+    // qu'il en reste après ; hors filtre : la première non faite ; tout fait : la suivante dans l'ordre (`null` en fin).
+    const [a, b, c, d, e] = ["a", "b", "c", "d", "e"].map((id) => ({ id }));
+    const cinq = [a, b, c, d, e];
+    const faits = new Set([a.id, c.id]);
+    expect(prochaineNonFaite(cinq, c.id, faits)?.id).toBe(d.id);
+    expect(prochaineNonFaite(cinq, c.id, new Set([c.id]))?.id).toBe(d.id);
+    expect(prochaineNonFaite(cinq, b.id, faits)?.id).toBe(d.id);
+    expect(prochaineNonFaite(cinq, d.id, faits)?.id).toBe(e.id);
+    expect(prochaineNonFaite(cinq, e.id, faits)?.id).toBe(b.id);
+    expect(prochaineNonFaite(cinq, d.id, new Set([a.id, c.id, e.id]))?.id).toBe(b.id);
+    expect(prochaineNonFaite(cinq, "hors-filtre", faits)?.id).toBe(b.id);
+    expect(prochaineNonFaite(cinq, b.id, new Set(cinq.map((l) => l.id)))?.id).toBe(c.id);
+    expect(prochaineNonFaite(cinq, e.id, new Set(cinq.map((l) => l.id)))).toBeNull();
+    // Sur la vraie liste : fiche faite au milieu, la non faite d'après, jamais la première.
+    const [p, q, r] = coloc;
+    expect(prochaineNonFaite(coloc, q.id, new Set([q.id]))?.id).toBe(r.id);
+    expect(prochaineNonFaite(coloc, q.id, new Set([q.id]))?.id).not.toBe(p.id);
     expect(queryFiltres({ ou: "coloc", pour: "desamorcer" })).toBe("?ou=coloc&pour=desamorcer");
     expect(queryFiltres({ ou: null, pour: null })).toBe("");
   });

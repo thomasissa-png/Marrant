@@ -118,7 +118,8 @@ describe("Carnet ouvert (s26)", () => {
     page(null);
     const lien = screen.getByRole("link", { name: "Connexion" });
     expect(lien.className.split(" ")).toEqual(expect.arrayContaining(["min-h-11", "min-w-11"]));
-    expect((lien.parentElement!.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["-mb-3.5", "md:max-lg:mb-0"]));
+    // s26 liste et détail, tour 5 : `pb-px` (même hauteur de carte que le gratuit, filet de 1 px compris), sauf de 768 à 1023.
+    expect((lien.parentElement!.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["-mb-3.5", "pb-px", "md:max-lg:mb-0", "md:max-lg:pb-0"]));
   });
 
   // s26 tour 3 : sommaire en liste sous 768 px (tuiles dès 768), numéros du rail à largeur fixe et `py-2` par ligne ;

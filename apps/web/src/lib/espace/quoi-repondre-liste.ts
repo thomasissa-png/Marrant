@@ -63,17 +63,16 @@ export function suivanteDe<L extends { id: string }>(ordre: readonly L[], id: st
 }
 
 /**
- * s26 liste et détail, tour 4 (relecture UX F4 : « Situation suivante » sautait une situation non faite, que la page
- * liste proposait pourtant) : la prochaine situation SANS « Fait » dans l'ordre de la liste filtrée, la fiche exclue.
- * - Fiche faite (ou hors filtre) : la première non faite du filtre, celle que la page liste et le panneau d'office
- *   (`ficheParDefaut`) proposent à l'arrivée ; une situation non faite laissée plus haut n'est plus sautée.
- * - Fiche NON faite (l'abonné la passe) : la première non faite APRÈS elle, en reprenant au début du filtre ; sinon deux
- *   fiches non faites se renverraient l'une à l'autre sans fin.
- * Rien d'autre à faire dans le filtre : la règle d'avant (`suivanteDe`, la suivante dans l'ordre, `null` en fin).
+ * « Situation suivante » : la prochaine situation SANS « Fait » APRÈS la fiche, dans l'ordre de la liste filtrée, en
+ * reprenant au début du filtre seulement après la dernière ; fiche hors filtre : la première non faite.
+ * s26 liste et détail, tour 5 (relecture UX v2 F5 : après la 3e, faite, le bouton menait à la 1re, non faite : un retour
+ * en arrière non annoncé) : le « Fait » de la fiche ouverte ne change plus la règle (tour 4 : fiche faite, la première non
+ * faite du filtre) ; le lien ne bouge plus quand on pose « Fait ». Rien d'autre à faire dans le filtre : la suivante dans
+ * l'ordre (`suivanteDe`, `null` en fin).
  */
 export function prochaineNonFaite<L extends { id: string }>(ordre: readonly L[], id: string, faits: ReadonlySet<string>): L | null {
   const i = ordre.findIndex((l) => l.id === id);
-  const candidates = i < 0 || faits.has(id) ? ordre : [...ordre.slice(i + 1), ...ordre.slice(0, i)];
+  const candidates = i < 0 ? ordre : [...ordre.slice(i + 1), ...ordre.slice(0, i)];
   return candidates.find((l) => l.id !== id && !faits.has(l.id)) ?? suivanteDe(ordre, id);
 }
 

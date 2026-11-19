@@ -13,6 +13,9 @@ import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } f
  * s26 liste et détail, tour 4 : retours en contour à égalité avant clic, « Situation suivante » = prochaine non faite,
  * retour mobile sur la ligne de la fiche quittée (après « Situation suivante »), focus sur l'offre après clic sur une
  * tuile fermée de l'aperçu (contour tenu 1,2 s au moins), « Pour quoi faire ? » sans vide à droite à 1280.
+ * s26 liste et détail, tour 5 : « Situation suivante » = prochaine non faite APRÈS la fiche (reprise au début seulement
+ * après la dernière), même gabarit avant et après « Fait » ; carte d'offre de même hauteur visiteur et gratuit à 1280 ;
+ * « Pour quoi faire ? » à la largeur de ses pastilles (écarts de 8 px).
  */
 const MOT_DE_PASSE = "E2e-liste-detail-s26";
 const LISTE = "/mon-espace/quoi-repondre";
@@ -133,17 +136,39 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
 
       // « Fait » : la ligne passe à « Fait » sans quitter la fiche, « Situation suivante » prend l'aplat.
       const id3 = href3.split("?")[0].split("/").pop()!;
+      // s26 liste et détail, tour 5 (relecture UX v2 F5 : « un seul style ») : seuls le fond et la couleur du bord changent
+      // au « Fait » ; taille du texte, graisse, hauteur, largeur, marges internes et épaisseur du bord restent les mêmes.
+      const gabarit = () =>
+        suivante.evaluate((a) => {
+          const s = getComputedStyle(a);
+          const r = a.getBoundingClientRect();
+          return [s.fontSize, s.fontWeight, s.lineHeight, s.paddingLeft, s.paddingTop, s.borderTopWidth, s.borderRadius, Math.round(r.width), Math.round(r.height)].join("|");
+        });
+      const fondAvant = await suivante.evaluate((a) => getComputedStyle(a).backgroundColor);
+      const gabaritAvant = await gabarit();
       await page.getByRole("button", { name: "Essayé, bof" }).first().click();
       await expect(colonne(page).locator(`a[data-ligne-qr='${id3}'] [data-fait]`)).toBeVisible({ timeout: 15_000 });
       await expect(page.locator(`[data-fiche-panneau='${id3}']`)).toBeVisible();
       // s26 liste et détail, tour 1 : « Situation suivante » prend l'aplat ET est ramenée dans l'écran.
       await expect(suivante).toHaveAttribute("data-plein", "");
       await expect(suivante).toBeInViewport({ ratio: 1, timeout: 2_000 });
-      // s26 liste et détail, tour 4 : « Situation suivante » = la prochaine NON FAITE du filtre, dans l'ordre de la liste
-      // (fiche faite : la première non faite, celle que le panneau propose à l'arrivée).
-      const premiereNonFaite = () =>
-        colonne(page).evaluate((n, courante) => Array.from(n.querySelectorAll<HTMLElement>("a[data-ligne-qr]")).find((a) => a.dataset.ligneQr !== courante && !a.querySelector("[data-fait]"))?.dataset.ligneQr ?? "", id3);
-      await expect.poll(async () => `${await suivante.getAttribute("href")}`).toBe(`${LISTE}/${await premiereNonFaite()}?ou=${lieu}`);
+      expect(await suivante.evaluate((a) => getComputedStyle(a).backgroundColor), "plein après « Fait »").not.toBe(fondAvant);
+      expect(await gabarit(), "même gabarit avant et après « Fait »").toBe(gabaritAvant);
+      // s26 liste et détail, tour 5 (relecture UX v2 F5 : après la 3e, faite, retour à la 1re non faite) : « Situation
+      // suivante » = la prochaine NON FAITE APRÈS la fiche dans l'ordre de la liste, en reprenant au début seulement après
+      // la dernière ; le lien ne change pas au « Fait ».
+      const prochaineApres = () =>
+        colonne(page).evaluate((n, courante) => {
+          const lignes = Array.from(n.querySelectorAll<HTMLElement>("a[data-ligne-qr]"));
+          const i = lignes.findIndex((a) => a.dataset.ligneQr === courante);
+          return [...lignes.slice(i + 1), ...lignes.slice(0, i)].find((a) => !a.querySelector("[data-fait]"))?.dataset.ligneQr ?? "";
+        }, id3);
+      const attendue = await prochaineApres();
+      expect(attendue, "une non faite après la fiche").not.toBe("");
+      await expect.poll(async () => `${await suivante.getAttribute("href")}`).toBe(`${LISTE}/${attendue}?ou=${lieu}`);
+      // La fiche 2 (passée sans « Fait ») est avant la fiche 3 : jamais proposée tant qu'il reste une non faite après.
+      const rangs = await colonne(page).evaluate((n) => Array.from(n.querySelectorAll<HTMLElement>("a[data-ligne-qr]")).map((a) => a.dataset.ligneQr ?? ""));
+      if (rangs.indexOf(id3) < rangs.length - 1) expect(rangs.indexOf(attendue), "suivante après la fiche courante").toBeGreaterThan(rangs.indexOf(id3));
 
       // Retour navigateur : fiche 2, puis le filtre. s26 liste et détail, tour 1 (mesures §2, historique) : le filtre ne
       // remplace plus l'entrée de la fiche 1 quand il la quitte (il en ajoute une) ; s'il la garde, son adresse porte le
@@ -286,16 +311,48 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       });
       expect(vide, `vide de fin ${carte}`).toBeLessThanOrEqual(24);
     }
-    // s26 liste et détail, tour 4 (relecture design D2 : « Pour quoi faire ? » pleine largeur, 350 px vides à droite) :
-    // pastilles réparties sur une ligne, la dernière au bord droit du contenu de la tuile (8 px près).
-    const reparties = await page.locator("[data-apercu-extrait] [data-apercu-filtres-pour]").evaluate((t) => {
-      const lis = Array.from(t.querySelectorAll<HTMLElement>("li"));
+    // s26 liste et détail, tour 5 (relecture design v2 D10 : pastilles du tour 4 étirées, trous de 90 px) : une ligne,
+    // 8 px entre pastilles, tuile à la largeur de son contenu (vide à droite des pastilles <= 8 px, aucun vide > 32 px
+    // dans la tuile), bord gauche de la tuile sur celui de la tuile de dessous.
+    const pour = await page.locator("[data-apercu-extrait] [data-apercu-filtres-pour]").evaluate((t) => {
+      const lis = Array.from(t.querySelectorAll<HTMLElement>("li")).map((l) => l.getBoundingClientRect());
       const s = getComputedStyle(t);
-      const bordDroit = t.getBoundingClientRect().right - parseFloat(s.borderRightWidth) - parseFloat(s.paddingRight);
-      return { lignes: new Set(lis.map((l) => Math.round(l.getBoundingClientRect().top))).size, vide: Math.round(bordDroit - lis[lis.length - 1].getBoundingClientRect().right) };
+      const r = t.getBoundingClientRect();
+      const bordDroit = r.right - parseFloat(s.borderRightWidth) - parseFloat(s.paddingRight);
+      const dessous = t.closest("[data-apercu-rangee]")!.querySelectorAll<HTMLElement>("[data-tuile-fermee]")[1].getBoundingClientRect();
+      return {
+        lignes: new Set(lis.map((l) => Math.round(l.top))).size,
+        ecarts: lis.slice(1).map((l, i) => Math.round(l.left - lis[i].right)),
+        vide: Math.round(bordDroit - lis[lis.length - 1].right),
+        gauche: Math.round(r.left - dessous.left),
+      };
     });
-    expect(reparties.lignes, "pastilles sur une ligne").toBe(1);
-    expect(reparties.vide, "vide à droite des pastilles").toBeLessThanOrEqual(8);
+    expect(pour.lignes, "pastilles sur une ligne").toBe(1);
+    expect(pour.ecarts, "8 px entre pastilles").toEqual(pour.ecarts.map(() => 8));
+    expect(pour.vide, "vide à droite des pastilles").toBeLessThanOrEqual(8);
+    expect(pour.gauche, "calée à gauche sur la tuile de dessous").toBe(0);
+  });
+
+  // s26 liste et détail, tour 5 (relecture design v2 D3 : carte d'offre de 202 px chez le visiteur, 211 chez le gratuit,
+  // le reste de la page descendait de 9 px) : à 1280, même hauteur de carte et même haut de l'extrait pour les deux.
+  test("aperçu (1280) : carte d'offre de même hauteur, visiteur et gratuit", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    const mesure = async () => {
+      await page.goto(LISTE);
+      const carte = page.locator("[data-apercu-hero] [data-apercu-offre]");
+      await expect(carte).toBeVisible();
+      return {
+        carte: await carte.evaluate((c) => Math.round(c.getBoundingClientRect().height)),
+        extrait: await page.locator("[data-apercu-extrait]").evaluate((e) => Math.round(e.getBoundingClientRect().top + window.scrollY)),
+      };
+    };
+    const visiteur = await mesure();
+    const email = `e2e-qr-s26-gratuit-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}@example.com`;
+    await creerCompte(email, MOT_DE_PASSE, "FREE");
+    await connecter(page, email, MOT_DE_PASSE);
+    const gratuit = await mesure();
+    expect(gratuit.carte, `carte d'offre : visiteur ${visiteur.carte}, gratuit ${gratuit.carte}`).toBe(visiteur.carte);
+    expect(gratuit.extrait, "haut de l'extrait").toBe(visiteur.extrait);
   });
 
   // s26 liste et détail, tour 1 (spec UX §1, mesures §7) : visiteur, clic sur une tuile fermée de l'aperçu : contour de la

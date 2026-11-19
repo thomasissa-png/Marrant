@@ -42,7 +42,7 @@ export async function lettreDeFiche(fiche: FicheQuoiRepondre): Promise<{ titre: 
 
 /**
  * Le panneau d'une fiche (spec design §3) : la fiche, puis « Situation suivante » dans l'ordre de la liste filtrée
- * (traverse les lieux ; tour 4 : la prochaine non faite, `prochaineNonFaite`). Dernière du filtre : dès 1024 rien (la liste est à gauche), sous 1024 le lien vers la liste
+ * (traverse les lieux ; tour 5 : la prochaine non faite APRÈS elle, `prochaineNonFaite`). Dernière du filtre : dès 1024 rien (la liste est à gauche), sous 1024 le lien vers la liste
  * avec ses filtres (libellé existant « Retour : Quoi répondre »).
  */
 export async function donneesPanneau({
@@ -61,7 +61,8 @@ export async function donneesPanneau({
   faits: ReadonlySet<string>;
 }) {
   const [retour, replique] = fiche.geste ? await Promise.all([lireRetour(userId, fiche.id), lireReplique(userId, fiche.id)]) : [null, null];
-  // s26 liste et détail, tour 4 : la prochaine NON FAITE du filtre (`faits` couvre toute la liste filtrée).
+  // s26 liste et détail, tour 5 : la prochaine NON FAITE après la fiche, en reprenant au début (`faits` couvre toute la
+  // liste filtrée).
   const suivante = prochaineNonFaite(ordre, fiche.id, faits);
   return { fiche, lettre, filtres, retour, replique, fait: faits.has(fiche.id), hrefSuivante: suivante ? hrefFicheListe(suivante.id, filtres) : null };
 }

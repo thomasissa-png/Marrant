@@ -53,17 +53,15 @@ function PastilleEffectif({ libelle, nombre }: { libelle: string; nombre?: numbe
 }
 
 /**
- * Groupe « Pour quoi faire ? » et ses cinq valeurs, en pastilles inertes.
- * s26 liste et détail, tour 4 (relecture design D2 : tuile pleine largeur dès 1024, pastilles calées à gauche, environ
- * 350 px vides à droite à 1280) : `reparties`, les cinq pastilles réparties sur la largeur de la tuile (la première au
- * bord gauche, sous l'étiquette ; la dernière au bord droit du contenu). Une seule ligne dès 1024 (pastilles 838 px,
- * place 912 à 1024), aucun texte ajouté.
+ * Groupe « Pour quoi faire ? » et ses cinq valeurs, en pastilles inertes (écart de 8 px, comme « Où et avec qui ? »).
+ * s26 liste et détail, tour 5 (relecture design v2 D10 : pastilles du tour 4 réparties en `justify-between`, trous de
+ * 90 px entre elles à 1280) : écarts normaux ; dès 1024, c'est la tuile qui prend la largeur de son contenu (rangée 2).
  */
-function FiltresPour({ className, reparties = false }: { className?: string; reparties?: boolean }) {
+function FiltresPour({ className }: { className?: string }) {
   return (
     <>
       <p className={cn(className, ETIQUETTE)}>{Q.filtrePour}</p>
-      <ul className={cn("mt-2 flex flex-wrap gap-2", reparties && "lg:justify-between")} data-pastilles-reparties={reparties ? "" : undefined}>
+      <ul className="mt-2 flex flex-wrap gap-2">
         {Object.entries(Q.pourQuoiFaire).map(([cle, libelle]) => (
           <PastilleEffectif key={cle} libelle={libelle} />
         ))}
@@ -126,9 +124,13 @@ function ExtraitQuoiRepondre() {
               sur toute la largeur (en 4/12, 211 px de place : deux titres sur deux lignes, un sur une) ; dès 1280, 4/4/4
               (une ligne chacun). Extrait inerte et masqué aux lecteurs d'écran : l'ordre visuel ne change rien à la
               lecture. */}
-          <TuileFermee className="hidden lg:col-span-12 lg:block">
+          {/* s26 liste et détail, tour 5 (relecture design v2 D10) : dès 1024, la tuile à la largeur de son contenu (une
+              ligne de pastilles), calée à gauche sur le bord des tuiles de dessous : plus aucun vide dans la tuile. Choisi
+              contre une autre composition (pastilles en 8 à côté d'une tuile en 4) : à 1280, 795 px de place pour 838 px de
+              pastilles, donc deux lignes et un trou en fin de la première. L'air reste hors du cadre, à droite. */}
+          <TuileFermee className="hidden lg:col-span-12 lg:block lg:w-fit lg:justify-self-start">
             <div className={TUILE} data-apercu-filtres-pour>
-              <FiltresPour reparties />
+              <FiltresPour />
             </div>
           </TuileFermee>
           <TuileFermee className="lg:col-span-6 xl:col-span-4">

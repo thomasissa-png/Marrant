@@ -82,14 +82,16 @@ describe("point 4 : prospect à 375, première tuile au premier écran", () => {
 });
 
 describe("point 5 : pistes", () => {
-  it("gratuit : phrase d'objet à 8 px du bouton (16 dès 768), réassurance 24 px dessous", () => {
+  // s26 liste et détail, tour 5 (relecture design v2 D3 : carte du gratuit plus haute que celle du visiteur) : phrase
+  // d'objet à 8 px du bouton et réassurance à 16 px dessous, à toutes les largeurs (les 16 et 24 d'avant n'ont plus cours).
+  it("gratuit : phrase d'objet à 8 px du bouton, réassurance 16 px dessous, à toutes les largeurs", () => {
     const { container } = render(<OffreApercu href="/abonnement" adresse="/mon-espace" visiteur={false} />);
     const reassurance = container.querySelector("[data-reassurance]");
     // s26 tour 2 des encarts (E2) : la phrase d'objet suit le bouton dans le groupe de gauche (en ligne de 768 à 1023).
     const objet = container.querySelector("[data-offre-gauche] > p");
-    expect(classes(objet)).toEqual(expect.arrayContaining(["mt-2", "md:mt-4"]));
-    expect(classes(reassurance)).toContain("mt-6");
-    expect(classes(reassurance)).not.toContain("mt-4");
+    expect(classes(objet)).toContain("mt-2");
+    expect(classes(objet).filter((c) => /(^|:)mt-/.test(c))).toEqual(["mt-2"]);
+    expect(classes(reassurance).filter((c) => /(^|:)mt-/.test(c))).toEqual(["mt-4", "md:max-lg:mt-0"]);
   });
 
   it("« Semaine n : » en colonne : grille à 2 colonnes, chaque ligne en `subgrid`", () => {

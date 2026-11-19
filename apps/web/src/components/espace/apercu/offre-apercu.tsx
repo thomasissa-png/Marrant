@@ -100,7 +100,8 @@ export function HaloPremium() {
  * v7 tour 8 : sous 768 px, carte resserrée (`p-4`, preuve à 16 px au lieu de 24) pour que la première tuile de
  * l'extrait tienne au premier écran à 375 ; le premier paragraphe à 8 px du bouton (comme `Reassurance` sous tout
  * plein à prix), 16 dès 768. Inscrit gratuit : la phrase d'objet et la réassurance, qui commencent toutes deux par
- * « Premium », sont séparées de 24 px, la phrase d'objet restant collée au bouton qu'elle explique.
+ * « Premium », sont séparées de 24 px (16 à toutes les largeurs depuis s26 liste et détail, tour 5), la phrase d'objet
+ * restant collée au bouton qu'elle explique.
  * v7 tour 9 et 11 : `preuveHors` (le hero) masque la preuve de la carte sous 768 et dès 1024 px (le hero la rend).
  * s26 tour 2 des encarts (E2, relecture design du tour 1 : à 768, carte de 268 px, réassurance sur 3 lignes, 122 px vides
  * à gauche) : de 768 à 1023, la carte est en pleine largeur SOUS le texte du hero, contenu en ligne ; `preuveHors` la
@@ -132,7 +133,13 @@ export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse
           {/* s26 liste et détail, tour 2 (mesures A1 #11 : gratuit à 1024, 34 px entre le bas du texte du hero et celui de
               la carte, la plus étroite) : de 1024 à 1279, la phrase d'objet à 8 px du bouton (comme sous 768 et comme la
               réassurance du visiteur) au lieu de 16 (-8 px). 1280 et 1920 inchangés. */}
-          {!visiteur && <p className={cn("mt-2 text-center md:mt-4 md:max-lg:text-left lg:max-xl:mt-2", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
+          {/* s26 liste et détail, tour 5 (relecture design v2 D3 : carte de 202 px chez le visiteur, 211 chez le gratuit à
+              1280, tout l'extrait descendait de 9 px ; 9 à 375, 20 de 768 à 1023) : même hauteur, sans texte nouveau. Le
+              pied du visiteur (« Connexion » sous son filet) fait 64 px avec la marge de sa réassurance ; le gratuit, phrase
+              d'objet sur deux lignes à 8 px du bouton (partout, plus de `md:mt-4`) et réassurance à 16 px dessous (partout,
+              comme dès 1024 : plus de 24 sous 1024), aussi : 8 + 40 + 16. Phrase d'objet sur trois lignes (de 1024 à
+              environ 1130 px et sous environ 340) : 20 px de plus chez le gratuit, écart restant. */}
+          {!visiteur && <p className={cn("mt-2 text-center md:max-lg:text-left", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
         </div>
         <div className="contents md:max-lg:block md:max-lg:flex-1" data-offre-droite>
           {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}
@@ -141,13 +148,16 @@ export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse
               est toujours là. */}
           {/* Tour 1 (mesures §5 : gratuit, 38 px entre le bas du texte du hero et celui de la carte) : dès 1024, 16 px sous la
               phrase d'objet au lieu de 24 (-8 px). */}
-          <Reassurance className={cn(visiteur ? "mt-2" : "mt-6 lg:mt-4", "md:max-lg:mt-0 md:max-lg:text-left", META)} />
+          <Reassurance className={cn(visiteur ? "mt-2" : "mt-4", "md:max-lg:mt-0 md:max-lg:text-left", META)} />
           {visiteur && (
             // s26 tour 3 (piste 1 de la relecture design du tour 2) : le lien de 44 px centre son texte, d'où 38 px d'air
             // sous le texte contre 24 au-dessus du bouton (1280 ; 30 contre 16 à 375). `-mb-3.5` : la cible garde ses
             // 44 px et descend de 14 px dans la marge de la carte, l'air sous le texte égale celui du haut. De 768 à 1023
             // (contenu en ligne, centré), rien ne change.
-            <div className="-mb-3.5 mt-auto pt-4 md:max-lg:mb-0 md:max-lg:pt-0">
+            // s26 liste et détail, tour 5 (même hauteur que le gratuit, voir la phrase d'objet) : `pb-px`, le filet de 1 px
+            // rendait le pied impair (8 + 16 + 1 + 8 + 44 + 1 - 14 = 64, comme 8 + 40 + 16 chez le gratuit) ; de 768 à
+            // 1023, « Connexion » à 12 px sous la réassurance (84 + 12 = 96, la colonne gauche du gratuit : 48 + 8 + 40).
+            <div className="-mb-3.5 mt-auto pb-px pt-4 md:max-lg:mb-0 md:max-lg:pb-0 md:max-lg:pt-3">
               <p className="flex justify-center border-t border-border pt-2 md:max-lg:justify-start md:max-lg:border-t-0 md:max-lg:pt-0">
                 {/* v7 tour 2 (piste) : cible de 44 px en hauteur ET en largeur, posée ici (ne dépend pas seulement de `LIEN`). */}
                 <Link href={buildLoginUrl({ callbackUrl: adresse })} className={cn(LIEN, "inline-flex min-h-11 min-w-11 items-center justify-center text-text-secondary")}>

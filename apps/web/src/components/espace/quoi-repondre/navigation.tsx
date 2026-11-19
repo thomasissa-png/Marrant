@@ -7,8 +7,7 @@ import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { CLE_DEPUIS_LISTE, CLE_FICHE_QUITTEE } from "@/lib/espace/quoi-repondre-liste";
 import { useFaitsQuoiRepondre } from "@/components/espace/quoi-repondre/faits-contexte";
 import { LienRetour } from "@/components/espace/lien-retour";
-import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
-import { buttonVariants } from "@/components/ui/button";
+import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
@@ -30,10 +29,16 @@ const ecrire = (cle: string, valeur: string | null) => {
   }
 };
 
+const GABARIT_SUIVANTE = "min-h-12 w-full whitespace-normal px-6 sm:w-auto sm:self-start";
+
 /**
  * « Situation suivante » (texte À VALIDER, s26), dernier élément du panneau : contour tant que la fiche n'est pas
  * « Fait », plein après (le geste perd alors son aplat : un seul plein à l'écran). Une entrée d'historique (`push`) ;
  * dès 1024 la page garde son défilement et le focus passe au titre de la fiche suivante.
+ * s26 liste et détail, tour 5 (relecture UX v2 F5 : « un seul style ») : le passage contour -> plein est le SEUL changement
+ * visible. Avant, le plein était `buttonVariants` lg (16 px, `px-6`, sans bord) et le contour `BOUTON_SECONDAIRE` (14 px,
+ * `px-3`, bord de 1 px) : taille du texte et largeur changeaient au « Fait ». Même gabarit (`GABARIT_SUIVANTE`) : 14 px,
+ * 48 px de haut, `px-6`, bord de 1 px (transparent en plein).
  */
 export function SituationSuivante({ ficheId, href, faitInitial }: { ficheId: string; href: string; faitInitial: boolean }) {
   const faits = useFaitsQuoiRepondre();
@@ -60,7 +65,7 @@ export function SituationSuivante({ ficheId, href, faitInitial }: { ficheId: str
       href={href}
       prefetch={false}
       onClick={() => faits?.demanderFocus()}
-      className={cn(fait ? buttonVariants({ variant: "primary", size: "lg" }) : cn(BOUTON_SECONDAIRE, "min-h-12"), "w-full whitespace-normal sm:w-auto sm:self-start")}
+      className={cn(fait ? cn(BOUTON_PRINCIPAL, "border border-transparent") : BOUTON_SECONDAIRE, GABARIT_SUIVANTE)}
       data-situation-suivante
       data-plein={fait ? "" : undefined}
     >
