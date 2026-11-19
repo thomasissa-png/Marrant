@@ -202,9 +202,11 @@ describe("points 4, 5 et 6 : /profil", () => {
     render(<ProfilDashboard />);
     await act(async () => undefined);
     expect(CIBLE_44_MD).toBe("md:h-11");
-    for (const nom of ["Voir tout", "Découvrir les parcours", "Supprimer mon compte", "Enregistrer"]) {
+    for (const nom of ["Voir tout", "Découvrir les parcours", "Enregistrer"]) {
       expect(classes(bouton(nom))).toContain("md:h-11");
     }
+    // s26 tour 3 (point 12) : « Supprimer mon compte » en 44 px à toutes les largeurs (`h-11`), contour rouge de 1 px.
+    expect(classes(bouton("Supprimer mon compte"))).toEqual(expect.arrayContaining(["h-11", "border", "border-error"]));
   });
 
   it("fermé : boutons d'avant (32 px dès 768), ligne de question absente, encadré d'avant", async () => {
@@ -226,16 +228,21 @@ describe("points 4, 5 et 6 : /profil", () => {
 });
 
 describe("points 5 et 6 : carte « Supprimer mon compte »", () => {
-  it("ouvert : texte à gauche en `max-w-prose`, action à droite dès `lg` ; formulaire en 44 px", () => {
+  // s26 tour 3 (point 12) : plus de `lg:justify-between` (355 à 380 px vides au milieu dès 1024) : l'action passe sous le
+  // texte, alignée à gauche, en contour rouge de 1 px et 44 px ; texte et comportement inchangés.
+  it("ouvert : texte en `max-w-prose`, action dessous alignée à gauche, en contour rouge ; formulaire en 44 px", () => {
     ouvrir(true);
     const { container } = render(<SupprimerCompteCard abonne finPeriode="2026-12-09T09:00:00.000Z" />);
     const contenu = container.querySelector("[data-suppression-colonnes]") as HTMLElement;
     expect(contenu.className).toBe(SUPPRESSION_CONTENU_OUVERT);
-    expect(classes(contenu)).toEqual(expect.arrayContaining(["lg:flex", "lg:items-center", "lg:justify-between", "lg:gap-8"]));
+    expect(classes(contenu)).toEqual(expect.arrayContaining(["flex", "flex-col", "items-start"]));
+    expect(contenu.className).not.toMatch(/justify-between|lg:flex/);
     const [texte, action] = [...contenu.children] as HTMLElement[];
     expect(texte.className).toBe("max-w-prose");
     expect(within(texte).getByRole("note")).toBeInTheDocument();
-    expect(within(action).getByRole("button", { name: "Supprimer mon compte" })).toBeInTheDocument();
+    const supprimer = within(action).getByRole("button", { name: "Supprimer mon compte" });
+    expect(classes(supprimer)).toEqual(expect.arrayContaining(["h-11", "border", "border-error", "text-error-text"]));
+    expect(classes(supprimer)).not.toContain("-ml-3");
     fireEvent.click(within(action).getByRole("button", { name: "Supprimer mon compte" }));
     for (const nom of ["Supprimer définitivement", "Annuler"]) expect(classes(screen.getByRole("button", { name: nom }))).toContain("md:h-11");
     expect(within(action).getByRole("textbox")).toBeInTheDocument();

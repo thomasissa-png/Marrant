@@ -193,7 +193,9 @@ export function LettreInscription({
           action="/api/newsletter"
           onSubmit={soumettre}
           // Revue visuelle s21 (décision 3) : formulaire déplié en colonne centrée de 448 px dans le bloc centré.
-          className={repliee ? "mx-auto mt-1 w-full max-w-md text-left" : echelleEspace ? "mt-4" : "mt-3"}
+          // s26 tour 3 (point 13, /lettre ouvert) : sans titre dans la carte (`titreId`, titre de la page), le formulaire
+          // ouvre la carte : plus de `mt-4`, marge haute = marge basse (42 contre 26 px au DOM au tour 2).
+          className={repliee ? "mx-auto mt-1 w-full max-w-md text-left" : echelleEspace ? (titreId ? undefined : "mt-4") : "mt-3"}
         >
           <input type="hidden" name="emplacement" value={emplacement} />
           {slug && <input type="hidden" name="slug" value={slug} />}

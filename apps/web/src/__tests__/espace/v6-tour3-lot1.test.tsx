@@ -22,7 +22,7 @@ jest.mock("next-auth", () => ({ getServerSession: jest.fn() }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 
-import { CARTE, EN_TETE_CENTRE, LIEN, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CARTE, EN_TETE_CENTRE, LIEN, LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { ApercuRubrique } from "@/components/espace/apercu/apercu-rubrique";
 import { categoriesQuoiRepondre, ficheApercu } from "@/components/espace/apercu/exemples";
 import { CorpsSituation } from "@/components/espace/fiche/corps-situation";
@@ -122,31 +122,56 @@ describe("point 2 : S'entraîner, aucun trou dans une carte ni à côté (colonn
 describe("point 3 (s26) : Mes répliques, grille 4/4/4, état vide 8/4", () => {
   const r = { ficheId: "f1", texte: "Ma réplique", titre: null, href: null, modifieLe: "2026-11-15" };
 
-  it("page : grille `md:grid-cols-2 lg:grid-cols-3`, cartes de même hauteur, compteur et lien d'écriture à droite du titre", () => {
-    render(<ListeRepliques initiales={[r, { ...r, ficheId: "f2" }]} lectureSeule={false} grille />);
+  // s26 tour 3 (point 8) : 3 répliques et plus, grille 4/4/4 et lien dans l'en-tête ; compteur collé au titre.
+  it("page, 3 répliques : grille `md:grid-cols-2 lg:grid-cols-3`, cartes de même hauteur, compteur collé au titre, lien dans l'en-tête", () => {
+    render(<ListeRepliques initiales={[r, { ...r, ficheId: "f2" }, { ...r, ficheId: "f3" }]} lectureSeule={false} grille />);
     const ul = screen.getByRole("list");
     expect(classes(ul)).toEqual(expect.arrayContaining(["grid", "md:grid-cols-2", "lg:grid-cols-3"]));
     expect(classes(ul.querySelector("li"))).toEqual(expect.arrayContaining(["flex", "flex-col", "h-full"]));
-    expect(document.querySelector("[data-compteur-repliques]")?.textContent).toBe("2");
-    expect(screen.getByRole("link", { name: "Écrire ma prochaine réplique" })).toHaveAttribute("href", "/mon-espace/quoi-repondre");
+    const compteur = document.querySelector("[data-compteur-repliques]") as HTMLElement;
+    expect(compteur.textContent).toBe("3");
+    expect(compteur.previousElementSibling?.tagName).toBe("H1");
+    expect(classes(compteur.parentElement)).toEqual(expect.arrayContaining(["justify-start", "gap-4"]));
+    const lien = screen.getByRole("link", { name: "Écrire ma prochaine réplique" });
+    expect(lien).toHaveAttribute("href", "/mon-espace/quoi-repondre");
+    expect(classes(lien)).not.toContain("lg:hidden");
+    expect(document.querySelector("[data-repliques-tuile]")).toBeNull();
   });
 
-  it("page, une seule réplique : la même grille (jamais une colonne centrée)", () => {
-    render(<ListeRepliques initiales={[r]} lectureSeule={false} grille />);
-    expect(classes(screen.getByRole("list"))).not.toContain("mx-auto");
-    expect(classes(screen.getByRole("list"))).toContain("lg:grid-cols-3");
+  // s26 tour 3 (point 8) : une ou deux répliques, dès 1024 cartes en 8 colonnes et tuile neutre de 4 avec le lien existant
+  // en bouton secondaire ; le lien de l'en-tête est masqué dès 1024 (toujours là dessous).
+  it.each([1, 2])("page, %i réplique(s) : cartes en 8, tuile du lien en 4 (bouton secondaire)", (n) => {
+    render(<ListeRepliques initiales={Array.from({ length: n }, (_, i) => ({ ...r, ficheId: `f${i}` }))} lectureSeule={false} grille />);
+    const ul = screen.getByRole("list");
+    expect(classes(ul)).not.toContain("mx-auto");
+    expect(classes(ul)).toEqual(expect.arrayContaining(["lg:col-span-8", n === 2 ? "lg:grid-cols-2" : "lg:grid-cols-1"]));
+    expect(classes(ul.parentElement)).toEqual(expect.arrayContaining(["lg:grid", "lg:grid-cols-12"]));
+    const tuile = document.querySelector("[data-repliques-tuile]") as HTMLElement;
+    expect(classes(tuile)).toEqual(expect.arrayContaining(["hidden", "lg:flex", "lg:col-span-4"]));
+    const liens = screen.getAllByRole("link", { name: "Écrire ma prochaine réplique" });
+    expect(liens).toHaveLength(2);
+    expect(classes(liens[0])).toContain("lg:hidden");
+    expect(tuile.contains(liens[1])).toBe(true);
+    expect(liens[1].className).toBe(BOUTON_SECONDAIRE);
   });
 
-  // s26 tour 2 (R1) : plus de tuile de droite creuse ; le lien « Quoi répondre » est dans la tuile d'action, pleine largeur.
-  it("page, sans réplique : tuile d'action pleine largeur (seul aplat), lien « Quoi répondre » dans la tuile", () => {
+  // s26 tour 2 (R1) : sous 1024, le lien « Quoi répondre » est dans la tuile d'action. s26 tour 3 (point 9) : dès 1024,
+  // tuile d'action en 8 colonnes, le lien passe dans une tuile neutre de 4 en bouton secondaire.
+  it("page, sans réplique : tuile d'action en 8 (seul aplat), lien « Quoi répondre » dans une tuile de 4 dès 1024", () => {
     render(<ListeRepliques initiales={[]} lectureSeule={false} grille />);
     const vide = screen.getByTestId("repliques-vide");
-    expect(classes(vide)).not.toContain("lg:col-span-8");
+    expect(classes(vide)).toContain("lg:col-span-8");
     expect(classes(vide)).not.toContain("mx-auto");
     const rappel = document.querySelector("[data-repliques-rappel]") as HTMLElement;
     expect(rappel.tagName).toBe("A");
     expect(vide.contains(rappel)).toBe(true);
+    expect(classes(rappel)).toContain("lg:hidden");
     expect(vide.querySelectorAll("a")).toHaveLength(2);
+    const tuile = document.querySelector("[data-repliques-tuile]") as HTMLElement;
+    expect(classes(tuile)).toEqual(expect.arrayContaining(["hidden", "lg:flex", "lg:col-span-4"]));
+    const lienTuile = tuile.querySelector("a") as HTMLElement;
+    expect(lienTuile.className).toBe(BOUTON_SECONDAIRE);
+    expect(lienTuile.textContent).toBe(rappel.textContent);
   });
 
   it("profil (lecture seule, sans `grille`) : le rendu d'avant", () => {

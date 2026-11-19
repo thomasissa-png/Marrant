@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
@@ -38,6 +38,17 @@ type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
  * « Supprimer » en liens gris au bas de la carte. Vide : tuile d'action pleine largeur (seul aplat), lien « Quoi répondre » dessous (s26 tour 2).
  */
 const GRILLE_REPLIQUES = "mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3";
+/**
+ * s26 tour 3 (points 8 et 9) : dès 1024, une ou deux répliques (ou aucune) n'occupent plus seules une grille de trois
+ * colonnes : cartes (ou tuile d'action) dans 8 colonnes, et dans 4 colonnes une tuile neutre qui porte le lien existant
+ * vers « Quoi répondre » en bouton secondaire (contour, 44 px). Sous 1024, rien ne change (le lien reste à sa place).
+ */
+const GRILLE_8_4 = "lg:grid lg:grid-cols-12 lg:gap-6";
+const TUILE_LIEN = cn(CADRE_CARTE_NEUTRE, "hidden p-6 lg:col-span-4 lg:flex lg:flex-col lg:items-start");
+/** Grille 8/4 autour de la liste quand elle est active ; sinon la liste seule, sans élément ajouté (rendu d'avant). */
+function Enveloppe({ actif, children }: { actif: boolean; children: ReactNode }) {
+  return actif ? <div className={cn("lg:mt-8", GRILLE_8_4)}>{children}</div> : <>{children}</>;
+}
 const CARTE_GRILLE = cn(CADRE_CARTE_NEUTRE, "flex h-full min-w-0 flex-col p-6 [overflow-wrap:anywhere]");
 const ACTION_GRILLE = cn(LIEN_NEUTRE, "bg-transparent");
 export function ListeRepliques({
@@ -55,6 +66,8 @@ export function ListeRepliques({
   const [statut, setStatut] = useState("");
   const [occupe, setOccupe] = useState(false);
   const annuler = useRef<HTMLButtonElement>(null);
+  // s26 tour 3 (point 8) : une ou deux répliques sur la page « Mes répliques » : cartes en 8, tuile du lien en 4 (≥ 1024).
+  const peu = grille && !lectureSeule && liste.length > 0 && liste.length <= 2;
 
   const enregistrer = async (ficheId: string) => {
     if (occupe || brouillon.trim() === "") return;
@@ -90,19 +103,29 @@ export function ListeRepliques({
         <h1 id="h-repliques" className={TITRE_PAGE}>
           {R.titre}
         </h1>
-        {/* s26 tour 2 (R1) : plus de tuile de droite creuse (un lien seul, 389 x 94 px au tour 1) : le lien « Quoi
-            répondre » passe dans la tuile d'action, sous le bouton, et la tuile prend la largeur de la page. */}
-        <div className={cn(CARTE_ACTION, "mt-8")} data-testid="repliques-vide">
-          <p className={TEXTE}>{R.vide}</p>
+        {/* s26 tour 2 (R1) : sous 1024, le lien « Quoi répondre » est dans la tuile d'action, sous le bouton, et la tuile
+            prend la largeur de la page. s26 tour 3 (point 9) : dès 1024, tuile d'action en 8 colonnes et le même lien
+            dans une tuile neutre de 4, en bouton secondaire (contour, 44 px) ; la copie de la tuile d'action est masquée. */}
+        <div className={cn("mt-8", !lectureSeule && GRILLE_8_4)}>
+          <div className={cn(CARTE_ACTION, !lectureSeule && "lg:col-span-8")} data-testid="repliques-vide">
+            <p className={TEXTE}>{R.vide}</p>
+            {!lectureSeule && (
+              <>
+                <Link href={QUOI_REPONDRE} className={cn(buttonVariants({ size: "lg" }), "mt-4 w-full whitespace-normal md:w-auto md:self-start")}>
+                  {R.ecrirePremiere}
+                </Link>
+                <Link href={QUOI_REPONDRE} className={cn("mt-2 self-start lg:hidden", LIEN_NEUTRE)} data-repliques-rappel>
+                  {N.index.quoiRepondre}
+                </Link>
+              </>
+            )}
+          </div>
           {!lectureSeule && (
-            <>
-              <Link href={QUOI_REPONDRE} className={cn(buttonVariants({ size: "lg" }), "mt-4 w-full whitespace-normal md:w-auto md:self-start")}>
-                {R.ecrirePremiere}
-              </Link>
-              <Link href={QUOI_REPONDRE} className={cn("mt-2 self-start", LIEN_NEUTRE)} data-repliques-rappel>
+            <div className={TUILE_LIEN} data-repliques-tuile="">
+              <Link href={QUOI_REPONDRE} className={BOUTON_SECONDAIRE} data-repliques-rappel-tuile>
                 {N.index.quoiRepondre}
               </Link>
-            </>
+            </div>
           )}
         </div>
         <p role="status" className={cn("mt-4", META)}>
@@ -115,20 +138,20 @@ export function ListeRepliques({
   return (
     <section aria-label={grille ? undefined : R.titre} aria-labelledby={grille ? "h-repliques" : undefined} className={grille ? undefined : "space-y-3"}>
       {grille && (
-        <header className="flex flex-wrap items-baseline justify-between gap-4">
+        // s26 tour 3 (point 8) : compteur collé au titre (`justify-start gap-4`) ; le lien d'écriture reste à droite de
+        // l'en-tête (`ml-auto`), masqué dès 1024 quand il passe dans la tuile de 4 colonnes (une ou deux répliques).
+        <header className="flex flex-wrap items-baseline justify-start gap-4">
           <h1 id="h-repliques" className={TITRE_PAGE}>
             {R.titre}
           </h1>
-          <div className="flex flex-wrap items-baseline gap-x-6">
-            {!lectureSeule && (
-              <Link href={QUOI_REPONDRE} className={LIEN_NEUTRE} data-repliques-ecrire>
-                {R.ecrireProchaine}
-              </Link>
-            )}
-            <p className={cn("tabular-nums", META)} data-compteur-repliques>
-              {liste.length}
-            </p>
-          </div>
+          <p className={cn("tabular-nums", META)} data-compteur-repliques>
+            {liste.length}
+          </p>
+          {!lectureSeule && (
+            <Link href={QUOI_REPONDRE} className={cn(LIEN_NEUTRE, "ml-auto", peu && "lg:hidden")} data-repliques-ecrire>
+              {R.ecrireProchaine}
+            </Link>
+          )}
         </header>
       )}
       {lectureSeule && <p className="text-sm text-text-secondary">{R.lectureSeule}</p>}
@@ -144,7 +167,8 @@ export function ListeRepliques({
           )}
         </div>
       ) : (
-        <ul className={grille ? GRILLE_REPLIQUES : "flex flex-col gap-3"}>
+        <Enveloppe actif={peu}>
+        <ul className={grille ? cn(GRILLE_REPLIQUES, peu && (liste.length === 2 ? "lg:col-span-8 lg:mt-0 lg:grid-cols-2" : "lg:col-span-8 lg:mt-0 lg:grid-cols-1")) : "flex flex-col gap-3"}>
           {liste.map((r) => {
             const enEdition = mode?.ficheId === r.ficheId && mode.quoi === "modifier";
             const enConfirmation = mode?.ficheId === r.ficheId && mode.quoi === "confirmer";
@@ -254,6 +278,14 @@ export function ListeRepliques({
             );
           })}
         </ul>
+        {peu && (
+          <div className={TUILE_LIEN} data-repliques-tuile="">
+            <Link href={QUOI_REPONDRE} className={BOUTON_SECONDAIRE} data-repliques-ecrire-tuile>
+              {R.ecrireProchaine}
+            </Link>
+          </div>
+        )}
+        </Enveloppe>
       )}
       <p role="status" className={grille ? cn("mt-4", META) : "text-sm text-text-secondary"}>
         {statut}

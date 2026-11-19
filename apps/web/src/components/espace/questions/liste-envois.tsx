@@ -62,7 +62,9 @@ export function ListeEnvois({
       {envois.length === 0 ? (
         <EtatVideQuestions className={cn(CADRE_CARTE_NEUTRE, "p-6")} />
       ) : (
-        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-1">
+        // s26 tour 3 (point 6) : deux colonnes de 768 à 1023 seulement à partir de 2 envois (un seul envoi laissait une
+        // demi-rangée vide à 768).
+        <ul className={cn("grid grid-cols-1 gap-6", envois.length >= 2 && "md:grid-cols-2 lg:grid-cols-1")}>
           {envois.map((e) =>
             "retire" in e ? (
               <EnvoiRetire key={e.id} />

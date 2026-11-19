@@ -93,16 +93,20 @@ const PUNCHLINE_TEASERS = [
  * capitales, trois colonnes dès 1024 px ; pastille active de la rangée sans aplat violet (le seul aplat de l'écran
  * reste le bouton d'offre).
  */
-// s26 tour 2 (P1) : `items-start`, chaque carte à sa hauteur propre (au tour 1, une amorce courte voisine d'une amorce de
-// 6 lignes laissait 97 à 130 px vides entre le texte et « Révéler la chute »).
-const GRILLE_OUVERTE = "grid items-start gap-6 md:grid-cols-2 lg:grid-cols-3";
+// s26 tour 2 (P1) : plus de pied poussé en bas (au tour 1, une amorce courte voisine d'une amorce de 6 lignes laissait
+// 97 à 130 px vides entre le texte et « Révéler la chute »). s26 tour 3 (point 1) : `items-stretch` sans `mt-auto`, les
+// cartes d'une rangée ont la même hauteur, le contenu reste en haut et le vide passe en FIN de carte (bas alignés).
+const GRILLE_OUVERTE = "grid items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3";
 const PASTILLE_ACTIVE_OUVERTE = cn("border-text-primary bg-background-elevated", META_FORT);
 const PASTILLE_INACTIVE_OUVERTE = cn("border-border-input bg-transparent hover:border-border-hover hover:bg-background-elevated", META);
 const LIEN_NEUTRE_OUVERT = "text-text-primary underline underline-offset-2 hover:text-text-secondary";
-/** Une dernière vanne seule sur sa rangée la prend entière : 2 colonnes de 768 à 1023 px, 3 colonnes dès 1024 px. */
+/**
+ * Une dernière vanne seule sur sa rangée la prend entière de 768 à 1023 px (2 colonnes). s26 tour 3 (point 5) : dès
+ * 1024 px, elle garde 1/3 (plus de `lg:col-span-3` : amorce d'une ligne sur 1 218 px, 70 % de tuile vide au tour 2).
+ */
 function derniereSeule(nombre: number, index: number): string {
   if (index !== nombre - 1) return "";
-  return cn(nombre % 2 === 1 && "md:max-lg:col-span-2", nombre % 3 === 1 && "lg:col-span-3");
+  return cn(nombre % 2 === 1 && "md:max-lg:col-span-2");
 }
 
 interface VannesListProps {

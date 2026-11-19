@@ -37,6 +37,14 @@ export const CADRE_CARTE = `relative overflow-hidden rounded-xl border border-bo
 export const CADRE_CARTE_NEUTRE = "relative overflow-hidden rounded-xl border border-border bg-background-card";
 
 /**
+ * « Ton cap » (`TonCap`, partagé) en NEUTRE : points, flamme et filet en gris comme les segments d'« Aujourd'hui » ; le
+ * seul fond violet de l'écran reste le bouton plein. Posé sur un conteneur de la carte ou sur la carte elle-même (Mon
+ * profil, s26 tour 2 ; rail de « Parcours » de l'abonné, s26 tour 3, point 4).
+ */
+export const NEUTRE_CAP =
+  "[&_.bg-accent-primary]:bg-text-secondary [&_.border-accent-primary]:border-text-secondary [&_.text-accent-primary-hover]:text-text-secondary [&_[aria-labelledby=ton-cap-titre]]:before:hidden";
+
+/**
  * s26 (vue abonné de « Quoi répondre », « Bibliothèque », « S'entraîner » ; `docs/design/rubriques-abonne-s26.md` §0) :
  * cadre des cartes de LISTE de ces trois pages (tuiles par lieu, blocs de la Bibliothèque et coin, cartes repliées de
  * la rafale, mission). [ARBITRAGE À CONFIRMER PAR THOMAS] filet violet retiré (« un seul accent violet, le bouton

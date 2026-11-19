@@ -61,7 +61,8 @@ describe("piste : hero 60/40 dès 768", () => {
     expect(classes(texte)).toEqual(expect.arrayContaining(["lg:col-span-8"]));
     expect(classes(offre)).toEqual(expect.arrayContaining(["lg:col-span-4"]));
     const ligne = classes(offre.querySelector("[data-apercu-offre] > div:not([data-halo-premium])"));
-    expect(ligne).toEqual(expect.arrayContaining(["md:max-lg:flex-row", "md:max-lg:items-center"]));
+    // s26 tour 3 (point 6) : de 768 à 1023, les deux groupes alignés en haut, texte à gauche.
+    expect(ligne).toEqual(expect.arrayContaining(["md:max-lg:flex-row", "md:max-lg:items-start", "md:max-lg:text-left"]));
     expect(offre.querySelector("[data-apercu-offre]")).not.toBeNull();
     // v7 tour 8 (point 3, décision de l'orchestrateur) : retour à la ligne libre à écart constant (8 px) à toutes les
     // largeurs, plus aucune grille (les colonnes laissaient des trous inégaux au milieu d'une ligne à 768).

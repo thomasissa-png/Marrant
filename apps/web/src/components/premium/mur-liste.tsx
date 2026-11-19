@@ -45,13 +45,21 @@ export function MurListeLimite({ liste }: { liste: ListeMur }) {
  * Revue visuelle s21 : pleine largeur de la colonne de la liste (plus de carte centrée, plus
  * étroite et décalée), même cadre que les autres blocs d'appel (`BLOC_APPEL`).
  */
+/**
+ * s26 tour 3 (point 5, /vannes ouvert seulement, `sansViolet`) : dès 1024 px, texte à gauche (limite, titre, réassurance,
+ * lien gratuit) et bouton d'offre à droite, centré en hauteur (au tour 2, tout était empilé à gauche, environ 600 px
+ * vides à droite à 1280). Classes seules, aucun élément ajouté : grille de 12, texte en 8, bouton en 4 calé à droite.
+ */
+const MUR_EN_LIGNE =
+  "lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-6 lg:[&>*]:col-span-8 lg:[&>div:has(>[data-mur-cta=premium])]:col-span-4 lg:[&>div:has(>[data-mur-cta=premium])]:col-start-9 lg:[&>div:has(>[data-mur-cta=premium])]:row-span-4 lg:[&>div:has(>[data-mur-cta=premium])]:row-start-1 lg:[&>div:has(>[data-mur-cta=premium])]:mt-0 lg:[&>div:has(>[data-mur-cta=premium])]:justify-self-end";
+
 export function MurListe({ liste, sansViolet = false }: MurListeProps) {
   const neutre = ESPACE_CLIENT_PUBLIE && sansViolet;
   const t = MUR_LISTE[liste];
   return (
     <section
       aria-labelledby={`mur-liste-${liste}-titre`}
-      className={cn("mt-6", BLOC_APPEL, ESPACE_CLIENT_PUBLIE && CARTE_A_FILET, neutre && FILET_MASQUE)}
+      className={cn("mt-6", BLOC_APPEL, ESPACE_CLIENT_PUBLIE && CARTE_A_FILET, neutre && FILET_MASQUE, neutre && MUR_EN_LIGNE)}
       data-mur-liste={liste}
     >
       {/* v6 tour 1 (arbitrage 1, point 9), interrupteur ouvert : carte à filet de l'accueil, réassurance à gauche

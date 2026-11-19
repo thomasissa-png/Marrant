@@ -19,8 +19,17 @@ export function confirmationValide(saisie: string): boolean {
   return saisie.trim().toUpperCase() === MOT_CONFIRMATION_SUPPRESSION;
 }
 
-/** v6 tour 4, point 5 : contenu de la carte, interrupteur ouvert (texte et action côte à côte dès `lg`). */
-export const SUPPRESSION_CONTENU_OUVERT = "lg:flex lg:items-center lg:justify-between lg:gap-8";
+/**
+ * v6 tour 4, point 5 : contenu de la carte, interrupteur ouvert. s26 tour 3 (point 12) : plus de `lg:justify-between`
+ * (355 à 380 px vides au milieu de la carte dès 1024 au tour 2) : l'action passe SOUS le texte, alignée à gauche, à
+ * toutes les largeurs.
+ */
+export const SUPPRESSION_CONTENU_OUVERT = "flex flex-col items-start";
+/**
+ * s26 tour 3 (point 12) : bouton « Supprimer mon compte » en contour rouge de 1 px (forme de bouton), cible de 44 px,
+ * aligné sur le texte (plus de `-ml-3`). Texte en `text-error-text` (l'AA sur carte, `error` reste pour les bordures).
+ */
+const BOUTON_SUPPRIMER_OUVERT = "mt-4 h-11 border border-error text-error-text hover:bg-error/10";
 
 /**
  * Suppression du compte (s16, reco 5) : confirmation explicite (mot retapé),
@@ -100,13 +109,13 @@ export function SupprimerCompteCard({
           <Button
             variant="ghost"
             size="sm"
-            className={ESPACE_CLIENT_PUBLIE ? "-ml-3 mt-4 text-error-text md:h-11 lg:ml-0 lg:mt-0" : "-ml-3 mt-4 text-error-text"}
+            className={ESPACE_CLIENT_PUBLIE ? BOUTON_SUPPRIMER_OUVERT : "-ml-3 mt-4 text-error-text"}
             onClick={ouvrir}
           >
             {T.ouvrir}
           </Button>
         ) : (
-          <form className={ESPACE_CLIENT_PUBLIE ? "mt-4 flex flex-col gap-3 lg:mt-0" : "mt-4 flex flex-col gap-3"} onSubmit={supprimer}>
+          <form className="mt-4 flex flex-col gap-3" onSubmit={supprimer}>
             <label htmlFor="confirmation-suppression" className="text-sm text-text-primary">
               {T.consigne}
             </label>
@@ -148,7 +157,7 @@ export function SupprimerCompteCard({
       {ESPACE_CLIENT_PUBLIE ? (
         <CardContent className={SUPPRESSION_CONTENU_OUVERT} data-suppression-colonnes="">
           <div className="max-w-prose">{texte}</div>
-          <div className={ouvert ? "max-w-prose lg:w-80 lg:shrink-0" : "lg:shrink-0"}>{action}</div>
+          <div className={ouvert ? "w-full max-w-prose" : undefined}>{action}</div>
         </CardContent>
       ) : (
         <CardContent>
