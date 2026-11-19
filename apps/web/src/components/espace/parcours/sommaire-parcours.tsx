@@ -28,6 +28,8 @@ export function SommaireParcours({
   const aReprendre = etapes.find((e) => !faites.includes(e.order))?.order ?? null;
   const avancee = P.sommaire.faites(n, total);
 
+  // s26 (`docs/design/parcours-vannes-s26.md` §2, rail de /parcours/{slug}) : barre grise sur rail visible (plus de violet),
+  // numéros en 16/600 secondaire, « Fait » en méta avec coche verte. Le bouton de l'étape à reprendre reste le plein.
   return (
     <div data-testid="sommaire-parcours">
       <p id="sommaire-avancee" className="text-sm font-semibold text-text-primary">
@@ -40,9 +42,9 @@ export function SommaireParcours({
         aria-valuemax={total}
         aria-valuenow={n}
         aria-valuetext={avancee}
-        className="mt-2 h-2 w-full overflow-hidden rounded-full bg-background-elevated"
+        className="mt-2 h-2 w-full overflow-hidden rounded-full bg-border-hover"
       >
-        <div className="h-full rounded-full bg-accent-primary" style={{ width: total > 0 ? `${(n / total) * 100}%` : "0%" }} />
+        <div className="h-full rounded-full bg-text-secondary" style={{ width: total > 0 ? `${(n / total) * 100}%` : "0%" }} />
       </div>
       <ol className="mt-4 divide-y divide-border">
         {etapes.map((e) => {
@@ -51,7 +53,7 @@ export function SommaireParcours({
           const principal = e.order === aReprendre;
           return (
             <li key={e.order} className="flex flex-wrap items-center gap-x-3 gap-y-2 py-3 max-e300:py-2">
-              <span className="font-display text-base font-bold text-text-muted" aria-hidden="true">
+              <span className="text-base font-semibold tabular-nums text-text-secondary" aria-hidden="true">
                 {e.order}
               </span>
               <span id={`sommaire-etape-${e.order}`} className="min-w-0 flex-1 text-sm text-text-primary [overflow-wrap:anywhere]">
@@ -59,7 +61,7 @@ export function SommaireParcours({
                 {frTypoParcours(e.titre)}
               </span>
               {fait && (
-                <span className="inline-flex items-center gap-1 text-sm font-semibold text-text-secondary" data-statut="fait">
+                <span className="inline-flex items-center gap-1 text-sm text-text-secondary [&>svg]:text-success" data-statut="fait">
                   <svg className="h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>

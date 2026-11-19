@@ -3,7 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, FILET_MASQUE } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
@@ -82,6 +85,17 @@ function stepToOpen(steps: Step[], completed: number[], hashStep: number | null)
   if (target && (next === null || target.order <= next || target.locked)) return target.order;
   return next;
 }
+
+/**
+ * s26 (`docs/design/parcours-vannes-s26.md` §2, interrupteur ouvert seulement) : la page pose une grille de 12 colonnes
+ * dès 1024 px (`parcours/[slug]/page.tsx`) ; chaque bloc de ce composant y prend sa place par ses classes (aucun
+ * élément ajouté ni déplacé dans le HTML) : colonne de 8 pour l'en-tête, le programme et la suite ; la carte de
+ * progression (une ligne pour le visiteur, sommaire pour l'abonné) en rail collant de 4 à droite, sous l'en-tête
+ * collant de 121 px (`lg:top-36`). Cadres neutres, filets violets masqués (décision du 18/11), échelle `typo.ts`.
+ */
+const COLONNE_DETAIL = "lg:col-span-8 lg:col-start-1";
+const RAIL_DETAIL = "lg:sticky lg:top-36 lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:mb-0 lg:self-start lg:[grid-row-end:span_8]";
+const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
 
 export function ParcoursDetail({
   slug,
@@ -484,9 +498,9 @@ export function ParcoursDetail({
 
   if (isLoading) {
     return (
-      <div className="space-y-4" aria-busy="true">
+      <div className={ouvert(cn("space-y-4", COLONNE_DETAIL), "space-y-4")} aria-busy="true">
         {Array.from({ length: 3 }).map((_, i) => (
-          <Card key={i} className="animate-pulse" filet={ESPACE_CLIENT_PUBLIE}>
+          <Card key={i} className={ouvert(cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "animate-pulse"), "animate-pulse")} filet={ESPACE_CLIENT_PUBLIE}>
             <CardContent className="py-8">
               <div className="h-6 w-2/3 rounded bg-background-elevated" />
               <div className="mt-3 h-4 w-full rounded bg-background-elevated" />
@@ -499,7 +513,7 @@ export function ParcoursDetail({
 
   if (!path || fetchError) {
     return (
-      <Card filet={ESPACE_CLIENT_PUBLIE}>
+      <Card filet={ESPACE_CLIENT_PUBLIE} className={ouvert(cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "p-6", COLONNE_DETAIL))}>
         <CardContent className="py-12 text-center">
           <p className="text-text-secondary">
             {fetchError
@@ -569,15 +583,16 @@ export function ParcoursDetail({
   // Fermé : classes d'avant.
   const argumentaire = (
     <>
-      <p className={ESPACE_CLIENT_PUBLIE ? "mx-auto mt-4 max-w-2xl text-pretty text-center text-text-secondary" : "mt-4 text-pretty text-text-secondary"}>{frTypoTexte(stripEmDashes(path.description))}</p>
+      {/* s26 (§2) : argumentaire aligné à gauche, sans violet (persona en texte courant, témoignage en méta italique). */}
+      <p className={ESPACE_CLIENT_PUBLIE ? cn(TEXTE, "mt-4 max-w-2xl text-pretty") : "mt-4 text-pretty text-text-secondary"}>{frTypoTexte(stripEmDashes(path.description))}</p>
       {(path.personaTagline || path.testimonial) && (
-        <section aria-labelledby="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? "mx-auto mt-4 max-w-2xl" : "mt-4"}>
-          <h2 id="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? "text-center font-display text-lg font-bold" : "font-display text-lg font-bold"}>{TITRES_SECTIONS.pourQui}</h2>
+        <section aria-labelledby="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? "mt-6 max-w-2xl" : "mt-4"}>
+          <h2 id="parcours-pour-qui" className={ESPACE_CLIENT_PUBLIE ? TEXTE_FORT : "font-display text-lg font-bold"}>{TITRES_SECTIONS.pourQui}</h2>
           {path.personaTagline && (
-            <p className={ESPACE_CLIENT_PUBLIE ? "mt-2 text-pretty text-center text-sm font-medium text-accent-link" : "mt-2 text-pretty text-sm font-medium text-accent-link"}>{frTypoTexte(path.personaTagline)}</p>
+            <p className={ESPACE_CLIENT_PUBLIE ? cn(TEXTE, "mt-2 text-pretty") : "mt-2 text-pretty text-sm font-medium text-accent-link"}>{frTypoTexte(path.personaTagline)}</p>
           )}
           {path.testimonial && (
-            <p className="mt-3 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
+            <p className={ouvert(cn(META, "mt-4 text-pretty italic"), "mt-3 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary")}>
               {frTypoTexte(stripEmDashes(path.testimonial))}
             </p>
           )}
@@ -588,7 +603,7 @@ export function ParcoursDetail({
 
   return (
     <>
-      <div className="mb-8">
+      <div className={ouvert(cn("mb-8", COLONNE_DETAIL), "mb-8")}>
         <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
           <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
           <span className="mx-2">/</span>
@@ -599,15 +614,17 @@ export function ParcoursDetail({
 
         {/* v6 tour 3, point 1 (ouvert seulement) : en-tête centré comme le hero de l'accueil (icône, H1, niveau et
             rythme) ; le fil d'Ariane et l'argumentaire gardent leur alignement. Fermé : inchangé. */}
-        <div className={ESPACE_CLIENT_PUBLIE ? "flex flex-col items-center gap-2 text-center" : "flex items-center gap-3"}>
-          <span className="text-4xl" aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
+        {/* s26 (§2) : en-tête aligné à gauche, titre blanc `TITRE_PAGE`, icône à la taille du titre, niveau en méta forte
+            sans fond. */}
+        <div className="flex items-center gap-3">
+          <span className={ouvert("font-display text-2xl font-semibold lg:text-3xl", "text-4xl")} aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
           <div>
-            <h1 className="font-display text-3xl font-bold">{frTypoTexte(path.title)}</h1>
-            <div className={ESPACE_CLIENT_PUBLIE ? "mt-1 flex flex-wrap items-center justify-center gap-2" : "mt-1 flex flex-wrap items-center gap-2"}>
-              <Badge variant="primary">{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
+            <h1 className={ouvert(TITRE_PAGE, "font-display text-3xl font-bold")}>{frTypoTexte(path.title)}</h1>
+            <div className={ESPACE_CLIENT_PUBLIE ? "mt-2 flex flex-wrap items-center gap-2" : "mt-1 flex flex-wrap items-center gap-2"}>
+              <Badge variant="primary" className={ouvert(cn(META_FORT, "rounded-none bg-transparent px-0 py-0"))}>{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
               {/* s19 (N1 @ux rendu) : le rythme promis par le hub et la meta, repris dans l'en-tête ;
                   durée et rythme forment un seul bloc (jamais « · » seul en bout ou en début de ligne). */}
-              <span className="whitespace-nowrap text-sm text-text-muted">
+              <span className={ouvert(cn(META, "whitespace-nowrap"), "whitespace-nowrap text-sm text-text-muted")}>
                 {path.duration}
                 {path.timePerWeek && (
                   <>
@@ -625,7 +642,11 @@ export function ParcoursDetail({
       {/* DES-1-16 : carte resserrée (une ligne pour le visiteur).
           s19 (N6 @ux rendu) : parcours terminé, la carte de fin suffit (sauf chargement ou échec à signaler). */}
       {(!isPathCompleted || chargementPremium || echecPremium) && (
-      <Card className={isPremium ? "mb-8" : "mb-8 py-3"} aria-busy={chargementPremium || undefined} filet={ESPACE_CLIENT_PUBLIE}>
+      <Card
+        className={cn(isPremium ? "mb-8" : "mb-8 py-3", ouvert(cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "p-6", RAIL_DETAIL)))}
+        aria-busy={chargementPremium || undefined}
+        filet={ESPACE_CLIENT_PUBLIE}
+      >
         <CardContent className={isPremium ? "py-2" : ""}>
           {isPremium ? (
             <>
@@ -683,7 +704,7 @@ export function ParcoursDetail({
               {/* s19 (S4 @design, S3 @ux rendu iter 2) : masqué si le chargement a échoué (ligne orpheline).
                   s19 (S2 @ux rendu iter 2) : à gauche sous 640 px (« dernière étape » orphelin à droite). */}
               {!isPathCompleted && !echecPremium && (
-                <p className="mt-2 text-left text-sm text-text-secondary sm:text-right">
+                <p className={ouvert(cn(META, "mt-2"), "mt-2 text-left text-sm text-text-secondary sm:text-right")}>
                   {xpProgressionTexte(xpGagnesParcours(path.steps, completedSteps), totalXp)}
                 </p>
               )}
@@ -718,11 +739,11 @@ export function ParcoursDetail({
               )}
               {/* s19 iter 4 (C @design) : -mb-3 sous 640 px, le lien de 44 px ne creuse plus 40 px sous la carte. */}
               {!isPathCompleted && rappelInvite && (
-                <p className="-mb-3 mt-2 text-xs text-text-muted sm:mb-0">
+                <p className={ouvert(cn(META, "-mb-3 mt-2 sm:mb-0"), "-mb-3 mt-2 text-xs text-text-muted sm:mb-0")}>
                   {frTypoTexte(RAPPEL_LIEN.texte)}{" "}
                   <Link
                     href="/profil#rappel-parcours"
-                    className="inline-flex min-h-[44px] items-center text-accent-link underline underline-offset-2 sm:min-h-0"
+                    className={ouvert("inline-flex min-h-11 items-center text-text-primary underline underline-offset-2", "inline-flex min-h-[44px] items-center text-accent-link underline underline-offset-2 sm:min-h-0")}
                   >
                     {frTypoTexte(RAPPEL_LIEN.lien)}
                   </Link>
@@ -747,6 +768,7 @@ export function ParcoursDetail({
       {isPathCompleted && (
         <PathCompletionCard
           ref={completionHeading}
+          className={ouvert(cn(COLONNE_DETAIL, "rounded-xl border-border bg-background-card"))}
           slug={slug}
           title={path.title}
           totalXp={totalXp}
@@ -757,13 +779,13 @@ export function ParcoursDetail({
           nextParcoursRanking={path.nextParcoursRanking}
         />
       )}
-      {isPathCompleted && <div className="mb-8">{argumentaire}</div>}
+      {isPathCompleted && <div className={ouvert(cn("mb-8", COLONNE_DETAIL), "mb-8")}>{argumentaire}</div>}
 
       {espaceOuvert && <AnnonceApresValidation validations={validationsEspace} />}
 
       {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
-      <h2 className={ESPACE_CLIENT_PUBLIE ? "mb-4 text-center font-display text-xl font-bold" : "mb-4 font-display text-xl font-bold"}>{TITRES_SECTIONS.programme}</h2>
-      <div className="space-y-4" role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
+      <h2 className={ESPACE_CLIENT_PUBLIE ? cn(TITRE_CARTE, "mb-4", COLONNE_DETAIL) : "mb-4 font-display text-xl font-bold"}>{TITRES_SECTIONS.programme}</h2>
+      <div className={ouvert(cn("space-y-4", COLONNE_DETAIL), "space-y-4")} role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
           if (carteFinEtape1 && step.order === 2) return null;
           const isCompleted = completedSteps.includes(step.order);
@@ -810,19 +832,19 @@ export function ParcoursDetail({
 
       {/* Finition du tour 3 (T3) : la lettre gratuite sous la liste des étapes, loin du bouton payant. */}
       {carteFinEtape1 && (
-        <LettreRepliee emplacement="parcours" slug={slug} ligne={FIN_ETAPE_1.lettre.ligne} className="mt-6 text-center" />
+        <LettreRepliee emplacement="parcours" slug={slug} ligne={FIN_ETAPE_1.lettre.ligne} className={ouvert(cn("mt-6", COLONNE_DETAIL), "mt-6 text-center")} />
       )}
 
-      {argumentaireApresProgramme && <div className="mt-8">{argumentaire}</div>}
+      {argumentaireApresProgramme && <div className={ouvert(cn("mt-8", COLONNE_DETAIL), "mt-8")}>{argumentaire}</div>}
 
       {/* UX-06 : pas de « parcours suivant » en cours de route pour un abonné. */}
       {!isPathCompleted && !isPremium && path.nextParcours && (
-        <div className="mt-8 rounded-lg border border-border p-4 text-center">
-          <p className="text-sm text-text-muted">
+        <div className={ouvert(cn(CADRE_CARTE_NEUTRE, "mt-8 p-6", COLONNE_DETAIL), "mt-8 rounded-lg border border-border p-4 text-center")}>
+          <p className={ouvert(META, "text-sm text-text-muted")}>
             Tu y prends goût ?{" "}
             <Link
               href={`/parcours/${path.nextParcours}?src=suite`}
-              className="text-accent-link underline underline-offset-2"
+              className={ouvert("text-text-primary underline underline-offset-2 hover:text-text-secondary", "text-accent-link underline underline-offset-2")}
             >
               Jette un œil au parcours suivant
             </Link>

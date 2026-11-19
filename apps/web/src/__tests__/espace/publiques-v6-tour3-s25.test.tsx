@@ -226,16 +226,19 @@ describe("point 12 : /parcours, cartes en deux colonnes dès `lg`", () => {
   const pleins = () =>
     screen.getAllByRole("button").filter((b) => b.className.includes("bg-accent-secondary-hover") && b.closest("[id^='parcours-']"));
 
-  it("ouvert : grille `lg:grid-cols-2`, dernière carte seule en pleine largeur, bouton en fin de carte, un plein par carte", async () => {
+  // s26 (`docs/design/parcours-vannes-s26.md` §0 et §1.1) : deux colonnes dès 768 px, dernière carte seule sur toute la
+  // rangée ; un seul aplat violet par écran (l'offre de l'en-tête collant) : tous les boutons de carte en contour.
+  it("ouvert : grille `md:grid-cols-2`, dernière carte seule en pleine largeur, bouton en fin de carte, aucun plein", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
     const grille = container.querySelector("[data-parcours-cartes]") as HTMLElement;
-    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["grid", "gap-6", "lg:grid-cols-2", "lg:[&>:last-child:nth-child(odd)]:col-span-2"]));
+    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["grid", "gap-6", "md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2"]));
     expect(grille.children).toHaveLength(catalogue.length);
-    // Forme et place des boutons inchangées (cta-forme-place-s21 §1.3) : un plein par carte, en fin de carte.
-    expect(pleins()).toHaveLength(catalogue.length);
-    for (const b of pleins()) {
+    expect(pleins()).toHaveLength(0);
+    const boutons = screen.getAllByRole("button").filter((b) => b.closest("[data-parcours-pied]"));
+    expect(boutons).toHaveLength(catalogue.length);
+    for (const b of boutons) {
       expect(b.className).toContain("w-full");
       // v6 tour 4, point 2 : le `mt-auto` passe du bloc du bouton au bloc commun « Programme » + bouton.
       expect((b.closest("[data-parcours-pied]") as HTMLElement).className.split(" ")).toContain("mt-auto");

@@ -80,13 +80,14 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
   });
   const cartes = (c: HTMLElement) => catalogue.map((p) => c.querySelector(`#parcours-${p.slug}`) as HTMLElement);
 
-  it("ouvert : « Programme » et le bouton dans un même bloc `mt-auto` (écart `gap-6`, plus de `mb-6`), forme du bouton inchangée", async () => {
+  // s26 (`docs/design/parcours-vannes-s26.md` §1.3) : écart du pied ramené à 16 px (`gap-4`), 24 px au-dessus (`pt-6`).
+  it("ouvert : « Programme » et le bouton dans un même bloc `mt-auto` (écart `gap-4`, plus de `mb-6`), forme du bouton inchangée", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
     for (const carte of cartes(container)) {
       const pied = carte.querySelector("[data-parcours-pied]") as HTMLElement;
-      expect(classes(pied)).toEqual(expect.arrayContaining(["mt-auto", "flex", "flex-col", "gap-6"]));
+      expect(classes(pied)).toEqual(expect.arrayContaining(["mt-auto", "flex", "flex-col", "gap-4", "pt-6"]));
       const details = pied.firstElementChild as HTMLElement;
       expect(details.tagName).toBe("DETAILS");
       expect(details.className).toBe("group");
@@ -99,20 +100,20 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
     }
   });
 
-  it("ouvert : carte impaire seule à `lg` = largeur d'une jumelle, centrée", async () => {
+  // s26 (`docs/design/parcours-vannes-s26.md` §1.1 et §1.3) : la carte impaire seule prend toute la rangée dès 768 px
+  // (plus de carte centrée de 50 %) et passe en zones internes 7/5 dès 1024 px.
+  it("ouvert : carte impaire seule sur toute la rangée, zones internes 7/5 à `lg`", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
     const grille = container.querySelector("[data-parcours-cartes]") as HTMLElement;
     expect(grille.className).toBe(GRILLE_CARTES_OUVERTE);
-    expect(classes(grille)).toEqual(
-      expect.arrayContaining([
-        "lg:grid-cols-2",
-        "lg:[&>:last-child:nth-child(odd)]:col-span-2",
-        "lg:[&>:last-child:nth-child(odd)]:mx-auto",
-        "lg:[&>:last-child:nth-child(odd)]:w-[calc(50%-0.75rem)]",
-      ]),
-    );
+    expect(classes(grille)).toEqual(expect.arrayContaining(["md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2"]));
+    expect(classes(grille)).not.toContain("lg:[&>:last-child:nth-child(odd)]:w-[calc(50%-0.75rem)]");
+    const derniere = cartes(container)[catalogue.length - 1];
+    expect(catalogue.length % 2).toBe(1);
+    expect(classes(derniere)).toEqual(expect.arrayContaining(["lg:grid", "lg:grid-cols-12"]));
+    expect(classes(cartes(container)[0])).not.toContain("lg:grid");
   });
 
   it("fermé : pile d'avant, `details` en `group mb-6`, bloc du bouton sans `mt-auto`, aucun bloc ajouté", async () => {

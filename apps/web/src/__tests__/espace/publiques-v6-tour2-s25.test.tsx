@@ -175,16 +175,23 @@ describe("point 11 : /vannes", () => {
     expect(plat(reponseAffichee)).toContain(plat(frTypo(ANCIENNE)));
   });
 
-  it("ouvert : en-tête, FAQ, « Pourquoi » et « La suite » centrés comme l'accueil", async () => {
+  // s26 (`docs/design/parcours-vannes-s26.md` §3.1 et §3.4) : en-tête et titres de section à gauche (plus de centrage),
+  // FAQ en 4/8, « Pourquoi » en 3 colonnes dès 1024 px.
+  it("ouvert : en-tête et titres à gauche, FAQ en 4/8, « Pourquoi » en 3 colonnes", async () => {
     ouvrir(true);
     const { container } = await page();
     const entete = container.querySelector("[data-vannes-entete]") as HTMLElement;
-    expect(entete.className).toContain("text-center");
-    expect((entete.querySelector("p") as HTMLElement).className).toEqual(expect.stringContaining("mx-auto"));
+    expect(entete.className.split(" ")).not.toContain("text-center");
+    expect((entete.querySelector("p") as HTMLElement).className.split(" ")).not.toContain("mx-auto");
     const titres = [...container.querySelectorAll("h2")];
     for (const t of ["Questions fréquentes", "Pourquoi ces vannes sont différentes", "La suite, si tu as pris goût"]) {
-      expect(titres.find((h) => h.textContent === t)?.className.split(" ")).toContain("text-center");
+      expect(titres.find((h) => h.textContent === t)?.className.split(" ")).not.toContain("text-center");
     }
+    const faq = titres.find((h) => h.textContent === "Questions fréquentes") as HTMLElement;
+    expect(faq.className.split(" ")).toContain("lg:col-span-4");
+    expect((faq.nextElementSibling as HTMLElement).className.split(" ")).toContain("lg:col-span-8");
+    const pourquoi = titres.find((h) => h.textContent === "Pourquoi ces vannes sont différentes") as HTMLElement;
+    expect((pourquoi.nextElementSibling as HTMLElement).className.split(" ")).toContain("lg:grid-cols-3");
   });
 
   it("fermé : en-tête et titres comme avant (à gauche)", async () => {
@@ -204,13 +211,15 @@ describe("point 11 : /vannes", () => {
     const VANNE = { id: "1", content: "Setup vanne 1", punchline: "Chute 1", category: "ABSURDE", type: "ONESHOT", maturityLevel: 1, comedyTechnique: null, techniqueExplanation: null, howToApply: null };
     const liste = () => render(<VannesList />);
 
-    it("ouvert : plus de carte floutée, l'offre seule, contenu centré", async () => {
+    // s26 (`docs/design/parcours-vannes-s26.md` §3.3) : plus de centrage forcé autour de l'objet Premium (non restylé).
+    it("ouvert : plus de carte floutée, l'offre seule, sans centrage forcé", async () => {
       ouvrir(true);
       const { container } = liste();
       await waitFor(() => expect(container.querySelector("[data-mur-liste]")).not.toBeNull());
       expect(screen.queryByRole("button", { name: CARTE_VERROUILLEE_LABEL })).toBeNull();
       const centre = container.querySelector("[data-mur-centre]") as HTMLElement;
-      expect(centre.className.split(" ")).toEqual(expect.arrayContaining(["text-center", "[&_.text-left]:text-center"]));
+      expect(centre.className.split(" ")).not.toContain("text-center");
+      expect(centre.className.split(" ")).not.toContain("[&_.text-left]:text-center");
       expect(centre.querySelector("[data-mur-liste]")).not.toBeNull();
     });
 

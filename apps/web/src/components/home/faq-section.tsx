@@ -5,6 +5,7 @@ import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { COLONNE_LECTURE, MESURE_TEXTE } from "@/components/layout/gabarit";
+import { TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 export { faqs };
 
 export interface FaqItem {
@@ -26,6 +27,12 @@ interface FaqSectionProps {
    * même taille et même marge ; les questions gardent la pleine largeur de la colonne. Absent : inchangé.
    */
   titreCentre?: boolean;
+  /**
+   * s26 (/parcours et /vannes, interrupteur ouvert seulement, `docs/design/parcours-vannes-s26.md` §3.4) : titre à
+   * gauche sur 4 colonnes, questions sur 8 dès 1024 px, séparateurs au lieu des cadres. Classes seules : mêmes
+   * éléments, mêmes textes. Absent : inchangé.
+   */
+  disposition?: "split";
 }
 
 /**
@@ -33,17 +40,18 @@ interface FaqSectionProps {
  * s21 (QA m3) : plus de « use client » ; rendue par le serveur (accueil, listes), sans JS.
  * (passe s12 : UX T19/T46, design T11).
  */
-export function FaqSection({ items, title = "Questions fréquentes", align = "center", titreCentre = false }: FaqSectionProps = {}) {
+export function FaqSection({ items, title = "Questions fréquentes", align = "center", titreCentre = false, disposition }: FaqSectionProps = {}) {
   const left = align === "left";
+  const split = disposition === "split";
   const liste = items ?? faqs;
   // Décision de Thomas du 14/11, interrupteur de l'espace ouvert : dans la FAQ de /parcours (seule page qui prend la
   // liste par défaut, sans `items`), la question du prix (« {prix}, c'est vraiment tout ? ») n'est pas montrée à
   // l'abonné : masquée dans le navigateur, HTML serveur et données structurées inchangés. Fermé : rien ne change.
   const prixMasqueAbonne = ESPACE_CLIENT_PUBLIE && items === undefined;
   return (
-    <div className={left ? undefined : COLONNE_LECTURE}>
+    <div className={split ? "lg:grid lg:grid-cols-12 lg:gap-6" : left ? undefined : COLONNE_LECTURE}>
       <h2
-        className={cn(
+        className={split ? cn(TITRE_CARTE, "mb-4 lg:col-span-4 lg:mb-0") : cn(
           "font-display font-bold text-text-primary",
           // Revue visuelle s21 (R29) : titre secondaire, même taille que « Derniers articles » et la lettre.
           left ? (titreCentre ? "mb-4 text-center text-xl" : "mb-4 text-xl") : "mb-8 text-center text-xl md:text-2xl",
@@ -51,17 +59,21 @@ export function FaqSection({ items, title = "Questions fréquentes", align = "ce
       >
         {title}
       </h2>
-      <div className="space-y-4">
+      <div className={split ? "divide-y divide-border border-y border-border lg:col-span-8" : "space-y-4"}>
         {liste.map((faq) => {
           const details = (
           <details
             key={faq.question}
-            className="group rounded-xl border border-border bg-background-card"
+            className={split ? "group" : "group rounded-xl border border-border bg-background-card"}
           >
-            <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 p-4 text-sm font-semibold text-text-primary [&::-webkit-details-marker]:hidden">
+            <summary
+              className={split
+                ? cn("flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary [&::-webkit-details-marker]:hidden", TEXTE_FORT)
+                : "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 p-4 text-sm font-semibold text-text-primary [&::-webkit-details-marker]:hidden"}
+            >
               {frTypo(faq.question)}
               <svg
-                className="h-4 w-4 shrink-0 text-text-muted transition-transform group-open:rotate-180"
+                className={split ? "h-4 w-4 shrink-0 text-text-secondary transition-transform group-open:rotate-180" : "h-4 w-4 shrink-0 text-text-muted transition-transform group-open:rotate-180"}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -71,7 +83,7 @@ export function FaqSection({ items, title = "Questions fréquentes", align = "ce
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </summary>
-            <p className={cn("px-4 pb-4 text-sm text-text-secondary", MESURE_TEXTE)}>{frTypo(faq.answer)}</p>
+            <p className={split ? cn("pb-4", TEXTE, MESURE_TEXTE) : cn("px-4 pb-4 text-sm text-text-secondary", MESURE_TEXTE)}>{frTypo(faq.answer)}</p>
           </details>
           );
           return prixMasqueAbonne && faq.question.startsWith(PREMIUM_PRICE_LABEL) ? (

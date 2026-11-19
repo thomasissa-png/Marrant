@@ -25,7 +25,7 @@ export function AnnonceApresValidation({ validations }: { validations: number })
   }, [validations]);
 
   return (
-    <div className="mb-6 empty:hidden">
+    <div className="mb-6 empty:hidden lg:col-span-8 lg:col-start-1">
       <AnnonceCap annonce={annonce} retour={() => document.getElementById("sommaire-reprendre")} />
     </div>
   );

@@ -85,7 +85,9 @@ test.describe("v6 tour 2, lot 2 : pages publiques", () => {
       }
     });
 
-    test("/vannes visiteur et inscrit gratuit : offre seule et centrée, en-tête et titres centrés, FAQ validée", async ({ browser }) => {
+    // s26 (`docs/design/parcours-vannes-s26.md` §3.1, §3.3, §3.4) : en-tête, titres de section et offre de fin de liste
+    // alignés à gauche (plus de centrage forcé autour de l'objet Premium, non restylé) ; FAQ validée inchangée.
+    test("/vannes visiteur et inscrit gratuit : offre seule, en-tête et titres à gauche, FAQ validée", async ({ browser }) => {
       for (const etat of ["visiteur", "FREE"] as const) {
         const { c, page } = await contexte(browser, etat);
         await page.goto("/vannes");
@@ -93,12 +95,10 @@ test.describe("v6 tour 2, lot 2 : pages publiques", () => {
         const mur = main.locator("[data-mur-liste]");
         await expect(mur).toBeVisible();
         await expect(main.getByRole("button", { name: CARTE_VERROUILLEE_LABEL })).toHaveCount(0);
-        const [m, bouton] = [await boite(mur), await boite(mur.locator("[data-mur-cta='premium']"))];
-        expect(Math.abs(bouton.x + bouton.width / 2 - (m.x + m.width / 2))).toBeLessThanOrEqual(2);
-        expect(await alignement(mur.locator("[data-reassurance]"))).toBe("center");
-        expect(await alignement(main.getByRole("heading", { level: 1 }))).toBe("center");
+        expect(await alignement(mur.locator("[data-reassurance]"))).not.toBe("center");
+        expect(await alignement(main.getByRole("heading", { level: 1 }))).not.toBe("center");
         for (const titre of ["Questions fréquentes", "Pourquoi ces vannes sont différentes", "La suite, si tu as pris goût"]) {
-          expect(await alignement(main.getByRole("heading", { level: 2, name: titre })), titre).toBe("center");
+          expect(await alignement(main.getByRole("heading", { level: 2, name: titre })), titre).not.toBe("center");
         }
         const question = main.locator("details").filter({ hasText: "Comment trouver la bonne vanne" });
         await question.locator("summary").click();

@@ -61,7 +61,9 @@ describe("2. liens dans le texte soulignés en permanence", () => {
   ];
   it.each(FICHIERS)("%s : aucun lien text-accent-link en ligne sans soulignement", (fichier) => {
     const source = fs.readFileSync(path.join(__dirname, "../../", fichier), "utf8");
-    const classes = [...source.matchAll(/<(?:Link|a)\b[^>]*?class(?:Name)?="([^"]*text-accent-link[^"]*)"/g)].map((m) => m[1].split(/\s+/));
+    // s26 (Parcours et Vannes) : la classe peut être le cas fermé d'un choix sous l'interrupteur
+    // (`className={ESPACE_CLIENT_PUBLIE ? … : "text-accent-link underline …"}`) : la chaîne littérale est lue aussi.
+    const classes = [...source.matchAll(/<(?:Link|a)\b[^>]*?class(?:Name)?=\{?[^"}]*"([^"]*text-accent-link[^"]*)"/g)].map((m) => m[1].split(/\s+/));
     expect(classes.length).toBeGreaterThan(0);
     for (const c of classes) {
       const horsTexte = c.some((x) => /^(inline-flex|inline-block|block|flex|line-clamp-\d)$/.test(x));

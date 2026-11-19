@@ -2,7 +2,10 @@
 
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { useState, useEffect, type ReactNode } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, FILET_MASQUE } from "@/components/ui/card";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
+import { META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
@@ -23,7 +26,6 @@ import { LISTE_PARCOURS_CTA } from "@/config/textes/cta-pages";
 import { totalParcoursXp } from "@/lib/parcours-xp";
 import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 import { cn } from "@/lib/utils";
-import { PARCOURS_PAR_DEFAUT } from "@/lib/espace/premier-pas";
 import { SANS_COMPTE } from "@/config/textes/cta-articles-accueil";
 
 /**
@@ -37,20 +39,30 @@ export function frontiereListe(slug: Parameters<typeof LISTE_PARCOURS_CTA.fronti
 }
 
 /**
- * Grille des cartes de /parcours, interrupteur ouvert. v6 tour 3, point 12 : deux colonnes dès `lg`. v6 tour 4, point 3 :
- * la dernière carte seule (nombre impair) garde la largeur d'une carte jumelle, centrée sur sa ligne (plus de ligne de
- * 150 caractères ni de bouton étalé) ; `gap-6` = 1,5 rem, d'où la demi-largeur moins 0,75 rem.
+ * Grille des cartes de /parcours, interrupteur ouvert (visiteur et compte gratuit). v6 tour 3, point 12 : deux colonnes.
+ * s26 : deux colonnes dès 768 px, sur les 12 colonnes de la grille de la page, sous le hero (`lg:mt-8`).
  */
 export const GRILLE_CARTES_OUVERTE = cn(
-  "grid gap-6 lg:grid-cols-2",
-  "lg:[&>:last-child:nth-child(odd)]:col-span-2 lg:[&>:last-child:nth-child(odd)]:mx-auto lg:[&>:last-child:nth-child(odd)]:w-[calc(50%-0.75rem)]",
+  "grid gap-6 md:grid-cols-2 lg:col-span-12 lg:mt-8",
+  // s26 (`docs/design/parcours-vannes-s26.md` §1.1) : la dernière carte seule (nombre impair) prend toute la rangée dès
+  // 768 px (plus de carte centrée de 50 %) ; dès 1024 px, ses zones internes passent en 7/5 (`zones`, plus bas).
+  "md:[&>:last-child:nth-child(odd)]:col-span-2",
 );
+/** s26 (§1.2) : abonné, une colonne de cartes dans la colonne de 8 (le rail de 4 est à droite). */
+const GRILLE_CARTES_ABONNE = "grid gap-6 lg:col-span-8";
+
+/** s26 (§1.3) : contour neutre des boutons de carte (un seul aplat violet par écran : le bouton d'offre de l'en-tête). */
+const CONTOUR_CARTE = "border-border-input hover:border-text-muted";
+/** s26 (§1.1) : carte du quiz d'orientation, cadre neutre de 24 px (filet masqué), sous son titre. */
+const CARTE_QUIZ_OUVERTE = cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "mt-4 p-6");
+/** s26 (§1.3) : pastille ramenée à une méta (sans fond ni capitale), pour « Question n/2 » et la semaine d'une étape. */
+const SANS_FOND_META = cn(META, "rounded-none bg-transparent px-0 py-0 font-normal");
 
 /** Pied d'une carte de /parcours (« Programme » + bouton) : bloc `mt-auto` ouvert, fragment fermé (v6 tour 4, point 2). */
-function PiedCarte({ children }: { children: ReactNode }) {
+function PiedCarte({ children, className }: { children: ReactNode; className?: string }) {
   if (!ESPACE_CLIENT_PUBLIE) return <>{children}</>;
   return (
-    <div className="mt-auto flex flex-col gap-6" data-parcours-pied="">
+    <div className={className ?? "mt-auto flex flex-col gap-6"} data-parcours-pied="">
       {children}
     </div>
   );
@@ -118,16 +130,27 @@ function OrientationQuiz({
 
   if (result) {
     return (
-      <Card className="p-4 text-center sm:p-6" filet={ESPACE_CLIENT_PUBLIE}>
+      <Card className={ESPACE_CLIENT_PUBLIE ? CARTE_QUIZ_OUVERTE : "p-4 text-center sm:p-6"} filet={ESPACE_CLIENT_PUBLIE}>
         <CardContent>
-          <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
-          <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
-          <p className="mt-2 text-sm text-text-secondary">{frTypo(result.reason)}</p>
-          <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
-            <Button variant="primary" size="sm" onClick={() => onShowParcours(result.slug)}>
+          <p className={ESPACE_CLIENT_PUBLIE ? META : "text-sm font-medium text-accent-link"}>Ton point de départ :</p>
+          <h3 className={ESPACE_CLIENT_PUBLIE ? cn(TITRE_CARTE, "mt-2") : "mt-2 font-display text-xl font-bold"}>{result.title}</h3>
+          <p className={ESPACE_CLIENT_PUBLIE ? cn(META, "mt-2") : "mt-2 text-sm text-text-secondary"}>{frTypo(result.reason)}</p>
+          <div className={ESPACE_CLIENT_PUBLIE ? "mt-4 flex flex-col items-start gap-2" : "mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center"}>
+            {/* s26 (§1.1) : « Voir ce parcours » en contour, jamais plein ; « Refaire le quiz » en lien souligné. */}
+            <Button
+              variant={ESPACE_CLIENT_PUBLIE ? "outline" : "primary"}
+              size="sm"
+              className={ESPACE_CLIENT_PUBLIE ? cn("min-h-11", CONTOUR_CARTE) : undefined}
+              onClick={() => onShowParcours(result.slug)}
+            >
               Voir ce parcours
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleReset}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className={ESPACE_CLIENT_PUBLIE ? cn("-ml-3 min-h-11 underline underline-offset-2", META) : undefined}
+              onClick={handleReset}
+            >
               Refaire le quiz
             </Button>
           </div>
@@ -138,30 +161,34 @@ function OrientationQuiz({
 
   const q = ORIENTATION_QUESTIONS[step];
   return (
-    <Card className="p-4 sm:p-6" filet={ESPACE_CLIENT_PUBLIE}>
+    <Card className={ESPACE_CLIENT_PUBLIE ? CARTE_QUIZ_OUVERTE : "p-4 sm:p-6"} filet={ESPACE_CLIENT_PUBLIE}>
       <CardContent>
         <div className="mb-4 flex items-center justify-between">
-          <Badge variant="primary">Question {step + 1}/{ORIENTATION_QUESTIONS.length}</Badge>
+          <Badge variant="primary" className={ESPACE_CLIENT_PUBLIE ? SANS_FOND_META : undefined}>Question {step + 1}/{ORIENTATION_QUESTIONS.length}</Badge>
           <div className="flex gap-1">
             {ORIENTATION_QUESTIONS.map((_, i) => (
               <div
                 key={i}
                 className={`h-2 w-6 rounded-full transition-colors ${
-                  i <= step ? "bg-accent-primary" : "bg-background-elevated"
+                  ESPACE_CLIENT_PUBLIE
+                    ? i <= step ? "bg-text-secondary" : "bg-border-hover"
+                    : i <= step ? "bg-accent-primary" : "bg-background-elevated"
                 }`}
               />
             ))}
           </div>
         </div>
-        <h3 className="mb-4 font-display text-lg font-bold">{q.question}</h3>
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <h3 className={ESPACE_CLIENT_PUBLIE ? cn(TEXTE_FORT, "mb-4") : "mb-4 font-display text-lg font-bold"}>{q.question}</h3>
+        <div className={ESPACE_CLIENT_PUBLIE ? "flex flex-col gap-2" : "flex flex-col gap-2 sm:flex-row"}>
           {q.options.map((o) => (
             <button
               key={o.value}
               onClick={() => handleAnswer(o.value)}
-              className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-background-card p-3 text-left text-sm font-medium transition-all hover:border-accent-primary hover:bg-background-elevated active:scale-[0.98]"
+              className={ESPACE_CLIENT_PUBLIE
+                ? cn("flex min-h-11 w-full items-center gap-2 rounded-xl border border-border-input bg-transparent px-4 py-2 text-left transition-colors hover:border-border-hover hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary", META)
+                : "flex flex-1 items-center gap-2 rounded-lg border border-border bg-background-card p-3 text-left text-sm font-medium transition-all hover:border-accent-primary hover:bg-background-elevated active:scale-[0.98]"}
             >
-              <span className="text-xl" aria-hidden="true">
+              <span className={ESPACE_CLIENT_PUBLIE ? "text-base" : "text-xl"} aria-hidden="true">
                 {/* s19 iter 5 (N-3 @design) : 💼 sur « Au boulot » une fois Boulot publié, ☕ sinon. */}
                 {withEmojiPresentation(o.value === "work" ? emojiReponseBoulot() : o.emoji)}
               </span>
@@ -257,17 +284,17 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   // s24 lot D4 : espace ouvert, l'abonné a l'en-tête de l'espace (étape à reprendre) au-dessus de la liste :
   // pas de second « Reprendre », le quiz d'orientation passe sous la liste (fermé : inchangé).
   const enteteEspace = ESPACE_CLIENT_PUBLIE && statut === "premium";
-  const pleinUnique = enteteEspace
-    ? reprise?.slug ?? (userProgress[PARCOURS_PAR_DEFAUT]?.done ? null : PARCOURS_PAR_DEFAUT)
-    : null;
+  // s26 (`docs/ux/parcours-vannes-s26.md` §1.3) : espace ouvert, le seul plein de l'abonné est l'étape à reprendre
+  // (`QuatreSemaines`, au-dessus de la liste) ; toutes les cartes passent en contour (plus de plein sur `pleinUnique`).
   const parcoursEntame = enteteEspace ||(statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0));
-  // v6 tour 3, point 12 (ouvert seulement) : la page occupe la coque ; reprise et quiz gardent la colonne centrée
-  // de 768 px, la liste des cartes passe en deux colonnes dès `lg` (dernière carte seule : pleine largeur).
-  const colonne = ESPACE_CLIENT_PUBLIE ? "mx-auto max-w-3xl" : undefined;
+  // s26 (`docs/design/parcours-vannes-s26.md` §1.1 et §1.2) : plus de colonne centrée ; chaque bloc prend sa place dans
+  // la grille de 12 colonnes de la page (`parcours/(liste)/page.tsx`). Visiteur et compte gratuit : quiz compact dans
+  // les 4 colonnes de droite du hero (sous la liste avant 1024 px, `order`) ; abonné : quiz sous la liste, colonne de 8.
+  const placeQuiz = parcoursEntame ? "mt-12 lg:col-span-8" : "mt-12 max-lg:order-1 lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:mt-0 lg:self-start";
   const quizOrientation = (
-    <div className={cn(parcoursEntame ? "mt-10" : "mb-10", colonne)}>
+    <div className={ESPACE_CLIENT_PUBLIE ? placeQuiz : parcoursEntame ? "mt-10" : "mb-10"}>
       {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
-      <h2 className={ESPACE_CLIENT_PUBLIE ? "mb-4 text-center font-display text-xl font-bold" : "mb-4 font-display text-xl font-bold"}>
+      <h2 className={ESPACE_CLIENT_PUBLIE ? TITRE_CARTE : "mb-4 font-display text-xl font-bold"}>
         Quel parcours est fait pour toi ?
       </h2>
       <OrientationQuiz onShowParcours={showParcours} statut={statut} />
@@ -284,14 +311,22 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
     <>
       {/* Reprise pour la personne qui a un parcours en cours (UX-11) */}
       {!enteteEspace && reprise && userProgress[reprise.slug]?.nextStep && (
-        <div className={cn("mb-8 rounded-lg border border-accent-primary/40 bg-accent-primary/5 p-4 text-center", colonne)}>
+        <div
+          className={
+            ESPACE_CLIENT_PUBLIE
+              ? cn(CADRE_CARTE_NEUTRE, "mb-8 p-6 lg:col-span-12 lg:mb-0 lg:mt-8")
+              : "mb-8 rounded-lg border border-accent-primary/40 bg-accent-primary/5 p-4 text-center"
+          }
+        >
+          {/* s26 : compte gratuit qui a entamé un parcours, « Reprendre » en contour (le plein de l'écran est l'offre de
+              l'en-tête), bloc neutre aligné à gauche. Fermé : inchangé. */}
           <Link
             href={`/parcours/${reprise.slug}?src=hub#etape-${userProgress[reprise.slug].nextStep}`}
-            className={buttonVariants({ variant: "primary" })}
+            className={ESPACE_CLIENT_PUBLIE ? cn(buttonVariants({ variant: "outline", size: "lg" }), "h-auto min-h-12 whitespace-normal py-2", CONTOUR_CARTE) : buttonVariants({ variant: "primary" })}
           >
             {LISTE_PARCOURS.reprendre}
           </Link>
-          <p className="mt-2 text-sm text-text-secondary">
+          <p className={ESPACE_CLIENT_PUBLIE ? cn(META, "mt-2") : "mt-2 text-sm text-text-secondary"}>
             {/* Relecture des captures nav s24 (reviewer FD2) : ouvert seulement, apostrophes typographiques du titre. */}
             {(ESPACE_CLIENT_PUBLIE ? frTypo : (t: string) => t)(
               LISTE_PARCOURS.repriseLigne(
@@ -311,12 +346,12 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
       <div
         className={
           ESPACE_CLIENT_PUBLIE
-            ? GRILLE_CARTES_OUVERTE
+            ? enteteEspace ? GRILLE_CARTES_ABONNE : GRILLE_CARTES_OUVERTE
             : "flex flex-col gap-6"
         }
         data-parcours-cartes={ESPACE_CLIENT_PUBLIE ? "" : undefined}
       >
-        {parcours.map((p) => {
+        {parcours.map((p, index) => {
           // QA-07 : total réel, bonus de fin compris.
           const totalXp = totalParcoursXp(p.modules.map((m) => ({ moduleXp: m.xp })));
           const prog = userProgress[p.slug];
@@ -325,96 +360,132 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           // s21 B15 (froid) : visiteur ou membre qui n'a pas commencé ce parcours.
           const etape1Slug = statut !== "premium" && !isDone && progressValue === 0 && isParcoursSlug(p.slug) ? p.slug : null;
           const progressMax = prog ? prog.total : p.modules.length;
+          // s26 (`docs/design/parcours-vannes-s26.md` §1.3) : zones internes 7/5 dès 1024 px (infos à gauche, progression
+          // et « Programme » à droite) pour toute carte de l'abonné et pour la dernière carte seule du visiteur. Les blocs
+          // de `CardContent` rejoignent la carte (`contents`) : la barre de progression passe en tête par `order`.
+          const zones = ESPACE_CLIENT_PUBLIE && (enteteEspace || (parcours.length % 2 === 1 && index === parcours.length - 1));
+          const commence = progressValue > 0;
+          const o = (ouvert: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? ouvert : ferme);
           return (
             <Card
               key={p.title}
-              className={ESPACE_CLIENT_PUBLIE ? "flex flex-col p-4 sm:p-6" : "p-4 sm:p-6"}
+              className={
+                ESPACE_CLIENT_PUBLIE
+                  ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "flex flex-col p-6", zones && "lg:grid lg:grid-cols-12 lg:content-start lg:gap-x-6")
+                  : "p-4 sm:p-6"
+              }
               id={`parcours-${p.slug}`}
               filet={ESPACE_CLIENT_PUBLIE}
             >
-              <CardHeader className="pb-2">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <Badge variant="primary">{p.difficulty}</Badge>
+              <CardHeader className={o(cn("space-y-0 pb-0", zones && "lg:col-span-7"), "pb-2")}>
+                <div className={o(cn("flex flex-wrap items-center gap-x-2 gap-y-1", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
+                  <Badge variant="primary" className={o(cn(META_FORT, "rounded-none bg-transparent px-0 py-0"))}>{p.difficulty}</Badge>
                   <span className="text-sm text-text-secondary">
                     {p.duration}
                   </span>
-                  <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>
-                  <span className="text-sm text-text-muted">{p.timePerWeek}</span>
-                  <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>
-                  <span className="text-sm text-text-muted">{totalXp} XP à gagner</span>
-                  {isDone && <Badge variant="success">{LISTE_PARCOURS.termine}</Badge>}
+                  <span aria-hidden="true" className={o("hidden text-sm text-text-secondary sm:inline", "hidden text-sm text-text-muted sm:inline")}>·</span>
+                  <span className={o(META, "text-sm text-text-muted")}>{p.timePerWeek}</span>
+                  <span aria-hidden="true" className={o("hidden text-sm text-text-secondary sm:inline", "hidden text-sm text-text-muted sm:inline")}>·</span>
+                  <span className={o(META, "text-sm text-text-muted")}>{totalXp} XP à gagner</span>
+                  {isDone && <Badge variant="success" className={o(cn(PASTILLE, "font-normal text-success"))}>{LISTE_PARCOURS.termine}</Badge>}
                 </div>
-                <CardTitle className="mt-3 text-2xl">
-                  <span id={`parcours-title-${p.slug}`} tabIndex={-1} className="scroll-mt-24 focus:outline-none">
+                <CardTitle className={o(cn(TITRE_CARTE, "mt-2"), "mt-3 text-2xl")}>
+                  {/* s26 : marge d'ancre sous l'en-tête collant (121 px), comme les éléments collants (`lg:top-36`). */}
+                  <span id={`parcours-title-${p.slug}`} tabIndex={-1} className={o("scroll-mt-36 focus:outline-none", "scroll-mt-24 focus:outline-none")}>
                     <span className="mr-2" aria-hidden="true">{p.emoji}</span>
                     {p.title}
                   </span>
                 </CardTitle>
                 {/* s19 (N1 @design rendu) : typographie française au rendu, tous parcours. */}
-                <p className="mt-1 text-pretty text-sm font-medium text-accent-link">
+                <p className={o(cn(TEXTE, "mt-2 text-pretty"), "mt-1 text-pretty text-sm font-medium text-accent-link")}>
                   {frTypoTexte(p.persona)}
                 </p>
               </CardHeader>
-              <CardContent className={ESPACE_CLIENT_PUBLIE ? "flex flex-1 flex-col" : undefined}>
-                <p className="mb-4 text-pretty text-text-secondary">{frTypoTexte(stripEmDashes(p.description))}</p>
+              <CardContent className={ESPACE_CLIENT_PUBLIE ? "contents" : undefined}>
+                <p className={o(cn(TEXTE, "mt-2 text-pretty", zones && "lg:col-span-7"), "mb-4 text-pretty text-text-secondary")}>{frTypoTexte(stripEmDashes(p.description))}</p>
 
-                {/* Testimonial */}
-                <p className="mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
+                {/* Testimonial (s26 : méta en italique, sans fond) */}
+                <p className={o(cn(META, "mt-4 text-pretty italic", zones && "lg:col-span-7"), "mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary")}>
                   {frTypoTexte(stripEmDashes(p.testimonial))}
                 </p>
 
                 {/* Progression : affichée seulement une fois le parcours commencé (T26) */}
                 {progressValue > 0 && (
-                  <div className="mb-6">
-                    {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). */}
-                    <ProgressBar label={`${progressValue}/${progressMax} étapes`} value={progressValue} max={progressMax} />
-                    <p className="mt-2 text-right text-xs text-text-muted">{totalXp} XP à gagner</p>
+                  <div className={o(cn("-order-1 mb-4", zones && "lg:order-none lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mb-0"), "mb-6")}>
+                    {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). s26 : en tête de carte,
+                        remplissage gris clair sur rail visible (comme `BarreProgression`), aucun violet. */}
+                    <ProgressBar
+                      label={`${progressValue}/${progressMax} étapes`}
+                      value={progressValue}
+                      max={progressMax}
+                      className={o("tabular-nums [&_[role=progressbar]>div]:bg-none [&_[role=progressbar]>div]:bg-text-secondary [&_[role=progressbar]]:bg-border-hover [&_span]:text-text-secondary")}
+                    />
+                    <p className={o(cn(META, "mt-2 text-right"), "mt-2 text-right text-xs text-text-muted")}>{totalXp} XP à gagner</p>
                   </div>
                 )}
 
                 {/* v6 tour 4, point 2 (ouvert seulement) : « Programme » et le bloc du bouton forment un seul bloc de fin
                     de carte (`mt-auto`, écart `gap-6` au lieu du `mb-6`) : plus de trou entre eux, barres « Programme » et
                     boutons alignés d'une carte jumelle à l'autre. Fermé : `PiedCarte` est un fragment, HTML d'avant. */}
-                <PiedCarte>
+                <PiedCarte
+                  className={o(
+                    cn(
+                      "mt-auto flex flex-col gap-4 pt-6",
+                      zones && "lg:col-span-5 lg:col-start-8 lg:mt-0 lg:pt-0",
+                      zones && (commence ? "lg:row-span-3 lg:row-start-2 lg:mt-4" : "lg:row-span-3 lg:row-start-1"),
+                    ),
+                  )}
+                >
                 {/* Programme replié par défaut (T24) */}
                 <details
                   className={ESPACE_CLIENT_PUBLIE ? "group" : "group mb-6"}
                   open={openSlugs.has(p.slug)}
                   onToggle={(e) => setProgrammeOpen(p.slug, e.currentTarget.open)}
                 >
-                  <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 rounded-md border border-border px-3 text-sm font-semibold uppercase tracking-wider text-text-secondary hover:text-text-primary [&::-webkit-details-marker]:hidden">
+                  <summary
+                    className={o(
+                      cn("flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-xl border border-border px-4 hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary [&::-webkit-details-marker]:hidden", META_FORT),
+                      "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 rounded-md border border-border px-3 text-sm font-semibold uppercase tracking-wider text-text-secondary hover:text-text-primary [&::-webkit-details-marker]:hidden",
+                    )}
+                  >
                     Programme
                     <svg className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </summary>
-                  <ol className="mt-3 space-y-2">
+                  <ol className={o("mt-4 space-y-2", "mt-3 space-y-2")}>
                     {p.modules.map((m) => (
                       <li
                         key={m.week}
-                        className="flex flex-col gap-2 rounded-md bg-background-elevated p-3 sm:flex-row sm:items-start sm:gap-3"
+                        className={o("flex flex-col gap-2 rounded-xl bg-background-elevated p-4 sm:flex-row sm:items-start sm:gap-3", "flex flex-col gap-2 rounded-md bg-background-elevated p-3 sm:flex-row sm:items-start sm:gap-3")}
                       >
-                        <Badge variant="secondary" className="w-fit shrink-0 whitespace-nowrap sm:mt-0.5 sm:w-[5.25rem] sm:justify-center">
+                        <Badge
+                          variant="secondary"
+                          className={o(
+                            cn(META_FORT, "w-fit shrink-0 whitespace-nowrap rounded-none bg-transparent px-0 py-0 sm:w-[5.25rem]"),
+                            "w-fit shrink-0 whitespace-nowrap sm:mt-0.5 sm:w-[5.25rem] sm:justify-center",
+                          )}
+                        >
                           {m.week}
                         </Badge>
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="font-medium text-text-primary">
+                            <span className={o(TEXTE_FORT, "font-medium text-text-primary")}>
                               {frTypo(m.title)}
                             </span>
                             {m.free && (
-                              <Badge variant="success">{ETAPE_LIBRE_BADGE}</Badge>
+                              <Badge variant="success" className={o(cn(PASTILLE, "font-normal text-success"))}>{ETAPE_LIBRE_BADGE}</Badge>
                             )}
                           </div>
                           {/* s19 : sauts de paragraphe rendus ; typographie française (import-boulot.md §5),
                               tous parcours depuis l'iter 5 (H @design, S17 @ux). */}
-                          <p className="mt-1 whitespace-pre-line text-sm text-text-secondary">
+                          <p className={o(cn(META, "mt-2 whitespace-pre-line"), "mt-1 whitespace-pre-line text-sm text-text-secondary")}>
                             {frTypoParcours(m.detail)}
                           </p>
-                          <p className="mt-1 text-xs text-text-muted">
+                          <p className={o(cn(META, "mt-2"), "mt-1 text-xs text-text-muted")}>
                             Format : {m.format}
                           </p>
-                          <span className="mt-1 inline-block text-xs text-accent-link">
+                          <span className={o(cn(META, "mt-1 inline-block"), "mt-1 inline-block text-xs text-accent-link")}>
                             +{m.xp} XP
                           </span>
                         </div>
@@ -431,9 +502,13 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                     // v6 tour 1, point 12 (interrupteur ouvert, abonné) : un seul plein, celui du parcours en cours
                     // ou, sans parcours entamé, du parcours conseillé ; les autres en contour (niveau 2). Le visiteur
                     // et le compte gratuit gardent l'exception (b) de s21 : un plein par carte, vers l'étape 1.
-                    variant={enteteEspace && p.slug !== pleinUnique ? "outline-accent" : "primary"}
+                    // s26 (choix de l'orchestrateur sur le double aplat, `docs/design/parcours-vannes-s26.md` §0) : espace
+                    // ouvert, tous les boutons de carte en contour neutre, visiteur, compte gratuit et abonné. L'en-tête
+                    // collant garde le bouton d'offre plein à chaque écran (visiteur, gratuit) et l'abonné a son plein
+                    // dans « l'étape à reprendre » : un plein de carte ferait deux aplats violets dans le même écran.
+                    variant={ESPACE_CLIENT_PUBLIE ? "outline" : "primary"}
                     size="lg"
-                    className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", CORPS_APPEL_MOBILE)}
+                    className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", CORPS_APPEL_MOBILE, ESPACE_CLIENT_PUBLIE && CONTOUR_CARTE)}
                     onClick={() => handleCta(p.slug)}
                   >
                     {etape1Slug
@@ -444,7 +519,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                           ? "Continuer ce parcours"
                           : "Commencer ce parcours"}
                   </Button>
-                  {etape1Slug && <p className="text-xs text-text-muted">{frontiereListe(etape1Slug, ESPACE_CLIENT_PUBLIE && statut !== "visiteur")}</p>}
+                  {etape1Slug && <p className={o(META, "text-xs text-text-muted")}>{frontiereListe(etape1Slug, ESPACE_CLIENT_PUBLIE && statut !== "visiteur")}</p>}
                 </div>
                 </PiedCarte>
               </CardContent>

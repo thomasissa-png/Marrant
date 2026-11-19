@@ -169,7 +169,10 @@ async function fetchInitialData(slug: string) {
  * l'axe de 720 px collé à gauche de l'abonné, lot D11c, est supprimé). Fermé comme ouvert, même HTML.
  */
 function ColonneParcours({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto max-w-3xl">{children}</div>;
+  // s26 (`docs/design/parcours-vannes-s26.md` §2, interrupteur ouvert seulement) : grille 8/4 dès 1024 px posée sur ce
+  // parent commun (aucun élément ajouté) ; étapes dans la colonne de 8, carte de progression en rail collant de 4
+  // (`parcours-detail.tsx`). Fermé : colonne centrée de 768 px, inchangée.
+  return <div className={ESPACE_CLIENT_PUBLIE ? "lg:grid lg:grid-cols-12 lg:gap-x-6" : "mx-auto max-w-3xl"}>{children}</div>;
 }
 
 export default async function ParcoursDetailPage({

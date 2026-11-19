@@ -5,7 +5,10 @@ import { CATEGORIES_VANNES } from "@/config/vannes-categories";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, FILET_MASQUE } from "@/components/ui/card";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
+import { META, META_FORT, TEXTE_FORT } from "@/components/espace/typo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { chipClass, RANGEE_CHIPS_UNE_LIGNE } from "@/components/ui/chip";
@@ -82,6 +85,23 @@ const PUNCHLINE_TEASERS = [
   "Devine d’abord, clique ensuite",
 ];
 
+
+/**
+ * s26 (`docs/design/parcours-vannes-s26.md` §3.1 et §3.2, interrupteur ouvert seulement) : classes de la liste ouverte.
+ * Classes seules (page publique : mêmes éléments, mêmes textes, même ordre). Filet violet retiré (décision du 18/11,
+ * masqué par classe), cadre neutre de 24 px, catégorie en pastille grise, chute en blanc, décryptage sans violet ni
+ * capitales, trois colonnes dès 1024 px ; pastille active de la rangée sans aplat violet (le seul aplat de l'écran
+ * reste le bouton d'offre).
+ */
+const GRILLE_OUVERTE = "grid gap-6 md:grid-cols-2 lg:grid-cols-3";
+const PASTILLE_ACTIVE_OUVERTE = cn("border-text-primary bg-background-elevated", META_FORT);
+const PASTILLE_INACTIVE_OUVERTE = cn("border-border-input bg-transparent hover:border-border-hover hover:bg-background-elevated", META);
+const LIEN_NEUTRE_OUVERT = "text-text-primary underline underline-offset-2 hover:text-text-secondary";
+/** Une dernière vanne seule sur sa rangée la prend entière : 2 colonnes de 768 à 1023 px, 3 colonnes dès 1024 px. */
+function derniereSeule(nombre: number, index: number): string {
+  if (index !== nombre - 1) return "";
+  return cn(nombre % 2 === 1 && "md:max-lg:col-span-2", nombre % 3 === 1 && "lg:col-span-3");
+}
 
 interface VannesListProps {
   /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
@@ -184,7 +204,10 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       role="tab"
       aria-selected={category === cat.value}
       onClick={() => handleCategoryChange(cat.value)}
-      className={chipClass(category === cat.value ? "active" : "idle")}
+      className={chipClass(
+        category === cat.value ? "active" : "idle",
+        ESPACE_CLIENT_PUBLIE ? (category === cat.value ? PASTILLE_ACTIVE_OUVERTE : PASTILLE_INACTIVE_OUVERTE) : undefined,
+      )}
     >
       {cat.label}
     </button>
@@ -212,9 +235,9 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           onRetry={fetchJokes}
         />
       ) : showSkeleton ? (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className={ESPACE_CLIENT_PUBLIE ? GRILLE_OUVERTE : "grid gap-4 md:grid-cols-2"}>
           {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i} className="animate-pulse" filet={ESPACE_CLIENT_PUBLIE}>
+            <Card key={i} className={ESPACE_CLIENT_PUBLIE ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "animate-pulse") : "animate-pulse"} filet={ESPACE_CLIENT_PUBLIE}>
               <CardContent className="py-6">
                 <div className="h-4 w-1/4 rounded bg-background-elevated" />
                 <div className="mt-3 h-4 w-3/4 rounded bg-background-elevated" />
@@ -234,7 +257,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           ctaHref="/vannes"
         />
       ) : (
-        <div className="grid gap-4 md:grid-cols-2" role="tabpanel">
+        <div className={ESPACE_CLIENT_PUBLIE ? GRILLE_OUVERTE : "grid gap-4 md:grid-cols-2"} role="tabpanel">
           {jokes.map((joke, index) => (
             <Card
               key={joke.id}
@@ -242,7 +265,9 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
               filet={ESPACE_CLIENT_PUBLIE}
               // Revue visuelle s21 (T2-02) : carte en colonne, rangée d'action en pied à la même place d'une carte à l'autre.
               // Règle commune aux trois murs : une dernière carte seule prend la rangée (vanne : texte court).
-              className={`flex h-full cursor-pointer flex-col transition-colors hover:bg-background-light animate-stagger-in${
+              className={ESPACE_CLIENT_PUBLIE
+                ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "flex h-full cursor-pointer flex-col p-6 transition-colors hover:border-border-hover animate-stagger-in", derniereSeule(jokes.length, index))
+                : `flex h-full cursor-pointer flex-col transition-colors hover:bg-background-light animate-stagger-in${
                 jokes.length % 2 === 1 && index === jokes.length - 1 ? " md:col-span-2" : ""
               }`}
               style={{ animationDelay: `${index * 50}ms` }}
@@ -250,9 +275,9 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
             >
               <CardContent className="flex flex-1 flex-col pt-0">
                 {/* QA s21 tour 2 n2 : les pastilles passent à la ligne, les boutons ne rétrécissent pas ; plus de débordement à 320 px. */}
-                <div className="mb-3 flex items-center justify-between gap-2">
+                <div className={ESPACE_CLIENT_PUBLIE ? "flex items-center justify-between gap-2" : "mb-3 flex items-center justify-between gap-2"}>
                   <div className="flex min-w-0 flex-wrap items-center gap-2">
-                    <Badge variant="primary">
+                    <Badge variant="primary" className={ESPACE_CLIENT_PUBLIE ? cn(PASTILLE, "font-normal") : undefined}>
                       {CATEGORY_LABELS[joke.category] ?? joke.category}
                     </Badge>
                   </div>
@@ -262,43 +287,47 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                   </div>
                 </div>
                 {/* Toucher l'amorce (ou la carte) révèle la chute : c'est le geste de la page. */}
-                <p className="text-text-primary">{contenuAffiche(joke.content)}</p>
+                <p className={ESPACE_CLIENT_PUBLIE ? "mt-4 text-base text-text-primary" : "text-text-primary"}>{contenuAffiche(joke.content)}</p>
                 {revealedIds.has(joke.id) && (
                   <p
                     id={`punchline-${joke.id}`}
                     tabIndex={-1}
-                    className="mt-3 font-semibold text-accent-link animate-fade-in focus:outline-none"
+                    className={ESPACE_CLIENT_PUBLIE
+                      ? cn("mt-4 animate-fade-in focus:outline-none", TEXTE_FORT)
+                      : "mt-3 font-semibold text-accent-link animate-fade-in focus:outline-none"}
                   >
                     {contenuAffiche(joke.punchline)}
                   </p>
                 )}
                 {revealedIds.has(joke.id) && (
-                  <ReactionButtons jokeId={joke.id} className="mt-3" />
+                  <ReactionButtons jokeId={joke.id} className={ESPACE_CLIENT_PUBLIE ? "mt-4" : "mt-3"} />
                 )}
                 {revealedIds.has(joke.id) && joke.comedyTechnique && (
                   <div
-                    className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in"
+                    className={ESPACE_CLIENT_PUBLIE
+                      ? "mt-4 rounded-xl border border-border bg-background-elevated p-4 animate-fade-in"
+                      : "mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in"}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
+                    <p className={ESPACE_CLIENT_PUBLIE ? META_FORT : "text-xs font-semibold uppercase tracking-wider text-accent-link"}>
                       Pourquoi ça marche&nbsp;: {contenuAffiche(joke.comedyTechnique)}
                     </p>
                     {joke.techniqueExplanation && (
-                      <p className="mt-2 text-sm text-text-secondary">
+                      <p className={ESPACE_CLIENT_PUBLIE ? cn(META, "mt-2") : "mt-2 text-sm text-text-secondary"}>
                         {contenuAffiche(joke.techniqueExplanation)}
                       </p>
                     )}
                     {joke.howToApply && (
-                      <div className="mt-3 rounded-md border border-border bg-background-card p-3">
-                        <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
-                        <p className="mt-1 text-sm text-text-secondary">{contenuAffiche(joke.howToApply)}</p>
+                      <div className={ESPACE_CLIENT_PUBLIE ? "mt-4 rounded-xl border border-border bg-background-card p-4" : "mt-3 rounded-md border border-border bg-background-card p-3"}>
+                        <p className={ESPACE_CLIENT_PUBLIE ? META_FORT : "text-xs font-semibold text-text-primary"}>À toi de jouer</p>
+                        <p className={ESPACE_CLIENT_PUBLIE ? cn(META, "mt-2") : "mt-1 text-sm text-text-secondary"}>{contenuAffiche(joke.howToApply)}</p>
                       </div>
                     )}
-                    <p className="mt-3 text-xs text-text-muted">
+                    <p className={ESPACE_CLIENT_PUBLIE ? cn(META, "mt-4") : "mt-3 text-xs text-text-muted"}>
                       Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
                       <Link
                         href="/anatomie-vanne"
-                        className="font-medium text-accent-link underline underline-offset-2"
+                        className={ESPACE_CLIENT_PUBLIE ? LIEN_NEUTRE_OUVERT : "font-medium text-accent-link underline underline-offset-2"}
                       >
                         L’anatomie d’une vanne
                       </Link>
@@ -309,14 +338,15 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     discrète au coin inférieur droit, pour ne pas voler le geste de révélation ; elle ne
                     révèle pas la chute. Présente avant comme après la révélation. */}
                 {/* T2-02 : en pied (mt-auto) ; sous 1 280 px toujours sur 2 lignes, dès 1 280 px sur une ;
-                    « Révéler la chute » aligné sur le texte de la carte (-ml-3 compense son padding). */}
+                    « Révéler la chute » aligné sur le texte de la carte (-ml-3 compense son padding). s26 (ouvert) : cartes sur
+                    3 colonnes, pied toujours sur 2 lignes (le bouton ne se coupe plus en deux). */}
                 <div className="mt-auto flex items-end gap-2 pt-4">
                   {!revealedIds.has(joke.id) && (
-                    <div className="flex min-w-0 flex-1 flex-col items-start gap-1 xl:flex-row xl:items-center xl:gap-3">
+                    <div className={ESPACE_CLIENT_PUBLIE ? "flex min-w-0 flex-1 flex-col items-start gap-1" : "flex min-w-0 flex-1 flex-col items-start gap-1 xl:flex-row xl:items-center xl:gap-3"}>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="-ml-3 min-h-11"
+                        className={ESPACE_CLIENT_PUBLIE ? cn("-ml-3 min-h-11", META_FORT) : "-ml-3 min-h-11"}
                         aria-expanded={false}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -327,7 +357,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                       >
                         Révéler la chute
                       </Button>
-                      <p className="text-sm text-text-muted">
+                      <p className={ESPACE_CLIENT_PUBLIE ? META : "text-sm text-text-muted"}>
                         {frTypo(PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length])}
                       </p>
                     </div>
@@ -357,7 +387,8 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           (titre, bouton, réassurance et lien gratuit ; la réassurance du bloc est forcée à gauche ouvert, d'où la
           seconde classe). Le bloc lui-même (`components/premium/mur-liste.tsx`) n'est pas touché. Fermé : inchangé. */}
       {limited && (jokes.length > 0 || page > 1) && (ESPACE_CLIENT_PUBLIE ? (
-        <div className="text-center [&_.text-left]:text-center" data-mur-centre="">
+        // s26 (§3.3) : plus de centrage forcé, 48 px d’air au-dessus (24 ici + 24 du bloc) ; l'objet Premium (`MurListe`) n'est pas restylé.
+        <div className="mt-6" data-mur-centre="">
           <MurListe liste="vannes" />
         </div>
       ) : (
