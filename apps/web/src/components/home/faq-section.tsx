@@ -31,8 +31,10 @@ interface FaqSectionProps {
    * s26 (/parcours et /vannes, interrupteur ouvert seulement, `docs/design/parcours-vannes-s26.md` §3.4) : titre à
    * gauche sur 4 colonnes, questions sur 8 dès 1024 px, séparateurs au lieu des cadres. Classes seules : mêmes
    * éléments, mêmes textes. Absent : inchangé.
+   * « pleine » (s26 parcours connecté, /parcours seulement, `docs/design/parcours-connecte-s26.md` §2 rangée 9) : même
+   * traitement que « split » mais sans grille 4/8 : titre au-dessus (24 px), séparateurs sur toute la largeur.
    */
-  disposition?: "split";
+  disposition?: "split" | "pleine";
 }
 
 /**
@@ -42,16 +44,17 @@ interface FaqSectionProps {
  */
 export function FaqSection({ items, title = "Questions fréquentes", align = "center", titreCentre = false, disposition }: FaqSectionProps = {}) {
   const left = align === "left";
-  const split = disposition === "split";
+  const split = disposition === "split" || disposition === "pleine";
+  const pleine = disposition === "pleine";
   const liste = items ?? faqs;
   // Décision de Thomas du 14/11, interrupteur de l'espace ouvert : dans la FAQ de /parcours (seule page qui prend la
   // liste par défaut, sans `items`), la question du prix (« {prix}, c'est vraiment tout ? ») n'est pas montrée à
   // l'abonné : masquée dans le navigateur, HTML serveur et données structurées inchangés. Fermé : rien ne change.
   const prixMasqueAbonne = ESPACE_CLIENT_PUBLIE && items === undefined;
   return (
-    <div className={split ? "lg:grid lg:grid-cols-12 lg:gap-6" : left ? undefined : COLONNE_LECTURE}>
+    <div className={pleine ? undefined : split ? "lg:grid lg:grid-cols-12 lg:gap-6" : left ? undefined : COLONNE_LECTURE}>
       <h2
-        className={split ? cn(TITRE_CARTE, "mb-4 lg:col-span-4 lg:mb-0") : cn(
+        className={pleine ? cn(TITRE_CARTE, "mb-6") : split ? cn(TITRE_CARTE, "mb-4 lg:col-span-4 lg:mb-0") : cn(
           "font-display font-bold text-text-primary",
           // Revue visuelle s21 (R29) : titre secondaire, même taille que « Derniers articles » et la lettre.
           left ? (titreCentre ? "mb-4 text-center text-xl" : "mb-4 text-xl") : "mb-8 text-center text-xl md:text-2xl",
@@ -59,7 +62,7 @@ export function FaqSection({ items, title = "Questions fréquentes", align = "ce
       >
         {title}
       </h2>
-      <div className={split ? "divide-y divide-border border-y border-border lg:col-span-8" : "space-y-4"}>
+      <div className={pleine ? "divide-y divide-border border-y border-border" : split ? "divide-y divide-border border-y border-border lg:col-span-8" : "space-y-4"}>
         {liste.map((faq) => {
           const details = (
           <details

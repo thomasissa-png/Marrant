@@ -101,23 +101,28 @@ describe("arbitrage 1 : /parcours, titres de section centrés comme l'accueil", 
   });
 
   // s26 (§1.2) : « Les parcours » à gauche, dans la colonne de 8.
-  it("abonné, ouvert : « Les parcours » à gauche, colonne de 8", async () => {
+  // s26 parcours connecté : test changé (raison : plus de colonne de 8, le titre de la liste occupe les 12 colonnes,
+  // `docs/design/parcours-connecte-s26.md` §2 rangée 6).
+  it("abonné, ouvert : « Les parcours » à gauche, sur 12 colonnes", async () => {
     ouvrir(true);
     useSession.mockReturnValue(PREMIUM);
     const { container } = render(<ParcoursEspace />);
     await act(async () => undefined);
-    expect(classes(titre(container, "Les parcours"))).toEqual(expect.arrayContaining(["text-xl", "lg:col-span-8"]));
+    expect(classes(titre(container, "Les parcours"))).toEqual(expect.arrayContaining(["text-xl", "lg:col-span-12", "lg:mt-12", "lg:mb-6"]));
     expect(classes(titre(container, "Les parcours"))).not.toContain("text-center");
   });
 
   // s26 (§1.1) : quiz compact à gauche dans les 4 colonnes de droite du hero.
+  // s26 parcours connecté : test changé (raison : le quiz quitte la colonne de droite du hero, il passe sous la liste sur
+  // 12 colonnes, `order-1` pour le visiteur, `docs/design/parcours-connecte-s26.md` §2.5).
   it("quiz d'orientation : à gauche ouvert comme fermé", async () => {
     const catalogue = getParcoursCatalogue();
     ouvrir(true);
     const ouvert = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
     expect(classes(titre(ouvert.container, "Quel parcours est fait pour toi ?"))).not.toContain("text-center");
-    expect(classes(titre(ouvert.container, "Quel parcours est fait pour toi ?").parentElement)).toContain("lg:col-start-9");
+    expect(classes(titre(ouvert.container, "Quel parcours est fait pour toi ?").parentElement)).toEqual(expect.arrayContaining(["order-1", "lg:col-span-12"]));
+    expect(classes(titre(ouvert.container, "Quel parcours est fait pour toi ?").parentElement)).not.toContain("lg:col-start-9");
     ouvert.unmount();
     ouvrir(false);
     const ferme = render(<ParcoursContent parcours={catalogue} />);
@@ -161,12 +166,14 @@ describe("arbitrage 1 : /parcours/repartie, « Pour qui ? », « Le programme »
   });
 
   // s26 (`docs/design/parcours-vannes-s26.md` §2) : titres et intro alignés à gauche dans la colonne de 8, échelle `typo.ts`.
-  it("ouvert : titres et intro à gauche, colonne de 8, échelle `typo.ts`", async () => {
+  // s26 parcours connecté : test changé (raison : programme sur 12 colonnes, plus de colonne de 8,
+  // `docs/design/parcours-connecte-s26.md` §3 rangée C).
+  it("ouvert : titres et intro à gauche, programme sur 12 colonnes, échelle `typo.ts`", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursDetail slug="repartie" initialPath={chemin()} />);
     await act(async () => undefined);
     const programme = titre(container, TITRES_SECTIONS.programme);
-    expect(classes(programme)).toEqual(expect.arrayContaining(["text-xl", "font-semibold", "lg:col-span-8"]));
+    expect(classes(programme)).toEqual(expect.arrayContaining(["text-xl", "font-semibold", "lg:col-span-12"]));
     expect(classes(programme)).not.toContain("text-center");
     const pourQui = titre(container, TITRES_SECTIONS.pourQui);
     expect(classes(pourQui)).toEqual(expect.arrayContaining(["text-base", "font-semibold"]));

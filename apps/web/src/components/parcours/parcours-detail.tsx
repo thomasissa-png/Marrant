@@ -51,6 +51,8 @@ import { PathCompletionCard } from "@/components/parcours/path-completion-card";
 import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { SommaireParcours } from "@/components/espace/parcours/sommaire-parcours";
+import { ListeEtapesVisiteur, PiedEtape } from "@/components/espace/parcours/navigation-etapes";
+import { recalerAncre } from "@/lib/espace/recaler-ancre";
 import { AnnonceApresValidation } from "@/components/espace/parcours/annonce-apres-validation";
 
 export type { PathData, UserProgress } from "@/components/parcours/parcours-types";
@@ -93,8 +95,16 @@ function stepToOpen(steps: Step[], completed: number[], hashStep: number | null)
  * progression (une ligne pour le visiteur, sommaire pour l'abonné) en rail collant de 4 à droite, sous l'en-tête
  * collant de 121 px (`lg:top-36`). Cadres neutres, filets violets masqués (décision du 18/11), échelle `typo.ts`.
  */
-const COLONNE_DETAIL = "lg:col-span-8 lg:col-start-1";
-const RAIL_DETAIL = "lg:sticky lg:top-36 lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:mb-0 lg:self-start lg:[grid-row-end:span_8]";
+/*
+ * s26 parcours connecté (`docs/design/parcours-connecte-s26.md` §3 ; `docs/ux/parcours-connecte-s26.md` §4, arbitrage du
+ * 19/11 : plus de rail collant) : en-tête en 7/5 dès 1024 px (fil d'Ariane, titre et argumentaire à gauche, carte de
+ * progression à droite, haut aligné sur le haut du H1 par `lg:mt-9`, même bas), puis programme et suite sur 12 colonnes.
+ * Abonné qui a déjà validé une étape (argumentaire après le programme) : gauche réduite au titre, la carte passe sous
+ * l'en-tête sur 12 colonnes (une carte de 5 colonnes à côté d'un titre seul laisserait 200 px vides à gauche).
+ */
+const COLONNE_DETAIL = "lg:col-span-12";
+const EN_TETE_GAUCHE = "lg:col-span-7";
+const CARTE_DROITE = "lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mt-9 lg:self-stretch";
 const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
 /**
  * s26 tour 2 (P3, relectures du tour 1 : corps des étapes hors échelle, au moins 5 accents violets) : posé sur la liste
@@ -306,6 +316,12 @@ export function ParcoursDetail({
     if (ancreARecaler.current === null || enrich === "attente") return;
     const cible = expandedStep ?? ancreARecaler.current;
     ancreARecaler.current = null;
+    // s26 parcours connecté (`docs/ux/parcours-connecte-s26.md` §5, « Reprendre ») : ouvert, recalé aussi à chaque
+    // changement de hauteur de la page jusqu'à 600 ms de calme, puis focus sur l'en-tête de l'étape sans défilement.
+    if (ESPACE_CLIENT_PUBLIE) {
+      recalerAncre(`etape-${cible}`, { focusId: `etape-${cible}-entete` });
+      return;
+    }
     document.getElementById(`etape-${cible}`)?.scrollIntoView?.({ behavior: "instant", block: "start" });
   }, [enrich, expandedStep]);
 
@@ -585,6 +601,9 @@ export function ParcoursDetail({
   // s17 tour 2 (DES-2-11) : parcours terminé, l'argumentaire (intro, « Pour qui ? ») passe après la carte de fin.
   // s19 (N2 a @ux rendu) : abonné qui a déjà validé une étape, l'argumentaire passe après le programme.
   const argumentaireApresProgramme = !isPathCompleted && isPremium && progressionConnue && completedSteps.length > 0;
+  // s26 parcours connecté (§3) : carte de progression affichée, et en-tête 7/5 quand l'argumentaire reste en tête.
+  const carteProgression = !isPathCompleted || chargementPremium || echecPremium;
+  const enTete75 = carteProgression && !argumentaireApresProgramme;
   // s19 (N1 @design rendu) : typographie française au rendu (« 6 semaines », « « Redis-moi », « à midi »), tous parcours.
   // v6 tour 5, arbitrage 1 (ouvert seulement) : l'intro devient une colonne centrée de 672 px sous l'en-tête centré
   // (comme le sous-titre de la liste), « Pour qui ? » et la phrase du persona centrés ; le témoignage garde son encart.
@@ -611,7 +630,7 @@ export function ParcoursDetail({
 
   return (
     <>
-      <div className={ouvert(cn("mb-8", COLONNE_DETAIL), "mb-8")}>
+      <div className={ouvert(cn("mb-8", enTete75 ? EN_TETE_GAUCHE : COLONNE_DETAIL), "mb-8")}>
         <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
           <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
           <span className="mx-2">/</span>
@@ -649,9 +668,9 @@ export function ParcoursDetail({
 
       {/* DES-1-16 : carte resserrée (une ligne pour le visiteur).
           s19 (N6 @ux rendu) : parcours terminé, la carte de fin suffit (sauf chargement ou échec à signaler). */}
-      {(!isPathCompleted || chargementPremium || echecPremium) && (
+      {carteProgression && (
       <Card
-        className={cn(isPremium ? "mb-8" : "mb-8 py-3", ouvert(cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "p-6", RAIL_DETAIL)))}
+        className={cn(isPremium ? "mb-8" : "mb-8 py-3", ouvert(cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "p-6", enTete75 ? CARTE_DROITE : COLONNE_DETAIL)))}
         aria-busy={chargementPremium || undefined}
         filet={ESPACE_CLIENT_PUBLIE}
       >
@@ -758,6 +777,13 @@ export function ParcoursDetail({
                 </p>
               )}
             </>
+          ) : ESPACE_CLIENT_PUBLIE ? (
+            // s26 parcours connecté (§3) : visiteur et compte gratuit, liste des étapes en liens d'ancre (aucun bouton).
+            <ListeEtapesVisiteur
+              slug={slug}
+              etapes={path.steps.map((s) => ({ order: s.order, titre: s.moduleTitle ?? s.tip.title, libre: !!s.free || s.order === 1 }))}
+              allerAEtape={allerAEtape}
+            />
           ) : (
             // QA-13 : pas de barre immobile pour un non-abonné.
             <p className="text-sm text-text-secondary">{progressionVisiteurTexte()}</p>
@@ -833,6 +859,19 @@ export function ParcoursDetail({
               resultat={stepResults[step.order] ?? null}
               contexte={stepIndex === 0 ? etapeContexteTexte(path.title, path.duration) : null}
               ancresFiches={espaceOuvert}
+              pied={
+                espaceOuvert && etapeAccessible(step.order) ? (
+                  <PiedEtape
+                    slug={slug}
+                    suivante={
+                      path.steps[stepIndex + 1]
+                        ? { order: path.steps[stepIndex + 1].order, titre: path.steps[stepIndex + 1].moduleTitle ?? path.steps[stepIndex + 1].tip.title }
+                        : null
+                    }
+                    allerAEtape={allerAEtape}
+                  />
+                ) : undefined
+              }
             />
           );
         })}

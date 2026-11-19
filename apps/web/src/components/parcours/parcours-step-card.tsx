@@ -213,6 +213,11 @@ export interface ParcoursStepCardProps {
    * posées sur les blocs existants (aucun texte touché). Absent (défaut) : rendu d'aujourd'hui.
    */
   ancresFiches?: boolean;
+  /**
+   * s26 parcours connecté (`docs/ux/parcours-connecte-s26.md` §5) : pied de l'étape ouverte (retour vers /parcours, étape
+   * suivante), passé par la page de l'abonné, espace ouvert seulement. Absent (défaut) : rendu d'aujourd'hui.
+   */
+  pied?: React.ReactNode;
 }
 
 /** Repère d'ancre `#fiche-N-M` (lot D4), sans hauteur ni texte. */
@@ -234,8 +239,9 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
       // Ancre des liens d'entrée (lot C) : /parcours/<slug>#etape-N.
       id={`etape-${step.order}`}
       // s17 tour 3 (DES-3-05) : 112 px sous la barre fixe (64 px), « Le programme » reste entier au-dessus de l'étape 1.
+      // s26 parcours connecté (§5) : ouvert, 137 px (en-tête collant de 121 px + 16), à toutes les largeurs.
       className={ouvert(
-        cn(CADRE_CARTE_NEUTRE, "scroll-mt-36 p-6", muted && "border-dashed"),
+        cn(CADRE_CARTE_NEUTRE, "scroll-mt-[137px] p-6", muted && "border-dashed"),
         `scroll-mt-28 ${isCompleted ? "border-accent-primary/30 bg-accent-primary/5" : muted ? "border-dashed" : ""}`,
       )}
     >
@@ -368,6 +374,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
           ) : (
             <StepContent {...props} hasQuiz={hasQuiz} />
           )}
+          {props.pied}
         </CardContent>
       )}
     </Card>

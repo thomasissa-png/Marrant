@@ -86,15 +86,18 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
     ouvrir(true);
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
-    for (const carte of cartes(container)) {
+    // s26 parcours connecté : test changé (raison : le pied est la piste 5 de la sous-grille, `mt-6 md:row-start-5` au lieu
+    // de `pt-6` ; la dernière carte seule passe son pied en ligne dès 1024 px, `docs/design/parcours-connecte-s26.md` §2.4).
+    for (const [i, carte] of cartes(container).entries()) {
+      const seule = i === catalogue.length - 1 && catalogue.length % 2 === 1;
       const pied = carte.querySelector("[data-parcours-pied]") as HTMLElement;
-      expect(classes(pied)).toEqual(expect.arrayContaining(["flex", "flex-col", "gap-4", "pt-6"]));
+      expect(classes(pied)).toEqual(expect.arrayContaining(["mt-6", "flex", "flex-col", "gap-4", "md:row-start-5"]));
       expect(classes(pied)).not.toContain("mt-auto");
       const details = pied.firstElementChild as HTMLElement;
       expect(details.tagName).toBe("DETAILS");
-      expect(details.className).toBe("group");
+      expect(details.className).toBe(seule ? "group lg:min-w-0 lg:flex-1" : "group");
       const bloc = pied.lastElementChild as HTMLElement;
-      expect(bloc.className).toBe("flex flex-col gap-2");
+      expect(bloc.className).toBe(seule ? "flex flex-col gap-2 lg:flex-1" : "flex flex-col gap-2");
       const bouton = within(bloc).getByRole("button");
       expect(classes(bouton)).toEqual(expect.arrayContaining(["min-h-12", "w-full", "sm:w-auto"]));
       // Un seul bloc de fin : rien après lui dans la carte.
@@ -104,7 +107,9 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
 
   // s26 (`docs/design/parcours-vannes-s26.md` §1.1 et §1.3) : la carte impaire seule prend toute la rangée dès 768 px
   // (plus de carte centrée de 50 %) et passe en zones internes 7/5 dès 1024 px.
-  it("ouvert : carte impaire seule sur toute la rangée, zones internes 7/5 à `lg`", async () => {
+  // s26 parcours connecté : test changé (raison : plus de zones 7/5, qui laissaient un côté droit vide ; la carte seule
+  // reste empilée, seul son pied passe en ligne dès 1024 px, `docs/design/parcours-connecte-s26.md` §2.4).
+  it("ouvert : carte impaire seule sur toute la rangée, empilée, pied en ligne à `lg`", async () => {
     ouvrir(true);
     const { container } = render(<ParcoursContent parcours={catalogue} />);
     await act(async () => undefined);
@@ -114,8 +119,9 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
     expect(classes(grille)).not.toContain("lg:[&>:last-child:nth-child(odd)]:w-[calc(50%-0.75rem)]");
     const derniere = cartes(container)[catalogue.length - 1];
     expect(catalogue.length % 2).toBe(1);
-    expect(classes(derniere)).toEqual(expect.arrayContaining(["lg:grid", "lg:grid-cols-12"]));
-    expect(classes(cartes(container)[0])).not.toContain("lg:grid");
+    expect(classes(derniere)).not.toContain("lg:grid-cols-12");
+    expect(classes(derniere.querySelector("[data-parcours-pied]"))).toEqual(expect.arrayContaining(["lg:flex-row", "lg:items-start", "lg:gap-6"]));
+    expect(classes(cartes(container)[0].querySelector("[data-parcours-pied]"))).not.toContain("lg:flex-row");
   });
 
   it("fermé : pile d'avant, `details` en `group mb-6`, bloc du bouton sans `mt-auto`, aucun bloc ajouté", async () => {

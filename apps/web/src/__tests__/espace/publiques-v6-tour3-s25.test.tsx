@@ -241,7 +241,12 @@ describe("point 12 : /parcours, cartes en deux colonnes dès `lg`", () => {
     await act(async () => undefined);
     const grille = container.querySelector("[data-parcours-cartes]") as HTMLElement;
     // s26 tour 3 (point 1) : `items-stretch`, cartes d'une rangée à la même hauteur, sans pied poussé en bas.
-    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["grid", "gap-6", "md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2", "items-stretch"]));
+    // s26 parcours connecté : test changé (raison : hauteurs égales par sous-grille de 5 pistes, plus par `items-stretch` ;
+    // écart vertical porté par le `mb-6` des cartes, `gap-y-0`, `docs/design/parcours-connecte-s26.md` §2.4).
+    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["grid", "gap-x-6", "gap-y-0", "-mb-6", "md:grid-cols-2", "md:[&>:last-child:nth-child(odd)]:col-span-2"]));
+    const carte = grille.querySelector("[id^='parcours-']") as HTMLElement;
+    expect(carte.className.split(" ")).toEqual(expect.arrayContaining(["mb-6", "md:row-span-5", "md:grid", "md:grid-rows-subgrid", "md:gap-y-0", "scroll-mt-[137px]"]));
+    expect(carte.className).not.toMatch(/\bmin-h-|\bmt-auto\b|\bjustify-between\b/);
     // s26 tour 3 (point 2) : plus aucun séparateur « · » en pseudo-élément dans la méta, items séparés par `gap-x-4`.
     expect(container.innerHTML).not.toContain("before:content");
     expect((grille.querySelector("[id^='parcours-'] div.flex-wrap") as HTMLElement).className.split(" ")).toContain("gap-x-4");

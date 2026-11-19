@@ -114,8 +114,10 @@ describe("@ux D-1 : semaine 4 et « Écouter, repérer »", () => {
     expect(ecouterPublie({})).toBe(false);
   });
 
+  // s26 parcours connecté : test changé (raison : l'étape à reprendre sort de `QuatreSemaines` pour la carte « En cours »,
+  // la prop `etape` n'existe plus, `docs/design/parcours-connecte-s26.md` §2.1).
   it("non publié : la ligne sans « Écouter », les 3 premières mot pour mot", () => {
-    render(<QuatreSemaines etape={null} ecouterPublie={false} />);
+    render(<QuatreSemaines ecouterPublie={false} />);
     expect(screen.getAllByRole("listitem")).toHaveLength(4);
     expect(semaine4()).not.toHaveTextContent(/Écouter/);
     expect(semaine4()).toHaveTextContent(apo(P.semaines.semaine4SansEcouter.texte));
@@ -127,8 +129,9 @@ describe("@ux D-1 : semaine 4 et « Écouter, repérer »", () => {
     expect(source).toContain("ecouterPublie={caps?.ecouterPublie === true}");
   });
 
+  // s26 parcours connecté : test changé (raison : prop `etape` retirée de `QuatreSemaines`, voir plus haut).
   it("publié : la ligne validée, avec « Écouter, repérer »", () => {
-    render(<QuatreSemaines etape={null} ecouterPublie />);
+    render(<QuatreSemaines ecouterPublie />);
     expect(semaine4()).toHaveTextContent(/Écouter, repérer/);
   });
 });
