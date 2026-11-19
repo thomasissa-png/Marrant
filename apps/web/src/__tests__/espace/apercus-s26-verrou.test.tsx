@@ -205,6 +205,7 @@ describe("offre en haut : les trois adresses passées à `ApercuVerrouille`", ()
     // (hero 8/4, offre en haut, `/carnet` et `/carnet/<mois>`) s'ajoutent.
     // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.1 et §2.1) : Mes questions et Mes répliques s'ajoutent.
     // s26 (un seul aplat violet par écran) : /profil s'ajoute (bouton « S'abonner » de la carte du compte gratuit).
+    // s26 (même règle) : /lettre s'ajoute (inscription, bouton plein « Envoie-moi la lettre ») ; ses sous-adresses non.
     expect(ADRESSES_OFFRE_EN_HAUT).toEqual([
       ADRESSES_APERCU.aujourdhui,
       ADRESSES_APERCU.quoiRepondre,
@@ -215,11 +216,13 @@ describe("offre en haut : les trois adresses passées à `ApercuVerrouille`", ()
       ADRESSES_APERCU.mesQuestions,
       ADRESSES_APERCU.mesRepliques,
       "/profil",
+      "/lettre",
     ]);
     expect(offreEnHaut("/mon-espace/bibliotheque?x=1")).toBe(true);
     expect(offreEnHaut("/favoris#x")).toBe(true);
     expect(offreEnHaut("/carnet/2026-10?src=blog")).toBe(true);
     expect(offreEnHaut(`${ADRESSES_APERCU.mesQuestions}?x=1`)).toBe(true);
-    for (const autre of [`${ADRESSES_APERCU.mesQuestions}/abc`, "/carnet/2026-10/x", "/carnetx"]) expect(offreEnHaut(autre)).toBe(false);
+    expect(offreEnHaut("/lettre?statut=confirme")).toBe(true);
+    for (const autre of [`${ADRESSES_APERCU.mesQuestions}/abc`, "/carnet/2026-10/x", "/carnetx", "/lettre/confirmer", "/lettre/desinscrire"]) expect(offreEnHaut(autre)).toBe(false);
   });
 });

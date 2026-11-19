@@ -403,15 +403,21 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         await expect(offres.first(), `bouton d'offre de la page au premier écran, ${largeur}`).toBeInViewport({ ratio: 1 });
         expect(await offres.evaluateAll((els) => els.filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.top < innerHeight && r.bottom > 0; }).length), `un seul bouton d'offre au premier écran, ${largeur}`).toBe(1);
         // s26 : « /mon-espace/quoi-repondre » remplacé par « /mon-espace/questions » : Quoi répondre est passé à l'aperçu à
-        // offre en haut (`ADRESSES_OFFRE_EN_HAUT`), Mes questions reste sur l'ancien aperçu (même bascule que le Jest
-        // `aujourdhui-v7-tour13`). Les trois rubriques s26 sont contrôlées comme « /mon-espace » juste au-dessus.
+        // offre en haut (`ADRESSES_OFFRE_EN_HAUT`), Mes questions restait sur l'ancien aperçu (même bascule que le Jest
+        // `aujourdhui-v7-tour13`) jusqu'à son passage s26 (voir plus bas). Les trois rubriques s26 sont contrôlées comme « /mon-espace » juste au-dessus.
         // s26 (`docs/ux/favoris-carnet-s26.md` §1.2 et §2.2) : l'aperçu de Favoris et le carnet du non-abonné aussi.
-        for (const s26 of ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris", "/carnet"]) {
+        // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.1 et §2.1) : Mes questions et Mes répliques aussi.
+        for (const s26 of ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris", "/carnet", "/mon-espace/questions", "/mon-espace/repliques"]) {
           await page.goto(s26);
           await expect(page.locator("header [data-en-tete-prix]"), `en-tête sans bouton d'offre, ${s26}, ${largeur}`).toHaveCount(0);
           await expect(page.getByRole("link", { name: TEXTES_APERCU.offre.nomAccessible }).first(), `bouton d'offre de la page, ${s26}, ${largeur}`).toBeInViewport({ ratio: 1 });
         }
-        for (const ailleurs of ["/", "/vannes", "/mon-espace/questions"]) {
+        // s26 : « /mon-espace/questions » passé offre en haut (`ADRESSES_OFFRE_EN_HAUT`, plus aucune rubrique sur l'ancien
+        // aperçu) ; adresse témoin remplacée par « /parcours », hors de la liste (l'en-tête garde son bouton d'offre).
+        // « /lettre » rejoint aussi la liste (inscription, un seul aplat) : en-tête sans bouton d'offre, contrôlé ici.
+        await page.goto("/lettre");
+        await expect(page.locator("header [data-en-tete-prix]"), `en-tête sans bouton d'offre, /lettre, ${largeur}`).toHaveCount(0);
+        for (const ailleurs of ["/", "/vannes", "/parcours"]) {
           await page.goto(ailleurs);
           await expect(page.locator("header [data-en-tete-prix]"), `en-tête avec bouton d'offre, ${ailleurs}, ${largeur}`).toHaveCount(1);
         }

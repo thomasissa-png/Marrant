@@ -706,7 +706,9 @@ test.describe("navigation universelle v6 (s25)", () => {
     test("§4 : H1 des rubriques de premier niveau à la même hauteur entre elles (abonné, visiteur ; 375 et 1280 px)", async ({ browser }) => {
       // s26 (Favoris, `docs/ux/favoris-carnet-s26.md` §1.2) : l'aperçu de /favoris reprend le même hero (`HeroApercu`,
       // pastille « Premium » au-dessus du H1 dès 768 px) : même règle (mesuré sur ce0c2ad7 : H1 44 px plus bas).
-      const APERCUS_EN_LARGEUR = ["/mon-espace", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris"];
+      // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1 et §4) : les aperçus de Mes questions et Mes répliques
+      // passent à `ApercuVerrouille` (pastille « Premium » au-dessus du H1) : même règle (mesuré sur 7d860d96 : H1 44 px plus bas).
+      const APERCUS_EN_LARGEUR = ["/mon-espace", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris", "/mon-espace/questions", "/mon-espace/repliques"];
       const PREMIER_NIVEAU = ["/mon-espace", "/parcours", "/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/vannes", "/conseils", "/videos", "/blog", "/lettre", "/favoris", "/carnet", "/mon-espace/questions", "/mon-espace/repliques"];
       for (const etat of ["PREMIUM", "visiteur"] as const) {
         const c = await contexte(browser, etat);

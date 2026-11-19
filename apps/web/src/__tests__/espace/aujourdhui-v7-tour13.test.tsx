@@ -117,8 +117,9 @@ describe("point 2 : un seul bouton de paiement en haut", () => {
     ["gratuit", { data: { user: { id: "u1", plan: "FREE" } }, status: "authenticated" }],
   ])("%s : bouton d'offre de l'en-tête masqué sur /mon-espace, présent ailleurs", async (_nom, session) => {
     useSession.mockReturnValue(session);
-    // s26 : Mes questions et Mes répliques rejoignent les aperçus offre en haut (bouton de l'en-tête masqué).
-    for (const [chemin, attendu] of [["/mon-espace", 0], ["/mon-espace/s-entrainer", 0], ["/mon-espace/questions", 0], ["/mon-espace/repliques", 0], ["/", 1], ["/vannes", 1], ["/mon-espace/questions/clx0fil", 1]] as const) {
+    // s26 : Mes questions et Mes répliques rejoignent les aperçus offre en haut (bouton de l'en-tête masqué) ; /lettre
+    // aussi (inscription, un seul aplat).
+    for (const [chemin, attendu] of [["/mon-espace", 0], ["/mon-espace/s-entrainer", 0], ["/mon-espace/questions", 0], ["/mon-espace/repliques", 0], ["/lettre", 0], ["/", 1], ["/vannes", 1], ["/mon-espace/questions/clx0fil", 1]] as const) {
       usePathname.mockReturnValue(chemin);
       const { unmount } = render(<EnTeteUniversel />);
       await act(async () => {});

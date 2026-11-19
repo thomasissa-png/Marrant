@@ -3,7 +3,7 @@ import { LienRetour } from "@/components/espace/lien-retour";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { TEXTES_LETTRES } from "@/config/textes/espace-bibliotheque";
 import type { LettreArchive, LettreLue } from "@/lib/espace/lettres";
-import { BOUTON_SECONDAIRE, CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { META, TEXTE, TEXTE_FORT, TITRE_PAGE } from "@/components/espace/typo";
 import { frEspaceProfond, frTypo } from "@/lib/fr-typo";
 import { lienSansParametres } from "@/components/lettre/lettre-corps-apercu";
@@ -20,17 +20,23 @@ export const hrefLettre = (numero: string) => `${ESPACE_ACCUEIL}/lettres/${numer
  * d'âge, aucun mot « ancienne » ni « archive ». Aucune lettre envoyée (reste du D6) : une ligne, sans
  * reproche ni date promise, et une sortie vers « Aujourd'hui » ; état statique, sans `role="status"`.
  * s26 (design `questions-repliques-lettre-profil-s26.md` §6.2) : état vide en cadre neutre (plus de filet violet).
+ * s26 (critère 4 de la nav, 1280 px) : l'état vide occupe la largeur, 8/4 dès 1024 : le texte à gauche (8 colonnes), la
+ * sortie vers « Aujourd'hui » en rail à droite (4 colonnes, lien neutre, aucun aplat), comme l'état vide de Mes
+ * répliques ; empilés sous 1024. Avant, le texte seul (`items-start`) laissait 893 px vides à droite sur 1216.
  */
 export function ArchiveLettres({ lettres }: { lettres: readonly LettreArchive[] }) {
   if (lettres.length === 0) {
     return (
-      // v6 tour 1 : carte à filet de l'accueil (`CARTE` repose sur `CADRE_CARTE` depuis le lot 1 : `rounded-xl`, filet).
-      <div className={cn(CADRE_CARTE_NEUTRE, "flex flex-col items-start gap-4 p-6")} data-testid="lettres-vide">
-        <p className={TEXTE}>{T.vide}</p>
-        {/* Relecture des captures nav s24, tour 2 (reviewer P11) : même sortie qu'un état vide de Mes répliques (bouton). */}
-        <Link href={ESPACE_ACCUEIL} className={BOUTON_SECONDAIRE}>
-          {T.allerAujourdhui}
-        </Link>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start" data-testid="lettres-vide">
+        <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-span-8")}>
+          <p className={TEXTE}>{T.vide}</p>
+        </div>
+        {/* Relecture des captures nav s24, tour 2 (reviewer P11) : même sortie qu'un état vide de Mes répliques. */}
+        <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-span-4")}>
+          <Link href={ESPACE_ACCUEIL} className={LIEN_NEUTRE}>
+            {T.allerAujourdhui}
+          </Link>
+        </div>
       </div>
     );
   }

@@ -20,7 +20,7 @@ const ANNEAU = "focus-within:ring-2 focus-within:ring-accent-link";
  * s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §3.2, design §6.2) : titre à gauche avec le nombre de
  * lettres (chiffre seul, aucun état « lue » n'existe : pas de « lues / envoyées ») ; la dernière lettre en tuile pleine
  * largeur (prochaine action), les précédentes en cartes neutres 3/2/1 colonnes. Pas de bouton « Lire » (aucune
- * constante) : la carte entière est le lien, aucun aplat. Nouvel abonné : l'état vide existant (8 colonnes).
+ * constante) : la carte entière est le lien, aucun aplat. Nouvel abonné : l'état vide existant (8/4 : texte, rail vers Aujourd'hui).
  * Rendu serveur, appelé seulement par `app/(dashboard)/lettre/page.tsx`, interrupteur ouvert, pour un abonné actif.
  */
 export async function LettresAbonneCartes() {
@@ -38,10 +38,9 @@ export async function LettresAbonneCartes() {
         )}
       </header>
       {!derniere ? (
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <div className="lg:col-span-8">
-            <ArchiveLettres lettres={lettres} />
-          </div>
+        // s26 : l'état vide porte sa grille 8/4 (texte, rail vers Aujourd'hui) ; voir `ArchiveLettres`.
+        <div className="mt-8">
+          <ArchiveLettres lettres={lettres} />
         </div>
       ) : (
         <>

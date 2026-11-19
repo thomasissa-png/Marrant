@@ -28,6 +28,10 @@ export const ADRESSES_OFFRE_EN_HAUT: readonly string[] = [
   // la carte d'abonnement (« S'abonner ») ; l'en-tête masque le sien. L'abonné n'a jamais ce bouton ; le visiteur n'a
   // pas de Profil (renvoyé à la connexion).
   "/profil",
+  // s26 (un seul aplat violet par écran) : /lettre du visiteur et du compte gratuit a pour action l'inscription (bouton
+  // plein « Envoie-moi la lettre ») ; l'en-tête masque son bouton d'offre. L'abonné (archive) n'a jamais ce bouton. Les
+  // sous-adresses (`/lettre/confirmer`, `/lettre/desinscrire`) ne sont pas concernées (adresse exacte).
+  "/lettre",
 ];
 
 /** s26 : les carnets d'un mois (`/carnet/<mois>`) ont le même hero que `/carnet`. */
