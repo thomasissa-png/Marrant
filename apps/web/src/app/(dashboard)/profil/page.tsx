@@ -4,6 +4,8 @@ import { UpgradeToast } from "@/components/profil/upgrade-toast";
 import { ReprendreParcours } from "@/components/home/reprendre-parcours";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { HistoriqueProfil } from "@/components/espace/profil/historique-profil";
+import { ProfilOuvert } from "@/components/espace/profil/profil-ouvert";
+import { TEXTE, TITRE_PAGE } from "@/components/espace/typo";
 
 export const metadata: Metadata = {
   title: "Mon profil | Progression & Statistiques",
@@ -17,12 +19,28 @@ export const metadata: Metadata = {
  * Client Components. Interrupteur de l'espace fermé : page d'aujourd'hui au caractère près (test
  * d'inertie), aucune lecture en plus. Ouvert : ancien abonné, « Mes questions » et « Mes répliques » en
  * lecture seule sous les cartes, chacune seulement si elle a des données.
+ * s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §4) : ouvert, titre et sous-titre à gauche, grille 8/4
+ * (`ProfilOuvert`). Fermé : le rendu ci-dessous, au caractère près (inertie, empreinte du HTML fermé identique).
  */
 export default function ProfilPage({
   searchParams,
 }: {
   searchParams: { upgrade?: string };
 }) {
+  if (ESPACE_CLIENT_PUBLIE) {
+    return (
+      <div className="pb-16">
+        <header>
+          <h1 className={TITRE_PAGE}>Mon profil</h1>
+          <p className={`mt-2 max-w-xl ${TEXTE}`}>Ta progression, tes stats, ton parcours vers la l&#233;gende.</p>
+        </header>
+        {searchParams.upgrade && <UpgradeToast status={searchParams.upgrade} />}
+        <ProfilOuvert />
+        <HistoriqueProfil />
+      </div>
+    );
+  }
+
   // Navigation universelle v5 §3 : gabarit B public pour tout lecteur (l'axe de l'espace du lot D11c est supprimé).
   return (
     <>

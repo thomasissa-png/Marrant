@@ -30,12 +30,10 @@ const APERCUS_S26: [RubriqueApercu, string][] = [
   ["sEntrainer", "/mon-espace/s-entrainer"],
   // s26 (`docs/ux/favoris-carnet-s26.md` §1.2) : Favoris passe à `ApercuVerrouille` (hero 8/4, extrait 5/7 sur 12 col).
   ["favoris", "/favoris"],
-];
-const APERCUS: [RubriqueApercu, string][] = [
+  // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.1 et §2.1) : Mes questions et Mes répliques, grille 8/4.
   ["mesQuestions", "/mon-espace/questions"],
   ["mesRepliques", "/mon-espace/repliques"],
 ];
-
 const boite = async (l: Locator) => {
   const b = await l.boundingBox();
   if (!b) throw new Error("élément invisible");
@@ -57,42 +55,9 @@ test.describe("@espace v6 tour 2, lot 1 (ouvert)", () => {
   test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
   test.setTimeout(240_000);
 
-  test("aperçu (visiteur) : une colonne centrée, titre centré, offre sous l'exemple, rien de collant", async ({ page }) => {
-    for (const [rubrique, adresse] of APERCUS) {
-      for (const largeur of LARGEURS) {
-        await page.setViewportSize({ width: largeur, height: 900 });
-        await page.goto(adresse);
-        const ou = `${rubrique} à ${largeur} px`;
-        const racine = page.locator(`[data-apercu="${rubrique}"]`);
-        const coque = await boite(racine);
-        const exemple = await boite(racine.locator("article"));
-        const offre = await boite(page.locator("[data-apercu-offre]"));
-        const ecran = await page.evaluate(() => document.documentElement.clientWidth);
-        expect(coque.largeur, `colonne de 768 px au plus, ${ou}`).toBeLessThanOrEqual(768);
-        expect(Math.abs(coque.gauche - (ecran - coque.droite)), `colonne centrée, ${ou}`).toBeLessThanOrEqual(2);
-        expect(offre.haut, `offre sous l'exemple, ${ou}`).toBeGreaterThanOrEqual(exemple.bas);
-        expect(Math.abs(offre.largeur - coque.largeur), `offre pleine largeur, ${ou}`).toBeLessThanOrEqual(1);
-        // Cadre à filet (`CADRE_CARTE`) en `relative` pour son filet : ni `sticky` ni `fixed`, sur elle comme sur ses parents.
-        const positions = await page.locator("[data-apercu-offre]").evaluate((e) => {
-          const p: string[] = [];
-          for (let x: Element | null = e; x && x !== document.body; x = x.parentElement) p.push(getComputedStyle(x).position);
-          return p;
-        });
-        expect(positions.filter((p) => p === "sticky" || p === "fixed"), `jamais collante, ${ou}`).toEqual([]);
-        expect(await racine.locator("h1").evaluate((e) => getComputedStyle(e).textAlign), `titre centré, ${ou}`).toBe("center");
-        if (rubrique === "mesQuestions") {
-          const imbriques = await racine.evaluate((r) => {
-            const filets = Array.from(r.querySelectorAll("*")).filter((e) => getComputedStyle(e, "::before").height === "4px");
-            return filets.filter((f) => filets.some((g) => g !== f && g.contains(f))).length;
-          });
-          expect(imbriques, `un seul filet, ${ou}`).toBe(0);
-        }
-        // s26 : Favoris a quitté cette boucle (`APERCUS_S26`, grille 5/7 au lieu de l'empilement du tour 3).
-        await capturer(page, `visiteur-apercu-${rubrique}`, largeur);
-      }
-    }
-  });
-
+  // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.1 et §2.1) : Mes questions et Mes répliques, dernières
+  // rubriques de l'ancien aperçu (colonne centrée, offre sous l'exemple), passent à `ApercuVerrouille` : ce test de la
+  // colonne centrée n'a plus de rubrique, leurs garanties sont celles de `APERCUS_S26` ci-dessous (grille 8/4).
   test("aperçus s26 (visiteur) : jamais collant, H1 à gauche, tuiles de fin entières, air avant la fin d'extrait", async ({ page }) => {
     for (const [rubrique, adresse] of APERCUS_S26) {
       for (const largeur of LARGEURS) {

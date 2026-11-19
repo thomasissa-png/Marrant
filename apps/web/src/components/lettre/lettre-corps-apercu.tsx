@@ -69,7 +69,7 @@ function avecLiens(texte: string, cle: string): ReactNode[] {
     if (!lien) continue;
     morceaux.push(frPonctuation(texte.slice(curseur, debut)));
     morceaux.push(
-      <a key={`${cle}-${debut}`} href={lien.href} className="text-accent-link underline underline-offset-2" data-lettre-lien="">
+      <a key={`${cle}-${debut}`} href={lien.href} className="text-text-primary underline underline-offset-2" data-lettre-lien="">
         {lien.texte}
       </a>,
     );

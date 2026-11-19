@@ -131,16 +131,20 @@ describe("point 8 : /lettre, corps du dernier numéro", () => {
 
 describe("point 9 : archive des lettres de l'abonné", () => {
   // v6 tour 3, point 11 : plus de hauteur minimale (elle créait le vide avant le pied de page).
-  it("colonne centrée `max-w-3xl`, H1 centré, cartes deux par ligne dès 640 px, sans hauteur minimale", async () => {
+  // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §6.2) : plus de colonne centrée ni de H1 centré ; la
+  // dernière lettre en tuile pleine largeur, les précédentes en cartes neutres 3/2/1 colonnes, compteur à droite du titre.
+  it("s26 : H1 à gauche et compteur, dernière lettre en tuile, précédentes 3/2/1 sans filet, sans hauteur minimale", async () => {
     const { container } = render(<div dangerouslySetInnerHTML={{ __html: await serveur(LettresAbonneCartes()) }} />);
     const racine = container.querySelector("[data-lettres-abonne]") as HTMLElement;
-    expect(racine.className.split(" ")).toEqual(expect.arrayContaining(["mx-auto", "max-w-3xl"]));
+    expect(racine.className).not.toContain("max-w-3xl");
     expect(racine.className).not.toContain("min-h-[60vh]");
-    expect((racine.querySelector("h1") as HTMLElement).closest(".text-center")).not.toBeNull();
+    expect((racine.querySelector("h1") as HTMLElement).closest(".text-center")).toBeNull();
+    expect(racine.querySelector("[data-compteur-lettres]")?.textContent).toBe("2");
+    expect(racine.querySelector("[data-lettre-derniere]")).not.toBeNull();
     const grille = racine.querySelector("ul") as HTMLElement;
-    expect(grille.className).toContain("sm:grid-cols-2");
-    expect(grille.className).not.toContain("lg:grid-cols-3");
-    expect(grille.querySelectorAll("[data-filet]")).toHaveLength(2);
+    expect(grille.className.split(" ")).toEqual(expect.arrayContaining(["md:grid-cols-2", "lg:grid-cols-3"]));
+    expect(grille.querySelectorAll("li")).toHaveLength(1);
+    expect(racine.querySelectorAll("[data-filet]")).toHaveLength(0);
   });
 });
 

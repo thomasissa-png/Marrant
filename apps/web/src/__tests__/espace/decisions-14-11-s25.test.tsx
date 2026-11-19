@@ -95,7 +95,10 @@ describe("/lettre : une seule section", () => {
     await rendrePage({ searchParams: {} });
     // v6 tour 1, point 10 : H1 « La lettre », libellé validé de la bande.
     expect(screen.getByRole("heading", { level: 1, name: "La lettre" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Objet test/ })).toHaveAttribute("href", "/mon-espace/lettres/2026-W46");
+    // s26 (`questions-repliques-lettre-profil-s26.md` §3.2) : la dernière lettre en tuile, le titre daté est le lien (carte
+    // entière cliquable), l'objet dessous.
+    expect(screen.getByRole("link", { name: /novembre/ })).toHaveAttribute("href", "/mon-espace/lettres/2026-W46");
+    expect(screen.getByText("Objet test")).toBeInTheDocument();
     expect(screen.queryByTestId("inscription")).toBeNull();
     expect(screen.queryByRole("navigation", { name: /Ariane/ })).toBeNull();
     expect(screen.queryByRole("link", { name: /Retour|Mon espace/ })).toBeNull();

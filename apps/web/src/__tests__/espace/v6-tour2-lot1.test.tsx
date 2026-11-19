@@ -32,6 +32,7 @@ import { FormulaireQuestion } from "@/components/espace/questions/formulaire";
 import { ListeEnvois } from "@/components/espace/questions/liste-envois";
 import type { FicheDeType } from "@/lib/espace/fiches";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { TITRE_CARTE } from "@/components/espace/typo";
 
 const SRC = join(__dirname, "../..");
 const lire = (f: string) => readFileSync(join(SRC, f), "utf8");
@@ -160,9 +161,14 @@ describe("points 6 et 7 : Mes répliques et Mes questions, même coque, titres a
       </div>,
     );
     const [ecrire, envois] = screen.getAllByRole("heading", { level: 2 });
-    expect(ecrire.className).toBe(envois.className);
-    for (const titre of [ecrire, envois]) expect(titre.closest("[class*='before:h-1']")).toBeNull();
-    expect(classes(document.querySelector("form"))).toEqual(expect.arrayContaining(["rounded-xl", "before:h-1"]));
+    // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §2) : mêmes titres `TITRE_CARTE` ; cadre neutre, plus de
+    // filet violet (un seul aplat par écran).
+    for (const titre of [ecrire, envois]) {
+      expect(classes(titre)).toEqual(expect.arrayContaining(TITRE_CARTE.split(" ")));
+      expect(titre.closest("[class*='before:h-1']")).toBeNull();
+    }
+    expect(classes(document.querySelector("form"))).toEqual(expect.arrayContaining(["rounded-xl", "p-6"]));
+    expect(classes(document.querySelector("form"))).not.toContain("before:h-1");
   });
 });
 

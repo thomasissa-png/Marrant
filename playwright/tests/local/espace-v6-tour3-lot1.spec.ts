@@ -20,8 +20,10 @@ const CAPTURES = process.env.E2E_CAPTURES_V6T3;
 // `docs/ux/rubriques-premium-s26.md` §1.2, §2.2, §3.2) : la règle du titre centré est remplacée, pour elles, par
 // `RUBRIQUES_S26` (H1 à gauche, au bord gauche de la grille). Les autres rubriques la gardent.
 // s26 (`docs/design/favoris-carnet-s26.md` §2.1) : /favoris de l’abonné passe aussi au H1 à gauche (`RUBRIQUES_S26`).
-const RUBRIQUES = ["/mon-espace/questions", "/mon-espace/repliques"];
-const RUBRIQUES_S26 = ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris"];
+// s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.2 et §2.2) : Mes questions et Mes répliques passent aussi au H1
+// à gauche ; plus aucune rubrique n'a de titre centré (`RUBRIQUES` vide, gardée pour la lecture du test).
+const RUBRIQUES: string[] = [];
+const RUBRIQUES_S26 = ["/mon-espace/quoi-repondre", "/mon-espace/bibliotheque", "/mon-espace/s-entrainer", "/favoris", "/mon-espace/questions", "/mon-espace/repliques"];
 
 const boite = async (l: Locator) => {
   const b = await l.boundingBox();
@@ -98,7 +100,7 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
     }
   });
 
-  test("abonné neuf : titres centrés (H1 à gauche en s26), S'entraîner sans vide, Mes répliques centrée, liens de 44 px", async ({ page }) => {
+  test("abonné neuf : H1 à gauche (s26), S'entraîner sans vide, Mes répliques 8/4, liens de 44 px", async ({ page }) => {
     await nouveauCompte(page, "PREMIUM");
     for (const largeur of [375, 1280, 1920]) {
       await page.setViewportSize({ width: largeur, height: 900 });
@@ -118,15 +120,14 @@ test.describe("@espace v6 tour 3, lot 1 (ouvert)", () => {
       await controlerSEntrainerS26(page, `nouvel ${largeur}`);
       await capturer(page, "nouvel-s-entrainer", largeur);
 
+      // s26 (`docs/design/questions-repliques-lettre-profil-s26.md` §5, remplace la colonne centrée du tour 3) : état vide
+      // en tuile d'action de 8 colonnes, rappel de « Quoi répondre » en 4 à sa droite, même haut.
       await page.goto("/mon-espace/repliques");
       const vide = await boite(page.getByTestId("repliques-vide"));
-      expect(Math.abs(vide.gauche - (largeur - vide.droite)), `état vide centré, ${largeur}`).toBeLessThanOrEqual(24);
-      expect(vide.largeur).toBeLessThanOrEqual(768);
-      // Une réplique seule (même colonne centrée que l'état vide) : jamais une carte calée à gauche de la coque.
-      for (const carte of await page.locator("main [data-replique]").all()) {
-        const c = await boite(carte);
-        if ((await page.locator("main [data-replique]").count()) === 1) expect(Math.abs(c.gauche - (largeur - c.droite))).toBeLessThanOrEqual(24);
-      }
+      const rappel = await boite(page.locator("[data-repliques-rappel]"));
+      expect(rappel.gauche, `rappel à droite de l'état vide, ${largeur}`).toBeGreaterThan(vide.droite);
+      expect(Math.abs(rappel.haut - vide.haut), `même rangée, ${largeur}`).toBeLessThanOrEqual(1);
+      expect(vide.largeur / rappel.largeur, `8/4, ${largeur}`).toBeGreaterThan(1.8);
       await capturer(page, "nouvel-repliques", largeur);
     }
 

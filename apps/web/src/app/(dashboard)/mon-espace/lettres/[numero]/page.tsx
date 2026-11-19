@@ -1,12 +1,11 @@
 import { cache } from "react";
-import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { metadata as METADONNEES_404 } from "@/app/not-found";
 import { prisma } from "@/lib/prisma";
 import { garderEspace } from "@/lib/espace/garde";
-import { lireLettre } from "@/lib/espace/lettres";
+import { lireLettre, listerLettres } from "@/lib/espace/lettres";
 import { NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { LettreVue } from "@/components/espace/archive-lettres";
 
@@ -14,6 +13,8 @@ import { LettreVue } from "@/components/espace/archive-lettres";
  * Une lettre de l'archive (s24, lot D6 ; architecture v20 2.8) : telle qu'envoyée aux abonnés, sans
  * invitation ni prix. Numéro inconnu ou lettre pas encore envoyée : la vraie 404 du site, identique à une
  * adresse inexistante (rien ne dit qu'une lettre arrive). Rendu : SSR dynamique. Garde EN PREMIER.
+ * s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §3.3) : lettre en 8 colonnes et rail des voisines en 4
+ * (`LettreVue`), lues dans l'archive des lettres envoyées (plus récente d'abord).
  */
 export const dynamic = "force-dynamic";
 
@@ -31,9 +32,9 @@ export async function generateMetadata({ params }: { params: { numero: string } 
 export default async function LettrePage({ params }: { params: { numero: string } }) {
   const lettre = await lettreDeLaPage(params.numero);
   if (!lettre) notFound();
-  return (
-    <div className={COLONNE_LECTURE}>
-      <LettreVue lettre={lettre} />
-    </div>
-  );
+  const archive = await listerLettres(prisma);
+  const rang = archive.findIndex((l) => l.numero === lettre.numero);
+  const precedente = rang >= 0 ? (archive[rang + 1] ?? null) : null;
+  const suivante = rang > 0 ? archive[rang - 1] : null;
+  return <LettreVue lettre={lettre} precedente={precedente} suivante={suivante} />;
 }

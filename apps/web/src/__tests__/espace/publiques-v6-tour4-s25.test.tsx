@@ -268,8 +268,11 @@ describe("point 8 : finitions /carnet et /lettre", () => {
 
   it("archive de la lettre : titre et objet en typographie française, texte inchangé", async () => {
     const { container } = render(<div dangerouslySetInnerHTML={{ __html: await serveur(LettresAbonneCartes()) }} />);
-    const carte = container.querySelector('a[data-lettre="2"]') as HTMLElement;
-    const [titre, objet] = [...(carte.querySelector("span.flex-col") as HTMLElement).children].map((e) => e.textContent);
+    // s26 (`questions-repliques-lettre-profil-s26.md` §6.2) : le titre est le lien de la carte, l'objet le paragraphe qui suit.
+    const lien = container.querySelector('a[data-lettre="2"]') as HTMLElement;
+    const carte = lien.closest("[data-lettre-derniere], li") as HTMLElement;
+    const titre = lien.textContent;
+    const objet = (carte.querySelector("p") as HTMLElement).textContent;
     expect(titre).toBe(frTypo("Après l'exposé"));
     expect(objet).toBe(frTypo("Alors, t'as perdu ta langue ?"));
     expect(titre).toContain("’");

@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
 import { appelEspace } from "@/components/espace/carte/appel";
-import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CARTE, SOMMAIRE_REPLIABLE, nouvelleCle } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CADRE_CARTE_NEUTRE, SOMMAIRE_REPLIABLE, nouvelleCle } from "@/components/espace/carte/styles";
+import { ETIQUETTE, META, META_FORT, TEXTE } from "@/components/espace/typo";
+import { cn } from "@/lib/utils";
 import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
 import { dateCourte, envoyerMessage, erreurLocale, MessageErreur, type Erreur } from "@/components/espace/questions/appel";
 import { ConfirmerRetrait } from "@/components/espace/questions/confirmer-retrait";
@@ -13,9 +15,10 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
-const TAG = "inline-block rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary";
-const CITATION = "whitespace-pre-line border-l-2 border-accent-primary px-4 py-2 text-base text-text-primary max-e300:px-3";
-const LABEL = "text-xs font-semibold text-text-muted";
+// s26 (design `questions-repliques-lettre-profil-s26.md` §2 et §3) : échelle `typo.ts`, plus de `text-xs`, de pastille
+// ni de citation à bord violet (un seul aplat violet par écran). Rendu interrupteur ouvert seulement.
+const CITATION = cn("whitespace-pre-line", TEXTE);
+const LABEL = META_FORT;
 
 /**
  * Un envoi de « Mes envois » (maquette `mes-questions.html`) : type et date ; en attente, le message cité et
@@ -99,10 +102,15 @@ export function FilEnvoi({
   const ligneStatut = fil.statut === "EN_ATTENTE" ? (fil.enRetard ? Q.envois.enRetard : Q.envois.enAttente) : null;
 
   return (
-    <li className={`${CARTE} !space-y-2 max-e300:p-3`} data-fil={fil.id} data-statut={fil.statut} data-retard={fil.enRetard || undefined}>
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span className={TAG}>{Q.types[fil.type].nom}</span>
-        <span className="text-xs text-text-muted">{Q.envois.envoyeLe(dateCourte(fil.creeLe))}</span>
+    <li
+      className={cn(CADRE_CARTE_NEUTRE, "min-w-0 space-y-2 p-6 transition-colors hover:border-border-hover max-e300:p-4 [overflow-wrap:anywhere]")}
+      data-fil={fil.id}
+      data-statut={fil.statut}
+      data-retard={fil.enRetard || undefined}
+    >
+      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+        <span className={ETIQUETTE}>{Q.types[fil.type].nom}</span>
+        <span className={META}>{Q.envois.envoyeLe(dateCourte(fil.creeLe))}</span>
       </div>
       {derniereReponse ? (
         <details
@@ -117,12 +125,12 @@ export function FilEnvoi({
             {Q.envois.reponduLe(dateCourte(derniereReponse.creeLe))}
             <ChevronRepli />
           </summary>
-          <div className="mt-3 space-y-3 border-t border-border pt-3">
+          <div className="mt-4 space-y-4 border-t border-border pt-4">
             {fil.messages.map((m, i) => (
               <div key={`${m.creeLe}-${i}`}>
                 <p className={LABEL}>{m.auteur === "EQUIPE" ? Q.envois.reponseLe(dateCourte(m.creeLe)) : Q.envois.tonMessage}</p>
-                <p className="whitespace-pre-line text-base text-text-primary">{m.corps}</p>
-                {m.auteur === "EQUIPE" && <p className="text-sm text-text-secondary">{Q.envois.signature}</p>}
+                <p className={cn("mt-2", CITATION)}>{m.corps}</p>
+                {m.auteur === "EQUIPE" && <p className={cn("mt-2", META)}>{Q.envois.signature}</p>}
               </div>
             ))}
             {!lectureSeule && fil.statut === "REPONDU" && !suite && (
@@ -139,7 +147,7 @@ export function FilEnvoi({
                   void continuer();
                 }}
               >
-                <label htmlFor={ids.champ} className="block text-sm font-semibold text-text-primary">
+                <label htmlFor={ids.champ} className={cn("block", META_FORT)}>
                   {Q.ecrire.champ}
                 </label>
                 <textarea
@@ -150,10 +158,10 @@ export function FilEnvoi({
                   onChange={(e) => setTexte(e.target.value)}
                   aria-describedby={erreur ? ids.erreur : undefined}
                   aria-invalid={erreur ? true : undefined}
-                  className="block min-h-24 w-full min-w-0 resize-y rounded-lg border border-border-input bg-background-light px-3 py-2 text-base text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+                  className="block min-h-32 w-full min-w-0 resize-y rounded-xl border border-border-input bg-background-elevated p-4 text-base text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
                 />
                 <MessageErreur id={ids.erreur} erreur={erreur} />
-                <button type="submit" className={`${BOUTON_PRINCIPAL} max-e300:w-full`} disabled={occupe}>
+                <button type="submit" className={`${BOUTON_SECONDAIRE} max-e300:w-full`} disabled={occupe}>
                   {occupe ? Q.ecrire.envoiEnCours : Q.ecrire.bouton}
                 </button>
               </form>
@@ -163,11 +171,11 @@ export function FilEnvoi({
       ) : (
         <p className={CITATION}>{fil.messages[0]?.corps}</p>
       )}
-      {ligneStatut && <p className="text-sm text-text-secondary">{ligneStatut}</p>}
+      {ligneStatut && <p className={META}>{ligneStatut}</p>}
       <div className="pt-2">
         <ConfirmerRetrait desactive={occupe} onConfirmer={retirer} onRetire={() => onRetire(fil.id)} />
       </div>
-      <p role="status" className="text-sm text-text-secondary">
+      <p role="status" className={META}>
         {statut}
       </p>
     </li>

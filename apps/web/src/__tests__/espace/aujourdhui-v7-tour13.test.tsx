@@ -104,7 +104,10 @@ describe("point 2 : un seul bouton de paiement en haut", () => {
     expect(offreEnHaut("/mon-espace?depuis=accueil#x")).toBe(true);
     expect(offreEnHaut("/mon-espace/quoi-repondre")).toBe(true);
     // s26 : `/favoris` et le carnet passent offre en haut (`apercus-s26-verrou.test.tsx`) ; ils sortent de cette liste.
-    for (const autre of ["/", "/vannes", "/mon-espace/questions", "/mon-espace/fiche/situation/coloc-la-poele", null]) {
+    // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.1) : Mes questions passe offre en haut ; l'adresse témoin
+    // devient un fil de Mes questions (hors aperçu).
+    expect(offreEnHaut("/mon-espace/questions")).toBe(true);
+    for (const autre of ["/", "/vannes", "/mon-espace/questions/clx0fil", "/mon-espace/fiche/situation/coloc-la-poele", null]) {
       expect(offreEnHaut(autre)).toBe(false);
     }
   });
@@ -114,7 +117,8 @@ describe("point 2 : un seul bouton de paiement en haut", () => {
     ["gratuit", { data: { user: { id: "u1", plan: "FREE" } }, status: "authenticated" }],
   ])("%s : bouton d'offre de l'en-tête masqué sur /mon-espace, présent ailleurs", async (_nom, session) => {
     useSession.mockReturnValue(session);
-    for (const [chemin, attendu] of [["/mon-espace", 0], ["/mon-espace/s-entrainer", 0], ["/", 1], ["/vannes", 1], ["/mon-espace/questions", 1]] as const) {
+    // s26 : Mes questions et Mes répliques rejoignent les aperçus offre en haut (bouton de l'en-tête masqué).
+    for (const [chemin, attendu] of [["/mon-espace", 0], ["/mon-espace/s-entrainer", 0], ["/mon-espace/questions", 0], ["/mon-espace/repliques", 0], ["/", 1], ["/vannes", 1], ["/mon-espace/questions/clx0fil", 1]] as const) {
       usePathname.mockReturnValue(chemin);
       const { unmount } = render(<EnTeteUniversel />);
       await act(async () => {});

@@ -3,7 +3,9 @@
 import { useEffect, useRef } from "react";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
-import { CARTE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+import { META, TITRE_CARTE } from "@/components/espace/typo";
+import { cn } from "@/lib/utils";
 import { EtatVideQuestions } from "@/components/espace/questions/etat-vide";
 import { FilEnvoi } from "@/components/espace/questions/fil";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -18,36 +20,49 @@ export type Envoi = FilListe | { id: string; retire: true };
  * « Question retirée de ton historique. » à sa place (maquette `#etat=retire`), qui reçoit le focus : le
  * bouton d'origine n'existe plus, le lecteur d'écran lit le statut une fois (aucune région live doublée). Lecture seule (après la résiliation,
  * depuis « Mon profil ») : l'adresse de l'équipe pour un problème de paiement ou d'accès (ligne v6).
+ * s26 (design `questions-repliques-lettre-profil-s26.md` §2) : compteur « répondues / envoyées » (chiffres seuls,
+ * `META tabular-nums`) à droite du titre ; lignes en 1 colonne, 2 de 768 à 1023 ; état vide dans un cadre neutre.
  */
 export function ListeEnvois({
   envois,
   lectureSeule,
   onMaj,
   onRetire,
+  className,
 }: {
   envois: Envoi[];
   lectureSeule: boolean;
   onMaj: (fil: FilListe) => void;
   onRetire: (id: string) => void;
+  className?: string;
 }) {
+  const fils = envois.filter((e): e is FilListe => !("retire" in e));
+  const repondues = fils.filter((f) => f.statut === "REPONDU").length;
   return (
-    <section aria-labelledby="h-envois" className="min-w-0" data-mes-envois>
-      <h2 id="h-envois" className="mb-3 font-display text-xl font-bold text-text-primary">
-        {Q.envois.titre}
-      </h2>
+    <section aria-labelledby="h-envois" className={cn("min-w-0", className)} data-mes-envois>
+      <div className="mb-4 flex items-baseline justify-between gap-4">
+        <h2 id="h-envois" className={TITRE_CARTE}>
+          {Q.envois.titre}
+        </h2>
+        {fils.length > 0 && (
+          <p className={cn("tabular-nums", META)} data-compteur-envois>
+            {repondues} / {fils.length}
+          </p>
+        )}
+      </div>
       {lectureSeule && (
-        <p className="mb-3 text-sm text-text-secondary" data-adresse-equipe>
+        <p className={cn("mb-4", META)} data-adresse-equipe>
           {Q.lectureSeule.adresse.avant}
-          <a href={`mailto:${Q.lectureSeule.adresse.lien}`} className="inline-flex min-h-11 max-w-full items-center text-accent-link underline [overflow-wrap:anywhere]">
+          <a href={`mailto:${Q.lectureSeule.adresse.lien}`} className={cn(LIEN_NEUTRE, "max-w-full [overflow-wrap:anywhere]")}>
             {Q.lectureSeule.adresse.lien}
           </a>
           {Q.lectureSeule.adresse.apres}
         </p>
       )}
       {envois.length === 0 ? (
-        <EtatVideQuestions />
+        <EtatVideQuestions className={cn(CADRE_CARTE_NEUTRE, "p-6")} />
       ) : (
-        <ul className="flex flex-col gap-3">
+        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-1">
           {envois.map((e) =>
             "retire" in e ? (
               <EnvoiRetire key={e.id} />
@@ -66,8 +81,8 @@ function EnvoiRetire() {
   const statut = useRef<HTMLParagraphElement>(null);
   useEffect(() => statut.current?.focus(), []);
   return (
-    <li className={CARTE} data-retire>
-      <p ref={statut} tabIndex={-1} className="text-sm text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link">
+    <li className={cn(CADRE_CARTE_NEUTRE, "p-6")} data-retire>
+      <p ref={statut} tabIndex={-1} className={cn(META, "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link")}>
         {Q.envois.retire}
       </p>
     </li>
