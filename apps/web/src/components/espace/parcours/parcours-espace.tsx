@@ -110,8 +110,9 @@ export function ParcoursEspace() {
       />
       <QuatreSemaines ecouterPublie={caps?.ecouterPublie === true} className={cn(LARGEUR, "lg:mt-6")} />
       {caps && <TesBonus bonus={caps.bonus} className={BONUS} />}
-      {/* s26 parcours connecté (§2, rangée 6) : titre de la liste sur 12 colonnes, 48 px au-dessus, 24 px dessous. */}
-      <h2 className={cn(TITRE_CARTE, LARGEUR, "mt-6 lg:mb-6 lg:mt-12")}>{P.listeParcours}</h2>
+      {/* s26 parcours connecté (§2, rangée 6) : titre de la liste sur 12 colonnes, 48 px au-dessus, 24 px dessous.
+          Tour 2 (200 % de texte, 188 x 406) : sous 300 px, 12 px au-dessus (8 de l'écart + 4) au lieu de 32. */}
+      <h2 className={cn(TITRE_CARTE, LARGEUR, "mt-6 max-e300:mt-1 lg:mb-6 lg:mt-12")}>{P.listeParcours}</h2>
     </div>
     </>
   );

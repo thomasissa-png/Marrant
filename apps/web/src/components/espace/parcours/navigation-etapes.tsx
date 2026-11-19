@@ -20,14 +20,28 @@ function versEtape(slug: string, ordre: number, allerAEtape: (ordre: number) => 
   };
 }
 
+// s26 tour 2 : 44 px (cible tenue, `py-2.5` + 24) au lieu de 48 ; dès 1024 px, la ligne s’étire à la hauteur de sa rangée (`flex-1`).
 const LIGNE_LIEN =
-  "flex min-h-12 items-center gap-x-3 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary [&:hover_[data-titre]]:underline";
+  "flex min-h-11 flex-1 items-center gap-x-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary [&:hover_[data-titre]]:underline";
+
+/** Chevron du résumé replié (même dessin que le sommaire de l'abonné). */
+function Chevron() {
+  return (
+    <svg className="h-5 w-5 flex-none text-text-secondary transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
 
 /**
  * s26 parcours connecté (`docs/design/parcours-connecte-s26.md` §3 ; `docs/ux/parcours-connecte-s26.md` §4), visiteur et
  * compte gratuit, espace ouvert seulement : carte de progression de l'en-tête 7/5 = ligne `progressionVisiteurTexte()`
  * puis la liste des étapes, chaque ligne un lien d'ancre `#etape-N` (numéro, titre ; « Lecture libre » en pastille sur
  * l'étape 1). Aucun bouton plein (le plein reste celui de l'en-tête collant), aucun cadenas. Zéro texte nouveau.
+ * Tour 2 (UX §4, « visiteur : même `details` fermé ») : sous 1024 px, la liste est dans un `details` FERMÉ dont le
+ * résumé porte la ligne d'offre ; dès 1024 px, liste dépliée dont les lignes se partagent la hauteur de la carte (étirée
+ * à la hauteur de la colonne de gauche) : plus de vide en bas de carte. Deux rendus choisis par CSS seul (`lg:hidden`,
+ * `hidden lg:flex`) : la page est rendue côté serveur (ISR), rien ne bouge à l'hydratation.
  */
 export function ListeEtapesVisiteur({
   slug,
@@ -38,12 +52,8 @@ export function ListeEtapesVisiteur({
   etapes: ReadonlyArray<{ order: number; titre: string; libre: boolean }>;
   allerAEtape: (ordre: number) => void;
 }) {
-  return (
-    <div data-testid="liste-etapes-visiteur">
-      <p className={META}>{progressionVisiteurTexte()}</p>
-      <ol className="mt-2 divide-y divide-border">
-        {etapes.map((e) => (
-          <li key={e.order}>
+  const lignes = etapes.map((e) => (
+          <li key={e.order} className="flex lg:flex-1">
             <a href={`#etape-${e.order}`} onClick={versEtape(slug, e.order, allerAEtape)} className={LIGNE_LIEN}>
               <span className="w-5 flex-none text-base font-semibold tabular-nums text-text-secondary" aria-hidden="true">
                 {e.order}
@@ -55,8 +65,22 @@ export function ListeEtapesVisiteur({
               {e.libre && <span className={cn(PASTILLE, "flex-none font-normal text-success")}>{ETAPE_LIBRE_BADGE}</span>}
             </a>
           </li>
-        ))}
+  ));
+  return (
+    <div data-testid="liste-etapes-visiteur" className="lg:flex lg:flex-1 lg:flex-col">
+      <p className={cn(META, "hidden lg:block")}>{progressionVisiteurTexte()}</p>
+      <ol className="mt-2 hidden divide-y divide-border lg:flex lg:flex-1 lg:flex-col" data-liste-large="">
+        {lignes}
       </ol>
+      <details className="group lg:hidden" data-liste-repliee="">
+        <summary className="cursor-pointer list-none rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary [&::-webkit-details-marker]:hidden">
+          <span className="flex min-h-11 items-center justify-between gap-3">
+            <span className={META}>{progressionVisiteurTexte()}</span>
+            <Chevron />
+          </span>
+        </summary>
+        <ol className="mt-2 divide-y divide-border">{lignes}</ol>
+      </details>
     </div>
   );
 }
