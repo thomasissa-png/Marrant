@@ -117,7 +117,9 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       }
     });
 
-    test("375 : 4 premières semaines, étape conseillée, « Ton cap » 24 px dessous, aucun « Tes bonus » ; N2", async ({ browser, page }) => {
+    // s26 parcours connecté : test changé (raison : « Ton cap » quitte le dessous du calendrier pour la carte « En cours »,
+    // AU-DESSUS des 4 semaines, 24 px entre les deux cartes, `docs/design/parcours-connecte-s26.md` §2.1).
+    test("375 : carte « En cours » (étape conseillée, « Ton cap » en ligne), 4 premières semaines 24 px dessous, aucun « Tes bonus » ; N2", async ({ browser, page }) => {
       const { cookies } = await comptePartage(browser);
       await page.context().addCookies(cookies);
       await page.setViewportSize({ width: 375, height: 812 });
@@ -130,9 +132,10 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       await expect(cap).toContainText(TEXTES_CAPS.capVisible(1));
       await expect(cap).not.toContainText("%");
       await expect(entete.getByRole("link", { name: TEXTES_CAPS.bonus.raccourci })).toHaveCount(0);
+      await expect(entete.getByTestId("carte-en-cours").locator("#cap")).toHaveCount(1);
       const bloc = await entete.locator('section[aria-labelledby="semaines-titre"]').boundingBox();
-      const carte = await cap.boundingBox();
-      expect(Math.round((carte?.y ?? 0) - ((bloc?.y ?? 0) + (bloc?.height ?? 0)))).toBe(24);
+      const carte = await entete.getByTestId("carte-en-cours").boundingBox();
+      expect(Math.round((bloc?.y ?? 0) - ((carte?.y ?? 0) + (carte?.height ?? 0)))).toBe(24);
       expect(carte?.x).toBe(bloc?.x);
       // N2 : premier parcours de la liste en 2 écrans au plus ; au plus 3 actions principales avant lui.
       const premier = page.locator("#parcours-machine-a-cafe h3");
@@ -219,6 +222,10 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       await page.goto("/parcours/machine-a-cafe");
       const sommaire = page.getByTestId("sommaire-parcours");
       await expect(sommaire).toContainText(P.sommaire.faites(2, 3));
+      // s26 parcours connecté : test changé (raison : sous 1024 px, la liste du sommaire et son « Reprendre » sont repliés,
+      // un seul « Reprendre » visible à 375 ; on déplie par le résumé, `docs/ux/parcours-connecte-s26.md` §4).
+      await expect(sommaire.getByRole("button", { name: P.sommaire.reprendre })).toBeHidden();
+      await sommaire.locator("summary").click();
       await expect(sommaire.getByText(P.sommaire.fait, { exact: true })).toHaveCount(2);
       await expect(sommaire.getByRole("button")).toHaveCount(3);
       await sommaire.getByRole("button", { name: P.sommaire.reprendre }).click();

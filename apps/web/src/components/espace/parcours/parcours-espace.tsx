@@ -8,13 +8,12 @@ import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import type { NumeroCap } from "@/lib/espace/caps";
 import { AnnonceCap, type AnnonceApi } from "@/components/espace/annonce-cap";
 import { QuatreSemaines } from "@/components/espace/quatre-semaines";
-import { TonCap } from "@/components/espace/ton-cap";
+import { CarteEnCours } from "@/components/espace/parcours/carte-en-cours";
 import { TesBonus } from "@/components/espace/tes-bonus";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
-import { NEUTRE_CAP } from "@/components/espace/carte/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -58,21 +57,14 @@ export async function lireCaps(): Promise<EtatCapsApi | null> {
  * pas touchée (fichier sous hachage, textes en ligne).
  */
 /**
- * s26 (`docs/design/parcours-vannes-s26.md` §1.2) : dès 1024 px, les blocs de cet en-tête prennent place dans la grille
- * de 12 colonnes de la page (l'enveloppe passe en `contents`, aucun élément ajouté) : titre, annonce, étape à reprendre
- * et titre de la liste dans la colonne de 8 ; « Ton cap » en rail collant de 4 à droite, rangées 1 à 5 (titre, annonce,
- * étape à reprendre, titre de la liste, cartes) ; « Tes bonus » au pied du rail, rangée du quiz (aucun parent commun
- * avec « Ton cap » : il ne peut pas coller dessous). Collant à `lg:top-36` (en-tête collant de 121 px). Filets violets
- * retirés (décision du 18/11) : cadres neutres.
+ * s26 parcours connecté (`docs/design/parcours-connecte-s26.md` §1, §2.1 à §2.3 ; `docs/ux/parcours-connecte-s26.md` §1,
+ * arbitrage du 19/11 : plus de rail court ni collant) : dès 1024 px, les blocs de cet en-tête prennent place dans la
+ * grille de 12 colonnes de la page (l'enveloppe passe en `contents`) et occupent TOUTE la largeur, en rangées : titre,
+ * annonce, carte « En cours » (étape à reprendre + « Ton cap » en ligne), « Tes 4 premières semaines », « Tes bonus »,
+ * titre de la liste. Cadres neutres, un seul plein (« Reprendre »).
  */
-const COLONNE = "lg:col-span-8";
-// s26 tour 3 (point 4) : repères et flamme de « Ton cap » en neutre (`NEUTRE_CAP`, comme sur Mon profil) : le seul
-// aplat violet de l'écran reste « Reprendre ».
-const RAIL_CAP = cn(
-  "p-6 before:hidden md:p-6 [&_h2]:font-semibold lg:sticky lg:top-36 lg:col-span-4 lg:col-start-9 lg:row-span-5 lg:row-start-1 lg:self-start",
-  NEUTRE_CAP,
-);
-const RAIL_BONUS = "lg:col-span-4 lg:col-start-9 lg:row-start-6 lg:mt-12 lg:self-start";
+const LARGEUR = "lg:col-span-12";
+const BONUS = cn(LARGEUR, "rounded-xl border-border bg-background-card px-6 lg:mt-6 [&>svg]:text-text-secondary");
 
 export function ParcoursEspace() {
   const { data: session, status } = useSession();
@@ -105,20 +97,21 @@ export function ParcoursEspace() {
         (200 % de texte), plus petit et plus serré, pour garder la liste dans les deux premiers écrans (N2). v6 tour 3
         (arbitrage 1) : centré comme l'accueil et les rubriques de l'espace (rendu interrupteur ouvert seulement). */}
     {/* s26 : titre blanc à gauche, échelle `typo.ts` (plus de centrage). */}
-    <h1 className={cn(TITRE_PAGE, "mb-8 max-e300:mb-3", COLONNE)}>{P.titrePage}</h1>
-    <div className="mb-8 flex flex-col gap-6 max-e300:mb-3 max-e300:gap-2 lg:contents" aria-busy={etat === "attente" || undefined} data-testid="parcours-espace">
+    <h1 className={cn(TITRE_PAGE, "mb-8 max-e300:mb-3", LARGEUR)}>{P.titrePage}</h1>
+    <div className="mb-6 flex flex-col gap-6 max-e300:mb-3 max-e300:gap-2 lg:contents" aria-busy={etat === "attente" || undefined} data-testid="parcours-espace">
       {/* Arbitrage @ux D4 n°1 (lot D5) : l'introduction publique est masquée pour l'abonné ; il garde un h1. */}
-      <AnnonceCap annonce={caps?.annonce ?? null} retour={() => reprendre.current} className={cn(COLONNE, "lg:has-[p]:mb-6")} />
-      <QuatreSemaines ref={reprendre} etape={caps?.etape ?? null} ecouterPublie={caps?.ecouterPublie === true} className={COLONNE} />
-      {caps && (
-        <>
-          <TonCap cap={caps.capAffiche} serie={caps.serie} ecart={caps.ecart} className={RAIL_CAP} />
-          <TesBonus bonus={caps.bonus} className={RAIL_BONUS} />
-        </>
-      )}
-      {/* v6 tour 5, arbitrage 1 : titre de section centré comme l'accueil (composant rendu interrupteur ouvert seulement).
-          s26 : à gauche, au-dessus des cartes, dans la colonne de 8. */}
-      <h2 className={cn(TITRE_CARTE, COLONNE, "lg:mb-6 lg:mt-12")}>{P.listeParcours}</h2>
+      <AnnonceCap annonce={caps?.annonce ?? null} retour={() => reprendre.current} className={cn(LARGEUR, "lg:has-[p]:mb-6")} />
+      <CarteEnCours
+        ref={reprendre}
+        etat={etat}
+        etape={caps?.etape ?? null}
+        caps={caps ? { cap: caps.capAffiche, serie: caps.serie, ecart: caps.ecart } : null}
+        className={LARGEUR}
+      />
+      <QuatreSemaines ecouterPublie={caps?.ecouterPublie === true} className={cn(LARGEUR, "lg:mt-6")} />
+      {caps && <TesBonus bonus={caps.bonus} className={BONUS} />}
+      {/* s26 parcours connecté (§2, rangée 6) : titre de la liste sur 12 colonnes, 48 px au-dessus, 24 px dessous. */}
+      <h2 className={cn(TITRE_CARTE, LARGEUR, "mt-6 lg:mb-6 lg:mt-12")}>{P.listeParcours}</h2>
     </div>
     </>
   );

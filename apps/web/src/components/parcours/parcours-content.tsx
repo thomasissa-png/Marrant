@@ -27,6 +27,7 @@ import { totalParcoursXp } from "@/lib/parcours-xp";
 import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 import { cn } from "@/lib/utils";
 import { SANS_COMPTE } from "@/config/textes/cta-articles-accueil";
+import { recalerAncre } from "@/lib/espace/recaler-ancre";
 
 /**
  * Ligne frontière d'une carte de /parcours. v6 tour 2, point 14 (interrupteur ouvert seulement, `connecte` vrai pour
@@ -39,26 +40,24 @@ export function frontiereListe(slug: Parameters<typeof LISTE_PARCOURS_CTA.fronti
 }
 
 /**
- * Grille des cartes de /parcours, interrupteur ouvert (visiteur et compte gratuit). v6 tour 3, point 12 : deux colonnes.
- * s26 : deux colonnes dès 768 px, sur les 12 colonnes de la grille de la page, sous le hero (`lg:mt-8`).
+ * Grille des cartes de /parcours, interrupteur ouvert (visiteur, compte gratuit ET abonné). v6 tour 3, point 12 : deux
+ * colonnes. s26 parcours connecté (`docs/design/parcours-connecte-s26.md` §2.4) : deux colonnes dès 768 px sur les 12 de
+ * la page ; chaque carte occupe 5 pistes d'une sous-grille (`CARTE_SOUS_GRILLE`) : en-tête, description, témoignage,
+ * barre, pied tombent à la même ordonnée d'une carte jumelle à l'autre, sans `min-h` ni `mt-auto`. Écart vertical entre
+ * rangées : `mb-6` des cartes (la sous-grille garde `gap-y-0`), annulé sous la dernière (`-mb-6`). Dernière carte seule
+ * (nombre impair) : toute la rangée dès 768 px.
  */
 export const GRILLE_CARTES_OUVERTE = cn(
-  "grid gap-6 md:grid-cols-2 lg:col-span-12 lg:mt-8",
-  // s26 (`docs/design/parcours-vannes-s26.md` §1.1) : la dernière carte seule (nombre impair) prend toute la rangée dès
-  // 768 px (plus de carte centrée de 50 %) ; dès 1024 px, ses zones internes passent en 7/5 (`zones`, plus bas).
+  "-mb-6 grid gap-x-6 gap-y-0 md:grid-cols-2 lg:col-span-12",
   "md:[&>:last-child:nth-child(odd)]:col-span-2",
-  // s26 tour 3 (point 1) : cartes d'une rangée à la même hauteur (`items-stretch`), SANS `mt-auto` ni pied poussé en
-  // bas : le contenu reste empilé en haut, le vide éventuel passe en FIN de carte et les bas s'alignent (au tour 2,
-  // `items-start` laissait des bas inégaux de 68 px à 1280 et de 116 px à 768).
-  "items-stretch",
 );
-/** s26 (§1.2) : abonné, une colonne de cartes dans la colonne de 8 (le rail de 4 est à droite). s26 tour 3 : `items-stretch`. */
-const GRILLE_CARTES_ABONNE = "grid items-stretch gap-6 lg:col-span-8";
+/** s26 parcours connecté (§2.4) : carte en 5 pistes de sous-grille dès 768 px ; ancre de retour sous l'en-tête collant. */
+const CARTE_SOUS_GRILLE = "mb-6 flex scroll-mt-[137px] flex-col p-6 md:row-span-5 md:grid md:grid-rows-subgrid md:gap-y-0";
 
 /** s26 (§1.3) : contour neutre des boutons de carte (un seul aplat violet par écran : le bouton d'offre de l'en-tête). */
 const CONTOUR_CARTE = "border-border-input hover:border-text-muted";
 /** s26 (§1.1) : carte du quiz d'orientation, cadre neutre de 24 px (filet masqué), sous son titre. */
-const CARTE_QUIZ_OUVERTE = cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "mt-4 p-6");
+const CARTE_QUIZ_OUVERTE = cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "mt-6 p-6");
 /** s26 (§1.3) : pastille ramenée à une méta (sans fond ni capitale), pour « Question n/2 » et la semaine d'une étape. */
 const SANS_FOND_META = cn(META, "rounded-none bg-transparent px-0 py-0 font-normal");
 
@@ -81,6 +80,12 @@ function PiedCarte({ children, className }: { children: ReactNode; className?: s
 // ==============================
 // Mini quiz d'orientation parcours
 // ==============================
+
+/** s26 parcours connecté (§2.5) : bloc de texte du résultat du quiz, ouvert seulement ; fermé, un fragment. */
+function TexteResultat({ children }: { children: ReactNode }) {
+  if (!ESPACE_CLIENT_PUBLIE) return <>{children}</>;
+  return <div className="max-w-2xl">{children}</div>;
+}
 
 type QuizResult = ParcoursRecommendation;
 
@@ -138,11 +143,14 @@ function OrientationQuiz({
   if (result) {
     return (
       <Card className={ESPACE_CLIENT_PUBLIE ? CARTE_QUIZ_OUVERTE : "p-4 text-center sm:p-6"} filet={ESPACE_CLIENT_PUBLIE}>
-        <CardContent>
+        {/* s26 parcours connecté (§2.5) : texte à gauche (`max-w-2xl`), boutons à droite dès 1024 px. Fermé : inchangé. */}
+        <CardContent className={ESPACE_CLIENT_PUBLIE ? "flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between" : undefined}>
+          <TexteResultat>
           <p className={ESPACE_CLIENT_PUBLIE ? META : "text-sm font-medium text-accent-link"}>Ton point de départ :</p>
           <h3 className={ESPACE_CLIENT_PUBLIE ? cn(TITRE_CARTE, "mt-2") : "mt-2 font-display text-xl font-bold"}>{result.title}</h3>
           <p className={ESPACE_CLIENT_PUBLIE ? cn(META, "mt-2") : "mt-2 text-sm text-text-secondary"}>{frTypo(result.reason)}</p>
-          <div className={ESPACE_CLIENT_PUBLIE ? "mt-4 flex flex-col items-start gap-2" : "mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center"}>
+          </TexteResultat>
+          <div className={ESPACE_CLIENT_PUBLIE ? "flex flex-col items-start gap-2 sm:flex-row sm:items-center lg:shrink-0" : "mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center"}>
             {/* s26 (§1.1) : « Voir ce parcours » en contour, jamais plein ; « Refaire le quiz » en lien souligné. */}
             <Button
               variant={ESPACE_CLIENT_PUBLIE ? "outline" : "primary"}
@@ -186,7 +194,7 @@ function OrientationQuiz({
           </div>
         </div>
         <h3 className={ESPACE_CLIENT_PUBLIE ? cn(TEXTE_FORT, "mb-4") : "mb-4 font-display text-lg font-bold"}>{q.question}</h3>
-        <div className={ESPACE_CLIENT_PUBLIE ? "flex flex-col gap-2" : "flex flex-col gap-2 sm:flex-row"}>
+        <div className={ESPACE_CLIENT_PUBLIE ? "grid gap-2 md:grid-cols-3" : "flex flex-col gap-2 sm:flex-row"}>
           {q.options.map((o) => (
             <button
               key={o.value}
@@ -257,6 +265,16 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
     });
   };
 
+  // s26 parcours connecté (`docs/ux/parcours-connecte-s26.md` §5, retour) : arrivée par `/parcours#parcours-{slug}`, la
+  // carte du parcours est recalée sous l'en-tête collant pendant que l'en-tête de l'abonné et la progression se chargent.
+  // Espace ouvert seulement.
+  useEffect(() => {
+    if (!ESPACE_CLIENT_PUBLIE) return;
+    const ancre = window.location.hash.match(/^#(parcours-[a-z0-9-]+)$/);
+    if (!ancre) return;
+    return recalerAncre(ancre[1], { calmeMs: 1_000 });
+  }, []);
+
   // Progression de la personne connectée : correspondance par slug (FS-13 b), un seul appel.
   useEffect(() => {
     if (status !== "authenticated") return;
@@ -297,7 +315,9 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   // s26 (`docs/design/parcours-vannes-s26.md` §1.1 et §1.2) : plus de colonne centrée ; chaque bloc prend sa place dans
   // la grille de 12 colonnes de la page (`parcours/(liste)/page.tsx`). Visiteur et compte gratuit : quiz compact dans
   // les 4 colonnes de droite du hero (sous la liste avant 1024 px, `order`) ; abonné : quiz sous la liste, colonne de 8.
-  const placeQuiz = parcoursEntame ? "mt-12 lg:col-span-8" : "mt-12 max-lg:order-1 lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:mt-0 lg:self-start";
+  // s26 parcours connecté (§2.5) : quiz sous la liste pour tous, sur 12 colonnes ; visiteur et compte gratuit, `order-1`
+  // (son DOM le met avant les cartes) à toutes les largeurs, le bas de page suit en `order-2` (`page.tsx`).
+  const placeQuiz = parcoursEntame ? "mt-12 lg:col-span-12" : "mt-12 order-1 lg:col-span-12";
   const quizOrientation = (
     <div className={ESPACE_CLIENT_PUBLIE ? placeQuiz : parcoursEntame ? "mt-10" : "mb-10"}>
       {/* v6 tour 5, arbitrage 1 (ouvert seulement) : titre de section centré comme l'accueil. Fermé : inchangé. */}
@@ -321,7 +341,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
         <div
           className={
             ESPACE_CLIENT_PUBLIE
-              ? cn(CADRE_CARTE_NEUTRE, "mb-8 p-6 lg:col-span-12 lg:mb-0 lg:mt-8")
+              ? cn(CADRE_CARTE_NEUTRE, "mb-8 p-6 lg:col-span-12")
               : "mb-8 rounded-lg border border-accent-primary/40 bg-accent-primary/5 p-4 text-center"
           }
         >
@@ -353,7 +373,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
       <div
         className={
           ESPACE_CLIENT_PUBLIE
-            ? enteteEspace ? GRILLE_CARTES_ABONNE : GRILLE_CARTES_OUVERTE
+            ? GRILLE_CARTES_OUVERTE
             : "flex flex-col gap-6"
         }
         data-parcours-cartes={ESPACE_CLIENT_PUBLIE ? "" : undefined}
@@ -367,31 +387,29 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           // s21 B15 (froid) : visiteur ou membre qui n'a pas commencé ce parcours.
           const etape1Slug = statut !== "premium" && !isDone && progressValue === 0 && isParcoursSlug(p.slug) ? p.slug : null;
           const progressMax = prog ? prog.total : p.modules.length;
-          // s26 (`docs/design/parcours-vannes-s26.md` §1.3) : zones internes 7/5 dès 1024 px (infos à gauche, progression
-          // et « Programme » à droite) pour la dernière carte seule du visiteur et du compte gratuit. Les blocs de
-          // `CardContent` rejoignent la carte (`contents`) : la barre de progression passe en tête par `order`.
-          // s26 tour 3 (point 3) : plus de 7/5 pour l'abonné (125 à 130 px vides au milieu de ses cartes au tour 2) :
-          // barre `n/total`, « Programme » et bouton empilés SOUS le texte, sur la largeur de la carte.
+          // s26 parcours connecté (`docs/design/parcours-connecte-s26.md` §2.4) : plus de zones 7/5 (vide à droite) ; la
+          // dernière carte seule (nombre impair, tous profils) reste empilée sur toute la rangée, et seul son pied passe
+          // en ligne dès 1024 px (« Programme » et bouton, moitié chacun). Les blocs de `CardContent` rejoignent la carte
+          // (`contents`) et prennent chacun leur piste de la sous-grille.
           // Sous 300 px (200 % de texte), marges de la carte réduites comme les cartes de l'en-tête de l'abonné
           // (`max-e300:px-3 max-e300:py-2`) : premier parcours dans les deux premiers écrans (N2, 188 x 406).
-          const zones = ESPACE_CLIENT_PUBLIE && !enteteEspace && parcours.length % 2 === 1 && index === parcours.length - 1;
-          const commence = progressValue > 0;
+          const zones = ESPACE_CLIENT_PUBLIE && parcours.length % 2 === 1 && index === parcours.length - 1;
           const o = (ouvert: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? ouvert : ferme);
           return (
             <Card
               key={p.title}
               className={
                 ESPACE_CLIENT_PUBLIE
-                  ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, "flex flex-col p-6 max-e300:px-3 max-e300:py-2", zones && "lg:grid lg:grid-cols-12 lg:content-start lg:gap-x-6")
+                  ? cn(CADRE_CARTE_NEUTRE, FILET_MASQUE, CARTE_SOUS_GRILLE, "max-e300:px-3 max-e300:py-2")
                   : "p-4 sm:p-6"
               }
               id={`parcours-${p.slug}`}
               filet={ESPACE_CLIENT_PUBLIE}
             >
-              <CardHeader className={o(cn("space-y-0 pb-0", zones && "lg:col-span-7"), "pb-2")}>
+              <CardHeader className={o("space-y-0 pb-0 md:row-start-1", "pb-2")}>
                 {/* s26 tour 3 (point 2, ouvert seulement) : plus aucun « · » (ni en fin ni en début de ligne), les items sont
                     séparés par l'espace seul (`gap-x-4`). Fermé : les spans d'avant. */}
-                <div className={o(cn("flex flex-wrap items-center gap-x-4 gap-y-1", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
+                <div className={o(cn("flex min-h-6 flex-wrap items-center gap-x-4 gap-y-1", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
                   <Badge variant="primary" className={o(cn(META_FORT, "rounded-none bg-transparent px-0 py-0"))}>{p.difficulty}</Badge>
                   <span className="text-sm text-text-secondary">
                     {p.duration}
@@ -415,16 +433,18 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 </p>
               </CardHeader>
               <CardContent className={ESPACE_CLIENT_PUBLIE ? "contents" : undefined}>
-                <p className={o(cn(TEXTE, "mt-2 text-pretty", zones && "lg:col-span-7"), "mb-4 text-pretty text-text-secondary")}>{frTypoTexte(stripEmDashes(p.description))}</p>
+                <p className={o(cn(TEXTE, "mt-2 text-pretty md:row-start-2"), "mb-4 text-pretty text-text-secondary")}>{frTypoTexte(stripEmDashes(p.description))}</p>
 
                 {/* Testimonial (s26 : méta en italique, sans fond) */}
-                <p className={o(cn(META, "mt-4 text-pretty italic", zones && "lg:col-span-7"), "mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary")}>
+                <p className={o(cn(META, "mt-4 text-pretty italic md:row-start-3"), "mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary")}>
                   {frTypoTexte(stripEmDashes(p.testimonial))}
                 </p>
 
-                {/* Progression : affichée seulement une fois le parcours commencé (T26) */}
-                {progressValue > 0 && (
-                  <div className={o(enteteEspace ? "mt-6" : cn("-order-1 mb-4", zones && "lg:order-none lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:mb-0"), "mb-6")}>
+                {/* Progression : affichée seulement une fois le parcours commencé (T26). s26 parcours connecté (arbitrage de
+                    l'orchestrateur du 19/11) : espace ouvert, l'abonné la voit sur TOUTES ses cartes (barre vide, même
+                    gabarit `n/total`), piste 4 de la sous-grille, juste avant le pied. */}
+                {(progressValue > 0 || enteteEspace) && (
+                  <div className={o("mt-4 md:row-start-4", "mb-6")}>
                     {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). s26 : en tête de carte,
                         remplissage gris clair sur rail visible (comme `BarreProgression`), aucun violet. */}
                     <ProgressBar
@@ -442,17 +462,11 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                     de carte (`mt-auto`, écart `gap-6` au lieu du `mb-6`) : plus de trou entre eux, barres « Programme » et
                     boutons alignés d'une carte jumelle à l'autre. Fermé : `PiedCarte` est un fragment, HTML d'avant. */}
                 <PiedCarte
-                  className={o(
-                    cn(
-                      "flex flex-col gap-4 pt-6",
-                      zones && "lg:col-span-5 lg:col-start-8 lg:mt-0 lg:pt-0",
-                      zones && (commence ? "lg:row-span-3 lg:row-start-2 lg:mt-4" : "lg:row-span-3 lg:row-start-1"),
-                    ),
-                  )}
+                  className={o(cn("mt-6 flex flex-col gap-4 md:row-start-5", zones && "lg:flex-row lg:items-start lg:gap-6"))}
                 >
                 {/* Programme replié par défaut (T24) */}
                 <details
-                  className={ESPACE_CLIENT_PUBLIE ? "group" : "group mb-6"}
+                  className={ESPACE_CLIENT_PUBLIE ? cn("group", zones && "lg:min-w-0 lg:flex-1") : "group mb-6"}
                   open={openSlugs.has(p.slug)}
                   onToggle={(e) => setProgrammeOpen(p.slug, e.currentTarget.open)}
                 >
@@ -510,7 +524,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
 
                 {/* v6 tour 3, point 12 : cartes jumelles de même hauteur ; tour 4, point 2 : le `mt-auto` passe au bloc
                     commun (`PiedCarte`). Forme et place du bouton inchangées (cta-forme-place-s21 §1.3). */}
-                <div className="flex flex-col gap-2">
+                <div className={cn("flex flex-col gap-2", zones && "lg:flex-1")}>
                   {/* s21 B15 (froid) : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous. */}
                   <Button
                     // v6 tour 1, point 12 (interrupteur ouvert, abonné) : un seul plein, celui du parcours en cours
@@ -522,7 +536,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                     // dans « l'étape à reprendre » : un plein de carte ferait deux aplats violets dans le même écran.
                     variant={ESPACE_CLIENT_PUBLIE ? "outline" : "primary"}
                     size="lg"
-                    className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", CORPS_APPEL_MOBILE, ESPACE_CLIENT_PUBLIE && CONTOUR_CARTE)}
+                    className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", CORPS_APPEL_MOBILE, ESPACE_CLIENT_PUBLIE && CONTOUR_CARTE, zones && "lg:w-full")}
                     onClick={() => handleCta(p.slug)}
                   >
                     {etape1Slug

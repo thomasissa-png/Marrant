@@ -69,9 +69,12 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
 
   // s26 (`docs/design/parcours-vannes-s26.md` §1.2) : /parcours de l'abonné sort de cette règle, titre blanc à gauche
   // (`TITRE_PAGE`) dans la colonne de 8.
+  // s26 parcours connecté : test changé (raison : plus de colonne de 8, le H1 occupe les 12 colonnes, `LARGEUR`,
+  // `docs/design/parcours-connecte-s26.md` §2 rangée 1).
   it("/parcours abonné (`ParcoursEspace`, rendu ouvert seulement) : H1 à gauche (s26)", () => {
     const source = lire("components/espace/parcours/parcours-espace.tsx");
-    expect(source).toContain('<h1 className={cn(TITRE_PAGE, "mb-8 max-e300:mb-3", COLONNE)}>');
+    expect(source).toContain('<h1 className={cn(TITRE_PAGE, "mb-8 max-e300:mb-3", LARGEUR)}>');
+    expect(source).toContain('const LARGEUR = "lg:col-span-12";');
     expect(source).not.toContain("text-center");
     expect(source).toContain("if (!ESPACE_CLIENT_PUBLIE || !premium) return null;");
   });

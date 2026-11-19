@@ -77,19 +77,22 @@ const MasqueIntroduction = ESPACE_CLIENT_PUBLIE ? MasqueSiPremium : Fragment;
 function ColonneParcours({ children }: { children: React.ReactNode }) {
   if (!ESPACE_CLIENT_PUBLIE) return <div className="mx-auto max-w-3xl">{children}</div>;
   // v6 tour 3, point 12 : la page occupe la coque. s26 (`docs/design/parcours-vannes-s26.md` §1) : grille de 12
-  // colonnes dès 1024 px, posée sur ce parent commun (aucun élément ajouté) ; chaque bloc y prend sa place par ses
-  // propres classes (en-tête 8 et quiz 4 pour le visiteur, colonne de 8 et rail de 4 pour l'abonné, le reste sur 12).
-  // Sous 1024 px, une colonne ; `order` place le quiz du visiteur sous la liste (`parcours-content.tsx`).
+  // colonnes dès 1024 px, posée sur ce parent commun (aucun élément ajouté). s26 parcours connecté
+  // (`docs/design/parcours-connecte-s26.md` §1) : chaque bloc sur les 12 colonnes, en rangées (plus de 8/4 ni de rail) ;
+  // `order` place le quiz du visiteur sous la liste (`parcours-content.tsx`).
   return <AxeEspace visiteur="grid w-full grid-cols-1 lg:grid-cols-12 lg:gap-x-6">{children}</AxeEspace>;
 }
 
 /**
  * s26 : l'enveloppe de l'en-tête de l'abonné (`ParcoursEspace`) s'efface de la mise en page (`contents`) : ses blocs
- * prennent place dans la grille de la page (colonne de 8, rail de 4). Interrupteur ouvert seulement.
+ * prennent place dans la grille de la page (12 colonnes, en rangées). Interrupteur ouvert seulement.
  */
 const colonne = () => (ESPACE_CLIENT_PUBLIE ? "contents" : undefined);
-/** s26 : blocs de bas de page sur toute la largeur de la grille, après le quiz (ordre visuel sous 1024 px). */
-const basDePage = () => (ESPACE_CLIENT_PUBLIE ? "mt-12 border-t border-border pt-12 max-lg:order-2 lg:col-span-12" : "mt-12 border-t border-border pt-8");
+/**
+ * s26 : blocs de bas de page sur toute la largeur de la grille, après le quiz. s26 parcours connecté (§2.5) : le quiz du
+ * visiteur passe sous la liste à toutes les largeurs (`order-1`), le bas de page le suit (`order-2`).
+ */
+const basDePage = () => (ESPACE_CLIENT_PUBLIE ? "order-2 mt-12 border-t border-border pt-12 lg:col-span-12" : "mt-12 border-t border-border pt-8");
 
 export default async function ParcoursPage() {
   const stats = await getContentStatsRounded();
@@ -105,9 +108,10 @@ export default async function ParcoursPage() {
         </nav>
       )}
       {/* v6 tour 3, point 1 (ouvert seulement) : H1 et sous-titre centrés comme le hero de l'accueil.
-          s26 (§1.1) : hero 8/4, titre blanc à gauche (échelle `typo.ts`), chapô en `TEXTE` ; le quiz prend les 4 colonnes
-          de droite sur la même rangée. */}
-      <div className={ESPACE_CLIENT_PUBLIE ? "mb-8 lg:col-span-8 lg:mb-0" : "mb-8"}>
+          s26 (§1.1) : titre blanc à gauche (échelle `typo.ts`), chapô en `TEXTE`. s26 parcours connecté
+          (`docs/design/parcours-connecte-s26.md` §2.5) : en-tête sur 12 colonnes, plus de quiz à côté (il passe sous la
+          liste). */}
+      <div className={ESPACE_CLIENT_PUBLIE ? "mb-8 lg:col-span-12" : "mb-8"}>
         <h1 className={ESPACE_CLIENT_PUBLIE ? TITRE_PAGE : "font-display text-3xl font-bold md:text-4xl"}>
           {/* v3 M6 : espace insécable avant « : » (jamais en début de ligne). */}
           Parcours humour&nbsp;: deviens drôle pas à pas
@@ -179,7 +183,9 @@ export default async function ParcoursPage() {
         <h2 className={ESPACE_CLIENT_PUBLIE ? TITRE_CARTE : "font-display mb-4 text-xl font-bold"}>Explore aussi</h2>
         {/* v6 tour 1, point 12 : interrupteur ouvert, deux colonnes quand l'abonné n'a que 2 cartes (Abonnement masqué),
             trois sinon ; cartes à filet de l'accueil. Fermé : inchangé. */}
-        <div className={ESPACE_CLIENT_PUBLIE ? "mt-6 grid gap-6 sm:grid-cols-2 sm:[&:has(>:nth-child(3))]:grid-cols-3" : "grid gap-4 sm:grid-cols-3"}>
+        {/* s26 parcours connecté (§2, rangée 8) : 3 cartes = 4/4/4 dès 768 px ; de 640 à 767 px, 2 colonnes et la
+            dernière carte seule sur la rangée. */}
+        <div className={ESPACE_CLIENT_PUBLIE ? "mt-6 grid gap-6 sm:grid-cols-2 md:[&:has(>:nth-child(3))]:grid-cols-3 sm:max-md:[&>:last-child:nth-child(odd)]:col-span-2" : "grid gap-4 sm:grid-cols-3"}>
           {/* s21 (revue v2 m-1) : source `parcours-liste`, suivie jusqu'à `checkout-ouvert`.
               QA v4 m-6 : masqué pour l'abonné (aucun prix pour lui). */}
           <MasqueSiPremium>
@@ -203,9 +209,10 @@ export default async function ParcoursPage() {
       </nav>
 
       {/* FAQ */}
-      {/* s26 (§1.1, §1.2) : FAQ en 4/8 ; question du prix masquée pour l'abonné (14/11, `FaqSection`). */}
+      {/* s26 : question du prix masquée pour l'abonné (14/11, `FaqSection`). s26 parcours connecté (§2, rangée 9) : plus
+          de 4/8, titre au-dessus et accordéon sur toute la largeur. */}
       <section className={basDePage()}>
-        <FaqSection align="left" titreCentre={ESPACE_CLIENT_PUBLIE} disposition={ESPACE_CLIENT_PUBLIE ? "split" : undefined} />
+        <FaqSection align="left" titreCentre={ESPACE_CLIENT_PUBLIE} disposition={ESPACE_CLIENT_PUBLIE ? "pleine" : undefined} />
       </section>
     </ColonneParcours>
   );
