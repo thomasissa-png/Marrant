@@ -569,7 +569,8 @@ test.describe("navigation universelle v6 (s25)", () => {
     });
 
     test("§3 : menu mobile réduit aux actions et à la recherche ; pas de bouton Menu dès 768 px (visiteur : dès 520 px)", async ({ browser }) => {
-      const attendu: Record<Etat, string[]> = { visiteur: ["Premium, 1,99", "Connexion"], FREE: ["Premium, 1,99", "Mon profil"], PREMIUM: ["Mon profil"] };
+      // s26 bouton Tout ouvrir : nom accessible du bouton d'offre en régime ouvert.
+      const attendu: Record<Etat, string[]> = { visiteur: ["Tout ouvrir, 1,99", "Connexion"], FREE: ["Tout ouvrir, 1,99", "Mon profil"], PREMIUM: ["Mon profil"] };
       for (const etat of ETATS) {
         const c = await contexte(browser, etat);
         const page = await c.newPage();

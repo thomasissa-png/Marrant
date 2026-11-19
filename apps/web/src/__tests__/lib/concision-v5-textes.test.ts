@@ -10,6 +10,7 @@
  * verbe d'achat « S'abonner », en-tête court, FAQ prix, profil, retour de paiement). La page
  * /abonnement elle-même est figée dans `conversion-s21-textes.test.ts`.
  */
+import { ESPACE_INSECABLE, PREMIUM_MONTHLY_PRICE_CENTS, PREMIUM_PRICE_LABEL, formatEuros } from "@/config/premium";
 import { AVANTAGES_PREMIUM } from "@/config/textes/avantages-premium";
 import { CARNET_EXTRAIT_TITRE } from "@/config/textes/carnet-extrait";
 import {
@@ -18,6 +19,7 @@ import {
   CARTE_PREMIUM,
   DEMO_VANNE,
   EN_TETE,
+  EN_TETE_OUVERT,
   GRATUIT_ACCUEIL,
   LETTRE_ARTICLE,
   libelleGratuitParcours,
@@ -99,6 +101,30 @@ describe("partie A : accueil, en-tête, articles", () => {
     // Repli « Premium » (textes-trajet-v1 §2) : « Premium · 1,99 € » ne tenait pas à 320, 360 et 375 px.
     expect(EN_TETE.boutonCourt).toBe("Premium");
     expect(t(EN_TETE.nomAccessible)).toBe("Premium, 1,99 € par mois : voir l’offre");
+  });
+
+  it("§2 bis en-tête, espace ouvert (s26 bouton Tout ouvrir) : fermé au caractère près, ouvert « Tout ouvrir »", () => {
+    // Fermé (interrupteur à false) : le HTML d'aujourd'hui, caractère par caractère (espaces insécables comprises).
+    expect(EN_TETE).toEqual({
+      bouton: "Premium · 1,99 €/mois",
+      boutonCourt: "Premium",
+      nomAccessible: "Premium, 1,99 € par mois : voir l’offre",
+    });
+    // Ouvert : verdict de docs/copy/bouton-offre-s26.md, prix et point médian lus aux mêmes sources.
+    expect(EN_TETE_OUVERT).toEqual({
+      bouton: `Tout ouvrir${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`,
+      boutonCourt: "Tout ouvrir",
+      nomAccessible: `Tout ouvrir, ${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l’offre Premium`,
+    });
+    expect(t(EN_TETE_OUVERT.bouton)).toBe("Tout ouvrir · 1,99 €/mois");
+    expect(t(EN_TETE_OUVERT.nomAccessible)).toBe("Tout ouvrir, 1,99 € par mois : voir l’offre Premium");
+    expect(EN_TETE_OUVERT.bouton).toBe(libelleToutOuvrir());
+    // WCAG 2.5.3 : le nom accessible commence par le texte visible, à toutes les largeurs (repli compris).
+    for (const { bouton, boutonCourt, nomAccessible } of [EN_TETE, EN_TETE_OUVERT]) {
+      expect(bouton.startsWith(boutonCourt)).toBe(true);
+      expect(nomAccessible.startsWith(`${boutonCourt}, ${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois`)).toBe(true);
+    }
+    expect(JSON.stringify(EN_TETE_OUVERT)).not.toMatch(/—/);
   });
 
   it("§3 fin d’article n°1 et déclinaisons par parcours", () => {

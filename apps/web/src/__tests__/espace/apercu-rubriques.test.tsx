@@ -46,7 +46,8 @@ import { EN_TETE_CHEMIN_ESPACE } from "@/config/espace-client";
 import { TEXTES_APERCU, TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-apercu";
 import { PASTILLES_FAVORIS } from "@/components/espace/apercu/apercu-favoris";
 import { frEspace } from "@/lib/fr-typo";
-import { EN_TETE } from "@/config/textes/cta-articles-accueil";
+// s26 bouton Tout ouvrir : espace ouvert, le bouton d'offre est « Tout ouvrir · 1,99 €/mois » (EN_TETE_OUVERT).
+import { EN_TETE_OUVERT } from "@/config/textes/cta-articles-accueil";
 import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import MonEspaceLayout from "@/app/(dashboard)/mon-espace/layout";
 import AujourdhuiPage, { generateMetadata as metaAujourdhui } from "@/app/(dashboard)/mon-espace/page";
@@ -115,8 +116,8 @@ describe("adresses et textes", () => {
 
   it("sous-titre validé, bouton et prix de l'en-tête, zéro tiret cadratin", () => {
     expect(TEXTES_APERCU.sousTitre).toBe("Voici un exemple de cette rubrique. Elle est ouverte avec Premium.");
-    expect(TEXTES_APERCU.offre.bouton).toBe(EN_TETE.bouton);
-    expect(EN_TETE.bouton).toContain(PREMIUM_PRICE_LABEL);
+    expect(TEXTES_APERCU.offre.bouton).toBe(EN_TETE_OUVERT.bouton);
+    expect(EN_TETE_OUVERT.bouton).toContain(PREMIUM_PRICE_LABEL);
     expect(JSON.stringify(TEXTES_APERCU)).not.toMatch(/—/);
   });
 
@@ -183,7 +184,7 @@ describe.each(PAGES)("page %s ouverte", (rubrique, page, fiche) => {
     const offre = document.querySelector("[data-apercu-offre]") as HTMLElement;
     const liens = within(offre).getAllByRole("link");
     expect(liens).toHaveLength(2);
-    expect(liens[0].textContent).toBe(EN_TETE.bouton);
+    expect(liens[0].textContent).toBe(EN_TETE_OUVERT.bouton);
     const href = new URL(liens[0].getAttribute("href") ?? "", "https://x");
     expect(href.pathname).toBe("/abonnement");
     expect(href.searchParams.get("returnTo")).toBe(ADRESSES_APERCU[rubrique]);

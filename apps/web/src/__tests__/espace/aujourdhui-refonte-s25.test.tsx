@@ -61,7 +61,8 @@ import { TEXTES_AUJOURDHUI as A } from "@/config/textes/espace-aujourdhui";
 import { TEXTES_CAPS, TEXTES_PARCOURS_ESPACE as P } from "@/config/textes/espace-caps";
 import { TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
 import { SERIE } from "@/config/textes/parcours";
-import { EN_TETE } from "@/config/textes/cta-articles-accueil";
+// s26 bouton Tout ouvrir : espace ouvert, le bouton d'offre est « Tout ouvrir · 1,99 €/mois » (EN_TETE_OUVERT).
+import { EN_TETE_OUVERT } from "@/config/textes/cta-articles-accueil";
 import { OFFRE_NOM, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { PHRASE_OBJET_CONNECTE } from "@/config/textes/abonnement-vente";
 import { ApercuAujourdhui, PASTILLES_AUJOURDHUI } from "@/components/espace/apercu/tableau-verrouille";
@@ -149,7 +150,7 @@ describe("aperçu verrouillé d'« Aujourd'hui » (spec UX §2 et §3)", () => {
     expect(offre.querySelector("[data-preuve]")).toBeNull();
     expect(hero.textContent).not.toContain("1 500+");
     expect(offre.textContent).not.toContain(frTypo(PHRASE_OBJET_CONNECTE));
-    expect(within(offre).getAllByRole("link").map((l) => l.textContent)).toEqual([EN_TETE.bouton, TEXTES_APERCU.connexion]);
+    expect(within(offre).getAllByRole("link").map((l) => l.textContent)).toEqual([EN_TETE_OUVERT.bouton, TEXTES_APERCU.connexion]);
   });
 
   it("deux boutons identiques (hero, fin d'extrait), même lien et même source ; une seule action", async () => {
@@ -158,7 +159,7 @@ describe("aperçu verrouillé d'« Aujourd'hui » (spec UX §2 et §3)", () => {
     const offres = screen.getAllByRole("link", { name: TEXTES_APERCU.offre.nomAccessible });
     expect(offres.map((l) => l.getAttribute("data-position"))).toEqual(["haut", "fin"]);
     expect(new Set(offres.map((l) => l.getAttribute("href")))).toEqual(new Set(["/abonnement?returnTo=%2Fmon-espace&src=apercu-aujourdhui"]));
-    expect(offres.every((l) => l.textContent === EN_TETE.bouton)).toBe(true);
+    expect(offres.every((l) => l.textContent === EN_TETE_OUVERT.bouton)).toBe(true);
     const fin = document.querySelector("[data-apercu-fin]") as HTMLElement;
     expect(within(fin).getByText(TEXTES_APERCU_VERROUILLE.suite)).toBeTruthy();
     expect(within(fin).queryByText(TEXTES_APERCU.connexion)).toBeNull();

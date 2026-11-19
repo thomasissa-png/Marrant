@@ -30,7 +30,8 @@ import { offreEnHaut } from "@/components/espace/apercu/offre-en-haut";
 import { EnTeteUniversel } from "@/components/layout/en-tete-universel";
 import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
-import { EN_TETE } from "@/config/textes/cta-articles-accueil";
+// s26 bouton Tout ouvrir : espace ouvert, le bouton d'offre est « Tout ouvrir · 1,99 €/mois » (EN_TETE_OUVERT).
+import { EN_TETE_OUVERT } from "@/config/textes/cta-articles-accueil";
 import { frEspace } from "@/lib/fr-typo";
 
 const drapeau = globalThis as { __ESPACE_OUVERT__?: boolean };
@@ -124,7 +125,14 @@ describe("point 2 : un seul bouton de paiement en haut", () => {
       const { unmount } = render(<EnTeteUniversel />);
       await act(async () => {});
       expect(document.querySelectorAll("[data-en-tete-prix]")).toHaveLength(attendu);
-      expect(screen.queryAllByRole("link", { name: EN_TETE.nomAccessible })).toHaveLength(attendu);
+      expect(screen.queryAllByRole("link", { name: EN_TETE_OUVERT.nomAccessible })).toHaveLength(attendu);
+      // s26 bouton Tout ouvrir : repli « Tout ouvrir » sous 640 px, « Tout ouvrir · 1,99 €/mois » au-delà ; aucun « Premium · ».
+      for (const lien of Array.from(document.querySelectorAll("[data-en-tete-prix]"))) {
+        expect(Array.from(lien.querySelectorAll("span")).map((s) => [s.textContent, s.className])).toEqual([
+          [EN_TETE_OUVERT.boutonCourt, "sm:hidden"],
+          [EN_TETE_OUVERT.bouton, "hidden sm:inline"],
+        ]);
+      }
       unmount();
     }
   });

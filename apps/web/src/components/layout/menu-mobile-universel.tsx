@@ -10,7 +10,7 @@ import { RUBRIQUES, estPremium, rubriqueAllumee, type EtatLecteur } from "@/comp
 import { Cadenas } from "@/components/layout/bande-rubriques";
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { CHAMP } from "@/components/layout/panneau-eleve";
-import { EN_TETE } from "@/config/textes/cta-articles-accueil";
+import { EN_TETE_OUVERT } from "@/config/textes/cta-articles-accueil";
 import { cn } from "@/lib/utils";
 
 /**
@@ -112,8 +112,8 @@ export function MenuMobileUniversel({ etat, pathname, hrefs, masquerPlein, onClo
 
       <div className="flex flex-col">
         {plein && (
-          <Link href={hrefs.prix} onClick={onClose} aria-label={EN_TETE.nomAccessible} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "h-11 w-full md:hidden")}>
-            {EN_TETE.bouton}
+          <Link href={hrefs.prix} onClick={onClose} aria-label={EN_TETE_OUVERT.nomAccessible} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "h-11 w-full md:hidden")}>
+            {EN_TETE_OUVERT.bouton}
           </Link>
         )}
         {etat === "visiteur" && (

@@ -5,13 +5,13 @@
  * Un seul texte neuf, validé par Thomas le 15/11 (recommandation 4, `docs/founder-preferences.md`) : le sous-titre.
  * Tout le reste est repris par import, sans retouche :
  * - titres des rubriques : onglets de la bande (`espace-navigation.ts`, `espace-aujourdhui.ts`) ;
- * - bouton d'offre : celui de l'en-tête (`EN_TETE`, prix lu dans `config/premium.ts`) ;
+ * - bouton d'offre : celui de l'en-tête ouvert (`EN_TETE_OUVERT`, s26 bouton Tout ouvrir, prix lu dans `config/premium.ts`) ;
  * - « Connexion » (visiteur) : le lien de l'en-tête (`TEXTES_CONNEXION.lienConnexionMobile`).
  * Zéro tiret cadratin, zéro émoji (contrôlé par `__tests__/espace/apercu-rubriques.test.ts`).
  */
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
-import { EN_TETE } from "@/config/textes/cta-articles-accueil";
+import { EN_TETE_OUVERT } from "@/config/textes/cta-articles-accueil";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
 export type RubriqueApercu = "aujourdhui" | "quoiRepondre" | "bibliotheque" | "sEntrainer" | "mesQuestions" | "mesRepliques" | "favoris";
@@ -28,7 +28,7 @@ export const TEXTES_APERCU = {
     mesRepliques: N.index.mesRepliques,
     favoris: N.index.favoris,
   } satisfies Record<RubriqueApercu, string>,
-  offre: { bouton: EN_TETE.bouton, nomAccessible: EN_TETE.nomAccessible },
+  offre: { bouton: EN_TETE_OUVERT.bouton, nomAccessible: EN_TETE_OUVERT.nomAccessible },
   connexion: TEXTES_CONNEXION.lienConnexionMobile,
 } as const;
 

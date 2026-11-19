@@ -70,6 +70,19 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
   });
 
+  it("s26 bouton Tout ouvrir : interrupteur fermé, l'en-tête garde « Premium · 1,99 €/mois » (aucun « Tout ouvrir »)", async () => {
+    render(<Header />);
+    expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(2);
+    expect(screen.queryAllByRole("link", { name: /^Tout ouvrir/ })).toHaveLength(0);
+    expect(screen.getByRole("banner").textContent).not.toContain("Tout ouvrir");
+    // Menu mobile fermé (mobile-nav.tsx) : même libellé complet, même nom accessible.
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    const prix = screen.getAllByRole("link", { name: PRIX });
+    expect(prix).toHaveLength(3);
+    expect(prix[2].textContent).toBe("Premium · 1,99 €/mois");
+    expect(screen.queryAllByRole("link", { name: /^Tout ouvrir/ })).toHaveLength(0);
+  });
+
   it("s21 (B6) : bouton prix masqué sur /abonnement et /register, visiteur comme compte", async () => {
     for (const page of ["/abonnement", "/register", "/abonnement/success"]) {
       usePathname.mockReturnValue(page);

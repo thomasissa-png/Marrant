@@ -70,6 +70,19 @@ export const EN_TETE = {
   nomAccessible: `${OFFRE_NOM}, ${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l’offre`,
 } as const;
 
+/**
+ * s26 bouton Tout ouvrir (verdict de `docs/copy/bouton-offre-s26.md`) : le même bouton, interrupteur
+ * `ESPACE_CLIENT_PUBLIE` OUVERT. Consommé seulement par les composants qui n'existent qu'espace ouvert
+ * (`en-tete-universel.tsx`, `menu-mobile-universel.tsx`, offre des aperçus `espace-apercu.ts`) ; l'en-tête
+ * fermé (`header.tsx`, `mobile-nav.tsx`) garde `EN_TETE` au caractère près. Repli sans prix « Tout ouvrir »
+ * (mesuré de 320 à 639 px). Nom accessible : commence par le texte visible, repli compris (WCAG 2.5.3).
+ */
+export const EN_TETE_OUVERT = {
+  bouton: libelleToutOuvrir(),
+  boutonCourt: "Tout ouvrir",
+  nomAccessible: `Tout ouvrir, ${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l’offre ${OFFRE_NOM}`,
+} as const;
+
 // ─── Encart du milieu des articles ──────────────────────────────────────────
 
 /**

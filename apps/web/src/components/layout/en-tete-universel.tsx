@@ -14,7 +14,7 @@ import { BandeRubriques } from "@/components/layout/bande-rubriques";
 import { rubriqueAllumee, sousAdresse, type EtatLecteur } from "@/components/espace/rubriques";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
-import { EN_TETE } from "@/config/textes/cta-articles-accueil";
+import { EN_TETE_OUVERT } from "@/config/textes/cta-articles-accueil";
 import { buildLoginUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { offreEnHaut } from "@/components/espace/apercu/offre-en-haut";
@@ -195,7 +195,7 @@ export function EnTeteUniversel() {
             {etat !== "abonne" && !pageChaude && !offreDansLaPage && (
               <Link
                 href={prixHref}
-                aria-label={EN_TETE.nomAccessible}
+                aria-label={EN_TETE_OUVERT.nomAccessible}
                 data-en-tete-prix
                 className={cn(
                   buttonVariants({ variant: "primary", size: "sm" }),
@@ -204,8 +204,8 @@ export function EnTeteUniversel() {
                   menuOuvert && "hidden md:inline-flex",
                 )}
               >
-                <span className="sm:hidden">{EN_TETE.boutonCourt}</span>
-                <span className="hidden sm:inline">{EN_TETE.bouton}</span>
+                <span className="sm:hidden">{EN_TETE_OUVERT.boutonCourt}</span>
+                <span className="hidden sm:inline">{EN_TETE_OUVERT.bouton}</span>
               </Link>
             )}
             {etat === "abonne" && <Cloche pathname={pathname} />}

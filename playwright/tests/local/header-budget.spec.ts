@@ -34,8 +34,12 @@ const RUBRIQUES = ["Aujourd’hui", "Parcours", "Quoi répondre", "Bibliothèque
 /** Bouton Menu affiché (v6 §3) : sous 768 px ; visiteur, sous 520 px (au-delà il ne contiendrait que le bouton d'offre). */
 const menuAffiche = (etat: Etat, largeur: number) => (ESPACE_OUVERT ? largeur < (etat === "visiteur" ? 520 : 768) : largeur < 1024);
 const MOT_DE_PASSE = "E2e-en-tete-budget-42";
-/** Bouton prix de l'en-tête, nom accessible « Premium, 1,99 € par mois : voir l'offre » (trajet de conversion s21 §2). */
-const PRIX = /^Premium, 1,99\s€ par mois : voir l['’]offre$/;
+/** Bouton prix de l'en-tête, nom accessible « Premium, 1,99 € par mois : voir l'offre » (trajet de conversion s21 §2).
+ * s26 bouton Tout ouvrir : espace ouvert, « Tout ouvrir, 1,99 € par mois : voir l'offre Premium » ; fermé inchangé. */
+const PRIX = ESPACE_OUVERT ? /^Tout ouvrir, 1,99\s€ par mois : voir l['’]offre Premium$/ : /^Premium, 1,99\s€ par mois : voir l['’]offre$/;
+/** s26 bouton Tout ouvrir : libellé complet et repli selon le régime (fermé : « Premium · 1,99 €/mois », « Premium »). */
+const LIBELLE_COMPLET = ESPACE_OUVERT ? /^Tout ouvrir\s·\s1,99\s€\/mois$/ : /^Premium\s·\s1,99\s€\/mois$/;
+const LIBELLE_COURT = ESPACE_OUVERT ? /^Tout ouvrir$/ : /^Premium$/;
 
 /**
  * Libellé visible du bouton prix sur téléphone (trajet de conversion s21, textes-trajet-v1 §2) :
@@ -43,7 +47,7 @@ const PRIX = /^Premium, 1,99\s€ par mois : voir l['’]offre$/;
  * et à 375), « Premium · 1,99 €/mois » au-delà.
  */
 const libelleMobile = (largeur: number): RegExp =>
-  largeur < 640 ? /^Premium$/ : /^Premium\s·\s1,99\s€\/mois$/;
+  largeur < 640 ? LIBELLE_COURT : LIBELLE_COMPLET;
 /**
  * Largeurs de téléphone (concision v5) : bouton prix visible à toutes les largeurs, libellé court
  * « 1,99 €/mois » sous 640 px, « Premium · 1,99 €/mois » au-delà (mesuré : il lui faut 590 px avec
@@ -222,7 +226,7 @@ test.describe("En-tête : budget de largeur", () => {
             // Revue v3 m4 : libellé complet dès 1280 px, court de 1024 à 1279.
             // Trajet de conversion s21 : de 1 024 à 1 279 px, repli « Premium » (« Premium · 1,99 € » débordait).
             // Ouvert (v6) : la rangée n'a plus les liens du site, libellé complet dès 640 px.
-            expect(await prix.innerText()).toMatch(largeur >= 1280 || ESPACE_OUVERT ? /^Premium\s·\s1,99\s€\/mois$/ : /^Premium$/);
+            expect(await prix.innerText()).toMatch(largeur >= 1280 || ESPACE_OUVERT ? LIBELLE_COMPLET : LIBELLE_COURT);
           } else {
             await expect(barre.getByRole("link", { name: PRIX })).toHaveCount(0);
           }
@@ -343,7 +347,7 @@ test.describe("En-tête : budget de largeur", () => {
           }
           const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
           await expect(prix).toHaveCount(etatMobile === "PREMIUM" ? 0 : 1);
-          if (etatMobile !== "PREMIUM") expect(await prix.innerText()).toMatch(largeur < 640 ? /^Premium$/ : /^Premium\s·\s1,99\s€\/mois$/);
+          if (etatMobile !== "PREMIUM") expect(await prix.innerText()).toMatch(libelleMobile(largeur)); // s26 bouton Tout ouvrir
           await expect(barre.getByRole("link", { name: TEXTES_ESPACE_NAVIGATION.monEspace, exact: true })).toHaveCount(0);
           const champ = Array.from([m.recherche]).filter(Boolean);
           expect(champ.length, `champ de recherche dès 768 px, ${ici}`).toBe(largeur >= 768 ? 1 : 0);

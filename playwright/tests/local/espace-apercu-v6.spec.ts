@@ -1,7 +1,8 @@
 import { randomBytes } from "node:crypto";
 import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } from "../support/base-locale";
 import { TEXTES_APERCU, type RubriqueApercu } from "@/config/textes/espace-apercu";
-import { EN_TETE } from "@/config/textes/cta-articles-accueil";
+// s26 bouton Tout ouvrir : le bouton d'offre des aperçus est celui de l'en-tête ouvert.
+import { EN_TETE_OUVERT } from "@/config/textes/cta-articles-accueil";
 
 /**
  * Nav v6 (s25, lot B), en vrai navigateur sur la base jetable, interrupteur OUVERT seulement (`E2E_ESPACE_OUVERT=1` ;
@@ -52,7 +53,7 @@ test.describe("@espace nav v6 : pages d'aperçu Premium (ouvert)", () => {
         await expect(page.locator("[data-apercu-fiche]")).toHaveCount(1);
         await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex, ?follow/);
         const offre = page.locator("[data-apercu-offre]");
-        await expect(offre.getByRole("link", { name: EN_TETE.nomAccessible })).toHaveAttribute("href", new RegExp(`^/abonnement\\?returnTo=${encodeURIComponent(adresse)}`));
+        await expect(offre.getByRole("link", { name: EN_TETE_OUVERT.nomAccessible })).toHaveAttribute("href", new RegExp(`^/abonnement\\?returnTo=${encodeURIComponent(adresse)}`));
         await expect(offre.getByRole("link")).toHaveCount(lecteur === "visiteur" ? 2 : 1);
         await expect(page.locator("[data-lien-retour]")).toHaveCount(0);
         if (CAPTURES) {
