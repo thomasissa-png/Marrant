@@ -69,10 +69,18 @@ export function SituationSuivante({ ficheId, href, faitInitial }: { ficheId: str
   );
 }
 
+/** Haut collé de la liste et du panneau dès 1024 (`top-36`, spec design §1) : sous l'en-tête collant du site. */
+const HAUT_PANNEAU = 144;
+
 /**
  * Ouverture d'une fiche depuis la liste ou « Situation suivante » : focus au H1 (sans défilement) et, si le haut du
  * panneau est passé au-dessus de l'écran, retour à ce haut (la fiche commence à son titre) ; sinon la page garde son
  * `scrollY`. À froid (adresse ouverte directement), rien n'est déplacé.
+ * s26 liste et détail, tour 2 (mesures A2 étape 5 : à 1280, fiche ouverte à `scrollY` 63, haut du H1 SOUS l'en-tête
+ * collant) : dès 1024, le seuil est le haut collé de la liste (144 px), plus le haut de l'écran ; le panneau y est
+ * ramené en douceur (`scroll-behavior: smooth` du site, instantané si `prefers-reduced-motion`, `globals.css`), son
+ * haut aligné sur celui de la liste. La liste, dans son propre conteneur, garde son `scrollTop`. Sous 1024 (fiche
+ * plein écran), rien ne change.
  */
 export function OuvertureFiche() {
   const faits = useFaitsQuoiRepondre();
@@ -81,7 +89,8 @@ export function OuvertureFiche() {
     if (!faits?.consommerFocus()) return;
     const titre = document.getElementById("fiche-titre");
     const haut = repere.current?.getBoundingClientRect().top ?? 0;
-    if (haut < 0) window.scrollTo({ top: window.scrollY + haut - 144 });
+    const large = window.matchMedia?.("(min-width: 1024px)").matches ?? false;
+    if (haut < (large ? HAUT_PANNEAU : 0)) window.scrollTo({ top: Math.max(0, window.scrollY + haut - HAUT_PANNEAU) });
     titre?.focus({ preventScroll: true });
   }, [faits]);
   return <span ref={repere} aria-hidden="true" className="block h-0" />;

@@ -122,7 +122,10 @@ export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse
           <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE, "w-full")} data-position="haut">
             {TEXTES_APERCU.offre.bouton}
           </Link>
-          {!visiteur && <p className={cn("mt-2 text-center md:mt-4 md:max-lg:text-left", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
+          {/* s26 liste et détail, tour 2 (mesures A1 #11 : gratuit à 1024, 34 px entre le bas du texte du hero et celui de
+              la carte, la plus étroite) : de 1024 à 1279, la phrase d'objet à 8 px du bouton (comme sous 768 et comme la
+              réassurance du visiteur) au lieu de 16 (-8 px). 1280 et 1920 inchangés. */}
+          {!visiteur && <p className={cn("mt-2 text-center md:mt-4 md:max-lg:text-left lg:max-xl:mt-2", META)}>{frTypo(PHRASE_OBJET_CONNECTE)}</p>}
         </div>
         <div className="contents md:max-lg:block md:max-lg:flex-1" data-offre-droite>
           {/* Échelle s25 : réassurance en `META` (14 px, gris secondaire, 7:1 sur la carte), plus de 12 px ni de 3e gris. */}

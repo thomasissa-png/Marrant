@@ -75,13 +75,30 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       await expect(colonne(page).locator("details[data-filtres-liste]")).not.toHaveAttribute("open", "");
       expect(await corps.evaluate((c) => c.getBoundingClientRect().height), "corps de liste utile").toBeGreaterThanOrEqual(3 * 44);
 
-      // Clic 4 : une fiche du filtre (pas la première : « Situation suivante » doit exister) ; lien filtré.
-      const ligne2 = colonne(page).locator("a[data-ligne-qr]").nth(1);
-      const id2 = (await ligne2.getAttribute("data-ligne-qr"))!;
+      // Clic 4 : une AUTRE fiche du filtre (pas la dernière : « Situation suivante » doit exister) ; lien filtré.
+      // s26 liste et détail, tour 2 (échec à 1024 et 1280, `ou=coloc`) : `nth(1)` tombait sur la fiche 1, gardée ouverte
+      // par le filtre (2e ligne de Coloc). Un clic sur la ligne active vise l'adresse courante : Next remplace l'entrée
+      // au lieu d'en ajouter une (aucun doublon d'historique, comportement voulu), et le 2e retour sortait du filtre.
+      const id2 = await colonne(page).evaluate((n) => {
+        const liens = Array.from(n.querySelectorAll<HTMLElement>("a[data-ligne-qr]"));
+        return liens.slice(0, -1).find((a) => !a.hasAttribute("aria-current"))?.dataset.ligneQr ?? "";
+      });
+      expect(["", id1], "une autre fiche que la fiche ouverte").not.toContain(id2);
+      const ligne2 = colonne(page).locator(`a[data-ligne-qr='${id2}']`);
       expect(await ligne2.getAttribute("href")).toBe(`${LISTE}/${id2}?ou=${lieu}`);
+      // s26 liste et détail, tour 2 (mesures A2 étape 5 : page défilée de 63 px à 1280, haut du H1 sous l'en-tête
+      // collant) : fiche ouverte depuis une page défilée, le haut du panneau revient sous l'en-tête, à 144 px (celui de
+      // la liste), la liste gardant son `scrollTop`.
+      await page.evaluate(() => window.scrollTo({ top: 63, behavior: "instant" }));
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(63);
+      const avant2 = await corps.evaluate((c) => c.scrollTop);
       await ligne2.click();
       clics++;
+      await expect(page).toHaveURL(new RegExp(`${LISTE}/${id2}\\?ou=${lieu}$`));
       await expect(page.locator(`[data-fiche-panneau='${id2}'] h1`)).toBeVisible();
+      await expect.poll(() => page.locator(`[data-fiche-panneau='${id2}']`).evaluate((a) => Math.round(a.getBoundingClientRect().top)), "haut du panneau sous l'en-tête").toBeGreaterThanOrEqual(143);
+      expect(Math.round(await page.locator(`[data-fiche-panneau='${id2}'] h1`).evaluate((h) => h.getBoundingClientRect().top)), "haut du H1 sous l'en-tête").toBeGreaterThanOrEqual(144);
+      expect(await corps.evaluate((c) => c.scrollTop), "scrollTop de la liste gardé").toBe(avant2);
 
       // Clic 5 : « Situation suivante » (contour avant « Fait »), 1 clic, aucun retour à la liste.
       const suivante = page.locator("[data-situation-suivante]");
