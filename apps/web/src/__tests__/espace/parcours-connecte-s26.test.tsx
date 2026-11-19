@@ -128,7 +128,9 @@ describe("/parcours/[slug] : navigation entre étapes", () => {
     expect(aller).toHaveBeenCalledWith(2);
   });
 
-  it("menu replié sous 1024 px (liste et « Reprendre » en `display: none`), collant à 144 px dès 1024", () => {
+  // s26 parcours, tour 5 : test changé (raison : menu collé à 137 px, au haut d'une étape amenée sous l'en-tête, au lieu de
+  // 144 ; D6 de la relecture design v2).
+  it("menu replié sous 1024 px (liste et « Reprendre » en `display: none`), collant à 137 px dès 1024", () => {
     const { container } = render(
       <MenuEtapes slug="repartie" titre="Répartie" avancee="1 sur 2 étapes" etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }]} faites={[1]} active={2} onChoisir={jest.fn()} reprendre={{ order: 2, libelle: "Reprendre" }} />,
     );
@@ -136,7 +138,7 @@ describe("/parcours/[slug] : navigation entre étapes", () => {
     expect(bascule).toHaveAttribute("aria-expanded", "false");
     expect(bascule.className.split(" ")).toContain("lg:hidden");
     const nav = container.querySelector("[data-menu-etapes]") as HTMLElement;
-    expect(nav.className.split(" ")).toEqual(expect.arrayContaining(["max-lg:hidden", "lg:sticky", "lg:top-36", "lg:max-h-[calc(100dvh-10.5rem)]"]));
+    expect(nav.className.split(" ")).toEqual(expect.arrayContaining(["max-lg:hidden", "lg:sticky", "lg:top-[8.5625rem]", "lg:max-h-[calc(100dvh-10.0625rem)]"]));
     expect((nav.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["lg:h-0", "lg:min-h-full"]));
     expect((container.querySelector("[data-menu-corps]") as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["overflow-y-auto", "overscroll-contain"]));
     fireEvent.click(bascule);

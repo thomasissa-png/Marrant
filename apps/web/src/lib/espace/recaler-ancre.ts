@@ -87,3 +87,54 @@ export function lirePosition(): PositionParcours | null {
   if (typeof y !== "number" || !Number.isFinite(y)) return null;
   return { etape: typeof etape === "number" ? etape : null, y };
 }
+
+/** Clé de l'état d'historique de /parcours : parcours ouvert depuis cette entrée. */
+const CLE_RETOUR_LISTE = "parcoursRetourListe";
+
+/**
+ * s26 parcours, tour 5 (F3 de la relecture UX v2) : au départ de /parcours vers une page de parcours, le slug est inscrit
+ * dans l'entrée d'historique COURANTE (celle de /parcours, état de Next conservé) ; au retour du navigateur sur cette
+ * entrée, la liste ramène la carte du parcours sous l'en-tête, comme le lien « Retour : Parcours » (`#parcours-{slug}`).
+ */
+export function noterRetourListe(slug: string): void {
+  const etat: unknown = window.history.state;
+  window.history.replaceState({ ...(etat && typeof etat === "object" ? etat : {}), [CLE_RETOUR_LISTE]: slug }, "");
+}
+
+/**
+ * s26 parcours, tour 5 : garde l'élément `id` sous l'en-tête pendant `dureeMs` contre la restauration du défilement du
+ * navigateur, qui arrive APRÈS le recalage au retour arrière (mesuré à 1280 : carte ramenée de 137 à 213 px, position du
+ * clic). Chaque défilement qui l'écarte de plus de 2 px le recale ; arrêt au premier geste (molette, toucher, clavier,
+ * pointeur) ou au bout du délai. Renvoie la fonction d'arrêt.
+ */
+export function garderAncre(id: string, dureeMs = 2_000): () => void {
+  const haut = () => {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    const marge = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    return { el, ecart: el.getBoundingClientRect().top - marge - padding };
+  };
+  const surDefilement = () => {
+    const h = haut();
+    if (h && Math.abs(h.ecart) > 2) h.el.scrollIntoView({ behavior: "instant", block: "start" });
+  };
+  const gestes = ["wheel", "touchstart", "keydown", "pointerdown"] as const;
+  const fin = () => {
+    clearTimeout(minuterie);
+    window.removeEventListener("scroll", surDefilement);
+    for (const g of gestes) window.removeEventListener(g, fin);
+  };
+  const minuterie = setTimeout(fin, dureeMs);
+  window.addEventListener("scroll", surDefilement, { passive: true });
+  for (const g of gestes) window.addEventListener(g, fin, { passive: true });
+  return fin;
+}
+
+/** Slug noté sur l'entrée d'historique courante de /parcours, ou `null`. */
+export function lireRetourListe(): string | null {
+  const etat: unknown = window.history.state;
+  if (!etat || typeof etat !== "object") return null;
+  const slug = (etat as Record<string, unknown>)[CLE_RETOUR_LISTE];
+  return typeof slug === "string" && /^[a-z0-9-]{1,60}$/.test(slug) ? slug : null;
+}

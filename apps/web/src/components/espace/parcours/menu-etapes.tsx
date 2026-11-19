@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { CADRE_CARTE_NEUTRE, SOMMAIRE_REPLIABLE } from "@/components/espace/carte/styles";
 import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
 import { Coche } from "@/components/espace/aujourdhui/tableau";
+import { Cadenas } from "@/components/layout/bande-rubriques";
 import { META, META_FORT, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
@@ -14,8 +15,12 @@ import { frEspaceProfond, frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
 
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
 
-/** Carte collante (même gabarit que la liste de Quoi répondre) : haut à 144 px, 24 px libres en bas, hauteur utile minimale. */
-const HAUT_COLLE = 144;
+/**
+ * Carte collante : 24 px libres en bas, hauteur utile minimale. s26 parcours, tour 5 (D6 de la relecture design v2) : haut
+ * collé à 137 px (au lieu de 144), celui d'une étape ou d'une fiche amenée sous l'en-tête (128 + 9) : menu et carte
+ * d'étape alignés au pixel à 1280. Classes `lg:top-[8.5625rem]` et `lg:max-h-[calc(100dvh-10.0625rem)]` (137 et 161 px, rem pour la règle « aucune valeur en px » de l'espace).
+ */
+const HAUT_COLLE = 137;
 const BAS_LIBRE = 24;
 const HAUTEUR_MIN = 240;
 
@@ -28,6 +33,8 @@ export interface EtapeMenu {
   titre: string;
   /** Étape lisible sans abonnement (visiteur et compte gratuit) : pastille « Lecture libre ». */
   libre?: boolean;
+  /** s26 parcours, tour 5 : étape réservée à l'abonnement (visiteur et compte gratuit) : cadenas de la bande de rubriques. */
+  verrouillee?: boolean;
 }
 
 /**
@@ -142,7 +149,7 @@ export function MenuEtapes({
         ref={carte}
         id="menu-etapes"
         aria-labelledby="menu-etapes-titre"
-        className={cn(CADRE_CARTE_NEUTRE, "flex flex-col max-lg:mt-4 lg:sticky lg:top-36 lg:max-h-[calc(100dvh-10.5rem)]", !ouvert && "max-lg:hidden")}
+        className={cn(CADRE_CARTE_NEUTRE, "flex flex-col max-lg:mt-4 lg:sticky lg:top-[8.5625rem] lg:max-h-[calc(100dvh-10.0625rem)]", !ouvert && "max-lg:hidden")}
         data-menu-etapes=""
       >
         <div className="flex-none p-6 pb-4">
@@ -180,6 +187,10 @@ export function MenuEtapes({
                       </span>
                     ) : e.libre ? (
                       <span className={cn("flex-none rounded-xl border border-border px-2", META)}>{ETAPE_LIBRE_BADGE}</span>
+                    ) : e.verrouillee ? (
+                      <span className="inline-flex flex-none items-center" data-statut="verrouillee">
+                        <Cadenas />
+                      </span>
                     ) : null}
                   </a>
                   {estActive && sousEtapes}

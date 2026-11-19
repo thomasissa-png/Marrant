@@ -221,7 +221,9 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/parcours/machine-a-cafe");
       const sommaire = page.getByTestId("sommaire-parcours");
-      await expect(sommaire).toContainText(P.sommaire.faites(2, 3));
+      // s26 parcours, tour 5 : test changé (raison : en-tête du menu au libellé de la carte « En cours » de /parcours,
+      // « Étape 3 sur 3 » au lieu de « 2 sur 3 étapes », F8 de la relecture UX v2).
+      await expect(sommaire).toContainText(P.etapeSurTotal(3, 3));
       // s26 parcours connecté : test changé (raison : sous 1024 px, la liste du sommaire et son « Reprendre » sont repliés,
       // un seul « Reprendre » visible à 375 ; on déplie par le résumé, `docs/ux/parcours-connecte-s26.md` §4).
       // s26 parcours v2 : test changé (raison : le sommaire devient le menu d'étapes, déplié par un bouton de bascule, une
@@ -236,7 +238,12 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       const fiches = page.getByTestId("lignes-fiches");
       await expect(fiches).toBeVisible();
       await expect(fiches).toContainText("3.1");
-      await expect(page.locator("#fiche-3-2")).toHaveCount(1);
+      // s26 parcours, tour 5 : test changé (raison : l'ancre `#fiche-N-M` est posée sur le bloc de la fiche, plus sur un
+      // repère vide ; une fiche sans bloc, comme les vannes non servies par cette base, n'est plus listée, F1 de la
+      // relecture UX v2) : chaque fiche listée a son bloc, unique.
+      const listees = await fiches.locator("a[data-fiche]").evaluateAll((as) => as.map((a) => a.getAttribute("data-fiche") as string));
+      expect(listees.length).toBeGreaterThanOrEqual(3);
+      for (const ancre of listees) await expect(page.locator(`#${ancre}`)).toHaveCount(1);
       await expect(page.locator("#etape-3")).toHaveCount(1);
       await capturer(page, "parcours-detail-sommaire", '[data-testid="sommaire-parcours"]');
       await capturer(page, "parcours-detail-fiches", '[data-testid="lignes-fiches"]');

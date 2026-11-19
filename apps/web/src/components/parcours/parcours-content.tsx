@@ -1,7 +1,7 @@
 "use client";
 
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, type CSSProperties, type ReactNode } from "react";
 import { Card, CardContent, CardHeader, CardTitle, FILET_MASQUE } from "@/components/ui/card";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
@@ -28,7 +28,7 @@ import { totalParcoursXp } from "@/lib/parcours-xp";
 import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 import { cn } from "@/lib/utils";
 import { SANS_COMPTE } from "@/config/textes/cta-articles-accueil";
-import { recalerAncre } from "@/lib/espace/recaler-ancre";
+import { garderAncre, lireRetourListe, noterRetourListe, recalerAncre } from "@/lib/espace/recaler-ancre";
 
 /**
  * Ligne frontière d'une carte de /parcours. v6 tour 2, point 14 (interrupteur ouvert seulement, `connecte` vrai pour
@@ -45,8 +45,8 @@ export function frontiereListe(slug: Parameters<typeof LISTE_PARCOURS_CTA.fronti
  * (`docs/captures/s26/tour-2-quoi-repondre-parcours/MESURES.md` B1) : la sous-grille de deux cartes par rangée ne tient
  * pas la règle des 32 px quand deux textes voisins diffèrent trop (Confiance : 114 px de vide à 768, 66 dès 1024 ; titres
  * décalés de 20 px à 1024). Composition retenue : une carte par rangée sur les 12 colonnes ; tête (méta, titre, persona)
- * pleine largeur, description et témoignage répartis en deux colonnes ÉQUILIBRÉES dès 768 px (`columns-2` : bas des deux
- * colonnes à une ligne près), barre, puis pied (« Programme » et bouton côte à côte dès 1024 px). Plus de rangée à
+ * pleine largeur, description et témoignage côte à côte dès 768 px (tour 5 : deux cellules de grille, `ColonnesTexte`, bas
+ * des deux blocs à une ligne près), barre, puis pied (« Programme » et bouton côte à côte dès 1024 px). Plus de rangée à
  * égaliser : ni `min-h` ni `mt-auto`, aucun vide interne au-delà d'une ligne.
  */
 export const GRILLE_CARTES_OUVERTE = "grid gap-6 lg:col-span-12";
@@ -58,14 +58,27 @@ export const GRILLE_CARTES_OUVERTE = "grid gap-6 lg:col-span-12";
 const CARTE_RANGEE = "flex scroll-mt-[9px] flex-col p-6";
 
 /**
- * s26 parcours connecté, tour 2 : description et témoignage en deux colonnes équilibrées dès 768 px ; fermé, un fragment.
- * `orphans` et `widows` à 1 : la coupure peut tomber à n'importe quelle ligne (à 2, défaut, Storytelling gardait 66 px de
- * vide sous la colonne courte à 1280 px) ; bas des deux colonnes à une ligne près.
+ * s26 parcours connecté, tour 2 : description et témoignage côte à côte dès 768 px ; fermé, un fragment.
  */
-function ColonnesTexte({ children }: { children: ReactNode }) {
+/*
+ * s26 parcours, tour 5 (faute dure D1 / F6 des relectures v2 : `columns-2` coupait le paragraphe de Storytelling et de
+ * Boulot entre les deux colonnes) : plus aucune colonne CSS. Dès 768 px, une grille de deux cellules, une par bloc
+ * (description, témoignage), `items-start` ; largeurs proportionnelles au poids de chaque texte (signes x corps : 16 px
+ * pour la description, 14 px pour le témoignage) pour que les deux blocs finissent à une ligne près (vide ≤ 32 px, mesuré
+ * en e2e), bornées à 1/3 et 2/3. Sous 768 px, l'un sous l'autre (16 px).
+ */
+function ColonnesTexte({ children, description, temoignage }: { children: ReactNode; description: string; temoignage: string }) {
   if (!ESPACE_CLIENT_PUBLIE) return <>{children}</>;
+  const d = description.length * 16;
+  const t = temoignage.length * 14;
+  const part = d + t > 0 ? Math.min(2 / 3, Math.max(1 / 3, d / (d + t))) : 0.5;
+  const colonnes = `minmax(0,${part.toFixed(3)}fr) minmax(0,${(1 - part).toFixed(3)}fr)`;
   return (
-    <div className="mt-4 [orphans:1] [widows:1] md:columns-2 md:gap-6" data-parcours-texte="">
+    <div
+      className="mt-4 grid gap-4 md:grid-cols-[var(--colonnes-texte)] md:items-start md:gap-x-6 md:gap-y-0"
+      style={{ "--colonnes-texte": colonnes } as CSSProperties}
+      data-parcours-texte=""
+    >
       {children}
     </div>
   );
@@ -285,11 +298,29 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   // s26 parcours connecté (`docs/ux/parcours-connecte-s26.md` §5, retour) : arrivée par `/parcours#parcours-{slug}`, la
   // carte du parcours est recalée sous l'en-tête collant pendant que l'en-tête de l'abonné et la progression se chargent.
   // Espace ouvert seulement.
+  // s26 parcours, tour 5 (F3, relecture UX v2) : retour du navigateur depuis une page de parcours (1280 comme 375), la
+  // carte du parcours quitté revient sous l'en-tête (slug noté dans l'entrée d'historique de /parcours au départ).
   useEffect(() => {
     if (!ESPACE_CLIENT_PUBLIE) return;
+    const noter = (e: MouseEvent) => {
+      const lien = e.target instanceof Element ? e.target.closest("a[href]") : null;
+      if (!(lien instanceof HTMLAnchorElement)) return;
+      const cible = new URL(lien.href, window.location.href);
+      const m = cible.origin === window.location.origin ? cible.pathname.match(/^\/parcours\/([a-z0-9-]{1,60})$/) : null;
+      if (m) noterRetourListe(m[1]);
+    };
+    document.addEventListener("click", noter, true);
     const ancre = window.location.hash.match(/^#(parcours-[a-z0-9-]+)$/);
-    if (!ancre) return;
-    return recalerAncre(ancre[1], { calmeMs: 1_000 });
+    const retour = ancre ? null : lireRetourListe();
+    const id = ancre ? ancre[1] : retour && document.getElementById(`parcours-${retour}`) ? `parcours-${retour}` : null;
+    const arreter = id ? recalerAncre(id, { calmeMs: 1_000 }) : null;
+    // Retour arrière : la restauration du navigateur passe après le recalage, la carte est gardée contre elle.
+    const garder = !ancre && id ? garderAncre(id) : null;
+    return () => {
+      document.removeEventListener("click", noter, true);
+      arreter?.();
+      garder?.();
+    };
   }, []);
 
   // Progression de la personne connectée : correspondance par slug (FS-13 b), un seul appel.
@@ -350,6 +381,8 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   // s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §6) : espace ouvert, « Tester l'étape 1 » mène sur
   // l'étape 1 (`#etape-1`, ouverte à l'arrivée) au lieu du haut de la page du parcours. Fermé : inchangé.
   const handleCta = (slug: string, etape1 = false) => {
+    // s26 parcours, tour 5 (F3) : bouton de carte (pas un lien), le parcours quitté est noté de la même façon.
+    if (ESPACE_CLIENT_PUBLIE) noterRetourListe(slug);
     router.push(`/parcours/${slug}?src=hub${ESPACE_CLIENT_PUBLIE && etape1 ? "#etape-1" : ""}`);
   };
   // s26 parcours v2 (§6) : visiteur et compte gratuit sous 768 px, le bouton « Tester l'étape 1 » du premier parcours
@@ -469,13 +502,13 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 </p>
               </CardHeader>
               <CardContent className={ESPACE_CLIENT_PUBLIE ? "contents" : undefined}>
-                <ColonnesTexte>
+                <ColonnesTexte description={p.description} temoignage={p.testimonial}>
                 <p className={o(cn(TEXTE, "text-pretty"), "mb-4 text-pretty text-text-secondary")}>{frTypoTexte(stripEmDashes(p.description))}</p>
 
                 {/* Testimonial (s26 : méta en italique, sans fond) */}
-                {/* s26 tour 2 : en colonnes (dès 768 px), interligne de 24 px comme la description : la coupure tombe sur
-                    une même trame, bas des deux colonnes à une ligne près (36 à 42 px d'écart avec 20 px d'interligne). */}
-                <p className={o(cn(META, "mt-4 text-pretty italic md:leading-6"), "mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary")}>
+                {/* s26 tour 2 : interligne de 24 px dès 768 px, comme la description. Tour 5 : sa propre cellule de grille
+                    (plus de `mt-4`, l'écart est le `gap` de la grille). */}
+                <p className={o(cn(META, "text-pretty italic md:leading-6"), "mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary")}>
                   {frTypoTexte(stripEmDashes(p.testimonial))}
                 </p>
                 </ColonnesTexte>
