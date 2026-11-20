@@ -44,12 +44,20 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
   // visiteur, le compte gratuit et l'ancien abonné gardent la page d'inscription ci-dessous. Une adresse de statut
   // (confirmation, désinscription, lien invalide…) garde son écran pour tous. Fermé : aucune lecture de session,
   // page d'aujourd'hui ; garde et archive chargées à la demande, jamais fermé.
+  // s26 batterie (défaut n°4), ouvert seulement : compte connecté (gratuit ou ancien abonné) dont l'adresse a CONFIRMÉ la
+  // lettre = l'état « confirmé » existant (bandeau `statuts.confirmee`, sans mesure) au lieu du formulaire. Fermé : rien.
+  let statutOuvert = statut;
   if (ESPACE_CLIENT_PUBLIE && !statut) {
     const { lireAccesEspace } = await import("@/lib/espace/garde");
-    if ((await lireAccesEspace()).acces === "ouvert") {
+    const acces = await lireAccesEspace();
+    if (acces.acces === "ouvert") {
       // v6 tour 1, point 10 : H1 « La lettre » (libellé de la bande) et lettres envoyées en cartes à filet.
       const { LettresAbonneCartes } = await import("@/components/lettre/lettres-abonne-cartes");
       return <LettresAbonneCartes />;
+    }
+    if (acces.acces === "abonnement") {
+      const { lettreConfirmeeDuCompte } = await import("@/lib/lettre/compte");
+      if (await lettreConfirmeeDuCompte(acces.userId)) statutOuvert = "confirmee";
     }
   }
 
@@ -63,7 +71,14 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
   // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §3.1) : interrupteur ouvert, mêmes contenus et mêmes états
   // sur la grille de 12 colonnes (inscription 7, dernier numéro 5). Fermé : le rendu ci-dessous, au caractère près.
   if (ESPACE_CLIENT_PUBLIE) {
-    return <LettrePageOuverte statut={statut} mesure={searchParams.mesure} emplacement={emplacement} dernier={apercu.dernier} />;
+    return (
+      <LettrePageOuverte
+        statut={statutOuvert}
+        mesure={statutOuvert === statut ? searchParams.mesure : undefined}
+        emplacement={emplacement}
+        dernier={apercu.dernier}
+      />
+    );
   }
 
   return (

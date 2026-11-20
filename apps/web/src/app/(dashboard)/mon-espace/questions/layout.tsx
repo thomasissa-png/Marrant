@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 import { EN_TETE_CHEMIN_ESPACE, ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { garderEspace } from "@/lib/espace/garde";
 import { lireLecteurApercu } from "@/components/espace/apercu/acces";
@@ -18,10 +19,30 @@ import { QuestionsListeDetail } from "@/components/espace/questions/questions-li
  */
 export const dynamic = "force-dynamic";
 
+const BASE_FIL = "/mon-espace/questions/";
+
+/** Identifiant du fil demandé (`/mon-espace/questions/<id>`), ou null sur la liste. */
+function idDeFil(chemin: string | null): string | null {
+  const route = (chemin ?? "").split(/[?#]/)[0].replace(/\/$/, "");
+  if (!route.startsWith(BASE_FIL) || route.length === BASE_FIL.length) return null;
+  const segment = route.slice(BASE_FIL.length);
+  try {
+    return decodeURIComponent(segment);
+  } catch {
+    return segment;
+  }
+}
+
 async function ListeDetailAbonne({ children }: { children: React.ReactNode }) {
   if (await lireLecteurApercu()) return <>{children}</>;
-  const { userId } = await garderEspace(headers().get(EN_TETE_CHEMIN_ESPACE) ?? "/mon-espace/questions");
+  const chemin = headers().get(EN_TETE_CHEMIN_ESPACE);
+  const { userId } = await garderEspace(chemin ?? "/mon-espace/questions");
   const fils = await listerFils(userId);
+  // s26 batterie (défaut n°3) : fil inexistant ou d'un autre abonné (jamais distingués : seuls SES fils sont listés), la
+  // vraie 404 de statut. Posée ici, au-dessus de `loading.tsx` (sous lui, la réponse partait en 200 avant le `notFound()`
+  // de la page), comme Quoi répondre. Aucune donnée du fil demandé n'est lue. La page garde son propre `notFound()`.
+  const id = idDeFil(chemin);
+  if (id !== null && !fils.some((f) => f.id === id)) notFound();
   return <QuestionsListeDetail fils={fils}>{children}</QuestionsListeDetail>;
 }
 

@@ -8,6 +8,7 @@ import { getClientIp, sharedRateLimit } from "@/lib/rate-limit";
 import { recordAuthFailureAlert } from "@/lib/admin-alerts";
 import { isCloudflareWorkers } from "@/lib/runtime-env";
 import { LOGIN_ERROR_CODES } from "@/config/textes/compte";
+import { EMAIL_LONGUEUR_MAX } from "@/lib/email-longueur";
 
 type CredentialsInput = Record<"email" | "password", string> | undefined;
 type HeadersInput = Record<string, string | string[] | undefined>;
@@ -33,6 +34,9 @@ export async function authorizeCredentials(credentials: CredentialsInput, header
     return null;
   }
   const email = credentials.email.toLowerCase().trim();
+  // s26 batterie (défaut n°1) : aucune adresse de plus de 254 caractères ne peut exister en base (borne de
+  // l'inscription) ; refus comme des identifiants faux, sans lecture ni clé de limitation démesurée.
+  if (email.length > EMAIL_LONGUEUR_MAX) return null;
   const ip = getClientIp(headers);
 
   const parEmail = await sharedRateLimit("login-email", email, LOGIN_LIMITS.parEmail);

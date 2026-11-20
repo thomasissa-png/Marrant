@@ -5,10 +5,12 @@ import { generateResetToken, hashResetToken, RESET_TOKEN_TTL_MS } from "@/lib/re
 import { sendPasswordResetEmail } from "@/lib/email";
 import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
 import { TEXTES_API } from "@/config/textes/compte";
+import { EMAIL_LONGUEUR_MAX } from "@/lib/email-longueur";
 
 const FORGOT_LIMIT = { maxRequests: 3, windowMs: 3600_000 };
 /** Lot H : 3 e-mails par adresse cible et par heure, quelle que soit l'IP (clé hachée). */
 const FORGOT_EMAIL_LIMIT = { maxRequests: 3, windowMs: 3600_000 };
+const MESSAGE_ENVOYE = "Si un compte existe avec cet email, un lien de réinitialisation a été envoyé.";
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,9 +29,13 @@ export async function POST(request: NextRequest) {
     if (!email || typeof email !== "string") {
       return NextResponse.json({ error: TEXTES_API.emailRequis }, { status: 400 });
     }
+    const adresse = email.toLowerCase().trim();
+    // s26 batterie (défaut n°1) : au-delà de 254 caractères, aucun compte possible (borne de l'inscription) : la
+    // réponse habituelle, sans lecture ni clé de limitation démesurée.
+    if (adresse.length > EMAIL_LONGUEUR_MAX) return NextResponse.json({ message: MESSAGE_ENVOYE });
 
     // Avant la recherche du compte : même réponse que le compte existe ou non.
-    const parEmail = await sharedRateLimit("forgot-email", email.toLowerCase().trim(), FORGOT_EMAIL_LIMIT);
+    const parEmail = await sharedRateLimit("forgot-email", adresse, FORGOT_EMAIL_LIMIT);
     if (!parEmail.allowed) {
       return NextResponse.json(
         { error: TEXTES_API.tropDeTentatives },
@@ -39,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     // Toujours répondre OK pour ne pas révéler si l'email existe
     const user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase().trim() },
+      where: { email: adresse },
       select: { id: true, email: true, name: true, passwordHash: true },
     });
 
@@ -69,9 +75,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({
-      message: "Si un compte existe avec cet email, un lien de réinitialisation a été envoyé.",
-    });
+    return NextResponse.json({ message: MESSAGE_ENVOYE });
   } catch (error) {
     console.error("[API /auth/forgot-password]", error);
     return NextResponse.json({ error: TEXTES_API.erreurServeur }, { status: 500 });

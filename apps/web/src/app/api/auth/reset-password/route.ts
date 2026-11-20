@@ -5,12 +5,14 @@ import { z } from "zod";
 import { getClientIp, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
 import { hashResetToken } from "@/lib/reset-token";
 import { TEXTES_API } from "@/config/textes/compte";
+import { EMAIL_LONGUEUR_MAX } from "@/lib/email-longueur";
 
 const RESET_LIMIT = { maxRequests: 10, windowMs: 15 * 60_000 };
 
 const resetSchema = z.object({
   token: z.string().min(1),
-  email: z.string().email(),
+  // s26 batterie (défaut n°1) : même borne qu'à l'inscription.
+  email: z.string().trim().toLowerCase().max(EMAIL_LONGUEUR_MAX).email(),
   password: z.string().min(8, "Le mot de passe doit faire au moins 8 caractères"),
 });
 

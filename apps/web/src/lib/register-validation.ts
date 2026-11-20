@@ -3,6 +3,8 @@
  * modale (passe UX s12, T41). Messages repris à l'identique de /register.
  * Le serveur (/api/auth/register, zod) reste la source de vérité.
  */
+import { EMAIL_LONGUEUR_MAX } from "@/lib/email-longueur";
+
 export interface RegisterFields {
   /** s21 concision (18/10) : plus demandé par /register (renseigné ensuite dans /profil). */
   name?: string;
@@ -22,7 +24,8 @@ export function validateRegisterFields({ name = "", email, password }: RegisterF
     errors.name = "Ton prénom doit faire au moins 2 caractères.";
   }
 
-  if (!EMAIL_REGEX.test(email)) {
+  // s26 batterie (défaut n°1) : même borne que l'API (254 caractères), même message.
+  if (!EMAIL_REGEX.test(email) || email.trim().length > EMAIL_LONGUEUR_MAX) {
     errors.email = "Cette adresse email a l’air bizarre. Tu peux vérifier ?";
   }
 

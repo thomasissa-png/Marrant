@@ -99,3 +99,18 @@ export async function desinscrireCompte(token: string, now: Date): Promise<boole
   if (!pref.stoppedAt) await prisma.accountLetterPreference.update({ where: { id: pref.id }, data: { stoppedAt: now } });
   return true;
 }
+
+/**
+ * s26 batterie (défaut n°4) : le compte connecté a-t-il CONFIRMÉ la lettre du mois par adresse (`CONFIRMED`) ? Si oui,
+ * /lettre (interrupteur ouvert) montre l'état confirmé existant au lieu de reproposer le formulaire. C'est sa propre
+ * adresse, lue côté serveur depuis sa session : aucune fuite (le formulaire, lui, ne dit jamais « déjà inscrit »).
+ * Canal compte d'office : inchangé (`docs/ux/questions-repliques-lettre-profil-s26.md` §3.1, « aucun changement de
+ * logique »).
+ */
+export async function lettreConfirmeeDuCompte(userId: string): Promise<boolean> {
+  const compte = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
+  const email = compte?.email?.trim().toLowerCase();
+  if (!email) return false;
+  const inscrit = await prisma.newsletterSubscriber.findUnique({ where: { email }, select: { status: true } });
+  return inscrit?.status === "CONFIRMED";
+}

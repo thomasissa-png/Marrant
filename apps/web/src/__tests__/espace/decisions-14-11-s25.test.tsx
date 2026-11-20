@@ -38,7 +38,10 @@ const listerLettres = jest.fn();
 jest.mock("@/lib/espace/lettres", () => ({ listerLettres: () => listerLettres() }));
 const compterAnonyme = jest.fn();
 jest.mock("@/lib/espace/compteurs", () => ({ compterAnonyme: (...a: unknown[]) => compterAnonyme(...a) }));
-jest.mock("@/lib/prisma", () => ({ prisma: {} }));
+// s26 batterie : /lettre ouvert lit l'inscription du compte connecté (`lettreConfirmeeDuCompte`) ; ici, aucune.
+jest.mock("@/lib/prisma", () => ({
+  prisma: { user: { findUnique: async () => null }, newsletterSubscriber: { findUnique: async () => null } },
+}));
 jest.mock("@/lib/lettre/apercu", () => ({ lireApercuLettre: jest.fn().mockResolvedValue({ dernier: null }) }));
 jest.mock("@/components/lettre/lettre-page-inscription", () => ({
   LettrePageInscription: () => <div data-testid="inscription" />,
