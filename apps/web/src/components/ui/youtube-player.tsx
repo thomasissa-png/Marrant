@@ -13,6 +13,8 @@ interface YouTubePlayerProps {
    * s26 parcours, tour 7 (MESURES v4 §6.3 : titre incrusté à 1280, absent de la vignette à 375) : sous-étapes vidéo d'un
    * parcours (espace ouvert), titre dans la vignette à toutes les largeurs : une ligne sous 360 px, deux au-delà ; sur
    * la miniature chargée, posé sur un dégradé sombre. Absent : inchangé.
+   * s26 parcours, tour 8 (relecture design v5, détail 4 : « … de Thom… » tronqué à 375) : deux lignes à toutes les largeurs ;
+   * sous 360 px, le bouton de lecture remonte de 12 px (10 px d'air au-dessus des deux lignes, au lieu d'un chevauchement).
    */
   titreIncruste?: boolean;
 }
@@ -58,7 +60,7 @@ export function YouTubePlayer({ youtubeId, title, priority = false, titreIncrust
           <span
             className={
               titreIncruste
-                ? "line-clamp-1 text-sm font-semibold text-text-primary [@container(min-width:360px)]:line-clamp-2"
+                ? "line-clamp-2 text-sm font-semibold text-text-primary"
                 : "hidden text-sm font-semibold text-text-primary [@container(min-width:360px)]:line-clamp-2"
             }
           >
@@ -79,11 +81,15 @@ export function YouTubePlayer({ youtubeId, title, priority = false, titreIncrust
       )}
       {titreIncruste && !thumbFailed && (
         <span aria-hidden="true" className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-8 text-left">
-          <span className="line-clamp-1 text-sm font-semibold text-white [@container(min-width:360px)]:line-clamp-2">{frTypo(title)}</span>
+          <span className="line-clamp-2 text-sm font-semibold text-white">{frTypo(title)}</span>
         </span>
       )}
       {/* Bouton play */}
-      <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg transition-transform group-hover/play:scale-110">
+      <div
+        className={`relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg transition-transform group-hover/play:scale-110${
+          titreIncruste ? " -translate-y-3 [@container(min-width:360px)]:translate-y-0" : ""
+        }`}
+      >
         <svg viewBox="0 0 24 24" fill="white" className="ml-1 h-6 w-6" aria-hidden="true">
           <path d="M8 5v14l11-7z" />
         </svg>

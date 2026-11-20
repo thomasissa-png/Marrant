@@ -893,7 +893,9 @@ export function ParcoursDetail({
         onComplete={() => handleCompleteStep(step.order)}
         erreurValidation={completionError?.order === step.order ? completionError.message : null}
         resultat={stepResults[step.order] ?? null}
-        contexte={stepIndex === 0 ? etapeContexteTexte(path.title, path.duration) : null}
+        // s26 parcours, tour 8 (relecture design v5, détail 1 : étiquette à l'étape 1 seulement, titre 24 px plus haut aux
+        // autres) : espace ouvert, nulle part (le titre du parcours est dans la carte d'en-tête et en tête du menu collant).
+        contexte={!ESPACE_CLIENT_PUBLIE && stepIndex === 0 ? etapeContexteTexte(path.title, path.duration) : null}
         ancresFiches={espaceOuvert}
         pied={
           espaceOuvert && etapeAccessible(step.order) ? (
@@ -938,6 +940,12 @@ export function ParcoursDetail({
       <span aria-hidden="true" data-testid="progression-squelette" className="inline-block h-4 w-32 animate-pulse rounded bg-background-elevated motion-reduce:animate-none" />
     );
     const argumentaireEnTete = !isPathCompleted && !argumentaireApresProgramme;
+    // s26 parcours, tour 8 (relecture UX v5, D1 : pastille « Étape 3 sur 3 » sur la fiche 2.2) : sous 1024 px, le bouton de la
+    // barre compacte donne l'étape LUE, même libellé « Étape n sur N » ; le menu garde l'étape à reprendre.
+    const avanceeBarre =
+      isPremium && progressionConnue && etapeAFaire && !isPathCompleted && etapeMenu !== null
+        ? frEspace(TEXTES_PARCOURS_ESPACE.etapeSurTotal(etapeMenu, totalSteps))
+        : undefined;
     return (
       <FicheActiveContexte.Provider value={ficheContexte}>
       <div
@@ -964,6 +972,7 @@ export function ParcoursDetail({
             slug={slug}
             titre={path.title}
             avancee={avancee}
+            avanceeBarre={avanceeBarre}
             etapes={path.steps.map((s) => ({
               order: s.order,
               titre: s.moduleTitle ?? s.tip.title,

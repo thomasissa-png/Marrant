@@ -101,11 +101,14 @@ describe("s26 parcours, tour 7 : ancres des sous-étapes et vignettes", () => {
     expect(new Set(fiches.map((f) => f.ancre)).size).toBe(fiches.length);
   });
 
-  it("vignette : titre incrusté (une ligne sous 360 px, deux au-delà) quand `titreIncruste`, rien sinon", () => {
+  // s26 parcours, tour 8 : test changé (raison : deux lignes à toutes les largeurs, relecture design v5, détail 4 :
+  // « … de Thom… » tronqué à 375).
+  it("vignette : titre incrusté (deux lignes à toutes les largeurs) quand `titreIncruste`, rien sinon", () => {
     const video = { youtubeId: "abc", title: "Le mariage", artist: "Jason Brokerss", why: "Pourquoi" };
     const avec = render(<VideoCard video={video} titreIncruste />).container;
     const titre = Array.from(avec.querySelectorAll("button span span")).find((s) => s.textContent === "Le mariage de Jason Brokerss");
-    expect(titre?.className.split(" ")).toEqual(expect.arrayContaining(["line-clamp-1", "[@container(min-width:360px)]:line-clamp-2"]));
+    expect(titre?.className.split(" ")).toContain("line-clamp-2");
+    expect(titre?.className.split(" ")).not.toContain("line-clamp-1");
     const sans = render(<VideoCard video={video} />).container;
     expect(Array.from(sans.querySelectorAll("button span")).some((s) => s.textContent === "Le mariage de Jason Brokerss")).toBe(false);
   });
