@@ -113,6 +113,14 @@ export interface BilanRecalcul {
   lignesSilencieuses: number;
 }
 
+/** Détail par compte (s26 lancement) : ce qui est écrit, ou ce qui le serait en lecture seule. */
+export interface DetailRecalcul {
+  id: string;
+  niveauAvant: string;
+  niveauApres: string;
+  marques: MarqueAnnonce[];
+}
+
 /**
  * Recalcul UNIQUE de l'ouverture (niveaux-xp-s24.md 3.0, 5.4 ; lot D4) : pour chaque compte ABONNÉ ACTIF
  * (plan PREMIUM en base, même notion que la garde de l'espace) ayant des XP ou une étape validée,
@@ -120,7 +128,11 @@ export interface BilanRecalcul {
  * chaque cap atteint et bonus gagné marqué annoncé en SILENCIEUX (aucune phrase, aucun événement
  * « cap atteint »). `appliquer = false` : lecture seule, bilan seulement. Rejouable sans effet.
  */
-export async function recalculerCapsSilencieux(db: DbCaps, appliquer: boolean): Promise<BilanRecalcul> {
+export async function recalculerCapsSilencieux(
+  db: DbCaps,
+  appliquer: boolean,
+  surCompte?: (detail: DetailRecalcul) => void,
+): Promise<BilanRecalcul> {
   // Lot D10b (minimisation, relecture @reviewer T6 a) : abonnés actifs seulement, pour que la politique de
   // confidentialité (« si tu es abonné ») dise vrai. Filtre en base ET relu ici (une base qui renverrait plus
   // n'écrit rien pour un compte non abonné).
@@ -134,8 +146,14 @@ export async function recalculerCapsSilencieux(db: DbCaps, appliquer: boolean): 
     const niveau = niveauRecalcule(c.level, c.xp);
     const marques = marquesSilencieuses(capDepuisXp(c.xp), capDepuisXp(await lireXpDeblocage(db, c.id)));
     if (niveau !== c.level) bilan.niveauxReleves += 1;
+    // s26 lancement : les lignes déjà présentes (ignorées à l'écriture) ne sont ni comptées ni affichées.
+    const faites = await db.capAnnonce.findMany({ where: { userId: c.id }, select: { type: true, numero: true } });
+    const nouvelles = marques.filter((m) => !faites.some((f) => f.type === m.type && f.numero === m.numero));
+    if (surCompte && (niveau !== c.level || nouvelles.length > 0)) {
+      surCompte({ id: c.id, niveauAvant: c.level, niveauApres: niveau, marques: nouvelles });
+    }
     if (!appliquer) {
-      bilan.lignesSilencieuses += marques.length;
+      bilan.lignesSilencieuses += nouvelles.length;
       continue;
     }
     if (niveau !== c.level) await db.user.update({ where: { id: c.id }, data: { level: niveau } });
