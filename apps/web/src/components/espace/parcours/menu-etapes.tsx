@@ -102,11 +102,21 @@ export function MenuEtapes({
       const etroit = typeof window.matchMedia === "function" && !window.matchMedia("(min-width: 1024px)").matches;
       if (!etroit) {
         c.style.top = "";
+        c.style.position = "";
         racine.style.scrollPaddingTop = "";
         return;
       }
       const entete = document.querySelector<HTMLElement>("header[data-en-tete-universel]");
-      const haut = entete && getComputedStyle(entete).position === "sticky" ? Math.round(entete.getBoundingClientRect().height) : 0;
+      // s26 tour 7 ter (arbitrage du 15/11) : sous 500 px de haut, l'en-tête ne colle pas ; la barre compacte non plus
+      // (elle défile avec la page) et la réserve des ancres reste à 0, celle du site.
+      if (!entete || getComputedStyle(entete).position !== "sticky") {
+        c.style.top = "";
+        c.style.position = "static";
+        racine.style.scrollPaddingTop = "";
+        return;
+      }
+      c.style.position = "";
+      const haut = Math.round(entete.getBoundingClientRect().height);
       c.style.top = `${haut}px`;
       racine.style.scrollPaddingTop = `${haut + Math.round(c.getBoundingClientRect().height) - 1}px`;
     };
@@ -124,6 +134,7 @@ export function MenuEtapes({
       observateur?.disconnect();
       if (image) window.cancelAnimationFrame(image);
       c.style.top = "";
+      c.style.position = "";
       racine.style.scrollPaddingTop = "";
     };
   }, []);

@@ -141,9 +141,21 @@ test.describe("espace client, « Aujourd'hui » (s24, lot D3)", () => {
       await expect(page.locator("header")).toHaveCount(1);
       await expect(page.locator("[data-espace-barre]")).toHaveCount(0);
       await expect(page.locator("header [data-bande-rubriques]")).toHaveCount(1);
-      expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop)).toBe("128px");
-      const basBloc = await page.locator("header").evaluate((e) => e.getBoundingClientRect().bottom);
-      expect(basBloc, "bloc collant sous la réserve des ancres").toBeLessThanOrEqual(128);
+      // s26 parcours, tour 7 ter : sous 1024 px, la page d'un parcours ajoute une barre compacte collée sous l'en-tête
+      // (retour et menu des étapes) ; la réserve des ancres vaut alors en-tête + barre, au lieu des 128 px du site.
+      const basEntete = await page.locator("header").evaluate((e) => e.getBoundingClientRect().bottom);
+      expect(basEntete, "bloc collant sous la réserve du site").toBeLessThanOrEqual(128);
+      const barre = page.locator("[data-barre-parcours]").first();
+      // La barre ne colle qu'une fois la page défilée (à scrollY 0 elle est plus bas, sous l'intro) : on compare la réserve
+      // à en-tête + HAUTEUR de la barre, et on mesure l'étape sous la position collée de la barre.
+      const avecBarre = (await barre.count()) > 0 && (await barre.isVisible());
+      const hauteurBarre = avecBarre ? await barre.evaluate((e) => e.getBoundingClientRect().height) : 0;
+      const basBloc = avecBarre ? basEntete + hauteurBarre : basEntete;
+      const reserve = parseFloat(await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop));
+      expect(reserve, "réserve des ancres = bloc collant (en-tête, plus la barre du parcours)").toBeGreaterThanOrEqual(128);
+      // Réserve couvrant au moins l'en-tête et la barre (la barre se compacte une fois collée : pas d'égalité au pixel ici ;
+      // la position exacte des étapes est mesurée par `parcours-connecte-s26.spec.ts`).
+      expect(reserve + 10, "réserve couvrant le bloc collant").toBeGreaterThanOrEqual(basBloc - 1);
       await page.goto("/parcours/repartie#etape-2");
       await expect.poll(() => page.evaluate(() => window.scrollY), { message: "défilé jusqu'à l'étape 2" }).toBeGreaterThan(0);
       expect(await page.locator("#etape-2").evaluate((e) => e.getBoundingClientRect().top), "étape 2 sous le bloc collant").toBeGreaterThanOrEqual(basBloc);

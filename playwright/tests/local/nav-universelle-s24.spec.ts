@@ -248,7 +248,12 @@ test.describe("navigation universelle v6 (s25)", () => {
         else await expect(bloc.locator("[data-bande-rubriques]"), `bande masquée ${ici}`).toBeHidden();
         expect(await bloc.evaluate((e) => getComputedStyle(e).position), `position ${ici}`).toBe(collant ? "sticky" : "relative");
         const reserve = await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop);
-        expect(reserve, `réserve des ancres ${ici}`).toBe(collant ? "128px" : "0px");
+        // s26 parcours, tour 7 ter : espace ouvert, sous 1024 px et en-tête collant, la page d'un parcours ajoute sa barre
+        // compacte collée sous l'en-tête : la réserve vaut en-tête + barre (au moins 128 px). Fenêtre basse : 0, inchangé.
+        const barreParcours = page.locator("[data-barre-parcours]").first();
+        const avecBarre = collant && largeur < 1024 && (await barreParcours.count()) > 0 && (await barreParcours.isVisible());
+        if (avecBarre) expect(parseFloat(reserve), `réserve des ancres ${ici}`).toBeGreaterThanOrEqual(128);
+        else expect(reserve, `réserve des ancres ${ici}`).toBe(collant ? "128px" : "0px");
         // Défilement immédiat (sans `scroll-behavior: smooth`), puis état stable : même défilement et même bloc sur deux
         // images de suite (CI : mesure prise pendant un défilement doux ou un recalage de mise en page, 188 x 406).
         await page.evaluate(() => window.scrollTo({ top: 400, behavior: "instant" }));
@@ -278,7 +283,8 @@ test.describe("navigation universelle v6 (s25)", () => {
         const mesure = () => page.locator(`[id="${id}"]`).evaluate((e) => ({ top: e.getBoundingClientRect().top, marge: parseFloat(getComputedStyle(e).scrollMarginTop) || 0, bloc: document.querySelector("header")!.getBoundingClientRect().bottom }));
         // Défilement doux (`scroll-behavior: smooth`) : attendre la position finale.
         await expect
-          .poll(async () => { const x = await mesure(); return Math.abs(x.top - (parseFloat(reserve) + x.marge)); }, { message: `intertitre à réserve + marge du haut ${ici}`, timeout: 10_000 })
+          // s26 parcours, tour 7 ter : la réserve est relue SUR L'ARTICLE (celle de la page d'un parcours inclut sa barre).
+          .poll(async () => { const x = await mesure(); const r = parseFloat(await page.evaluate(() => getComputedStyle(document.documentElement).scrollPaddingTop)); return Math.abs(x.top - (r + x.marge)); }, { message: `intertitre à réserve + marge du haut ${ici}`, timeout: 10_000 })
           .toBeLessThanOrEqual(2);
         const m = await mesure();
         noter(`arbitrage 15/11 ; ancre ; ${ici} ; ${JSON.stringify(m)}`);
