@@ -63,3 +63,12 @@ Retour arrière disponible : `cd apps/web && npx wrangler rollback 5504e970-5c1d
 | 22:02 | B4 préversion, écart avec le runbook | `/mon-espace` sans session = **200** (et non 307 vers `/login`) : aperçu verrouillé « Aujourd'hui » (`ApercuAujourdhui`, liens `/login?callbackUrl=%2Fmon-espace`), `cache-control: private, no-cache, no-store`, `x-robots-tag: noindex`, meta `noindex, follow`. Voulu par le code (nav v6, s25 : « visiteur et inscrit gratuit, l'aperçu à cette adresse, sans redirection », `src/app/(dashboard)/mon-espace/page.tsx`, tests `src/__tests__/espace/aujourdhui-*.test.tsx`) : l'attendu « 307 » du runbook (§4 B4, B6) est antérieur. Idem `/mon-espace/questions`, `/quoi-repondre`, `/bibliotheque`, `/repliques`, `/s-entrainer` = 200 (aperçus) ; `/mon-espace/bonus/x` 307 vers `/login` ; `/mon-espace/lettres` 308 vers `/lettre`. Aucune donnée de compte dans la réponse. À trancher par l'orchestrateur avant bascule |
 
 **Fin de B partie 1 (22:03 UTC).** Non faits, en attente du feu vert : bascule, `recalcul-caps`, B5 démarrage, B6.
+
+### Phase B, partie 2 (feu vert de l'orchestrateur : CI de `9ffa6311` verte, run 44824841347 ; aperçu `/mon-espace` 200 confirmé voulu)
+
+| Heure (UTC) | Étape | Résultat |
+|---|---|---|
+| 22:19 | B4 bascule | `npx wrangler versions deploy e9def49b-…@100% -y --message "s26 B ouverture 9ffa6311"` **refusée par le système de permissions de la session** (action de production bloquée avant exécution). Non contournée. Vérifié en lecture : `c7ace530…` toujours à 100 %, prod `/mon-espace` 404, santé `ok`. **Rien n'a changé en production** |
+| 22:20 | B5 caps, à sec (lecture seule) | `recalcul-caps.ts --neon --a-sec` depuis l'export de `9ffa6311` : hôte affiché = hôte de `NEON_DATABASE_URL` (production), comparé sans affichage ; 2 comptes abonnés actifs lus (≤ 5) ; niveaux relevés : 0 ; 1 ligne silencieuse serait écrite (1 compte, `APPRENTI` inchangé, cap 2, aucun bonus). Journal : `/root/lancement-s26/caps-a-sec-1.log` |
+
+**Arrêt (22:21 UTC)** : bascule, `--ecrire`, B5 démarrage et B6 non faits, faute de permission pour la bascule. Reprise dès que Thomas aura autorisé l'action (règle de permission ou exécution par lui-même).
