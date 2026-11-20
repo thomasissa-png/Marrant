@@ -27,11 +27,13 @@ type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
 
 /**
  * s26 DA, aujourd'hui questions répliques : pastille de la rubrique d'une réplique, d'après l'adresse de sa fiche
- * (Quoi répondre avec l'émoji ⚡️ de l'accueil, Carnet) ; autre fiche : pas de pastille plutôt qu'une rubrique devinée.
+ * (Quoi répondre avec l'émoji ⚡️ de l'accueil, Carnet, Bibliothèque) ; autre fiche : pas de pastille plutôt qu'une
+ * rubrique devinée.
  */
 function pastilleReplique(href: string | null): { emoji: string | null; libelle: string } | null {
   if (href?.startsWith(QUOI_REPONDRE)) return { emoji: EMOJIS_ACCUEIL.quoiRepondre, libelle: N.index.quoiRepondre };
   if (href === "/carnet") return { emoji: null, libelle: N.index.carnet };
+  if (href?.startsWith("/mon-espace/bibliotheque/")) return { emoji: null, libelle: N.index.bibliotheque };
   return null;
 }
 
