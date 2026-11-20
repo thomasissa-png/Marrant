@@ -20,6 +20,7 @@ import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
 import { CGU_ACCEPTATION, LETTRE_MOIS_INSCRIPTION_COMPTE } from "@/config/textes/offre";
+import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
 import { contexteRegister, MUR_PARCOURS, REGISTER_CTA, SRC_SANS_ACHAT } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
 import { Chargement } from "@/components/ui/chargement";
@@ -309,6 +310,14 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
                 {CGU_ACCEPTATION.lien}
               </Link>
               {CGU_ACCEPTATION.apres}
+            </p>
+            {/* s26 rétractation /register (décision de Thomas du 20/11, `docs/legal/retractation-register-s26.md`) :
+                le libellé légal existant vers /retractation, sans phrase d'introduction, style du lien CGU ;
+                lien seul sur sa ligne, donc cible de 44 px comme les autres liens isolés de la page. */}
+            <p className="-mt-3 text-center text-xs text-text-muted" data-testid="register-retractation">
+              <Link href="/retractation" className="inline-flex min-h-11 items-center underline underline-offset-2 hover:text-text-secondary">
+                {LIBELLE_RENONCER_CONTRAT}
+              </Link>
             </p>
             {/* s22 : la lettre du mois part d'office aux comptes (décision de Thomas du 25/10), sans case. */}
             <p className="-mt-3 text-center text-xs text-text-muted" data-testid="register-lettre-mois">
