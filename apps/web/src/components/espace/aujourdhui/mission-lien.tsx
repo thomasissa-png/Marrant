@@ -3,7 +3,7 @@ import { TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { NumeroMarche } from "@/lib/espace/missions";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
-import { ETIQUETTE, TEXTE } from "@/components/espace/typo";
+import { TEXTE } from "@/components/espace/typo";
 import { Chevron, PASTILLE, PIED_TUILE_GABARIT, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 
@@ -25,17 +25,10 @@ export function MissionLien({ marche, accroche, fige = false }: { marche: Numero
     <>
       {/* s26 DA, aujourd'hui questions répliques : bandeau et pastille violette (pas d'émoji de mission à l'accueil) ;
           figée, l'étiquette d'avant. */}
-      {fige ? (
-        <span className={ETIQUETTE}>
-          {M.titre} · {M.marche(marche)}
-        </span>
-      ) : (
-        <>
-          {/* Bandeau en tête (hors du flux) : le pied reste le dernier enfant du lien. */}
-          <Bandeau />
-          <PastillesDa as="span" pastille={`${M.titre} · ${M.marche(marche)}`} />
-        </>
-      )}
+      {/* s26 contrôle d'ensemble, aperçus : figée aussi (extrait de l'aperçu), la DA de l'accueil. Bandeau en tête (hors
+          du flux) : le pied reste le dernier enfant du lien. */}
+      <Bandeau />
+      <PastillesDa as="span" pastille={`${M.titre} · ${M.marche(marche)}`} />
       <span className={cn(TITRE_TUILE, "block", !accroche && "mb-4")}>{M.titresMarches[marche]}</span>
       {accroche && (
         <span className={cn("mb-4 mt-2 block", TEXTE, fige && "max-h-[4.5rem] overflow-hidden")} data-mission-accroche>

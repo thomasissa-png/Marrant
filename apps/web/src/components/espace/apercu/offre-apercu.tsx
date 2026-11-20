@@ -9,6 +9,7 @@ import { buildLoginUrl } from "@/lib/auth-links";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau } from "@/components/espace/da-espace";
 
 /**
  * Bouton d'offre de l'aperçu (hero et fin d'extrait) : celui de l'en-tête, prix lu en config, même lien partout.
@@ -33,6 +34,14 @@ export const BOUTON_OFFRE_FIN = cn(
   BOUTON_OFFRE,
   "fenetre-haute:border fenetre-haute:border-accent-primary fenetre-haute:bg-transparent fenetre-haute:text-text-primary fenetre-haute:hover:bg-background-elevated",
 );
+
+/**
+ * s26 contrôle d'ensemble, aperçus (C3, un seul aplat violet par écran) : sur les extraits COURTS (« Aujourd'hui »,
+ * Favoris), la carte de fin entre dans une même fenêtre de 900 px que la carte d'offre dès 1024 px de large (1280 x 900 :
+ * fenêtre 120 à 1020). Le bouton de fin y passe en contour dès 1024, quelle que soit la hauteur ; sous 1024, la règle
+ * de hauteur ci-dessus (`BOUTON_OFFRE_FIN`) reste seule. Mêmes classes que le contour de fenêtre haute.
+ */
+export const CONTOUR_FIN_LG = "lg:border lg:border-accent-primary lg:bg-transparent lg:text-text-primary lg:hover:bg-background-elevated";
 
 /**
  * Preuve coupée sur son nombre (spec design §7 point 3) : « 1 500+ » en `TITRE_CARTE` dans une phrase `META`.
@@ -114,6 +123,8 @@ export function OffreApercu({ href, adresse, visiteur }: { href: string; adresse
     // violet de 2 px, hors de la bordure, sans mouvement ni aplat.
     <div className={cn(CARTE_PREMIUM, "p-4 md:p-6 data-[signal]:outline data-[signal]:outline-2 data-[signal]:outline-offset-4 data-[signal]:outline-accent-primary")} data-apercu-offre>
       <HaloPremium />
+      {/* s26 contrôle d'ensemble, aperçus : bandeau violet de l'accueil en haut de la carte (hors du flux, sous le bord). */}
+      <Bandeau />
       {/* s26 tour 2 des encarts (E2) : de 768 à 1023, contenu en ligne (bouton et phrase d'objet à gauche, réassurance et
           « Connexion » à droite) ; ailleurs, les deux groupes sont `display: contents` et la carte reste une colonne. */}
       {/* s26 tour 3 (point 6) : de 768 à 1023, les deux groupes alignés en haut (plus de centrage vertical) et le texte à

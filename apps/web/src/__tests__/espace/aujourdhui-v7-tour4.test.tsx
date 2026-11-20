@@ -65,7 +65,8 @@ describe("piste : hero 60/40 dès 768", () => {
     const [texte, offre] = Array.from(hero.children);
     expect(classes(texte)).toEqual(expect.arrayContaining(["lg:col-span-8"]));
     expect(classes(offre)).toEqual(expect.arrayContaining(["lg:col-span-4"]));
-    const ligne = classes(offre.querySelector("[data-apercu-offre] > div:not([data-halo-premium])"));
+    // s26 contrôle d'ensemble, aperçus : le bandeau de l'accueil est un enfant de plus de la carte d'offre.
+    const ligne = classes(offre.querySelector("[data-apercu-offre] > div:not([data-halo-premium]):not([data-bandeau-da])"));
     // s26 tour 3 (point 6) : de 768 à 1023, les deux groupes alignés en haut, texte à gauche.
     expect(ligne).toEqual(expect.arrayContaining(["md:max-lg:flex-row", "md:max-lg:items-start", "md:max-lg:text-left"]));
     expect(offre.querySelector("[data-apercu-offre]")).not.toBeNull();
@@ -86,8 +87,10 @@ describe("piste : tuile « Contenu du jour » de l'extrait (échelle s25)", () =
     // premier enfant de la tuile ; la première ligne à 8 px dessous, sur la ligne des titres voisins. Plus de cale.
     const tuile = jour.querySelector("[data-tuile-fermee] > div:not([data-verrou-ferme])") as HTMLElement;
     const etiquette = tuile.firstElementChild;
+    // s26 contrôle d'ensemble, aperçus (DA de l'accueil) : l'étiquette passe en pastille violette (même texte, 14/600).
     expect(etiquette?.textContent).toBe(T.jour.titre);
-    expect(classes(etiquette)).toEqual(expect.arrayContaining(["text-sm", "font-semibold", "text-text-secondary"]));
+    expect(etiquette?.hasAttribute("data-pastilles-da")).toBe(true);
+    expect(classes(etiquette?.querySelector("span") ?? null)).toEqual(expect.arrayContaining(["text-sm", "font-semibold"]));
     expect(tuile.querySelector("[aria-hidden='true'].h-5")).toBeNull();
     expect(etiquette?.nextElementSibling?.tagName).toBe("UL");
     expect(classes(jour.querySelector("ul"))).toEqual(expect.arrayContaining(["mt-2", "divide-y", "divide-border"]));

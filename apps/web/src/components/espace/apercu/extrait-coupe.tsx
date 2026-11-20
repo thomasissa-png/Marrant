@@ -3,8 +3,12 @@ import { TEXTES_APERCU, TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-
 import { frEspace } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { Reassurance } from "@/components/ui/reassurance";
-import { BOUTON_OFFRE_FIN, CARTE_PREMIUM, HaloPremium } from "@/components/espace/apercu/offre-apercu";
+import { BOUTON_OFFRE_FIN, CARTE_PREMIUM, CONTOUR_FIN_LG, HaloPremium } from "@/components/espace/apercu/offre-apercu";
+import { Bandeau } from "@/components/espace/da-espace";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
+
+/** s26 contrôle d'ensemble, aperçus (C3) : extraits courts, bouton de fin en contour dès 1024 (`CONTOUR_FIN_LG`). */
+const EXTRAIT_COURT: readonly string[] = ["aujourdhui", "favoris"];
 
 /** `inert` (hors des types de React 18.3) : posé tel quel, l'extrait sort de la tabulation et des clics. */
 const INERTE = { inert: "" } as Record<string, string>;
@@ -86,10 +90,12 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
         data-apercu-fin
       >
         <HaloPremium />
+        {/* s26 contrôle d'ensemble, aperçus : bandeau violet de l'accueil (hors du flux). */}
+        <Bandeau />
         <div className="relative flex flex-col items-center gap-4">
           <p className={TITRE_CARTE}>{TEXTES_APERCU_VERROUILLE.suite}</p>
           <div className="w-full">
-            <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE_FIN, "w-full")} data-position="fin">
+            <Link href={href} aria-label={TEXTES_APERCU.offre.nomAccessible} className={cn(BOUTON_OFFRE_FIN, "w-full", EXTRAIT_COURT.includes(rubrique) && CONTOUR_FIN_LG)} data-position="fin">
               {TEXTES_APERCU.offre.bouton}
             </Link>
             <Reassurance className={cn("mt-2 md:mt-4", META)} />
@@ -140,7 +146,10 @@ export function SuiteCoupee({ children, entiere = false, nette = false, classNam
           ? "pb-24 lg:pb-16"
           : entiere
             ? `pb-24 [mask-image:linear-gradient(to_bottom,black_calc(100%_-_7.5rem),transparent_calc(100%_-_6rem))] ${FONDU_ENTIER_LG}`
-            : "h-[13.5rem] [mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]",
+            : // s26 contrôle d'ensemble, aperçus : l'étiquette des tuiles devient la rangée « émoji + pastille » (32 px
+              // au lieu de 20) : tout le contenu des tuiles descend de 12 px, la coupe aussi (13,5 → 14,25 rem, fondu à
+              // 9,75 rem) ; le point transparent retombe au même endroit du texte, entre deux lignes.
+              "h-[14.25rem] [mask-image:linear-gradient(to_bottom,black_9.75rem,transparent_calc(100%_-_3rem))]",
         className,
       )}
       data-apercu-suite

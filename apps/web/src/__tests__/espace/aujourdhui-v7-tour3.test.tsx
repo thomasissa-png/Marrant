@@ -41,11 +41,12 @@ function opacites(el: Element, haut: Element): string[] {
 }
 
 describe("faute 1 : rangée 2 de l'extrait lisible avant le fondu", () => {
-  it("coupe de 13,5 rem (échelle s25), opaque sur ses 9 premiers rem (v7 tour 11), transparente sur ses 48 derniers px", () => {
+  it("coupe de 14,25 rem (s26 contrôle d'ensemble, aperçus : 13,5 + 12 px de pastille), opaque sur ses 9,75 premiers rem, transparente sur ses 48 derniers px", () => {
     render(<ApercuAujourdhui visiteur />);
     const suite = document.querySelector("[data-apercu-suite]") as HTMLElement;
-    expect(suite.className).toMatch(/(^|\s)h-\[13\.5rem\](\s|$)/);
-    expect(suite.className).toContain("[mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]");
+    expect(suite.className).toMatch(/(^|\s)h-\[14\.25rem\](\s|$)/);
+    // s26 contrôle d'ensemble, aperçus : rangée « émoji + pastille » (+12 px), coupe et fondu décalés d'autant.
+    expect(suite.className).toContain("[mask-image:linear-gradient(to_bottom,black_9.75rem,transparent_calc(100%_-_3rem))]");
   });
 
   it("la tuile Mission de l'extrait porte l'accroche de la mission d'un nouvel abonné (texte existant), coupée en 3 lignes", () => {
@@ -77,7 +78,7 @@ describe("faute 2 : jamais deux boutons d'offre pleins au premier écran", () =>
     // chevauche plus le bout du fondu (`mt-0`, 48 px sous le point transparent) ; mesures en vrai navigateur.
     expect(document.querySelector("[data-apercu-fin]")?.className).toContain("mt-0");
     expect(document.querySelector("[data-apercu-fin]")?.className).not.toContain("-mt-");
-    expect(document.querySelector("[data-apercu-suite]")?.className).toContain("h-[13.5rem]");
+    expect(document.querySelector("[data-apercu-suite]")?.className).toContain("h-[14.25rem]");
   });
 });
 

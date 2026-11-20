@@ -6,6 +6,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { TitreDisplay } from "@/components/ui/titre-display";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { ECHELLE_CARTES_PARTAGEES, TEXTE, TITRE_PAGE } from "@/components/espace/typo";
 import { lierComposes } from "@/lib/fr-typo";
@@ -33,7 +34,10 @@ export function LettrePageInscription({ ignorerDrapeau = false }: { ignorerDrape
           <TitreDisplay as="h1" id="lettre-titre-page" texte={TEXTES_LETTRE.titre} className={TITRE_PAGE} />
           <p className={cn("mt-2 max-w-xl", TEXTE)}>{lierComposes(TEXTES_LETTRE.phrase)}</p>
         </header>
+        {/* s26 contrôle d'ensemble, aperçus (DA de l'accueil, ouvert seulement) : bandeau violet et pastille « La lettre ». */}
         <div className={`${CADRE_CARTE_NEUTRE} mt-6 p-6 ${ECHELLE_CARTES_PARTAGEES}`} data-lettre-carte="">
+          <Bandeau />
+          <PastillesDa className="mb-4" pastille={TEXTES_LETTRE.menu} />
           <LettreInscription emplacement="page" titreId="lettre-titre-page" ignorerDrapeau={ignorerDrapeau} plein />
         </div>
       </>

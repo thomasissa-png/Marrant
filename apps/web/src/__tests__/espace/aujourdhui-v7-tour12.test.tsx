@@ -34,7 +34,8 @@ describe("point 1 : une vraie vanne dans l'extrait", () => {
     const bloc = document.querySelector("[data-apercu-vanne]") as HTMLElement;
     expect(bloc).not.toBeNull();
     const tuile = bloc.closest("[data-tuile-fermee]") as HTMLElement;
-    expect(tuile.querySelector(":scope > div > p")?.textContent).toBe(frEspace(TEXTES_AUJOURDHUI.jour.vanne));
+    // s26 contrôle d'ensemble, aperçus (DA de l'accueil) : « Vanne du jour » en pastille violette, avec l'émoji de l'accueil.
+    expect(tuile.querySelector("[data-pastilles-da]")?.textContent).toBe(`😂${frEspace(TEXTES_AUJOURDHUI.jour.vanne)}`);
     const [enonce, chute] = Array.from(bloc.querySelectorAll("p"));
     expect(enonce.textContent).toBe(VANNE.content);
     expect(chute.textContent).toBe(VANNE.punchline);

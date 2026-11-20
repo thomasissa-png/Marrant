@@ -10,6 +10,7 @@ import { ApercuVerrouille } from "@/components/espace/apercu/apercu-verrouille";
 import { SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
 import { BlocsFermes, TitreFerme } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
+import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
 import { Chevron, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META_FORT, TEXTE } from "@/components/espace/typo";
 import { SignalOffre } from "@/components/espace/apercu/signal-offre";
@@ -71,8 +72,10 @@ function ExtraitBibliotheque() {
             de leur contenu (`h-auto`) : plus de tuile étirée creuse. */}
         <div className="flex min-w-0 flex-col gap-6 md:col-span-2 lg:col-span-4" data-apercu-pile>
           <TuileFermee className="h-auto">
+            {/* s26 contrôle d'ensemble, aperçus : bandeau et pastille violette de l'accueil (émoji de la vanne du jour). */}
             <div className={TUILE} data-apercu-catalogue>
-              <p className={cn("pr-8", ETIQUETTE)}>{B.blocVannes}</p>
+              <Bandeau />
+              <PastillesDa className="pr-8" emoji={EMOJIS_ACCUEIL.vanne} pastille={B.blocVannes} />
               <p className={cn("mt-4", META_FORT)}>{B.themesNom}</p>
               <ul className="mt-2 flex flex-wrap gap-2">
                 {B.themes.map((t) => (
@@ -93,7 +96,7 @@ function ExtraitBibliotheque() {
           </TuileFermee>
           <TuileFermee className="h-auto">
             <div className={TUILE}>
-              <TitreFerme titre={B.prefixes.vocabulaire} effectif={nbVocabulaire} />
+              <TitreFerme emoji="💡" titre={B.prefixes.vocabulaire} effectif={nbVocabulaire} />
             </div>
           </TuileFermee>
         </div>
@@ -104,7 +107,7 @@ function ExtraitBibliotheque() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
           <TuileFermee className="md:col-span-2 lg:col-span-8">
             <div className={TUILE}>
-              <TitreFerme titre={B.prefixes.formule} effectif={nbFormules} />
+              <TitreFerme emoji="💡" titre={B.prefixes.formule} effectif={nbFormules} />
             </div>
           </TuileFermee>
         </div>

@@ -1,6 +1,7 @@
 import { TEXTES_APERCU_VERROUILLE } from "@/config/textes/espace-apercu";
 import { TEXTES_FICHE } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CARTES, TEXTES_MISSION } from "@/config/textes/espace-cartes";
+import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { ficheApercu } from "@/components/espace/apercu/exemples";
@@ -10,11 +11,14 @@ import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { BlocsFermes, TitreFerme } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { ETIQUETTE, META, META_FORT, TEXTE } from "@/components/espace/typo";
+import { EMOJI_ENTRAINER } from "@/components/espace/carte/en-tete-carte";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { META, META_FORT, TEXTE } from "@/components/espace/typo";
 
 const C = frEspaceProfond(TEXTES_CARTES);
 const F = frEspaceProfond(TEXTES_FICHE);
 const M = TEXTES_MISSION;
+const N = frEspaceProfond(TEXTES_ESPACE_NAVIGATION);
 
 /** Spec s26 §3.1 : cinq pastilles, reprises des constantes existantes. */
 export const PASTILLES_S_ENTRAINER = [C.eyebrow, C.reponseDabord, F.ceQuOnAuraitPuDire, frEspace(M.titre), frEspace(M.aPlat)] as const;
@@ -54,8 +58,10 @@ function ExtraitSEntrainer() {
     <div data-apercu-fiche="quelle-replique-1">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
         <TuileFermee nette className="md:col-span-2 lg:col-span-8">
+          {/* s26 contrôle d'ensemble, aperçus : la carte de la rafale de l'abonné (bandeau, émoji 🎯, pastille violette). */}
           <div className={TUILE} data-apercu-jeu>
-            <p className={ETIQUETTE}>{C.eyebrow}</p>
+            <Bandeau />
+            <PastillesDa emoji={EMOJI_ENTRAINER} pastille={N.index.sEntrainer} suite={<span className={META}>{C.eyebrow}</span>} />
             <h2 className={cn("pr-8", TITRE_TUILE)}>{frEspace(j.titre)}</h2>
             <p className={cn("mt-4", TEXTE)}>{frEspace(j.consigne)}</p>
             <ul className="mt-4 flex flex-col gap-2" data-apercu-propositions>
@@ -74,13 +80,14 @@ function ExtraitSEntrainer() {
         <div className="flex min-w-0 flex-col gap-6 md:col-span-2 lg:col-span-4" data-apercu-pile>
           <TuileFermee className="h-auto">
             <div className={TUILE} data-apercu-mission>
-              <p className={cn("pr-8", ETIQUETTE)}>{frEspace(M.titre)}</p>
+              <Bandeau />
+              <PastillesDa className="pr-8" emoji={EMOJI_ENTRAINER} pastille={frEspace(M.titre)} />
               <EchelleMarches />
             </div>
           </TuileFermee>
           <TuileFermee className="h-auto">
             <div className={TUILE}>
-              <TitreFerme titre={frEspace(M.aPlat)} />
+              <TitreFerme emoji={EMOJI_ENTRAINER} titre={frEspace(M.aPlat)} />
             </div>
           </TuileFermee>
         </div>
@@ -91,7 +98,7 @@ function ExtraitSEntrainer() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
           <TuileFermee className="md:col-span-2 lg:col-span-8">
             <div className={TUILE}>
-              <TitreFerme titre={frEspace(M.raconte)} />
+              <TitreFerme emoji={EMOJI_ENTRAINER} titre={frEspace(M.raconte)} />
             </div>
           </TuileFermee>
         </div>

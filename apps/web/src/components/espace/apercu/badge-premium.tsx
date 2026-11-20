@@ -33,10 +33,13 @@ export function BadgePremium({ className }: { className?: string }) {
  * v7 tour 10 (relecture design du tour 9 : il flottait 3 px au-dessus de « 5 min ») : le verrou est centré dans une
  * boîte de la hauteur de la première ligne des tuiles (`h-5`, 20 px, celle d'`ETIQUETTE` et de `META`) : même centre
  * que l'étiquette et la durée.
+ * s26 contrôle d'ensemble, aperçus (DA de l'accueil) : la première ligne des tuiles est la rangée « émoji + pastille »
+ * (`PastillesDa`, 32 px) : boîte de 32 px (`h-8`), même centre que la pastille et la durée ; 20 px sous 300 px de large
+ * (la rangée y perd sa hauteur minimale).
  */
 export function VerrouSeul({ className }: { className?: string }) {
   return (
-    <span className={cn("absolute right-6 top-6 z-10 flex h-5 items-center max-e300:right-4 max-e300:top-4", className)} aria-hidden="true" data-verrou-ferme>
+    <span className={cn("absolute right-6 top-6 z-10 flex h-8 items-center max-e300:right-4 max-e300:top-4 max-e300:h-5", className)} aria-hidden="true" data-verrou-ferme>
       <Verrou />
     </span>
   );

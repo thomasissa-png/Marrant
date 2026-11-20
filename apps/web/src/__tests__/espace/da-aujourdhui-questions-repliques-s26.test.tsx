@@ -137,7 +137,7 @@ describe("DA d'Aujourd'hui : émojis de l'accueil, bandeau chez l'abonné, extra
     expect(emojiParcours("storytelling")).toBeNull();
   });
 
-  it("abonné : bandeau et pastille ; figé : ni l'un ni l'autre", () => {
+  it("abonné : bandeau et pastille ; semaines figées : ni l'un ni l'autre ; Z1 figée (aperçu) : la DA", () => {
     const etape = { slug: "repartie", titreParcours: "Répartie", ordre: 1, total: 4, titreEtape: "Étape", enCours: false, href: "/parcours/repartie#etape-1" };
     const abonne = render(<ParcoursTuile etape={etape} />).container;
     expect(abonne.querySelector("[data-bandeau-da]")).not.toBeNull();
@@ -145,7 +145,9 @@ describe("DA d'Aujourd'hui : émojis de l'accueil, bandeau chez l'abonné, extra
     const fige = render(<SemainesTuile ecouterPublie fige />).container;
     expect(fige.querySelector("[data-bandeau-da], [data-pastilles-da]")).toBeNull();
     const z1 = render(<ActionDuJour idTitre="t" etiquette="É" titre="T" action={{ href: "/x", libelle: "Go" }} fige />).container;
-    expect(z1.querySelector("[data-bandeau-da]")).toBeNull();
+    // s26 contrôle d'ensemble, aperçus (décision de Thomas du 20/11) : l'extrait de l'aperçu prend aussi la DA de l'accueil.
+    expect(z1.querySelector("[data-bandeau-da]")).not.toBeNull();
+    expect(z1.querySelector("[data-pastilles-da]")).not.toBeNull();
   });
 
   it("aucun tiret cadratin dans les fichiers touchés", () => {

@@ -4,7 +4,7 @@ import type { NumeroCap } from "@/lib/espace/caps";
 import { cn } from "@/lib/utils";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
-import { ETIQUETTE, META, TITRE_CARTE } from "@/components/espace/typo";
+import { META, TITRE_CARTE } from "@/components/espace/typo";
 import { Flamme, SegmentsCap, StatChiffre } from "@/components/espace/aujourdhui/tableau";
 import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 
@@ -52,11 +52,8 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
       <div className={cn("min-w-0 md:flex-1 lg:flex-none", !avecChiffres && "md:basis-full lg:basis-auto")}>
         {/* s26 DA, aujourd'hui questions répliques : bandeau et pastille violette (pas d'émoji du cap à l'accueil) ;
             figée (extrait de l'aperçu), l'étiquette d'avant. */}
-        {fige ? (
-          <h2 className={ETIQUETTE}>{TEXTES_CAPS.titre}</h2>
-        ) : (
-          <PastillesDa as="h2" id="cap-titre" pastille={TEXTES_CAPS.titre} />
-        )}
+        {/* s26 contrôle d'ensemble, aperçus : figée aussi, la pastille (sans `id` : la section figée n'a pas de nom). */}
+        <PastillesDa as="h2" id={fige ? undefined : "cap-titre"} pastille={TEXTES_CAPS.titre} />
         <p className="mt-2 flex flex-wrap items-baseline justify-between gap-x-3">
           <span aria-hidden="true" className={TITRE_CARTE}>
             {nom}
@@ -90,7 +87,7 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
           serieZero
         )}
       </div>
-      {!fige && <Bandeau />}
+      <Bandeau />
     </section>
   );
 }

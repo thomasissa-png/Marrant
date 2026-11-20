@@ -15,6 +15,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { TEXTE, TEXTE_FORT } from "@/components/espace/typo";
+import { Bandeau } from "@/components/espace/da-espace";
 import { LienRetour } from "@/components/espace/lien-retour";
 import { CELLULE_LISTE_COLLANTE, GRILLE_LISTE_DETAIL } from "@/components/espace/liste-detail/styles";
 import { DetailFavori } from "@/components/espace/favoris/detail-favori";
@@ -42,10 +43,14 @@ const ecrire = (cle: string, valeur: string | null) => {
   }
 };
 
-/** Carte d'état (vide, mur) : cadre neutre, étoile de la bande (aucun émoji), titre, phrase, un seul bouton plein. */
+/**
+ * Carte d'état (vide, mur) : cadre neutre, étoile de la bande (aucun émoji), titre, phrase, un seul bouton plein.
+ * s26 contrôle d'ensemble, aperçus (DA de l'accueil) : le bandeau violet de l'accueil en haut de la carte (hors du flux).
+ */
 function CarteEtat({ titre, texte, children }: { titre: string; texte?: string; children: React.ReactNode }) {
   return (
     <div className={cn(CADRE_CARTE_NEUTRE, "max-w-2xl p-6")} data-favoris-etat>
+      <Bandeau />
       <IconeFavoris className="h-6 w-6 text-text-secondary" />
       <p className={cn("mt-4", TEXTE_FORT)}>{titre}</p>
       {texte && <p className={cn("mt-2", TEXTE)}>{texte}</p>}

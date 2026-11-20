@@ -31,7 +31,10 @@ const NEUTRE_INTERRUPTEURS =
 // s26 tour 3 (point 10) : les cartes PARTAGÉES (`Card`, `p-4` : Abonnement, Rappel, La lettre de la semaine, Prénom,
 // Supprimer mon compte) passent à 24 px de marge intérieure ici seulement, comme « Statistiques » ; code des cartes inchangé.
 const MARGE_CARTES_PARTAGEES = "[&_.bg-background-card.p-4]:p-6";
-const GRILLE = `mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start [&_[data-filet]]:hidden ${NEUTRE_CAP} ${NEUTRE_INTERRUPTEURS} ${ECHELLE_CARTES_PARTAGEES} ${MARGE_CARTES_PARTAGEES}`;
+// s26 contrôle d'ensemble, aperçus (DA de l'accueil sur les cartes principales) : la carte Abonnement garde son filet
+// violet (`Card filet`, le bandeau de l'accueil) ; réglages et suppression restent sans filet.
+const SANS_FILET = "[&_[data-profil-zone=reglages]_[data-filet]]:hidden [&_[data-profil-zone=suppression]_[data-filet]]:hidden";
+const GRILLE = `mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start ${SANS_FILET} ${NEUTRE_CAP} ${NEUTRE_INTERRUPTEURS} ${ECHELLE_CARTES_PARTAGEES} ${MARGE_CARTES_PARTAGEES}`;
 // s26 tour 2 (Pr1) : `[&>*]:shrink-0`, les cartes d'une colonne gardent leur hauteur propre (sous 1024, « Statistiques »
 // et « Mes parcours » rétrécissaient et leur cadre rognait le contenu).
 const COLONNE = "flex min-w-0 flex-col gap-6 [&>*]:shrink-0";

@@ -7,6 +7,7 @@ import { BOUTON_SECONDAIRE, CADRE_CARTE_NEUTRE, LIEN_NEUTRE } from "@/components
 import { BarreProgression } from "@/components/espace/aujourdhui/tableau";
 import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 import { cn } from "@/lib/utils";
 
 /**
@@ -65,10 +66,10 @@ export function ProchaineEtape({ tips, jokes, aDesParcours }: { tips: number; jo
     pistes.push({ href: "/conseils", titre: "Approfondis tes techniques", texte: "Tu as les bases : passe aux conseils avancés, ceux qui font la différence entre drôle et vraiment drôle." });
   pistes.push({ href: "/videos", titre: "Regarde les pros", texte: "Décortique les techniques des meilleurs humoristes, puis pique-⁠leur ce qui te va." });
   return (
+    // s26 contrôle d'ensemble, aperçus (DA de l'accueil) : bandeau violet, titre de la carte en pastille violette (même texte).
     <section aria-labelledby="profil-prochaine" className={CARTE_PROFIL} data-profil-prochaine>
-      <h2 id="profil-prochaine" className={TITRE_CARTE}>
-        Prochaine étape
-      </h2>
+      <Bandeau />
+      <PastillesDa as="h2" id="profil-prochaine" pastille="Prochaine étape" />
       <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {pistes.map((p) => (
           <li key={p.titre} className="min-w-0">
@@ -96,9 +97,8 @@ export function Statistiques({ stats }: { stats: { jokesRead: number; tipsComple
   ];
   return (
     <section aria-labelledby="profil-stats" className={CARTE_PROFIL} data-profil-stats>
-      <h2 id="profil-stats" className={TITRE_CARTE}>
-        Statistiques
-      </h2>
+      <Bandeau />
+      <PastillesDa as="h2" id="profil-stats" pastille="Statistiques" />
       <dl className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {lignes.map(([n, libelle]) => (
           <div key={libelle} className="flex flex-col-reverse">
@@ -115,10 +115,9 @@ export function Statistiques({ stats }: { stats: { jokesRead: number; tipsComple
 export function MesParcours({ parcours }: { parcours: readonly ParcoursProgress[] }) {
   return (
     <section aria-labelledby="profil-parcours" className={CARTE_PROFIL} data-profil-parcours>
-      <div className="flex flex-wrap items-baseline justify-between gap-4">
-        <h2 id="profil-parcours" className={TITRE_CARTE}>
-          Mes parcours
-        </h2>
+      <Bandeau />
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <PastillesDa as="h2" id="profil-parcours" pastille="Mes parcours" />
         <Link href="/parcours" className={LIEN_NEUTRE}>
           Voir tout
         </Link>

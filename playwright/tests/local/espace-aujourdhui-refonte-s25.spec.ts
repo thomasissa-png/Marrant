@@ -365,7 +365,7 @@ test.describe("@espace refonte d'« Aujourd'hui » s25 (ouvert)", () => {
         expect(Math.abs(jourLigne.haut - etapeTitre.haut), `première ligne de « Contenu du jour » sur la ligne des titres, ${ou}`).toBeLessThanOrEqual(1);
         expect(Math.round(jourEtiquette.haut - (await boite(jour)).haut), `aucun vide au-dessus de l'étiquette (bord et marge seulement), ${ou}`).toBeLessThanOrEqual(25);
       }
-      // v7 tour 12 : Z1 (scène et bouton éteint) et « Ton cap » sans bandeau.
+      // v7 tour 12 : Z1 (scène et bouton éteint) et « Ton cap » sans bandeau (s26 contrôle d'ensemble, aperçus : bandeau de l'accueil).
       await verifierVitrine(extrait.locator("[data-action-du-jour]"), largeur);
       if (largeur === 768) await verifierCap768(extrait.locator("[data-cap-du-jour]"), true);
       expect(await debord(page), `débordement horizontal, ${ou}`).toBeLessThanOrEqual(0);

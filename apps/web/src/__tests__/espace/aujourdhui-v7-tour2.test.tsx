@@ -120,8 +120,9 @@ describe("faute 4 : extrait de l'aperçu, « Ton cap » avant le fondu", () => {
     expect(r1.closest("[data-apercu-suite]")).toBeNull();
     const suite = extrait.querySelector("[data-apercu-suite]") as HTMLElement;
     // v7 tour 3 (faute 1) : la coupe est plus haute (12,5 rem au lieu de 10 ; 13,5 depuis l'échelle s25, tuiles en
-    // 24 px de marge) ; elle reste fixe, transparente au bout.
-    expect(suite.className).toMatch(/(^|\s)h-\[13\.5rem\](\s|$)/);
+    // 24 px de marge ; 14,25 depuis s26 contrôle d'ensemble, aperçus : rangée « émoji + pastille », +12 px) ; elle reste
+    // fixe, transparente au bout.
+    expect(suite.className).toMatch(/(^|\s)h-\[14\.25rem\](\s|$)/);
     expect(suite.className).toContain("transparent_calc(100%_-_3rem)");
     expect(suite.querySelectorAll("[data-tuile-fermee]")).toHaveLength(3);
   });

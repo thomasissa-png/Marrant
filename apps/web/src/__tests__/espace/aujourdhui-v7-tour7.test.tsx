@@ -48,10 +48,15 @@ describe("décision 1 : un seul accent violet, le bouton plein", () => {
     expect(jour).not.toMatch(/\bCADRE_CARTE\b(?!_NEUTRE)/);
   });
 
-  it("extrait de l'aperçu : aucune classe de filet ni de violet dans les tuiles fermées, Z1 comprise (v7 tour 9)", () => {
+  it("extrait de l'aperçu : aucune classe de filet ni de violet dans les tuiles fermées, Z1 comprise, hors DA de l'accueil (v7 tour 9)", () => {
     render(<ApercuAujourdhui visiteur />);
     for (const t of Array.from(document.querySelectorAll("[data-tuile-fermee]"))) {
+      // s26 contrôle d'ensemble, aperçus (décision de Thomas du 20/11) : seuls le bandeau et la pastille de l'accueil
+      // portent du violet ; chaque tuile a les deux.
+      expect(t.querySelector("[data-bandeau-da]")).not.toBeNull();
+      expect(t.querySelector("[data-pastilles-da]")).not.toBeNull();
       for (const e of [t, ...Array.from(t.querySelectorAll("*"))]) {
+        if (e.matches("[data-bandeau-da]") || e.closest("[data-pastilles-da]")) continue;
         // Anneaux de focus exclus (jamais visibles dans l'extrait inerte, et pas un accent dessiné). v7 tour 8 (décision
         // de l'orchestrateur) : la carte Z1 portait la teinte ; v7 tour 9 : figée, elle est neutre comme les tuiles.
         const violets = classes(e).filter((c) => c.startsWith("before:") || (/accent-/.test(c) && !/(^|:)ring-/.test(c)));

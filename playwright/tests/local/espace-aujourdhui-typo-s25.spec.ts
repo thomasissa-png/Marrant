@@ -185,6 +185,8 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
       const violetsExtrait: string[] = [];
       for (const el of Array.from(main.querySelectorAll("[data-apercu-extrait] *"))) {
         if (el.matches("a[data-position='fin']")) continue;
+        // s26 contrôle d'ensemble, aperçus (DA de l'accueil, Thomas 20/11) : bandeau et pastilles violettes des tuiles.
+        if (el.matches("[data-bandeau-da], .bg-accent-primary\\/20") || el.closest("[data-pastilles-da]")) continue;
         const cs = getComputedStyle(el);
         const bord = ["top", "right", "bottom", "left"].some(
           (c) => parseFloat(cs.getPropertyValue(`border-${c}-width`)) > 0 && contientViolet(cs.getPropertyValue(`border-${c}-color`)),
@@ -369,7 +371,8 @@ test.describe("@espace gate typographique d'« Aujourd'hui » s25 (ouvert)", () 
  * s26, Thomas 19/11 : sur une fenêtre haute (1920 x 1200), la carte de fin entre dans le premier écran avec la carte
  * d'offre : sur les 6 aperçus (visiteur et inscrit gratuit), UN SEUL fond violet plein au premier écran, le bouton
  * d'offre du hero ; le bouton de la carte de fin y est en CONTOUR (bord violet 1 px, fond transparent, 44 px au moins,
- * même lien que le hero), la carte garde son bord violet de 2 px. Sous 1000 px de haut (1280 x 900), il reste plein.
+ * même lien que le hero), la carte garde son bord violet de 2 px. Sous 1000 px de haut (1280 x 900), il reste plein, sauf
+ * sur Aujourd'hui et Favoris (s26 contrôle d'ensemble, aperçus : contour dès 1024 de large).
  */
 test.describe("@espace carte de fin en contour sur fenêtre haute, s26 Thomas 19/11 (ouvert)", () => {
   localSeulement();
@@ -409,10 +412,13 @@ test.describe("@espace carte de fin en contour sur fenêtre haute, s26 Thomas 19
         expect(style.bordCarte, `la carte de fin garde son bord de 2 px, ${ou}`).toBe("2px");
         // Sous 1000 px de haut, le bouton de fin reste plein (attente : `transition-colors`, 150 ms, après le changement
         // de taille de la fenêtre).
+        // s26 contrôle d'ensemble, aperçus (C3) : sur les extraits courts (Aujourd'hui, Favoris), la carte de fin entre dans
+        // la même fenêtre que la carte d'offre dès 1024 de large : bouton de fin en contour à 1280 x 900 aussi.
+        const court = adresse === "/mon-espace" || adresse === "/favoris";
         await page.setViewportSize({ width: 1280, height: 900 });
         await expect
-          .poll(() => fin.evaluate((a) => getComputedStyle(a).backgroundColor), { message: `bouton de fin plein sous 1000 px de haut, ${ou}` })
-          .toBe("rgb(124, 58, 237)");
+          .poll(() => fin.evaluate((a) => getComputedStyle(a).backgroundColor), { message: `bouton de fin ${court ? "en contour" : "plein"} sous 1000 px de haut, ${ou}` })
+          .toBe(court ? "rgba(0, 0, 0, 0)" : "rgb(124, 58, 237)");
       }
     });
   }

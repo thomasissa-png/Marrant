@@ -1,5 +1,7 @@
 import { Verrou } from "@/components/espace/apercu/badge-premium";
-import { META_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { Badge } from "@/components/ui/badge";
+import { META, META_FORT } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 
 /** Deux barres neutres à la place d'un texte fermé (mêmes classes que `RepliquesFermees`). */
@@ -19,13 +21,22 @@ export function BarresFermees() {
  * `RepliquesFermees` reste tel quel pour « Aujourd'hui » et « Quoi répondre » (clés de registres, rendu figé par ses tests).
  * Neutre (aucun violet), 14/600 (`META_FORT`) : aucune taille ni combinaison ajoutée.
  */
-export function BlocsFermes({ libelles, className }: { libelles: readonly string[]; className?: string }) {
+/** s26 contrôle d'ensemble, aperçus : `enPastilles` (aperçus de Mes questions et Mes répliques) = libellé réel en pastille violette, comme le fil de l'abonné. */
+export function BlocsFermes({ libelles, className, enPastilles = false }: { libelles: readonly string[]; className?: string; enPastilles?: boolean }) {
   return (
     <ul className={cn("mt-4 grid grid-cols-1 gap-4", className)} data-blocs-fermes>
       {libelles.map((l) => (
         <li key={l} className="min-w-0 rounded-xl border border-border p-4" data-bloc-ferme={l}>
           <div className="flex items-center justify-between gap-2">
-            <p className={META_FORT}>{l}</p>
+            {enPastilles ? (
+              <p>
+                <Badge variant="primary" className="max-w-full whitespace-normal text-sm font-semibold">
+                  {l}
+                </Badge>
+              </p>
+            ) : (
+              <p className={META_FORT}>{l}</p>
+            )}
             <Verrou />
           </div>
           <BarresFermees />
@@ -37,16 +48,17 @@ export function BlocsFermes({ libelles, className }: { libelles: readonly string
 
 /**
  * Corps d'une tuile de la rangée 2 réduite à son titre fermé (spec s26 : « en titres fermés, verrou + barres ») : le
- * titre (`TITRE_CARTE`), un effectif réel s'il existe, puis les barres. Le verrou est celui de `TuileFermee`.
+ * titre, un effectif réel s'il existe, puis les barres. Le verrou est celui de `TuileFermee`.
+ * s26 contrôle d'ensemble, aperçus (DA de l'accueil, décision de Thomas du 20/11) : le titre fermé passe en pastille
+ * violette (même texte, toujours un `h2`), l'effectif à côté en `META`, et la tuile reçoit le bandeau violet de l'accueil
+ * (hors du flux : la tuile qui l'entoure est un cadre `relative overflow-hidden`, `TUILE`).
  */
-export function TitreFerme({ titre, effectif }: { titre: string; effectif?: number }) {
+export function TitreFerme({ titre, effectif, emoji }: { titre: string; effectif?: number; emoji?: string }) {
   return (
     <>
-      <h2 className={cn("pr-8", TITRE_CARTE)}>
-        {titre}
-        {effectif !== undefined && <span className="ml-2 text-text-secondary">{effectif}</span>}
-      </h2>
+      <PastillesDa as="h2" className="pr-8" emoji={emoji} pastille={titre} suite={effectif !== undefined ? <span className={META}>{effectif}</span> : undefined} />
       <BarresFermees />
+      <Bandeau />
     </>
   );
 }

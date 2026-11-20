@@ -6,7 +6,8 @@ import { AvecContact } from "@/components/lettre/avec-contact";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
-import { META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { META, TEXTE_FORT } from "@/components/espace/typo";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 import { frPonctuation } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 
@@ -107,9 +108,9 @@ export function LettrePageOuverte({
           )}
           data-lettre-apercu=""
         >
-          <h2 id="lettre-dernier" className={TITRE_CARTE}>
-            {TEXTES_LETTRE.page.dernierNumero}
-          </h2>
+          {/* s26 contrôle d'ensemble, aperçus : DA de l'accueil (bandeau violet, titre de la carte en pastille violette). */}
+          <Bandeau />
+          <PastillesDa as="h2" id="lettre-dernier" pastille={TEXTES_LETTRE.page.dernierNumero} />
           <p className={cn("mt-4", TEXTE_FORT)}>{frPonctuation(dernier.subject)}</p>
           <LettreCorpsApercu texte={dernier.bodyText} />
         </section>

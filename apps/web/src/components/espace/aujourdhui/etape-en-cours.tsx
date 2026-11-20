@@ -7,7 +7,7 @@ import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { BarreProgression, Chevron, PIED_TUILE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { ETIQUETTE, META, META_FORT, TEXTE } from "@/components/espace/typo";
+import { META, META_FORT, TEXTE } from "@/components/espace/typo";
 import { Bandeau, PastillesDa, emojiParcours } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -71,11 +71,8 @@ export function ParcoursTuile({ etape, fige = false, colonne = false }: { etape:
     <section aria-labelledby={fige ? undefined : "parcours-tuile-titre"} className={TUILE} data-testid="parcours-tuile">
       {/* s26 DA, aujourd'hui questions répliques : bandeau, émoji du parcours (accueil) et pastille violette ; figée,
           l'étiquette d'avant (extrait de l'aperçu inchangé). */}
-      {fige ? (
-        <p className={ETIQUETTE}>{etape.enCours ? T.etape.enCours : T.etape.conseillee}</p>
-      ) : (
-        <PastillesDa as="p" emoji={emojiParcours(etape.slug)} pastille={etape.enCours ? T.etape.enCours : T.etape.conseillee} />
-      )}
+      {/* s26 contrôle d'ensemble, aperçus : figée aussi (extrait de l'aperçu), la DA de l'accueil. */}
+      <PastillesDa as="p" emoji={emojiParcours(etape.slug)} pastille={etape.enCours ? T.etape.enCours : T.etape.conseillee} />
       <h2 id={fige ? undefined : "parcours-tuile-titre"} className={TITRE_TUILE}>
         {etape.titreParcours}
       </h2>
@@ -94,7 +91,7 @@ export function ParcoursTuile({ etape, fige = false, colonne = false }: { etape:
           {pied}
         </Link>
       )}
-      {!fige && <Bandeau />}
+      <Bandeau />
     </section>
   );
 }

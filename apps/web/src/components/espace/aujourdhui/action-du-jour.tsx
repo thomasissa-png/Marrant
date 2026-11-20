@@ -2,7 +2,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CARTE_ACTION, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { ETIQUETTE, META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
+import { META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
 import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 
 /**
@@ -83,7 +83,8 @@ export function ActionDuJour({
     <section aria-labelledby={idTitre} className={cn(fige ? TUILE : CARTE_ACTION, "max-e300:p-3")} data-action-du-jour {...donnees}>
       {/* Figée (extrait) : place gardée à droite pour le verrou posé dans le coin (`TuileFermee`). */}
       <div className={cn("flex items-center justify-between gap-4", fige && "pr-8")}>
-        {fige ? <p className={ETIQUETTE}>{etiquette}</p> : <PastillesDa as="p" emoji={emoji} pastille={etiquette} />}
+        {/* s26 contrôle d'ensemble, aperçus : figée aussi (extrait de l'aperçu), la DA de l'accueil. */}
+        <PastillesDa as="p" emoji={emoji} pastille={etiquette} />
         {duree && <p className={cn("flex-none tabular-nums", META)}>{duree}</p>}
       </div>
       {/* 200 % de texte (`max-e300`, test N4) : titre en 16 px serré, valeurs d'avant gardées, « Commencer » au premier écran. */}
@@ -99,7 +100,7 @@ export function ActionDuJour({
       {boutonRendu}
       {apres}
       {/* Bandeau hors du flux, rendu en dernier : l'ordre des enfants (étiquette, titre, bouton) ne change pas. */}
-      {!fige && <Bandeau />}
+      <Bandeau />
     </section>
   );
 }

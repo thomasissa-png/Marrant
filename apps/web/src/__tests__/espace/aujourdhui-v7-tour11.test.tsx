@@ -44,7 +44,8 @@ describe("point 1 : extrait plus parlant", () => {
     const parcours = document.querySelector("[data-testid='parcours-tuile']") as HTMLElement;
     const nom = parcours.querySelector("h2 ~ p ~ p");
     expect(classes(nom)).toEqual(expect.arrayContaining(tri(TEXTE)));
-    expect(document.querySelector("[data-apercu-suite]")?.className).toContain("black_9rem,transparent_calc(100%_-_3rem)");
+    // s26 contrôle d'ensemble, aperçus : rangée « émoji + pastille » (+12 px), coupe et fondu décalés d'autant.
+    expect(document.querySelector("[data-apercu-suite]")?.className).toContain("black_9.75rem,transparent_calc(100%_-_3rem)");
   });
 });
 

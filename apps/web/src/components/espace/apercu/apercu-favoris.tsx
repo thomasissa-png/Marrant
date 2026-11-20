@@ -6,18 +6,22 @@ import { TitreFerme } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import type { ExemplesFavoris } from "@/components/espace/apercu/exemples-favoris";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
+import { EMOJIS_ACCUEIL } from "@/components/espace/da-espace";
 import { CARTE_FAVORI, CorpsConseil, CorpsVanne } from "@/components/espace/favoris/cartes-favori";
 import { JOKE_CATEGORY_LABELS, TABS, TIP_CATEGORY_LABELS, TYPE_FAVORI } from "@/components/favoris/libelles";
 
 /** Spec s26 §1.2 : les quatre onglets réels de la page (`TABS[].label`), inertes, aucun effectif inventé. */
 export const PASTILLES_FAVORIS: readonly string[] = TABS.map((t) => t.label);
 
+/** s26 contrôle d'ensemble, aperçus : émoji de la carte de l'accueil du même type (comme le détail de l'abonné). */
+const EMOJI_TYPE = { JOKE: EMOJIS_ACCUEIL.vanne, TIP: EMOJIS_ACCUEIL.conseil, VIDEO: EMOJIS_ACCUEIL.video } as const;
+
 /** Une tuile fermée réduite à son libellé de type (verrou de `TuileFermee`, barres de `TitreFerme`). */
 function TypeFerme({ type, className }: { type: keyof typeof TYPE_FAVORI; className?: string }) {
   return (
     <TuileFermee className={className}>
       <div className={TUILE} data-apercu-type-ferme={type}>
-        <TitreFerme titre={TYPE_FAVORI[type]} />
+        <TitreFerme emoji={EMOJI_TYPE[type]} titre={TYPE_FAVORI[type]} />
       </div>
     </TuileFermee>
   );

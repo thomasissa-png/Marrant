@@ -21,7 +21,8 @@ import { CapDuJour } from "@/components/espace/aujourdhui/cap-du-jour";
 import { ParcoursTuile } from "@/components/espace/aujourdhui/etape-en-cours";
 import { MissionLien } from "@/components/espace/aujourdhui/mission-lien";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
-import { ETIQUETTE, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
+import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { TEXTE, TEXTE_FORT } from "@/components/espace/typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -60,12 +61,14 @@ const VANNE_COUPEE = "mt-2 max-h-24 overflow-hidden [mask-image:linear-gradient(
 function TuileJour({ vanne }: { vanne: VanneExtrait | null }) {
   if (vanne) {
     return (
+      // s26 contrôle d'ensemble, aperçus : la carte « Vanne du jour » de l'abonné (bandeau, émoji et pastille de l'accueil).
       <div className={TUILE}>
-        <p className={ETIQUETTE}>{T.jour.vanne}</p>
+        <PastillesDa as="p" emoji={EMOJIS_ACCUEIL.vanne} pastille={T.jour.vanne} />
         <div className={VANNE_COUPEE} data-apercu-vanne>
           <p className={cn(TEXTE, "text-text-primary")}>{frEspace(vanne.content)}</p>
           <p className={TEXTE_FORT}>{frEspace(vanne.punchline)}</p>
         </div>
+        <Bandeau />
       </div>
     );
   }
@@ -74,7 +77,7 @@ function TuileJour({ vanne }: { vanne: VanneExtrait | null }) {
   // (« Vanne du jour ») 8 px dessous, sur la ligne de leurs titres.
   return (
     <div className={TUILE}>
-      <p className={ETIQUETTE}>{T.jour.titre}</p>
+      <PastillesDa as="p" pastille={T.jour.titre} />
       <ul className="mt-2 divide-y divide-border">
         {[T.jour.vanne, T.jour.conseil, T.jour.video].map((t) => (
           <li key={t} className={`py-2 first:pt-0 ${TEXTE}`}>
@@ -82,6 +85,7 @@ function TuileJour({ vanne }: { vanne: VanneExtrait | null }) {
           </li>
         ))}
       </ul>
+      <Bandeau />
     </div>
   );
 }
@@ -111,6 +115,7 @@ function TableauFerme({ vanne }: { vanne: VanneExtrait | null }) {
             idTitre="apercu-premier-pas-titre"
             fige
             etiquette={T.premierPas.eyebrow}
+            emoji={EMOJIS_ACCUEIL.quoiRepondre}
             duree={pas.minutes !== null ? T.premierPas.duree(pas.minutes) : null}
             titre={pas.titre}
             action={null}

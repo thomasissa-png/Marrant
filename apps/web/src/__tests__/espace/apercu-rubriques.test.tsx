@@ -246,7 +246,10 @@ describe("Favoris (`/favoris`, hors /mon-espace)", () => {
     // s26 : conseil replié (plus de bloc « Exemple »), une seule catégorie, ni pastille colorée ni capitales.
     expect(exemples.textContent).not.toContain("L'exemple.");
     expect(exemples.textContent).not.toContain("Débutant");
-    expect(exemples.innerHTML).not.toMatch(/uppercase|text-accent-link/);
+    // s26 contrôle d'ensemble, aperçus (DA de l'accueil, Thomas 20/11) : pastille violette du type (`text-accent-link`)
+    // et bandeau sur les cartes ; toujours aucune capitale.
+    expect(exemples.innerHTML).not.toMatch(/uppercase/);
+    expect(exemples.querySelectorAll("[data-bandeau-da]").length).toBeGreaterThanOrEqual(2);
     // Lecture seule : aucun bouton (ni « Retirer », ni partage), aucun lien ; un seul bouton d'offre dans le hero.
     expect(within(exemples).queryAllByRole("button")).toHaveLength(0);
     expect(within(exemples).queryAllByRole("link")).toHaveLength(0);

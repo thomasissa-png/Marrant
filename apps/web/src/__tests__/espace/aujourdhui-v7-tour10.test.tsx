@@ -72,10 +72,11 @@ describe("point 2 : « Tes 4 premières semaines » aligné sur sa voisine", () 
 });
 
 describe("point 3 : verrou des tuiles fermées", () => {
-  it("boîte de 20 px, icône centrée, toujours en haut à droite (24 px)", () => {
+  // s26 contrôle d'ensemble, aperçus : boîte de 32 px (`h-8`), la hauteur de la rangée « émoji + pastille » des tuiles.
+  it("boîte de 32 px, icône centrée, toujours en haut à droite (24 px)", () => {
     render(<ApercuAujourdhui visiteur />);
     const verrous = Array.from(document.querySelectorAll("[data-tuile-fermee] > [data-verrou-ferme]"));
     expect(verrous.length).toBeGreaterThan(0);
-    for (const v of verrous) expect(classes(v)).toEqual(expect.arrayContaining(["absolute", "right-6", "top-6", "flex", "h-5", "items-center"]));
+    for (const v of verrous) expect(classes(v)).toEqual(expect.arrayContaining(["absolute", "right-6", "top-6", "flex", "h-8", "items-center"]));
   });
 });

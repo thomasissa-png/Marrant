@@ -11,11 +11,14 @@ import { BarresFermees, BlocsFermes } from "@/components/espace/apercu/blocs-fer
 import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
+import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
 import { ETIQUETTE, META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
 
 const G = frEspaceProfond(TEXTES_GESTE);
 const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
 const R = frEspaceProfond(TEXTES_REPLIQUES);
+const N = frEspaceProfond(TEXTES_ESPACE_NAVIGATION);
 
 /** Spec s26 §2.1 : les gestes réels de la page (écrire, modifier, supprimer), inertes, aucun effectif inventé. */
 export const PASTILLES_REPLIQUES: readonly string[] = [G.note.label, R.modifier, R.supprimer];
@@ -55,8 +58,11 @@ function ExtraitRepliques() {
     <div data-apercu-fiche={f.id}>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
         <TuileFermee nette verrouDansLaMarge className="md:col-span-2 lg:col-span-8">
+          {/* s26 contrôle d'ensemble, aperçus : la carte d'écriture de l'abonné (bandeau, émoji, pastille « Quoi répondre »),
+              la durée à côté de la pastille. */}
           <div className={TUILE} data-apercu-ecrire>
-            <p className={META}>{L.minutes(f.minutes)}</p>
+            <Bandeau />
+            <PastillesDa emoji={EMOJIS_ACCUEIL.quoiRepondre} pastille={N.index.quoiRepondre} suite={<span className={META}>{L.minutes(f.minutes)}</span>} />
             <h2 className={cn("mt-2", TITRE_CARTE)}>{frEspace(f.titre)}</h2>
             {f.consigne && (
               <>
@@ -72,6 +78,8 @@ function ExtraitRepliques() {
         </TuileFermee>
         <TuileFermee verrouDansLaMarge className="md:col-span-2 lg:col-span-4">
           <div className={TUILE} data-apercu-repliques-fermees>
+            <Bandeau />
+            <PastillesDa className="mb-4" emoji={EMOJIS_ACCUEIL.quoiRepondre} pastille={N.index.quoiRepondre} />
             <RepliquesSansTexte />
           </div>
         </TuileFermee>
@@ -80,7 +88,8 @@ function ExtraitRepliques() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
           <TuileFermee verrouDansLaMarge className="md:col-span-2 lg:col-span-12">
             <div className={TUILE} data-apercu-gestes-fermes>
-              <BlocsFermes libelles={[R.modifier, R.supprimer]} className="mt-0 md:grid-cols-2" />
+              <Bandeau />
+              <BlocsFermes libelles={[R.modifier, R.supprimer]} className="mt-0 md:grid-cols-2" enPastilles />
             </div>
           </TuileFermee>
         </div>

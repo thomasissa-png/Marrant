@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { parcoursEtapeHref, type ParcoursAReprendre, type ParcoursEntreeSrc } from "@/lib/entrees-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 import { REPRENDRE } from "@/config/textes/entrees-parcours";
+import { Bandeau, PastillesDa, emojiParcours } from "@/components/espace/da-espace";
 
 /**
  * « Reprendre ton parcours » en tête de l'accueil abonné et du profil
@@ -27,16 +28,26 @@ export function ReprendreParcoursBloc({
   aReprendre,
 }: ReprendreProps & { aReprendre: ParcoursAReprendre | null }) {
   if (!aReprendre) return null;
+  // s26 contrôle d'ensemble, aperçus : dans le Profil de l'espace ouvert seulement, la DA de l'accueil (bandeau violet,
+  // émoji du parcours, titre en pastille violette). L'accueil et l'espace fermé : rendu d'avant, au caractère près.
+  const da = ESPACE_CLIENT_PUBLIE && src === "profil";
 
   return (
     <section
       aria-labelledby="reprendre-parcours-titre"
       data-testid="reprendre-parcours"
-      className={cn("rounded-xl border border-accent-primary/40 bg-accent-primary/10 p-5 text-left", className)}
+      className={cn("rounded-xl border border-accent-primary/40 bg-accent-primary/10 p-5 text-left", da && "relative overflow-hidden", className)}
     >
-      <h2 id="reprendre-parcours-titre" className="font-display text-lg font-bold text-text-primary">
-        {REPRENDRE.titre}
-      </h2>
+      {da ? (
+        <>
+          <Bandeau />
+          <PastillesDa as="h2" id="reprendre-parcours-titre" emoji={emojiParcours(aReprendre.slug)} pastille={REPRENDRE.titre} />
+        </>
+      ) : (
+        <h2 id="reprendre-parcours-titre" className="font-display text-lg font-bold text-text-primary">
+          {REPRENDRE.titre}
+        </h2>
+      )}
       <p className="mt-1 text-sm text-text-secondary">
         {/* Relecture des captures nav s24 (reviewer FD2) : interrupteur de l'espace ouvert seulement, apostrophes
             typographiques dans le titre de l'étape ; fermé, la ligne d'aujourd'hui. */}

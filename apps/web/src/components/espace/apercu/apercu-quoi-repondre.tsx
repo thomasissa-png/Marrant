@@ -15,7 +15,8 @@ import { PASTILLE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { FILET_CARTE } from "@/components/espace/carte/styles";
 import { Badge } from "@/components/ui/badge";
 import { EMOJI_CONTENU, RANGEE_PASTILLES } from "@/components/home/da-site";
-import { ETIQUETTE, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 
 const Q = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 const C = frEspaceProfond(TEXTES_CARTES);
@@ -63,7 +64,8 @@ function PastilleEffectif({ libelle, nombre }: { libelle: string; nombre?: numbe
 function FiltresPour({ className, pleineLargeur = false }: { className?: string; pleineLargeur?: boolean }) {
   return (
     <>
-      <p className={cn(className, ETIQUETTE)}>{Q.filtrePour}</p>
+      {/* s26 contrôle d'ensemble, aperçus : le libellé du groupe en pastille violette (DA de l'accueil), filtres neutres. */}
+      <PastillesDa className={className} pastille={Q.filtrePour} />
       {/* s26 liste et détail, tour 6 : sur toute la largeur (dès 1280), cinq colonnes égales, pastilles étirées à leur
           colonne et texte centré : la rangée finit sur le bord de la carte, aucun vide à droite ni trou entre elles. */}
       <ul className={cn("mt-2 flex flex-wrap gap-2", pleineLargeur && "grid grid-cols-5 [&>li]:justify-center")}>
@@ -80,14 +82,14 @@ function FiltresPour({ className, pleineLargeur = false }: { className?: string;
  * carte d'exemple, tous deux à 20 px) : titre fermé en `TEXTE_FORT` (16/600), un cran sous le titre de la carte
  * d'exemple (`TITRE_CARTE`, 20/600) ; effectif et barres comme `TitreFerme` (les autres aperçus le gardent).
  */
+// s26 contrôle d'ensemble, aperçus (DA de l'accueil) : le titre fermé en pastille violette (14 px, sous le titre de la
+// carte d'exemple), l'effectif à côté, et le bandeau violet de la tuile (hors du flux, `TUILE` est `relative`).
 function TitreFermeSecondaire({ titre, effectif }: { titre: string; effectif?: number }) {
   return (
     <>
-      <h2 className={cn("pr-8", TEXTE_FORT)}>
-        {titre}
-        {effectif !== undefined && <span className="ml-2 tabular-nums text-text-secondary">{effectif}</span>}
-      </h2>
+      <PastillesDa as="h2" className="pr-8" pastille={titre} suite={effectif !== undefined ? <span className={cn("tabular-nums", META)}>{effectif}</span> : undefined} />
       <BarresFermees />
+      <Bandeau />
     </>
   );
 }
@@ -141,7 +143,8 @@ function ExtraitQuoiRepondre() {
         </TuileFermee>
         <TuileFermee className="h-auto md:col-span-2 lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1 xl:row-span-1">
           <div className={TUILE} data-apercu-filtres>
-            <p className={cn("pr-8", ETIQUETTE)}>{Q.filtreOu}</p>
+            <Bandeau />
+            <PastillesDa className="pr-8" pastille={Q.filtreOu} />
             {/* s26 liste et détail, tour 6 : dès 1280, 16 px entre les lignes de pastilles (8 avant) : la carte passe de
                 286 à 326 px, à 6 px de l'exemple (320, étiré à 326) au lieu de 34 px de vide dessous. */}
             <ul className="mt-2 flex flex-wrap gap-2 xl:gap-y-4">
@@ -180,6 +183,7 @@ function ExtraitQuoiRepondre() {
               et un bord à x 920 ; dès 1280, toute la largeur, pastilles en cinq colonnes égales (`pleineLargeur`). */}
           <TuileFermee className="hidden xl:col-span-12 xl:col-start-1 xl:row-start-1 xl:block">
             <div className={TUILE} data-apercu-filtres-pour>
+              <Bandeau />
               <FiltresPour pleineLargeur />
             </div>
           </TuileFermee>

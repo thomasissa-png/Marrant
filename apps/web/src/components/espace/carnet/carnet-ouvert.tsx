@@ -7,7 +7,8 @@ import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL } from "@/config/textes/cta-pages";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
-import { BOUTON_OFFRE_FIN, CARTE_PREMIUM, HaloPremium, OffreApercu, Preuve } from "@/components/espace/apercu/offre-apercu";
+import { BOUTON_OFFRE_FIN, CARTE_PREMIUM, HaloPremium, OffreApercu } from "@/components/espace/apercu/offre-apercu";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { FicheCarnet } from "@/components/espace/carnet/fiche-carnet";
@@ -70,12 +71,12 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
       <FilAriane view={view} returnTo={returnTo} />
       <div className="grid gap-4 md:gap-6 lg:grid-cols-12 lg:gap-12" data-carnet-hero>
         <div className="min-w-0 lg:col-span-8">
-          <EnTeteCarnet mois={view.mois} libelle={formatCarnetMonth(view.mois)} titre={view.titre} intro={view.intro}>
-            <Preuve place="hero" />
-          </EnTeteCarnet>
+          {/* s26 contrôle d'ensemble, aperçus (décision de Thomas du 19/11, qui prime sur le « gardé exprès ») : plus de preuve
+              « 1 500+ » dans les aperçus de l'espace, Carnet compris. */}
+          <EnTeteCarnet mois={view.mois} libelle={formatCarnetMonth(view.mois)} titre={view.titre} intro={view.intro} />
         </div>
         <div className="min-w-0 lg:col-span-4">
-          {/* s26 liste et détail : la carte d'offre partagée ne porte plus de preuve (la preuve du Carnet reste sous l'intro). */}
+          {/* s26 liste et détail : la carte d'offre partagée ne porte plus de preuve (ni l'intro du Carnet, s26 contrôle d'ensemble). */}
           <OffreApercu href={href} adresse={returnTo} visiteur={visiteur} />
         </div>
       </div>
@@ -86,7 +87,9 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
             className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 lg:sticky lg:top-36 lg:col-span-4 lg:col-start-9 lg:row-start-1")}
             data-carnet-programme
           >
-            <h2 id="carnet-reserve" className={TITRE_CARTE}>{CARNET_PAYWALL.listeTitre}</h2>
+            {/* s26 contrôle d'ensemble, aperçus : DA de l'accueil (bandeau, émoji et pastille violette de la fiche du Carnet). */}
+            <Bandeau />
+            <PastillesDa as="h2" id="carnet-reserve" emoji="📒" pastille={CARNET_PAYWALL.listeTitre} />
             <ol className="mt-4">
               {view.apercus.slice(0, CARNET_LISTE_VISIBLES).map((f) => (
                 <li key={f.id} className="flex min-h-11 items-center gap-4 border-t border-border py-2 first:border-t-0">
@@ -109,6 +112,7 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
         {restantes > 0 && (
           <div className={cn(CARTE_PREMIUM, "mx-auto mt-6 w-full min-w-0 max-w-md p-4 text-center md:p-6 lg:col-span-12")} data-carnet-fin>
             <HaloPremium />
+            <Bandeau />
             <div className="relative flex flex-col items-center gap-4">
               <div>
                 <p className={TITRE_CARTE}>{frTypo(CARNET_PAYWALL.titre(restantes))}</p>

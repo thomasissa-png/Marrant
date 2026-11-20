@@ -5,6 +5,7 @@ import { compterAnonyme } from "@/lib/espace/compteurs";
 import { ArchiveLettres, hrefLettre } from "@/components/espace/archive-lettres";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { CARTE_ACTION } from "@/components/espace/aujourdhui/tableau";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { cn } from "@/lib/utils";
@@ -56,8 +57,11 @@ export async function LettresAbonneCartes() {
         </div>
       ) : (
         <>
+          {/* s26 contrôle d'ensemble, aperçus (DA de l'accueil) : bandeau violet et pastille violette sur chaque carte. */}
           <div className={cn(CARTE_ACTION, "relative mt-8", LIGNE_CHEVRON, ANNEAU)} data-lettre-derniere={derniere.numero}>
+            <Bandeau />
             <div className="min-w-0">
+              <PastillesDa className="mb-2" pastille={TEXTES_LETTRE.page.dernierNumero} />
               <h2 className={TITRE_CARTE}>
                 <Link href={hrefLettre(derniere.numero)} data-lettre={derniere.numero} className={LIEN_ETIRE}>
                   {frTypo(derniere.titre)}
@@ -71,7 +75,9 @@ export async function LettresAbonneCartes() {
             <ul className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {precedentes.map((l) => (
                 <li key={l.numero} className={cn(CADRE_CARTE_NEUTRE, "flex min-h-11 p-6 transition-colors hover:border-border-hover [overflow-wrap:anywhere]", LIGNE_CHEVRON, ANNEAU)}>
+                  <Bandeau />
                   <div className="min-w-0">
+                    <PastillesDa className="mb-2" pastille={TEXTES_LETTRE.menu} />
                     <Link href={hrefLettre(l.numero)} data-lettre={l.numero} className={cn(TEXTE_FORT, LIEN_ETIRE)}>
                       {frTypo(l.titre)}
                     </Link>

@@ -77,7 +77,11 @@ describe("point 1 : vitrine des répliques, verrouillage réel", () => {
       expect(c.innerHTML).not.toMatch(/accent|violet/);
       expect(c.textContent).toBe(c.querySelector("p")?.textContent);
     }
-    expect(z1.innerHTML).not.toMatch(/accent-primary|accent-secondary/);
+    // s26 contrôle d'ensemble, aperçus (DA de l'accueil) : le violet de Z1 n'est que celui du bandeau et de la pastille.
+    const sansDa = z1.cloneNode(true) as HTMLElement;
+    sansDa.querySelectorAll("[data-bandeau-da], [data-pastilles-da]").forEach((e) => e.remove());
+    expect(z1.querySelector("[data-bandeau-da]")).not.toBeNull();
+    expect(sansDa.innerHTML).not.toMatch(/accent-primary|accent-secondary/);
   });
 });
 
