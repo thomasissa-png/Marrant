@@ -606,10 +606,15 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       await expect(bouton).toBeFocused();
       expect(await bouton.evaluate((a) => getComputedStyle(a).boxShadow), "anneau de focus").not.toBe("none");
       // s26 CI : tenue mesurée de la pose au retrait (attente explicite du retrait), contour posé à l'arrivée du défilement.
-      const signalS26 = () => page.evaluate(() => ({ ...(window as unknown as { __signalS26: Record<string, number> }).__signalS26, y: window.scrollY }));
+      type SignalS26 = { pose: number; retire?: number; yPose: number; y: number };
+      const signalS26 = () =>
+        page.evaluate((): SignalS26 => {
+          const s = (window as unknown as { __signalS26: Record<string, number> }).__signalS26;
+          return { pose: s.pose, retire: s.retire, yPose: s.yPose, y: window.scrollY };
+        });
       await expect.poll(async () => (await signalS26()).retire ?? null, { timeout: 3_000 }).not.toBeNull();
       const t = await signalS26();
-      expect(t.retire - t.pose, "contour tenu (ms)").toBeGreaterThanOrEqual(1_200);
+      expect((t.retire ?? 0) - t.pose, "contour tenu (ms)").toBeGreaterThanOrEqual(1_200);
       expect(Math.abs(t.yPose - t.y), "contour posé à l'arrivée du défilement").toBeLessThanOrEqual(1);
       expect(page.url()).toBe(adresse);
       await expect(page.locator("[data-apercu-extrait] > [aria-hidden='true']")).toHaveCount(1);
