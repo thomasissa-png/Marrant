@@ -46,3 +46,20 @@
 **Écart du runbook à corriger** : §3 A4 bascule, `npx wrangler versions deploy … -m` ne fonctionne pas (wrangler 4.143.1) ; écrire `--message`. Idem en B4. `wrangler rollback -m` fonctionne.
 
 Retour arrière disponible : `cd apps/web && npx wrangler rollback 5504e970-5c1d-496d-a90a-3eaaf0db9846 -m "rollback s26 A" -y`. Sauvegarde de la base : `br-plain-butterfly-b16lk1qd`.
+
+## Phase B : ouverture (go écrit de Thomas pour la phase B du 20/11, relayé par l'orchestrateur), partie 1 sans bascule
+
+`<shaB>` = `9ffa6311` (contient `809c5f1f` 3 vidéos, `e5be48d3` B0 `ESPACE_CLIENT_PUBLIE = true`, `9ffa6311` correctif e2e). Bascule en attente de la CI de `9ffa6311` et du feu vert de l'orchestrateur.
+
+| Heure (UTC) | Étape | Résultat |
+|---|---|---|
+| 21:58 | B1 N-1 | `deployments list` : **`c7ace530-0de6-46af-b596-72a43554c9c8` à 100 %** (« s26 A ferme 86f2be81 »), conforme ; en-têtes dans `/root/lancement-s26/entetes-avant-B.txt` (HTTP/2 200, 25 lignes) |
+| 21:58 | B2 sauvegarde | plus d'une heure après A2 : branche Neon `sauvegarde-avant-ouverture-s26`, **id `br-plain-silence-b1pcw0xb`**, depuis `production`, LSN parent `0/A3352E8`, créée 21:58:12 UTC, `ready`, 0 point de terminaison |
+| 21:58 | B2 contrôle A3 | 11 tables non nulles ; `n` = 2 ; `u` = 0. `apps/web/prisma` et `wrangler.jsonc` inchangés entre `86f2be81` et `9ffa6311` (aucune migration nouvelle) |
+| 21:59 | B4 préparation | `git show 9ffa6311:apps/web/src/config/espace-client.ts` : `ESPACE_CLIENT_PUBLIE = true` ; `ESPACE_DATE_TEXTES = "20 novembre 2026"` ; `RESILIATION_PAGE_OUVERTE = false`. Aucun fichier de dépendances ou de configuration modifié depuis `86f2be81`. Build hors du dépôt principal : `git archive 9ffa6311` dans `/root/lancement-s26/export-B`, `node_modules` par liens durs (`cp -al`, 0 lien symbolique), `node_modules/.prisma` en copie réelle |
+| 21:59-22:01 | B4 build | `build_prod B` dans l'export : **BUILD OK** (172 pages, `/root/lancement-s26/build-B.log`) ; dépôt principal intact (`git status` : journal seul) |
+| 22:01 | B4 envoi | `upload_prod B` depuis l'export (exit 0, `/root/lancement-s26/upload-B.log`) : **Worker Version ID `e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3`**, préversion `https://e9def49b-marrant.thomas-issa.workers.dev`. **Pas de bascule** : `deployments list` = toujours `c7ace530…` à 100 % ; prod `/mon-espace` = 404 |
+| 22:02 | B4 préversion, conformes | 14 pages publiques 200 (`/`, `/vannes`, `/conseils`, `/videos`, `/parcours`, `/parcours/repartie`, `/carnet`, `/carnet/2026-11`, `/confidentialite`, `/cgu`, `/register`, `/retractation`, `/abonnement`, `/blog`) ; `/api/health` `ok` (Stripe `live`, base `up`, contenu `ok`) ; `/profil` 307 vers `/login` ; `/resiliation` et `/resiliation/confirmee` 404 ; `/api/user/xp` 404 ; `/api/espace/caps` sans session 401 `private, no-store` ; `/confidentialite` et `/cgu` : « Dernière mise à jour : 20 novembre 2026 » ; sitemap : 0 `mon-espace` ; robots : 18 `Disallow: /mon-espace` |
+| 22:02 | B4 préversion, écart avec le runbook | `/mon-espace` sans session = **200** (et non 307 vers `/login`) : aperçu verrouillé « Aujourd'hui » (`ApercuAujourdhui`, liens `/login?callbackUrl=%2Fmon-espace`), `cache-control: private, no-cache, no-store`, `x-robots-tag: noindex`, meta `noindex, follow`. Voulu par le code (nav v6, s25 : « visiteur et inscrit gratuit, l'aperçu à cette adresse, sans redirection », `src/app/(dashboard)/mon-espace/page.tsx`, tests `src/__tests__/espace/aujourdhui-*.test.tsx`) : l'attendu « 307 » du runbook (§4 B4, B6) est antérieur. Idem `/mon-espace/questions`, `/quoi-repondre`, `/bibliotheque`, `/repliques`, `/s-entrainer` = 200 (aperçus) ; `/mon-espace/bonus/x` 307 vers `/login` ; `/mon-espace/lettres` 308 vers `/lettre`. Aucune donnée de compte dans la réponse. À trancher par l'orchestrateur avant bascule |
+
+**Fin de B partie 1 (22:03 UTC).** Non faits, en attente du feu vert : bascule, `recalcul-caps`, B5 démarrage, B6.
