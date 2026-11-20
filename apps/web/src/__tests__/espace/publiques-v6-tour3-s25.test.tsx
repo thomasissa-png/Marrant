@@ -175,7 +175,9 @@ describe("points 1 et 9 : /carnet", () => {
 
   // s26 (`docs/design/favoris-carnet-s26.md` §3 et §4) : en-tête aligné à gauche (plus centré). s26, Thomas 19/11 : le
   // sur-titre « Carnet de novembre 2026, 30 situations » est retiré (il répétait le H1) : le H1 ouvre l'en-tête.
-  it.each([["abonné", "PREMIUM"], ["visiteur", null]])("ouvert, %s (s26) : plus de sur-titre, le H1 ouvre l'en-tête, aligné à gauche", (_n, plan) => {
+  // s26 carnet liste et détail : l'en-tête de l'abonné est dans le layout (`CarnetListeDetail`, même `EnTeteCarnet`,
+  // H1 en tête, vérifié dans `carnet-liste-detail-s26.test.tsx`) ; la page ne rend plus que sa fiche.
+  it.each([["visiteur", null]])("ouvert, %s (s26) : plus de sur-titre, le H1 ouvre l'en-tête, aligné à gauche", (_n, plan) => {
     ouvrir(true);
     const { container } = render(page(plan));
     const header = enTete(container);
@@ -184,21 +186,14 @@ describe("points 1 et 9 : /carnet", () => {
     expect(header.textContent).not.toMatch(/Carnet de novembre 2026, 30 situations|30 situations/);
   });
 
-  // s26 : sommaire en TUILES (3, 2 puis 1 colonne), cible de 44 px ; la première fiche porte le filet blanc.
-  it("ouvert, abonné (s26) : sommaire en tuiles 4/4/4, 30 tuiles de 44 px au moins, première marquée", () => {
+  // s26 carnet liste et détail (`docs/ux/carnet-audit-s26.md` §3) : plus de sommaire en tuiles ni de filet blanc sur la
+  // première (il ne voulait rien dire) ; la liste du layout le remplace (`carnet-liste-detail-s26.test.tsx`).
+  it("ouvert, abonné (s26) : plus de sommaire en tuiles ni de filet blanc ; une fiche, « Situation 1 sur 30 »", () => {
     ouvrir(true);
     const { container } = render(page("PREMIUM"));
-    const sommaire = container.querySelector("[data-carnet-sommaire]") as HTMLElement;
-    expect((sommaire.querySelector("ol") as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["md:grid-cols-2", "lg:grid-cols-3"]));
-    const tuiles = within(sommaire).getAllByRole("link");
-    expect(tuiles).toHaveLength(30);
-    for (const lien of tuiles) expect(lien.className.split(" ")).toContain("min-h-11");
-    expect(tuiles[0].className.split(" ")).toEqual(expect.arrayContaining(["border-l-2", "border-l-text-primary"]));
-    expect(tuiles[1].className).not.toContain("border-l-2");
-    // Carnets précédents en fin de page, après la dernière fiche.
-    const fiches = container.querySelectorAll('[id^="fiche-"]');
-    const archives = container.querySelector('[aria-labelledby="carnet-archives"]') as HTMLElement;
-    expect(fiches[fiches.length - 1].compareDocumentPosition(archives) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelector("[data-carnet-sommaire]")).toBeNull();
+    expect(container.innerHTML).not.toContain("border-l-text-primary");
+    expect(container.querySelector("[data-carnet-numero]")).toHaveTextContent("Situation 1 sur 30");
   });
 
   it("fermé, abonné : en-tête d'avant (sur-titre au-dessus, non centré), pas de sommaire", () => {

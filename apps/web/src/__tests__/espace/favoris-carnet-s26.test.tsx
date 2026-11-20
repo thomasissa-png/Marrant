@@ -93,23 +93,27 @@ describe("Carnet ouvert (s26)", () => {
   const [precedent, courant] = parseCarnets([lire("2026-10.json"), lire("2026-11.json")]);
   const page = (plan: string | null) => render(<CarnetPage view={carnetViewForPlan(courant, plan)} months={[courant.mois, precedent.mois]} returnTo="/carnet" src="carnet" visiteur={plan === null} />);
 
-  it("visiteur : verrouillage inchangé (fiche offerte seule en entier), « Situation 10, offerte », aucune capitale", () => {
+  it("visiteur : verrouillage inchangé (fiche offerte seule en entier), « Situation 10 sur 30, offerte », aucune capitale", () => {
     const { container } = page(null);
     const offerte = courant.fiches.find((f) => f.id === "2026-11-10")!;
     expect(container.querySelectorAll("[data-carnet-fiche]")).toHaveLength(1);
     expect(container.innerHTML).toContain(offerte.pourquoi.slice(0, 20));
     for (const f of courant.fiches.filter((x) => x !== offerte)) expect(container.innerHTML).not.toContain(f.reponse);
-    expect(screen.getByText("Situation 10, offerte")).toBeTruthy();
+    // s26 carnet liste et détail : « Situation n sur N » (À VALIDER), même donnée.
+    expect(screen.getByText("Situation 10 sur 30, offerte")).toBeTruthy();
     expect(container.innerHTML).not.toMatch(/uppercase|tracking-wider/);
     expect(screen.getByRole("link", { name: "Connexion" })).toBeTruthy();
   });
 
-  it("abonné : aucun bouton plein, rail des fiches, « Retour au sommaire » après chaque fiche", () => {
+  // s26 carnet liste et détail : la page de l'abonné ne rend plus que le panneau (n° 1), la liste est dans le layout
+  // (`carnet-liste-detail-s26.test.tsx`).
+  it("abonné : aucun bouton plein, une seule fiche (n° 1), « Situation suivante » en contour", () => {
     const { container } = page("PREMIUM");
-    expect(container.innerHTML).not.toMatch(/bg-accent-primary|bg-accent-secondary|uppercase/);
-    expect(container.querySelectorAll("[data-carnet-rail] a")).toHaveLength(30);
-    expect(container.querySelectorAll("[data-carnet-retour-sommaire]")).toHaveLength(30);
-    expect(container.querySelector('[data-carnet-rail] a[aria-current="location"]')).not.toBeNull();
+    expect(container.querySelectorAll("[data-carnet-fiche]")).toHaveLength(1);
+    expect(container.querySelector("[data-carnet-panneau]")?.getAttribute("data-carnet-panneau")).toBe("1");
+    expect(container.querySelectorAll("a, button").length).toBeGreaterThan(0);
+    for (const el of container.querySelectorAll("a, button")) expect(el.className.split(" ")).not.toContain("bg-accent-primary");
+    expect(container.querySelector("[data-situation-suivante]")).toHaveAttribute("href", "/carnet/2026-11/2");
   });
 
   // s26 tour 3 (encarts, piste 1 du tour 2) : la zone « Connexion » de la carte d'offre descend de 14 px dans la marge
@@ -120,19 +124,5 @@ describe("Carnet ouvert (s26)", () => {
     expect(lien.className.split(" ")).toEqual(expect.arrayContaining(["min-h-11", "min-w-11"]));
     // s26 liste et détail, tour 5 : `pb-px` (même hauteur de carte que le gratuit, filet de 1 px compris), sauf de 768 à 1023.
     expect((lien.parentElement!.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["-mb-3.5", "pb-px", "md:max-lg:mb-0", "md:max-lg:pb-0"]));
-  });
-
-  // s26 tour 3 : sommaire en liste sous 768 px (tuiles dès 768), numéros du rail à largeur fixe et `py-2` par ligne ;
-  // le défilement du rail vers la ligne courante est vérifié en vrai navigateur (`publiques-v6-tour1-pages`).
-  it("abonné : sommaire en liste sous 768 px, tuiles dès 768 ; rail à numéros de largeur fixe", () => {
-    const { container } = page("PREMIUM");
-    const liste = (container.querySelector("[data-carnet-sommaire] ol") as HTMLElement).className.split(" ");
-    expect(liste).toEqual(expect.arrayContaining(["max-md:divide-y", "max-md:rounded-xl", "md:grid", "md:grid-cols-2", "lg:grid-cols-3"]));
-    const [premiere, seconde] = [...container.querySelectorAll("[data-carnet-sommaire] a")].map((a) => a.className.split(" "));
-    expect(seconde).toEqual(expect.arrayContaining(["min-h-11", "px-4", "py-2.5", "md:rounded-xl", "md:border", "md:p-6"]));
-    expect(premiere).toEqual(expect.arrayContaining(["border-l-2", "pl-3.5", "md:border-l", "md:before:w-px"]));
-    const ligne = container.querySelector("[data-carnet-rail] a") as HTMLElement;
-    expect(ligne.className.split(" ")).toContain("py-2");
-    expect((ligne.firstElementChild as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["min-w-6", "tabular-nums"]));
   });
 });
