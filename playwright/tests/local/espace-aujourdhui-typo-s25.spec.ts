@@ -149,7 +149,15 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
             .filter((c) => c.teinte)
             .map((c) => c.alpha);
           accentZ1.alphaMax = Math.max(accentZ1.alphaMax, ...alphas);
-        } else if ((bordViolet || fondViolet || pseudoViolet) && !(fond.teinte && fond.alpha >= 0.5) && (pseudoViolet || !objetPremium(el))) {
+        } else if (
+          (bordViolet || fondViolet || pseudoViolet) &&
+          !(fond.teinte && fond.alpha >= 0.5) &&
+          (pseudoViolet || !objetPremium(el)) &&
+          // s26 DA, aujourd'hui questions répliques (décision de Thomas du 20/11, qui prime sur « un seul violet ») : le
+          // bandeau des cartes et les pastilles violettes de l'accueil sont la DA, pas un accent en trop.
+          !el.matches("[data-bandeau-da]") &&
+          !el.closest("[data-pastilles-da]")
+        ) {
           accentsViolets.push(`${el.tagName.toLowerCase()} « ${(el.textContent ?? "").trim().slice(0, 30)} »${pseudoViolet ? " (pseudo-élément)" : ""}`);
         }
         const texte = Array.from(el.childNodes)
@@ -157,12 +165,16 @@ async function mesurer(page: Page, hauteur: number): Promise<Mesure> {
           .map((n) => n.textContent?.trim() ?? "")
           .join(" ");
         if (!texte) continue;
+        // s26 DA, aujourd'hui questions répliques : l'émoji de l'accueil (décoratif, `aria-hidden`) est une icône, pas
+        // une taille de texte de l'échelle.
+        if (el.matches("[data-pastilles-da] > [aria-hidden='true']")) continue;
         const taille = parseFloat(cs.fontSize);
         const cle = `${taille}/${cs.fontWeight}/${cs.textTransform}`;
         const g = groupes.get(cle) ?? { cle, taille, graisse: cs.fontWeight, casse: cs.textTransform, textes: [] };
         g.textes.push(texte.slice(0, 30));
         groupes.set(cle, g);
-        if (violet(cs.color).teinte) textesViolets.push(texte.slice(0, 30));
+        // s26 DA, aujourd'hui questions répliques : texte violet des pastilles de l'accueil, permis (DA du 20/11).
+        if (violet(cs.color).teinte && !el.closest("[data-pastilles-da]")) textesViolets.push(texte.slice(0, 30));
         // Repère « Premium » visible : élément dessiné (pas `sr-only`, 1 px), hors phrases de la carte d'offre. v7 tour 10
         // (relecture design du tour 9) : la légende validée monte en tête de l'extrait, au premier écran ; c'est une
         // phrase d'appoint (`META`), pas un repère : hors compte, comme les phrases de la carte d'offre.

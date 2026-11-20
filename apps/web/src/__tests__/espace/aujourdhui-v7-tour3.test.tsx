@@ -111,7 +111,8 @@ describe("pistes du tour 2", () => {
   it("Z1 « Si tu as 5 minutes » : étiquette (libellé existant de la rubrique, casse normale depuis l'échelle s25), titre collé au bouton, accroche dessous", () => {
     const { container } = render(<CartesDuJour cartes={[{ titre: "La poêle", href: "/c", nouvelle: true }]} href="/mon-espace/s-entrainer" fini={false} />);
     const carte = container.querySelector("[data-action-du-jour]") as HTMLElement;
-    const etiquette = carte.querySelector("p") as HTMLElement;
+    // s26 DA, aujourd'hui questions répliques : l'étiquette est la pastille violette de la rangée « émoji + pastille ».
+    const etiquette = carte.querySelector("[data-pastilles-da] > span:last-child") as HTMLElement;
     expect(etiquette.className).not.toMatch(/uppercase/);
     expect(etiquette.textContent).toBe(TEXTES_ESPACE_NAVIGATION.index.sEntrainer);
     const titre = within(carte).getByRole("heading", { level: 2 });

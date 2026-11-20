@@ -5,7 +5,7 @@ import { garderEspace } from "@/lib/espace/garde";
 import { lireLecteurApercu } from "@/components/espace/apercu/acces";
 import { metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { ApercuRepliques } from "@/components/espace/apercu/apercu-repliques";
-import { listerRepliques } from "@/lib/espace/repliques";
+import { fichesSansReplique, listerRepliques } from "@/lib/espace/repliques";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { ListeRepliques } from "@/components/espace/repliques/liste-repliques";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -36,7 +36,10 @@ export default async function MesRepliquesPage() {
   const lecteur = await lireLecteurApercu();
   if (lecteur) return <ApercuRepliques visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/repliques");
-  const repliques = await listerRepliques(userId, { acces: "ouvert", userId });
+  const acces = { acces: "ouvert" as const, userId };
+  const repliques = await listerRepliques(userId, acces);
+  // s26 DA, aujourd'hui questions répliques (T8) : les fiches proposées au champ d'écriture de la page.
+  const aEcrire = fichesSansReplique(new Set(repliques.map((r) => r.ficheId)), acces);
   return (
     // Relecture des captures nav s24, tour 2 (design F2, F3) : gabarit B ; sans contenu, la page passe en colonne
     // de lecture (retour, titre et état vide dans la même colonne de 768 px, jamais un titre à gauche et une carte
@@ -47,7 +50,7 @@ export default async function MesRepliquesPage() {
     // (arbitrages 1 et 3) : titre centré comme l'accueil ; la liste en grille pleine coque, l'état vide centré. s26 : titre
     // à gauche, rendu par `ListeRepliques` (le compteur et le lien suivent la liste vivante).
     <div className="pb-16">
-      <ListeRepliques initiales={repliques} lectureSeule={false} grille />
+      <ListeRepliques initiales={repliques} lectureSeule={false} grille aEcrire={aEcrire} />
     </div>
   );
 }

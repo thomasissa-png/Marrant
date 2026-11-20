@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { frEspace, frEspaceProfond, frPonctuation } from "@/lib/fr-typo";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META } from "@/components/espace/typo";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -31,9 +32,12 @@ export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: 
   const lignes = ecouterPublie ? P.semaines.lignes : [...P.semaines.lignes.slice(0, 3), P.semaines.semaine4SansEcouter];
   return (
     <section aria-labelledby={fige ? undefined : "semaines-titre"} className={TUILE} data-semaines>
-      <h2 id={fige ? undefined : "semaines-titre"} className={ETIQUETTE}>
-        {P.semaines.titre}
-      </h2>
+      {/* s26 DA, aujourd'hui questions répliques : bandeau et pastille violette ; figée, l'étiquette d'avant. */}
+      {fige ? (
+        <h2 className={ETIQUETTE}>{P.semaines.titre}</h2>
+      ) : (
+        <PastillesDa as="h2" id="semaines-titre" pastille={P.semaines.titre} />
+      )}
       <ol className="mt-2 grid grid-cols-[max-content_1fr] gap-x-2 divide-y divide-border">
         {lignes.map((l, i) => (
           <li key={l.semaine} className={cn("col-span-2 grid grid-cols-subgrid py-2 first:pt-0 last:pb-0", META)} data-semaine={i + 1}>
@@ -44,6 +48,7 @@ export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: 
           </li>
         ))}
       </ol>
+      {!fige && <Bandeau />}
     </section>
   );
 }

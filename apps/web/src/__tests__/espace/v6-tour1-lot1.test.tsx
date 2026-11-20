@@ -162,7 +162,8 @@ describe("points 14 et 15", () => {
 
   it("Mes répliques : même colonne vide ou pleine, première réplique en bouton plein, « Supprimer » destructif", () => {
     // v6 tour 3 (arbitrage 3, remplace le tour 2) : la liste en grille pleine coque, l'état vide centré.
-    expect(lire("app/(dashboard)/mon-espace/repliques/page.tsx")).toContain("<ListeRepliques initiales={repliques} lectureSeule={false} grille />");
+    // s26 DA, aujourd'hui questions répliques (T8) : la page passe aussi les fiches proposées au champ d'écriture.
+    expect(lire("app/(dashboard)/mon-espace/repliques/page.tsx")).toContain("<ListeRepliques initiales={repliques} lectureSeule={false} grille aEcrire={aEcrire} />");
     const { unmount } = render(<ListeRepliques initiales={[]} lectureSeule={false} />);
     expect(within(screen.getByTestId("repliques-vide")).getByRole("link").className).toBe(BOUTON_PRINCIPAL);
     unmount();

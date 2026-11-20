@@ -4,7 +4,9 @@ import { useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
-import type { RepliqueListee } from "@/lib/espace/repliques";
+import type { FicheDeReplique, RepliqueListee } from "@/lib/espace/repliques";
+import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { EcrireReplique, ID_ECRIRE_REPLIQUE } from "@/components/espace/repliques/ecrire-replique";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
@@ -22,6 +24,16 @@ const N = frEspaceProfond(TEXTES_ESPACE_NAVIGATION);
 const QUOI_REPONDRE = "/mon-espace/quoi-repondre";
 
 type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
+
+/**
+ * s26 DA, aujourd'hui questions répliques : pastille de la rubrique d'une réplique, d'après l'adresse de sa fiche
+ * (Quoi répondre avec l'émoji ⚡️ de l'accueil, Carnet) ; autre fiche : pas de pastille plutôt qu'une rubrique devinée.
+ */
+function pastilleReplique(href: string | null): { emoji: string | null; libelle: string } | null {
+  if (href?.startsWith(QUOI_REPONDRE)) return { emoji: EMOJIS_ACCUEIL.quoiRepondre, libelle: N.index.quoiRepondre };
+  if (href === "/carnet") return { emoji: null, libelle: N.index.carnet };
+  return null;
+}
 
 /**
  * Liste de « Mes répliques » (2.7, maquette `mes-repliques.html`) : vide (texte validé, sans reproche) ;
@@ -44,7 +56,9 @@ const GRILLE_REPLIQUES = "mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-col
  * vers « Quoi répondre » en bouton secondaire (contour, 44 px). Sous 1024, rien ne change (le lien reste à sa place).
  */
 const GRILLE_8_4 = "lg:grid lg:grid-cols-12 lg:gap-6";
-const TUILE_LIEN = cn(CADRE_CARTE_NEUTRE, "hidden p-6 lg:col-span-4 lg:flex lg:flex-col lg:items-start");
+// s26 DA, aujourd'hui questions répliques : la tuile garde la hauteur de son bouton (`lg:self-start`) : étirée à la
+// hauteur de la rangée, elle laissait plus de 100 px vides sous lui à 1280 (mesuré), visibles sous le bandeau.
+const TUILE_LIEN = cn(CADRE_CARTE_NEUTRE, "hidden p-6 lg:col-span-4 lg:flex lg:flex-col lg:items-start lg:self-start");
 /** Grille 8/4 autour de la liste quand elle est active ; sinon la liste seule, sans élément ajouté (rendu d'avant). */
 function Enveloppe({ actif, children }: { actif: boolean; children: ReactNode }) {
   return actif ? <div className={cn("lg:mt-8", GRILLE_8_4)}>{children}</div> : <>{children}</>;
@@ -55,10 +69,13 @@ export function ListeRepliques({
   initiales,
   lectureSeule,
   grille = false,
+  aEcrire = [],
 }: {
   initiales: RepliqueListee[];
   lectureSeule: boolean;
   grille?: boolean;
+  /** T8 (s26) : fiches proposées au champ d'écriture de la page (`fichesSansReplique`) ; vide : le lien d'avant. */
+  aEcrire?: readonly FicheDeReplique[];
 }) {
   const [liste, setListe] = useState(initiales);
   const [mode, setMode] = useState<Mode>(null);
@@ -66,6 +83,43 @@ export function ListeRepliques({
   const [statut, setStatut] = useState("");
   const [occupe, setOccupe] = useState(false);
   const annuler = useRef<HTMLButtonElement>(null);
+  // T8 (s26 DA, aujourd'hui questions répliques) : champ d'écriture ouvert sur la page, en 1 clic.
+  const [aProposer, setAProposer] = useState(aEcrire);
+  const [ecriture, setEcriture] = useState(false);
+  const declencheur = useRef<HTMLElement | null>(null);
+  const proposee = grille && !lectureSeule ? (aProposer[0] ?? null) : null;
+  const ouvrirEcriture = (e: React.MouseEvent<HTMLElement>) => {
+    declencheur.current = e.currentTarget;
+    setMode(null);
+    setStatut("");
+    if (ecriture) document.getElementById(`${ID_ECRIRE_REPLIQUE}-champ`)?.focus();
+    setEcriture(true);
+  };
+  const fermerEcriture = () => {
+    setEcriture(false);
+    requestAnimationFrame(() => {
+      if (declencheur.current?.isConnected) declencheur.current.focus();
+    });
+  };
+  const ecriteSurPage = (r: RepliqueListee) => {
+    setListe((l) => [r, ...l.filter((x) => x.ficheId !== r.ficheId)]);
+    setAProposer((a) => a.filter((f) => f.ficheId !== r.ficheId));
+    setStatut(G.note.enregistree);
+    fermerEcriture();
+  };
+  /** Déclencheur d'écriture : un bouton qui ouvre le champ s'il y a une fiche à proposer, sinon le lien d'avant. */
+  const declencheurEcriture = (libelle: string, className: string, data: Record<`data-${string}`, string>) =>
+    proposee ? (
+      <button type="button" className={className} aria-expanded={ecriture} aria-controls={ID_ECRIRE_REPLIQUE} onClick={ouvrirEcriture} {...data}>
+        {libelle}
+      </button>
+    ) : (
+      <Link href={QUOI_REPONDRE} className={className} {...data}>
+        {libelle}
+      </Link>
+    );
+  const formulaireEcriture = (nu: boolean, className?: string) =>
+    proposee && ecriture ? <EcrireReplique fiche={proposee} nu={nu} className={className} onEnregistree={ecriteSurPage} onAnnuler={fermerEcriture} /> : null;
   // s26 tour 3 (point 8) : une ou deux répliques sur la page « Mes répliques » : cartes en 8, tuile du lien en 4 (≥ 1024).
   const peu = grille && !lectureSeule && liste.length > 0 && liste.length <= 2;
 
@@ -108,12 +162,17 @@ export function ListeRepliques({
             dans une tuile neutre de 4, en bouton secondaire (contour, 44 px) ; la copie de la tuile d'action est masquée. */}
         <div className={cn("mt-8", !lectureSeule && GRILLE_8_4)}>
           <div className={cn(CARTE_ACTION, !lectureSeule && "lg:col-span-8")} data-testid="repliques-vide">
+            {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil. T8 : « Écrire ma première réplique » ouvre
+                le champ dans cette tuile, focalisé (le bouton plein laisse alors sa place à « Enregistrer »). */}
+            <Bandeau />
             <p className={TEXTE}>{R.vide}</p>
             {!lectureSeule && (
               <>
-                <Link href={QUOI_REPONDRE} className={cn(buttonVariants({ size: "lg" }), "mt-4 w-full whitespace-normal md:w-auto md:self-start")}>
-                  {R.ecrirePremiere}
-                </Link>
+                {!(proposee && ecriture) &&
+                  declencheurEcriture(R.ecrirePremiere, cn(buttonVariants({ size: "lg" }), "mt-4 w-full whitespace-normal md:w-auto md:self-start"), {
+                    "data-repliques-ecrire-premiere": "",
+                  })}
+                {formulaireEcriture(true, "mt-4 border-t border-border pt-4")}
                 <Link href={QUOI_REPONDRE} className={cn("mt-2 self-start lg:hidden", LIEN_NEUTRE)} data-repliques-rappel>
                   {N.index.quoiRepondre}
                 </Link>
@@ -122,6 +181,7 @@ export function ListeRepliques({
           </div>
           {!lectureSeule && (
             <div className={TUILE_LIEN} data-repliques-tuile="">
+              <Bandeau />
               <Link href={QUOI_REPONDRE} className={BOUTON_SECONDAIRE} data-repliques-rappel-tuile>
                 {N.index.quoiRepondre}
               </Link>
@@ -148,12 +208,12 @@ export function ListeRepliques({
             {liste.length}
           </p>
           {!lectureSeule && (
-            <Link href={QUOI_REPONDRE} className={cn(LIEN_NEUTRE, "ml-auto", peu && "lg:hidden")} data-repliques-ecrire>
-              {R.ecrireProchaine}
-            </Link>
+            // T8 (s26) : ouvre le champ d'écriture sous l'en-tête, focalisé (sans fiche à proposer : le lien d'avant).
+            declencheurEcriture(R.ecrireProchaine, cn(LIEN_NEUTRE, "ml-auto", peu && "lg:hidden"), { "data-repliques-ecrire": "" })
           )}
         </header>
       )}
+      {grille && formulaireEcriture(false, "mt-8")}
       {lectureSeule && <p className="text-sm text-text-secondary">{R.lectureSeule}</p>}
       {liste.length === 0 ? (
         // Relecture des captures nav s24 (design 4, ux F5) : état vide à sa largeur de lecture, avec une sortie.
@@ -172,8 +232,12 @@ export function ListeRepliques({
           {liste.map((r) => {
             const enEdition = mode?.ficheId === r.ficheId && mode.quoi === "modifier";
             const enConfirmation = mode?.ficheId === r.ficheId && mode.quoi === "confirmer";
+            const pastille = pastilleReplique(r.href);
             return (
               <li key={r.ficheId} className={grille ? CARTE_GRILLE : CARTE} data-replique={r.ficheId}>
+                {/* s26 DA, aujourd'hui questions répliques : en grille, bandeau de l'accueil et pastille de la rubrique. */}
+                {grille && <Bandeau />}
+                {grille && pastille && <PastillesDa emoji={pastille.emoji} pastille={pastille.libelle} className="mb-2" />}
                 {r.titre &&
                   (r.href && !lectureSeule ? (
                     <Link
@@ -254,6 +318,8 @@ export function ListeRepliques({
                           onClick={() => {
                             setBrouillon(r.texte);
                             setStatut("");
+                            // Un seul bouton plein à l'écran : le champ d'écriture se ferme quand une réplique s'édite.
+                            setEcriture(false);
                             setMode({ ficheId: r.ficheId, quoi: "modifier" });
                           }}
                         >
@@ -280,9 +346,8 @@ export function ListeRepliques({
         </ul>
         {peu && (
           <div className={TUILE_LIEN} data-repliques-tuile="">
-            <Link href={QUOI_REPONDRE} className={BOUTON_SECONDAIRE} data-repliques-ecrire-tuile>
-              {R.ecrireProchaine}
-            </Link>
+            <Bandeau />
+            {declencheurEcriture(R.ecrireProchaine, BOUTON_SECONDAIRE, { "data-repliques-ecrire-tuile": "" })}
           </div>
         )}
         </Enveloppe>

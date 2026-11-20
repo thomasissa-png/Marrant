@@ -20,7 +20,11 @@ import { SemainesTuile } from "@/components/espace/aujourdhui/semaines-tuile";
 import { TITRE_TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META, TITRE_CARTE } from "@/components/espace/typo";
 import { TEXTES_APERCU } from "@/config/textes/espace-apercu";
-import { frEspace } from "@/lib/fr-typo";
+import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
+
+// s26 DA, aujourd'hui questions répliques : titre de la tuile « Tes 4 premières semaines », typographie de l'espace.
+const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
 
 const classes = (e: Element | null | undefined) => (e?.getAttribute("class") ?? "").split(/\s+/).filter(Boolean);
 const tri = (c: string) => c.split(/\s+/).filter(Boolean).sort();
@@ -54,7 +58,12 @@ describe("point 2 : « Tes 4 premières semaines » aligné sur sa voisine", () 
     const tuile = container.querySelector("[data-semaines]") as HTMLElement;
     const h2 = tuile.firstElementChild as HTMLElement;
     expect(h2.tagName).toBe("H2");
-    expect(classes(h2).sort()).toEqual(tri(ETIQUETTE));
+    // s26 DA, aujourd'hui questions répliques : chez l'abonné, le `h2` est la rangée de pastilles de l'accueil (titre en
+    // pastille violette) ; figé (extrait de l'aperçu), toujours `ETIQUETTE`.
+    expect(h2.hasAttribute("data-pastilles-da")).toBe(true);
+    expect(h2.textContent).toBe(P.semaines.titre);
+    const fige = render(<SemainesTuile ecouterPublie fige />).container.querySelector("[data-semaines]")?.firstElementChild as HTMLElement;
+    expect(classes(fige).sort()).toEqual(tri(ETIQUETTE));
     expect(classes(h2).some((c) => /font-display|text-xl/.test(c))).toBe(false);
     // Même pas que la voisine : étiquette, 8 px (`TITRE_TUILE`), puis la ligne suivante.
     expect(TITRE_TUILE).toBe(`mt-2 ${TITRE_CARTE}`);

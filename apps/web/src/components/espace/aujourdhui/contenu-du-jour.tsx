@@ -12,6 +12,17 @@ import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { cn } from "@/lib/utils";
 import { TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau, BANDEAUX, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+
+/**
+ * s26 DA, aujourd'hui questions répliques (décision de Thomas du 20/11) : les trois cartes reprennent « Ton contenu du
+ * jour » de l'accueil, bandeau (dans le même ordre de dégradés), émoji et titre en pastille violette ; liens violets.
+ */
+const DA_CARTES = {
+  vanne: { emoji: EMOJIS_ACCUEIL.vanne, bandeau: "accueil" },
+  conseil: { emoji: EMOJIS_ACCUEIL.conseil, bandeau: "inverse" },
+  video: { emoji: EMOJIS_ACCUEIL.video, bandeau: "centre" },
+} as const satisfies Record<string, { emoji: string; bandeau: keyof typeof BANDEAUX }>;
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -109,12 +120,12 @@ function Carte({
    */
   pile?: boolean;
 }) {
+  const da = DA_CARTES[id === "jour-vanne" ? "vanne" : id === "jour-conseil" ? "conseil" : "video"];
   return (
     <article className={cn(CARTE, "flex flex-col", media && VIDEO_768.carte, className)} aria-labelledby={id}>
-      <h3 id={id} className={cn(TITRE_CARTE, media && VIDEO_768.titre)}>
-        {titre}
-      </h3>
+      <PastillesDa as="h3" id={id} emoji={da.emoji} pastille={titre} className={cn(media && VIDEO_768.titre)} />
       <div className={cn("mt-2 flex flex-1 flex-col", pile && "lg:flex-none", media && VIDEO_768.corps)}>{children}</div>
+      <Bandeau variante={da.bandeau} />
     </article>
   );
 }
@@ -125,7 +136,9 @@ function Carte({
 // Échelle s25 : 16/600 blanc souligné (plus de texte violet, un seul violet par écran : le bouton plein).
 // v7 tour 7 (rythme de 8 px) : `-mb-2` au lieu de `-mb-2.5` (26 px sous le texte au lieu de 24) ; toutes les cartes ont
 // le même pied, les bas restent alignés.
-const lienCarte = `-mb-2 mt-auto inline-flex min-h-11 items-center self-start ${TEXTE_FORT} underline underline-offset-2 hover:text-text-secondary`;
+// s26 DA, aujourd'hui questions répliques (décision de Thomas du 20/11, « liens et mots-clés violets ») : le lien du pied
+// passe au violet des liens de l'accueil (`text-accent-link`), même gabarit, toujours souligné.
+const lienCarte = cn("-mb-2 mt-auto inline-flex min-h-11 items-center self-start", TEXTE_FORT, "text-accent-link underline underline-offset-2 hover:no-underline");
 
 export function ContenuDuJour({ categories }: { categories: readonly CategorieToucher[] }) {
   const [etat, setEtat] = useState<Etat>({ statut: "chargement" });

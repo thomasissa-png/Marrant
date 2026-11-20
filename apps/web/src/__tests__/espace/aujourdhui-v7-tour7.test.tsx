@@ -97,7 +97,8 @@ describe("décisions 3 et 4 : rythme de 8 px, couleurs des semaines", () => {
       expect(classes(li)).toEqual(expect.arrayContaining(["px-3", "py-1"]));
       expect(classes(li).some((c) => /2\.5/.test(c))).toBe(false);
     }
-    expect(lire("aujourdhui/contenu-du-jour.tsx")).toContain("const lienCarte = `-mb-2 mt-auto ");
+    // s26 DA, aujourd'hui questions répliques : `lienCarte` passe par `cn` (lien violet de l'accueil), même `-mb-2 mt-auto`.
+    expect(lire("aujourdhui/contenu-du-jour.tsx")).toContain('const lienCarte = cn("-mb-2 mt-auto ');
     for (const e of Array.from(document.querySelectorAll("[data-apercu-verrouille] *"))) {
       expect(classes(e).filter((c) => /(^|:)-?m[tbxy]?-(2\.5|7)$/.test(c))).toEqual([]);
     }

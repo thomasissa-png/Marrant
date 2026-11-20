@@ -11,6 +11,8 @@ import { FilOuvert } from "@/components/espace/questions/fil-ouvert";
 import { RailFils } from "@/components/espace/questions/rail-fils";
 import { TITRE_PAGE } from "@/components/espace/typo";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { cn } from "@/lib/utils";
+import { CELLULE_LISTE_COLLANTE, GRILLE_LISTE_DETAIL } from "@/components/espace/liste-detail/styles";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
@@ -40,11 +42,15 @@ export default async function FilQuestionPage({ params }: { params: { id: string
         <LienRetour href="/mon-espace/questions" label={Q.titre} />
         <h1 className={TITRE_PAGE}>{Q.types[fil.type].nom}</h1>
       </header>
-      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start">
-        <div className="min-w-0 md:col-span-2 lg:col-span-8 lg:max-w-[47.5rem]" data-fil-colonne>
+      {/* s26 DA, aujourd'hui questions répliques : modèle liste + détail de Quoi répondre (`liste-detail`), la liste des
+          fils à GAUCHE dès 1024 (avant : rail à droite en 4 colonnes) ; sous 1024, le fil seul (le retour mène à la liste). */}
+      <div className={cn("mt-8", GRILLE_LISTE_DETAIL)} data-liste-detail>
+        <div className={cn(CELLULE_LISTE_COLLANTE, "max-lg:hidden")} data-zone="liste">
+          <RailFils fils={fils} courant={fil.id} />
+        </div>
+        <div className="min-w-0" data-fil-colonne>
           <FilOuvert fil={fil} />
         </div>
-        <RailFils fils={fils} courant={fil.id} className="md:col-span-2 lg:col-span-4" />
       </div>
     </div>
   );

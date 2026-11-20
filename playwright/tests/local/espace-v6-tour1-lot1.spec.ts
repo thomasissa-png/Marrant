@@ -169,7 +169,8 @@ test.describe("@espace v6 tour 1, lot 1 (ouvert)", () => {
     const titre = await boite(page.getByRole("heading", { level: 1 }));
     const carte = await boite(vide);
     expect(Math.abs(titre.gauche - carte.gauche)).toBeLessThanOrEqual(1);
-    const bouton = vide.getByRole("link", { name: TEXTES_REPLIQUES.ecrirePremiere });
+    // s26 DA, aujourd'hui questions répliques (T8) : un bouton (il ouvre le champ sur la page), toujours plein.
+    const bouton = vide.getByRole("button", { name: TEXTES_REPLIQUES.ecrirePremiere });
     expect(await bouton.evaluate((a) => getComputedStyle(a).backgroundColor)).not.toBe("rgba(0, 0, 0, 0)");
     await capturer(page, "nouvel-repliques", 1280);
   });

@@ -5,8 +5,13 @@ import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { BOUTON_SECONDAIRE, CADRE_CARTE_NEUTRE, SOMMAIRE_REPLIABLE, nouvelleCle } from "@/components/espace/carte/styles";
-import { ETIQUETTE, META, META_FORT, TEXTE } from "@/components/espace/typo";
+import { META, META_FORT, TEXTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { TEXTES_CLOCHE } from "@/config/textes/espace-cloche";
+import { LIEN_CARTE_ACCUEIL } from "@/components/home/da-site";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { hrefFil } from "@/components/espace/questions/reponse-non-lue";
 import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
 import { dateCourte, envoyerMessage, erreurLocale, MessageErreur, type Erreur } from "@/components/espace/questions/appel";
 import { ConfirmerRetrait } from "@/components/espace/questions/confirmer-retrait";
@@ -14,6 +19,7 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
+const C = frEspaceProfond(TEXTES_CLOCHE);
 
 // s26 (design `questions-repliques-lettre-profil-s26.md` §2 et §3) : échelle `typo.ts`, plus de `text-xs`, de pastille
 // ni de citation à bord violet (un seul aplat violet par écran). Rendu interrupteur ouvert seulement.
@@ -108,10 +114,19 @@ export function FilEnvoi({
       data-statut={fil.statut}
       data-retard={fil.enRetard || undefined}
     >
-      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
-        <span className={ETIQUETTE}>{Q.types[fil.type].nom}</span>
-        <span className={META}>{Q.envois.envoyeLe(dateCourte(fil.creeLe))}</span>
-      </div>
+      {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil, type en pastille violette, date à côté. */}
+      <Bandeau />
+      <PastillesDa pastille={Q.types[fil.type].nom} suite={<span className={META}>{Q.envois.envoyeLe(dateCourte(fil.creeLe))}</span>} className="gap-x-4" />
+      {/* s26 DA, aujourd'hui questions répliques (T7 de `docs/ux/audit-trajets-connectes-s26.md`) : dans la liste, un fil
+          qui a une réponse garde son lien vers la page du fil, lu ou non (avant, le seul lien était la tuile « réponse
+          non lue », qui disparaît à la lecture). Libellé validé de la cloche, qui mène au même fil. Pas sur la page du
+          fil elle-même (`ouvertAuDepart`). */}
+      {derniereReponse && !ouvertAuDepart && (
+        <Link href={hrefFil(fil.id)} className={cn(LIEN_CARTE_ACCUEIL, "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary")} data-lien-fil={fil.id}>
+          {C.groupes.reponses}
+          <span aria-hidden="true">&nbsp;→</span>
+        </Link>
+      )}
       {derniereReponse ? (
         <details
           open={ouvertAuDepart || undefined}

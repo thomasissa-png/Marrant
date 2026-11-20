@@ -113,6 +113,21 @@ export async function listerRepliques(userId: string, acces: AccesEspace): Promi
   });
 }
 
+/**
+ * s26 DA, aujourd'hui questions répliques (T8 de `docs/ux/audit-trajets-connectes-s26.md`) : la fiche proposée par
+ * « Écrire ma prochaine réplique » (et « Écrire ma première réplique ») sur Mes répliques : la première situation de
+ * Quoi répondre servie à l'abonné, à geste (elle accepte une réplique), sans réplique de sa part, dans l'ordre du
+ * catalogue ; les `n` premières, pour enchaîner sans recharger la page. Vide : il a déjà écrit sur toutes (le lien
+ * d'avant, vers Quoi répondre, reste alors le seul chemin).
+ */
+export function fichesSansReplique(dejaEcrites: ReadonlySet<string>, acces: AccesEspace, n = 10): FicheDeReplique[] {
+  return chargeursFiches
+    .listerFiches("situation", acces)
+    .filter((f) => f.geste && !dejaEcrites.has(f.id))
+    .slice(0, n)
+    .map((f) => ({ ficheId: f.id, titre: f.titre, href: hrefFiche(f.type, f.id) }));
+}
+
 /** Répliques pour une catégorie du toucher (2.7) : fiches dont l'univers lui correspond avec certitude. */
 export async function repliquesPourCategorie(userId: string, categorie: CategorieToucher, acces: AccesEspace): Promise<RepliqueListee[]> {
   const univers = UNIVERS_PAR_CATEGORIE[categorie];

@@ -145,12 +145,16 @@ test.describe("décisions du 14/11 (s25)", () => {
       await a.c.close();
     });
 
-    test("Mes répliques vide : « Écrire ma première réplique » vers Quoi répondre", async ({ browser }) => {
+    // s26 DA, aujourd'hui questions répliques (T8) : le libellé validé reste ; il ouvre le champ d'écriture sur la page
+    // (une situation de Quoi répondre proposée, titre en lien vers sa fiche) au lieu de la liste de Quoi répondre.
+    test("Mes répliques vide : « Écrire ma première réplique » ouvre le champ sur une situation de Quoi répondre", async ({ browser }) => {
       const { c, page } = await contexte(browser, "PREMIUM_VIDE");
       await page.goto("/mon-espace/repliques");
-      const bouton = page.getByTestId("repliques-vide").getByRole("link", { name: TEXTES_REPLIQUES.ecrirePremiere });
+      const bouton = page.getByTestId("repliques-vide").getByRole("button", { name: TEXTES_REPLIQUES.ecrirePremiere });
       await expect(bouton).toBeVisible();
-      await expect(bouton).toHaveAttribute("href", "/mon-espace/quoi-repondre");
+      await bouton.click();
+      await expect(page.getByLabel(TEXTES_REPLIQUES.label)).toBeFocused();
+      await expect(page.locator("[data-ecrire-replique] a").first()).toHaveAttribute("href", /^\/mon-espace\/quoi-repondre\//);
       await c.close();
     });
   });

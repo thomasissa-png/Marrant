@@ -7,6 +7,7 @@ import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { Chevron, Coche, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { META, META_FORT, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -61,6 +62,9 @@ export function CartesDuJour({
   if (!principale) {
     return (
       <section aria-labelledby="rafale-titre" className={TUILE} data-rafale={fini ? "faite" : "a-faire"}>
+        {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil (en dernier, hors du flux) ; à faire, la
+            pastille de la rubrique. */}
+        {!fini && <PastillesDa emoji={EMOJIS_ACCUEIL.quoiRepondre} pastille={TEXTES_ESPACE_NAVIGATION.index.sEntrainer} className="mb-2" />}
         {fini ? (
           <div className="flex items-center gap-4">
             <RondFait />
@@ -81,6 +85,7 @@ export function CartesDuJour({
             </div>
           </>
         )}
+        <Bandeau />
       </section>
     );
   }
@@ -92,6 +97,7 @@ export function CartesDuJour({
         idTitre="rafale-titre"
         data-rafale="faite"
         etiquette={T.rafale.titre}
+        emoji={EMOJIS_ACCUEIL.quoiRepondre}
         titre={
           <span className="flex items-center gap-4">
             <RondFait />
@@ -108,6 +114,7 @@ export function CartesDuJour({
       idTitre="rafale-titre"
       data-rafale="a-faire"
       etiquette={TEXTES_ESPACE_NAVIGATION.index.sEntrainer}
+      emoji={EMOJIS_ACCUEIL.quoiRepondre}
       titre={T.rafale.titre}
       action={{ href, libelle: T.rafale.bouton }}
       apres={

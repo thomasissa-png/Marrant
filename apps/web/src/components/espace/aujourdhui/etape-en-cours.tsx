@@ -8,6 +8,7 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { BarreProgression, Chevron, PIED_TUILE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META, META_FORT, TEXTE } from "@/components/espace/typo";
+import { Bandeau, PastillesDa, emojiParcours } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -40,6 +41,7 @@ export function EtapeEnCours({ etape }: { etape: EtapeAReprendre }) {
       idTitre="etape-titre"
       data-testid="etape-en-cours"
       etiquette={etape.enCours ? T.etape.enCours : T.etape.conseillee}
+      emoji={emojiParcours(etape.slug)}
       titre={frEspace(etape.titreEtape)}
       action={{ href: etape.href, libelle: libelleAction(etape) }}
     >
@@ -67,7 +69,13 @@ export function ParcoursTuile({ etape, fige = false, colonne = false }: { etape:
   );
   return (
     <section aria-labelledby={fige ? undefined : "parcours-tuile-titre"} className={TUILE} data-testid="parcours-tuile">
-      <p className={ETIQUETTE}>{etape.enCours ? T.etape.enCours : T.etape.conseillee}</p>
+      {/* s26 DA, aujourd'hui questions répliques : bandeau, émoji du parcours (accueil) et pastille violette ; figée,
+          l'étiquette d'avant (extrait de l'aperçu inchangé). */}
+      {fige ? (
+        <p className={ETIQUETTE}>{etape.enCours ? T.etape.enCours : T.etape.conseillee}</p>
+      ) : (
+        <PastillesDa as="p" emoji={emojiParcours(etape.slug)} pastille={etape.enCours ? T.etape.enCours : T.etape.conseillee} />
+      )}
       <h2 id={fige ? undefined : "parcours-tuile-titre"} className={TITRE_TUILE}>
         {etape.titreParcours}
       </h2>
@@ -86,6 +94,7 @@ export function ParcoursTuile({ etape, fige = false, colonne = false }: { etape:
           {pied}
         </Link>
       )}
+      {!fige && <Bandeau />}
     </section>
   );
 }

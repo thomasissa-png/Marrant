@@ -3,6 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CARTE_ACTION, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 
 /**
  * Z1 « Action du jour » (refonte s25, spec design §4 Z1) : la carte dominante, seul bouton plein de l'écran. Sert au
@@ -32,6 +33,9 @@ import { ETIQUETTE, META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
  * titre, scène 8 px dessous (dès 768 px, masquée dessous comme avant), puis le bouton 16 px dessous ; la rafale garde
  * son titre collé au bouton (condition du libellé 7), son accroche passe dessous (`apres`). Aucun vide au milieu.
  * L'aperçu n'utilise plus `scene` ni le bouton éteint (vitrine des répliques, `repliques-fermees.tsx`).
+ * s26 DA, aujourd'hui questions répliques (décision de Thomas du 20/11) : chez l'abonné, la carte prend le bandeau
+ * violet de l'accueil et son étiquette passe en pastille violette, précédée de l'émoji de l'accueil (`emoji`) ; teinte,
+ * bouton plein unique et disposition inchangés. Figée (extrait de l'aperçu) : rendu d'avant.
  */
 export function ActionDuJour({
   idTitre,
@@ -43,6 +47,7 @@ export function ActionDuJour({
   scene,
   children,
   apres,
+  emoji,
   ...donnees
 }: {
   idTitre: string;
@@ -57,6 +62,8 @@ export function ActionDuJour({
   children?: React.ReactNode;
   /** Sous le bouton, pleine largeur (accroche et liste des cartes de la rafale). */
   apres?: React.ReactNode;
+  /** Émoji de l'accueil devant la pastille (DA s26, abonné seulement). */
+  emoji?: string | null;
 } & { [cle: `data-${string}`]: string | undefined }) {
   const gabarit = "mt-4 w-full self-start whitespace-normal md:w-auto md:min-w-44 lg:min-w-64 max-e300:mt-1 max-e300:h-auto max-e300:min-h-11";
   const bouton = cn(buttonVariants({ variant: "primary", size: "lg" }), gabarit);
@@ -76,7 +83,7 @@ export function ActionDuJour({
     <section aria-labelledby={idTitre} className={cn(fige ? TUILE : CARTE_ACTION, "max-e300:p-3")} data-action-du-jour {...donnees}>
       {/* Figée (extrait) : place gardée à droite pour le verrou posé dans le coin (`TuileFermee`). */}
       <div className={cn("flex items-center justify-between gap-4", fige && "pr-8")}>
-        <p className={ETIQUETTE}>{etiquette}</p>
+        {fige ? <p className={ETIQUETTE}>{etiquette}</p> : <PastillesDa as="p" emoji={emoji} pastille={etiquette} />}
         {duree && <p className={cn("flex-none tabular-nums", META)}>{duree}</p>}
       </div>
       {/* 200 % de texte (`max-e300`, test N4) : titre en 16 px serré, valeurs d'avant gardées, « Commencer » au premier écran. */}
@@ -91,6 +98,8 @@ export function ActionDuJour({
       )}
       {boutonRendu}
       {apres}
+      {/* Bandeau hors du flux, rendu en dernier : l'ordre des enfants (étiquette, titre, bouton) ne change pas. */}
+      {!fige && <Bandeau />}
     </section>
   );
 }

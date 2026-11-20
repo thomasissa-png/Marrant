@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
-import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { dateCourte } from "@/components/espace/questions/appel";
 import { hrefFil } from "@/components/espace/questions/reponse-non-lue";
-import { META, META_FORT, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
+import { ColonneCollante } from "@/components/espace/liste-detail/colonne-collante";
+import { LIGNE_ACTIVE, LIGNE_LISTE } from "@/components/espace/liste-detail/styles";
+import { Bandeau } from "@/components/espace/da-espace";
+import { META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 
@@ -19,40 +21,49 @@ function statut(f: FilListe): string {
 }
 
 /**
- * s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.2, design §3) : rail du fil ouvert, 4 colonnes dès 1024,
- * collant sous l'en-tête (`lg:top-36`, hauteur bornée et défilante comme le rail du Carnet). Les fils de l'abonné
- * (type et statut, jamais le texte), le fil courant en filet blanc : passer d'un fil à l'autre sans revenir à la liste.
- * Sous 1024, sous le fil. Aucun aplat.
+ * Liste des fils à côté du fil ouvert (s26 ; `docs/ux/questions-repliques-lettre-profil-s26.md` §1.2).
+ * s26 DA, aujourd'hui questions répliques : modèle liste + détail de Quoi répondre (`components/espace/liste-detail`) :
+ * dès 1024, la liste à GAUCHE (320 px, 360 dès 1280), collante sous l'en-tête, défilement propre, position gardée au
+ * retour, ligne du fil ouvert au fond élevé et au filet violet (`LIGNE_ACTIVE`), flèches haut et bas ; bandeau violet de
+ * l'accueil sur la carte. Sous 1024, la page du fil n'affiche pas la liste (une colonne : liste OU fil, le lien de
+ * retour mène à la liste complète). Les fils de l'abonné (type et statut, jamais le texte). Aucun aplat.
  */
 export function RailFils({ fils, courant, className }: { fils: readonly FilListe[]; courant: string; className?: string }) {
   return (
-    <nav
-      aria-label={Q.envois.titre}
-      className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 lg:sticky lg:top-36 lg:max-h-[calc(100vh-10rem)] lg:self-start lg:overflow-y-auto", className)}
-      data-rail-fils
+    <ColonneCollante
+      cle="questions-fils"
+      label={Q.envois.titre}
+      actif={courant}
+      className={cn("min-w-0", className)}
+      entete={
+        <div className="px-6 pb-4 pt-6">
+          <Bandeau />
+          <p className={TITRE_CARTE}>{Q.envois.titre}</p>
+        </div>
+      }
+      data-rail-fils=""
     >
-      <p className={META_FORT}>{Q.envois.titre}</p>
-      <ul className="mt-4 flex flex-col gap-2">
+      <ul className="border-t border-border py-2">
         {fils.map((f) => {
           const actif = f.id === courant;
           return (
-            <li key={f.id}>
+            <li key={f.id} className="min-w-0">
               <Link
                 href={hrefFil(f.id)}
                 aria-current={actif ? "page" : undefined}
-                className={cn(
-                  "flex min-h-11 flex-col justify-center rounded-xl border-l-2 px-4 py-2 transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
-                  actif ? "border-text-primary bg-background-elevated" : "border-transparent",
-                )}
+                className={cn(LIGNE_LISTE, actif && LIGNE_ACTIVE)}
+                data-ligne={f.id}
                 data-rail-fil={f.id}
               >
-                <span className={actif ? TEXTE_FORT : TEXTE}>{Q.types[f.type].nom}</span>
-                <span className={META}>{statut(f)}</span>
+                <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">
+                  <span className={cn("block", actif ? cn(TEXTE_FORT, "text-accent-link") : TEXTE)}>{Q.types[f.type].nom}</span>
+                  <span className={cn("block", META)}>{statut(f)}</span>
+                </span>
               </Link>
             </li>
           );
         })}
       </ul>
-    </nav>
+    </ColonneCollante>
   );
 }

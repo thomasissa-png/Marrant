@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { envoyerMessage, erreurLocale, MessageErreur, type Erreur } from "@/components/espace/questions/appel";
 import { prendrePrefill } from "@/components/espace/questions/prefill";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { Bandeau } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
@@ -80,6 +81,8 @@ export function FormulaireQuestion({ onEnvoye, principal = true }: { onEnvoye: (
           void envoyer();
         }}
       >
+        {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil ; type choisi au contour et au point violets. */}
+        <Bandeau />
         <fieldset className="grid min-w-0 gap-2">
           <legend className={cn("mb-2", META_FORT)}>{Q.ecrire.legende}</legend>
           {TYPES_QUESTION.map((t) => (
@@ -92,10 +95,10 @@ export function FormulaireQuestion({ onEnvoye, principal = true }: { onEnvoye: (
                 onChange={() => setType(t)}
                 className="peer absolute inset-0 m-0 h-full w-full cursor-pointer opacity-0"
               />
-              <span className="block min-h-11 rounded-xl border border-border-input px-4 py-3 peer-checked:border-text-primary peer-checked:bg-background-elevated peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-link max-e300:px-3">
+              <span className="block min-h-11 rounded-xl border border-border-input px-4 py-3 peer-checked:border-accent-primary peer-checked:bg-background-elevated peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-link max-e300:px-3">
                 <span className={cn("flex items-center gap-2", TEXTE_FORT)}>
-                  <span aria-hidden="true" className={cn("flex h-4 w-4 flex-none items-center justify-center rounded-full border", type === t ? "border-text-primary" : "border-border-input")}>
-                    {type === t && <span className="h-2 w-2 rounded-full bg-text-primary" />}
+                  <span aria-hidden="true" className={cn("flex h-4 w-4 flex-none items-center justify-center rounded-full border", type === t ? "border-accent-primary" : "border-border-input")}>
+                    {type === t && <span className="h-2 w-2 rounded-full bg-accent-primary" />}
                   </span>
                   {Q.types[t].nom}
                 </span>

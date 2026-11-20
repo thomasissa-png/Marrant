@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { puce } from "@/components/espace/carte/styles";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -72,6 +73,8 @@ export function QuestionAise() {
           </p>
         )}
       </div>
+      {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil (hors du flux, la grille de 12 est inchangée). */}
+      <Bandeau />
     </section>
   );
 }
