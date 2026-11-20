@@ -92,6 +92,8 @@ describe("coin « Humour noir, fait bien » : témoin du navigateur", () => {
   });
 
   it("ouvert : abonné non entré = aucune vanne repérée ; entré ou non abonné = rien de retiré", () => {
+    // s26 B0 : l'interrupteur fermé par défaut des tests (jest.setup.ts) est déjà en cache, vidé avant la bascule.
+    jest.resetModules();
     jest.isolateModules(() => {
       jest.doMock("@/config/espace-client", () => ({ ...jest.requireActual("@/config/espace-client"), ESPACE_CLIENT_PUBLIE: true }));
       const m = jest.requireActual<typeof import("@/lib/espace/humour-noir")>("@/lib/espace/humour-noir");
@@ -99,7 +101,7 @@ describe("coin « Humour noir, fait bien » : témoin du navigateur", () => {
       expect(m.filtreHumourNoir(true, () => "entre")).toEqual({});
       expect(m.filtreHumourNoir(false, () => undefined)).toEqual({});
     });
-    jest.dontMock("@/config/espace-client");
+    jest.doMock("@/config/espace-client", () => ({ ...jest.requireActual("@/config/espace-client"), ESPACE_CLIENT_PUBLIE: false }));
     expect(favoriAutorise({ humourNoir: true }, { humourNoir: false })).toBe(false);
     expect(favoriAutorise({ humourNoir: false }, { humourNoir: false })).toBe(true);
     expect(favoriAutorise(null, { humourNoir: false })).toBe(true);

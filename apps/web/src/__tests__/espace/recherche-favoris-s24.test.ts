@@ -54,7 +54,8 @@ function routes(ouvert: boolean): Routes {
     jest.doMock("@/config/espace-client", () => ({ ...jest.requireActual("@/config/espace-client"), ESPACE_CLIENT_PUBLIE: ouvert }));
     r = { search: require("@/app/api/search/route"), favoris: require("@/app/api/favorites/route") };
   });
-  jest.dontMock("@/config/espace-client");
+  // s26 B0 : retour au régime fermé par défaut des tests (jest.setup.ts), la valeur réelle étant `true`.
+  jest.doMock("@/config/espace-client", () => ({ ...jest.requireActual("@/config/espace-client"), ESPACE_CLIENT_PUBLIE: false }));
   return r!;
 }
 

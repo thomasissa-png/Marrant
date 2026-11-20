@@ -280,9 +280,9 @@ describe("e-mail de réponse validé (13/11), muet tant que l'espace est fermé"
   const envoyer = jest.fn(async () => undefined);
   const admin = (corps: unknown) => new NextRequest("http://localhost/api/admin/questions-equipe", { method: "POST", headers: { authorization: "Bearer mdp-admin" }, body: JSON.stringify(corps) });
 
-  it("valeurs livrées : texte validé, interrupteur de l'espace fermé", () => {
+  it("valeurs livrées : texte validé, interrupteur de l'espace ouvert (phase B s26, go de Thomas du 20/11)", () => {
     expect(jest.requireActual("@/config/textes/espace-questions").EMAIL_REPONSE_VALIDE).toBe(true);
-    expect(jest.requireActual("@/config/espace-client").ESPACE_CLIENT_PUBLIE).toBe(false);
+    expect(jest.requireActual("@/config/espace-client").ESPACE_CLIENT_PUBLIE).toBe(true);
   });
 
   it("fermé : l'outil répond 404 sans rien lire ; `repondre` appelé seul n'envoie rien (Resend jamais appelé)", async () => {

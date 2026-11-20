@@ -40,6 +40,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 import { CONFIDENTIALITE_ESPACE, ESPACE_DATE_TEXTES } from "@/config/textes/espace-confidentialite";
+import { MESURE_USAGE_DATE_TEXTES } from "@/config/mesure-usage";
 import { frTypo } from "@/lib/fr-typo";
 
 const etapes = (slug: string, ordres: number[]) => ordres.map((stepOrder) => ({ stepOrder, learningPath: { slug } }));
@@ -178,7 +179,7 @@ describe("export des données du compte (@legal, espace-c9-information-s24.md po
 });
 
 describe("confidentialité, espace OUVERT (simulé) : les trois lignes de @legal (G9)", () => {
-  it("partie 2, partie 3 et phrase de la partie 6 rendues ; date de mise à jour inchangée tant que la date est vide", () => {
+  it("partie 2, partie 3 et phrase de la partie 6 rendues ; date de mise à jour = date d'ouverture (B0, 20/11)", () => {
     const html = renderToStaticMarkup(createElement(ConfidentialitePage));
     // D5b : quatrième ligne, le cookie du coin « Humour noir » (partie 5, @legal `espace-d6-cookie-coin-s24.md`).
     // D10 (plan §6 T6) : caps annoncés (@legal D4) et usage de l'espace (@legal D9), parties 2 et 3.
@@ -186,7 +187,9 @@ describe("confidentialité, espace OUVERT (simulé) : les trois lignes de @legal
     for (const t of [E.donnees, E.base, E.dureeEtapes, E.cookie, E.donneesCaps, E.baseCaps, E.mesure, E.baseMesure]) {
       expect(html).toContain(frTypo(t).replace(/'/g, "&#x27;"));
     }
-    expect(ESPACE_DATE_TEXTES).toBe("");
+    // s26 phase B (B0, go de Thomas du 20/11) : date posée, la même que la mesure d'usage (phase A).
+    expect(ESPACE_DATE_TEXTES).toBe(MESURE_USAGE_DATE_TEXTES);
+    expect(html).toContain(`Dernière mise à jour : ${ESPACE_DATE_TEXTES}`);
     // D7 (plan §6 T5) : puces 1 et 4 de la partie 9 remplacées par les phrases de @legal (bloc 2) ; D10 : + 4 lignes ;
     // D10b : + 4 lignes (répliques et état « lu », parties 2 et 3, phrases manquantes de @legal).
     expect(html.match(/data-testid="confidentialite-espace"/g)).toHaveLength(14);

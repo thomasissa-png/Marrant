@@ -36,7 +36,8 @@ function chargerMiddleware(ouvert: boolean): typeof import("@/middleware") {
 const cible = (res: Response) => new URL(res.headers.get("location") ?? "", "https://deviens-marrant.fr");
 
 describe("/abonnement pour un abonné Premium", () => {
-  afterEach(() => jest.dontMock("@/config/espace-client"));
+  // s26 B0 : retour au régime fermé par défaut des tests (jest.setup.ts), la valeur réelle étant `true`.
+  afterEach(() => jest.doMock("@/config/espace-client", () => ({ ...jest.requireActual("@/config/espace-client"), ESPACE_CLIENT_PUBLIE: false })));
 
   it.each(["/abonnement", "/abonnement?src=header", "/abonnement/autre"])("ouvert : %s → /mon-espace, témoin anti-boucle posé (navigation de page)", async (path) => {
     const { default: middleware, TEMOIN_ARRIVEE_ESPACE } = chargerMiddleware(true);

@@ -19,3 +19,12 @@ jest.mock("@/lib/ai/budget-guard", () => {
   const actual = jest.requireActual("@/lib/ai/budget-guard");
   return { ...actual, assertLlmBudget: jest.fn().mockResolvedValue(undefined) };
 });
+
+// Interrupteur de l'espace client : OUVERT en production depuis le 20/11/2026 (phase B du lancement s26,
+// étape B0). Les tests sont écrits régime FERMÉ par défaut (celui du retour arrière C, version de la
+// phase A) ; ceux du régime ouvert le forcent eux-mêmes (`jest.mock` / `jest.doMock`, inchangés). La valeur
+// commitée est vérifiée sans ce mock par `espace/ouverture-b0-s26.test.ts` (`jest.requireActual`).
+jest.mock("@/config/espace-client", () => ({
+  ...jest.requireActual("@/config/espace-client"),
+  ESPACE_CLIENT_PUBLIE: false,
+}));

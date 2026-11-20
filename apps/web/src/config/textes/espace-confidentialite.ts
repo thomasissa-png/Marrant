@@ -14,11 +14,11 @@
 import { DUREE_CONSERVATION_USAGE_MOIS } from "@/lib/mesure/conservation-usage";
 
 /**
- * Date de mise en ligne de ces lignes, au format « 12 novembre 2026 ». VIDE tant que l'espace n'est pas
- * ouvert (aucune date inventée) : à remplir le jour du déploiement de l'ouverture (REPLIT_ACTIONS.md,
- * entrée « À DÉPLOYER (s24) : lot D4 »). Vide = la date de la page ne change pas.
+ * Date de mise en ligne de ces lignes, au format « 12 novembre 2026 ». Vide = la date de la page ne change
+ * pas. Posée le 20/11/2026 (go écrit de Thomas, phase B du lancement s26, runbook §4 étape B0) : même date
+ * que `MESURE_USAGE_DATE_TEXTES` (phase A, `config/mesure-usage.ts`).
  */
-export const ESPACE_DATE_TEXTES = "";
+export const ESPACE_DATE_TEXTES = "20 novembre 2026";
 
 export const CONFIDENTIALITE_ESPACE = {
   /** Partie 2 (données), nouvelle puce. */

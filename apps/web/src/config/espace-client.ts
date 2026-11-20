@@ -12,10 +12,12 @@
  * `true` (ouvert) : l'espace est servi aux abonnés actifs (plan relu en base).
  *
  * Activation : un seul déploiement « tout d'un coup », sur go écrit de Thomas
- * (plan §7, lot D12) : passer à `true`, commit, déploiement. Voir REPLIT_ACTIONS.md
- * (entrée « À DÉPLOYER (s24) »). Module sans dépendance : importable côté client.
+ * (plan §7, lot D12). OUVERT le 20/11/2026 : go écrit de Thomas, phase B du lancement
+ * s26 (`docs/infra/lancement-s26-runbook.md` §4, étape B0). Retour arrière (C) :
+ * redéployer la version de la phase A (interrupteur à `false`). Module sans
+ * dépendance : importable côté client.
  */
-export const ESPACE_CLIENT_PUBLIE: boolean = false;
+export const ESPACE_CLIENT_PUBLIE: boolean = true;
 
 /** « Aujourd'hui », page d'accueil de l'espace (architecture v20, décision C14). */
 export const ESPACE_ACCUEIL = "/mon-espace";
