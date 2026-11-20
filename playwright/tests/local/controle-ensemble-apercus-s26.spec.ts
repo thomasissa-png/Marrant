@@ -91,7 +91,25 @@ test.describe("@espace s26 contrôle d'ensemble, aperçus (ouvert)", () => {
 
   test("point 2 : La lettre (visiteur, gratuit, abonné) et Profil (gratuit, abonné), cartes principales", async ({ page }) => {
     // Archive de l'abonné : les numéros déjà validés et dont la date est passée, marqués envoyés (base jetable seulement).
+    // s26 derniers échecs : état d'avant relevé ici et rétabli à la fin (`finally`), envois de ce test supprimés. Sans
+    // cela, dès le 05/11 (dates prévues passées), ces lettres restaient « envoyées » pour toute la suite : archive de
+    // n'importe quel abonné remplie (`espace-bibliotheque` « Lettres vide », `nav-universelle-s24` critère 4) et dernier
+    // numéro affiché au visiteur de /lettre (`typographie-s21`, corps d'e-mail montré tel qu'envoyé).
+    const avant = await requete<{ id: string; status: string; sentAt: Date | null }>(
+      `SELECT id, status::text AS status, "sentAt" FROM "NewsletterIssue" WHERE status IN ('VALIDE', 'ENVOYE') AND "scheduledFor" <= now()`,
+    );
     await requete(`UPDATE "NewsletterIssue" SET status = 'ENVOYE', "sentAt" = "scheduledFor", "updatedAt" = now() WHERE status IN ('VALIDE', 'ENVOYE') AND "scheduledFor" <= now()`);
+    try {
+      await pointDeux(page);
+    } finally {
+      await requete(`DELETE FROM "NewsletterSend" WHERE id LIKE 'e2e-ctrl-ap-%'`);
+      for (const l of avant) {
+        await requete(`UPDATE "NewsletterIssue" SET status = $2::"NewsletterIssueStatus", "sentAt" = $3 WHERE id = $1`, [l.id, l.status, l.sentAt]);
+      }
+    }
+  });
+
+  async function pointDeux(page: Page) {
     const largeurs = [[375, 812], [1280, 900]] as const;
     for (const [l, h] of largeurs) {
       await ouvrir(page, "/lettre", l, h);
@@ -127,7 +145,7 @@ test.describe("@espace s26 contrôle d'ensemble, aperçus (ouvert)", () => {
         controlerCartes(liste, 10_000, `/profil ${zone}, abonné, ${l}`, zone === "progression" ? 2 : 1);
       }
     }
-  });
+  }
 
   test("point 3 : Favoris de l'abonné sans favori, carte d'état vide à bandeau", async ({ page }) => {
     await compte(page, "PREMIUM");

@@ -23,7 +23,8 @@ import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } f
  * s26 liste et détail, tour 7 : aperçu à 1280 et 1920, 48 px entre les pastilles du hero et la légende, tuiles du bas
  * entières (aucun fondu) ; abonné à 1280, liste immobile au défilement, « Fait » sans décalage, « Enregistrer » désactivé
  * lisible ; à 375, la ligne de la situation quittée repérée 1,5 s au retour.
- * s26 liste et détail, tour 8 : aperçu (375, 1024, 1280, 1920), pastille « Premium » au-dessus du titre partout, 24 px
+ * s26 liste et détail, tour 8 : aperçu (375, 1024, 1280, 1920), pastille « Premium » au-dessus du titre (s26 derniers
+ * échecs : sous 768, sur la ligne du titre, à droite, comme les autres aperçus), 24 px
  * réguliers titre-promesse-pastilles ; dès 1024, tuiles du bas et carte de fin sur la grille (bords et gouttières).
  */
 const MOT_DE_PASSE = "E2e-liste-detail-s26";
@@ -438,6 +439,8 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
         const derniere = tuiles.filter((t) => Math.abs(t.bottom - basRangee) <= 1).sort((a, b) => a.left - b.left);
         return {
           badgeAuDessus: badge.bottom <= titre.top && Math.abs(badge.left - titre.left) <= 1,
+          // s26 derniers échecs : sous 768, la pastille est sur la ligne du H1, à droite (comme les autres aperçus).
+          badgeADroite: badge.left >= titre.right && Math.abs((badge.top + badge.bottom) / 2 - (titre.top + titre.bottom) / 2) <= 1,
           ecarts: [titre.top - badge.bottom, promesse.top - titre.bottom, pastilles.top - promesse.bottom].map(Math.round),
           pastillesVisibles: pastilles.height > 1,
           derniere: {
@@ -455,8 +458,15 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
           },
         };
       });
-      expect(m.badgeAuDessus, "pastille « Premium » au-dessus du titre, même bord gauche").toBe(true);
-      expect(m.ecarts[0], "pastille -> titre").toBe(16);
+      // s26 derniers échecs : la pastille au-dessus du titre à 375 (tour 8) n'existe plus. Elle mettait le H1 44 px plus
+      // bas que celui d'Aujourd'hui (`nav-universelle-s24.spec.ts` §4) : sous 768, elle reprend la place des autres
+      // aperçus, sur la ligne du H1, à droite, centrée en hauteur. Dès 768, inchangé : au-dessus, 16 px.
+      if (largeur < 768) {
+        expect(m.badgeADroite, "pastille « Premium » à droite du titre, sur sa ligne (375)").toBe(true);
+      } else {
+        expect(m.badgeAuDessus, "pastille « Premium » au-dessus du titre, même bord gauche").toBe(true);
+        expect(m.ecarts[0], "pastille -> titre").toBe(16);
+      }
       expect(m.ecarts[1], "titre -> promesse").toBe(24);
       if (largeur >= 768) {
         expect(m.pastillesVisibles).toBe(true);

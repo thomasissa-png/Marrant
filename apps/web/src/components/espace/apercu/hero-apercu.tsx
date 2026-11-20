@@ -72,6 +72,9 @@ import { cn } from "@/lib/utils";
  * la promesse et les pastilles sont à 24 px l'un de l'autre, à 375 comme à 1280. Écartée (mesurée) : la pastille à
  * droite partout ; elle tient à 375, mais à 1280 la colonne de texte perd 44 px et finit 68 px au-dessus de la carte
  * d'offre (la règle des 48 px sous les pastilles du tour 7 ne tient plus). Les autres aperçus ne changent pas.
+ * s26 derniers échecs (`nav-universelle-s24.spec.ts` §4) : la pastille au-dessus du titre à 375 mettait le H1 de Quoi
+ * répondre 44 px plus bas que celui d'Aujourd'hui. Sous 768, la pastille reprend la place des autres aperçus (ligne du
+ * H1, à droite) ; dès 768, rien ne change. `rythmeRegulier` ne règle plus que les 24 px titre, promesse, pastilles.
  */
 export function HeroApercu({
   titre,
@@ -84,7 +87,7 @@ export function HeroApercu({
   promesse: string;
   pastilles: readonly string[];
   offre: React.ComponentProps<typeof OffreApercu>;
-  /** Quoi répondre (s26, tour 8) : pastille au-dessus du titre partout, 24 px entre titre, promesse et pastilles. */
+  /** Quoi répondre et Bibliothèque (s26, tour 8) : 24 px entre titre, promesse et pastilles. */
   rythmeRegulier?: boolean;
 }) {
   const tete = (
@@ -100,16 +103,12 @@ export function HeroApercu({
   return (
     <div className="grid gap-4 md:gap-6 lg:grid-cols-12 lg:items-start lg:gap-12" data-apercu-hero>
       <div className="flex min-w-0 flex-col lg:col-span-8">
-        {/* Tête : pastille « Premium » puis H1 (ordre du DOM fixe). Une classe écrite en entier par cas (test v7 tour 2). */}
-        {!rythmeRegulier ? (
-          <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-col md:items-start md:justify-start" data-apercu-tete>
-            {tete}
-          </div>
-        ) : (
-          <div className="flex flex-col items-start gap-4" data-apercu-tete>
-            {tete}
-          </div>
-        )}
+        {/* Tête : pastille « Premium » puis H1 (ordre du DOM fixe). s26 derniers échecs : une seule tête pour tous les
+            aperçus (sous 768, pastille sur la ligne du H1, à droite ; dès 768, au-dessus, 16 px), Quoi répondre et
+            Bibliothèque compris : leur H1 revient à la hauteur de celui d'Aujourd'hui à 375 (44 px plus bas au tour 8). */}
+        <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-col md:items-start md:justify-start" data-apercu-tete>
+          {tete}
+        </div>
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
         <p className={cn("max-w-xl [text-wrap:balance]", rythmeRegulier ? "mt-6" : "mt-4 lg:mt-8", TEXTE)}>{promesse}</p>
         <ul className="mt-4 flex flex-wrap gap-2 max-md:sr-only md:mt-6" data-apercu-pastilles>
