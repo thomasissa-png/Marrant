@@ -138,21 +138,20 @@ describe("point 9 : carnet de l'abonné, « Retour au sommaire »", () => {
     <CarnetPage view={carnetViewForPlan(courant, plan)} months={[courant.mois, precedent.mois]} returnTo="/carnet" src="carnet" />
   );
 
-  it("ouvert, abonné : un lien par fiche, après la fiche, vers l'ancre du sommaire, 44 px", () => {
+  // s26 carnet liste et détail (`docs/ux/carnet-audit-s26.md` §3) : le sommaire est la liste du layout ; la page ne rend
+  // plus que le panneau (une fiche). « Retour au sommaire » reste après la fiche sous 1024 (dès 1024 la liste est à
+  // gauche), vers la liste du mois, 44 px.
+  it("ouvert, abonné : un lien après la fiche du panneau, vers la liste, masqué dès 1024, 44 px", () => {
     ouvrir(true);
     const { container } = render(page("PREMIUM"));
-    const sommaire = container.querySelector("[data-carnet-sommaire]") as HTMLElement;
-    expect(sommaire.id).toBe("carnet-sommaire");
     const fiches = Array.from(container.querySelectorAll('[id^="fiche-"]'));
     const retours = screen.getAllByRole("link", { name: CARNET_RETOUR_SOMMAIRE });
     expect(CARNET_RETOUR_SOMMAIRE).toBe("Retour au sommaire");
-    expect(retours).toHaveLength(fiches.length);
-    retours.forEach((lien, i) => {
-      expect(lien).toHaveAttribute("href", "#carnet-sommaire");
-      expect(lien.className.split(" ")).toContain("min-h-11");
-      expect(fiches[i].compareDocumentPosition(lien) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-      if (fiches[i + 1]) expect(lien.compareDocumentPosition(fiches[i + 1]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    });
+    expect(fiches).toHaveLength(1);
+    expect(retours).toHaveLength(1);
+    expect(retours[0]).toHaveAttribute("href", "/carnet");
+    expect(retours[0].className.split(" ")).toEqual(expect.arrayContaining(["min-h-11", "lg:hidden"]));
+    expect(fiches[0].compareDocumentPosition(retours[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it.each([["fermé, abonné", false, "PREMIUM"], ["ouvert, visiteur", true, null]] as const)("%s : aucun lien de retour", (_n, ouvert, plan) => {

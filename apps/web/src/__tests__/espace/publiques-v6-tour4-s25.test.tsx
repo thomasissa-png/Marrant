@@ -48,8 +48,8 @@ const { renderToStaticMarkup } = jest.requireActual<typeof import("react-dom/ser
 
 import { frTypo } from "@/lib/fr-typo";
 import { LettresAbonneCartes } from "@/components/lettre/lettres-abonne-cartes";
-import { CarnetPage } from "@/components/carnet/carnet-page";
-import { carnetViewForPlan, parseCarnets } from "@/lib/carnet";
+import { ListeCarnet } from "@/components/espace/carnet/liste-carnet";
+import { parseCarnets } from "@/lib/carnet";
 import { GRILLE_CARTES_OUVERTE, ParcoursContent } from "@/components/parcours/parcours-content";
 import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
 import { CIBLE_44_MD, GROUPE_COURT, ProfilDashboard } from "@/components/profil/profil-dashboard";
@@ -292,12 +292,18 @@ describe("point 8 : finitions /carnet et /lettre", () => {
 
   // s26 (`docs/design/favoris-carnet-s26.md` §4) : sommaire en tuiles, le numéro en tête de chaque tuile (`META`, chiffres
   // tabulaires) ; plus de colonne de numéros alignés à droite.
-  it("sommaire du carnet (s26) : numéro en tête de tuile, chiffres tabulaires", () => {
+  // s26 carnet liste et détail : le sommaire devient la liste du layout (`ListeCarnet`), le numéro en tête de ligne.
+  it("liste du carnet (s26) : numéro en tête de ligne, chiffres tabulaires", () => {
     ouvrir(true);
-    const { container } = render(
-      <CarnetPage view={carnetViewForPlan(courant, "PREMIUM")} months={[courant.mois, precedent.mois]} returnTo="/carnet" src="carnet" />,
-    );
-    const numeros = [...container.querySelectorAll("[data-carnet-sommaire] a > span:first-child")] as HTMLElement[];
+    const carnets = [courant, precedent].map((c) => ({
+      mois: c.mois,
+      libelle: c.mois,
+      titre: c.titre,
+      intro: c.intro,
+      lignes: c.fiches.map((f, i) => ({ id: f.id, numero: i + 1, titre: f.titre, contexte: f.contexte })),
+    }));
+    const { container } = render(<ListeCarnet carnets={carnets} carnet={carnets[0]} numero={null} contexte={null} surOuverture={() => undefined} />);
+    const numeros = [...container.querySelectorAll("a[data-ligne] > span:first-child")] as HTMLElement[];
     expect(numeros.length).toBeGreaterThan(9);
     expect(numeros[9].textContent).toBe("10");
     for (const n of numeros) expect(classes(n)).toEqual(expect.arrayContaining(["tabular-nums", "text-sm"]));

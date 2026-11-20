@@ -30,6 +30,8 @@ export const ANCIENNE_ARCHIVE_LETTRES = `${ESPACE_ACCUEIL}/lettres`;
 
 /** s26 liste et détail : ancienne adresse d'une fiche de Quoi répondre, 308 vers la rubrique (interrupteur ouvert). */
 export const ANCIENNE_FICHE_QUOI_REPONDRE = /^\/mon-espace\/fiche\/(?:situation|a-plat)\/([^/]+)\/?$/;
+/** s26 carnet liste et détail : adresse d'une fiche du carnet (`/carnet/<mois>/<n>` et au-delà), espace ouvert seulement. */
+const FICHE_CARNET = /^\/carnet\/[^/]+\/[^/]/;
 
 /** s26 bibliothèque liste et détail : ancienne adresse d'une technique, 308 vers la Bibliothèque (interrupteur ouvert). */
 export const ANCIENNE_FICHE_BIBLIOTHEQUE = /^\/mon-espace\/fiche\/(?:construction|vocabulaire|formule|ecouter)\/([^/]+)\/?$/;
@@ -166,7 +168,12 @@ export default async function middleware(req: NextRequest) {
   // Lot D7 : l'outil d'admin de « Mes questions » aussi (adresse inexistante tant que l'espace est fermé).
   if (
     !ESPACE_CLIENT_PUBLIE &&
-    (req.nextUrl.pathname === ESPACE_ACCUEIL || req.nextUrl.pathname.startsWith(`${ESPACE_ACCUEIL}/`) || req.nextUrl.pathname === PAGE_ADMIN_QUESTIONS)
+    (req.nextUrl.pathname === ESPACE_ACCUEIL ||
+      req.nextUrl.pathname.startsWith(`${ESPACE_ACCUEIL}/`) ||
+      req.nextUrl.pathname === PAGE_ADMIN_QUESTIONS ||
+      // s26 carnet liste et détail : la fiche `/carnet/<mois>/<n>` n'existe qu'espace ouvert ; fermé, la 404 naturelle
+      // d'avant (l'adresse n'avait pas de page), au caractère près.
+      FICHE_CARNET.test(req.nextUrl.pathname))
   ) {
     return NextResponse.rewrite(new URL("/_espace-ferme", req.url));
   }
