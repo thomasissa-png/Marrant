@@ -66,31 +66,52 @@ import { cn } from "@/lib/utils";
  * s26 liste et détail, tour 1 (mesures §5 : pastilles à 32 px de la promesse, au-delà de la règle des 24 du tour 6 ;
  * gratuit à 38 px du bas de la carte) : pastilles revenues à 24 px (`md:mt-6`), les 8 px passent au-dessus de la promesse
  * (`lg:mt-8`) ; la carte du gratuit se resserre de 8 px (`OffreApercu`). Cible : 13 px (visiteur), 30 px (gratuit).
+ * s26 liste et détail, tour 8 (relecture design v5, Quoi répondre points 1 et 4 : 32 px titre-promesse puis 24 px
+ * promesse-pastilles à 1280, 16 à 375 ; pastille « Premium » au-dessus du titre à 1280 et à droite à 375) : avec
+ * `rythmeRegulier` (Quoi répondre seul), la pastille passe au-dessus du titre à toutes les largeurs (16 px) et le titre,
+ * la promesse et les pastilles sont à 24 px l'un de l'autre, à 375 comme à 1280. Écartée (mesurée) : la pastille à
+ * droite partout ; elle tient à 375, mais à 1280 la colonne de texte perd 44 px et finit 68 px au-dessus de la carte
+ * d'offre (la règle des 48 px sous les pastilles du tour 7 ne tient plus). Les autres aperçus ne changent pas.
  */
 export function HeroApercu({
   titre,
   promesse,
   pastilles,
   offre,
+  rythmeRegulier = false,
 }: {
   titre: string;
   promesse: string;
   pastilles: readonly string[];
   offre: React.ComponentProps<typeof OffreApercu>;
+  /** Quoi répondre (s26, tour 8) : pastille au-dessus du titre partout, 24 px entre titre, promesse et pastilles. */
+  rythmeRegulier?: boolean;
 }) {
+  const tete = (
+    <>
+      <BadgePremium className="flex-none" />
+      {/* s26 (décision de Thomas du 18/11) : titre en BLANC, comme chez l'abonné (`TITRE_PAGE` seul) ; le texte en
+          dégradé du tour 13 est retiré. Le seul aplat violet reste le bouton d'offre. */}
+      <h1 id="apercu-titre" className={cn("min-w-0", TITRE_PAGE)}>
+        {titre}
+      </h1>
+    </>
+  );
   return (
     <div className="grid gap-4 md:gap-6 lg:grid-cols-12 lg:items-start lg:gap-12" data-apercu-hero>
       <div className="flex min-w-0 flex-col lg:col-span-8">
-        <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-col md:items-start md:justify-start" data-apercu-tete>
-          <BadgePremium className="flex-none" />
-          {/* s26 (décision de Thomas du 18/11) : titre en BLANC, comme chez l'abonné (`TITRE_PAGE` seul) ; le texte en
-              dégradé du tour 13 est retiré. Le seul aplat violet reste le bouton d'offre. */}
-          <h1 id="apercu-titre" className={cn("min-w-0", TITRE_PAGE)}>
-            {titre}
-          </h1>
-        </div>
+        {/* Tête : pastille « Premium » puis H1 (ordre du DOM fixe). Une classe écrite en entier par cas (test v7 tour 2). */}
+        {!rythmeRegulier ? (
+          <div className="flex flex-row-reverse items-center justify-between gap-4 md:flex-col md:items-start md:justify-start" data-apercu-tete>
+            {tete}
+          </div>
+        ) : (
+          <div className="flex flex-col items-start gap-4" data-apercu-tete>
+            {tete}
+          </div>
+        )}
         <p className="sr-only">{TEXTES_APERCU_VERROUILLE.lecteurEcran}</p>
-        <p className={cn("mt-4 max-w-xl [text-wrap:balance] lg:mt-8", TEXTE)}>{promesse}</p>
+        <p className={cn("max-w-xl [text-wrap:balance]", rythmeRegulier ? "mt-6" : "mt-4 lg:mt-8", TEXTE)}>{promesse}</p>
         <ul className="mt-4 flex flex-wrap gap-2 max-md:sr-only md:mt-6" data-apercu-pastilles>
           {pastilles.map((p) => (
             <li key={p} className={cn("inline-flex items-center rounded-full bg-background-elevated px-3 py-1", META)}>
