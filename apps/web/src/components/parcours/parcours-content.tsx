@@ -1,7 +1,7 @@
 "use client";
 
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, type CSSProperties, type ReactNode } from "react";
 import { Card, CardContent, CardHeader, CardTitle, FILET_MASQUE } from "@/components/ui/card";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 // s26 DA du site (décision de Thomas du 20/11) : cartes de parcours au style des cartes « Tu te reconnais ? » de l'accueil.
@@ -74,6 +74,21 @@ const CARTE_RANGEE = "flex scroll-mt-[9px] flex-col p-6";
 const GRILLE_TEXTE = "md:grid-cols-[minmax(0,10fr)_minmax(0,7fr)] md:gap-x-6";
 /** Même grille pour le pied dès 1024 px (« Programme », bouton) : bord gauche du bouton = bord gauche du témoignage. */
 const GRILLE_PIED = "lg:grid lg:grid-cols-[minmax(0,10fr)_minmax(0,7fr)] lg:gap-x-6";
+
+/**
+ * s26 CI (job e2e-local : Chromium 145 de la CI, glyphes arrondis autrement qu'en local) : la proportion 10/7 seule
+ * tenait Boulot à une ligne près sur UN jeu de retours à la ligne (192/168 en local, 216/144 en CI : 72 px de vide).
+ * Grille inchangée (même pistes dans les 5 cartes) ; dès 768 px, quand la charge du témoignage (caractères x 14 px
+ * sur 7 fr) est plus courte que celle de la description (caractères x 16 px sur 10 fr), le témoignage prend une mesure
+ * réduite d'autant (% de sa cellule) : les deux blocs portent la même charge par ligne, leurs bas restent à une ligne
+ * près quelle que soit la métrique des polices (mesuré à ±2 % de chasse, 768 à 1920 px).
+ */
+function mesureTemoignage(description: string, temoignage: string): string | undefined {
+  const ratio = (temoignage.length * 14 * 10) / (description.length * 16 * 7);
+  return ratio < 1 ? `${Math.floor(ratio * 100)}%` : undefined;
+}
+const styleMesure = (mesure: string | undefined): CSSProperties | undefined =>
+  mesure ? ({ "--mesure-temoignage": mesure } as CSSProperties) : undefined;
 
 function ColonnesTexte({ children }: { children: ReactNode }) {
   if (!ESPACE_CLIENT_PUBLIE) return <>{children}</>;
@@ -518,7 +533,11 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 {/* Testimonial (s26 : méta en italique, sans fond) */}
                 {/* s26 tour 2 : interligne de 24 px dès 768 px, comme la description. Tour 5 : sa propre cellule de grille
                     (plus de `mt-4`, l'écart est le `gap` de la grille). */}
-                <p className={o(cn(META, "text-pretty italic md:leading-6"), "mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary")}>
+                {/* s26 CI : mesure du témoignage réglée sur sa charge (`mesureTemoignage`), dès 768 px, ouvert seulement. */}
+                <p
+                  className={o(cn(META, "text-pretty italic md:max-w-[var(--mesure-temoignage,none)] md:leading-6"), "mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary")}
+                  style={ESPACE_CLIENT_PUBLIE ? styleMesure(mesureTemoignage(frTypoTexte(stripEmDashes(p.description)), frTypoTexte(stripEmDashes(p.testimonial)))) : undefined}
+                >
                   {frTypoTexte(stripEmDashes(p.testimonial))}
                 </p>
                 </ColonnesTexte>
