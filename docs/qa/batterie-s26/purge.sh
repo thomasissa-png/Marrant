@@ -1,0 +1,1 @@
+for b in marrant_preview_s25 marrant_batterie_ferme; do env -i PATH="$PATH" PGPASSWORD=preversion psql -h 127.0.0.1 -U preversion -d $b -qAt -c "DELETE FROM \"JobLock\" WHERE \"jobKey\" LIKE 'rl:%'" >/dev/null; done
