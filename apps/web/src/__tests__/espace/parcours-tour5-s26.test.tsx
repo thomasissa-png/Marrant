@@ -111,14 +111,19 @@ describe("s26 parcours, tour 5 : sous-étape = bloc titré de son nom (5 parcour
     }
   });
 
+  // s26 parcours, tour 7 : test changé (raison : l'ancre suit la numérotation affichée, « 2.2 » = `#fiche-2-2` ; MESURES
+  // v4 §6.1). Les blocs absents (vannes, quiz) n'ont toujours ni ligne ni ancre.
   it("sans vannes reçues, quiz fini ou étape validée : ni bloc ni ligne (aucune ligne vers un repère vide)", () => {
     const step = { ...etapeDuSeed(SEEDS[0].steps[1]), jokes: [] };
     const { container } = carte("machine-a-cafe", step, { isQuizDone: true });
     const menu = render(<LignesFiches slug="machine-a-cafe" etape={step} quizFait variante="menu" />);
     const lignes = Array.from(menu.container.querySelectorAll("a[data-fiche]")).map((a) => a.getAttribute("data-fiche"));
-    expect(lignes).toEqual(["fiche-2-1", "fiche-2-3", "fiche-2-4"]);
-    expect(container.querySelector("#fiche-2-2")).toBeNull();
+    expect(lignes).toEqual(["fiche-2-1", "fiche-2-2", "fiche-2-3"]);
+    expect(container.querySelector("#fiche-2-4")).toBeNull();
     expect(container.querySelector("#fiche-2-5")).toBeNull();
+    // Les vidéos portent les ancres 2.2 et 2.3, le conseil 2.1.
+    expect(container.querySelector("#fiche-2-1")?.tagName).toBe("H4");
+    expect(container.querySelector("#fiche-2-2 iframe, #fiche-2-2 button[aria-label^='Lire la vidéo']")).not.toBeNull();
     for (const l of lignes) expect(container.querySelector(`#${l}`)).not.toBeNull();
   });
 });

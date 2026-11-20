@@ -5,7 +5,7 @@ import Link from "next/link";
 import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import type { MarqueAnnonce, NumeroCap } from "@/lib/espace/caps";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
-import { META_FORT } from "@/components/espace/typo";
+import { META, META_FORT } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
@@ -16,6 +16,12 @@ const LIEN_ANNONCE = cn(
   "inline-flex min-h-11 items-center whitespace-normal rounded-md px-2 underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
   META_FORT,
 );
+/**
+ * s26 parcours, tour 7 (relecture design v4, point 13 : bandeau de 77 px pour une ligne) : variante légère de /parcours,
+ * une ligne de méta (14/20, gris secondaire) et « Fermer » en lien discret ; cible de 44 px gardée, hors hauteur de ligne.
+ */
+const LIEN_ANNONCE_LEGER =
+  "inline-flex min-h-11 items-center whitespace-nowrap rounded-md px-2 text-sm text-text-secondary underline underline-offset-2 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
 
 export interface AnnonceApi {
   cap: NumeroCap | null;
@@ -35,11 +41,14 @@ export function AnnonceCap({
   annonce,
   retour,
   className,
+  leger = false,
 }: {
   annonce: AnnonceApi | null;
   retour?: () => HTMLElement | null;
   /** s26 (/parcours de l'abonné) : place dans la grille de la page. Absent : inchangé. */
   className?: string;
+  /** s26 parcours, tour 7 : bandeau d'une ligne (/parcours de l'abonné). Absent : inchangé. */
+  leger?: boolean;
 }) {
   const [montree, setMontree] = useState<AnnonceApi | null>(null);
   // Une annonce (ses marques) n'est montrée et acquittée qu'une fois, même relue après une validation.
@@ -77,17 +86,27 @@ export function AnnonceCap({
       // s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §5) : carte neutre comme les autres (plus de
       // `border-border-input`), texte en méta forte et « Fermer » en lien souligné ; dès 768 px sur une ligne (Fermer à
       // droite, centrés), au-dessous à gauche. Aucun aplat.
-      className={cn(montree && cn(CADRE_CARTE_NEUTRE, "flex flex-col gap-2 px-6 py-4 md:flex-row md:items-center md:justify-between"), className)}
+      className={cn(
+        montree &&
+          cn(
+            CADRE_CARTE_NEUTRE,
+            leger
+              ? "flex items-center justify-between gap-x-4 px-6 py-0.5 max-e300:flex-wrap max-e300:px-3"
+              : "flex flex-col gap-2 px-6 py-4 md:flex-row md:items-center md:justify-between",
+          ),
+        className,
+      )}
       data-testid="annonce-cap"
+      data-annonce-legere={leger || undefined}
     >
-      <div aria-live="polite" className="min-w-0">{phrases && <p className={META_FORT}>{phrases}</p>}</div>
+      <div aria-live="polite" className="min-w-0">{phrases && <p className={leger ? META : META_FORT}>{phrases}</p>}</div>
       {montree && (
-        <div role="group" aria-label={T.annonce.groupe} className="-ml-2 flex shrink-0 flex-wrap gap-x-3 md:ml-0">
+        <div role="group" aria-label={T.annonce.groupe} className={cn("flex shrink-0 flex-wrap gap-x-3", leger ? "-mr-2" : "-ml-2 md:ml-0")}>
           {montree.bonus && (
             <Link
               href={montree.bonus.href}
               aria-label={T.annonce.ouvrirLu(montree.bonus.titre)}
-              className={LIEN_ANNONCE}
+              className={leger ? LIEN_ANNONCE_LEGER : LIEN_ANNONCE}
             >
               {T.annonce.ouvrir}
             </Link>
@@ -96,7 +115,7 @@ export function AnnonceCap({
             type="button"
             onClick={fermer}
             aria-label={T.annonce.fermerLu}
-            className={LIEN_ANNONCE}
+            className={leger ? LIEN_ANNONCE_LEGER : LIEN_ANNONCE}
           >
             {T.annonce.fermer}
           </button>

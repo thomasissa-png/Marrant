@@ -1,10 +1,9 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { etapeDecoupee, type BlocReference } from "@/lib/espace/parcours-fiches";
+import { fichesAffichees, type EtapeVue } from "@/lib/espace/sous-etapes";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
-import { QUIZ_TITRE, VANNES_ETAPE } from "@/config/textes/parcours";
-import { frTypoParcours, frEspaceProfond } from "@/lib/fr-typo";
+import { frTypoParcours, frEspaceProfond, pointMedianInsecable } from "@/lib/fr-typo";
 import { Chevron, Coche } from "@/components/espace/aujourdhui/tableau";
 import { META } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
@@ -14,58 +13,16 @@ const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
 /** s26 parcours, tour 5 (D2 de la relecture design v2) : lignes non soulignées, soulignement au survol et au focus seulement. */
 const SOULIGNE_SURVOL = "underline-offset-2 group-hover:underline group-focus-visible:underline";
 
-/** Ancre d'une fiche dans l'étape : `fiche-N-M` (architecture v20 5.1). */
+/** Ancre d'une sous-étape affichée « N.k » : `fiche-N-k` (s26 parcours, tour 7 : la numérotation affichée). */
 export const ancreFiche = (etape: number, rang: number) => `fiche-${etape}-${rang}`;
 
-export interface EtapeVue {
-  order: number;
-  tip: { title: string };
-  videos?: ReadonlyArray<{ youtubeId: string; title: string; artist?: string }> | null;
-  /** Vannes servies à l'abonné : sans elles, la carte n'a pas de bloc « Vannes à pratiquer ». */
-  jokes?: ReadonlyArray<unknown> | null;
-  quiz?: ReadonlyArray<unknown> | null;
-}
-
-/**
- * s26 parcours, tour 5 (faute dure F1 de la relecture UX v2 : « 2.2 Vannes à pratiquer » menait sur un repère sans bloc) :
- * la carte d'étape de l'abonné rend-elle le bloc de cette fiche ? Mêmes conditions que `parcours-step-card.tsx` (vannes
- * reçues, vidéo présente, quiz affiché tant qu'il n'est ni fini ni l'étape validée). Une fiche sans bloc n'est pas listée :
- * chaque ligne mène à un bloc titré de son nom.
- */
-export function blocRendu(ref: BlocReference, etape: EtapeVue, etat: { etapeFaite: boolean; quizFait: boolean }): boolean {
-  switch (ref.bloc) {
-    case "conseil":
-      return etape.tip.title.trim() !== "";
-    case "vannes":
-      return (etape.jokes?.length ?? 0) > 0;
-    case "video":
-      return !!etape.videos?.some((v) => v.youtubeId === ref.youtubeId);
-    case "quiz":
-      return (etape.quiz?.length ?? 0) > 0 && !etat.quizFait && !etat.etapeFaite;
-  }
-}
+export { blocRendu, libelleFiche, type EtapeVue } from "@/lib/espace/sous-etapes";
 
 /**
  * s26 parcours, tour 5 : sous-étape choisie, partagée par le menu d'étapes et la liste de la carte (sous 1024). Un seul
  * état actif : la fiche choisie ; sans choix dans l'étape, la première fiche d'une étape non validée.
  */
 export const FicheActiveContexte = createContext<{ active: string | null; choisir: (ancre: string) => void } | null>(null);
-
-/** Libellé d'une fiche : un texte déjà en ligne (titre du conseil, titres de blocs, titre de la vidéo). */
-export function libelleFiche(ref: BlocReference, etape: EtapeVue): string {
-  switch (ref.bloc) {
-    case "conseil":
-      return etape.tip.title;
-    case "vannes":
-      return VANNES_ETAPE.titre;
-    case "video": {
-      const v = etape.videos?.find((x) => x.youtubeId === ref.youtubeId);
-      return v ? (v.artist ? `${v.title} · ${v.artist}` : v.title) : "";
-    }
-    case "quiz":
-      return QUIZ_TITRE.abonne;
-  }
-}
 
 /**
  * Fiches d'une étape (découpage `data/espace/parcours-fiches.json`, lot D4) : « N.M » et le libellé du bloc existant,
@@ -83,6 +40,7 @@ export function LignesFiches({
   etapeFaite = false,
   quizFait = false,
   variante = "carte",
+  etapeAffichee = true,
   className,
 }: {
   slug: string;
@@ -90,18 +48,15 @@ export function LignesFiches({
   etapeFaite?: boolean;
   quizFait?: boolean;
   variante?: "carte" | "menu";
+  /** s26 parcours, tour 7 : faux pour les sous-étapes d'une étape du menu autre que celle affichée (aucune ligne active). */
+  etapeAffichee?: boolean;
   className?: string;
 }) {
   const contexte = useContext(FicheActiveContexte);
-  const decoupe = etapeDecoupee(slug, etape.order);
-  if (!decoupe) return null;
-  const lignes = decoupe.fiches
-    .filter((f) => blocRendu(f.ref, etape, { etapeFaite, quizFait }))
-    .map((f) => ({ ...f, titre: libelleFiche(f.ref, etape) }))
-    .filter((f) => f.titre !== "")
-    // s26 parcours, tour 6 (D8 UX, D2 design v3 : « 2.1, 2.3, 2.4 », il manque une étape) : numéro par position parmi les
-    // sous-étapes AFFICHÉES, le même dans le menu et dans la liste de la carte ; l'ancre `#fiche-N-M` ne change pas.
-    .map((f, i) => ({ ...f, numero: `${etape.order}.${i + 1}` }));
+  // s26 parcours, tour 6 (D8 UX, D2 design v3 : « 2.1, 2.3, 2.4 », il manque une étape) : numéro par position parmi les
+  // sous-étapes AFFICHÉES, le même dans le menu et dans la liste de la carte. Tour 7 : l'ancre suit ce numéro (`#fiche-2-2`
+  // pour « 2.2 », `sous-etapes.ts`).
+  const lignes = fichesAffichees(slug, etape, { etapeFaite, quizFait });
   if (lignes.length === 0) return null;
   const menu = variante === "menu";
   const choisie = lignes.some((f) => f.ancre === contexte?.active) ? contexte?.active : null;
@@ -111,7 +66,8 @@ export function LignesFiches({
       data-testid={menu ? "lignes-fiches-menu" : "lignes-fiches"}
     >
       {lignes.map((f, i) => {
-        const active = choisie ? f.ancre === choisie : !etapeFaite && i === 0;
+        // Tour 7 (menu figé) : sous une étape du menu qui n'est pas l'étape affichée, aucune ligne active.
+        const active = choisie ? f.ancre === choisie : etapeAffichee && !etapeFaite && i === 0;
         return (
           <li key={f.ancre}>
             <a
@@ -144,7 +100,7 @@ export function LignesFiches({
                   active && "text-text-primary",
                 )}
               >
-                {frTypoParcours(f.titre)}
+                {pointMedianInsecable(frTypoParcours(f.titre))}
               </span>
               {etapeFaite && (
                 <span className="inline-flex flex-none items-center" data-statut="fait">

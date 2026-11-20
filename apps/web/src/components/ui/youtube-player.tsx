@@ -9,6 +9,12 @@ interface YouTubePlayerProps {
   title: string;
   /** Première vignette visible : chargée en priorité (T22). */
   priority?: boolean;
+  /**
+   * s26 parcours, tour 7 (MESURES v4 §6.3 : titre incrusté à 1280, absent de la vignette à 375) : sous-étapes vidéo d'un
+   * parcours (espace ouvert), titre dans la vignette à toutes les largeurs : une ligne sous 360 px, deux au-delà ; sur
+   * la miniature chargée, posé sur un dégradé sombre. Absent : inchangé.
+   */
+  titreIncruste?: boolean;
 }
 
 /**
@@ -16,7 +22,7 @@ interface YouTubePlayerProps {
  * charge l'iframe uniquement quand l'utilisateur appuie sur play.
  * Beaucoup plus léger et fiable sur mobile.
  */
-export function YouTubePlayer({ youtubeId, title, priority = false }: YouTubePlayerProps) {
+export function YouTubePlayer({ youtubeId, title, priority = false, titreIncruste = false }: YouTubePlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [thumbFailed, setThumbFailed] = useState(false);
 
@@ -49,7 +55,15 @@ export function YouTubePlayer({ youtubeId, title, priority = false }: YouTubePla
           l'accueil à 768 px, grilles), le titre est déjà affiché dans la carte, sous la vignette. */}
       {thumbFailed ? (
         <span className="absolute inset-0 flex items-end bg-gradient-to-br from-accent-primary/30 to-background-elevated p-4 text-left">
-          <span className="hidden text-sm font-semibold text-text-primary [@container(min-width:360px)]:line-clamp-2">{frTypo(title)}</span>
+          <span
+            className={
+              titreIncruste
+                ? "line-clamp-1 text-sm font-semibold text-text-primary [@container(min-width:360px)]:line-clamp-2"
+                : "hidden text-sm font-semibold text-text-primary [@container(min-width:360px)]:line-clamp-2"
+            }
+          >
+            {frTypo(title)}
+          </span>
         </span>
       ) : (
         <Image
@@ -62,6 +76,11 @@ export function YouTubePlayer({ youtubeId, title, priority = false }: YouTubePla
           loading={priority ? undefined : "lazy"}
           onError={() => setThumbFailed(true)}
         />
+      )}
+      {titreIncruste && !thumbFailed && (
+        <span aria-hidden="true" className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-8 text-left">
+          <span className="line-clamp-1 text-sm font-semibold text-white [@container(min-width:360px)]:line-clamp-2">{frTypo(title)}</span>
+        </span>
       )}
       {/* Bouton play */}
       <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg transition-transform group-hover/play:scale-110">

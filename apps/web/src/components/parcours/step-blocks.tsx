@@ -139,13 +139,13 @@ export function ValidationWall({
   );
 }
 
-export function VideoCard({ video, seule = false }: { video: VideoRef; seule?: boolean }) {
+export function VideoCard({ video, seule = false, titreIncruste = false }: { video: VideoRef; seule?: boolean; titreIncruste?: boolean }) {
   return (
     // s18 (M-2 @design) : vidéo seule de l'étape, en largeur pleine et disposition horizontale dès sm.
     <div className={`overflow-hidden rounded-lg border border-border${seule ? " sm:col-span-2 sm:grid sm:grid-cols-2 sm:gap-4" : ""}`}>
       {/* Lecteur intégré : on ne quitte plus le parcours au milieu d'une étape (T31) */}
       <div className="relative aspect-video self-start bg-background-elevated">
-        <YouTubePlayer youtubeId={video.youtubeId} title={`${video.title} de ${video.artist}`} />
+        <YouTubePlayer youtubeId={video.youtubeId} title={`${video.title} de ${video.artist}`} titreIncruste={titreIncruste} />
       </div>
       <div className="p-3">
         <p className="text-sm font-medium text-text-primary">{video.artist}</p>

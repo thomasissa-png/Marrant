@@ -21,6 +21,13 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
 const MOT_DE_PASSE = "E2e-parcours-connecte-s26";
 const SLUG = "machine-a-cafe";
 const ANCRE = 137;
+/**
+ * s26 parcours, tour 7 : haut attendu d'un bloc amené sous l'en-tête = réserve de défilement du document + 9 (marge des
+ * blocs). Dès 1024 px : 128 + 9 = 137 ; sous 1024, la réserve passe à en-tête + barre compacte (`menu-etapes.tsx`).
+ */
+const reserve = (page: Page) => page.evaluate(() => Math.round(parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0));
+/** Sous-étapes de l'étape N dans le menu (tour 7 : une liste sous chaque étape). */
+const sousEtapesMenu = (page: Page, n: number) => page.locator(`[data-menu-etapes] li:has(> [data-ligne-etape='${n}']) [data-testid='lignes-fiches-menu']`);
 
 async function abonne(page: Page) {
   const email = `e2e-pc-s26-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}@example.com`;
@@ -103,14 +110,18 @@ test.describe("Parcours connecté (s26)", () => {
       await expect(page).toHaveURL(new RegExp(`/parcours/${SLUG}#etape-2$`));
       const etape2 = page.locator("#etape-2");
       await expect(page.locator("#etape-2-entete")).toHaveAttribute("aria-expanded", "true");
-      expect(Math.abs((await hautStable(etape2)) - ANCRE), "haut de l'étape 2 à 137 ± 2 px").toBeLessThanOrEqual(2);
+      // s26 parcours, tour 7 : test changé (raison : sous 1024 px, l'étape arrive sous la barre compacte collée sous
+      // l'en-tête, réserve = en-tête + barre ; dès 1024, 137 inchangé).
+      const ancre = (await reserve(page)) + 9;
+      if (largeur >= 1024) expect(ancre).toBe(ANCRE);
+      expect(Math.abs((await hautStable(etape2)) - ancre), `haut de l'étape 2 à ${ancre} ± 2 px`).toBeLessThanOrEqual(2);
       // Sous 1024, le « Reprendre » du sommaire est replié (aucun second « Reprendre » visible).
       if (largeur < 1024) expect(await reprendreVisibles(page)).toBe(0);
 
       // Clic 2 : étape suivante depuis le pied de l'étape ouverte.
       await etape2.locator("[data-etape-suivante='3']").click();
       await expect(page.locator("#etape-3-entete")).toHaveAttribute("aria-expanded", "true");
-      expect(Math.abs((await hautStable(page.locator("#etape-3"))) - ANCRE), "haut de l'étape 3 à 137 ± 2 px").toBeLessThanOrEqual(2);
+      expect(Math.abs((await hautStable(page.locator("#etape-3"))) - ancre), `haut de l'étape 3 à ${ancre} ± 2 px`).toBeLessThanOrEqual(2);
 
       // Clic 3 : retour sur la carte du parcours dans /parcours.
       await page.locator("#etape-3 [data-lien-retour]").click();
@@ -244,7 +255,9 @@ test.describe("Parcours connecté (s26)", () => {
       // Progression lue : l'étape 2 (à reprendre) est l'étape active du menu.
       await expect(menu.locator("a[aria-current='step']")).toHaveAttribute("href", "#etape-2");
       // 1280 : les sous-étapes du menu ; 375 : la liste en tête de l'étape ouverte (menu replié).
-      const liste = largeur >= 1024 ? menu.getByTestId("lignes-fiches-menu") : page.locator("#etape-2").getByTestId("lignes-fiches");
+      // s26 parcours, tour 7 : test changé (raison : sous-étapes sous chaque étape du menu, celles de l'étape 2 ciblées ;
+      // sous 1024 px, haut attendu = réserve en-tête + barre compacte + marge du bloc).
+      const liste = largeur >= 1024 ? sousEtapesMenu(page, 2) : page.locator("#etape-2").getByTestId("lignes-fiches");
       await expect(liste.locator("a[data-fiche]").first()).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       const ancres = await liste.locator("a[data-fiche]").evaluateAll((as) => as.map((a) => a.getAttribute("data-fiche") as string));
@@ -268,7 +281,7 @@ test.describe("Parcours connecté (s26)", () => {
         // la carte 32 px dessous ; D7 UX v3, « Pour aller plus loin, facultatif » coupé sous l'en-tête). Attendu : haut du
         // bloc = `scroll-padding-top` (128) + sa `scroll-margin-top` (9, ou 41 pour la première rangée de vidéos).
         const marge = await bloc.evaluate((e) => parseFloat(getComputedStyle(e).scrollMarginTop));
-        const attendu = ANCRE - 9 + marge;
+        const attendu = (await reserve(page)) + marge;
         expect(Math.abs(haut - attendu), `${ancre} (« ${titre} ») : haut du bloc ${haut}, attendu ${attendu}`).toBeLessThanOrEqual(2);
         // Tour 6 : le titre de la sous-étape est visible ENTIER sous l'en-tête, et aucun titre de section n'est coupé par lui.
         const vue = await bloc.evaluate((b, morceaux) => {
@@ -505,18 +518,19 @@ test.describe("Parcours connecté (s26)", () => {
       await page.evaluate(() => document.fonts.ready);
       const numeros = (sel: string) =>
         page.locator(sel).evaluateAll((as) => as.map((a) => (a.querySelector("span")?.textContent ?? "").trim()));
-      await expect(page.locator("[data-menu-etapes] [data-testid='lignes-fiches-menu'] a[data-fiche]").first()).toBeAttached();
+      // s26 parcours, tour 7 : test changé (raison : une liste de sous-étapes sous chaque étape du menu, celle de l'étape 2).
+      await expect(sousEtapesMenu(page, 2).locator("a[data-fiche]").first()).toBeAttached();
       await expect(page.locator("#etape-2 [data-testid='lignes-fiches'] a[data-fiche]").first()).toBeAttached();
-      const duMenu = await numeros("[data-menu-etapes] [data-testid='lignes-fiches-menu'] a[data-fiche]");
+      const duMenu = await numeros("[data-menu-etapes] li:has(> [data-ligne-etape='2']) [data-testid='lignes-fiches-menu'] a[data-fiche]");
       const deLaCarte = await numeros("#etape-2 [data-testid='lignes-fiches'] a[data-fiche]");
       expect(duMenu.length, "sous-étapes de l'étape 2").toBeGreaterThanOrEqual(3);
       expect(duMenu).toEqual(duMenu.map((_, i) => `2.${i + 1}`));
       expect(deLaCarte).toEqual(duMenu);
       if (largeur < 1024) return;
       // 1280 : la ligne qui devient active garde sa hauteur, le menu ne bouge pas (0 px).
-      const lignes = menu.getByTestId("lignes-fiches-menu").locator("a[data-fiche]");
+      const lignes = sousEtapesMenu(page, 2).locator("a[data-fiche]");
       const hauteurs = () => lignes.evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
-      const hauteurMenu = () => menu.getByTestId("lignes-fiches-menu").evaluate((l) => Math.round(l.getBoundingClientRect().height));
+      const hauteurMenu = () => sousEtapesMenu(page, 2).evaluate((l) => Math.round(l.getBoundingClientRect().height));
       const avant = { lignes: await hauteurs(), menu: await hauteurMenu() };
       for (let i = 0; i < avant.lignes.length; i++) {
         await lignes.nth(i).click();
@@ -550,6 +564,186 @@ test.describe("Parcours connecté (s26)", () => {
       for (let i = 0; i < n; i++) {
         await options.nth(i).hover();
         expect(await violets(), `options violettes au survol de l'option ${i + 1}`).toEqual([]);
+      }
+    });
+  }
+
+  // s26 parcours, tour 7 (relectures à l'aveugle v4 : UX D5, D6 ; design 11 à 19 ; MESURES v4 §2 et §6).
+  for (const compte of ["avance", "nouvel"] as const) {
+    test(`375, ${compte} : barre compacte collée sous l'en-tête (retour et menu) après l'arrivée et un choix d'étape, menu replié après le choix`, async ({ page }) => {
+      await abonne(page);
+      if (compte === "avance") await valider(page, SLUG, [1, 2]);
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto("/parcours");
+      const bouton = page.getByTestId("carte-en-cours-reprendre");
+      await expect(bouton).toBeVisible();
+      const n = compte === "avance" ? 3 : 1;
+      // Parcours repris (avancé) ou conseillé (nouvel abonné) : lu sur le lien de la carte « En cours ».
+      const slug = ((await bouton.getAttribute("href")) ?? "").replace(/^\/parcours\/([a-z-]+)#.*$/, "$1");
+      await bouton.click();
+      await expect(page.locator(`#etape-${n}-entete`)).toHaveAttribute("aria-expanded", "true");
+      const barre = page.locator("[data-barre-parcours]");
+      const bascule = barre.locator("[data-menu-bascule]");
+      const verifier = async (moment: string, etape: number) => {
+        const m = await page.evaluate((etape) => {
+          const cellule = document.querySelector("[data-testid='sommaire-parcours']")!.getBoundingClientRect();
+          const entete = document.querySelector("header[data-en-tete-universel]")!.getBoundingClientRect();
+          const carte = document.getElementById(`etape-${etape}`)!.getBoundingClientRect();
+          return { haut: Math.round(cellule.top), bas: Math.round(cellule.bottom), basEntete: Math.round(entete.bottom), carte: Math.round(carte.top) };
+        }, etape);
+        const txt = `${moment} : ${JSON.stringify(m)}`;
+        expect(Math.abs(m.haut - m.basEntete), `barre collée sous l'en-tête, ${txt}`).toBeLessThanOrEqual(1);
+        expect(m.bas - m.haut, `barre compacte, ${txt}`).toBeLessThanOrEqual(64);
+        expect(m.carte, `étape sous la barre, ${txt}`).toBeGreaterThanOrEqual(m.bas);
+        expect(m.carte - m.bas, `étape juste sous la barre, ${txt}`).toBeLessThanOrEqual(16);
+        await expect(barre.locator("[data-lien-retour]")).toBeInViewport();
+        await expect(barre.locator("[data-lien-retour]")).toHaveAttribute("href", `/parcours#parcours-${slug}`);
+        await expect(bascule).toBeInViewport();
+      };
+      await hautStable(page.locator(`#etape-${n}`));
+      await verifier("arrivée", n);
+      await expect(bascule).toHaveText(new RegExp(`^Étape\\s${n}\\ssur\\s\\d$`));
+      // Menu déplié : par-dessus la page, sans titre du parcours ni avancée répétés ; replié après le choix d'une étape.
+      await bascule.click();
+      const menu = page.locator("[data-menu-etapes]");
+      await expect(menu).toBeVisible();
+      await expect(menu.locator("#menu-etapes-titre")).toBeHidden();
+      await menu.locator("a[data-ligne-etape='2']").click();
+      await expect(bascule).toHaveAttribute("aria-expanded", "false");
+      await expect(menu).toBeHidden();
+      await expect(page.locator("#etape-2-entete")).toHaveAttribute("aria-expanded", "true");
+      await hautStable(page.locator("#etape-2"));
+      await verifier("après le choix de l'étape 2", 2);
+    });
+  }
+
+  test("375 : sous-étapes 2.2, 2.3, 2.4 à des ancres et des positions distinctes, ancre = numéro affiché, vignettes titrées", async ({ page }) => {
+    await abonne(page);
+    await valider(page, SLUG, [1]);
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(`/parcours/${SLUG}`);
+    await expect(page.locator("#etape-2-entete")).toHaveAttribute("aria-expanded", "true");
+    const liste = page.locator("#etape-2").getByTestId("lignes-fiches");
+    await expect(liste.locator("a[data-fiche]").first()).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    const lignes = await liste.locator("a[data-fiche]").evaluateAll((as) => as.map((a) => ({ ancre: a.getAttribute("data-fiche") as string, numero: (a.querySelector("span")?.textContent ?? "").trim() })));
+    expect(lignes.length, "sous-étapes de l'étape 2").toBeGreaterThanOrEqual(4);
+    for (const l of lignes) expect(l.ancre, "ancre = numéro affiché").toBe(`fiche-${l.numero.replace(".", "-")}`);
+    const positions: Array<{ numero: string; y: number }> = [];
+    let videos = 0;
+    for (const { ancre, numero } of lignes.slice(1, 4)) {
+      await liste.scrollIntoViewIfNeeded();
+      await liste.locator(`a[data-fiche='${ancre}']`).click();
+      await expect(page).toHaveURL(new RegExp(`#${ancre}$`));
+      const bloc = page.locator(`#${ancre}`);
+      await hautStable(bloc);
+      positions.push({ numero, y: await page.evaluate(() => Math.round(window.scrollY)) });
+      await expect(bloc).toBeInViewport();
+      const vignette = bloc.locator("button[aria-label^='Lire la vidéo']");
+      if (await vignette.count()) {
+        videos++;
+        const titre = ((await vignette.getAttribute("aria-label")) ?? "").replace(/^Lire la vidéo : /, "");
+        const titree = await vignette.evaluate((b, t) => {
+          const plat = (x: string | null) => (x ?? "").replace(/\s+/g, " ").replace(/[’']/g, "'").trim();
+          return Array.from(b.querySelectorAll("span")).some((s) => plat(s.textContent) === plat(t) && s.getBoundingClientRect().height > 0 && getComputedStyle(s).display !== "none");
+        }, titre);
+        expect(titree, `${numero} : titre « ${titre} » dans la vignette à 375`).toBe(true);
+      }
+    }
+    expect(videos, "au moins une sous-étape vidéo parmi 2.2 à 2.4").toBeGreaterThanOrEqual(1);
+    for (let i = 0; i < positions.length; i++)
+      for (let j = i + 1; j < positions.length; j++)
+        expect(Math.abs(positions[i].y - positions[j].y), `${positions[i].numero} et ${positions[j].numero} au même endroit (${JSON.stringify(positions)})`).toBeGreaterThan(40);
+  });
+
+  for (const compte of ["avance", "nouvel"] as const) {
+    test(`1280, ${compte} : zéro saut de plus de 8 px après le premier rendu (arrivée par la carte « En cours », changement d'étape dans le menu)`, async ({ page }) => {
+      await page.addInitScript(() => {
+        const w = window as unknown as { __sauts: Array<{ t: number; dx: number; dy: number; dh: number; noeud: string }> };
+        w.__sauts = [];
+        const nom = (n: Node | null) => {
+          const e = n instanceof Element ? n : n?.parentElement;
+          if (!e) return "?";
+          return `${e.tagName.toLowerCase()}${e.id ? `#${e.id}` : ""}${Array.from(e.attributes).filter((a) => a.name.startsWith("data-")).map((a) => `[${a.name}]`).join("")} « ${(e.textContent ?? "").trim().slice(0, 40)} »`;
+        };
+        new PerformanceObserver((liste) => {
+          for (const e of liste.getEntries() as unknown as Array<{ startTime: number; sources?: Array<{ node: Node | null; previousRect: DOMRectReadOnly; currentRect: DOMRectReadOnly }> }>) {
+            for (const s of e.sources ?? []) {
+              w.__sauts.push({
+                t: Math.round(e.startTime),
+                dx: Math.round(s.currentRect.x - s.previousRect.x),
+                dy: Math.round(s.currentRect.y - s.previousRect.y),
+                dh: Math.round(s.currentRect.height - s.previousRect.height),
+                noeud: nom(s.node),
+              });
+            }
+          }
+        }).observe({ type: "layout-shift", buffered: true });
+      });
+      await abonne(page);
+      if (compte === "avance") await valider(page, SLUG, [1, 2]);
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto("/parcours");
+      const bouton = page.getByTestId("carte-en-cours-reprendre");
+      await expect(bouton).toBeVisible();
+      await page.waitForTimeout(1_000);
+      const sautsDepuis = (t: number) =>
+        page.evaluate((t) => (window as unknown as { __sauts: Array<{ t: number; dx: number; dy: number; noeud: string }> }).__sauts.filter((s) => s.t >= t && (Math.abs(s.dy) > 8 || Math.abs(s.dx) > 8)), t);
+      const n = compte === "avance" ? 3 : 1;
+      const t0 = await page.evaluate(() => performance.now());
+      await bouton.click();
+      await expect(page.locator(`#etape-${n}-entete`)).toHaveAttribute("aria-expanded", "true");
+      await expect(page.locator("[data-mise-en-place]")).toHaveCount(0);
+      await page.waitForTimeout(2_500);
+      expect(await sautsDepuis(t0), "sauts après « Reprendre » ou « Commencer l'étape 1 »").toEqual([]);
+      // Changement d'étape dans le menu : menu figé (sous-étapes sous chaque étape), contenu remplacé à la même place.
+      const menu = page.locator("[data-menu-etapes]");
+      const cible = 2;
+      const t1 = await page.evaluate(() => performance.now());
+      await menu.locator(`a[data-ligne-etape='${cible}']`).click();
+      await expect(menu.locator("a[aria-current='step']")).toHaveAttribute("href", `#etape-${cible}`);
+      await page.waitForTimeout(1_500);
+      expect(await sautsDepuis(t1), "sauts au changement d'étape dans le menu").toEqual([]);
+      // Une seule barre blanche dans la colonne du menu (étape ou sous-étape active, jamais les deux).
+      const barres = await menu.locator("a").evaluateAll((as) => as.filter((a) => getComputedStyle(a, "::before").backgroundColor === "rgb(255, 255, 255)").length);
+      expect(barres, "filets blancs actifs dans le menu").toBe(1);
+    });
+  }
+
+  for (const [largeur, hauteur] of [[375, 812], [1280, 900]] as const) {
+    test(`${largeur} : /parcours abonné, carte « En cours » alignée, une phrase en gras dans « Ton cap », pas de « Continuer ce parcours » sur la carte reprise`, async ({ page }) => {
+      await abonne(page);
+      await valider(page, SLUG, [1]);
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      await page.goto("/parcours");
+      const carte = page.getByTestId("carte-en-cours");
+      await expect(carte).toBeVisible();
+      await expect(page.getByTestId("carte-en-cours-reprendre")).toHaveAttribute("href", new RegExp(`/parcours/${SLUG}#`));
+      const cartes = page.locator("[data-parcours-cartes] > [id^='parcours-']");
+      await expect(cartes.first()).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      // Carte du parcours repris : plus de « Continuer ce parcours » (« Reprendre » en tête suffit), « Programme » gardé.
+      const reprise = page.locator(`#parcours-${SLUG}`);
+      await expect(reprise.getByRole("button", { name: "Continuer ce parcours" })).toHaveCount(0);
+      await expect(reprise.locator("details summary")).toBeVisible();
+      await expect(page.locator("main").getByRole("button", { name: "Continuer ce parcours" })).toHaveCount(0);
+      // Barre de la carte « En cours » : bord droit = bord du bouton (à 1 px).
+      const bords = await carte.evaluate((c) => ({
+        barre: Math.round(c.querySelector("[data-barre-segmentee]")!.getBoundingClientRect().right),
+        bouton: Math.round(c.querySelector("[data-testid='carte-en-cours-reprendre']")!.getBoundingClientRect().right),
+        carte: Math.round(c.getBoundingClientRect().right - parseFloat(getComputedStyle(c).paddingRight) - parseFloat(getComputedStyle(c).borderRightWidth)),
+      }));
+      expect(Math.abs(bords.barre - bords.carte), `bords ${JSON.stringify(bords)}`).toBeLessThanOrEqual(1);
+      if (largeur >= 1024) expect(Math.abs(bords.barre - bords.bouton), `bords ${JSON.stringify(bords)}`).toBeLessThanOrEqual(1);
+      // « Ton cap » : une seule phrase en gras.
+      const grasses = await page.locator("#cap > p").evaluateAll((ps) => ps.filter((p) => getComputedStyle(p).fontWeight === "600").length);
+      expect(grasses, "phrases en gras dans « Ton cap »").toBe(1);
+      // Bandeau « Nouveau cap » (s'il est dû) : une ligne, méta, au plus 48 px.
+      const annonce = page.locator("[data-annonce-legere]");
+      if (await annonce.locator("p").count()) {
+        const m = await annonce.evaluate((a) => ({ h: Math.round(a.getBoundingClientRect().height), poids: getComputedStyle(a.querySelector("p")!).fontWeight }));
+        expect(m.h, JSON.stringify(m)).toBeLessThanOrEqual(48);
+        expect(m.poids, JSON.stringify(m)).toBe("400");
       }
     });
   }

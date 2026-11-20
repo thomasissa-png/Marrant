@@ -66,7 +66,9 @@ export function TonCap({
             />
           ))}
         </div>
-        <p className={cn("flex items-center gap-2 max-md:basis-full", TEXTE_FORT)}>
+        {/* s26 parcours, tour 7 (relecture design v4, point 12 : deux phrases en gras qui se concurrencent) : la série en
+            méta grise, le cap seul en texte fort. */}
+        <p className={cn("flex items-center gap-2 max-md:basis-full", META)}>
           <svg className="h-5 w-5 flex-none text-accent-primary-hover" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d={FLAMME_1} />
             <path strokeLinecap="round" strokeLinejoin="round" d={FLAMME_2} />

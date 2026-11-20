@@ -38,7 +38,8 @@ const numeros = (c: HTMLElement) => Array.from(c.querySelectorAll("a[data-fiche]
 describe("s26 parcours, tour 6 : sous-étapes", () => {
   const e2 = SEED.steps.find((s) => s.week === 2)!;
 
-  it("sans vannes servies (2.2 absente) : numéros continus 2.1, 2.2, 2.3… dans le menu ET dans la carte, ancres inchangées", () => {
+  // s26 parcours, tour 7 : test changé (raison : l'ancre suit le numéro affiché, « 2.2 » = `#fiche-2-2` ; MESURES v4 §6.1).
+  it("sans vannes servies (2.2 absente) : numéros continus 2.1, 2.2, 2.3… dans le menu ET dans la carte, ancres = numéros", () => {
     const step = etape(e2, false);
     const menu = render(<LignesFiches slug={SEED.slug} etape={step} variante="menu" />).container;
     const carte = render(<LignesFiches slug={SEED.slug} etape={step} />).container;
@@ -47,8 +48,7 @@ describe("s26 parcours, tour 6 : sous-étapes", () => {
     expect(numeros(menu)).toEqual(attendus);
     expect(numeros(carte)).toEqual(attendus);
     const ancres = Array.from(menu.querySelectorAll("a[data-fiche]")).map((a) => a.getAttribute("data-fiche"));
-    expect(ancres).not.toContain("fiche-2-2");
-    expect(ancres[1]).toBe("fiche-2-3");
+    expect(ancres).toEqual(attendus.map((n) => `fiche-${n!.replace(".", "-")}`));
   });
 
   it("ligne active : même graisse que les autres (aucun `font-semibold`), titre et numéro en blanc, filet", () => {

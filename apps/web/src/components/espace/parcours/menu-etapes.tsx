@@ -57,6 +57,7 @@ export function MenuEtapes({
   sousEtapes,
   reprendre,
   details,
+  retour,
 }: {
   slug: string;
   titre: string;
@@ -66,17 +67,85 @@ export function MenuEtapes({
   faites: readonly number[];
   active: number | null;
   onChoisir: (order: number) => void;
-  /** Sous-étapes de l'étape active (abonné : fiches de l'étape). */
-  sousEtapes?: ReactNode;
+  /**
+   * Sous-étapes d'une étape (abonné : fiches de l'étape). s26 parcours, tour 7 (MESURES v4 §2 : au changement d'étape, le
+   * menu sautait de +152/-196 px, la liste passant d'une ligne à l'autre) : rendues sous CHAQUE étape, menu figé ; seule
+   * l'étape affichée porte une sous-étape active.
+   */
+  sousEtapes?: (order: number) => ReactNode;
   /** Abonné : étape du pied (« Reprendre », « Commencer ») ; absent : aucun bouton (visiteur, gratuit, parcours fini). */
   reprendre?: { order: number; libelle: string } | null;
   /** Lignes de l'en-tête sous l'avancée (XP, rythme) ; abonné seulement. */
   details?: ReactNode;
+  /** s26 parcours, tour 7 : sous 1024 px, « Retour : Parcours » à gauche de la barre collante (le `LienRetour` existant). */
+  retour?: ReactNode;
 }) {
   const [ouvert, setOuvert] = useState(false);
   const cellule = useRef<HTMLDivElement>(null);
   const carte = useRef<HTMLElement>(null);
   const corps = useRef<HTMLDivElement>(null);
+  const barre = useRef<HTMLDivElement>(null);
+
+  // s26 parcours, tour 7 (relecture UX v4, D5 : à 375, arrivée par « Reprendre » sans retour ni menu visibles) : sous
+  // 1024 px, barre compacte collée sous l'en-tête (retour et bouton du menu). Son haut suit la hauteur réelle de l'en-tête
+  // collant (0 quand il défile avec la page, fenêtre de moins de 500 px de haut), et la réserve de défilement du document
+  // (`scroll-padding-top`, 128 px posés par l'en-tête) passe à en-tête + barre : une étape ou une fiche amenée arrive sous
+  // la barre, 8 px plus bas (marge de 9 px des blocs comprise). Dès 1024 px : rien, réserve d'origine.
+  useEffect(() => {
+    const c = cellule.current;
+    const b = barre.current;
+    if (!c || !b) return;
+    const racine = document.documentElement;
+    let image = 0;
+    const ajuster = () => {
+      image = 0;
+      const etroit = typeof window.matchMedia === "function" && !window.matchMedia("(min-width: 1024px)").matches;
+      if (!etroit) {
+        c.style.top = "";
+        racine.style.scrollPaddingTop = "";
+        return;
+      }
+      const entete = document.querySelector<HTMLElement>("header[data-en-tete-universel]");
+      const haut = entete && getComputedStyle(entete).position === "sticky" ? Math.round(entete.getBoundingClientRect().height) : 0;
+      c.style.top = `${haut}px`;
+      racine.style.scrollPaddingTop = `${haut + Math.round(c.getBoundingClientRect().height) - 1}px`;
+    };
+    const demander = () => {
+      if (!image) image = window.requestAnimationFrame(ajuster);
+    };
+    ajuster();
+    window.addEventListener("resize", demander);
+    const observateur = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(demander);
+    observateur?.observe(c);
+    const entete = document.querySelector("header[data-en-tete-universel]");
+    if (entete) observateur?.observe(entete);
+    return () => {
+      window.removeEventListener("resize", demander);
+      observateur?.disconnect();
+      if (image) window.cancelAnimationFrame(image);
+      c.style.top = "";
+      racine.style.scrollPaddingTop = "";
+    };
+  }, []);
+
+  // Tour 7 : menu déplié sous 1024 px, Échap ou un clic hors de la barre le replie (Échap rend le focus au bouton).
+  useEffect(() => {
+    if (!ouvert) return;
+    const dehors = (e: PointerEvent) => {
+      if (e.target instanceof Node && !cellule.current?.contains(e.target)) setOuvert(false);
+    };
+    const echap = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOuvert(false);
+      cellule.current?.querySelector<HTMLElement>("[data-menu-bascule]")?.focus();
+    };
+    document.addEventListener("pointerdown", dehors);
+    document.addEventListener("keydown", echap);
+    return () => {
+      document.removeEventListener("pointerdown", dehors);
+      document.removeEventListener("keydown", echap);
+    };
+  }, [ouvert]);
 
   // Hauteur de la carte collante : place réelle entre son haut (144 px, ou le haut de la cellule avant collage) et le bas
   // de la cellule, plafonnée à la fenêtre (même calcul que la liste de Quoi répondre) ; sous 1024, rien.
@@ -126,57 +195,85 @@ export function MenuEtapes({
   const choisir = (order: number) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     trackUmami("lien-etape-clic", { parcours: slug, etape: order });
+    // Tour 7 (MESURES v4 §6.2 : à 375, le menu restait ouvert après le choix) : il se replie.
+    setOuvert(false);
     onChoisir(order);
   };
 
   return (
-    <div ref={cellule} className="lg:h-0 lg:min-h-full" data-testid="sommaire-parcours">
-      <button
-        type="button"
-        aria-expanded={ouvert}
-        aria-controls="menu-etapes"
-        onClick={() => setOuvert((o) => !o)}
-        className={cn(SOMMAIRE_REPLIABLE, "w-full justify-between lg:hidden")}
-        data-menu-bascule=""
-        data-ouvert={ouvert || undefined}
-      >
-        <span className="min-w-0 text-left [overflow-wrap:anywhere]">{avancee}</span>
-        <span className={cn("flex-none transition-transform motion-reduce:transition-none", ouvert && "rotate-180")}>
-          <ChevronRepli />
-        </span>
-      </button>
+    // Tour 7 : sous 1024 px, la cellule est la barre collante (fond de page, filet bas, pleine largeur de la colonne) ; le
+    // menu déplié s'ouvre par-dessus la page, sous la barre (`absolute`), sans rien pousser ; hauteur bornée à l'écran.
+    <div
+      ref={cellule}
+      className="max-lg:sticky max-lg:top-[7.3125rem] max-lg:z-30 max-lg:-mx-4 max-lg:border-b max-lg:border-border max-lg:bg-background max-lg:px-4 max-lg:py-1 md:max-lg:-mx-6 md:max-lg:px-6 lg:h-0 lg:min-h-full"
+      data-testid="sommaire-parcours"
+    >
+      <div ref={barre} className="flex items-center justify-between gap-x-3 lg:hidden [&>div]:mb-0 [&>div]:h-11 [&>div]:flex-none" data-barre-parcours="">
+        {retour}
+        <button
+          type="button"
+          aria-expanded={ouvert}
+          aria-controls="menu-etapes"
+          onClick={() => setOuvert((o) => !o)}
+          className={cn(SOMMAIRE_REPLIABLE, "min-w-0 justify-between")}
+          data-menu-bascule=""
+          data-ouvert={ouvert || undefined}
+        >
+          <span className="min-w-0 text-left [overflow-wrap:anywhere]">{avancee}</span>
+          <span className={cn("flex-none transition-transform motion-reduce:transition-none", ouvert && "rotate-180")}>
+            <ChevronRepli />
+          </span>
+        </button>
+      </div>
       <nav
         ref={carte}
         id="menu-etapes"
         aria-labelledby="menu-etapes-titre"
-        className={cn(CADRE_CARTE_NEUTRE, "flex flex-col max-lg:mt-4 lg:sticky lg:top-[8.5625rem] lg:max-h-[calc(100dvh-10.0625rem)]", !ouvert && "max-lg:hidden")}
+        className={cn(
+          CADRE_CARTE_NEUTRE,
+          "flex flex-col max-lg:absolute max-lg:inset-x-4 max-lg:top-full max-lg:max-h-[calc(100dvh-13rem)] max-lg:shadow-xl md:max-lg:inset-x-6 lg:sticky lg:top-[8.5625rem] lg:max-h-[calc(100dvh-10.0625rem)]",
+          !ouvert && "max-lg:hidden",
+        )}
         data-menu-etapes=""
       >
-        <div className="flex-none p-6 pb-4">
-          <p id="menu-etapes-titre" className={TITRE_CARTE}>
+        {/* Tour 7 (relecture design v4, point 16 : titre du parcours et « Étape n sur N » répétés à 375) : sous 1024 px, le
+            titre (nom du menu, gardé pour `aria-labelledby`) et l'avancée (déjà sur le bouton) sont masqués. */}
+        <div className={cn("flex-none p-6 pb-4 max-lg:pt-4", !details && "max-lg:hidden")}>
+          <p id="menu-etapes-titre" className={cn(TITRE_CARTE, "max-lg:hidden")}>
             {frTypoTexte(titre)}
           </p>
-          <p className={cn(META_FORT, "mt-2 tabular-nums")}>{avancee}</p>
+          <p className={cn(META_FORT, "mt-2 tabular-nums max-lg:hidden")}>{avancee}</p>
           {details}
         </div>
-        <div ref={corps} className="min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-border py-2" data-menu-corps="">
+        <div
+          ref={corps}
+          className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-border py-2", !details && "max-lg:border-t-0")}
+          data-menu-corps=""
+          // Tour 7 : une sous-étape choisie dans le menu déplié le replie aussi.
+          onClickCapture={(e) => {
+            if (e.target instanceof Element && e.target.closest("a[data-fiche]")) setOuvert(false);
+          }}
+        >
           <ol>
             {etapes.map((e) => {
               const fait = faites.includes(e.order);
               const estActive = e.order === active;
               return (
-                <li key={e.order}>
+                <li key={e.order} className="group/etape">
                   <a
                     href={`#etape-${e.order}`}
                     onClick={choisir(e.order)}
                     aria-current={estActive ? "step" : undefined}
                     data-ligne-etape={e.order}
-                    className={cn(LIGNE, estActive && "bg-background-elevated before:bg-text-primary")}
+                    // Tour 7 (relecture design v4, point 19 : double barre blanche) : filet de l'étape active retiré quand
+                    // une de ses sous-étapes porte le sien.
+                    className={cn(LIGNE, estActive && "bg-background-elevated before:bg-text-primary group-has-[[data-fiche-active]]/etape:before:!bg-transparent")}
                   >
                     <span className={cn(TEXTE_FORT, "w-5 flex-none tabular-nums text-text-secondary")} aria-hidden="true">
                       {e.order}
                     </span>
-                    <span className={cn("min-w-0 flex-1 [overflow-wrap:anywhere]", estActive ? META_FORT : cn(META, "text-text-primary"))}>
+                    {/* Tour 7 : graisse constante (l'actif est le fond et le filet), une ligne active ne passe plus sur deux. */}
+                    <span className={cn("min-w-0 flex-1 [overflow-wrap:anywhere]", META, "text-text-primary")}>
                       <span className="sr-only">{`${e.order}. `}</span>
                       {frTypoParcours(e.titre)}
                     </span>
@@ -193,7 +290,7 @@ export function MenuEtapes({
                       </span>
                     ) : null}
                   </a>
-                  {estActive && sousEtapes}
+                  {sousEtapes?.(e.order)}
                 </li>
               );
             })}
@@ -207,7 +304,10 @@ export function MenuEtapes({
             <button
               type="button"
               id="sommaire-reprendre"
-              onClick={() => onChoisir(reprendre.order)}
+              onClick={() => {
+                setOuvert(false);
+                onChoisir(reprendre.order);
+              }}
               className={cn(buttonVariants({ variant: "outline", size: "lg" }), "m-6 mt-4 h-auto min-h-12 w-auto whitespace-normal py-2")}
             >
               {reprendre.libelle}

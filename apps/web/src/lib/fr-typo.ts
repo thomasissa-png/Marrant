@@ -27,6 +27,14 @@ const GLUON = String.fromCharCode(0x2060);
 const IMPERATIF_PRONOM = /(\p{L})-(en|y|le|la|les|lui|moi|toi|nous|vous|leur)(?![\p{L}\p{N}])/gu;
 
 /**
+ * s26 parcours, tour 7 (relecture design v4, point 17 : « Parcours Machine à Café · » en fin de ligne) : le point médian
+ * séparateur (« a · b ») lié par deux insécables à ses deux voisins ; jamais seul en début ni en fin de ligne.
+ */
+export function pointMedianInsecable(text: string): string {
+  return text.replace(/ +· +/g, `${NBSP}·${NBSP}`);
+}
+
+/**
  * s19 (S1 @design rendu iter 2) : gluon après le trait d'union d'un impératif suivi d'un pronom,
  * pour éviter « Choisis- / en » en fin de ligne. Seul un caractère invisible est ajouté.
  * Parcours seulement (défis, conseils, vannes, quiz) : le blog garde `frTypo`.
