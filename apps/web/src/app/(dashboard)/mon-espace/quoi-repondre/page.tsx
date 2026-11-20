@@ -18,6 +18,8 @@ import { CADRE_CARTE, LIEN } from "@/components/espace/carte/styles";
 import { BarreProgression, CARTE_ACTION } from "@/components/espace/aujourdhui/tableau";
 import { PanneauFiche, chargerListeQuoiRepondre, donneesPanneau, lettreDeFiche } from "@/components/espace/quoi-repondre/panneau";
 import { MemoireDefilementPage } from "@/components/espace/quoi-repondre/navigation";
+import { Bandeau, EMOJIS_ACCUEIL } from "@/components/espace/da-espace";
+import { EMOJI_CONTENU } from "@/components/home/da-site";
 import { META, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -103,8 +105,12 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
             {prochaine && (
               <section aria-labelledby="prochaine-titre" className={cn(CARTE_ACTION, "h-auto md:col-span-2")} data-prochaine-action={prochaine.id}>
                 <div className="min-w-0">
-                  <h2 id="prochaine-titre" className={TITRE_CARTE}>
-                    {frEspace(prochaine.titre)}
+                  {/* s26 contrôle d'ensemble, abonné (C2) : émoji de la répartie de l'accueil et bandeau violet (plus bas). */}
+                  <h2 id="prochaine-titre" className={cn(TITRE_CARTE, "flex items-center gap-2")}>
+                    <span className={cn(EMOJI_CONTENU, "max-e300:hidden")} aria-hidden="true">
+                      {EMOJIS_ACCUEIL.quoiRepondre}
+                    </span>
+                    <span className="min-w-0">{frEspace(prochaine.titre)}</span>
                   </h2>
                   <p className={cn("mt-2", META)}>{L.minutes(prochaine.dureeMinutes)}</p>
                 </div>
@@ -115,6 +121,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
                 >
                   {L.voir}
                 </Link>
+                <Bandeau />
               </section>
             )}
             <div className="min-w-0 md:col-span-2" data-zone="filtres">

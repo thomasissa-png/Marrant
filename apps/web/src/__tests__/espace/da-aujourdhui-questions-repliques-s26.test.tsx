@@ -80,11 +80,15 @@ describe("T7 : le fil reste accessible depuis la liste après lecture", () => {
 });
 
 describe("liste + détail : la liste des fils à gauche dès 1024", () => {
-  it("la page du fil pose la liste AVANT le fil, dans la grille et la cellule collante du module neutre", () => {
-    const page = lire("app/(dashboard)/mon-espace/questions/[id]/page.tsx");
-    expect(page).toContain("GRILLE_LISTE_DETAIL");
-    expect(page).toContain('cn(CELLULE_LISTE_COLLANTE, "max-lg:hidden")');
-    expect(page.indexOf("<RailFils")).toBeLessThan(page.indexOf("<FilOuvert"));
+  // s26 contrôle d'ensemble, abonné (C6) : la liste des fils est posée par le LAYOUT de Mes questions
+  // (`QuestionsListeDetail`), qui reste monté d'une adresse à l'autre ; la page du fil n'est plus que le fil, à droite.
+  it("le layout pose la liste AVANT la page (fil ou formulaire), dans la grille et la cellule collante du module neutre", () => {
+    const layout = lire("components/espace/questions/questions-liste-detail.tsx");
+    expect(layout).toContain("GRILLE_LISTE_DETAIL");
+    expect(layout).toContain('cn(CELLULE_LISTE_COLLANTE, liste ? "max-lg:hidden" : "hidden")');
+    expect(layout.indexOf("<RailFils")).toBeLessThan(layout.lastIndexOf("{children}"));
+    expect(lire("app/(dashboard)/mon-espace/questions/layout.tsx")).toContain("<QuestionsListeDetail");
+    expect(lire("app/(dashboard)/mon-espace/questions/[id]/page.tsx")).not.toContain("<RailFils");
   });
 
   it("le rail : lignes du module (`data-ligne`), fil ouvert en `aria-current`", () => {

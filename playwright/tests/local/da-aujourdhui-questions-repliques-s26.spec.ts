@@ -162,11 +162,23 @@ test.describe("s26 DA, aujourd'hui questions répliques", () => {
       await page.waitForLoadState("networkidle");
       await page.goto("/mon-espace/questions");
       await expect(page.locator(`[data-reponse-non-lue="${repondu}"]`)).toHaveCount(0);
-      const lien = page.locator(`[data-lien-fil="${repondu}"]`);
-      await expect(lien).toBeVisible();
-      await expect(lien).toHaveAccessibleName(new RegExp(C.groupes.reponses));
-      await lien.click();
-      await expect(page).toHaveURL(new RegExp(`/mon-espace/questions/${repondu}$`));
+      if (largeur >= 1024) {
+        // s26 contrôle d'ensemble, abonné (C6) : dès 1024, « Mes envois » est la liste de gauche du layout (cartes masquées) ;
+        // le lien vers le fil lu est sa ligne, et la liste reste montée (même nœud) quand le fil s'ouvre à droite.
+        const ligne = page.locator(`[data-zone='liste'] [data-rail-fil="${repondu}"]`);
+        await expect(ligne).toBeVisible();
+        await page.locator("[data-zone='liste'] [data-rail-fils]").evaluate((e) => e.setAttribute("data-marque-c6", ""));
+        await ligne.click();
+        await expect(page).toHaveURL(new RegExp(`/mon-espace/questions/${repondu}$`));
+        await expect(page.locator("[data-rail-fils][data-marque-c6]"), "même nœud de liste").toHaveCount(1);
+        await expect(ligne).toHaveAttribute("aria-current", "page");
+      } else {
+        const lien = page.locator(`[data-lien-fil="${repondu}"]`);
+        await expect(lien).toBeVisible();
+        await expect(lien).toHaveAccessibleName(new RegExp(C.groupes.reponses));
+        await lien.click();
+        await expect(page).toHaveURL(new RegExp(`/mon-espace/questions/${repondu}$`));
+      }
       if (largeur === 1280) {
         await verifierVides(page, "Mes questions, fil");
         await page.goto("/mon-espace/questions");

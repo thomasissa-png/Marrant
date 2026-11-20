@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { envoyerMessage, erreurLocale, MessageErreur, type Erreur } from "@/components/espace/questions/appel";
 import { prendrePrefill } from "@/components/espace/questions/prefill";
 import { frEspaceProfond } from "@/lib/fr-typo";
-import { Bandeau } from "@/components/espace/da-espace";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
@@ -84,7 +84,10 @@ export function FormulaireQuestion({ onEnvoye, principal = true }: { onEnvoye: (
         {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil ; type choisi au contour et au point violets. */}
         <Bandeau />
         <fieldset className="grid min-w-0 gap-2">
-          <legend className={cn("mb-2", META_FORT)}>{Q.ecrire.legende}</legend>
+          {/* s26 contrôle d'ensemble, abonné (C2) : la légende en pastille violette, comme le type d'un envoi (`fil.tsx`). */}
+          <legend className="mb-2">
+            <PastillesDa as="span" pastille={Q.ecrire.legende} />
+          </legend>
           {TYPES_QUESTION.map((t) => (
             <label key={t} className="relative block">
               <input

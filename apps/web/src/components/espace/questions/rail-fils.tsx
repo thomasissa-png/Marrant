@@ -28,7 +28,7 @@ function statut(f: FilListe): string {
  * l'accueil sur la carte. Sous 1024, la page du fil n'affiche pas la liste (une colonne : liste OU fil, le lien de
  * retour mène à la liste complète). Les fils de l'abonné (type et statut, jamais le texte). Aucun aplat.
  */
-export function RailFils({ fils, courant, className }: { fils: readonly FilListe[]; courant: string; className?: string }) {
+export function RailFils({ fils, courant, className }: { fils: readonly FilListe[]; courant: string | null; className?: string }) {
   return (
     <ColonneCollante
       cle="questions-fils"
