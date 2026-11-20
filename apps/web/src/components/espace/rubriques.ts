@@ -115,6 +115,8 @@ export function parentEspace(pathname: string | null): Parent | null {
   if (section === "bonus" && type) return vers("bibliotheque");
   // s26 liste et détail : une fiche de Quoi répondre (`/mon-espace/quoi-repondre/[id]`) ramène à sa liste.
   if (section === "quoi-repondre" && type) return vers("quoiRepondre");
+  // s26 bibliothèque liste et détail : une technique (`/mon-espace/bibliotheque/[id]`) ramène à sa liste.
+  if (section === "bibliotheque" && type) return vers("bibliotheque");
   // Lot C (s25) : `/mon-espace/lettres` renvoie en 308 vers `/lettre`, qui sert l'archive à l'abonné.
   if (section === "lettres") return vers("lettre");
   if (section === "questions" && type) return vers("mesQuestions");

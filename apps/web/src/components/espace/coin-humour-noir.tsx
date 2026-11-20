@@ -32,11 +32,14 @@ export function CoinHumourNoir({
   lignesInitiales,
   versFiche = false,
   className,
+  prefixeId = "coin",
 }: {
   lignesInitiales: LigneFiche[] | null;
   versFiche?: boolean;
   /** s26 tour 3 : place du bloc dans la grille de la Bibliothèque (dès 1024). */
   className?: string;
+  /** s26 bibliothèque liste et détail : préfixe des ids (le coin est rendu deux fois, page liste et colonne dès 1024). */
+  prefixeId?: string;
 }) {
   const router = useRouter();
   const [lignes, setLignes] = useState<LigneFiche[] | null>(lignesInitiales);
@@ -74,7 +77,7 @@ export function CoinHumourNoir({
   // le titre de la carte (H2), comme avant.
   const classeTitre = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
   const titreDePage = versFiche ? (
-    <h1 id="coin-titre" ref={titre} tabIndex={-1} className={`mb-8 font-display text-3xl font-bold text-text-primary md:mb-10 md:text-4xl ${classeTitre}`}>
+    <h1 id={`${prefixeId}-titre`} ref={titre} tabIndex={-1} className={`mb-8 font-display text-3xl font-bold text-text-primary md:mb-10 md:text-4xl ${classeTitre}`}>
       {T.titre}
     </h1>
   ) : null;
@@ -84,12 +87,12 @@ export function CoinHumourNoir({
     {/* s26 (Bibliothèque abonné, spec UX §2.2) : dans la Bibliothèque, cadre des rubriques et échelle `typo.ts`, comme
         les autres blocs ; à l'adresse d'une fiche (`versFiche`), la carte d'avant (hors périmètre s26). */}
     <section
-      aria-labelledby="coin-titre"
+      aria-labelledby={`${prefixeId}-titre`}
       className={versFiche ? CARTE : cn(CADRE_CARTE_RUBRIQUE, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]", className)}
       data-coin={lignes ? "entre" : "seuil"}
     >
       {!versFiche && (
-        <h2 id="coin-titre" ref={titre} tabIndex={-1} className={cn(TITRE_CARTE, classeTitre)}>
+        <h2 id={`${prefixeId}-titre`} ref={titre} tabIndex={-1} className={cn(TITRE_CARTE, classeTitre)}>
           {T.titre}
         </h2>
       )}
@@ -100,16 +103,16 @@ export function CoinHumourNoir({
           type="button"
           className={BOUTON_SECONDAIRE}
           aria-expanded="false"
-          aria-controls="coin-contenu"
+          aria-controls={`${prefixeId}-contenu`}
           aria-disabled={occupe || undefined}
           onClick={() => void basculer(true)}
         >
           {T.entrer}
         </button>
       ) : (
-        <div id="coin-contenu" className="space-y-4">
+        <div id={`${prefixeId}-contenu`} className="space-y-4">
           {lignes.length > 0 ? (
-            <ListeFiches lignes={lignes} labelledBy="coin-titre" marquerProchaine={!versFiche} />
+            <ListeFiches lignes={lignes} labelledBy={`${prefixeId}-titre`} marquerProchaine={!versFiche} />
           ) : (
             <p className="text-base text-text-secondary" data-testid="coin-vide">
               {T.vide}

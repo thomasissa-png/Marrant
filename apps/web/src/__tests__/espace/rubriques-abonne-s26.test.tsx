@@ -172,25 +172,27 @@ describe("« Quoi répondre » abonné : prochaine action et progression", () =>
 describe("« Bibliothèque » abonné : prochaine ligne et progression par bloc", () => {
   // s26 tour 2 : `lg:columns-3` remplacé par une grille explicite à 3 colonnes dès 1024 (540 à 800 px vides sous deux
   // colonnes) ; 375 et 768 inchangés (1 colonne, puis colonnes CSS).
-  it("1/2/3 colonnes (`md:columns-2`, grille `lg:grid-cols-3`), en-tête à gauche, aucun aplat", async () => {
+  // s26 bibliothèque liste et détail : dès 1024, la liste du layout et le panneau de fiche remplacent la grille de 3
+  // colonnes ; la page liste (sous 1024, `lg:hidden`) garde 1 colonne, 2 dès 768.
+  it("1/2 colonnes sous 1024 (`md:columns-2`), page liste masquée dès 1024, en-tête à gauche, aucun aplat", async () => {
     const { container } = render(await BibliothequePage());
     const grille = classes(container.querySelector("[data-bibliotheque-grille]"));
-    expect(grille).toEqual(expect.arrayContaining(["md:columns-2", "lg:grid", "lg:grid-cols-3", "lg:items-start"]));
-    expect(grille).not.toContain("lg:columns-3");
+    expect(grille).toEqual(expect.arrayContaining(["md:columns-2"]));
+    expect(grille).not.toContain("lg:grid-cols-3");
+    expect(classes(container.querySelector("[data-mode='page']"))).toContain("lg:hidden");
+    expect(classes(container.querySelector("[data-mode='panneau']"))).toEqual(expect.arrayContaining(["hidden", "lg:block"]));
     expect(container.querySelector("h1")!.className).not.toContain("text-center");
-    expect(aplats(container)).toEqual([]);
+    // s26 bibliothèque liste et détail : la page liste sans aplat ; le panneau (dès 1024) est rendu ici sans le fournisseur
+    // du layout (« Enregistrer » y serait plein) : son seul plein est vérifié au navigateur (spec Playwright dédiée).
+    expect(aplats(container.querySelector("[data-mode='page']")!)).toEqual([]);
   });
 
-  it("s26 tour 3 (B2) : construction puis coin (col. 1), vannes puis vocabulaire (col. 2), formules (col. 3) ; construction en tête à 375", async () => {
+  // s26 bibliothèque liste et détail : les places de la grille dès 1024 (tour 3, B2) n'ont plus lieu d'être (colonne de
+  // liste et panneau) ; restent l'ordre du DOM et la construction en tête sous 768.
+  it("page liste (sous 1024) : ordre du DOM, construction en tête à 375", async () => {
     const { container } = render(await BibliothequePage());
-    const place = (sel: string) => classes(container.querySelector(sel)).filter((c) => /^lg:(col|row)-/.test(c)).sort();
     expect(container.querySelector("[data-coin]")).not.toBeNull();
-    expect(classes(container.querySelector("[data-bibliotheque-grille]"))).toEqual(expect.arrayContaining(["max-md:flex", "max-md:flex-col", "max-md:[&>*]:mb-0", "lg:grid-rows-[auto_auto_1fr]"]));
-    expect(place("[data-bloc='groupe-construction']")).toEqual(["lg:col-start-1", "lg:row-span-2", "lg:row-start-1"]);
-    expect(place("[data-coin]")).toEqual(["lg:col-start-1", "lg:row-start-3"]);
-    expect(place("[data-bloc='bloc-vannes']")).toEqual(["lg:col-start-2", "lg:row-start-1"]);
-    expect(place("[data-bloc='groupe-vocabulaire']")).toEqual(["lg:col-start-2", "lg:row-span-2", "lg:row-start-2"]);
-    expect(place("[data-bloc='groupe-formule']")).toEqual(["lg:col-start-3", "lg:row-span-3", "lg:row-start-1"]);
+    expect(classes(container.querySelector("[data-bibliotheque-grille]"))).toEqual(expect.arrayContaining(["max-md:flex", "max-md:flex-col", "max-md:[&>*]:mb-0"]));
     // Ordre du DOM inchangé (768 en colonnes CSS identique) ; la construction passe en tête sous 768 par `order`.
     expect(classes(container.querySelector("[data-bloc='groupe-construction']"))).toContain("max-md:order-first");
     const ordre = [...container.querySelectorAll("[data-bibliotheque-grille] > *")].map((e) => e.getAttribute("data-bloc") ?? "coin");

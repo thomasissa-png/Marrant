@@ -31,6 +31,9 @@ export const ANCIENNE_ARCHIVE_LETTRES = `${ESPACE_ACCUEIL}/lettres`;
 /** s26 liste et détail : ancienne adresse d'une fiche de Quoi répondre, 308 vers la rubrique (interrupteur ouvert). */
 export const ANCIENNE_FICHE_QUOI_REPONDRE = /^\/mon-espace\/fiche\/(?:situation|a-plat)\/([^/]+)\/?$/;
 
+/** s26 bibliothèque liste et détail : ancienne adresse d'une technique, 308 vers la Bibliothèque (interrupteur ouvert). */
+export const ANCIENNE_FICHE_BIBLIOTHEQUE = /^\/mon-espace\/fiche\/(?:construction|vocabulaire|formule|ecouter)\/([^/]+)\/?$/;
+
 /** Lot D11c : témoin du saut /abonnement → « Aujourd'hui » (anti-boucle, voir plus bas). */
 export const TEMOIN_ARRIVEE_ESPACE = "dm_arrivee_espace";
 
@@ -182,6 +185,15 @@ export default async function middleware(req: NextRequest) {
   if (ancienneFiche) {
     const cible = req.nextUrl.clone();
     cible.pathname = `${ESPACE_ACCUEIL}/quoi-repondre/${ancienneFiche[1]}`;
+    return NextResponse.redirect(cible, 308);
+  }
+
+  // s26 bibliothèque liste et détail : même règle pour une technique (construction, vocabulaire, formule, écouter), vers
+  // `/mon-espace/bibliotheque/[id]`, un seul saut. Fermé : la réécriture vers la 404 ci-dessus passe avant.
+  const ancienneTechnique = ESPACE_CLIENT_PUBLIE ? ANCIENNE_FICHE_BIBLIOTHEQUE.exec(req.nextUrl.pathname) : null;
+  if (ancienneTechnique) {
+    const cible = req.nextUrl.clone();
+    cible.pathname = `${ESPACE_ACCUEIL}/bibliotheque/${ancienneTechnique[1]}`;
     return NextResponse.redirect(cible, 308);
   }
 

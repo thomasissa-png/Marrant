@@ -12,6 +12,7 @@ import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { sanitizeReturnTo } from "@/lib/premium-return";
 import { lireFavori, type ContenuFavori } from "@/lib/favori-apres-paiement";
 import type { Fiche } from "@/lib/espace/fiches-schema";
+import { TYPES_BIBLIOTHEQUE } from "@/lib/espace/bibliotheque-liste";
 
 export type ProfilQuiz = "OBSERVATEUR" | "STORYTELLER" | "ABSURDE" | "PUNCHLINEUR" | "TAQUIN";
 const PROFILS: readonly ProfilQuiz[] = ["OBSERVATEUR", "STORYTELLER", "ABSURDE", "PUNCHLINEUR", "TAQUIN"];
@@ -47,9 +48,15 @@ export const TYPES_QUOI_REPONDRE: readonly string[] = ["situation", "a-plat"];
 /**
  * Adresse d'une fiche de l'espace (lot D6 : `mon-espace/fiche/[type]/[id]`). s26 liste et détail : situation et
  * « à plat » sous `/mon-espace/quoi-repondre/[id]` (l'ancienne adresse répond 308, espace ouvert seulement).
+ * s26 bibliothèque liste et détail : les techniques (construction, vocabulaire, formule, écouter) sous
+ * `/mon-espace/bibliotheque/[id]`, même règle (308 depuis l'ancienne adresse) ; coin, jeux, bilans, séances inchangés.
  */
 export const hrefFiche = (type: string, id: string) =>
-  TYPES_QUOI_REPONDRE.includes(type) ? `${ESPACE_ACCUEIL}/quoi-repondre/${id}` : `${ESPACE_ACCUEIL}/fiche/${type}/${id}`;
+  TYPES_QUOI_REPONDRE.includes(type)
+    ? `${ESPACE_ACCUEIL}/quoi-repondre/${id}`
+    : TYPES_BIBLIOTHEQUE.includes(type)
+      ? `${ESPACE_ACCUEIL}/bibliotheque/${id}`
+      : `${ESPACE_ACCUEIL}/fiche/${type}/${id}`;
 
 /** Ce que dit le lien de retour, avant lecture en base. */
 export type Origine =
