@@ -18,6 +18,8 @@ import { DerniersArticles } from "@/components/home/derniers-articles";
 import { getDerniersArticles } from "@/lib/derniers-articles";
 import Link from "next/link";
 import { MARGE_ENCADRE } from "@/components/layout/gabarit";
+// s26 DA du site (décision de Thomas du 20/11) : classes des cartes « Tu te reconnais ? » partagées avec Parcours.
+import { CARTE_PERSONA, EMOJI_CARTE, LIEN_CARTE_ACCUEIL, TITRE_CARTE_ACCUEIL } from "@/components/home/da-site";
 
 // FAQPage = UNIQUEMENT les questions visibles sur la page (règle Google :
 // un balisage FAQ doit refléter du contenu affiché). La FAQ visible de la home
@@ -78,9 +80,9 @@ export default async function HomePage() {
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {/* Sophie — parcours le plus court en premier */}
-          <div className={`flex flex-col rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
-            <p className="text-3xl" aria-hidden="true">☕️</p>
-            <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
+          <div className={`${CARTE_PERSONA} ${MARGE_ENCADRE}`}>
+            <p className={EMOJI_CARTE} aria-hidden="true">☕️</p>
+            <h3 className={`mt-3 ${TITRE_CARTE_ACCUEIL}`}>
               «&nbsp;Je n’ai jamais rien de drôle à dire&nbsp;»
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
@@ -88,15 +90,15 @@ export default async function HomePage() {
               toujours, mais dans le métro du retour. On te donne des vannes
               courtes à ressortir sur le moment, et une série de jours de pratique pour garder le rythme.
             </p>
-            <Link href="/parcours/machine-a-cafe" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
+            <Link href="/parcours/machine-a-cafe" className={`mt-4 ${LIEN_CARTE_ACCUEIL}`}>
               Parcours Machine à Café · {parcoursWeeks("machine-a-cafe")}&nbsp;semaines →
             </Link>
           </div>
 
           {/* Yanis */}
-          <div className={`flex flex-col rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
-            <p className="text-3xl" aria-hidden="true">⚡️</p>
-            <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
+          <div className={`${CARTE_PERSONA} ${MARGE_ENCADRE}`}>
+            <p className={EMOJI_CARTE} aria-hidden="true">⚡️</p>
+            <h3 className={`mt-3 ${TITRE_CARTE_ACCUEIL}`}>
               «&nbsp;Je reste muet quand on me chambre&nbsp;»
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
@@ -105,15 +107,15 @@ export default async function HomePage() {
               les réflexes de base avec des exercices simples, et tes XP te
               montrent que tu avances.
             </p>
-            <Link href="/parcours/repartie" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
+            <Link href="/parcours/repartie" className={`mt-4 ${LIEN_CARTE_ACCUEIL}`}>
               Parcours Répartie · {parcoursWeeks("repartie")}&nbsp;semaines →
             </Link>
           </div>
 
           {/* Marc */}
-          <div className={`flex flex-col rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
-            <p className="text-3xl" aria-hidden="true">🌱</p>
-            <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
+          <div className={`${CARTE_PERSONA} ${MARGE_ENCADRE}`}>
+            <p className={EMOJI_CARTE} aria-hidden="true">🌱</p>
+            <h3 className={`mt-3 ${TITRE_CARTE_ACCUEIL}`}>
               «&nbsp;J’ai perdu ma légèreté&nbsp;»
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
@@ -122,7 +124,7 @@ export default async function HomePage() {
               remettre en route à ton rythme, avec tes XP et ta série pour
               mesurer le chemin parcouru.
             </p>
-            <Link href="/parcours/confiance" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
+            <Link href="/parcours/confiance" className={`mt-4 ${LIEN_CARTE_ACCUEIL}`}>
               Parcours Confiance · {parcoursWeeks("confiance")}&nbsp;semaines →
             </Link>
           </div>

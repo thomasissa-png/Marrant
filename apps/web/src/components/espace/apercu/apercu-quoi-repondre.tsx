@@ -11,8 +11,11 @@ import { RepliquesFermees, type RegistreReplique } from "@/components/espace/ape
 import { BarresFermees } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { SignalOffre } from "@/components/espace/apercu/signal-offre";
-import { PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { ETIQUETTE, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
+import { PASTILLE, TUILE } from "@/components/espace/aujourdhui/tableau";
+import { FILET_CARTE } from "@/components/espace/carte/styles";
+import { Badge } from "@/components/ui/badge";
+import { EMOJI_CONTENU, RANGEE_PASTILLES } from "@/components/home/da-site";
+import { ETIQUETTE, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 
 const Q = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 const C = frEspaceProfond(TEXTES_CARTES);
@@ -121,9 +124,16 @@ function ExtraitQuoiRepondre() {
           la situation au lieu de 118 de plus) ; à 1024, 74 px (la colonne 4/12 de Thomas, 18/11, ne descend pas plus). */}
       <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 lg:contents" data-apercu-rangee="1">
         <TuileFermee nette className="h-auto md:col-span-2 lg:col-span-8 lg:col-start-1 lg:row-start-1 xl:h-full">
-          <div className={TUILE} data-apercu-situation>
-            <p className={ETIQUETTE}>{F.types.situation}</p>
-            <h2 className={cn("pr-8", TITRE_TUILE)}>{frEspace(s.titre)}</h2>
+          {/* s26 DA du site (décision de Thomas du 20/11) : même famille que la fiche de l'abonné (filet violet, émoji,
+              pastille violette du type), texte inchangé. */}
+          <div className={cn(TUILE, FILET_CARTE)} data-apercu-situation>
+            <p className={RANGEE_PASTILLES}>
+              <span className={EMOJI_CONTENU} aria-hidden="true">
+                ⚡️
+              </span>
+              <Badge variant="primary">{F.types.situation}</Badge>
+            </p>
+            <h2 className={cn("mt-4 pr-8", TITRE_CARTE)}>{frEspace(s.titre)}</h2>
             <p className={cn("mt-4", TEXTE)}>{frEspace(s.scene)}</p>
             {s.onTeDit && <p className={cn("mt-2", TEXTE_FORT)}>{frEspace(entreGuillemets(s.onTeDit))}</p>}
             <RepliquesFermees registres={s.registres} />

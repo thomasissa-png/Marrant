@@ -19,7 +19,8 @@ import { useFaitsQuoiRepondre } from "@/components/espace/quoi-repondre/faits-co
 import { CompteFaits, sansPrefixe } from "@/components/espace/liste-fiches";
 import { Coche } from "@/components/espace/aujourdhui/tableau";
 import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
-import { CADRE_CARTE_NEUTRE, LIEN_NEUTRE, SOMMAIRE_REPLIABLE, pastilleFiltre } from "@/components/espace/carte/styles";
+import { CADRE_CARTE, LIEN, SOMMAIRE_REPLIABLE, pastilleFiltre } from "@/components/espace/carte/styles";
+import { badgeVariants } from "@/components/ui/badge";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { ETIQUETTE, META, META_FORT, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
@@ -195,7 +196,7 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
   const resume = [filtres.ou ? T.univers[filtres.ou as keyof typeof T.univers] : null, filtres.pour ? T.pourQuoiFaire[filtres.pour as keyof typeof T.pourQuoiFaire] : null].filter(Boolean).join(", ");
 
   return (
-    <nav ref={carte} aria-labelledby="qr-liste-titre" className={cn(CADRE_CARTE_NEUTRE, "flex flex-col lg:sticky lg:top-[9.5625rem] lg:max-h-[calc(100dvh-11.0625rem)]")} data-colonne-liste>
+    <nav ref={carte} aria-labelledby="qr-liste-titre" className={cn(CADRE_CARTE, "flex flex-col lg:sticky lg:top-[9.5625rem] lg:max-h-[calc(100dvh-11.0625rem)]")} data-colonne-liste>
       <Titre id="qr-liste-titre" className={cn(TITRE_CARTE, "px-6 pb-4 pt-8")}>
         {T.titre}
       </Titre>
@@ -250,7 +251,7 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
           {groupes.length === 0 ? (
             <div className="p-6" data-testid="quoi-repondre-vide-liste">
               <p className={TEXTE_FORT}>{T.vide}</p>
-              <Link href={`${ESPACE_ACCUEIL}/questions`} className={cn("mt-2", LIEN_NEUTRE)}>
+              <Link href={`${ESPACE_ACCUEIL}/questions`} className={cn("mt-2", LIEN)}>
                 {T.raconte}
               </Link>
             </div>
@@ -260,7 +261,8 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
               return (
                 <section key={g.cle} aria-labelledby={`qr-lieu-${g.cle}`} data-lieu={g.cle}>
                   <div className="flex items-baseline justify-between gap-4 px-6 pb-2 pt-4">
-                    <h3 id={`qr-lieu-${g.cle}`} className={ETIQUETTE}>
+                    {/* s26 DA du site (décision de Thomas du 20/11) : lieu en pastille neutre de l'accueil (« Boulot & Collègues »). */}
+                    <h3 id={`qr-lieu-${g.cle}`} className={badgeVariants({ variant: "default" })}>
                       {g.titre}
                     </h3>
                     <CompteFaits faits={n} total={g.lignes.length} />
@@ -280,11 +282,13 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
                             data-ligne-qr={l.id}
                             data-titre={titre}
                             className={cn(
-                              "relative flex min-h-11 items-center gap-3 px-6 py-2 hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary before:absolute before:inset-y-0 before:left-0 before:w-0.5",
-                              estActif && "bg-background-elevated before:bg-text-primary",
+                              // s26 DA du site (décision de Thomas du 20/11) : titres en liens de l'accueil (violet au survol), ligne
+                              // active au filet et au texte violets.
+                              "group/ligne relative flex min-h-11 items-center gap-3 px-6 py-2 hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary before:absolute before:inset-y-0 before:left-0 before:w-0.5",
+                              estActif && "bg-background-elevated before:bg-accent-link",
                             )}
                           >
-                            <span className={cn("min-w-0 flex-1 [overflow-wrap:anywhere]", estActif ? META_FORT : l.fait ? META : `${META} text-text-primary`)}>{titre}</span>
+                            <span className={cn("min-w-0 flex-1 [overflow-wrap:anywhere] group-hover/ligne:text-accent-link", estActif ? `${META_FORT} text-accent-link` : l.fait ? META : `${META} text-text-primary`)}>{titre}</span>
                             {l.fait ? (
                               <span className={cn("inline-flex flex-none items-center gap-2", META)} data-fait>
                                 <Coche className="h-4 w-4 text-success" />
@@ -306,7 +310,7 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
       </div>
       </div>
       <div className="flex-none border-t border-border">
-        <Link href="/carnet" className={cn(META, "inline-flex min-h-11 items-center px-6 underline underline-offset-2 hover:text-text-primary")} data-carnet>
+        <Link href="/carnet" className={cn(META, "inline-flex min-h-11 items-center px-6 font-medium text-accent-link underline underline-offset-2")} data-carnet>
           {T.carnet}
         </Link>
       </div>

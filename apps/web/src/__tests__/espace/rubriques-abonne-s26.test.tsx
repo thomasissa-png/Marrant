@@ -75,11 +75,16 @@ beforeEach(() => {
 });
 
 describe("le filet violet des cartes : une seule constante (arbitrage à confirmer par Thomas)", () => {
-  it("`CADRE_CARTE_RUBRIQUE` vaut le cadre neutre aujourd'hui, et sert aux trois pages", () => {
+  // s26 DA du site (décision de Thomas du 20/11) : Quoi répondre reprend le filet violet de l'accueil (`CADRE_CARTE`) ;
+  // la constante reste neutre pour la Bibliothèque et S'entraîner, hors du périmètre de cette passe.
+  it("`CADRE_CARTE_RUBRIQUE` vaut le cadre neutre aujourd'hui (Bibliothèque, S'entraîner) ; Quoi répondre a le filet de l'accueil", () => {
     expect(CADRE_CARTE_RUBRIQUE).toBe(CADRE_CARTE_NEUTRE);
-    for (const f of ["app/(dashboard)/mon-espace/quoi-repondre/page.tsx", "components/espace/bloc-bibliotheque.tsx", "components/espace/carte/carte-repliee.tsx", "components/espace/mission/mission-carte.tsx"]) {
+    for (const f of ["components/espace/bloc-bibliotheque.tsx", "components/espace/carte/carte-repliee.tsx", "components/espace/mission/mission-carte.tsx"]) {
       expect(lire(f)).toContain("CADRE_CARTE_RUBRIQUE");
     }
+    const qr = lire("app/(dashboard)/mon-espace/quoi-repondre/page.tsx");
+    expect(qr).not.toContain("CADRE_CARTE_RUBRIQUE");
+    expect(qr).toContain("cn(CADRE_CARTE, \"min-w-0 p-6\")");
   });
 });
 

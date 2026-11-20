@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { useContentStats } from "@/hooks/use-content-stats";
 import { MARGE_ENCADRE } from "@/components/layout/gabarit";
+// s26 DA du site (décision de Thomas du 20/11) : classes partagées avec l'espace ouvert, rendu inchangé.
+import { CARTE_ACCUEIL, EMOJI_CARTE, TITRE_CARTE_ACCUEIL } from "@/components/home/da-site";
 
 const features = [
   {
@@ -78,18 +80,15 @@ export function FeatureCards({ examples }: FeatureCardsProps = {}) {
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
         {features.map((feature, i) => (
-          <div
-            key={feature.href}
-            className="relative flex flex-col overflow-hidden rounded-xl border border-border bg-background-card"
-          >
+          <div key={feature.href} className={CARTE_ACCUEIL}>
             <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
             {/* Revue visuelle s21, tour 4 (T3-03) : même marge que les encadrés (16 px sous 400 px), les liens
                 d'exemple gagnent 8 px de ligne à 375 px. */}
             <div className={`flex flex-1 flex-col ${MARGE_ENCADRE}`}>
-              <span className="text-3xl" aria-hidden="true">
+              <span className={EMOJI_CARTE} aria-hidden="true">
                 {feature.emoji}
               </span>
-              <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
+              <h3 className={`mt-3 ${TITRE_CARTE_ACCUEIL}`}>
                 {feature.getTitle(counts[i])}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-text-secondary">
