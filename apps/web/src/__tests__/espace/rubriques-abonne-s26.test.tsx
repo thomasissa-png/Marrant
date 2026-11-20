@@ -54,7 +54,7 @@ import { ApercuQuoiRepondre } from "@/components/espace/apercu/apercu-quoi-repon
 import { ApercuAujourdhui } from "@/components/espace/apercu/tableau-verrouille";
 import { CarteRepliee } from "@/components/espace/carte/carte-repliee";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
-import { CADRE_CARTE_NEUTRE, CADRE_CARTE_RUBRIQUE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE, CADRE_CARTE_ENTRAINER, CADRE_CARTE_NEUTRE, CADRE_CARTE_RUBRIQUE } from "@/components/espace/carte/styles";
 import { FILET_PROCHAINE } from "@/components/espace/liste-fiches";
 import { TEXTES_FICHE_LIGNE as L } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_GESTE as G, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
@@ -79,8 +79,11 @@ describe("le filet violet des cartes : une seule constante (arbitrage à confirm
   // la constante reste neutre pour la Bibliothèque et S'entraîner, hors du périmètre de cette passe.
   it("`CADRE_CARTE_RUBRIQUE` vaut le cadre neutre aujourd'hui (Bibliothèque, S'entraîner) ; Quoi répondre a le filet de l'accueil", () => {
     expect(CADRE_CARTE_RUBRIQUE).toBe(CADRE_CARTE_NEUTRE);
-    for (const f of ["components/espace/bloc-bibliotheque.tsx", "components/espace/carte/carte-repliee.tsx", "components/espace/mission/mission-carte.tsx"]) {
-      expect(lire(f)).toContain("CADRE_CARTE_RUBRIQUE");
+    expect(lire("components/espace/bloc-bibliotheque.tsx")).toContain("CADRE_CARTE_RUBRIQUE");
+    // s26 DA, s'entraîner et favoris : S'entraîner passe à la DA de l'accueil (`CADRE_CARTE_ENTRAINER` = `CADRE_CARTE`).
+    expect(CADRE_CARTE_ENTRAINER).toBe(CADRE_CARTE);
+    for (const f of ["components/espace/carte/carte-repliee.tsx", "components/espace/mission/mission-carte.tsx", "components/espace/mission/echelle-marches.tsx", "app/(dashboard)/mon-espace/s-entrainer/page.tsx"]) {
+      expect([f, lire(f).includes("CADRE_CARTE_RUBRIQUE"), lire(f).includes("CADRE_CARTE_ENTRAINER")]).toEqual([f, false, true]);
     }
     const qr = lire("app/(dashboard)/mon-espace/quoi-repondre/page.tsx");
     expect(qr).not.toContain("CADRE_CARTE_RUBRIQUE");
@@ -263,6 +266,26 @@ describe("« S'entraîner » abonné : prochaine action et progression", () => {
     expect(repliee.querySelector("#carte-2")!.getAttribute("data-cadre")).toBe("repliee");
     expect(repliee.querySelector("summary")!.textContent).toBe(frEspace(cartes[1].titre));
     // Écart signalé : la carte n'a pas de bouton principal unique (« Oui / À moitié / Rien », même poids, 2.2).
+    expect(aplats(container)).toEqual([]);
+  });
+
+  // s26 DA, s'entraîner et favoris (Thomas, 20/11) : cartes à bandeau violet, 🎯 et pastilles de l'accueil, « La scène »
+  // en bloc « Exemple concret » ; échelle et mission dans UNE carte étirée (colonne `lg:self-stretch`).
+  it("s26 DA, s'entraîner et favoris : bandeau, émoji, pastilles, blocs ; échelle et mission dans une seule carte", async () => {
+    rafale.mockResolvedValue({ cartes: cartes.map((c) => ({ carteId: c.id, nouvelle: true })), faites: [], fini: false, catalogue, cetteSemaine: 0, compteARebours: COMPTE });
+    retours.mockResolvedValue([]);
+    const { container } = render(await SEntrainerPage({ searchParams: {} }));
+    const premiere = container.querySelector("#carte-1")!;
+    expect(classes(premiere)).toEqual(expect.arrayContaining(CADRE_CARTE.split(" ")));
+    expect(premiere.textContent).toContain("🎯");
+    expect(premiere.querySelector(".bg-accent-primary\\/20")!.textContent).toBe(frEspace("S’entraîner"));
+    expect(classes(premiere.querySelector("h3")!.parentElement)).toEqual(expect.arrayContaining(["rounded-lg", "bg-background-elevated"]));
+    const zone = container.querySelector("[data-zone='mission']")!;
+    expect(classes(zone)).toContain("lg:self-stretch");
+    const carte = zone.querySelector("[data-carte-mission]")!;
+    expect(zone.children).toHaveLength(1);
+    expect(carte.querySelector("[data-echelle-marches]")).not.toBeNull();
+    expect(classes(carte.querySelector("[data-mission]"))).toEqual(expect.arrayContaining(["border-t", "border-border"]));
     expect(aplats(container)).toEqual([]);
   });
 

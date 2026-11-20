@@ -10,7 +10,8 @@ import { CompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import type { DureeCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
-import { cadreCarte, type ApresReponse, type CadreCarte } from "@/components/espace/carte/carte-registre";
+import { BLOC_GESTE, BLOC_SCENE, cadreCarte, type ApresReponse, type CadreCarte } from "@/components/espace/carte/carte-registre";
+import { LIBELLE_BLOC } from "@/components/home/da-site";
 import { nouvelleCle } from "@/components/espace/carte/styles";
 import { ETIQUETTE, META, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
@@ -53,8 +54,8 @@ export function CarteEtToi({ carte, nouvelle, ancre, cadre = "action" }: { carte
     // s26 : les blocs l'un sous l'autre, dans la colonne des cartes (7 colonnes dès 1024 px) ; cadre selon la place.
     <article id={ancre} aria-labelledby={titreId} className={cadreCarte(cadre)} data-carte={carte.id} data-cadre={cadre}>
       <EnTeteCarte id={titreId} titre={carte.titre} nouvelle={nouvelle} />
-      <div className="space-y-2">
-        <h3 className={ETIQUETTE}>{T.scene}</h3>
+      <div className={BLOC_SCENE}>
+        <h3 className={LIBELLE_BLOC}>{T.scene}</h3>
         <p className={TEXTE}>{carte.scene}</p>
         <p className={TEXTE_FORT}>{entreGuillemets(carte.onTeDit)}</p>
       </div>
@@ -84,7 +85,9 @@ export function CarteEtToi({ carte, nouvelle, ancre, cadre = "action" }: { carte
         </div>
       )}
       {reponse && apres && carte.exercice && (
-        <GesteFiche ficheId={carte.ficheId} consigne={carte.exercice} retourInitial={apres.retour} repliqueInitiale={apres.replique} />
+        <div className={BLOC_GESTE}>
+          <GesteFiche ficheId={carte.ficheId} consigne={carte.exercice} retourInitial={apres.retour} repliqueInitiale={apres.replique} separe={false} da />
+        </div>
       )}
     </article>
   );

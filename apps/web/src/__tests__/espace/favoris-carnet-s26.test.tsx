@@ -4,7 +4,7 @@
  */
 import { readFileSync } from "fs";
 import { join } from "path";
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/components/ui/reaction-buttons", () => ({ ReactionButtons: () => <div data-reactions /> }));
@@ -14,6 +14,14 @@ jest.mock("@/config/espace-client", () => ({
   get ESPACE_CLIENT_PUBLIE() {
     return true;
   },
+}));
+// s26 DA, s'entraîner et favoris : le favori ouvert est dans l'adresse (`?favori=<id>`).
+const adresse = { favori: null as string | null };
+const routeur = { push: jest.fn(), replace: jest.fn(), back: jest.fn(), refresh: jest.fn() };
+jest.mock("next/navigation", () => ({
+  useRouter: () => routeur,
+  usePathname: () => "/favoris",
+  useSearchParams: () => new URLSearchParams(adresse.favori ? { favori: adresse.favori } : {}),
 }));
 
 import { FavorisAbonne } from "@/components/espace/favoris/favoris-abonne";
@@ -33,45 +41,82 @@ const vanne = (id: string, createdAt: string, punchline: string) => ({
   createdAt,
   joke: { content: `Début ${id}`, punchline, category: "ABSURDE" },
 });
+const conseil = (id: string, createdAt: string) => ({
+  id,
+  contentType: "TIP" as const,
+  jokeId: null,
+  tipId: `t-${id}`,
+  videoId: null,
+  createdAt,
+  tip: { title: `Conseil ${id}`, content: "Contenu", category: "TIMING", difficulty: "DEBUTANT", example: "Un exemple", exercise: "Un exercice" },
+});
+const classes = (el: Element | null | undefined) => (el?.getAttribute("class") ?? "").split(/\s+/).filter(Boolean);
 
 beforeEach(() => {
+  adresse.favori = null;
+  window.scrollTo = jest.fn() as unknown as typeof window.scrollTo;
+  Object.values(routeur).forEach((f) => f.mockReset());
   useSession.mockReturnValue({ status: "authenticated", data: { user: { id: "u", plan: "PREMIUM" } } });
   useFavoritesStore.setState({ favorites: [], isLoading: false, fetchFavorites: jest.fn(async () => {}) });
 });
 
-describe("Favoris, abonné (s26)", () => {
-  it("rail d'onglets (effectifs réels, actif sans aplat), flèches du clavier, carte la plus récente en tête et dépliée", () => {
-    useFavoritesStore.setState({ favorites: [vanne("a", "2026-11-01T00:00:00Z", "Chute A"), vanne("b", "2026-11-10T00:00:00Z", "Chute B")] });
+// s26 DA, s'entraîner et favoris (Thomas, 19/11 « pourquoi on ne garde pas le menu à gauche ? » et 20/11, DA de
+// l'accueil) : liste et détail comme Quoi répondre ; remplace le rail d'onglets et la grille de cartes repliables.
+describe("Favoris, abonné (s26 DA, s'entraîner et favoris)", () => {
+  it("liste groupée par type (effectifs), le plus récent ouvert d'office, une seule ligne active, liens `?favori=`", () => {
+    useFavoritesStore.setState({ favorites: [vanne("a", "2026-11-01T00:00:00Z", "Chute A"), conseil("c", "2026-11-05T00:00:00Z"), vanne("b", "2026-11-10T00:00:00Z", "Chute B")] });
     const { container } = render(<FavorisAbonne />);
-    const rail = container.querySelector("[data-rail-favoris]") as HTMLElement;
-    const onglets = within(rail).getAllByRole("tab");
-    expect(onglets.map((o) => o.textContent)).toEqual(["Tout2", "Vannes2", "Conseils0", "Vidéos0"]);
-    expect(onglets[0]).toHaveAttribute("aria-selected", "true");
-    for (const o of onglets) expect(o.className).not.toMatch(/bg-accent|bg-primary/);
-    expect(onglets[0].className.split(" ")).toEqual(expect.arrayContaining(["border-l-2", "border-text-primary"]));
-    // La plus récente (b) en tête, chute visible ; l'autre repliée.
-    const cartes = container.querySelectorAll("[data-favori]");
-    expect(cartes[0].textContent).toContain("Chute B");
-    expect(cartes[1].textContent).not.toContain("Chute A");
-    // Actions en liens gris, jamais de bouton plein.
-    expect(within(cartes[0] as HTMLElement).getByRole("button", { name: "Retirer des favoris" }).className).toContain("underline");
-    fireEvent.keyDown(onglets[0], { key: "ArrowDown" });
-    expect(within(rail).getAllByRole("tab")[1]).toHaveAttribute("aria-selected", "true");
+    const liste = container.querySelector("[data-liste-favoris]") as HTMLElement;
+    const groupes = [...liste.querySelectorAll("[data-groupe-favoris]")];
+    expect(groupes.map((g) => [g.getAttribute("data-groupe-favoris"), g.querySelector("h3")!.textContent])).toEqual([["JOKE", "Vannes"], ["TIP", "Conseils"]]);
+    expect(groupes[0].textContent).toContain("2");
+    const lignes = [...liste.querySelectorAll("a[data-ligne-favori]")];
+    expect(lignes.map((l) => l.getAttribute("href"))).toEqual(["/favoris?favori=b", "/favoris?favori=a", "/favoris?favori=c"]);
+    expect(liste.querySelectorAll("a[aria-current='page']")).toHaveLength(1);
+    expect(lignes[0]).toHaveAttribute("aria-current", "page");
+    // Le détail : la vanne la plus récente, chute visible, cellule cachée sous 1024 tant qu'aucun favori n'est demandé.
+    const detail = container.querySelector("[data-favori-detail='b']") as HTMLElement;
+    expect(detail.textContent).toContain("Chute B");
+    expect(classes(container.querySelector("[data-zone='panneau']"))).toEqual(expect.arrayContaining(["hidden", "lg:block"]));
+    expect(classes(container.querySelector("[data-zone='liste']"))).toContain("block");
   });
 
-  // s26 tour 3 : à toutes les largeurs à deux colonnes (dès 768), chaque carte à sa hauteur propre ; 24 px entre la
-  // rangée d'onglets et la première carte sous 1024 (les 28 px de marge de la rangée sont repris).
-  it("liste à hauteurs propres dès 768, rangée d'onglets à 24 px de la liste", () => {
-    useFavoritesStore.setState({ favorites: [vanne("a", "2026-11-02", "Chute A"), vanne("b", "2026-11-01", "Chute B")] });
-    const { container } = render(<FavorisAbonne />);
-    const grille = (container.querySelector("[data-liste-favoris] > div") as HTMLElement).className.split(" ");
-    expect(grille).toEqual(expect.arrayContaining(["md:grid-cols-2", "md:items-start"]));
-    for (const carte of container.querySelectorAll("[data-favori]")) expect(carte.className.split(" ")).toContain("md:h-auto");
-    const rangee = container.querySelector('[role="tablist"]:not([data-rail-favoris])')!.closest(".lg\\:hidden") as HTMLElement;
-    expect(rangee.className.split(" ")).toContain("-mb-7");
+  it("favori demandé : son détail, la liste masquée sous 1024 seulement, « Retour : Mes favoris »", () => {
+    adresse.favori = "c";
+    useFavoritesStore.setState({ favorites: [vanne("a", "2026-11-01T00:00:00Z", "Chute A"), conseil("c", "2026-11-05T00:00:00Z")] });
+    const { container } = render(<FavorisAbonne titre="Mes favoris" />);
+    expect(container.querySelector("[data-favori-detail='c']")).not.toBeNull();
+    expect(container.querySelector("a[data-ligne-favori='c']")).toHaveAttribute("aria-current", "page");
+    expect(classes(container.querySelector("[data-zone='liste']"))).toEqual(expect.arrayContaining(["hidden", "lg:block"]));
+    expect(screen.getByRole("link", { name: /Retour/ }).textContent).toContain("Mes favoris");
   });
 
-  it("état vide par onglet : phrase existante, un seul bouton plein, aucun émoji", () => {
+  it("détail à la DA de l'accueil : bandeau, émoji, pastille violette du type, blocs, aucun bouton plein", () => {
+    adresse.favori = "c";
+    useFavoritesStore.setState({ favorites: [conseil("c", "2026-11-05T00:00:00Z")] });
+    const { container } = render(<FavorisAbonne />);
+    const detail = container.querySelector("[data-favori-detail='c']") as HTMLElement;
+    expect(classes(detail.firstElementChild)).toEqual(expect.arrayContaining(["h-1", "bg-gradient-to-r"]));
+    expect(detail.textContent).toContain("💡");
+    expect(within(detail).getByText("Conseil").className).toContain("bg-accent-primary/20");
+    expect(within(detail).getByText("Exemple").className).toContain("text-accent-link");
+    expect(within(detail).getByRole("button", { name: "Retirer des favoris" }).className).toContain("underline");
+    expect([...container.querySelectorAll("[class]")].filter((e) => classes(e).includes("bg-accent-secondary-hover"))).toEqual([]);
+  });
+
+  it("retirer le favori ouvert : retour à la liste (`replace`)", async () => {
+    adresse.favori = "c";
+    const removeFavorite = jest.fn(async () => true);
+    useFavoritesStore.setState({ favorites: [conseil("c", "2026-11-05T00:00:00Z"), vanne("a", "2026-11-01T00:00:00Z", "A")], removeFavorite });
+    render(<FavorisAbonne />);
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Retirer des favoris" }));
+    });
+    expect(removeFavorite).toHaveBeenCalledWith("c");
+    expect(routeur.replace).toHaveBeenCalledWith("/favoris", { scroll: false });
+  });
+
+  it("état vide : phrase existante, un seul bouton plein, aucun émoji", () => {
     const { container } = render(<FavorisAbonne />);
     const etat = container.querySelector("[data-favoris-etat]") as HTMLElement;
     expect(etat.textContent).toContain(TABS[0].emptyTitle);
@@ -80,10 +125,10 @@ describe("Favoris, abonné (s26)", () => {
     expect(EMOJI.test(container.textContent ?? "")).toBe(false);
   });
 
-  it("aucune capitale ni émoji dans les fichiers de la vue (constantes de `typo.ts`)", () => {
-    for (const f of ["favoris-abonne", "cartes-abonne", "cartes-favori", "onglets-favoris"]) {
+  it("aucun tiret cadratin dans les fichiers de la vue", () => {
+    for (const f of ["favoris-abonne", "liste-favoris", "detail-favori", "cartes-favori"]) {
       const code = readFileSync(join(__dirname, `../../components/espace/favoris/${f}.tsx`), "utf8");
-      expect([f, /uppercase|tracking-|text-xs|font-bold/.test(code), EMOJI.test(code), code.includes("—")]).toEqual([f, false, false, false]);
+      expect([f, code.includes("—")]).toEqual([f, false]);
     }
   });
 });

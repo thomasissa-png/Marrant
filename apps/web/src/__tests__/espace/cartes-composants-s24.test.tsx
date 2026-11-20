@@ -163,7 +163,9 @@ describe("mission : trois suites selon le retour", () => {
 
   it("« Marche 2 », titre, « Facultative » ; « ça a marché » : « Voir la marche 3 »", async () => {
     render(<MissionCarte mission={m} hrefAPlat={null} />);
-    expect(screen.getByText(M.marche(2))).toBeInTheDocument();
+    // s26 DA, s'entraîner et favoris : « Marche 2 » n'est plus répété en tête de mission (la ligne active de l'échelle,
+    // posée au-dessus dans la même carte, le dit déjà).
+    expect(screen.queryByText(M.marche(2))).toBeNull();
     expect(screen.getByRole("heading", { name: M.titresMarches[2] })).toBeInTheDocument();
     reponses.push({ ok: true, corps: { suite: "marche" } });
     fireEvent.click(screen.getByRole("button", { name: G.retours["essaye-ca-a-marche"] }));

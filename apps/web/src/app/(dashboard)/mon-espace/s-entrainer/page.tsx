@@ -20,8 +20,7 @@ import { CarteRepliee } from "@/components/espace/carte/carte-repliee";
 import { FournisseurCompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
 import { EchelleMarches } from "@/components/espace/mission/echelle-marches";
-import { CADRE_CARTE_RUBRIQUE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
-import { TUILE } from "@/components/espace/aujourdhui/tableau";
+import { CADRE_CARTE_ENTRAINER, LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { TEXTE, TEXTE_FORT, TITRE_PAGE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -43,6 +42,9 @@ const M = frEspaceProfond(TEXTES_MISSION);
  * zone d'accent, les autres repliées) et 5 colonnes de mission (échelle des 5 marches, puis la mission), sans `sticky`
  * (la colonne dépasse l'écran). Dessous, une colonne : cartes, puis échelle et mission. Rafale finie : « C'est tout
  * pour aujourd'hui » à la place des cartes, et le bouton de suite de la mission devient le plein.
+ * s26 DA, s'entraîner et favoris (Thomas, 20/11) : cartes à bandeau violet de l'accueil (`CADRE_CARTE_ENTRAINER`),
+ * émoji 🎯 et pastilles, « La scène » et « Le contexte » en blocs « Exemple concret », « À toi » et l'énoncé de mission
+ * en blocs « Exercice du jour » ; échelle et mission réunies dans une carte étirée (aucun vide de plus de 32 px à 1280).
  */
 export const dynamic = "force-dynamic";
 
@@ -107,7 +109,7 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
       <div className={cn("grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start", avecSegments ? "mt-6" : "mt-8")} data-entrainement-grille>
         <div className="flex min-w-0 flex-col gap-6 lg:col-span-7" data-zone="cartes">
           {fini ? (
-            <div className={cn(TUILE, "h-auto")} data-rafale-finie>
+            <div className={cn(CADRE_CARTE_ENTRAINER, "min-w-0 p-6")} data-rafale-finie>
               <p className={TEXTE_FORT}>{T.fini}</p>
             </div>
           ) : (
@@ -132,10 +134,15 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
             </FournisseurCompteARebours>
           )}
         </div>
-        <div className="flex min-w-0 flex-col gap-6 lg:col-span-5" data-zone="mission">
-          <EchelleMarches enCours={enCours} reussies={marchesReussies(retours)} />
+        {/* s26 DA, s'entraîner et favoris (Thomas, 20/11 ; audit des trajets : 106 px vides sous la colonne des cartes,
+            136 après la DA) : l'échelle et la mission dans UNE carte à bandeau violet (plus de « Marche n » répété en tête
+            de mission, plus de gouttière ni de seconde marge de carte) ; la colonne s'étire à la hauteur de la rangée
+            (`lg:self-stretch`) et les lignes de l'échelle se partagent le surplus quand les cartes sont plus longues. */}
+        <div className="flex min-w-0 flex-col gap-6 lg:col-span-5 lg:self-stretch" data-zone="mission">
+          <div className={cn(CADRE_CARTE_ENTRAINER, "flex min-w-0 flex-col lg:flex-1")} data-carte-mission>
+          <EchelleMarches enCours={enCours} reussies={marchesReussies(retours)} cadre="" />
           {marche && !mission && (
-            <div id="mission" className={cn(CADRE_CARTE_RUBRIQUE, "min-w-0 p-6")} data-testid="mission-vide">
+            <div id="mission" className="min-w-0 border-t border-border p-6" data-testid="mission-vide">
               <p className={TEXTE_FORT}>{M.aucuneMission}</p>
               {repli && (
                 <Link href={`/mon-espace/s-entrainer?marche=${repli}#mission`} className={cn("mt-2", LIEN_NEUTRE)}>
@@ -149,8 +156,10 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
               mission={{ id: mission.id, marche: mission.marche, enonce: mission.enonce, suites: frEspaceProfond(mission.suites) }}
               hrefAPlat={aPlat ? hrefFiche("a-plat", aPlat.id) : null}
               principal={fini}
+              cadre="border-t border-border"
             />
           )}
+          </div>
         </div>
       </div>
     </div>

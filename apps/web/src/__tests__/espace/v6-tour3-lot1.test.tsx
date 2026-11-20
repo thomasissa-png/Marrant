@@ -106,7 +106,8 @@ describe("point 2 : S'entraîner, aucun trou dans une carte ni à côté (colonn
   it("cartes et mission : un cadre, ni étirement ni colonnes internes (s26)", () => {
     for (const f of ["components/espace/carte/carte-registre.tsx", "components/espace/carte/carte-et-toi.tsx", "components/espace/mission/mission-carte.tsx"]) {
       const source = lire(f);
-      expect(source).toMatch(/className=\{cadreCarte\(cadre\)\}|className=\{cn\(CADRE_CARTE_RUBRIQUE, /);
+      // s26 DA, s'entraîner et favoris : la mission prend son cadre en paramètre (`cadre`, la DA par défaut).
+      expect(source).toMatch(/className=\{cadreCarte\(cadre\)\}|className=\{cn\(cadre, /);
       expect(source).not.toMatch(/Entrainement\(|h-full|mt-auto|md:contents|lg:grid-cols-2/);
     }
   });

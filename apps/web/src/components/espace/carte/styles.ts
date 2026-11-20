@@ -53,6 +53,15 @@ export const NEUTRE_CAP =
  */
 export const CADRE_CARTE_RUBRIQUE: string = CADRE_CARTE_NEUTRE;
 
+/**
+ * s26 DA, s'entraîner et favoris (décision de Thomas du 20/11, « la DA, c'est celle des pages déjà validées, avec du
+ * violet ») : le `CADRE_CARTE_RUBRIQUE` de S'ENTRAÎNER passe à la DA de l'accueil, le cadre à bandeau violet de 4 px
+ * (`CADRE_CARTE`, même rendu que `CARTE_ACCUEIL` + `BANDEAU_ACCUEIL` de `home/da-site.tsx`, sans enfant en plus). Cartes de
+ * la rafale (dépliée et repliées), échelle des marches, mission, rafale finie. La Bibliothèque garde
+ * `CADRE_CARTE_RUBRIQUE` (hors du périmètre de cette passe).
+ */
+export const CADRE_CARTE_ENTRAINER: string = CADRE_CARTE;
+
 export const CARTE = `min-w-0 space-y-4 ${CADRE_CARTE} p-4 md:p-6 [overflow-wrap:anywhere]`;
 
 /**
