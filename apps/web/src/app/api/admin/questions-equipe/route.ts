@@ -19,6 +19,7 @@ import { journaliserQuestions, REPONSE_EQUIPE_MAX, SCENES_BUT, SCENES_OU, TYPES_
 import { etiqueter, listerPourEquipe, recopier, repondre } from "@/lib/espace/questions-equipe";
 import { envoyerParResend } from "@/lib/espace/questions-route";
 import { validerQuestion } from "@/lib/question-equipe";
+import { EMAIL_LONGUEUR_MAX } from "@/lib/email-longueur";
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +32,8 @@ const recopie = z
   .object({
     recopie: z
       .object({
-        email: z.string().trim().toLowerCase().email(),
+        // s26 batterie (défaut n°1) : même borne qu'à l'inscription.
+        email: z.string().trim().toLowerCase().max(EMAIL_LONGUEUR_MAX).email(),
         type: z.enum(TYPES_QUESTION),
         question: z.string().refine((q) => validerQuestion(q).ok),
         reponse: texteEquipe,

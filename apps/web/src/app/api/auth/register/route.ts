@@ -4,6 +4,7 @@ import { z } from "zod";
 import { hash } from "@/lib/password";
 import { getClientIp, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
 import { TEXTES_API } from "@/config/textes/compte";
+import { EMAIL_LONGUEUR_MAX } from "@/lib/email-longueur";
 
 const registerSchema = z.object({
   // s21 B17 : prénom facultatif (vide ou absent → null en base, colonne déjà nullable ;
@@ -13,7 +14,9 @@ const registerSchema = z.object({
     .optional()
     .transform((v) => (v ?? "").trim())
     .refine((v) => v === "" || v.length >= 2, "Le prénom doit faire au moins 2 caractères"),
-  email: z.string().email("Email invalide"),
+  // s26 batterie (défaut n°1) : adresse nettoyée (espaces, minuscules) puis bornée à 254 caractères (RFC 5321) ;
+  // au-delà, même message qu'une adresse invalide (un e-mail de 10 016 caractères créait un compte).
+  email: z.string().trim().toLowerCase().max(EMAIL_LONGUEUR_MAX, "Email invalide").email("Email invalide"),
   password: z
     .string()
     .min(8, "Le mot de passe doit faire au moins 8 caractères"),
@@ -37,7 +40,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const parsed = registerSchema.parse(body);
     const name = parsed.name || null;
-    const email = parsed.email.toLowerCase().trim();
+    const email = parsed.email;
     const password = parsed.password;
 
     const existingUser = await prisma.user.findUnique({
