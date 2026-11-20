@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useContext, useEffect, useRef } from "react";
 import { fichesAffichees } from "@/lib/espace/sous-etapes";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,7 +33,7 @@ import {
   VideoCard,
 } from "@/components/parcours/step-blocks";
 import type { Step } from "@/components/parcours/parcours-types";
-import { LignesFiches } from "@/components/espace/parcours/lignes-fiches";
+import { FicheActiveContexte, LignesFiches } from "@/components/espace/parcours/lignes-fiches";
 
 // s24 lot D4 : fiches de l'étape (découpage), rendues seulement avec `ancresFiches` (espace ouvert, abonné) ; interrupteur
 // fermé, jamais rendues. s26 parcours, tour 7 bis : import direct (le module est déjà dans la page, `parcours-detail.tsx`) ;
@@ -238,8 +238,13 @@ const BLOC_FICHE = "scroll-mt-[9px] focus:outline-none";
  * Repère : la sous-étape cliquée porte `data-fiche-reperee` 1,5 s (`parcours-detail.tsx`), contour neutre, pour que
  * deux cartes voisines (2.3 et 2.4 à 1280) ne donnent pas le même écran sans repère.
  */
-const REPERE_FICHE =
-  "data-[fiche-reperee]:!outline data-[fiche-reperee]:!outline-2 data-[fiche-reperee]:!outline-offset-4 data-[fiche-reperee]:!outline-text-muted";
+const REPERE_FICHE = cn(
+  "data-[fiche-reperee]:!outline data-[fiche-reperee]:!outline-2 data-[fiche-reperee]:!outline-offset-4 data-[fiche-reperee]:!outline-text-muted",
+  // s26 parcours, tour 8 (relecture UX v5, D4 : deux vidéos côte à côte, rien ne dit laquelle est visée) : tant que la
+  // sous-étape est la cible (`FicheActiveContexte`, l'équivalent de `:target`, l'adresse changeant par `replaceState`), anneau
+  // fin neutre de 1 px, hors boîte (aucune taille ni place changée), sous le contour de 1,5 s.
+  "data-[fiche-cible]:outline data-[fiche-cible]:outline-1 data-[fiche-cible]:outline-offset-4 data-[fiche-cible]:outline-text-muted",
+);
 const MARGE_VIDEO = (i: number) => (i === 0 ? "scroll-mt-[2.5625rem]" : i === 1 ? "sm:scroll-mt-[2.5625rem]" : undefined);
 
 export function ParcoursStepCard(props: ParcoursStepCardProps) {
@@ -433,6 +438,9 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
     ancres ? fichesAffichees(slug, step, { etapeFaite: isCompleted, quizFait: isQuizDone }).map((f) => [f.cle, f.ancre] as const) : [],
   );
   const fiche = (cle: string) => ancresBlocs.get(cle);
+  // s26 parcours, tour 8 : bloc de la sous-étape cible (anneau fin tant qu'elle l'est, `REPERE_FICHE`).
+  const ficheCible = useContext(FicheActiveContexte)?.active ?? null;
+  const cible = (cle: string) => (ancres && ficheCible !== null && fiche(cle) === ficheCible ? "" : undefined);
   // s26 parcours, tour 5 : blocs des fiches, mêmes conditions que la liste (`blocRendu`) ; la fiche 1 (conseil) est titrée
   // du titre du conseil, texte existant déjà lu dans la liste des fiches.
   const vannesRendues = isPremium && (step.jokes?.length ?? 0) > 0;
@@ -441,7 +449,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
     <div className="space-y-6">
       {ancres && <LignesFiches slug={slug} etape={step} etapeFaite={isCompleted} quizFait={isQuizDone} className="lg:hidden" />}
       {ancres && step.tip.title.trim() !== "" && (
-        <h4 id={fiche("conseil")} tabIndex={-1} className={cn(sectionTitre(), "mb-0 rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
+        <h4 id={fiche("conseil")} tabIndex={-1} data-fiche-cible={cible("conseil")} className={cn(sectionTitre(), "mb-0 rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
           {frTypoParcours(step.tip.title)}
         </h4>
       )}
@@ -553,7 +561,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       )}
 
       {ancres && vannesRendues ? (
-        <div id={fiche("vannes")} tabIndex={-1} className={cn("rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
+        <div id={fiche("vannes")} tabIndex={-1} data-fiche-cible={cible("vannes")} className={cn("rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
           <StepJokes step={step} isPremium={isPremium} />
         </div>
       ) : (
@@ -567,7 +575,15 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
           <div className="grid gap-3 sm:grid-cols-2">
             {step.videos.map((v, i) =>
               ancres ? (
-                <div key={v.youtubeId} id={fiche(`video:${v.youtubeId}`)} tabIndex={-1} className={cn("rounded-xl", BLOC_FICHE, MARGE_VIDEO(i), REPERE_FICHE)}>
+                <div
+                  key={v.youtubeId}
+                  id={fiche(`video:${v.youtubeId}`)}
+                  tabIndex={-1}
+                  data-fiche-cible={cible(`video:${v.youtubeId}`)}
+                  // s26 parcours, tour 8 (relecture design v5, détail 3 : cartes d'une rangée à 555 et 535 px) : la carte
+                  // remplit la cellule étirée par la grille, même hauteur dans la rangée.
+                  className={cn("rounded-xl [&>div]:h-full", BLOC_FICHE, MARGE_VIDEO(i), REPERE_FICHE)}
+                >
                   {/* s26 parcours, tour 7 (MESURES v4 §6.3) : titre incrusté dans la vignette à toutes les largeurs. */}
                   <VideoCard video={v} seule={step.videos!.length === 1} titreIncruste />
                 </div>
@@ -584,6 +600,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         <div
           id={ancres ? fiche("quiz") : undefined}
           tabIndex={ancres ? -1 : undefined}
+          data-fiche-cible={cible("quiz")}
           className={cn("border-t border-border pt-6", ancres && cn(BLOC_FICHE, REPERE_FICHE))}
         >
           <h4 className={sectionTitre()}>{isPremium ? QUIZ_TITRE.abonne : QUIZ_TITRE.visiteur}</h4>

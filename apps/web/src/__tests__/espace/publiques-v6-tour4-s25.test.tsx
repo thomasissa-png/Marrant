@@ -100,7 +100,9 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
       expect(details.tagName).toBe("DETAILS");
       expect(details.className).toBe("group lg:min-w-0");
       const bloc = pied.lastElementChild as HTMLElement;
-      expect(bloc.className).toBe("flex flex-col gap-2 lg:min-w-0");
+      // s26 parcours, tour 8 : test changé (raison : sous 768 px, le bloc du premier parcours, dont « Tester l'étape 1 » est
+      // remonté au-dessus des cartes, est masqué en entier, phrase « Sans compte. La suite : Premium. » comprise).
+      expect(bloc.className.replace(/ max-md:hidden$/, "")).toBe("flex flex-col gap-2 lg:min-w-0");
       const bouton = within(bloc).getByRole("button");
       expect(classes(bouton)).toEqual(expect.arrayContaining(["min-h-12", "w-full", "sm:w-auto"]));
       // Un seul bloc de fin : rien après lui dans la carte.

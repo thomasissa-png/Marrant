@@ -82,7 +82,8 @@ export function ParcoursEspace() {
       setCaps(lu);
       setEtat(lu ? "ok" : "echec");
       // s26 parcours, tour 7 : la carte de ce parcours, dans la liste, n'a plus de second bouton (« Reprendre » suffit).
-      noterParcoursEnCours(lu?.etape?.enCours ? lu.etape.slug : null);
+      // Tour 8 : avec son lien, repris en contour dans la carte du parcours (case vide à droite de « Programme »).
+      noterParcoursEnCours(lu?.etape?.enCours ? lu.etape.slug : null, lu?.etape?.enCours ? lu.etape.href : null);
     });
     return () => {
       actif = false;

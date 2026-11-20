@@ -28,6 +28,9 @@ const HAUTEUR_MIN = 240;
 const LIGNE =
   "relative flex min-h-11 items-center gap-3 px-6 py-2 hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary before:absolute before:inset-y-0 before:left-0 before:w-0.5";
 
+/** s26 parcours, tour 8 : colonne de statut du visiteur (« Lecture libre », cadenas), même largeur, bord droit commun. */
+const COLONNE_STATUT = "inline-flex w-28 flex-none items-center justify-end";
+
 export interface EtapeMenu {
   order: number;
   titre: string;
@@ -58,6 +61,7 @@ export function MenuEtapes({
   reprendre,
   details,
   retour,
+  avanceeBarre,
 }: {
   slug: string;
   titre: string;
@@ -79,6 +83,11 @@ export function MenuEtapes({
   details?: ReactNode;
   /** s26 parcours, tour 7 : sous 1024 px, « Retour : Parcours » à gauche de la barre collante (le `LienRetour` existant). */
   retour?: ReactNode;
+  /**
+   * s26 parcours, tour 8 (relecture UX v5, D1 : à 375, la pastille disait « Étape 3 sur 3 » sur la fiche 2.2) : texte du
+   * bouton de la barre compacte, l'étape LUE au même format ; absent : `avancee`.
+   */
+  avanceeBarre?: ReactNode;
 }) {
   const [ouvert, setOuvert] = useState(false);
   const cellule = useRef<HTMLDivElement>(null);
@@ -230,7 +239,7 @@ export function MenuEtapes({
           data-menu-bascule=""
           data-ouvert={ouvert || undefined}
         >
-          <span className="min-w-0 text-left [overflow-wrap:anywhere]">{avancee}</span>
+          <span className="min-w-0 text-left [overflow-wrap:anywhere]">{avanceeBarre ?? avancee}</span>
           <span className={cn("flex-none transition-transform motion-reduce:transition-none", ouvert && "rotate-180")}>
             <ChevronRepli />
           </span>
@@ -250,6 +259,13 @@ export function MenuEtapes({
         {/* Tour 7 (relecture design v4, point 16 : titre du parcours et « Étape n sur N » répétés à 375) : sous 1024 px, le
             titre (nom du menu, gardé pour `aria-labelledby`) et l'avancée (déjà sur le bouton) sont masqués. */}
         <div className={cn("flex-none p-6 pb-4 max-lg:pt-4", !details && "max-lg:hidden")}>
+          {/* s26 parcours, tour 8 (relecture UX v5, D3 : à 1280, aucun « Retour : Parcours » en haut du détail) : dès 1024 px,
+              le même lien en tête de la colonne du menu (carte collante), comme dans la barre compacte sous 1024. */}
+          {retour && (
+            <div className="-mt-2 mb-2 max-lg:hidden" data-retour-menu="">
+              {retour}
+            </div>
+          )}
           <p id="menu-etapes-titre" className={cn(TITRE_CARTE, "max-lg:hidden")}>
             {frTypoTexte(titre)}
           </p>
@@ -294,9 +310,13 @@ export function MenuEtapes({
                         {P.sommaire.fait}
                       </span>
                     ) : e.libre ? (
-                      <span className={cn("flex-none rounded-xl border border-border px-2", META)}>{ETAPE_LIBRE_BADGE}</span>
+                      // s26 parcours, tour 8 (relecture design v5, détail 2) : « Lecture libre » et cadenas dans la même
+                      // colonne de droite (largeur fixe, alignés à droite, « Lecture libre » sur une ligne).
+                      <span className={COLONNE_STATUT} data-statut="libre">
+                        <span className={cn("whitespace-nowrap rounded-xl border border-border px-2", META)}>{ETAPE_LIBRE_BADGE}</span>
+                      </span>
                     ) : e.verrouillee ? (
-                      <span className="inline-flex flex-none items-center" data-statut="verrouillee">
+                      <span className={COLONNE_STATUT} data-statut="verrouillee">
                         <Cadenas />
                       </span>
                     ) : null}

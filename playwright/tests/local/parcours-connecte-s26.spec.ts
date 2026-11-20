@@ -17,6 +17,9 @@ import { test, expect, localSeulement, creerCompte, connecter, requete, ESPACE_O
  * - s26 parcours, tour 6 (relectures v3) : /parcours en grille fixe 10/7 (témoignage sur la ligne du bouton, vide ≤ 32 px) ;
  *   un seul « Tester l'étape 1 » visible par parcours à 375 ; sous-étapes numérotées sans trou, titre entier sous l'en-tête,
  *   repère neutre 1,5 s, menu immobile au changement d'actif ; quiz sans option violette avant la réponse.
+ * - s26 parcours, tour 8 (relectures v5) : « Reprendre » en contour dans la carte du parcours repris ; pastille de la barre
+ *   compacte = étape lue ; « Retour : Parcours » en tête de la colonne du menu dès 1024 ; titre d'étape à la même place à
+ *   toutes les étapes ; cartes vidéo d'une rangée égales, titres de vignette entiers sur 2 lignes au plus.
  */
 const MOT_DE_PASSE = "E2e-parcours-connecte-s26";
 const SLUG = "machine-a-cafe";
@@ -102,8 +105,13 @@ test.describe("Parcours connecté (s26)", () => {
       const reprendre = page.getByTestId("carte-en-cours-reprendre");
       await expect(reprendre).toHaveText("Reprendre");
       await expect(reprendre).toHaveAttribute("href", `/parcours/${SLUG}#etape-2`);
-      // C6 : un seul « Reprendre » visible sur /parcours, 375 compris.
-      expect(await reprendreVisibles(page)).toBe(1);
+      // C6 : un seul « Reprendre » PLEIN sur /parcours, 375 compris.
+      // s26 parcours, tour 8 : test changé (raison : la carte du parcours repris reçoit le même « Reprendre », en contour,
+      // relecture design v5 liste 1 et UX v5 D2 : case vide à droite de « Programme ») : deux visibles, un seul plein.
+      const contour = page.getByTestId("carte-parcours-reprendre");
+      await expect(contour).toHaveAttribute("href", `/parcours/${SLUG}#etape-2`);
+      expect(await reprendreVisibles(page)).toBe(2);
+      expect(await contour.evaluate((e) => getComputedStyle(e).backgroundColor)).not.toBe(await reprendre.evaluate((e) => getComputedStyle(e).backgroundColor));
 
       // C7, clic 1 : l'étape en cours, ouverte, sous l'en-tête collant.
       await reprendre.click();
@@ -851,5 +859,173 @@ test.describe("Parcours connecté (s26)", () => {
         });
       }
     }
+  }
+
+  // s26 parcours, tour 8 (relectures à l'aveugle v5 : design liste 1, détail 1, 3, 4 ; UX D1, D2, D3).
+  for (const [largeur, hauteur] of [[375, 812], [1280, 900]] as const) {
+    test(`${largeur} : /parcours abonné, « Reprendre » en contour dans la carte du parcours repris, à droite de « Programme » dès 1024`, async ({ page }) => {
+      await abonne(page);
+      await valider(page, SLUG, [1]);
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      await page.goto("/parcours");
+      const plein = page.getByTestId("carte-en-cours-reprendre");
+      await expect(plein).toBeVisible();
+      const carte = page.locator(`#parcours-${SLUG}`);
+      const contour = carte.getByTestId("carte-parcours-reprendre");
+      await expect(contour).toBeVisible();
+      await expect(contour).toHaveText("Reprendre");
+      await expect(contour).toHaveAttribute("href", (await plein.getAttribute("href")) ?? "");
+      // Contour : fond transparent, un bord ; le plein reste celui de la carte « En cours ».
+      const fond = await contour.evaluate((e) => ({ fond: getComputedStyle(e).backgroundColor, bord: getComputedStyle(e).borderTopWidth }));
+      expect(fond, JSON.stringify(fond)).toEqual({ fond: "rgba(0, 0, 0, 0)", bord: "1px" });
+      await expect(carte.getByRole("button", { name: "Continuer ce parcours" })).toHaveCount(0);
+      const m = await carte.evaluate((c) => {
+        const r = (s: string) => c.querySelector(s)!.getBoundingClientRect();
+        const resume = r("details summary");
+        const bouton = r("[data-testid='carte-parcours-reprendre']");
+        return { resumeHaut: Math.round(resume.top), resumeDroite: Math.round(resume.right), boutonHaut: Math.round(bouton.top), boutonGauche: Math.round(bouton.left), boutonH: Math.round(bouton.height) };
+      });
+      expect(m.boutonH, JSON.stringify(m)).toBeGreaterThanOrEqual(44);
+      if (largeur >= 1024) {
+        expect(Math.abs(m.boutonHaut - m.resumeHaut), `même rangée que « Programme », ${JSON.stringify(m)}`).toBeLessThanOrEqual(1);
+        expect(m.boutonGauche, `à droite de « Programme », ${JSON.stringify(m)}`).toBeGreaterThan(m.resumeDroite);
+      }
+      await contour.click();
+      await expect(page).toHaveURL(new RegExp(`/parcours/${SLUG}#etape-2$`));
+      await expect(page.locator("#etape-2-entete")).toHaveAttribute("aria-expanded", "true");
+    });
+  }
+
+  test("375 : pastille de la barre compacte = étape LUE (arrivée, choix d'une étape, sous-étape)", async ({ page }) => {
+    await abonne(page);
+    await valider(page, SLUG, [1, 2]);
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(`/parcours/${SLUG}#etape-3`);
+    const bascule = page.locator("[data-barre-parcours] [data-menu-bascule]");
+    await expect(page.locator("#etape-3-entete")).toHaveAttribute("aria-expanded", "true");
+    await expect(bascule).toHaveText(/^Étape\s3\ssur\s3$/);
+    await bascule.click();
+    await page.locator("[data-menu-etapes] a[data-ligne-etape='2']").click();
+    await expect(page.locator("#etape-2-entete")).toHaveAttribute("aria-expanded", "true");
+    await expect(bascule).toHaveText(/^Étape\s2\ssur\s3$/);
+    // Sous-étape 2.2 depuis la liste de la carte : on lit toujours l'étape 2.
+    const liste = page.locator("#etape-2").getByTestId("lignes-fiches");
+    await liste.scrollIntoViewIfNeeded();
+    await liste.locator("a[data-fiche='fiche-2-2']").click();
+    await expect(page).toHaveURL(/#fiche-2-2$/);
+    await expect(bascule).toHaveText(/^Étape\s2\ssur\s3$/);
+    // Le menu déplié garde l'étape à reprendre (pied « Reprendre » vers l'étape 3).
+    await bascule.click();
+    await expect(page.locator("#sommaire-reprendre")).toBeVisible();
+  });
+
+  for (const compte of ["visiteur", "abonne"] as const) {
+    test(`1280, ${compte} : « Retour : Parcours » en tête de la colonne du menu, visible après défilement, ramène sur la carte`, async ({ page }) => {
+      if (compte === "abonne") await abonne(page);
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto(`/parcours/${SLUG}`);
+      const menu = page.locator("[data-menu-etapes]");
+      const retour = menu.locator("[data-retour-menu] [data-lien-retour]");
+      await expect(retour).toBeVisible();
+      await expect(retour).toHaveAttribute("href", `/parcours#parcours-${SLUG}`);
+      // En tête : au-dessus du titre du parcours, dans la carte du menu.
+      const m = await menu.evaluate((n) => ({
+        retour: Math.round(n.querySelector("[data-retour-menu]")!.getBoundingClientRect().bottom),
+        titre: Math.round(n.querySelector("#menu-etapes-titre")!.getBoundingClientRect().top),
+        carte: Math.round(n.getBoundingClientRect().top),
+        lienHaut: Math.round(n.querySelector("[data-retour-menu] [data-lien-retour]")!.getBoundingClientRect().top),
+      }));
+      expect(m.retour, JSON.stringify(m)).toBeLessThanOrEqual(m.titre);
+      expect(m.lienHaut, JSON.stringify(m)).toBeGreaterThanOrEqual(m.carte);
+      // La barre compacte (et son retour) n'existe pas dès 1024.
+      await expect(page.locator("[data-barre-parcours] [data-lien-retour]")).toBeHidden();
+      await page.evaluate(() => window.scrollTo(0, 1_500));
+      await expect(retour).toBeInViewport();
+      await retour.click();
+      await expect(page).toHaveURL(new RegExp(`/parcours#parcours-${SLUG}$`));
+      await expect(page.locator(`#parcours-${SLUG}`)).toBeInViewport();
+    });
+  }
+
+  test("375 : le retour de la colonne du menu est masqué (celui de la barre compacte suffit)", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(`/parcours/${SLUG}`);
+    await expect(page.locator("[data-barre-parcours] [data-lien-retour]")).toBeVisible();
+    await expect(page.locator("[data-retour-menu]")).toBeHidden();
+  });
+
+  for (const compte of ["visiteur", "abonne"] as const) {
+    test(`1280, ${compte} : titre d'étape à la même place à toutes les étapes, aucune étiquette « Parcours … · durée »`, async ({ page }) => {
+      if (compte === "abonne") {
+        await abonne(page);
+        await valider(page, SLUG, [1]);
+      }
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto(`/parcours/${SLUG}`);
+      const menu = page.locator("[data-menu-etapes]");
+      await expect(menu).toBeVisible();
+      const ecarts: number[] = [];
+      for (const n of [1, 2, 3]) {
+        await menu.locator(`a[data-ligne-etape='${n}']`).click();
+        await expect(page.locator(`#etape-${n}-entete`)).toHaveAttribute("aria-expanded", "true");
+        const m = await page.locator(`#etape-${n}`).evaluate((c, n) => {
+          const titre = Array.from(c.querySelectorAll("span.sr-only")).find((s) => s.textContent === `Étape ${n} : `)!.parentElement!;
+          const entete = c.querySelector(`#etape-${n}-entete`)!;
+          return {
+            ecart: Math.round(titre.getBoundingClientRect().top - c.getBoundingClientRect().top),
+            etiquette: /Parcours .+·/.test(entete.textContent ?? ""),
+          };
+        }, n);
+        expect(m.etiquette, `étape ${n} : étiquette « Parcours … · durée »`).toBe(false);
+        ecarts.push(m.ecart);
+      }
+      expect(new Set(ecarts).size, `haut du titre dans la carte, étapes 1 à 3 : ${ecarts.join(", ")} px`).toBe(1);
+    });
+  }
+
+  for (const [largeur, hauteur] of [[375, 812], [1280, 900]] as const) {
+    test(`${largeur} : cartes vidéo d'une rangée à la même hauteur, titres de vignette entiers (2 lignes au plus), lecture au-dessus du titre`, async ({ page }) => {
+      await abonne(page);
+      await page.setViewportSize({ width: largeur, height: hauteur });
+      let titres = 0;
+      for (const [slug, n] of [["repartie", 2], ["repartie", 1], [SLUG, 1], [SLUG, 3]] as const) {
+        await page.goto(`/parcours/${slug}`);
+        // Étape choisie dans le menu (déplié par la barre compacte sous 1024 px).
+        if (largeur < 1024) await page.locator("[data-barre-parcours] [data-menu-bascule]").click();
+        await page.locator(`[data-menu-etapes] a[data-ligne-etape='${n}']`).click();
+        await expect(page.locator(`#etape-${n}-entete`)).toHaveAttribute("aria-expanded", "true");
+        const blocs = page.locator(`#etape-${n} [id^='fiche-']:has(button[aria-label^='Lire la vidéo'])`);
+        await expect(blocs.first()).toBeAttached();
+        await page.evaluate(() => document.fonts.ready);
+        const m = await blocs.evaluateAll((bs) =>
+          bs.map((b) => {
+            const carte = b.firstElementChild!.getBoundingClientRect();
+            const vignette = b.querySelector("button[aria-label^='Lire la vidéo']")!;
+            const titre = Array.from(vignette.querySelectorAll<HTMLElement>("span")).filter((s) => s.children.length === 0 && s.getBoundingClientRect().height > 0).pop()!;
+            const lecture = vignette.querySelector(":scope > div")!.getBoundingClientRect();
+            const t = titre.getBoundingClientRect();
+            return {
+              haut: Math.round(b.getBoundingClientRect().top),
+              cellule: Math.round(b.getBoundingClientRect().height),
+              carte: Math.round(carte.height),
+              coupe: titre.scrollHeight > titre.clientHeight + 1,
+              lignes: Math.round(t.height / parseFloat(getComputedStyle(titre).lineHeight)),
+              air: Math.round(t.top - lecture.bottom),
+              texte: titre.textContent,
+            };
+          }),
+        );
+        for (const b of m) {
+          titres++;
+          expect(b.carte, `${slug} ${n} : carte à la hauteur de sa cellule, ${JSON.stringify(b)}`).toBe(b.cellule);
+          expect(b.coupe, `${slug} ${n} : titre « ${b.texte} » tronqué à ${largeur}`).toBe(false);
+          expect(b.lignes, `${slug} ${n} : « ${b.texte} » sur ${b.lignes} lignes`).toBeLessThanOrEqual(2);
+          expect(b.air, `${slug} ${n} : bouton de lecture au-dessus du titre, ${JSON.stringify(b)}`).toBeGreaterThanOrEqual(0);
+        }
+        // Même rangée (même haut) : même hauteur de carte.
+        for (const a of m) for (const b of m) if (a.haut === b.haut) expect(a.carte, `${slug} ${n} : ${JSON.stringify(m)}`).toBe(b.carte);
+      }
+      expect(titres, "vignettes titrées mesurées").toBeGreaterThanOrEqual(4);
+    });
   }
 });
