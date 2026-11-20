@@ -41,7 +41,8 @@ export function ReprendreParcoursBloc({
       {da ? (
         <>
           <Bandeau />
-          <PastillesDa as="h2" id="reprendre-parcours-titre" emoji={emojiParcours(aReprendre.slug)} pastille={REPRENDRE.titre} />
+          {/* Pastille violette malgré la neutralisation des cartes partagées du Profil (`ECHELLE_CARTES_PARTAGEES`). */}
+          <PastillesDa as="h2" id="reprendre-parcours-titre" className="[&_.rounded-full]:!bg-accent-primary/20 [&_.rounded-full]:!text-accent-link" emoji={emojiParcours(aReprendre.slug)} pastille={REPRENDRE.titre} />
         </>
       ) : (
         <h2 id="reprendre-parcours-titre" className="font-display text-lg font-bold text-text-primary">

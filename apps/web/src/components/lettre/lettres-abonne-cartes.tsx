@@ -61,7 +61,7 @@ export async function LettresAbonneCartes() {
           <div className={cn(CARTE_ACTION, "relative mt-8", LIGNE_CHEVRON, ANNEAU)} data-lettre-derniere={derniere.numero}>
             <Bandeau />
             <div className="min-w-0">
-              <PastillesDa className="mb-2" pastille={TEXTES_LETTRE.page.dernierNumero} />
+              <PastillesDa className="mb-2" pastille={TEXTES_LETTRE.menu} />
               <h2 className={TITRE_CARTE}>
                 <Link href={hrefLettre(derniere.numero)} data-lettre={derniere.numero} className={LIEN_ETIRE}>
                   {frTypo(derniere.titre)}

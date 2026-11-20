@@ -8,6 +8,12 @@ import { BarreProgression } from "@/components/espace/aujourdhui/tableau";
 import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+
+/**
+ * s26 contrôle d'ensemble, aperçus : la pastille de la DA reste VIOLETTE dans un conteneur qui neutralise le lien violet
+ * et les pastilles (`ECHELLE_CARTES_PARTAGEES`, `NEUTRE_INTERRUPTEURS` du Profil) : mêmes classes que `Badge` primaire.
+ */
+const PASTILLE_VIOLETTE = "[&_.rounded-full]:!bg-accent-primary/20 [&_.rounded-full]:!text-accent-link";
 import { cn } from "@/lib/utils";
 
 /**
@@ -69,7 +75,7 @@ export function ProchaineEtape({ tips, jokes, aDesParcours }: { tips: number; jo
     // s26 contrôle d'ensemble, aperçus (DA de l'accueil) : bandeau violet, titre de la carte en pastille violette (même texte).
     <section aria-labelledby="profil-prochaine" className={CARTE_PROFIL} data-profil-prochaine>
       <Bandeau />
-      <PastillesDa as="h2" id="profil-prochaine" pastille="Prochaine étape" />
+      <PastillesDa as="h2" id="profil-prochaine" className={PASTILLE_VIOLETTE} pastille="Prochaine étape" />
       <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {pistes.map((p) => (
           <li key={p.titre} className="min-w-0">
@@ -98,7 +104,7 @@ export function Statistiques({ stats }: { stats: { jokesRead: number; tipsComple
   return (
     <section aria-labelledby="profil-stats" className={CARTE_PROFIL} data-profil-stats>
       <Bandeau />
-      <PastillesDa as="h2" id="profil-stats" pastille="Statistiques" />
+      <PastillesDa as="h2" id="profil-stats" className={PASTILLE_VIOLETTE} pastille="Statistiques" />
       <dl className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {lignes.map(([n, libelle]) => (
           <div key={libelle} className="flex flex-col-reverse">
@@ -117,7 +123,7 @@ export function MesParcours({ parcours }: { parcours: readonly ParcoursProgress[
     <section aria-labelledby="profil-parcours" className={CARTE_PROFIL} data-profil-parcours>
       <Bandeau />
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <PastillesDa as="h2" id="profil-parcours" pastille="Mes parcours" />
+        <PastillesDa as="h2" id="profil-parcours" className={PASTILLE_VIOLETTE} pastille="Mes parcours" />
         <Link href="/parcours" className={LIEN_NEUTRE}>
           Voir tout
         </Link>
