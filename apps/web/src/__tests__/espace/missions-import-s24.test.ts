@@ -17,6 +17,11 @@
  * title, channelName ; duration et recommendedTimestamp vidés ; description, category et learnings de
  * la production s20 v1) et 68 (youtubeId JNo86HEt86w et durée, posés en production en s20).
  * (ancienne empreinte 397ec8b3a3073ba735ae7172e86cf3a1e833b6e861b0e3647c6acb6b59031e39).
+ * s26, 2e lot (go de Thomas du 20/11) : 28 lignes changées SUR PLACE, fiches 5, 15, 57 (youtubeId, title,
+ * channelName ; duration vidée, recommendedTimestamp de la 57 vidé, ligne gardée ; description et learnings
+ * de la cible s26). AUCUN champ `exercise` touché (les missions video-5, video-15, video-57 citent l'ancien
+ * défi, toujours au caractère et à la ligne près) : missions.json inchangé
+ * (ancienne empreinte 68a2f945c4e740cb03998fd25cf23bfb1d4b28bba356c21f8565951ff19439c3).
  */
 import { createHash } from "crypto";
 import { readFileSync } from "fs";
@@ -32,7 +37,7 @@ const { missions: resultat } = construireImport();
 
 const EMPREINTES_SEEDS: Record<keyof typeof SEEDS_MISSIONS, string> = {
   conseil: "3271f7ec83289ce1adc7297923947c16869ea99aeee160bda0543e0ad5bf97db",
-  video: "68a2f945c4e740cb03998fd25cf23bfb1d4b28bba356c21f8565951ff19439c3",
+  video: "244938616def878ba0cc94536e4cfaae3956af012e68dec1136c4b96b0bdf9ed",
 };
 
 /** Ligne de la table (sections 2 et 3) d'un id : [défi, « l. N », marche]. */

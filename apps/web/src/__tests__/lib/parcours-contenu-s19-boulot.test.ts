@@ -20,7 +20,8 @@ const I = lire("docs/marrant/parcours-boulot-s19/import-boulot.md");
 const E = lire("docs/copy/etalons-parcours-boulot-s19.md");
 const P = lire("docs/copy/parcours-boulot-etapes-2-6-s19.md");
 const V = lire("docs/marrant/parcours-boulot-s19/vannes-neuves/vannes-finales.md");
-const SOURCES = [I, E, P, V, lire("docs/content/videos-seed.json"),
+// s26 : bloc vidéo 3.4 remplacé (Kev Adams « Le tennis »), texte publié dans la section D du doc s26.
+const SOURCES = [I, E, P, V, lire("docs/content/videos-seed.json"), lire("docs/copy/textes-videos-remplacees-s26.md"),
   ...[1, 2, 5, 6].map((n) => lire(`docs/copy/conseils-boulot-s19-v${n}.md`))].join("\n");
 
 const seed = boulot.parcours;
@@ -103,7 +104,7 @@ describe("6 étapes (import-boulot.md §2)", () => {
 
   it("vidéos : ids de §2, 2 aux étapes 1 à 4, une aux étapes 5 et 6, chacune légendée", () => {
     expect(seed.steps.map((s) => s.videos.map((v) => v.youtubeId))).toEqual([
-      ["57Ip2k3us_8", "rldvVgHQSvo"], ["QGqA4va99rw", "zGT7TX66JFQ"], ["NebHsD_K9lM", "3v8Y4C9Q5hE"],
+      ["57Ip2k3us_8", "rldvVgHQSvo"], ["QGqA4va99rw", "zGT7TX66JFQ"], ["NebHsD_K9lM", "fSMhy3-7Xpk"],
       ["DK7ASNHnKm4", "TDmd7JRlxFc"], ["ztKRY4eNUTA"], ["Fw14PLdtSyA"],
     ]);
     seed.steps.flatMap((s) => s.videos).forEach((v) => expect(v.why.length).toBeGreaterThan(40));

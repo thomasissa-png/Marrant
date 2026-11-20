@@ -49,34 +49,70 @@
   {
    "seedId": 15,
    "youtubeId": "PrQTbXOz2iU",
-   "statut": "en-attente",
-   "raison": "description en base : « au Jamel Comedy Club » ; la nouvelle vidéo vient de la Topito Comedy Night",
+   "statut": "appliquer",
    "attendu": "3fe19c6e7a752e78",
    "anciensTitres": ["Laura Domenge - Jamel Comedy Club", "Laura Domenge - La vie de couple"],
-   "aReecrire": ["description (« au Jamel Comedy Club »)", "learnings et exercise à relire au visionnage"],
-   "parcours": "storytelling 2.4 (parcours-storytelling-s18.json, steps[1].videos[1]) GARDÉ sur PrQTbXOz2iU : title « La vie de couple » et why (« Un couple, rejoué avec les voix ») à réécrire",
-   "cible": { "youtubeId": "W7i0KRn_GLY", "title": "Laura Domenge - Se remettre avec son ex", "channelName": "Topito", "duration": "" }
+   "textes": "docs/copy/textes-videos-remplacees-s26.md bloc A1, ajusté (brief du 20/11) et relu à l'aveugle (docs/qa/relecture-aveugle-videos-s26.md, R1) ; go de Thomas du 20/11 sans visionnage",
+   "parcours": "storytelling 2.4 (parcours-storytelling-s18.json, steps[1].videos[1]) passé à W7i0KRn_GLY : bloc B2 (variante prudente, R5)",
+   "cible": {
+    "youtubeId": "W7i0KRn_GLY",
+    "title": "Laura Domenge - Se remettre avec son ex",
+    "channelName": "Topito",
+    "duration": "",
+    "description": "Laura Domenge s'attaque à la question de l'ex, ce sujet que presque tout le monde a déjà retourné dans sa tête, lors d'une Topito Comedy Night. Son terrain reste l'intime : plus le détail est personnel, plus la salle s'y reconnaît. Regarde-la pour comprendre comment une situation privée devient une histoire que tout le monde se raconte à voix basse.",
+    "learnings": [
+     "TECHNIQUE DE L'INTIME UNIVERSEL : raconte une situation ultra-spécifique plutôt qu'une généralité sur « les ex ». Le public ne se reconnaît pas dans une catégorie, il se reconnaît dans un détail.",
+     "TECHNIQUE DE LA MAUVAISE BONNE IDÉE : prends une décision que chacun sait déraisonnable et raconte la logique qui l'a rendue évidente sur le moment. L'écart entre ce qu'on sait et ce qu'on fait fait rire parce qu'il est vrai.",
+     "TECHNIQUE DU DILEMME PARTAGÉ : pars d'une question que la salle s'est déjà posée (se remettre avec un ex, rappeler quelqu'un, revenir dans un ancien job). Avant même ta première vanne, chacun a son avis, et tu n'as plus qu'à jouer avec.",
+     "TECHNIQUE DU DÉTAIL QUI TRAHIT : une phrase précise vaut dix explications. Ne dis pas qu'il était jaloux, cite la phrase qui le prouve."
+    ],
+    "exercise": "DÉFI LA MAUVAISE BONNE IDÉE : écris en 5 phrases la meilleure mauvaise raison que tu as eue (ou qu'un proche a eue) de reprendre contact avec un ex, un ancien job ou une vieille bande d'amis. Dis-la ensuite à voix haute en jouant les répliques au lieu de les résumer. C'est gagné si l'écart entre la raison et la décision fait sourire celui qui t'écoute."
+   }
   },
   {
    "seedId": 57,
    "youtubeId": "6lHjXqelKGo",
-   "statut": "en-attente",
-   "raison": "description, learnings et exercise en base décrivent le spectacle complet « Décalages » (1997), pas l'extrait « La visite d'appartement »",
+   "statut": "appliquer",
    "attendu": "5e8d76618600b107",
    "anciensTitres": ["Gad Elmaleh - Décalages (spectacle complet 1997)"],
-   "aReecrire": ["description (« Décalages »)", "learnings (personnages récurrents, spectacle de 1997)", "exercise à relire au visionnage"],
-   "cible": { "youtubeId": "BY8kpWBf57M", "title": "Gad Elmaleh - La visite d'appartement (La vie normale)", "channelName": "Comédie+", "duration": "" }
+   "textes": "docs/copy/textes-videos-remplacees-s26.md bloc A2, ajusté (brief du 20/11) et relu à l'aveugle (docs/qa/relecture-aveugle-videos-s26.md, R2 et R3) ; go de Thomas du 20/11 sans visionnage",
+   "cible": {
+    "youtubeId": "BY8kpWBf57M",
+    "title": "Gad Elmaleh - La visite d'appartement (La vie normale)",
+    "channelName": "Comédie+",
+    "duration": "",
+    "description": "Dans « La vie normale », Gad Elmaleh joue un agent immobilier qui fait visiter un appartement. Un personnage de métier que tout le monde a croisé, un décor ordinaire et un comédien qui tient son rôle jusqu'au bout. Utile pour voir comment une situation banale devient un sketch.",
+    "learnings": [
+     "TECHNIQUE DE L'OBSERVATION JOUÉE : ne te contente pas de décrire un comportement, joue-le. Le jeu transforme une observation en scène, et le public voit la personne avant même que tu la nommes.",
+     "TECHNIQUE DU PERSONNAGE DE MÉTIER : choisis quelqu'un que tout le monde a déjà croisé (le vendeur, le guide, le conseiller). Pas besoin de présenter le personnage : le public le connaît, tu n'as plus qu'à le pousser un cran trop loin.",
+     "TECHNIQUE DE L'ASSURANCE QUI TIENT : un personnage qui garde son aplomb quand ses réponses ne tiennent plus est drôle, parce que le public attend le moment où ça craque et que ça ne craque pas.",
+     "TECHNIQUE DU RÔLE TENU : ne casse pas le personnage pour expliquer ta vanne. Plus tu restes dedans jusqu'au bout, plus le public te suit."
+    ],
+    "exercise": "DÉFI LA VISITE : fais visiter ta pièce à un ami comme un guide qui n'a jamais vu les lieux mais n'avouerait jamais. Deux minutes, un seul personnage, un aplomb à toute épreuve, sans jamais sortir du rôle. C'est gagné si ton ami te pose une vraie question et que tu réponds sans craquer."
+   }
   },
   {
    "seedId": 5,
    "youtubeId": "3v8Y4C9Q5hE",
-   "statut": "en-attente",
-   "raison": "description en base : « Du côté de chez vous », extrait de « The Young Man Show » ; learnings et exercise sur le quartier",
+   "statut": "appliquer",
    "attendu": "abfe2cae229d253c",
    "anciensTitres": ["Kev Adams - Du côté de chez vous"],
-   "aReecrire": ["description (« Du côté de chez vous », « The Young Man Show »)", "learnings (portrait de quartier)", "exercise (DÉFI QUARTIER)"],
-   "parcours": "boulot 3.4 (parcours-boulot-s19.json, steps[2].videos[1]) GARDÉ sur 3v8Y4C9Q5hE : title « Du côté de chez vous » et why (« les codes de son quartier ») à réécrire",
-   "cible": { "youtubeId": "fSMhy3-7Xpk", "title": "Kev Adams - Le tennis", "channelName": "Montreux Comedy", "duration": "" }
+   "textes": "docs/copy/textes-videos-remplacees-s26.md bloc A3, ajusté (brief du 20/11) et relu à l'aveugle (docs/qa/relecture-aveugle-videos-s26.md, R4) ; go de Thomas du 20/11 sans visionnage",
+   "parcours": "boulot 3.4 (parcours-boulot-s19.json, steps[2].videos[1]) passé à fSMhy3-7Xpk : bloc B3 (R6)",
+   "cible": {
+    "youtubeId": "fSMhy3-7Xpk",
+    "title": "Kev Adams - Le tennis",
+    "channelName": "Montreux Comedy",
+    "duration": "",
+    "description": "Kev Adams s'empare du tennis dans cette vidéo de Montreux Comedy. Un sport que presque tout le monde a regardé au moins une fois a ses rituels, ses silences, ses règles que personne ne dit à voix haute : de quoi observer sans avoir besoin de planter le décor. Un bon modèle pour apprendre à faire rire avec un univers que tout le monde reconnaît.",
+    "learnings": [
+     "TECHNIQUE DU DÉCOR PARTAGÉ : choisis un univers que tout le monde connaît déjà (un sport, la cantine, le métro). Tu n'as rien à expliquer, donc tu gagnes tout de suite du temps pour la vanne.",
+     "TECHNIQUE DU CODE PARTAGÉ : repère les règles non écrites que tout le monde respecte sans se les être dites. Les rituels internes font rire ceux qui les reconnaissent, et donnent aux autres l'impression d'entrer dans le club.",
+     "TECHNIQUE DE L'ÉNERGIE DE RÉCIT : l'enthousiasme du narrateur se transmet. Si tu t'amuses en racontant, le public s'amuse en écoutant, même quand le sujet est banal.",
+     "TECHNIQUE DU GESTE PRÉCIS : « le coup droit qui finit dans le filet » fait plus rire que « il joue mal ». Nomme le geste, le bruit, l'attitude : une image fait rire plus vite qu'une catégorie."
+    ],
+    "exercise": "DÉFI RÈGLES NON ÉCRITES : choisis un lieu ou une activité que tout le monde connaît (la salle de sport, la cantine, le tennis du dimanche). Écris 5 règles que personne n'a jamais écrites mais que tout le monde suit, dites comme un commentateur solennel. Teste-les sur quelqu'un : c'est gagné s'il répond « c'est exactement ça »."
+   }
   }
  ]
 }

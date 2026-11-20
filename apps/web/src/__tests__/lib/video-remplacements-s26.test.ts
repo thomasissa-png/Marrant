@@ -3,7 +3,8 @@
  * Garde-fou par empreinte (texte s20 v1), statut « en-attente » ignoré, collision
  * d'id, aucune ligne créée ni supprimée, même `id`, marqueur `DataPatch` dans la
  * même transaction, `note.before` (retour arrière), idempotence au 2e boot,
- * anciennes URL ; + cohérence du JSON avec le seed, s20 et les parcours.
+ * anciennes URL ; + cohérence du JSON avec le seed, s20 et les parcours ; s26 v1 : les 7
+ * « appliquer » (go de Thomas du 20/11), les 4 premières non rejouées.
  */
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 jest.mock("@/lib/db-retry", () => ({
@@ -200,9 +201,51 @@ describe("JSON s26", () => {
     expect(seed.find((x) => x.id === 68)?.youtubeId).toBe("JNo86HEt86w");
   });
 
-  it("parcours : aucun nouvel id dans les fiches tant que leur texte n'est pas réécrit", () => {
+  it("parcours : Domenge (2.4) et Kev Adams (3.4) au nouvel id, Ngijol (1.4) gardé sur l'ancien tant que son texte n'est pas appliqué", () => {
     const root = path.resolve(__dirname, "../../../../..");
     const parcours = ["parcours-storytelling-s18.json", "parcours-boulot-s19.json"].map((f) => fs.readFileSync(path.join(root, "docs/content", f), "utf8")).join("");
-    for (const v of videos) expect(parcours).not.toContain(v.cible.youtubeId);
+    const auNouvelId = new Set([15, 5]);
+    for (const v of videos) {
+      if (auNouvelId.has(v.seedId)) {
+        expect(parcours).toContain(v.cible.youtubeId);
+        expect(parcours).not.toContain(v.youtubeId);
+      } else expect(parcours).not.toContain(v.cible.youtubeId);
+    }
+    expect(parcours).toContain("v-ySkBGAXLI");
+  });
+
+  it("toutes « appliquer » (0 en attente) ; textes réécrits complets, sans tiret cadratin", () => {
+    expect(videos.filter((v) => v.statut !== "appliquer")).toEqual([]);
+    for (const seedId of [15, 57, 5]) {
+      const c = videos.find((v) => v.seedId === seedId)!.cible;
+      expect(c.description).toBeTruthy();
+      expect(c.exercise).toBeTruthy();
+      expect(c.learnings).toHaveLength(4);
+      expect(JSON.stringify(c)).not.toContain("—");
+    }
+  });
+
+  it("version 1 gardée : au boot, les 4 déjà faites sont sautées (marqueur v1), les 3 nouvelles s'appliquent", async () => {
+    const fichier = remplacements as unknown as VideoRemplacementsS26File;
+    expect(fichier._meta.version).toBe(1);
+    markers = new Map();
+    rows = [];
+    for (const v of videos) {
+      if (v.cible.description === undefined) {
+        markers.set(`video-remplacements-s26:v1:${v.youtubeId}`, "{}");
+        continue;
+      }
+      const f = s20.find((x) => x.youtubeId === v.youtubeId)!;
+      const title = f.cible.title ?? v.anciensTitres[0];
+      rows.push({ id: `cmseed${v.seedId}`, youtubeId: v.youtubeId, title, channelName: "ancienne", duration: "PT5M", description: f.cible.description, learnings: [...f.cible.learnings], exercise: f.cible.exercise });
+    }
+    const r = await run(fichier);
+    expect(r).toMatchObject({ updated: 3, done: 4, refused: 0, pending: 0, missing: 0, failed: 0 });
+    for (const row of rows) {
+      const v = videos.find((x) => `cmseed${x.seedId}` === row.id)!;
+      expect(row).toMatchObject({ youtubeId: v.cible.youtubeId, title: v.cible.title, channelName: v.cible.channelName, duration: "", description: v.cible.description, learnings: v.cible.learnings, exercise: v.cible.exercise });
+    }
+    const second = await run(fichier);
+    expect(second).toMatchObject({ updated: 0, done: 7 });
   });
 });

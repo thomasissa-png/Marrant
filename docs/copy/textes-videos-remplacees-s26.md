@@ -1,5 +1,7 @@
 # Textes des vidéos remplacées (s26, temps 2 : à coller après visionnage)
 
+> **Appliqué le 20/11/2026 sans visionnage (go de Thomas)** : A1, A2, A3, B2 (variante) et B3, avec les ajustements du brief (A1 learning 4 « détail qui trahit », A2 description « qui tient son rôle jusqu'au bout », `recommendedTimestamp` de Gad vidé dans le seed) et les remplacements R1 à R6 de `docs/qa/relecture-aveugle-videos-s26.md`. Version publiée = `apps/web/src/data/video-remplacements-s26.json` (fiches) et `docs/content/parcours-*.json` (parcours). B1 (Ngijol, parcours 1.4) n'est PAS appliqué. Les blocs ci-dessous sont l'état d'avant ajustement.
+
 > Rien n'est appliqué. Aucune vidéo n'a été vue. Les titres et chaînes viennent de `docs/qa/remplacements-videos-s26.md` (oEmbed du 19/11, non rejoués ici : pas d'accès réseau direct). Les textes disent la technique, pas des répliques. Chaque affirmation de contenu sourcée est citée ; le reste est marqué `[À VÉRIFIER AU VISIONNAGE]`. Relecture à l'aveugle (P0 s18) et mesure du diff (P0 s11) restent à faire après le visionnage.
 
 ## A. Fiches publiques
@@ -102,3 +104,19 @@ why: Kev Adams s'empare d'un sport que tout le monde a vu à la télé, sans avo
 3. Le plus fragile : Kev Adams « Le tennis » (rien trouvé sur le contenu) ; regarde-la en premier, 2 minutes suffisent.
 4. Pour chaque vidéo : lis la ligne « À VÉRIFIER » (3-4 points chacune), dis oui / non, je corrige les phrases concernées.
 5. Domenge : si la vidéo Topito ne rejoue pas de voix, on passe à la variante B2 ; le secours JCC ne colle pas au texte actuel.
+
+## D. Version publiée des parcours (20/11, après R5 et R6)
+
+Fiches publiques : textes dans `apps/web/src/data/video-remplacements-s26.json` (A1 à A3 ajustés, R1 à R4).
+
+```
+B2, storytelling 2.4, W7i0KRn_GLY
+title: Se remettre avec son ex
+why: Une histoire d'ex, donc deux personnes. Repère comment elle présente l'autre : qu'est-ce qui le fait reconnaître tout de suite ?
+```
+
+```
+B3, boulot 3.4, fSMhy3-7Xpk
+title: Le tennis
+why: Kev Adams s'empare d'un sport que tout le monde a vu à la télé, sans avoir à poser le décor. Repère un détail que tout le monde reconnaît d'emblée : c'est par là que commence un irritant partagé.
+```
