@@ -278,7 +278,9 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
         // DES-1-04 : pas de marge basse sous un en-tête replié (16 px dessus, 0 dessous + padding de la carte).
         // s17 tour 3 (DES-3-05) : déplié, 8 px sous l'en-tête pour que l'anneau de focus (2 + 2 px) ne touche pas le bloc suivant.
         // s17 tour 4 (QA) : survol = titre souligné et chevron éclairci (en-tête dépliable seulement).
-        className={`rounded-t-xl ${isExpanded ? "mb-2" : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary group cursor-pointer`}
+        // s26 contrôle d'ensemble, abonné (C5 : 40 px sous « +100 XP », étape ouverte) : ouvert, plus les 16 px du bas de
+        // l'en-tête déplié (`pb-0`) ; les 8 px de l'anneau de focus restent (`mb-2`).
+        className={`rounded-t-xl ${isExpanded ? (ESPACE_CLIENT_PUBLIE ? "mb-2 pb-0" : "mb-2") : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary group cursor-pointer`}
         onClick={() => props.onToggle()}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -489,7 +491,9 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         <Section title="Le conseil">
           <p className={corpsLecture()}>{prose(step.tip.content)}</p>
           {step.tipHref ? (
-            <Link href={step.tipHref} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
+            // s26 contrôle d'ensemble, abonné (C5 : 40 px entre « Lire la fiche du conseil » et le bloc suivant) : ouvert,
+            // la cible de 44 px garde sa taille, ses 12 px sous le texte rentrent dans l'espace du bloc suivant (`-mb-3`).
+            <Link href={step.tipHref} className={ouvert("-mb-3 inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2", "inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2")}>
               {LIENS_FICHES.conseil}
             </Link>
           ) : (

@@ -10,13 +10,27 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
-/** Un fil seul, ouvert à l'arrivée (lien de la cloche) ; retiré : « Question retirée de ton historique. » */
-export function FilOuvert({ fil: initial }: { fil: FilListe }) {
+/**
+ * Un fil seul, ouvert à l'arrivée (lien de la cloche) ; retiré : « Question retirée de ton historique. »
+ * s26 contrôle d'ensemble, abonné (C6) : `onSuivre` relit la liste des fils du layout après la lecture et la suite
+ * envoyée (`router.refresh()`, `pages-questions.tsx` ; l'état de ce fil est gardé) ; au retrait, rien n'est relu (la page
+ * rendrait sa 404 au lieu de « Question retirée de ton historique. »).
+ */
+export function FilOuvert({ fil: initial, onSuivre }: { fil: FilListe; onSuivre?: () => void }) {
   const [envoi, setEnvoi] = useState<Envoi>(initial);
   if ("retire" in envoi) return <ListeEnvois envois={[envoi]} lectureSeule={false} onMaj={() => undefined} onRetire={() => undefined} />;
   return (
     <ul className="flex flex-col gap-3" aria-label={Q.envois.titre}>
-      <FilEnvoi fil={envoi} lectureSeule={false} ouvertAuDepart onMaj={setEnvoi} onRetire={(id) => setEnvoi({ id, retire: true })} />
+      <FilEnvoi
+        fil={envoi}
+        lectureSeule={false}
+        ouvertAuDepart
+        onMaj={(f) => {
+          setEnvoi(f);
+          onSuivre?.();
+        }}
+        onRetire={(id) => setEnvoi({ id, retire: true })}
+      />
     </ul>
   );
 }

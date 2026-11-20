@@ -95,6 +95,13 @@ const VIDEO_768 = {
 } as const;
 /** Sans vignette (chargement, repli, vidéo sans `youtubeId`) : trois cartes courtes côte à côte dès 1024, comme avant. */
 const TROISIEME = "md:col-span-2 lg:col-span-1";
+/**
+ * s26 contrôle d'ensemble, abonné (C5 : 81 px vides sous le titre de la vidéo à 1280, carte étirée à la hauteur de la
+ * colonne de gauche) : dès 1024, la vignette prend la hauteur restante de la carte (miniature en `object-cover`) au lieu
+ * du 16:9, sans `min-h` : le titre de la vidéo reste son pied, aucun vide dans la carte. Corps de la carte vidéo
+ * souple (plus de `pile`).
+ */
+const VIGNETTE_REMPLIT = "lg:aspect-auto lg:flex-1";
 
 function Carte({
   id,
@@ -209,14 +216,14 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
               <Link href="/conseils" className={lienCarte}>{T.jour.repli.conseils}</Link>
             )}
           </Carte>
-          <Carte id="jour-video" titre={T.jour.video} className={vignette ? VIDEO_A_DROITE : TROISIEME} media={vignette} pile={vignette}>
+          <Carte id="jour-video" titre={T.jour.video} className={vignette ? VIDEO_A_DROITE : TROISIEME} media={vignette}>
             {etat.donnees.video ? (
               <div className={cn("flex flex-1 flex-col", vignette && VIDEO_768.corps)}>
                 {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}
                 {etat.donnees.video.youtubeId && (
                   // v6 tour 1 (point 4) : vignette sur toute la largeur de sa carte (v7 tour 4 : à gauche, 17rem, à 768 px).
                   // Échelle s25 : la vignette et son titre forment un bloc (8 px, la cible de 44 px du lien ajoute son air).
-                  <div className={cn("relative mb-2 aspect-video overflow-hidden rounded-xl bg-background-elevated", VIDEO_768.vignette, LECTEUR)}>
+                  <div className={cn("relative mb-2 aspect-video overflow-hidden rounded-xl bg-background-elevated", VIDEO_768.vignette, VIGNETTE_REMPLIT, LECTEUR)}>
                     <YouTubePlayer youtubeId={etat.donnees.video.youtubeId} title={etat.donnees.video.title} />
                   </div>
                 )}

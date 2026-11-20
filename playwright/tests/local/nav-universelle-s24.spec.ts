@@ -745,7 +745,11 @@ test.describe("navigation universelle v6 (s25)", () => {
             const tete =
               APERCUS_EN_LARGEUR.includes(chemin) && etat === "visiteur" && largeur >= 768
                 ? page.locator("[data-apercu-hero] [data-badge-premium]")
-                : chemin === "/mon-espace/quoi-repondre" && etat === "PREMIUM" && largeur >= 1024
+                : // s26 contrôle d'ensemble, abonné : la Bibliothèque est au modèle de Quoi répondre (9d31caac) ; dès 1024 le
+                  // H1 de page « Bibliothèque » est masqué (vue page, `lg:hidden`) et le H1 visible est celui de la
+                  // technique ouverte, DANS la carte du panneau (`h1#fiche-titre`, exigé par
+                  // `espace-liste-detail-bibliotheque-s26`) : même mesure que Quoi répondre, le haut de la carte de liste.
+                  (chemin === "/mon-espace/quoi-repondre" || chemin === "/mon-espace/bibliotheque") && etat === "PREMIUM" && largeur >= 1024
                   ? page.locator("[data-colonne-liste]")
                   : h1;
             await expect(tete, `en-tête de ${chemin} (${etat}, ${largeur} px)`).toBeVisible();

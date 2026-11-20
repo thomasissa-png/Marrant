@@ -9,6 +9,8 @@ import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
 import { Coche } from "@/components/espace/aujourdhui/tableau";
 import { Cadenas } from "@/components/layout/bande-rubriques";
 import { META, META_FORT, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { Bandeau, emojiParcours } from "@/components/espace/da-espace";
+import { EMOJI_CONTENU } from "@/components/home/da-site";
 import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond, frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
@@ -266,7 +268,13 @@ export function MenuEtapes({
               {retour}
             </div>
           )}
-          <p id="menu-etapes-titre" className={cn(TITRE_CARTE, "max-lg:hidden")}>
+          {/* s26 contrôle d'ensemble, abonné (C2) : émoji du parcours de l'accueil (`emojiParcours`) devant le titre. */}
+          <p id="menu-etapes-titre" className={cn(TITRE_CARTE, "max-lg:hidden", emojiParcours(slug) && "flex items-center gap-2")}>
+            {emojiParcours(slug) && (
+              <span className={EMOJI_CONTENU} aria-hidden="true">
+                {emojiParcours(slug)}
+              </span>
+            )}
             {frTypoTexte(titre)}
           </p>
           <p className={cn(META_FORT, "mt-2 tabular-nums max-lg:hidden")}>{avancee}</p>
@@ -345,6 +353,8 @@ export function MenuEtapes({
             </button>
           </div>
         )}
+        {/* s26 contrôle d'ensemble, abonné (C2) : bandeau violet de l'accueil, hors du flux. */}
+        <Bandeau />
       </nav>
     </div>
   );

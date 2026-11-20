@@ -30,25 +30,66 @@ const COLONNE_FORMULAIRE = cn(
  * Lecture seule (Mon profil, ancien abonné) : pas de formulaire ni de tuile, la liste sur toute la largeur ; le
  * retrait reste possible (décision C10 a).
  */
-export function MesQuestions({ initiaux, lectureSeule }: { initiaux: FilListe[]; lectureSeule: boolean }) {
+export function MesQuestions({
+  initiaux,
+  lectureSeule,
+  panneau = false,
+  onSuivre,
+}: {
+  initiaux: FilListe[];
+  lectureSeule: boolean;
+  /** s26 contrôle d'ensemble, abonné (C6) : partie droite du layout liste et détail (`QuestionsListeDetail`). */
+  panneau?: boolean;
+  /** Relecture de la liste des fils du layout après un envoi ou un retrait (`router.refresh()`, `pages-questions.tsx`). */
+  onSuivre?: () => void;
+}) {
   const [envois, setEnvois] = useState<Envoi[]>(initiaux);
-  const maj = (fil: FilListe) => setEnvois((l) => (l.some((e) => e.id === fil.id) ? l.map((e) => (e.id === fil.id ? fil : e)) : [fil, ...l]));
-  const retire = (id: string) => setEnvois((l) => l.map((e) => (e.id === id ? { id, retire: true as const } : e)));
+  // s26 contrôle d'ensemble, abonné (C6) : dans le layout liste et détail, la liste des fils (serveur) suit l'envoi et le
+  // retrait (`router.refresh()` garde l'état de cette page : formulaire, statut, cartes).
+  const suivre = () => {
+    onSuivre?.();
+  };
+  const maj = (fil: FilListe) => {
+    setEnvois((l) => (l.some((e) => e.id === fil.id) ? l.map((e) => (e.id === fil.id ? fil : e)) : [fil, ...l]));
+    suivre();
+  };
+  const retire = (id: string) => {
+    setEnvois((l) => l.map((e) => (e.id === id ? { id, retire: true as const } : e)));
+    suivre();
+  };
   const nonLu = lectureSeule ? undefined : envois.find((e): e is FilListe => !("retire" in e) && e.nonLu);
+  // s26 contrôle d'ensemble, abonné (C6) : partie droite du modèle liste et détail (layout `QuestionsListeDetail`), dès
+  // qu'il y a un fil (même règle que la liste de gauche, lue sur la même réponse du serveur). Dès 1024 : la réponse non
+  // lue puis « Écrire à l'équipe », en une colonne ; « Mes envois » est la liste de gauche (cartes masquées dès 1024).
+  // Sous 1024, et sans aucun fil : la grille d'avant. Même arbre dans les deux cas (seules les classes changent) : le
+  // premier envoi ne remonte pas le formulaire (statut « envoyé » gardé).
+  const liste = panneau && !lectureSeule && initiaux.length > 0;
   return (
-    <div className={cn("grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:items-start", !lectureSeule && "lg:grid-rows-[auto_1fr]")} data-mes-questions>
+    <div
+      className={cn(
+        "grid grid-cols-1 gap-6 md:grid-cols-2",
+        liste ? "lg:grid-cols-1" : "lg:grid-cols-12 lg:items-start",
+        !lectureSeule && !liste && "lg:grid-rows-[auto_1fr]",
+      )}
+      data-mes-questions
+    >
       {/* s26 tour 3 (point 7) : dès 1024, la tuile descend de la hauteur du titre « Écrire à l'équipe » (28 px + 16 px
           de marge, `lg:mt-11`) : elle et la carte du formulaire démarrent à la même hauteur (44 px d'écart au tour 2). Relecture tour 3 : `lg:h-auto` (la tuile portait `h-full` et débordait de 44 px sur « Mes envois »). */}
-      {nonLu && <ReponseNonLue fil={nonLu} className="md:col-span-2 lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:mt-11 lg:h-auto" />}
+      {nonLu && (
+        <ReponseNonLue
+          fil={nonLu}
+          className={cn("md:col-span-2", liste ? "lg:col-span-1 lg:h-auto" : "lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:mt-11 lg:h-auto")}
+        />
+      )}
       {!lectureSeule && (
-        <div className={COLONNE_FORMULAIRE}>
+        <div className={liste ? "min-w-0 md:col-span-2 lg:col-span-1" : COLONNE_FORMULAIRE}>
           <FormulaireQuestion onEnvoye={maj} principal={!nonLu} />
         </div>
       )}
       <div
         className={cn(
           "min-w-0 md:col-span-2",
-          lectureSeule ? "lg:col-span-12" : cn("lg:col-span-8 lg:col-start-5", nonLu ? "lg:row-start-2" : "lg:row-start-1"),
+          liste ? "lg:hidden" : lectureSeule ? "lg:col-span-12" : cn("lg:col-span-8 lg:col-start-5", nonLu ? "lg:row-start-2" : "lg:row-start-1"),
         )}
       >
         <ListeEnvois envois={envois} lectureSeule={lectureSeule} onMaj={maj} onRetire={retire} />

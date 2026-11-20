@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams, useSelectedLayoutSegments } from "next/navigation";
 import { contexteValide, hrefFicheCarnet, hrefListeCarnet, numeroDe, type CarnetListe } from "@/lib/espace/carnet-liste";
 import { ListeCarnet } from "@/components/espace/carnet/liste-carnet";
@@ -98,6 +99,21 @@ export function CarnetListeDetail({ carnets, children }: { carnets: CarnetListe[
             }}
           />
         </div>
+      )}
+      {/* s26 contrôle d'ensemble, abonné : fil d'Ariane gardé sur la page de détail (nav v6 : retiré au premier niveau,
+          /carnet), dès 1024 comme sur le détail d'un parcours ; dessous, « Retour : Carnet ». Classes de `FilAriane`. */}
+      {ouverte && (
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted max-lg:hidden">
+          <Link href="/" className="hover:text-text-primary">
+            Accueil
+          </Link>
+          <span className="mx-2">/</span>
+          <Link href={hrefListeCarnet(carnet.mois, courant, contexte)} className="hover:text-text-primary">
+            Carnet
+          </Link>
+          <span className="mx-2">/</span>
+          <span className="text-text-secondary">{carnet.libelle}</span>
+        </nav>
       )}
       <EnTeteCarnet mois={carnet.mois} libelle={carnet.libelle} titre={carnet.titre} intro={carnet.intro} className={cn("mb-8", ouverte && "max-lg:hidden")} />
       <div className={GRILLE_LISTE_DETAIL} data-liste-detail>

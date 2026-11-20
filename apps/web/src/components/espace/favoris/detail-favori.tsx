@@ -134,7 +134,9 @@ export const DetailFavori = forwardRef<HTMLHeadingElement, { fav: Favori; retire
     partage = { titre: `${video.title} - deviens-marrant.fr`, texte: `${video.title} par ${video.channelName}` };
     corps = (
       <>
-        <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-background-elevated">
+        {/* s26 contrôle d'ensemble, abonné : vignette comme la carte vidéo de l'accueil, bornée à sa largeur à 1280
+            (« Vidéo du jour », un tiers de 1 216 px moins deux gouttières de 24 : 389 px, 24,375rem). */}
+        <div className="relative aspect-video w-full max-w-[24.375rem] overflow-hidden rounded-lg bg-background-elevated">
           <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
         </div>
         <div>

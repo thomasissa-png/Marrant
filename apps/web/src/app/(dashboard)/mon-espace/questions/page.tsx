@@ -7,8 +7,7 @@ import { metadonneesApercu } from "@/components/espace/apercu/apercu-rubrique";
 import { ApercuQuestions } from "@/components/espace/apercu/apercu-questions";
 import { listerFils } from "@/lib/espace/questions";
 import { TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
-import { MesQuestions } from "@/components/espace/questions/mes-questions";
-import { TITRE_PAGE } from "@/components/espace/typo";
+import { MesQuestionsPanneau } from "@/components/espace/questions/pages-questions";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -39,15 +38,7 @@ export default async function MesQuestionsPage() {
   if (lecteur) return <ApercuQuestions visiteur={lecteur === "visiteur"} />;
   const { userId } = await garderEspace("/mon-espace/questions");
   const fils = await listerFils(userId);
-  return (
-    <div className="pb-16">
-      {/* H1 à la hauteur de Quoi répondre et Favoris (le `pt-8` de la spec est déjà la marge de la coque). */}
-      <header>
-        <h1 className={TITRE_PAGE}>{Q.titre}</h1>
-      </header>
-      <div className="mt-8">
-        <MesQuestions initiaux={fils} lectureSeule={false} />
-      </div>
-    </div>
-  );
+  // s26 contrôle d'ensemble, abonné (C6) : l'en-tête (H1 à la hauteur de Quoi répondre et Favoris) et la liste des fils
+  // sont dans le layout (`QuestionsListeDetail`), qui reste monté ; dès 1024, cette page est la partie droite.
+  return <MesQuestionsPanneau initiaux={fils} />;
 }

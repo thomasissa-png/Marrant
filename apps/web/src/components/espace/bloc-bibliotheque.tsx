@@ -5,6 +5,8 @@ import { CADRE_CARTE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { CompteFaits, ListeFiches, compteFaits } from "@/components/espace/liste-fiches";
 import { META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
+import { EMOJIS_ACCUEIL } from "@/components/espace/da-espace";
+import { EMOJI_CONTENU } from "@/components/home/da-site";
 import { frEspaceProfond } from "@/lib/fr-typo";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
@@ -23,18 +25,24 @@ export function BlocBibliotheque({
   children,
   className,
   compte,
+  emoji = EMOJIS_ACCUEIL.conseil,
 }: {
   id: string;
   titre: string;
   children: React.ReactNode;
   className?: string;
   compte?: { faits: number; total: number } | null;
+  /** s26 contrôle d'ensemble, abonné (C2) : émoji de l'accueil devant le titre (💡 du panneau de la Bibliothèque). */
+  emoji?: string;
 }) {
   return (
     <section aria-labelledby={id} className={cn(CADRE_CARTE, "min-w-0 p-6 [overflow-wrap:anywhere]", className)} data-bloc={id}>
       <div className="flex items-baseline justify-between gap-4">
-        <h2 id={id} className={TITRE_CARTE}>
-          {titre}
+        <h2 id={id} className={cn(TITRE_CARTE, "flex items-center gap-2")}>
+          <span className={cn(EMOJI_CONTENU, "max-e300:hidden")} aria-hidden="true">
+            {emoji}
+          </span>
+          <span className="min-w-0">{titre}</span>
         </h2>
         {compte && compte.total > 0 && <CompteFaits faits={compte.faits} total={compte.total} />}
       </div>
@@ -52,7 +60,7 @@ export function BlocBibliotheque({
  */
 export function BlocVannes({ ecouter, className }: { ecouter: readonly LigneFiche[]; className?: string }) {
   return (
-    <BlocBibliotheque id="bloc-vannes" titre={T.blocVannes} compte={compteFaits(ecouter)} className={className}>
+    <BlocBibliotheque id="bloc-vannes" titre={T.blocVannes} emoji={EMOJIS_ACCUEIL.vanne} compte={compteFaits(ecouter)} className={className}>
       <ul aria-label={T.themesNom} className="mt-4 flex flex-wrap gap-2">
         {T.themes.map((t) => (
           <li key={t.slug}>

@@ -5,7 +5,8 @@ import { useEffect, useRef } from "react";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { cn } from "@/lib/utils";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
-import { META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { META, META_FORT } from "@/components/espace/typo";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 import { frPonctuation, frEspaceProfond } from "@/lib/fr-typo";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -36,9 +37,8 @@ export function QuatreSemaines({ ecouterPublie, className }: { ecouterPublie: bo
     <section aria-labelledby="semaines-titre" className={cn(CADRE_CARTE_NEUTRE, "p-6 max-e300:px-3 max-e300:py-2", className)}>
       <details ref={details} open onToggle={() => (touche.current ||= document.activeElement?.tagName === "SUMMARY")}>
         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary [&::-webkit-details-marker]:hidden">
-          <h2 id="semaines-titre" className={TITRE_CARTE}>
-            {P.semaines.titre}
-          </h2>
+          {/* s26 contrôle d'ensemble, abonné (C2) : titre en pastille violette, comme la tuile d'« Aujourd'hui ». */}
+          <PastillesDa as="h2" id="semaines-titre" pastille={P.semaines.titre} />
           <svg className="h-5 w-5 flex-none text-text-secondary" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
@@ -52,6 +52,7 @@ export function QuatreSemaines({ ecouterPublie, className }: { ecouterPublie: bo
           ))}
         </ol>
       </details>
+      <Bandeau />
     </section>
   );
 }

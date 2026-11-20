@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { test, expect, localSeulement, requete, creerCompte, connecter } from "../support/base-locale";
+import { test, expect, localSeulement, requete, creerCompte, connecter, ESPACE_OUVERT } from "../support/base-locale";
 
 /**
  * Revue visuelle s21, tour 2 (verdict @design, bloquants R01 et R02), figés ici :
@@ -79,11 +79,17 @@ test.describe("Grilles des listes et des favoris @s21", () => {
       await page.setViewportSize({ width: 1280, height: 900 });
       await connecter(page, email, motDePasse);
       await page.goto("/favoris");
+      // s26 favoris liste et détail (s26 contrôle d'ensemble, abonné) : ouvert, plus de grille de cartes ; la liste à
+      // gauche, un favori à droite. La vidéo s'ouvre depuis sa ligne ; sa vignette est bornée à la largeur de la carte
+      // vidéo de l'accueil (389 px à 1280), sous les 420 x 240 d'avant.
+      if (ESPACE_OUVERT) await page.locator("[data-groupe-favoris='VIDEO'] a[data-ligne]").first().click();
       const vignette = page.locator("main .aspect-video").first();
       await expect(vignette).toBeVisible();
       const v = await vignette.boundingBox();
       expect(v?.width ?? 9999, "vignette de 420 px de large au plus").toBeLessThanOrEqual(421);
       expect(v?.height ?? 9999, "vignette de 240 px de haut au plus").toBeLessThanOrEqual(240);
+      // Ouvert : les cartes courtes sur 2 colonnes décrivaient l'ancienne grille, qui n'existe plus (liste et détail).
+      if (ESPACE_OUVERT) return;
 
       const vannes = page.locator("main").getByText("Vanne", { exact: true });
       await expect(vannes.first()).toBeVisible();
@@ -97,6 +103,16 @@ test.describe("Grilles des listes et des favoris @s21", () => {
       await page.setViewportSize({ width: 768, height: 1024 });
       await connecter(page, email, motDePasse);
       await page.goto("/favoris");
+      if (ESPACE_OUVERT) {
+        // s26 favoris liste et détail (s26 contrôle d'ensemble, abonné) : ouvert, sous 1024 la liste OU le favori ; la
+        // grille de 768 (vignette de 300 px à gauche, cartes sur 2 colonnes) n'existe plus. La vidéo s'ouvre depuis sa
+        // ligne, plein écran, vignette bornée à la largeur de la carte vidéo de l'accueil (389 px).
+        await page.locator("[data-groupe-favoris='VIDEO'] a[data-ligne]").first().click();
+        const video = page.locator("main .aspect-video").first();
+        await expect(video).toBeVisible();
+        expect((await video.boundingBox())?.width ?? 9999, "vignette bornée à la carte vidéo de l'accueil").toBeLessThanOrEqual(391);
+        return;
+      }
       const vignette = page.locator("main .aspect-video").first();
       await expect(vignette).toBeVisible();
       const v = await vignette.boundingBox();

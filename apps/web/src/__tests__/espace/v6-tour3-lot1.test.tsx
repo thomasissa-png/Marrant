@@ -46,9 +46,12 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
   // s26 (`docs/ux/questions-repliques-lettre-profil-s26.md` §1.2 et §2.2) : Mes questions et Mes répliques passent à
   // gauche à leur tour (Mes répliques : H1 rendu par `ListeRepliques grille`, avec son compteur).
   it("rubrique questions (s26) : en-tête à gauche, H1 en `TITRE_PAGE`, plus centré", () => {
-    const page = lire("app/(dashboard)/mon-espace/questions/page.tsx");
-    expect(page).toMatch(/<header>\s*<h1 className=\{TITRE_PAGE\}>/);
+    // s26 contrôle d'ensemble, abonné (C6) : l'en-tête de l'abonné est dans le layout liste et détail
+    // (`QuestionsListeDetail`), monté d'une adresse à l'autre ; même règle (à gauche, `TITRE_PAGE`).
+    const page = lire("components/espace/questions/questions-liste-detail.tsx");
+    expect(page).toMatch(/<header>[\s\S]*?<h1 className=\{TITRE_PAGE\}>/);
     expect(page).not.toMatch(/EN_TETE_CENTRE|PageHeader|text-center/);
+    expect(lire("app/(dashboard)/mon-espace/questions/page.tsx")).not.toMatch(/EN_TETE_CENTRE|PageHeader|text-center/);
   });
 
   it("rubrique repliques (s26) : plus d'en-tête centré, H1 `TITRE_PAGE` dans `ListeRepliques`", () => {

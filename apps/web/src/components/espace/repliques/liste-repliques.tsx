@@ -167,6 +167,9 @@ export function ListeRepliques({
             {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil. T8 : « Écrire ma première réplique » ouvre
                 le champ dans cette tuile, focalisé (le bouton plein laisse alors sa place à « Enregistrer »). */}
             <Bandeau />
+            {/* s26 contrôle d'ensemble, abonné (C2) : pastille des cartes de répliques (⚡ « Quoi répondre »), sauf pendant
+                l'écriture, dont le formulaire porte déjà la même (`EcrireReplique`). */}
+            {!(proposee && ecriture) && <PastillesDa emoji={EMOJIS_ACCUEIL.quoiRepondre} pastille={N.index.quoiRepondre} className="mb-2" />}
             <p className={TEXTE}>{R.vide}</p>
             {!lectureSeule && (
               <>
