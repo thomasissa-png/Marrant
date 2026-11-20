@@ -30,8 +30,13 @@ const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
 /** s26 liste et détail, tour 6 : dégradé de bord de la zone qui défile (16 px, fond de la carte vers transparent). */
 const DEGRADE = "pointer-events-none absolute inset-x-0 z-10 h-4 from-background-card to-transparent transition-opacity duration-150 motion-reduce:transition-none";
 
-/** Carte collante (spec design §1) : haut à 144 px (`top-36`), 24 px libres en bas, hauteur utile minimale avant départ. */
-const HAUT_COLLE = 144;
+/**
+ * Carte collante (spec design §1) : haut collé, 24 px libres en bas, hauteur utile minimale avant départ.
+ * s26 liste et détail, tour 7 (relecture design v4, point 9 : la carte posée à 153 px montait à 144 aux 9 premiers px de
+ * défilement) : haut collé = haut de départ, 153 px (en-tête collant de 121 px et 32 px de marge de page) : la liste ne
+ * bouge plus du tout au défilement. Le panneau s'y aligne (`HAUT_PANNEAU`, `navigation.tsx`).
+ */
+export const HAUT_COLLE = 153;
 const BAS_LIBRE = 24;
 const HAUTEUR_MIN = 240;
 
@@ -88,8 +93,8 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
   const groupes = lieux.map((g) => ({ ...g, lignes: ordre.filter((l) => l.lieu === g.cle) })).filter((g) => g.lignes.length > 0);
 
   // s26 liste et détail, tour 1 (mesures §1 #5 : haut collé à 24 px à 1920x1080, sous l'en-tête) : la carte collante ne
-  // peut pas dépasser sa cellule (bas du panneau). Sa hauteur suit donc la place réelle entre son haut (144 px, ou le haut
-  // de la cellule avant collage) et le bas du panneau, plafonnée à `100dvh - 168` : le haut reste à 144 px tant qu'il
+  // peut pas dépasser sa cellule (bas du panneau). Sa hauteur suit donc la place réelle entre son haut (`HAUT_COLLE`, ou le haut
+  // de la cellule avant collage) et le bas du panneau, plafonnée à `100dvh - 177` (tour 7) : le haut reste collé tant qu'il
   // reste au moins `HAUTEUR_MIN` px de panneau à l'écran ; en deçà, la carte part avec la fin du panneau.
   useEffect(() => {
     const el = carte.current;
@@ -190,7 +195,7 @@ export function ColonneListe({ lignes, lieux, valides }: { lignes: readonly Lign
   const resume = [filtres.ou ? T.univers[filtres.ou as keyof typeof T.univers] : null, filtres.pour ? T.pourQuoiFaire[filtres.pour as keyof typeof T.pourQuoiFaire] : null].filter(Boolean).join(", ");
 
   return (
-    <nav ref={carte} aria-labelledby="qr-liste-titre" className={cn(CADRE_CARTE_NEUTRE, "flex flex-col lg:sticky lg:top-36 lg:max-h-[calc(100dvh-10.5rem)]")} data-colonne-liste>
+    <nav ref={carte} aria-labelledby="qr-liste-titre" className={cn(CADRE_CARTE_NEUTRE, "flex flex-col lg:sticky lg:top-[9.5625rem] lg:max-h-[calc(100dvh-11.0625rem)]")} data-colonne-liste>
       <Titre id="qr-liste-titre" className={cn(TITRE_CARTE, "px-6 pb-4 pt-8")}>
         {T.titre}
       </Titre>

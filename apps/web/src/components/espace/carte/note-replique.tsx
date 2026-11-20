@@ -116,8 +116,16 @@ export function NoteReplique({
         className="block min-h-24 w-full resize-none overflow-hidden min-w-0 rounded-md border border-border-input bg-background-light px-3 py-2 text-base text-text-primary placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
       />
       <div className="flex flex-wrap items-center gap-2">
+        {/* s26 liste et détail, tour 7 (relecture design v4, point 8 : désactivé, bord `border` sur le fond de carte, lu
+            comme un trou) : le contour reste celui du bouton actif (`border-input`, 3,3:1), le libellé passe en gris
+            secondaire, sans opacité ni fond au survol ; seul le libellé dit « pas encore ». */}
         {etat !== "confirmer" && (
-          <button type="submit" className={secondaire ? `${BOUTON_SECONDAIRE} disabled:border-border disabled:text-text-muted` : BOUTON_PRINCIPAL} aria-busy={occupe} disabled={texte.trim() === ""}>
+          <button
+            type="submit"
+            className={secondaire ? `${BOUTON_SECONDAIRE} disabled:text-text-secondary disabled:hover:border-border-input disabled:hover:bg-transparent` : BOUTON_PRINCIPAL}
+            aria-busy={occupe}
+            disabled={texte.trim() === ""}
+          >
             {etat === "echec" ? G.note.reessayer : G.note.enregistrer}
           </button>
         )}

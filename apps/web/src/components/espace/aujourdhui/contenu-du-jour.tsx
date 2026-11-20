@@ -91,6 +91,7 @@ function Carte({
   children,
   className,
   media,
+  pile,
 }: {
   id: string;
   titre: string;
@@ -98,13 +99,22 @@ function Carte({
   className?: string;
   /** Ligne de média de 768 à 1023 px (carte vidéo avec vignette, `VIDEO_768`). */
   media?: boolean;
+  /**
+   * s26 liste et détail, tour 7 (spec `espace-aujourdhui-refonte-s25` « carte du jour sans creux, 1280 px » en échec selon
+   * le contenu du jour : 41 px le 19/11 dans le conseil, 143 px un autre jour dans la vidéo) : dès 1024, vidéo à droite
+   * sur deux rangées (`VIDEO_A_DROITE`), la colonne la plus courte s'étire à la hauteur de l'autre et son pied en
+   * `mt-auto` creusait ce surplus entre le texte et le lien. Le corps garde sa hauteur (`lg:flex-none`) : le pied suit
+   * son texte, le surplus passe en fin de carte (vide de fin permis, v7 tour 6) ; cartes toujours alignées en haut et
+   * en bas (`items-stretch`). Sans vignette et sous 1024 : rendu inchangé.
+   */
+  pile?: boolean;
 }) {
   return (
     <article className={cn(CARTE, "flex flex-col", media && VIDEO_768.carte, className)} aria-labelledby={id}>
       <h3 id={id} className={cn(TITRE_CARTE, media && VIDEO_768.titre)}>
         {titre}
       </h3>
-      <div className={cn("mt-2 flex flex-1 flex-col", media && VIDEO_768.corps)}>{children}</div>
+      <div className={cn("mt-2 flex flex-1 flex-col", pile && "lg:flex-none", media && VIDEO_768.corps)}>{children}</div>
     </article>
   );
 }
@@ -165,14 +175,14 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
       )}
       {etat.statut === "ok" && (
         <>
-          <Carte id="jour-vanne" titre={T.jour.vanne}>
+          <Carte id="jour-vanne" titre={T.jour.vanne} pile={vignette}>
             {etat.donnees.joke ? (
               <VanneToucher vanneDuJour={etat.donnees.joke} categories={categories} />
             ) : (
               <Link href="/vannes" className={lienCarte}>{T.jour.repli.vannes}</Link>
             )}
           </Carte>
-          <Carte id="jour-conseil" titre={T.jour.conseil}>
+          <Carte id="jour-conseil" titre={T.jour.conseil} pile={vignette}>
             {etat.donnees.tip ? (
               <>
                 {/* Relecture des captures nav s24 (design 5, ux F6b, reviewer FD4) : le début du conseil, comme
@@ -186,7 +196,7 @@ export function ContenuDuJour({ categories }: { categories: readonly CategorieTo
               <Link href="/conseils" className={lienCarte}>{T.jour.repli.conseils}</Link>
             )}
           </Carte>
-          <Carte id="jour-video" titre={T.jour.video} className={vignette ? VIDEO_A_DROITE : TROISIEME} media={vignette}>
+          <Carte id="jour-video" titre={T.jour.video} className={vignette ? VIDEO_A_DROITE : TROISIEME} media={vignette} pile={vignette}>
             {etat.donnees.video ? (
               <div className={cn("flex flex-1 flex-col", vignette && VIDEO_768.corps)}>
                 {/* Vignette de la vidéo, le même lecteur que l'accueil du site. */}

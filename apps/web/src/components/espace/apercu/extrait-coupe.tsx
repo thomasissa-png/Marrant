@@ -46,7 +46,10 @@ const INERTE = { inert: "" } as Record<string, string>;
  */
 export function ExtraitCoupe({ children, href, rubrique }: { children: React.ReactNode; href: string; rubrique: string }) {
   return (
-    <div className="relative mt-6 md:mt-12" data-apercu-extrait={rubrique}>
+    // s26 liste et détail, tour 7 (relecture design v4, point 1 : 64 px mesurés entre les pastilles du hero et la
+    // légende à 1280, la carte d'offre descendant 16 px plus bas que le texte) : dans « Quoi répondre », dès 1280 (coque
+    // fixe de 1216 px), 32 px sous la carte d'offre, soit les 48 px d'air de section (Thomas) sous les pastilles.
+    <div className={cn("relative mt-6 md:mt-12", rubrique === "quoiRepondre" && "xl:mt-8")} data-apercu-extrait={rubrique}>
       <p className={cn("mb-2 md:mb-4 lg:mb-6", META)} data-apercu-legende>
         {frEspace(TEXTES_APERCU.sousTitre)}
       </p>
@@ -111,14 +114,21 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
  */
 export const FONDU_ENTIER_LG = "lg:pb-16 lg:[mask-image:linear-gradient(to_bottom,black_calc(100%_-_5.5rem),transparent_calc(100%_-_4rem))]";
 
-export function SuiteCoupee({ children, entiere = false, className }: { children: React.ReactNode; entiere?: boolean; className?: string }) {
+/**
+ * s26 liste et détail, tour 7 (relecture design v4 : tuiles du bas de Quoi répondre « coupées », sans bord bas) : `nette`
+ * (avec `entiere`) retire le fondu : chaque tuile reste entière, bord bas compris ; l'air dessous ne change pas (96 px,
+ * 64 dès 1024), la carte de fin garde ses 48 px sous la dernière tuile. Sans `nette`, rendu inchangé.
+ */
+export function SuiteCoupee({ children, entiere = false, nette = false, className }: { children: React.ReactNode; entiere?: boolean; nette?: boolean; className?: string }) {
   return (
     <div
       className={cn(
         "mt-6 overflow-hidden",
-        entiere
-          ? `pb-24 [mask-image:linear-gradient(to_bottom,black_calc(100%_-_7.5rem),transparent_calc(100%_-_6rem))] ${FONDU_ENTIER_LG}`
-          : "h-[13.5rem] [mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]",
+        entiere && nette
+          ? "pb-24 lg:pb-16"
+          : entiere
+            ? `pb-24 [mask-image:linear-gradient(to_bottom,black_calc(100%_-_7.5rem),transparent_calc(100%_-_6rem))] ${FONDU_ENTIER_LG}`
+            : "h-[13.5rem] [mask-image:linear-gradient(to_bottom,black_9rem,transparent_calc(100%_-_3rem))]",
         className,
       )}
       data-apercu-suite

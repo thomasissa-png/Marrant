@@ -20,6 +20,9 @@ import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } f
  * aucun vide de plus de 32 px (sous une carte, en fin de carte, à droite des pastilles), titres des tuiles fermées pas
  * plus gros que celui de la carte d'exemple ; liste de l'abonné dès 1024 : dégradé en bas quand il reste des lignes
  * dessous, en haut dès qu'on a défilé, sans capter le pointeur.
+ * s26 liste et détail, tour 7 : aperçu à 1280 et 1920, 48 px entre les pastilles du hero et la légende, tuiles du bas
+ * entières (aucun fondu) ; abonné à 1280, liste immobile au défilement, « Fait » sans décalage, « Enregistrer » désactivé
+ * lisible ; à 375, la ligne de la situation quittée repérée 1,5 s au retour.
  */
 const MOT_DE_PASSE = "E2e-liste-detail-s26";
 const LISTE = "/mon-espace/quoi-repondre";
@@ -235,6 +238,13 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
     await expect.poll(scrollStable).toBeGreaterThan(y - ecartMax - 1);
     expect(await cibleEntiere(), "ligne restaurée entière sous l'en-tête").toBe(true);
     expect(Math.abs((await page.evaluate(() => window.scrollY)) - y)).toBeLessThanOrEqual(ecartMax);
+    // s26 liste et détail, tour 7 (relecture UX v4, D4 : situation quittée non marquée au retour) : sa ligne porte un
+    // contour neutre de 2 px (comme la sous-étape de Parcours), retiré après 1,5 s ; aucune autre ligne repérée.
+    expect(await cible.getAttribute("data-ligne-reperee"), "ligne quittée repérée").toBe("");
+    expect(await cible.evaluate((e) => { const s = getComputedStyle(e); return `${s.outlineStyle} ${s.outlineWidth} ${s.outlineColor}`; })).toBe("solid 2px rgb(154, 154, 154)");
+    await expect(page.locator("[data-ligne-reperee]")).toHaveCount(1);
+    await expect(cible, "repère retiré après 1,5 s").not.toHaveAttribute("data-ligne-reperee", "", { timeout: 2_500 });
+    expect(await cible.evaluate((e) => getComputedStyle(e).outlineStyle)).toBe("none");
 
     // Retour du navigateur : même règle.
     await cible.click();
@@ -362,6 +372,24 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
           titresFermes: titres.slice(1).filter((h) => (h as HTMLElement).offsetParent !== null).map(taille),
         };
       });
+      // s26 liste et détail, tour 7 (relecture design v4, points 1 et 2) : 48 px d'air de section (Thomas) entre les
+      // pastilles du hero et la légende, la carte d'offre au plus à 48 px aussi ; tuiles du bas entières (aucun fondu sur
+      // la suite ni sur l'extrait), 48 px entre la dernière et la carte de fin.
+      const t7 = await page.evaluate(() => {
+        const R = (s: string) => document.querySelector(s)!.getBoundingClientRect();
+        const masque = (s: string) => { const c = getComputedStyle(document.querySelector(s)!); return c.maskImage || c.webkitMaskImage; };
+        const tuiles = Array.from(document.querySelectorAll("[data-apercu-rangee='2'] > *")).filter((t) => getComputedStyle(t).display !== "none");
+        return {
+          pastilles: Math.round(R("[data-apercu-legende]").top - R("[data-apercu-pastilles]").bottom),
+          offre: Math.round(R("[data-apercu-legende]").top - R("[data-apercu-offre]").bottom),
+          masques: [masque("[data-apercu-suite]"), masque("[data-apercu-fiche]")],
+          fin: Math.round(R("[data-apercu-fin]").top - Math.max(...tuiles.map((t) => t.getBoundingClientRect().bottom))),
+        };
+      });
+      expect(t7.pastilles, "48 px entre les pastilles et la légende").toBe(48);
+      expect(t7.offre, "carte d'offre à 48 px au plus de la légende").toBeLessThanOrEqual(48);
+      expect(t7.masques, "aucun fondu sur les tuiles").toEqual(["none", "none"]);
+      expect(t7.fin, "48 px entre la dernière tuile et la carte de fin").toBe(48);
       expect(m.horsGrille, "cartes hors de la grille 8/4").toEqual([]);
       for (const r of m.rangees) {
         expect([r.debut, r.fin], "rangée de bord à bord").toEqual([0, 0]);
@@ -412,6 +440,36 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)?.closest("a[data-ligne-qr], summary, [data-liste-lignes]") !== null;
     });
     expect(touche, "dégradé transparent au pointeur").toBe(true);
+  });
+
+  // s26 liste et détail, tour 7 (relecture design v4, points 7 à 9) : abonné, 1280 : la liste ne bouge pas au défilement
+  // (haut de départ = haut collé, 153 px) ; « Fait » ne change pas la hauteur de la carte ; « Enregistrer » désactivé
+  // lisible (libellé en gris secondaire, contour de l'actif, aucune opacité).
+  test("abonné (1280) : liste immobile au défilement, « Fait » sans décalage, « Enregistrer » désactivé lisible", async ({ page }) => {
+    await abonne(page);
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(LISTE);
+    const href = await colonne(page).locator("a[data-ligne-qr]").first().getAttribute("href");
+    await page.goto(href!);
+    const fiche = page.locator("[data-fiche-panneau]");
+    await expect(fiche.locator("h1")).toBeVisible();
+    const hautListe = () => colonne(page).evaluate((n) => Math.round(n.getBoundingClientRect().top));
+    const hauts: number[] = [];
+    for (const y of [0, 5, 9, 40, 200]) {
+      await page.evaluate((v) => window.scrollTo({ top: v, behavior: "instant" }), y);
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(y);
+      hauts.push(await hautListe());
+    }
+    expect(hauts, "liste immobile au défilement").toEqual(hauts.map(() => 153));
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    const enregistrer = fiche.getByRole("button", { name: "Enregistrer" });
+    await expect(enregistrer).toBeDisabled();
+    expect(await enregistrer.evaluate((b) => { const s = getComputedStyle(b); return [s.color, s.borderTopColor, s.opacity]; })).toEqual(["rgb(179, 179, 179)", "rgb(112, 112, 112)", "1"]);
+    const hauteur = () => fiche.evaluate((f) => Math.round(f.getBoundingClientRect().height * 10) / 10);
+    const avant = await hauteur();
+    await fiche.locator("[data-testid='geste-fiche'] [role='group'] button[aria-pressed]").last().click();
+    await expect(fiche.locator("[data-testid='geste-fiche'] h3 + span")).toBeVisible();
+    expect(await hauteur(), "« Fait » sans décalage de la carte").toBe(avant);
   });
 
   // s26 liste et détail, tour 5 (relecture design v2 D3 : carte d'offre de 202 px chez le visiteur, 211 chez le gratuit,

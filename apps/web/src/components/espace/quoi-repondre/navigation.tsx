@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { CLE_DEPUIS_LISTE, CLE_FICHE_QUITTEE } from "@/lib/espace/quoi-repondre-liste";
 import { useFaitsQuoiRepondre } from "@/components/espace/quoi-repondre/faits-contexte";
+import { HAUT_COLLE } from "@/components/espace/quoi-repondre/colonne-liste";
 import { LienRetour } from "@/components/espace/lien-retour";
 import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 import { cn } from "@/lib/utils";
@@ -74,8 +75,11 @@ export function SituationSuivante({ ficheId, href, faitInitial }: { ficheId: str
   );
 }
 
-/** Haut collé de la liste et du panneau dès 1024 (`top-36`, spec design §1) : sous l'en-tête collant du site. */
-const HAUT_PANNEAU = 144;
+/**
+ * Haut collé de la liste et du panneau dès 1024 (spec design §1) : sous l'en-tête collant du site.
+ * s26 liste et détail, tour 7 : 153 px (144 avant), celui de la liste, qui ne saute plus au défilement.
+ */
+const HAUT_PANNEAU = HAUT_COLLE;
 
 /**
  * Ouverture d'une fiche depuis la liste ou « Situation suivante » : focus au H1 (sans défilement) et, si le haut du
@@ -183,12 +187,35 @@ function lireQuittee(): string | null {
   }
 }
 
+/** Ligne affichée de la liste (page liste, < 1024) qui mène à la fiche `chemin`, sinon `null`. */
+const ligneDe = (racine: Document, chemin: string) =>
+  Array.from(racine.querySelectorAll<HTMLAnchorElement>("[data-mode='page'] [data-etat='liste'] a[href]")).find((a) => cheminDe(a.getAttribute("href") ?? "") === chemin && a.offsetParent !== null) ?? null;
+
+/**
+ * s26 liste et détail, tour 7 (relecture UX v4, D4 : au retour à 375, la situation quittée n'est pas marquée) : sa ligne
+ * porte `data-ligne-reperee` 1,5 s, contour neutre de 2 px (`REPERE_LIGNE`), comme la sous-étape cliquée de Parcours.
+ * Rien sans ligne affichée (dès 1024, autre filtre). Renvoie le nettoyage (démontage avant la fin).
+ */
+const DUREE_REPERE_MS = 1500;
+const REPERE_LIGNE =
+  "[&_[data-ligne-reperee]]:!outline [&_[data-ligne-reperee]]:!outline-2 [&_[data-ligne-reperee]]:!outline-offset-4 [&_[data-ligne-reperee]]:!outline-text-muted";
+function repererLigne(racine: Document, chemin: string | null): () => void {
+  const ligne = chemin ? ligneDe(racine, chemin) : null;
+  if (!ligne) return () => undefined;
+  ligne.setAttribute("data-ligne-reperee", "");
+  const minuterie = window.setTimeout(() => ligne.removeAttribute("data-ligne-reperee"), DUREE_REPERE_MS);
+  return () => {
+    window.clearTimeout(minuterie);
+    ligne.removeAttribute("data-ligne-reperee");
+  };
+}
+
 /**
  * s26 liste et détail, tour 4 : `scrollY` qui centre la ligne de la fiche dans la zone sous l'en-tête collant (la ligne
  * de la liste, pas la prochaine action en tête de page) ; `null` si elle n'est pas affichée (dès 1024, autre filtre).
  */
 function topLigneCentree(racine: Document, chemin: string): number | null {
-  const ligne = Array.from(racine.querySelectorAll<HTMLAnchorElement>("[data-mode='page'] [data-etat='liste'] a[href]")).find((a) => cheminDe(a.getAttribute("href") ?? "") === chemin && a.offsetParent !== null);
+  const ligne = ligneDe(racine, chemin);
   if (!ligne) return null;
   const bord = basEnTete(racine);
   const r = ligne.getBoundingClientRect();
@@ -214,15 +241,17 @@ export function MemoireDefilementPage({ cle, children }: { cle: string; children
     const garde = memoire ? (JSON.parse(memoire) as { y: number; adresse: string; href?: string; rang?: number; haut?: number }) : null;
     const ici = `${window.location.pathname}${window.location.search}`;
     const valable = garde && garde.adresse === ici ? garde : null;
+    // s26 liste et détail, tour 7 : la ligne de la fiche quittée (sinon de celle ouverte depuis la liste) est repérée.
+    const reperee = quittee ?? (valable?.href ? cheminDe(valable.href) : null);
     if (quittee && (!valable?.href || cheminDe(valable.href) !== quittee)) {
       const top = topLigneCentree(document, quittee);
       if (top !== null) {
         window.scrollTo({ top: sansLigneCoupee(document, top) });
         if (valable) ecrire(cle, null);
-        return;
+        return repererLigne(document, reperee);
       }
     }
-    if (!valable) return;
+    if (!valable) return repererLigne(document, reperee);
     const { y, href, rang, haut } = valable;
     // s26 liste et détail, tour 1 (mesures §2 : 1194 -> 1247 à 375, 587 -> 575 à 768) : la position est rendue par le
     // lien cliqué, remis à la même hauteur dans l'écran (le contenu au-dessus peut avoir changé de hauteur entre-temps :
@@ -232,9 +261,11 @@ export function MemoireDefilementPage({ cle, children }: { cle: string; children
     const top = cible && haut !== undefined ? window.scrollY + cible.getBoundingClientRect().top - haut : y;
     window.scrollTo({ top: sansLigneCoupee(document, top) });
     ecrire(cle, null);
+    return repererLigne(document, reperee);
   }, [cle]);
   return (
     <div
+      className={REPERE_LIGNE}
       onClickCapture={(e) => {
         const lien = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="/mon-espace/quoi-repondre/"]');
         if (!lien) return;

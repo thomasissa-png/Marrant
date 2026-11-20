@@ -6,7 +6,7 @@ import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { categoriesQuoiRepondre, ficheApercu } from "@/components/espace/apercu/exemples";
 import { ApercuVerrouille } from "@/components/espace/apercu/apercu-verrouille";
-import { FONDU_ENTIER_LG, SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
+import { SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
 import { RepliquesFermees, type RegistreReplique } from "@/components/espace/apercu/repliques-fermees";
 import { BarresFermees } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
@@ -106,7 +106,11 @@ function ExtraitQuoiRepondre() {
     //   toute la largeur en cinq colonnes égales, puis les trois tuiles fermées 4/4/4.
     // Écartée (mesurée) : les deux groupes dans une carte à droite dès 1280 (438 px contre 320 pour l'exemple, 118 px
     // de vide sous l'exemple ; 618 contre 320 à 1024). Sous 1024 : rendu du tour 5.
-    <div className={cn("lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 lg:gap-y-6 lg:overflow-hidden", FONDU_ENTIER_LG)} data-apercu-fiche="coloc-la-poele">
+    // s26 liste et détail, tour 7 (relecture design v4, point 2, et spec `espace-v6-tour2-lot1` : 4 tuiles coupées sous le
+    // fondu de la grille entière, la suite en `lg:contents` n'avait plus de boîte) : la suite redevient une boîte, sur
+    // les colonnes de la grille (`grid-cols-subgrid`, mêmes bords et gouttières), et l'extrait n'a plus de fondu : chaque
+    // tuile est entière, bord bas compris (`SuiteCoupee nette`).
+    <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 lg:gap-y-6" data-apercu-fiche="coloc-la-poele">
       {/* s26 liste et détail, tour 1 (spec UX §1) : clic sur une partie fermée, contour sur la carte d'offre. */}
       <SignalOffre />
       {/* s26 liste et détail, tour 3 (mesures N2 : vide de fin de la situation 159 px à 1280 et 1920, 115 à 1024) : les
@@ -125,7 +129,7 @@ function ExtraitQuoiRepondre() {
             <RepliquesFermees registres={s.registres} />
           </div>
         </TuileFermee>
-        <TuileFermee className="h-auto md:col-span-2 lg:col-span-4 lg:col-start-9 lg:row-span-3 lg:row-start-1 xl:row-span-1">
+        <TuileFermee className="h-auto md:col-span-2 lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1 xl:row-span-1">
           <div className={TUILE} data-apercu-filtres>
             <p className={cn("pr-8", ETIQUETTE)}>{Q.filtreOu}</p>
             {/* s26 liste et détail, tour 6 : dès 1280, 16 px entre les lignes de pastilles (8 avant) : la carte passe de
@@ -144,7 +148,9 @@ function ExtraitQuoiRepondre() {
       {/* s26 tour 2 : tuiles entières seulement (`entiere`), la première seule sous 768 px (jamais un liseré sans titre) ;
           « Rattraper un faux pas » sans le pied « Le carnet du mois » (il se lisait comme un lien actif et touchait les
           barres) : titre, effectif, verrou et barres, comme ses voisines. */}
-      <SuiteCoupee entiere className="lg:contents">
+      {/* s26 liste et détail, tour 7 : la suite occupe la rangée 2 de la grille de l'extrait (8 colonnes de 1024 à 1279, à
+          côté de la carte des filtres ; 12 dès 1280) et y pose ses propres rangées, numérotées depuis 1. */}
+      <SuiteCoupee entiere nette className="lg:col-span-8 lg:col-start-1 lg:row-start-2 lg:mt-0 lg:grid lg:grid-cols-subgrid lg:items-start lg:gap-x-12 lg:gap-y-6 xl:col-span-12">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:contents" data-apercu-rangee="2">
           {/* s26 (mission 2) : de 1024 à 1279, la colonne 4/12 (293 px à 1024) empilait les deux groupes de filtres et
               allongeait la rangée 1 à 618 px (vide sous la situation) ; « Pour quoi faire ? » passe ici, en tête de la
@@ -162,22 +168,22 @@ function ExtraitQuoiRepondre() {
               pastilles, donc deux lignes et un trou en fin de la première. L'air reste hors du cadre, à droite. */}
           {/* s26 liste et détail, tour 6 : la tuile à la largeur de ses pastilles (tour 5) laissait 327 px vides à droite
               et un bord à x 920 ; dès 1280, toute la largeur, pastilles en cinq colonnes égales (`pleineLargeur`). */}
-          <TuileFermee className="hidden xl:col-span-12 xl:col-start-1 xl:row-start-2 xl:block">
+          <TuileFermee className="hidden xl:col-span-12 xl:col-start-1 xl:row-start-1 xl:block">
             <div className={TUILE} data-apercu-filtres-pour>
               <FiltresPour pleineLargeur />
             </div>
           </TuileFermee>
-          <TuileFermee className="lg:col-span-4 lg:col-start-1 lg:row-start-3">
+          <TuileFermee className="lg:col-span-4 lg:col-start-1 lg:row-start-2">
             <div className={TUILE}>
               <TitreFermeSecondaire titre={Q.pourQuoiFaire["rattraper-faux-pas"]} effectif={aPlat?.nombre} />
             </div>
           </TuileFermee>
-          <TuileFermee className="max-md:hidden md:col-span-2 md:max-lg:order-last lg:col-span-8 lg:col-start-1 lg:row-start-2 xl:col-span-4 xl:col-start-5 xl:row-start-3">
+          <TuileFermee className="max-md:hidden md:col-span-2 md:max-lg:order-last lg:col-span-8 lg:col-start-1 lg:row-start-1 xl:col-span-4 xl:col-start-5 xl:row-start-2">
             <div className={TUILE}>
               <TitreFermeSecondaire titre={F.erreur} />
             </div>
           </TuileFermee>
-          <TuileFermee className="max-md:hidden lg:col-span-4 lg:col-start-5 lg:row-start-3 xl:col-start-9">
+          <TuileFermee className="max-md:hidden lg:col-span-4 lg:col-start-5 lg:row-start-2 xl:col-start-9">
             <div className={TUILE}>
               <TitreFermeSecondaire titre={F.commentChoisir} />
             </div>

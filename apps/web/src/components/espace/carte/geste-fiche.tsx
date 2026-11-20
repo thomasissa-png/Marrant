@@ -70,9 +70,12 @@ export function GesteFiche({
       {/* s26 liste et détail, tour 6 (relecture design v3 : « À toi » et « Fait » collés à la consigne, 4 px) : 8 px
           entre l'étiquette et son texte, comme « La scène » et les autres blocs (`space-y-2`). */}
       <div className="space-y-2">
+        {/* s26 liste et détail, tour 7 (relecture design v4, point 7 : la carte gagnait 2 à 6 px au « Fait », pastille de
+            26 px sur une ligne d'étiquette de 20 à 1280) : la pastille garde son dessin mais rentre dans la ligne de
+            l'étiquette (`-my-1`, 18 px comptés) : « Fait » n'ajoute ni ne retire rien à la hauteur, rien ne bouge dessous. */}
         <div className="flex flex-wrap items-center gap-2">
           <h3 className={ETIQUETTE}>{G.aToi}</h3>
-          {fait && <span className="rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary">{G.fait}</span>}
+          {fait && <span className="-my-1 rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary">{G.fait}</span>}
         </div>
         <p className="whitespace-pre-line text-base text-text-primary">
           {consigne}

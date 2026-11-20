@@ -234,7 +234,10 @@ describe("fiche dans le panneau (`/mon-espace/quoi-repondre/[id]`)", () => {
     expect(classes(retours[0])).toContain("border");
     const enregistrer = getByRole("button", { name: "Enregistrer" });
     expect(enregistrer).toBeDisabled();
-    expect(classes(enregistrer)).toEqual(expect.arrayContaining(["border", "disabled:text-text-muted"]));
+    // s26 liste et détail, tour 7 (relecture design v4, point 8) : désactivé, contour de l'actif (`border-input`), libellé
+    // en gris secondaire, aucune opacité ni bord éteint (`border-border`) qui l'effaçait sur la carte.
+    expect(classes(enregistrer)).toEqual(expect.arrayContaining(["border", "border-border-input", "disabled:text-text-secondary"]));
+    expect(classes(enregistrer).filter((c) => /opacity|^disabled:border-border$|^disabled:text-text-muted$/.test(c))).toEqual([]);
     const panneau = container.querySelector("[data-fiche-panneau]")!;
     expect(classes(panneau)).toEqual(expect.arrayContaining(["[&_.text-xs]:text-sm", "[&_.uppercase]:normal-case", "[&_[role=status]:empty]:absolute"]));
     expect(classes(panneau.querySelector("h1#fiche-titre")!.parentElement!.querySelector(".border-t"))).toContain("space-y-6");
