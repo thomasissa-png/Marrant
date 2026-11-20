@@ -176,8 +176,8 @@ describe("s26 carnet liste et détail : textes et fichiers", () => {
     "app/(dashboard)/carnet/layout.tsx",
     "app/(dashboard)/carnet/[mois]/[n]/page.tsx",
   ];
-  it("libellés neufs marqués À VALIDER (s26), zéro tiret cadratin, aucun module client n'importe `lib/carnet`", () => {
-    expect(readFileSync(join(racine, fichiers[0]), "utf8")).toContain("À VALIDER (s26)");
+  it("libellés neufs VALIDÉS par Thomas (20/11), zéro tiret cadratin, aucun module client n'importe `lib/carnet`", () => {
+    expect(readFileSync(join(racine, fichiers[0]), "utf8")).toContain("VALIDÉ par Thomas (20/11");
     for (const f of fichiers) {
       const code = readFileSync(join(racine, f), "utf8");
       expect([f, code.includes("—")]).toEqual([f, false]);
