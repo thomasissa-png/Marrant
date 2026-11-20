@@ -584,6 +584,18 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       await page.mouse.move(b.x + b.width / 2, b.y + Math.min(b.height / 2, 40));
       expect(await page.locator("[data-apercu-extrait]").evaluate((e) => getComputedStyle(e).cursor)).toBe("pointer");
       await expect(page.locator("[data-apercu-extrait] [data-survol]")).toHaveCount(1);
+      // s26 CI : pose et retrait du contour notés dans la page. `expect` ne voit le contour qu'à son palier de sondage
+      // suivant (0, 100, 350, 850 ms) : une attente fixe de 1,1 s comptée depuis ce constat lisait jusqu'à 1,5 s après la
+      // pose, pile au retrait (Chromium 145 de la CI, défilement doux d'environ 540 ms).
+      await page.evaluate(() => {
+        const c = document.querySelector("[data-apercu-hero] [data-apercu-offre]")!;
+        const t: Record<string, number> = {};
+        (window as unknown as { __signalS26: Record<string, number> }).__signalS26 = t;
+        new MutationObserver(() => {
+          if (c.hasAttribute("data-signal")) Object.assign(t, { pose: performance.now(), yPose: window.scrollY });
+          else t.retire = performance.now();
+        }).observe(c, { attributes: true, attributeFilter: ["data-signal"] });
+      });
       await page.mouse.click(b.x + b.width / 2, b.y + Math.min(b.height / 2, 40));
       const carte = page.locator("[data-apercu-hero] [data-apercu-offre]");
       await expect(carte).toHaveAttribute("data-signal", "", { timeout: 1_500 });
@@ -593,8 +605,12 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       const bouton = carte.locator("a[data-position='haut']");
       await expect(bouton).toBeFocused();
       expect(await bouton.evaluate((a) => getComputedStyle(a).boxShadow), "anneau de focus").not.toBe("none");
-      await page.waitForTimeout(1_100);
-      await expect(carte).toHaveAttribute("data-signal", "");
+      // s26 CI : tenue mesurée de la pose au retrait (attente explicite du retrait), contour posé à l'arrivée du défilement.
+      const signalS26 = () => page.evaluate(() => ({ ...(window as unknown as { __signalS26: Record<string, number> }).__signalS26, y: window.scrollY }));
+      await expect.poll(async () => (await signalS26()).retire ?? null, { timeout: 3_000 }).not.toBeNull();
+      const t = await signalS26();
+      expect(t.retire - t.pose, "contour tenu (ms)").toBeGreaterThanOrEqual(1_200);
+      expect(Math.abs(t.yPose - t.y), "contour posé à l'arrivée du défilement").toBeLessThanOrEqual(1);
       expect(page.url()).toBe(adresse);
       await expect(page.locator("[data-apercu-extrait] > [aria-hidden='true']")).toHaveCount(1);
       expect(await page.locator("[data-apercu-extrait] > [aria-hidden='true']").evaluate((e) => e.querySelectorAll("a, button, input, textarea, select, [tabindex]").length)).toBe(0);

@@ -8,8 +8,11 @@ import { useEffect, useRef } from "react";
  * 1,2 s demandées.
  */
 export const DUREE_SIGNAL_MS = 1500;
-/** Plafond d'attente de la fin du défilement doux avant de poser le contour et le focus. */
-const ARRIVEE_MAX_MS = 1000;
+/**
+ * Plafond d'attente de la fin du défilement doux avant de poser le contour et le focus. s26 CI : l'arrivée réelle
+ * (`scrollend`, ou position cible atteinte) passe d'abord ; ce plafond ne sert qu'à une cible devenue inatteignable.
+ */
+const ARRIVEE_MAX_MS = 1500;
 /**
  * Parties fermées de l'extrait : tuiles (la situation comprise : elle porte un verrou, tour 4) et répliques fermées.
  * Ordre de recherche : la réplique d'abord (la plus petite, c'est elle que le survol marque), puis la tuile.
@@ -54,6 +57,7 @@ export function SignalOffre() {
     const extrait = repere.current?.closest<HTMLElement>("[data-apercu-extrait]");
     if (!extrait) return;
     const minuteries: number[] = [];
+    const nettoyages: (() => void)[] = [];
     let survole: HTMLElement | null = null;
 
     const marquer = (el: HTMLElement | null) => {
@@ -88,21 +92,40 @@ export function SignalOffre() {
         return;
       }
       const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: Math.max(0, window.scrollY + r.top - enTete - 24), behavior: reduit ? "auto" : "smooth" });
+      const haut = Math.max(0, window.scrollY + r.top - enTete - 24);
+      window.scrollTo({ top: haut, behavior: reduit ? "auto" : "smooth" });
       if (reduit) {
         signal(carte);
         return;
       }
-      // Contour et focus à l'arrivée : fin du défilement, ou au plus tard 1 s après le clic.
+      // Contour et focus à l'arrivée réelle, d'où partent les 1,5 s du contour. s26 CI : `scrollend`, ou position cible
+      // atteinte (navigateur sans `scrollend`), suivie image par image ; plafond seulement si la cible devient inatteignable.
+      // Un `scrollend` reçu avant tout mouvement (fin d'un défilement antérieur au clic) est ignoré.
+      const depart = window.scrollY;
+      const cible = Math.min(haut, document.documentElement.scrollHeight - window.innerHeight);
       let fait = false;
+      let image = 0;
+      const arreter = () => {
+        fait = true;
+        window.cancelAnimationFrame(image);
+        window.removeEventListener("scrollend", surFin);
+      };
       const arrivee = () => {
         if (fait) return;
-        fait = true;
-        window.removeEventListener("scrollend", arrivee);
+        arreter();
         signal(carte);
       };
-      window.addEventListener("scrollend", arrivee, { once: true });
+      const surFin = () => {
+        if (Math.abs(window.scrollY - depart) >= 1) arrivee();
+      };
+      const suivre = () => {
+        if (Math.abs(window.scrollY - cible) < 1) arrivee();
+        else image = window.requestAnimationFrame(suivre);
+      };
+      window.addEventListener("scrollend", surFin);
+      image = window.requestAnimationFrame(suivre);
       minuteries.push(window.setTimeout(arrivee, ARRIVEE_MAX_MS));
+      nettoyages.push(arreter);
     };
 
     extrait.addEventListener("click", surClic);
@@ -114,6 +137,7 @@ export function SignalOffre() {
       extrait.removeEventListener("mouseleave", surSortie);
       marquer(null);
       minuteries.forEach((m) => window.clearTimeout(m));
+      nettoyages.forEach((n) => n());
     };
   }, []);
 
