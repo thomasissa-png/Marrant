@@ -49,7 +49,9 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
     // s26 liste et détail, tour 7 (relecture design v4, point 1 : 64 px mesurés entre les pastilles du hero et la
     // légende à 1280, la carte d'offre descendant 16 px plus bas que le texte) : dans « Quoi répondre », dès 1280 (coque
     // fixe de 1216 px), 32 px sous la carte d'offre, soit les 48 px d'air de section (Thomas) sous les pastilles.
-    <div className={cn("relative mt-6 md:mt-12", rubrique === "quoiRepondre" && "xl:mt-8")} data-apercu-extrait={rubrique}>
+    // s26 liste et détail, tour 8 : la colonne de texte du hero perd 8 px (24 px réguliers, `HeroApercu`) : 24 px sous la
+    // carte d'offre (`xl:mt-6`), toujours 48 px sous les pastilles.
+    <div className={cn("relative mt-6 md:mt-12", rubrique === "quoiRepondre" && "xl:mt-6")} data-apercu-extrait={rubrique}>
       <p className={cn("mb-2 md:mb-4 lg:mb-6", META)} data-apercu-legende>
         {frEspace(TEXTES_APERCU.sousTitre)}
       </p>
@@ -70,7 +72,17 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
           chevauchement, la carte commence 48 px sous le point transparent du fondu.
           s26, Thomas 19/11 : bouton en contour sur fenêtre d'au moins 960 px de haut (`BOUTON_OFFRE_FIN`). */}
       <div
-        className={cn(CARTE_PREMIUM, "mx-auto w-full max-w-md p-4 text-center md:p-6", rubrique === "aujourdhui" ? "mt-0" : "-mt-12 lg:-mt-4")}
+        className={cn(
+          CARTE_PREMIUM,
+          "mx-auto w-full max-w-md p-4 text-center md:p-6",
+          rubrique === "aujourdhui" ? "mt-0" : "-mt-12 lg:-mt-4",
+          // s26 liste et détail, tour 8 (relecture design v5, Quoi répondre point 3 : carte de 448 px centrée, bords sur
+          // aucune colonne) : dès 1024, les 4 colonnes du milieu de la grille 12 de l'extrait (c5 à c8, gouttière 48 :
+          // un tiers de la largeur moins 32 px), toujours centrée et sous 448 px (373 px dès 1280, 293 à 1024) ; ses
+          // bords sont ceux de la tuile du milieu (« L'erreur que tout le monde fait » dès 1280, « Comment choisir » à
+          // 1024). Sous 1024, inchangée.
+          rubrique === "quoiRepondre" && "lg:w-[calc(100%/3_-_2rem)] lg:max-w-none",
+        )}
         data-apercu-fin
       >
         <HaloPremium />

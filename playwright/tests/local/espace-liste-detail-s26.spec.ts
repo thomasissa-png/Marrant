@@ -23,6 +23,8 @@ import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } f
  * s26 liste et détail, tour 7 : aperçu à 1280 et 1920, 48 px entre les pastilles du hero et la légende, tuiles du bas
  * entières (aucun fondu) ; abonné à 1280, liste immobile au défilement, « Fait » sans décalage, « Enregistrer » désactivé
  * lisible ; à 375, la ligne de la situation quittée repérée 1,5 s au retour.
+ * s26 liste et détail, tour 8 : aperçu (375, 1024, 1280, 1920), pastille « Premium » au-dessus du titre partout, 24 px
+ * réguliers titre-promesse-pastilles ; dès 1024, tuiles du bas et carte de fin sur la grille (bords et gouttières).
  */
 const MOT_DE_PASSE = "E2e-liste-detail-s26";
 const LISTE = "/mon-espace/quoi-repondre";
@@ -404,6 +406,70 @@ test.describe("Quoi répondre, liste et détail (s26)", () => {
       expect(m.pour.vide, "vide à droite des pastilles").toBeLessThanOrEqual(8);
       expect(m.titresFermes.length).toBe(3);
       for (const t of m.titresFermes) expect(t, "titre fermé <= titre de l'exemple").toBeLessThanOrEqual(m.titreExemple);
+    });
+  }
+
+  // s26 liste et détail, tour 8 (relecture design v5, Quoi répondre points 1 à 4) : visiteur ; hero, pastille « Premium »
+  // au-dessus du titre à toutes les largeurs (16 px, même bord gauche), puis 24 px titre-promesse et 24 px
+  // promesse-pastilles (pastilles visibles dès 768) ; dès 1024, rangée des tuiles fermées de bord à bord de l'exemple
+  // (1024) ou de l'exemple à la colonne des filtres (1280, 1920), gouttières de 48 px, et carte « La suite est dans
+  // Premium » sur les colonnes 5 à 8 de la grille (bords de la tuile du milieu), centrée, 448 px au plus.
+  for (const largeur of [375, 1024, 1280, 1920]) {
+    test(`aperçu (${largeur}) : rythme du hero sur 8 px, tuiles et carte de fin sur la grille (tour 8)`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto(LISTE);
+      const m = await page.evaluate(() => {
+        const R = (s: string) => document.querySelector(s)!.getBoundingClientRect();
+        const badge = R("[data-badge-premium]");
+        const titre = R("#apercu-titre");
+        const promesse = R("[data-apercu-tete] ~ p:not(.sr-only)");
+        const pastilles = R("[data-apercu-pastilles]");
+        const texte = R("[data-apercu-hero] > *");
+        const offre = R("[data-apercu-hero] [data-apercu-offre]");
+        const col = (offre.right - texte.left - 11 * 48) / 12;
+        const ligne = (c: number) => texte.left + c * (col + 48);
+        const situation = R("[data-apercu-situation]");
+        const filtres = R("[data-apercu-filtres]");
+        const fin = R("[data-apercu-fin]");
+        const tuiles = Array.from(document.querySelectorAll("[data-apercu-rangee='2'] > [data-tuile-fermee]"))
+          .filter((t) => (t as HTMLElement).offsetParent !== null)
+          .map((t) => t.getBoundingClientRect());
+        const basRangee = Math.max(...tuiles.map((t) => t.bottom));
+        const derniere = tuiles.filter((t) => Math.abs(t.bottom - basRangee) <= 1).sort((a, b) => a.left - b.left);
+        return {
+          badgeAuDessus: badge.bottom <= titre.top && Math.abs(badge.left - titre.left) <= 1,
+          ecarts: [titre.top - badge.bottom, promesse.top - titre.bottom, pastilles.top - promesse.bottom].map(Math.round),
+          pastillesVisibles: pastilles.height > 1,
+          derniere: {
+            gauche: Math.round(derniere[0].left - situation.left),
+            droite: Math.round(derniere[derniere.length - 1].right),
+            gouttieres: derniere.slice(1).map((t, i) => Math.round(t.left - derniere[i].right)),
+          },
+          bordsDroits: { exemple: Math.round(situation.right), filtres: Math.round(filtres.right) },
+          fin: {
+            ecartC5: Math.round(fin.left - ligne(4)),
+            ecartC8: Math.round(fin.right - (ligne(7) + col)),
+            centre: Math.round((fin.left + fin.right) / 2 - (texte.left + offre.right) / 2),
+            largeur: Math.round(fin.width),
+            tuileDuMilieu: derniere.some((t) => Math.abs(t.left - fin.left) <= 1 && Math.abs(t.right - fin.right) <= 1),
+          },
+        };
+      });
+      expect(m.badgeAuDessus, "pastille « Premium » au-dessus du titre, même bord gauche").toBe(true);
+      expect(m.ecarts[0], "pastille -> titre").toBe(16);
+      expect(m.ecarts[1], "titre -> promesse").toBe(24);
+      if (largeur >= 768) {
+        expect(m.pastillesVisibles).toBe(true);
+        expect(m.ecarts[2], "promesse -> pastilles").toBe(24);
+      }
+      if (largeur < 1024) return;
+      expect(m.derniere.gauche, "tuiles du bas au bord gauche de l'exemple").toBe(0);
+      expect(m.derniere.droite, "tuiles du bas au bord droit de l'exemple (1024) ou des filtres").toBe(largeur === 1024 ? m.bordsDroits.exemple : m.bordsDroits.filtres);
+      expect(m.derniere.gouttieres, "gouttières de 48 px").toEqual(m.derniere.gouttieres.map(() => 48));
+      expect([m.fin.ecartC5, m.fin.ecartC8], "carte de fin sur les colonnes 5 à 8").toEqual([0, 0]);
+      expect(Math.abs(m.fin.centre), "carte de fin centrée").toBeLessThanOrEqual(1);
+      expect(m.fin.largeur, "carte de fin de 448 px au plus").toBeLessThanOrEqual(448);
+      expect(m.fin.tuileDuMilieu, "carte de fin aux bords de la tuile du milieu").toBe(true);
     });
   }
 
