@@ -251,14 +251,16 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       await capturer(page, "parcours-detail-fiches", '[data-testid="lignes-fiches"]');
     });
 
-    test("cap affiché plus haut que le déblocage : phrase de l'écart, « Nouveau cap » sans « Ouvrir »", async ({ browser, page }) => {
+    // s26 lancement : test changé (raison : `/api/espace/caps` masque la phrase de l'écart, qui parle des bonus, tant
+    // qu'aucun bonus n'est rangé, commit 2290a12a ; elle revient dès qu'un bonus existe, test Jest bonus-vides-lancement-s26).
+    test("cap affiché plus haut que le déblocage, sans bonus rangé : pas de phrase de l'écart, « Nouveau cap » sans « Ouvrir »", async ({ browser, page }) => {
       const { email, cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       await requete(`UPDATE "User" SET xp = 800 WHERE email = $1`, [email]);
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/parcours");
       await expect(page.locator("#cap")).toContainText(TEXTES_CAPS.capVisible(4));
-      await expect(page.locator("#cap")).toContainText(frEspace(TEXTES_CAPS.ecart));
+      await expect(page.locator("#cap")).not.toContainText(frEspace(TEXTES_CAPS.ecart));
       await expect(page.getByTestId("annonce-cap").locator('[aria-live="polite"]')).toHaveText(TEXTES_CAPS.annonce.cap(4));
       await expect(page.getByTestId("annonce-cap").getByRole("link")).toHaveCount(0);
       await capturer(page, "parcours-ecart-cap-4", "#cap");
