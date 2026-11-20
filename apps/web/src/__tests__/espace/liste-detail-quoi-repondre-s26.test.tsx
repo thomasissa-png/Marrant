@@ -68,7 +68,8 @@ describe("adresses (s26 liste et détail)", () => {
   it("`hrefFiche` : situation et « à plat » sous la rubrique, les autres types inchangés", () => {
     expect(hrefFiche("situation", "x")).toBe("/mon-espace/quoi-repondre/x");
     expect(hrefFiche("a-plat", "y")).toBe("/mon-espace/quoi-repondre/y");
-    expect(hrefFiche("construction", "z")).toBe("/mon-espace/fiche/construction/z");
+    // s26 bibliothèque liste et détail : une technique s'ouvre désormais sous la Bibliothèque (308 depuis l'ancienne).
+    expect(hrefFiche("construction", "z")).toBe("/mon-espace/bibliotheque/z");
     expect(hrefFiche("humour-noir", "h")).toBe("/mon-espace/fiche/humour-noir/h");
   });
 

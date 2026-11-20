@@ -12,6 +12,10 @@ import { BlocsFermes, TitreFerme } from "@/components/espace/apercu/blocs-fermes
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { Chevron, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META_FORT, TEXTE } from "@/components/espace/typo";
+import { SignalOffre } from "@/components/espace/apercu/signal-offre";
+import { FILET_CARTE } from "@/components/espace/carte/styles";
+import { Badge } from "@/components/ui/badge";
+import { EMOJI_CONTENU, RANGEE_PASTILLES } from "@/components/home/da-site";
 
 const B = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
 const F = frEspaceProfond(TEXTES_FICHE);
@@ -42,11 +46,21 @@ function ExtraitBibliotheque() {
   const nbFormules = validerFichier("formule", formules).length;
   return (
     <div data-apercu-fiche="le-faux-secret">
+      {/* s26 bibliothèque liste et détail (modèle de Quoi répondre) : clic sur une partie fermée, contour sur la carte d'offre. */}
+      <SignalOffre />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="1">
         <TuileFermee nette className="md:col-span-2 lg:col-span-8">
-          <div className={TUILE} data-apercu-construction>
-            <p className={ETIQUETTE}>{B.prefixes.construction}</p>
-            <h2 className={cn("pr-8", TITRE_TUILE)}>{frEspace(c.titre)}</h2>
+          {/* s26 bibliothèque liste et détail (DA du site, 20/11) : même famille que la fiche de l'abonné (filet violet,
+              émoji 💡 des techniques, pastille violette de la rubrique, pastille neutre de la famille), texte inchangé. */}
+          <div className={cn(TUILE, FILET_CARTE)} data-apercu-construction>
+            <p className={cn("pr-8", RANGEE_PASTILLES)}>
+              <span className={EMOJI_CONTENU} aria-hidden="true">
+                💡
+              </span>
+              <Badge variant="primary">{B.titre}</Badge>
+              <Badge variant="default">{B.prefixes.construction}</Badge>
+            </p>
+            <h2 className={cn("mt-4 pr-8", TITRE_TUILE)}>{frEspace(c.titre)}</h2>
             <p className={cn("mt-4", ETIQUETTE)}>{F.schema}</p>
             <p className={cn("mt-2", TEXTE)}>{frEspace(c.schema)}</p>
             <BlocsFermes libelles={BLOCS_FERMES_CONSTRUCTION} className="md:grid-cols-2" />

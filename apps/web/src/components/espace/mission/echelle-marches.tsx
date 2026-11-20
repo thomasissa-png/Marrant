@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { TEXTES_GESTE, TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { NumeroMarche } from "@/lib/espace/missions";
-import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_ENTRAINER } from "@/components/espace/carte/styles";
+import { EMOJI_CONTENU, RANGEE_PASTILLES } from "@/components/home/da-site";
+import { EMOJI_ENTRAINER } from "@/components/espace/carte/en-tete-carte";
 import { Coche } from "@/components/espace/aujourdhui/tableau";
 import { META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
@@ -22,24 +24,34 @@ const adresse = (n: NumeroMarche) => `/mon-espace/s-entrainer?marche=${n}#missio
  * `aria-current="step"` ; marches réussies (`reussies`, dérivées de `lireRetoursMission`) marquées « Fait » avec la
  * coche `success`. Dès 1024 px, liste verticale avec les titres des marches ; dessous, 5 puces qui passent à la ligne
  * (jamais de défilement horizontal). Une seule des deux listes est affichée (et lue).
+ * s26 DA, s'entraîner et favoris (Thomas, 20/11) : carte à bandeau violet de l'accueil ; marche en cours au filet et au
+ * texte violets (ligne active de la liste de Quoi répondre), puce en cours en pastille violette de l'accueil, émoji de
+ * S'entraîner devant le titre. `cadre` : vide quand l'échelle est la tête de la carte de mission (page S'entraîner) ;
+ * la carte s'étire alors à la hauteur de la colonne des cartes et les 5 lignes se partagent le surplus (`lg:flex-1`,
+ * 44 px au moins), comme les lignes de la carte de progression de Parcours (s26 tour 2).
  */
-export function EchelleMarches({ enCours, reussies }: { enCours: NumeroMarche; reussies: ReadonlySet<number> }) {
+export function EchelleMarches({ enCours, reussies, cadre = CADRE_CARTE_ENTRAINER }: { enCours: NumeroMarche; reussies: ReadonlySet<number>; cadre?: string }) {
   return (
-    <section aria-labelledby="echelle-titre" className={cn(CADRE_CARTE_NEUTRE, "min-w-0 p-6 [overflow-wrap:anywhere]")} data-echelle-marches={enCours}>
-      <h2 id="echelle-titre" className={TITRE_CARTE}>
-        {M.titre}
-      </h2>
-      <ol aria-labelledby="echelle-titre" className="mt-4 hidden lg:block" data-echelle="liste">
+    <section aria-labelledby="echelle-titre" className={cn(cadre, "min-w-0 px-6 pb-4 pt-6 [overflow-wrap:anywhere] lg:flex lg:flex-1 lg:flex-col")} data-echelle-marches={enCours}>
+      <div className={RANGEE_PASTILLES}>
+        <span className={EMOJI_CONTENU} aria-hidden="true">
+          {EMOJI_ENTRAINER}
+        </span>
+        <h2 id="echelle-titre" className={TITRE_CARTE}>
+          {M.titre}
+        </h2>
+      </div>
+      <ol aria-labelledby="echelle-titre" className="mt-4 hidden lg:flex lg:flex-1 lg:flex-col" data-echelle="liste">
         {MARCHES.map((n) => {
           const courante = n === enCours;
           return (
-            <li key={n} className="border-t border-border first:border-t-0">
+            <li key={n} className="flex border-t border-border first:border-t-0 lg:flex-1">
               <Link
                 href={adresse(n)}
                 aria-current={courante ? "step" : undefined}
                 className={cn(
-                  "flex min-h-12 items-center justify-between gap-4 transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary",
-                  courante ? cn("-mx-6 bg-background-elevated px-6", META_FORT) : META,
+                  "flex min-h-11 w-full items-center justify-between gap-4 transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary",
+                  courante ? cn("relative -mx-6 w-[calc(100%+3rem)] bg-background-elevated px-6 before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-accent-link", META_FORT, "text-accent-link") : META,
                 )}
                 data-marche={n}
               >
@@ -67,7 +79,7 @@ export function EchelleMarches({ enCours, reussies }: { enCours: NumeroMarche; r
                 aria-current={courante ? "step" : undefined}
                 className={cn(
                   "inline-flex min-h-11 items-center gap-2 rounded-full border px-3 py-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
-                  courante ? cn("border-border-hover bg-background-elevated", META_FORT) : cn("border-transparent bg-background-elevated hover:border-border-hover", META),
+                  courante ? cn("border-accent-primary/40 bg-accent-primary/20", META_FORT, "text-accent-link") : cn("border-transparent bg-background-elevated hover:border-border-hover", META),
                 )}
                 data-marche={n}
               >

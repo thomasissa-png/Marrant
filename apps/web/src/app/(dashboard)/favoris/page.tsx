@@ -38,7 +38,8 @@ function ContenuFavoris() {
 
 /**
  * s26 (`docs/ux/favoris-carnet-s26.md` §1.3, design §2.1), espace ouvert, abonné : en-tête aligné à gauche (plus de
- * colonne centrée), comme les rubriques de l'espace, puis rail d'onglets et liste sur la grille de 12 colonnes.
+ * colonne centrée), comme les rubriques de l'espace. s26 DA, s'entraîner et favoris : puis la liste des favoris à
+ * gauche et le favori ouvert à droite (`FavorisAbonne`, motif liste et détail de Quoi répondre).
  */
 function ContenuFavorisOuvert() {
   return (
@@ -48,7 +49,7 @@ function ContenuFavorisOuvert() {
         <p className={cn("mt-2 max-w-xl", TEXTE)}>{SOUS_TITRE}</p>
       </header>
       <div className="mt-8">
-        <FavorisAbonne />
+        <FavorisAbonne titre={TITRE} />
       </div>
     </div>
   );

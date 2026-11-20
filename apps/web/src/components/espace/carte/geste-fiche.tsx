@@ -10,6 +10,7 @@ import { ETIQUETTE } from "@/components/espace/carte/styles";
 import { LIBELLE_BLOC } from "@/components/home/da-site";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { useFaitsQuoiRepondre } from "@/components/espace/quoi-repondre/faits-contexte";
+import { useFaitsListe } from "@/components/espace/liste-detail/faits-contexte";
 
 const estFait = (r: RetourGeste | null) => r === "essaye-bof" || r === "essaye-ca-a-marche";
 
@@ -53,7 +54,10 @@ export function GesteFiche({
   const [occupe, setOccupe] = useState(false);
   const [echec, setEchec] = useState(false);
   // s26 liste et détail : dans Quoi répondre, la liste voisine et « Situation suivante » suivent le « Fait » (null ailleurs).
-  const faits = useFaitsQuoiRepondre();
+  // s26 bibliothèque liste et détail : même rôle dans la Bibliothèque (fournisseur générique de `liste-detail`).
+  const faitsQr = useFaitsQuoiRepondre();
+  const faitsListe = useFaitsListe();
+  const faits = faitsQr ?? faitsListe;
   const fait = estFait(retour);
 
   const choisir = async (r: RetourGeste) => {

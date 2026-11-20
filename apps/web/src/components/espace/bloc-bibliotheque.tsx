@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { TEXTES_BIBLIOTHEQUE } from "@/config/textes/espace-bibliotheque";
 import type { LigneFiche } from "@/lib/espace/lignes-fiches";
-import { CADRE_CARTE_RUBRIQUE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { CompteFaits, ListeFiches, compteFaits } from "@/components/espace/liste-fiches";
 import { META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,8 @@ const T = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
  * Un bloc de la Bibliothèque (maquette `bibliotheque.html`, `.card`) : titre de niveau 2 et contenu.
  * s26 (`docs/ux/rubriques-premium-s26.md` §2.2) : cadre des rubriques (`CADRE_CARTE_RUBRIQUE`, `p-6`), titre en
  * `TITRE_CARTE`, et à sa droite le compteur « faits/total » (chiffres seuls) quand le bloc a des lignes.
+ * s26 bibliothèque liste et détail (DA du site, décision de Thomas du 20/11) : cadre à bandeau violet de l'accueil
+ * (`CADRE_CARTE`), comme les tuiles de Quoi répondre ; `CADRE_CARTE_RUBRIQUE` reste neutre pour S'entraîner.
  */
 export function BlocBibliotheque({
   id,
@@ -29,7 +31,7 @@ export function BlocBibliotheque({
   compte?: { faits: number; total: number } | null;
 }) {
   return (
-    <section aria-labelledby={id} className={cn(CADRE_CARTE_RUBRIQUE, "min-w-0 p-6 [overflow-wrap:anywhere]", className)} data-bloc={id}>
+    <section aria-labelledby={id} className={cn(CADRE_CARTE, "min-w-0 p-6 [overflow-wrap:anywhere]", className)} data-bloc={id}>
       <div className="flex items-baseline justify-between gap-4">
         <h2 id={id} className={TITRE_CARTE}>
           {titre}

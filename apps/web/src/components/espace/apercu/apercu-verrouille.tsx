@@ -35,13 +35,14 @@ export function ApercuVerrouille({
   const href = buildAbonnementUrl(adresse, "monthly", sourceApercu(rubrique));
   return (
     <div className="halo-page pb-4 md:pb-6" data-apercu={rubrique} data-apercu-verrouille>
-      {/* s26 liste et détail, tour 8 : rythme du hero régularisé dans « Quoi répondre » seul (`HeroApercu`). */}
+      {/* s26 liste et détail, tour 8 : rythme du hero régularisé dans « Quoi répondre » (`HeroApercu`) ; s26 bibliothèque
+          liste et détail : la Bibliothèque suit le même modèle. */}
       <HeroApercu
         titre={TEXTES_APERCU.titres[rubrique]}
         promesse={promesse}
         pastilles={pastilles}
         offre={{ href, adresse, visiteur }}
-        rythmeRegulier={rubrique === "quoiRepondre"}
+        rythmeRegulier={rubrique === "quoiRepondre" || rubrique === "bibliotheque"}
       />
       <ExtraitCoupe href={href} rubrique={rubrique}>
         {children}

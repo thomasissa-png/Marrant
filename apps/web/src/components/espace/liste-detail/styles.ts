@@ -35,3 +35,7 @@ export const DEGRADE_BORD =
 
 /** Haut collé de la liste et du panneau dès 1024 (en-tête collant de 121 px et 32 px de marge). */
 export const HAUT_COLLE_LISTE = 153;
+
+/** s26 DA, s'entraîner et favoris : texte d'une ligne (Favoris) ; violet au survol, violet et fort sur la ligne active. */
+export const texteLigne = (actif: boolean) =>
+  `min-w-0 flex-1 text-sm [overflow-wrap:anywhere] group-hover/ligne:text-accent-link ${actif ? "font-semibold text-accent-link" : "text-text-primary"}`;

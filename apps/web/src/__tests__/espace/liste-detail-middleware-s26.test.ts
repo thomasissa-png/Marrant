@@ -34,7 +34,9 @@ describe("ancienne adresse de fiche de Quoi répondre (s26 liste et détail)", (
 
   it("ouvert : la nouvelle adresse n'est pas redirigée (un seul saut) ; les autres types gardent la leur", async () => {
     drapeau.__ESPACE_OUVERT__ = true;
-    for (const chemin of ["/mon-espace/quoi-repondre/coloc-la-poele", "/mon-espace/fiche/construction/x", "/mon-espace/fiche/humour-noir/x", "/mon-espace/fiche/bilan/bilan-repartie"]) {
+    // s26 bibliothèque liste et détail : une technique (construction…) répond désormais 308 (test dédié) ; la nouvelle
+    // adresse de la Bibliothèque n'est pas redirigée, le coin et les bilans gardent la leur.
+    for (const chemin of ["/mon-espace/quoi-repondre/coloc-la-poele", "/mon-espace/bibliotheque/x", "/mon-espace/fiche/humour-noir/x", "/mon-espace/fiche/bilan/bilan-repartie"]) {
       expect([chemin, (await middleware(requete(chemin))).headers.get("location")]).toEqual([chemin, null]);
     }
   });

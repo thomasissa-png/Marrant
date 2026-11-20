@@ -8,11 +8,11 @@ import type { SuiteMission } from "@/lib/espace/missions";
 import { enonceAffiche } from "@/lib/espace/enonce-mission";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { LigneRetour } from "@/components/espace/carte/ligne-retour";
-import { BOUTON_SECONDAIRE, CADRE_CARTE_RUBRIQUE, LIEN_NEUTRE, nouvelleCle } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CADRE_CARTE_ENTRAINER, LIEN_NEUTRE, nouvelleCle } from "@/components/espace/carte/styles";
+import { BLOC_EXERCICE } from "@/components/home/da-site";
 import { buttonVariants } from "@/components/ui/button";
-import { ETIQUETTE, META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
+import { META, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
-import { Marches } from "@/components/espace/mission/marches";
 import { preparerQuestion } from "@/components/espace/questions/prefill";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 
@@ -39,8 +39,11 @@ export const hrefMarche = (n: number, autre?: string) =>
  * s26 (`docs/design/rubriques-abonne-s26.md` §2.3) : cadre des rubriques, échelle `typo.ts`, liens neutres. `principal` :
  * le bouton de suite (« Voir la marche n ») est l'aplat de l'écran quand la rafale est finie ; sinon en contour (la
  * carte à faire reste l'action du jour, un seul plein par écran).
+ * s26 DA, s'entraîner et favoris (Thomas, 20/11) : carte à bandeau violet de l'accueil, énoncé dans le bloc « Exercice
+ * du jour ». Plus de ligne « Marche n » et ses cinq barres en tête : la page la pose sous l'échelle des marches, dans
+ * la même carte (`cadre` sous un filet), dont la ligne active dit déjà la marche (`aria-current="step"`). Mêmes textes.
  */
-export function MissionCarte({ mission, hrefAPlat, principal = false }: { mission: MissionVue; hrefAPlat: string | null; principal?: boolean }) {
+export function MissionCarte({ mission, hrefAPlat, principal = false, cadre = CADRE_CARTE_ENTRAINER }: { mission: MissionVue; hrefAPlat: string | null; principal?: boolean; cadre?: string }) {
   const cle = useRef(nouvelleCle());
   const [retour, setRetour] = useState<RetourGeste | null>(null);
   const [suite, setSuite] = useState<SuiteMission | null>(null);
@@ -75,15 +78,11 @@ export function MissionCarte({ mission, hrefAPlat, principal = false }: { missio
 
   return (
     // s26 : colonne de droite (5 colonnes dès 1024 px), sous l'échelle des marches ; blocs l'un sous l'autre.
-    <section id="mission" aria-labelledby="mission-titre" className={cn(CADRE_CARTE_RUBRIQUE, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]")} data-mission={mission.id}>
-      <p className={cn("flex items-end gap-2", ETIQUETTE)}>
-        <span>{M.marche(n)}</span>
-        <Marches n={n} />
-      </p>
+    <section id="mission" aria-labelledby="mission-titre" className={cn(cadre, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]")} data-mission={mission.id}>
       <h2 id="mission-titre" className={TITRE_CARTE}>
         {M.titresMarches[n]}
       </h2>
-      <div className="space-y-2">
+      <div className={cn(BLOC_EXERCICE, "space-y-2 p-4")}>
         {/* Lot D11c : typographie de l'espace APRÈS le retrait du préfixe « DÉFI XXX : » (sa forme d'origine). */}
         {enonceAffiche(mission.enonce).map(frEspace).map((p) => (
           <p key={p} className={TEXTE}>
@@ -93,7 +92,8 @@ export function MissionCarte({ mission, hrefAPlat, principal = false }: { missio
       </div>
       <p className={META}>{M.facultative}</p>
       <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} />
-      <div role="status" className="space-y-2">
+      {/* s26 DA : vide (aucun retour encore), la région annoncée reste dans le DOM sans ajouter les 16 px de `space-y-4`. */}
+      <div role="status" className="space-y-2 empty:!mt-0">
         {echec && <p className={META}>{TEXTES_CARTES.echec}</p>}
         {suite === "marche" && (
           <>

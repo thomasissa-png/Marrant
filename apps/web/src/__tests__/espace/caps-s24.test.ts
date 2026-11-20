@@ -217,9 +217,11 @@ describe("bonus absents partout tant qu'ils ne sont pas ouverts (critères 14 et
       .sort();
     expect(lecteurs).toEqual([
       // Lot D6 : la Bibliothèque range les bonus OUVERTS (cap de déblocage) dans leurs blocs (5.4, une seule porte).
-      "app/(dashboard)/mon-espace/bibliotheque/page.tsx",
       "app/(dashboard)/mon-espace/bonus/[id]/page.tsx",
       "app/api/espace/caps/route.ts",
+      // s26 bibliothèque liste et détail : la lecture des bonus ouverts passe de la page aux données partagées par le
+      // layout (colonne de liste), la page liste et la page de fiche (même règle : cap de déblocage, une seule porte).
+      "components/espace/bibliotheque/panneau.tsx",
       // Lot D10b : condition de la ligne des bonus (T1, T3), lit si les 4 bonus sont publiés, ne sert aucun bonus.
       "lib/espace/bonus-publies.ts",
       "lib/espace/bonus.ts",

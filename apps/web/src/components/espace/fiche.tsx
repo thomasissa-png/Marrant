@@ -78,11 +78,11 @@ function Corps({ fiche, geste = null, da = false }: { fiche: Fiche; geste?: Reac
         />
       );
     case "construction":
-      return <CorpsConstruction c={fiche.contenu} />;
+      return <CorpsConstruction c={fiche.contenu} da={da} />;
     case "formule":
-      return <CorpsFormule c={fiche.contenu} />;
+      return <CorpsFormule c={fiche.contenu} da={da} />;
     case "vocabulaire":
-      return <CorpsVocabulaire c={fiche.contenu} />;
+      return <CorpsVocabulaire c={fiche.contenu} da={da} />;
     case "ecouter":
       return <CorpsEcouter c={fiche.contenu} />;
     case "jeu":
@@ -211,6 +211,9 @@ const ECHELLE_PANNEAU =
 
 const Q = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 
+/** s26 bibliothèque liste et détail : plus aucune capitale dans la fiche (libellés violets des blocs de l'accueil compris). */
+const SANS_CAPITALES = "[&_.uppercase]:normal-case [&_.tracking-wider]:tracking-normal [&_.tracking-wide]:tracking-normal [&_[data-libelle-da]]:text-sm";
+
 /** Pastille neutre du lieu d'une fiche de Quoi répondre (libellés des filtres ; sans lieu : « Rattraper un faux pas », comme la liste). */
 function lieuDeFiche(fiche: Fiche): string | null {
   if (fiche.type !== "situation" && fiche.type !== "a-plat") return null;
@@ -231,17 +234,29 @@ export function FicheVuePanneau({
   replique,
   lettre,
   apres = null,
+  emoji = "⚡️",
+  rubrique = Q.titre,
+  pastille,
+  sansCapitales = false,
 }: {
   fiche: Fiche;
   retour: RetourGeste | null;
   replique: string | null;
   lettre: { titre: string; href: string } | null;
   apres?: React.ReactNode;
+  /** s26 bibliothèque liste et détail : émoji de l'accueil de la rubrique (💡 pour les techniques). */
+  emoji?: string;
+  /** Pastille violette : la rubrique (« Quoi répondre » par défaut, « Bibliothèque »). */
+  rubrique?: string;
+  /** Pastille neutre : par défaut le lieu d'une fiche de Quoi répondre ; la famille d'une technique. */
+  pastille?: string | null;
+  /** Bibliothèque : aucun libellé en capitales, libellés violets des blocs compris. */
+  sansCapitales?: boolean;
 }) {
   const parent = parente(fiche);
-  const lieu = lieuDeFiche(fiche);
+  const lieu = pastille === undefined ? lieuDeFiche(fiche) : pastille;
   return (
-    <article className="flex min-w-0 flex-col gap-6" data-fiche-type={fiche.type} data-fiche-panneau={fiche.id}>
+    <article className={cn("flex min-w-0 flex-col gap-6", sansCapitales && SANS_CAPITALES)} data-fiche-type={fiche.type} data-fiche-panneau={fiche.id}>
       {/* s26 DA du site (décision de Thomas du 20/11) : une carte de la famille « Ton contenu du jour » de l'accueil
           (bandeau violet, émoji, pastille violette de la rubrique et pastille neutre du lieu), « La scène » dans le bloc
           « Exemple concret » et « À toi » dans le bloc « Exercice du jour ». Structure, ordre et comportement inchangés. */}
@@ -252,16 +267,16 @@ export function FicheVuePanneau({
             <div className={RANGEE_PASTILLES}>
               {/* Émoji de la répartie à l'accueil (« Je reste muet quand on me chambre »), décoratif. */}
               <span className={EMOJI_CONTENU} aria-hidden="true">
-                ⚡️
+                {emoji}
               </span>
-              <Badge variant="primary">{Q.titre}</Badge>
+              <Badge variant="primary">{rubrique}</Badge>
               {lieu && <Badge variant="default">{lieu}</Badge>}
             </div>
             <h1 id="fiche-titre" tabIndex={-1} className={cn(TITRE_PAGE, "mt-4 [overflow-wrap:anywhere] focus:outline-none")}>
               {fiche.titre}
             </h1>
             <p className={cn("mt-2", META)}>
-              {T.types[fiche.type] !== parent.label && (
+              {T.types[fiche.type] !== parent.label && T.types[fiche.type] !== lieu && (
                 <>
                   <span className={ETIQUETTE_ECHELLE}>{T.types[fiche.type]}</span>
                   {" · "}

@@ -71,9 +71,12 @@ describe("point 1 : S'entraîner, une disposition par carte (arbitrage 1 ; colon
     expect(etirements(article)).toEqual([]);
   });
 
-  it("mission : un cadre seul (`CADRE_CARTE_RUBRIQUE`), plus de colonnes internes", () => {
+  // s26 DA, s'entraîner et favoris : cadre en paramètre, `CADRE_CARTE_ENTRAINER` (DA de l'accueil) par défaut ; la page
+  // passe un filet (mission sous l'échelle, dans la même carte).
+  it("mission : un cadre seul (`cadre`, DA par défaut), plus de colonnes internes", () => {
     const source = lire("components/espace/mission/mission-carte.tsx");
-    expect(source).toContain('className={cn(CADRE_CARTE_RUBRIQUE, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]")} data-mission={mission.id}');
+    expect(source).toContain('className={cn(cadre, "min-w-0 space-y-4 p-6 [overflow-wrap:anywhere]")} data-mission={mission.id}');
+    expect(source).toContain("cadre = CADRE_CARTE_ENTRAINER");
     expect(source).not.toMatch(/lg:grid|md:contents|flex-1|mt-auto/);
   });
 

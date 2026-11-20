@@ -54,7 +54,7 @@ import { ApercuQuoiRepondre } from "@/components/espace/apercu/apercu-quoi-repon
 import { ApercuAujourdhui } from "@/components/espace/apercu/tableau-verrouille";
 import { CarteRepliee } from "@/components/espace/carte/carte-repliee";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
-import { CADRE_CARTE_NEUTRE, CADRE_CARTE_RUBRIQUE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE, CADRE_CARTE_ENTRAINER, CADRE_CARTE_NEUTRE, CADRE_CARTE_RUBRIQUE } from "@/components/espace/carte/styles";
 import { FILET_PROCHAINE } from "@/components/espace/liste-fiches";
 import { TEXTES_FICHE_LIGNE as L } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_GESTE as G, TEXTES_MISSION as M } from "@/config/textes/espace-cartes";
@@ -79,8 +79,11 @@ describe("le filet violet des cartes : une seule constante (arbitrage à confirm
   // la constante reste neutre pour la Bibliothèque et S'entraîner, hors du périmètre de cette passe.
   it("`CADRE_CARTE_RUBRIQUE` vaut le cadre neutre aujourd'hui (Bibliothèque, S'entraîner) ; Quoi répondre a le filet de l'accueil", () => {
     expect(CADRE_CARTE_RUBRIQUE).toBe(CADRE_CARTE_NEUTRE);
-    for (const f of ["components/espace/bloc-bibliotheque.tsx", "components/espace/carte/carte-repliee.tsx", "components/espace/mission/mission-carte.tsx"]) {
-      expect(lire(f)).toContain("CADRE_CARTE_RUBRIQUE");
+    expect(lire("components/espace/bloc-bibliotheque.tsx")).toContain("CADRE_CARTE_RUBRIQUE");
+    // s26 DA, s'entraîner et favoris : S'entraîner passe à la DA de l'accueil (`CADRE_CARTE_ENTRAINER` = `CADRE_CARTE`).
+    expect(CADRE_CARTE_ENTRAINER).toBe(CADRE_CARTE);
+    for (const f of ["components/espace/carte/carte-repliee.tsx", "components/espace/mission/mission-carte.tsx", "components/espace/mission/echelle-marches.tsx", "app/(dashboard)/mon-espace/s-entrainer/page.tsx"]) {
+      expect([f, lire(f).includes("CADRE_CARTE_RUBRIQUE"), lire(f).includes("CADRE_CARTE_ENTRAINER")]).toEqual([f, false, true]);
     }
     const qr = lire("app/(dashboard)/mon-espace/quoi-repondre/page.tsx");
     expect(qr).not.toContain("CADRE_CARTE_RUBRIQUE");
@@ -172,25 +175,27 @@ describe("« Quoi répondre » abonné : prochaine action et progression", () =>
 describe("« Bibliothèque » abonné : prochaine ligne et progression par bloc", () => {
   // s26 tour 2 : `lg:columns-3` remplacé par une grille explicite à 3 colonnes dès 1024 (540 à 800 px vides sous deux
   // colonnes) ; 375 et 768 inchangés (1 colonne, puis colonnes CSS).
-  it("1/2/3 colonnes (`md:columns-2`, grille `lg:grid-cols-3`), en-tête à gauche, aucun aplat", async () => {
+  // s26 bibliothèque liste et détail : dès 1024, la liste du layout et le panneau de fiche remplacent la grille de 3
+  // colonnes ; la page liste (sous 1024, `lg:hidden`) garde 1 colonne, 2 dès 768.
+  it("1/2 colonnes sous 1024 (`md:columns-2`), page liste masquée dès 1024, en-tête à gauche, aucun aplat", async () => {
     const { container } = render(await BibliothequePage());
     const grille = classes(container.querySelector("[data-bibliotheque-grille]"));
-    expect(grille).toEqual(expect.arrayContaining(["md:columns-2", "lg:grid", "lg:grid-cols-3", "lg:items-start"]));
-    expect(grille).not.toContain("lg:columns-3");
+    expect(grille).toEqual(expect.arrayContaining(["md:columns-2"]));
+    expect(grille).not.toContain("lg:grid-cols-3");
+    expect(classes(container.querySelector("[data-mode='page']"))).toContain("lg:hidden");
+    expect(classes(container.querySelector("[data-mode='panneau']"))).toEqual(expect.arrayContaining(["hidden", "lg:block"]));
     expect(container.querySelector("h1")!.className).not.toContain("text-center");
-    expect(aplats(container)).toEqual([]);
+    // s26 bibliothèque liste et détail : la page liste sans aplat ; le panneau (dès 1024) est rendu ici sans le fournisseur
+    // du layout (« Enregistrer » y serait plein) : son seul plein est vérifié au navigateur (spec Playwright dédiée).
+    expect(aplats(container.querySelector("[data-mode='page']")!)).toEqual([]);
   });
 
-  it("s26 tour 3 (B2) : construction puis coin (col. 1), vannes puis vocabulaire (col. 2), formules (col. 3) ; construction en tête à 375", async () => {
+  // s26 bibliothèque liste et détail : les places de la grille dès 1024 (tour 3, B2) n'ont plus lieu d'être (colonne de
+  // liste et panneau) ; restent l'ordre du DOM et la construction en tête sous 768.
+  it("page liste (sous 1024) : ordre du DOM, construction en tête à 375", async () => {
     const { container } = render(await BibliothequePage());
-    const place = (sel: string) => classes(container.querySelector(sel)).filter((c) => /^lg:(col|row)-/.test(c)).sort();
     expect(container.querySelector("[data-coin]")).not.toBeNull();
-    expect(classes(container.querySelector("[data-bibliotheque-grille]"))).toEqual(expect.arrayContaining(["max-md:flex", "max-md:flex-col", "max-md:[&>*]:mb-0", "lg:grid-rows-[auto_auto_1fr]"]));
-    expect(place("[data-bloc='groupe-construction']")).toEqual(["lg:col-start-1", "lg:row-span-2", "lg:row-start-1"]);
-    expect(place("[data-coin]")).toEqual(["lg:col-start-1", "lg:row-start-3"]);
-    expect(place("[data-bloc='bloc-vannes']")).toEqual(["lg:col-start-2", "lg:row-start-1"]);
-    expect(place("[data-bloc='groupe-vocabulaire']")).toEqual(["lg:col-start-2", "lg:row-span-2", "lg:row-start-2"]);
-    expect(place("[data-bloc='groupe-formule']")).toEqual(["lg:col-start-3", "lg:row-span-3", "lg:row-start-1"]);
+    expect(classes(container.querySelector("[data-bibliotheque-grille]"))).toEqual(expect.arrayContaining(["max-md:flex", "max-md:flex-col", "max-md:[&>*]:mb-0"]));
     // Ordre du DOM inchangé (768 en colonnes CSS identique) ; la construction passe en tête sous 768 par `order`.
     expect(classes(container.querySelector("[data-bloc='groupe-construction']"))).toContain("max-md:order-first");
     const ordre = [...container.querySelectorAll("[data-bibliotheque-grille] > *")].map((e) => e.getAttribute("data-bloc") ?? "coin");
@@ -261,6 +266,26 @@ describe("« S'entraîner » abonné : prochaine action et progression", () => {
     expect(repliee.querySelector("#carte-2")!.getAttribute("data-cadre")).toBe("repliee");
     expect(repliee.querySelector("summary")!.textContent).toBe(frEspace(cartes[1].titre));
     // Écart signalé : la carte n'a pas de bouton principal unique (« Oui / À moitié / Rien », même poids, 2.2).
+    expect(aplats(container)).toEqual([]);
+  });
+
+  // s26 DA, s'entraîner et favoris (Thomas, 20/11) : cartes à bandeau violet, 🎯 et pastilles de l'accueil, « La scène »
+  // en bloc « Exemple concret » ; échelle et mission dans UNE carte étirée (colonne `lg:self-stretch`).
+  it("s26 DA, s'entraîner et favoris : bandeau, émoji, pastilles, blocs ; échelle et mission dans une seule carte", async () => {
+    rafale.mockResolvedValue({ cartes: cartes.map((c) => ({ carteId: c.id, nouvelle: true })), faites: [], fini: false, catalogue, cetteSemaine: 0, compteARebours: COMPTE });
+    retours.mockResolvedValue([]);
+    const { container } = render(await SEntrainerPage({ searchParams: {} }));
+    const premiere = container.querySelector("#carte-1")!;
+    expect(classes(premiere)).toEqual(expect.arrayContaining(CADRE_CARTE.split(" ")));
+    expect(premiere.textContent).toContain("🎯");
+    expect(premiere.querySelector(".bg-accent-primary\\/20")!.textContent).toBe(frEspace("S’entraîner"));
+    expect(classes(premiere.querySelector("h3")!.parentElement)).toEqual(expect.arrayContaining(["rounded-lg", "bg-background-elevated"]));
+    const zone = container.querySelector("[data-zone='mission']")!;
+    expect(classes(zone)).toContain("lg:self-stretch");
+    const carte = zone.querySelector("[data-carte-mission]")!;
+    expect(zone.children).toHaveLength(1);
+    expect(carte.querySelector("[data-echelle-marches]")).not.toBeNull();
+    expect(classes(carte.querySelector("[data-mission]"))).toEqual(expect.arrayContaining(["border-t", "border-border"]));
     expect(aplats(container)).toEqual([]);
   });
 

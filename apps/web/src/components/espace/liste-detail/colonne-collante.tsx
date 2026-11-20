@@ -39,12 +39,18 @@ function rendreVisible(conteneur: HTMLElement, el: HTMLElement) {
  * `scrollTop` gardé en `sessionStorage` sous `cle` (retour du navigateur), ligne active (`[data-ligne][aria-current]`)
  * gardée visible sans bouger la page, flèches haut et bas d'une ligne à l'autre. Sous 1024 : carte ordinaire, la page
  * défile (rien n'est ajusté).
+ * s26 DA, s'entraîner et favoris (Favoris), ajouts SANS effet sur le Carnet (valeurs par défaut) : `remplir` pose la
+ * HAUTEUR (pas seulement le maximum), plafond compté depuis le haut RÉEL de la carte : la liste finit à la ligne du
+ * détail ou à 24 px du bas de l'écran, pied visible dès le chargement, même avec peu de lignes (Favoris : 400 px vides
+ * sous le rail d'onglets avant) ; `pied` : bas fixe de la carte, sous un filet (ne défile pas).
  */
 export function ColonneCollante({
   cle,
   label,
   actif,
   entete,
+  pied,
+  remplir = false,
   children,
   className,
   ...data
@@ -55,6 +61,10 @@ export function ColonneCollante({
   actif: string | null;
   /** Haut fixe de la carte (ne défile pas). */
   entete?: React.ReactNode;
+  /** Bas fixe de la carte, sous un filet (ne défile pas). */
+  pied?: React.ReactNode;
+  /** Hauteur posée (liste jusqu'au bas du détail ou de l'écran), plafond depuis le haut réel ; sinon le maximum seul. */
+  remplir?: boolean;
   children: React.ReactNode;
   className?: string;
 } & Record<`data-${string}`, string>) {
@@ -81,13 +91,17 @@ export function ColonneCollante({
       image = 0;
       if (!window.matchMedia?.(LARGE).matches) {
         el.style.maxHeight = "";
+        if (remplir) el.style.height = "";
         return;
       }
       const c = cellule.getBoundingClientRect();
       if (c.height === 0) return;
-      const plafond = window.innerHeight - HAUT_COLLE_LISTE - BAS_LIBRE;
-      const dispo = c.bottom - Math.max(HAUT_COLLE_LISTE, c.top);
-      el.style.maxHeight = `${Math.round(Math.max(HAUTEUR_MIN, Math.min(plafond, dispo)))}px`;
+      const haut = Math.max(HAUT_COLLE_LISTE, c.top);
+      const plafond = window.innerHeight - (remplir ? haut : HAUT_COLLE_LISTE) - BAS_LIBRE;
+      const dispo = c.bottom - haut;
+      const hauteur = `${Math.round(Math.max(HAUTEUR_MIN, Math.min(plafond, dispo)))}px`;
+      if (remplir) el.style.height = hauteur;
+      else el.style.maxHeight = hauteur;
       mesurerBords();
     };
     const demander = () => {
@@ -153,6 +167,7 @@ export function ColonneCollante({
           {children}
         </div>
       </div>
+      {pied && <div className="flex-none border-t border-border">{pied}</div>}
     </nav>
   );
 }
