@@ -8,7 +8,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
  *  8. /vannes : chevrons de 44 px sur la rangée de catégories dès 1 024 px (« Pourquoi » : centré depuis le tour 2) ;
  *  9. réassurance alignée sur le bord gauche de son bloc (/profil ; /vannes : centrée depuis le tour 2) ;
  * 10. /lettre : formulaire en carte à filet, titre centré, bouton plein ; H1 « La lettre » pour l'abonné ;
- * 11. /carnet de l'abonné : sommaire en tête, carnets précédents dessous ;
+ * 11. /carnet de l'abonné : remplacé par la liste et détail (s26, `carnet-liste-detail-s26.spec.ts`) ;
  * 12. /parcours de l'abonné : un seul plein dans la liste, « Explore aussi » sur deux colonnes ;
  * 13. /profil : aucun débordement à 290 et 320 px, H1 à la hauteur de celui de /favoris.
  * Interrupteur fermé : rien de tout cela (contrôlé en fin de fichier).
@@ -140,82 +140,9 @@ test.describe("v6 tour 1, lot 2 : pages publiques", () => {
       await c.close();
     });
 
-    // v6 tour 3 (point 9, remplace le tour 1) : « Les carnets précédents » descend après les fiches, en fin de page.
-    test("/carnet abonné : sommaire en tête, carnets précédents après les fiches, ancres atteintes", async ({ browser }) => {
-      const { c, page } = await contexte(browser, "PREMIUM");
-      await page.goto("/carnet");
-      const sommaire = page.locator("[data-carnet-sommaire]");
-      const liens = sommaire.getByRole("link");
-      const fiches = page.locator("main [id^='fiche-']");
-      await expect(liens).toHaveCount(await fiches.count());
-      const premiere = fiches.first();
-      expect((await boite(sommaire)).y).toBeLessThan((await boite(premiere)).y);
-      const archives = page.locator("[aria-labelledby='carnet-archives']");
-      if ((await archives.count()) > 0) {
-        const derniere = await boite(fiches.last());
-        expect((await boite(archives)).y).toBeGreaterThanOrEqual(derniere.y + derniere.height);
-      }
-      // s26 (`docs/design/favoris-carnet-s26.md` §4) : fiches au cadre neutre (plus de filet) ; sommaire en tuiles 4/4/4
-      // à 1280 (trois tuiles sur la même rangée), la première marquée d'un filet blanc à gauche, chaque tuile de 44 px.
-      await expect(premiere.locator(":scope > [data-filet]")).toHaveCount(0);
-      const [t0, t1, t2] = [await boite(liens.nth(0)), await boite(liens.nth(1)), await boite(liens.nth(2))];
-      expect(Math.abs(t0.y - t2.y), "trois tuiles par rangée à 1280").toBeLessThanOrEqual(1);
-      expect(t1.height).toBeGreaterThanOrEqual(44);
-      // s26 tour 3 : filet blanc de la première tuile = bord de 1 px blanc + filet intérieur de 1 px (`::before`), au
-      // lieu d'un bord de 2 px qui décalait son texte de 1 px : texte aligné sur la tuile de dessous (même colonne).
-      const filet = await liens.nth(0).evaluate((e) => ({ bord: getComputedStyle(e).borderLeftWidth, dedans: getComputedStyle(e, "::before").width }));
-      expect(filet).toEqual({ bord: "1px", dedans: "1px" });
-      const texteX = async (i: number) => (await boite(liens.nth(i).locator("span").first())).x;
-      expect(Math.abs((await texteX(0)) - (await texteX(3))), "texte de la tuile active aligné").toBeLessThanOrEqual(0.5);
-      await expect(page.locator("[data-carnet-retour-sommaire]")).toHaveCount(await fiches.count());
-      const cible = fiches.nth(4);
-      await liens.nth(4).click();
-      await expect(page).toHaveURL(new RegExp(`#${await cible.getAttribute("id")}$`));
-      await expect(cible).toBeInViewport();
-      await c.close();
-    });
-
-    // s26 tour 3 (fautes dures des relectures du tour 2) : à 1280 x 900, le rail défile jusqu'à la ligne courante, sans
-    // faire bouger la page ; numéros à largeur fixe (titres alignés de 1 à 30).
-    test("/carnet abonné : le rail suit la fiche courante jusqu'à la 30e, la page ne saute pas", async ({ browser }) => {
-      const { c, page } = await contexte(browser, "PREMIUM");
-      await page.goto("/carnet");
-      const rail = page.locator("[data-carnet-rail]");
-      const titres = await rail.locator("a > span:nth-child(2)").evaluateAll((s) => s.map((e) => Math.round(e.getBoundingClientRect().left)));
-      expect(new Set(titres).size, "titres du rail alignés").toBe(1);
-      const fiches = page.locator("main [id^='fiche-']");
-      const n = await fiches.count();
-      for (const i of [Math.floor(n * 0.6), n - 1]) {
-        const y = await fiches.nth(i).evaluate((e) => {
-          document.documentElement.style.scrollBehavior = "auto";
-          window.scrollTo(0, e.getBoundingClientRect().top + window.scrollY - 130);
-          return window.scrollY;
-        });
-        const courante = rail.locator(`a[href="#${await fiches.nth(i).getAttribute("id")}"]`);
-        await expect(courante).toHaveAttribute("aria-current", "location");
-        await expect.poll(async () => {
-          const [r, l] = [await boite(rail), await boite(courante)];
-          return l.y >= r.y - 1 && l.y + l.height <= r.y + r.height + 1;
-        }, `ligne ${i + 1} visible dans le rail`).toBe(true);
-        expect(await page.evaluate(() => window.scrollY), "la page ne bouge pas").toBe(y);
-      }
-      await c.close();
-    });
-
-    // s26 tour 3 : sous 768 px, sommaire en liste compacte (une ligne par fiche, 44 px au moins), plus 30 tuiles.
-    test("/carnet abonné à 375 : sommaire en liste compacte", async ({ browser }) => {
-      const { c, page } = await contexte(browser, "PREMIUM", 375);
-      await page.goto("/carnet");
-      const sommaire = page.locator("[data-carnet-sommaire]");
-      const liens = sommaire.getByRole("link");
-      const hauteurs = await liens.evaluateAll((l) => l.map((e) => e.getBoundingClientRect().height));
-      expect(Math.min(...hauteurs)).toBeGreaterThanOrEqual(44);
-      expect(Math.max(...hauteurs), "deux lignes de titre au plus").toBeLessThanOrEqual(72);
-      expect((await boite(sommaire)).height, "liste, pas 30 tuiles (4 116 px au tour 2)").toBeLessThan(1800);
-      const texteX = async (i: number) => (await boite(liens.nth(i).locator("span").first())).x;
-      expect(Math.abs((await texteX(0)) - (await texteX(1))), "ligne active alignée").toBeLessThanOrEqual(0.5);
-      await c.close();
-    });
+    // s26 carnet liste et détail (`docs/ux/carnet-audit-s26.md` §3) : le sommaire en tuiles, le rail et les 30 fiches
+    // empilées de l'abonné sont remplacés par la liste + fiche (carnets précédents en pied de liste) ; leurs trois tests
+    // (sommaire et carnets précédents, rail jusqu'à la 30e, liste compacte à 375) passent dans `carnet-liste-detail-s26.spec.ts`.
 
     // s26 (`docs/ux/parcours-vannes-s26.md` §1.3) : le seul plein de l'abonné est « l'étape à reprendre » au-dessus de la
     // liste ; toutes les cartes en contour, filet violet masqué (décision du 18/11, `<span data-filet>` gardé dans le HTML).

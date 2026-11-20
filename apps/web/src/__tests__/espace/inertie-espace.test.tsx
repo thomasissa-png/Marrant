@@ -273,6 +273,13 @@ describe("garde-fou de construction", () => {
     // /lettre à l'échelle de l'espace, sous `ESPACE_CLIENT_PUBLIE && plein` (`plein` n'est passé que par /lettre ouvert).
     "components/parcours/step-quiz.tsx",
     "components/lettre/lettre-inscription.tsx",
+    // s26 carnet liste et détail (`docs/ux/carnet-audit-s26.md` §3) : layout de /carnet (fermé : `return children` en
+    // premier, aucune lecture ni enveloppe) et fiche `/carnet/<mois>/<n>` (fermé : 404 en premier, l'adresse n'existait
+    // pas). Rendu fermé de /carnet inchangé (balisage comparé au build de référence).
+    "app/(dashboard)/carnet/layout.tsx",
+    "app/(dashboard)/carnet/[mois]/[n]/layout.tsx",
+    "app/(dashboard)/carnet/[mois]/[n]/loading.tsx",
+    "app/(dashboard)/carnet/[mois]/[n]/page.tsx",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

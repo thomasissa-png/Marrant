@@ -171,29 +171,16 @@ describe("point 11 : carnet de l'abonné, sommaire en tête", () => {
     <CarnetPage view={carnetViewForPlan(courant, plan)} months={mois} returnTo="/carnet" src="carnet" />
   );
 
-  // v6 tour 3, point 9 : « Les carnets précédents » descend APRÈS les fiches (il ne coiffe plus les fiches du mois).
-  it("ouvert, abonné : sommaire des fiches (ancres existantes), fiches, puis carnets précédents en fin de page", () => {
+  // s26 carnet liste et détail (`docs/ux/carnet-audit-s26.md` §3) : le sommaire et les carnets précédents passent dans
+  // la liste du layout (`carnet-liste-detail-s26.test.tsx`) ; la page de l'abonné ne rend plus que le panneau (n° 1).
+  it("ouvert, abonné : le panneau seul (fiche n° 1, « Retour au sommaire » sous 1024), sans sommaire ni filet", () => {
     ouvrir(true);
     const { container } = render(page("PREMIUM"));
-    const sommaire = container.querySelector("[data-carnet-sommaire]") as HTMLElement;
-    expect(sommaire).toHaveAttribute("aria-labelledby", "carnet-titre");
-    expect(screen.getByRole("heading", { level: 1 })).toHaveAttribute("id", "carnet-titre");
-    const liens = within(sommaire).getAllByRole("link");
-    expect(liens).toHaveLength(courant.fiches.length);
-    for (const lien of liens) {
-      const cible = (lien.getAttribute("href") ?? "").slice(1);
-      expect(container.querySelector(`[id="${cible}"]`)).not.toBeNull();
-    }
-    const archives = container.querySelector('[aria-labelledby="carnet-archives"]') as HTMLElement;
-    const fiches = container.querySelectorAll('[id^="fiche-"]');
-    const premiereFiche = fiches[0] as HTMLElement;
-    const derniereFiche = fiches[fiches.length - 1] as HTMLElement;
-    expect(sommaire.compareDocumentPosition(premiereFiche) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(derniereFiche.compareDocumentPosition(archives) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    // s26 (18/11, filet violet des cartes retiré) : fiches au cadre neutre, sans filet.
+    expect(container.querySelector("[data-carnet-sommaire]")).toBeNull();
+    expect(container.querySelectorAll('[id^="fiche-"]')).toHaveLength(1);
+    expect(container.querySelector("[data-carnet-panneau]")).toHaveAttribute("data-carnet-panneau", "1");
     expect(container.querySelector("[data-filet]")).toBeNull();
-    // s26 : « Retour au sommaire » après chacune des fiches.
-    expect(container.querySelectorAll("[data-carnet-retour-sommaire]")).toHaveLength(courant.fiches.length);
+    expect(container.querySelectorAll("[data-carnet-retour-sommaire]")).toHaveLength(1);
   });
 
   // s26 (`docs/ux/favoris-carnet-s26.md` §2.2) : offre EN HAUT (hero 8/4, `OffreApercu`), fiche offerte puis fin d'extrait

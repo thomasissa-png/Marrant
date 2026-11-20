@@ -1,7 +1,7 @@
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Page } from "@playwright/test";
-import { test, expect, localSeulement, creerCompte, connecter } from "../support/base-locale";
+import { test, expect, localSeulement, creerCompte, connecter, ESPACE_OUVERT } from "../support/base-locale";
 
 /**
  * Carnet public, corrections de la porte G5 (s24, lot D5b ; `docs/copy/espace/g5-corrections-carnet.md`,
@@ -23,6 +23,7 @@ async function abonne(page: Page) {
 async function capturer(page: Page, nom: string, cible: string) {
   if (!CAPTURES) return;
   mkdirSync(CAPTURES, { recursive: true });
+  if (ESPACE_OUVERT && cible.startsWith("#fiche-")) await texteFiche(page, cible.slice("#fiche-".length));
   for (const [l, h, suffixe] of [[320, 700, "320"], [375, 812, "375"], [768, 1024, "768"], [1280, 900, "1280"], [188, 406, "375-200pc"]] as const) {
     await page.setViewportSize({ width: l, height: h });
     await page.waitForTimeout(300);
@@ -38,7 +39,16 @@ async function capturer(page: Page, nom: string, cible: string) {
   }
 }
 
-const norm = (s: string) => s.replace(/[  ]/g, " ").replace(/⁠/g, "").replace(/’/g, "'");
+/**
+ * s26 carnet liste et détail : espace ouvert, une fiche par adresse (`/carnet/<mois>/<n>`, n = suffixe de l'id, rang dans
+ * le carnet) ; fermé, toutes les fiches sur la page du mois, comme avant.
+ */
+async function texteFiche(page: Page, id: string): Promise<string> {
+  if (ESPACE_OUVERT) await page.goto(`/carnet/${id.slice(0, 7)}/${Number(id.slice(8))}`);
+  return norm(await page.locator(`#fiche-${id}`).innerText());
+}
+
+const norm = (s: string) =>s.replace(/[  ]/g, " ").replace(/⁠/g, "").replace(/’/g, "'");
 
 test.describe("carnet public, corrections G5 (s24, lot D5b)", () => {
   localSeulement();
@@ -46,20 +56,19 @@ test.describe("carnet public, corrections G5 (s24, lot D5b)", () => {
   test("novembre : 11-21, 11-22 et 11-30 corrigés ; 11-29 garde « oui » sur la page du carnet", async ({ page }) => {
     await abonne(page);
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("/carnet/2026-11");
+    await page.goto(ESPACE_OUVERT ? "/carnet/2026-11/21" : "/carnet/2026-11");
     const f21 = page.locator("#fiche-2026-11-21");
-    const f22 = page.locator("#fiche-2026-11-22");
     await expect(f21).toBeVisible();
     if (!AVANT) {
-      const t21 = norm(await f21.innerText());
+      const t21 = await texteFiche(page, "2026-11-21");
       expect(t21).toContain("En avance au pot");
       expect(t21).toContain("Je viens dire au revoir à Philippe. Quelqu'un peut me le montrer ?");
       expect(t21).not.toContain("premier arrivé");
-      const t22 = norm(await f22.innerText());
+      const t22 = await texteFiche(page, "2026-11-22");
       expect(t22).toContain("On m'a dit « à bientôt » à l'inscription. Je n'ai pas voulu les brusquer.");
       expect(t22).not.toContain("en bus");
-      expect(norm(await page.locator("#fiche-2026-11-30").innerText())).toContain("Depuis qu'on a commandé, je sens la dette.");
-      expect(norm(await page.locator("#fiche-2026-11-29").innerText())).toContain("Tu viens de dire « oui » sans m'écouter.");
+      expect(await texteFiche(page, "2026-11-30")).toContain("Depuis qu'on a commandé, je sens la dette.");
+      expect(await texteFiche(page, "2026-11-29")).toContain("Tu viens de dire « oui » sans m'écouter.");
     }
     await capturer(page, "carnet-novembre-11-21", "#fiche-2026-11-21");
     await capturer(page, "carnet-novembre-11-22", "#fiche-2026-11-22");
@@ -68,11 +77,11 @@ test.describe("carnet public, corrections G5 (s24, lot D5b)", () => {
   test("octobre : 10-09 et 10-04 corrigés, plus de « Le rire tombe sur »", async ({ page }) => {
     await abonne(page);
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("/carnet/2026-10");
+    await page.goto(ESPACE_OUVERT ? "/carnet/2026-10/9" : "/carnet/2026-10");
     await expect(page.locator("#fiche-2026-10-09")).toBeVisible();
     if (!AVANT) {
-      expect(norm(await page.locator("#fiche-2026-10-09").innerText())).toContain("Mon professeur a remercié mes parents par écrit.");
-      expect(norm(await page.locator("#fiche-2026-10-04").innerText())).toContain("Dans le salon, un inconnu te raconte sa randonnée");
+      expect(await texteFiche(page, "2026-10-09")).toContain("Mon professeur a remercié mes parents par écrit.");
+      expect(await texteFiche(page, "2026-10-04")).toContain("Dans le salon, un inconnu te raconte sa randonnée");
       expect(norm(await page.locator("main").innerText())).not.toContain("Le rire tombe sur");
     }
     await capturer(page, "carnet-octobre-10-09", "#fiche-2026-10-09");

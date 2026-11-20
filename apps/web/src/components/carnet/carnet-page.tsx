@@ -67,8 +67,8 @@ export function CarnetAVenir() {
  * Rendu d'un carnet (Server Component). Reçoit une vue DÉJÀ filtrée par
  * `carnetViewForPlan` : pour un non-abonné, seules la fiche offerte (champ `offerte`, sinon la première) et les
  * titres/contextes des autres existent dans les props, donc dans le HTML.
- * s26 : espace ouvert, `CarnetOuvert` (hero 8/4 offre en haut pour le non-abonné, sommaire en tuiles et rail pour
- * l'abonné). Fermé : le rendu ci-dessous, inchangé au caractère près (les branches « ouvert » d'avant y sont retirées).
+ * s26 : espace ouvert, `CarnetOuvert` (hero 8/4 offre en haut pour le non-abonné ; pour l'abonné, le panneau de la liste
+ * et détail du layout, s26 carnet liste et détail). Fermé : le rendu ci-dessous, inchangé au caractère près (les branches « ouvert » d'avant y sont retirées).
  */
 export function CarnetPage({
   view,
@@ -76,6 +76,7 @@ export function CarnetPage({
   returnTo,
   src,
   visiteur = true,
+  contexte,
 }: {
   view: CarnetView;
   months: string[];
@@ -84,8 +85,10 @@ export function CarnetPage({
   src: string;
   /** Espace ouvert seulement : non connecté (« Connexion » dans le bloc d'offre) ; inscrit gratuit sinon. */
   visiteur?: boolean;
+  /** Espace ouvert seulement (s26 carnet liste et détail) : `?contexte=`, filtre de la liste de l'abonné. */
+  contexte?: string | string[];
 }) {
-  if (ESPACE_CLIENT_PUBLIE) return <CarnetOuvert view={view} months={months} returnTo={returnTo} src={src} visiteur={visiteur} />;
+  if (ESPACE_CLIENT_PUBLIE) return <CarnetOuvert view={view} months={months} returnTo={returnTo} src={src} visiteur={visiteur} contexte={contexte} />;
   const autresMois = months.filter((m) => m !== view.mois);
 
   return (

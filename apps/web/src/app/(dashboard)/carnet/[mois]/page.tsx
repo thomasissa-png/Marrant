@@ -30,7 +30,7 @@ export default async function CarnetMonthPage({
   searchParams,
 }: {
   params: { mois: string };
-  searchParams?: { src?: string | string[] };
+  searchParams?: { src?: string | string[]; contexte?: string | string[] };
 }) {
   const carnet = getCarnetByMonth(params.mois);
   if (!carnet) notFound();
@@ -46,6 +46,7 @@ export default async function CarnetMonthPage({
       returnTo={`/carnet/${carnet.mois}`}
       src={carnetSrc(searchParams?.src)}
       visiteur={!compte}
+      contexte={searchParams?.contexte}
     />
   );
 }

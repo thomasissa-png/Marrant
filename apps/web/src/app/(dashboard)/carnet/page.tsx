@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   ...NOINDEX_ROBOTS,
 };
 
-export default async function CarnetCurrentPage({ searchParams }: { searchParams?: { src?: string | string[] } }) {
+export default async function CarnetCurrentPage({ searchParams }: { searchParams?: { src?: string | string[]; contexte?: string | string[] } }) {
   const carnet = getCurrentCarnet();
 
   // s26 : mois sans carnet, `CarnetAVenir` (rendu fermé d’avant, déplacé sans retouche ; tuile alignée à gauche ouvert).
@@ -36,6 +36,7 @@ export default async function CarnetCurrentPage({ searchParams }: { searchParams
       returnTo="/carnet"
       src={carnetSrc(searchParams?.src)}
       visiteur={!compte}
+      contexte={searchParams?.contexte}
     />
   );
 }
