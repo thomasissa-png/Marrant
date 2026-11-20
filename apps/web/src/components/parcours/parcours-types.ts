@@ -86,3 +86,16 @@ export interface UserProgress {
 
 /** Statut Umami (data-analyst §5) : jamais d'identifiant. */
 export type StatutParcours = "visiteur" | "membre" | "premium";
+
+/**
+ * s26 parcours, tour 7 bis : abonné lu CÔTÉ SERVEUR par `/parcours/[slug]` (interrupteur ouvert seulement,
+ * `lib/parcours-abonne-initial.ts`) : la page rend sa forme finale dès le HTML ; l'API ne fait plus que rafraîchir.
+ */
+export interface AbonneInitial {
+  userId: string;
+  path: PathData;
+  progress: UserProgress | null;
+  stepValidations: Array<{ stepOrder: number; completedAt: string }>;
+  rappelInvite: boolean;
+  retours: Record<number, string>;
+}

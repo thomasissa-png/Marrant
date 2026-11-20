@@ -48,7 +48,7 @@ import { LettreRepliee } from "@/components/lettre/lettre-repliee";
 import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import { isParcoursSlug } from "@/lib/entrees-parcours";
 import { PathCompletionCard } from "@/components/parcours/path-completion-card";
-import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
+import type { AbonneInitial, PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { MenuEtapes } from "@/components/espace/parcours/menu-etapes";
 import { FicheActiveContexte, LignesFiches } from "@/components/espace/parcours/lignes-fiches";
@@ -131,26 +131,36 @@ export function ParcoursDetail({
   slug,
   initialPath = null,
   initialProgress = null,
+  abonneInitial = null,
 }: {
   slug: string;
   /** Contenu pré-rendu côté serveur (ISR) : étape 1 complète, aperçu des étapes 2+. */
   initialPath?: PathData | null;
   /** Progression pré-chargée (null : chargée côté navigateur après la session). */
   initialProgress?: UserProgress | null;
+  /**
+   * s26 parcours, tour 7 bis : abonné lu côté serveur (interrupteur ouvert seulement, `page.tsx`). Présent, la page naît
+   * à sa forme finale (contenu complet, progression, étape à reprendre ouverte, rappel, retours) : plus de période de
+   * chargement ni de remise en page, les lectures du navigateur ne font que rafraîchir. Fermé : ignoré.
+   */
+  abonneInitial?: AbonneInitial | null;
 }) {
-  const [path, setPath] = useState<PathData | null>(initialPath);
-  const [progress, setProgress] = useState<UserProgress | null>(initialProgress);
+  const abonne = ESPACE_CLIENT_PUBLIE ? abonneInitial : null;
+  const pathDepart = abonne?.path ?? initialPath;
+  const progressDepart = abonne ? abonne.progress : initialProgress;
+  const [path, setPath] = useState<PathData | null>(pathDepart);
+  const [progress, setProgress] = useState<UserProgress | null>(progressDepart);
   const [isLoading, setIsLoading] = useState<boolean>(!initialPath);
   const [fetchError, setFetchError] = useState(false);
   // s17 tour 2 : état du chargement abonné (HTML ISR) : « attente » tant que l'API n'a pas répondu.
-  const [enrich, setEnrich] = useState<"attente" | "ok" | "echec">("attente");
+  const [enrich, setEnrich] = useState<"attente" | "ok" | "echec">(abonne ? "ok" : "attente");
   const [reloadKey, setReloadKey] = useState(0);
-  const [lastValidation, setLastValidation] = useState<string | null>(null);
+  const [lastValidation, setLastValidation] = useState<string | null>(() => (abonne ? derniereValidation(abonne.stepValidations) : null));
   const [nextRecommended, setNextRecommended] = useState<string | null>(null);
   const [serverXpTotal, setServerXpTotal] = useState<number | null>(null);
-  const [retours, setRetours] = useState<Record<number, string>>({});
+  const [retours, setRetours] = useState<Record<number, string>>(abonne?.retours ?? {});
   const [expandedStep, setExpandedStep] = useState<number | null>(() =>
-    initialPath ? firstIncomplete(initialPath.steps, initialProgress?.completedSteps ?? []) : null,
+    pathDepart ? firstIncomplete(pathDepart.steps, progressDepart?.completedSteps ?? []) : null,
   );
   const [completing, setCompleting] = useState<number | null>(null);
   // s17 tour 3 (QA) : l'échec de validation s'affiche dans la carte de l'étape, près de « Valider ».
@@ -162,10 +172,7 @@ export function ParcoursDetail({
   // s24 lot D4 : nombre d'étapes validées sur cette page (relance la lecture de l'annonce de cap).
   const [validationsEspace, setValidationsEspace] = useState(0);
   // s17 tour 1 (UXV-1-02) : invitation au rappel seulement pour un compte qui y a droit et ne l'a pas activé.
-  const [rappelInvite, setRappelInvite] = useState(false);
-  // s26 parcours, tour 7 : réponse sur le rappel reçue (ou échouée) ; la page de l'abonné est montrée une fois mise en place.
-  const [rappelLu, setRappelLu] = useState(false);
-  const [miseEnPlaceFinie, setMiseEnPlaceFinie] = useState(false);
+  const [rappelInvite, setRappelInvite] = useState(abonne?.rappelInvite ?? false);
   const [quizDone, setQuizDone] = useState<Set<number>>(new Set());
   const quizStorageKey = `parcours-quiz-done:${slug}`;
   const openTrigger = useRef<"auto" | "manuel">("auto");
@@ -195,14 +202,16 @@ export function ParcoursDetail({
   const { status, data: session } = useSession();
   const storeUser = useUserStore((s) => s.user);
   // Plan lu dans la session ou dans le store : l'un ou l'autre suffit (l'API tranche en dernier).
+  // Tour 7 bis : abonné lu côté serveur = Premium dès le premier rendu (session encore en lecture), sauf déconnexion.
   const isPremium =
-    status === "authenticated" &&
-    (isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan) || isPremiumPlan(storeUser?.plan));
+    (!!abonne && status !== "unauthenticated") ||
+    (status === "authenticated" &&
+      (isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan) || isPremiumPlan(storeUser?.plan)));
   const statut: StatutParcours = isPremium ? "premium" : status === "authenticated" ? "membre" : "visiteur";
   // s24 lot D4 : page enrichie de l'espace (sommaire, fiches, annonce de cap), abonné et interrupteur ouvert.
   const espaceOuvert = ESPACE_CLIENT_PUBLIE && isPremium;
   // Valider une étape (étape 1 comprise) fait partie de Premium (s15 §1.1).
-  const userId = (session?.user as { id?: string } | undefined)?.id;
+  const userId = (session?.user as { id?: string } | undefined)?.id ?? abonne?.userId;
   const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
   // s21 concision (18/10) : le plein de fin d'étape 1 mène droit à l'inscription (même tunnel que
   // les autres boutons d'achat : /register, puis paiement ouvert seul, retour au parcours), sans
@@ -280,6 +289,28 @@ export function ParcoursDetail({
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 10_000);
       let annule = false;
+      // s26 parcours, tour 7 bis : abonné lu côté serveur, page déjà à sa forme finale ; la lecture ne fait que rafraîchir
+      // (contenu, progression, dates), sans état de chargement, sans rouvrir d'étape, sans message si elle échoue.
+      if (abonne) {
+        fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`, { signal: controller.signal })
+          .then((res) => (res.ok ? res.json() : null))
+          .then((data: ByslugResponse | null) => {
+            if (annule || !data?.path?.steps) return;
+            setPath(data.path);
+            if (data.userProgress) setProgress(data.userProgress);
+            ecrireProgressionCache(slug, userId, data.userProgress ?? null);
+            setLastValidation(derniereValidation(data.stepValidations));
+          })
+          .catch(() => {
+            // La version lue côté serveur reste affichée.
+          })
+          .finally(() => clearTimeout(timer));
+        return () => {
+          annule = true;
+          clearTimeout(timer);
+          controller.abort();
+        };
+      }
       setEnrich("attente");
       // s17 tour 2 : dernière progression connue affichée tout de suite (jamais « 0/N » par défaut).
       const cache = lireProgressionCache(slug, userId);
@@ -322,7 +353,7 @@ export function ParcoursDetail({
       })
       .catch(() => setFetchError(true))
       .finally(() => setIsLoading(false));
-  }, [slug, initialPath, status, reloadKey, applyServerData, userId]);
+  }, [slug, initialPath, status, reloadKey, applyServerData, userId, abonne]);
 
   // s17 tour 2 (DES-2-01) : nouvel échec après « Réessayer » = focus rendu au bouton (le précédent a disparu).
   useEffect(() => {
@@ -357,7 +388,7 @@ export function ParcoursDetail({
     }
     hashStep.current = readHashStep();
     if (!initialPath || hashStep.current === null) return;
-    const target = stepToOpen(initialPath.steps, initialProgress?.completedSteps ?? [], hashStep.current);
+    const target = stepToOpen(pathDepart?.steps ?? initialPath.steps, progressDepart?.completedSteps ?? [], hashStep.current);
     if (target === null) return;
     setExpandedStep(target);
     ancreARecaler.current = target;
@@ -434,24 +465,9 @@ export function ParcoursDetail({
       })
       .catch(() => {
         // Sans réponse, pas d'invitation (jamais de lien vers une commande absente).
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setRappelLu(true);
       });
     return () => controller.abort();
   }, [tracksProgress]);
-
-  // s26 parcours, tour 7 : fin de la mise en place de la page de l'abonné (`miseEnPlace` plus bas) : progression lue (ou en
-  // échec) et rappel lu, ou 2 s écoulées ; ensuite plus jamais masquée (« Réessayer », validations : page montrée).
-  useEffect(() => {
-    if (!ESPACE_CLIENT_PUBLIE || miseEnPlaceFinie || !isPremium || !initialPath || status !== "authenticated") return;
-    if (enrich === "echec" || (enrich === "ok" && (!tracksProgress || rappelLu))) {
-      setMiseEnPlaceFinie(true);
-      return;
-    }
-    const delai = setTimeout(() => setMiseEnPlaceFinie(true), 2_000);
-    return () => clearTimeout(delai);
-  }, [miseEnPlaceFinie, isPremium, initialPath, status, enrich, tracksProgress, rappelLu]);
 
   /** Appels secondaires de l'abonné (quiz = pratique D3, retour d'exercice) : jamais bloquants. */
   const postQuiet = (route: "quiz" | "retour", body: Record<string, string | number>) => {
@@ -739,19 +755,6 @@ export function ParcoursDetail({
   const chargementPremium = isPremium && attendApi && enrich === "attente";
   const echecPremium = isPremium && attendApi && enrich === "echec";
   const progressionConnue = progress !== null || !attendApi || enrich === "ok";
-  /*
-   * s26 parcours, tour 7 (MESURES v4 §2, 1280 : après « Reprendre », « Le programme » +69 puis -162 px, menu +95) : chez
-   * l'abonné, la page d'arrivée change de forme tant que la progression (argumentaire déplacé sous le programme, lignes
-   * d'XP et de rythme du menu) et la réponse du rappel (invitation dans la carte d'en-tête) ne sont pas lues. Ouvert
-   * seulement : la page garde sa place mais reste invisible (`invisible`, pas de remise en page visible) jusqu'à sa forme
-   * finale, 2 s au plus (au-delà, montrée telle quelle, l'état de chargement reste annoncé).
-   */
-  const miseEnPlace =
-    ESPACE_CLIENT_PUBLIE &&
-    isPremium &&
-    attendApi &&
-    !miseEnPlaceFinie &&
-    (enrich === "attente" || (tracksProgress && !rappelLu && enrich === "ok"));
   // s21 (décision de Thomas du 18/10) : avec Premium, toutes les étapes sont ouvertes d'un coup ;
   // l'ordre et « une étape par semaine » restent des conseils (date conseillée, prochaine étape), jamais un verrou.
   const etapeAccessible = (order: number) => canAccessParcoursStep(order, isPremium ? "PREMIUM" : null);
@@ -938,16 +941,9 @@ export function ParcoursDetail({
     return (
       <FicheActiveContexte.Provider value={ficheContexte}>
       <div
-        className={cn(
-          "flex flex-col gap-6 lg:col-span-12 lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[22.5rem_minmax(0,1fr)] xl:gap-x-8",
-          miseEnPlace && "invisible",
-        )}
+        className="flex flex-col gap-6 lg:col-span-12 lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[22.5rem_minmax(0,1fr)] xl:gap-x-8"
         data-parcours-detail=""
-        data-mise-en-place={miseEnPlace || undefined}
       >
-        {/* Tour 7 : le pied de page, seul visible sous une page invisible, sauterait avec elle (mesuré : +69 puis -599 px à
-            1280, dernière étape) ; masqué le temps de la mise en place. */}
-        {miseEnPlace && <style>{"footer{visibility:hidden}"}</style>}
         <div className="-mb-2 max-lg:hidden lg:col-span-2 lg:row-start-1">
           <nav aria-label="Fil d’Ariane" className="text-sm text-text-muted">
             <Link href="/" className="hover:text-text-primary">Accueil</Link>

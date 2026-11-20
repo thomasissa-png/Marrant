@@ -10,6 +10,9 @@
 //   contient donc que l'étape 1 complète et l'APERÇU des étapes 2+ (titre, ce
 //   qu'on apprend, format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
 //   via /api/parcours/by-slug après hydratation (plan vérifié en base).
+// - s26 parcours, tour 7 bis (interrupteur OUVERT seulement) : SSR. L'abonné est lu côté serveur (session puis base,
+//   `lireAbonneParcours`) et la page lui arrive à sa forme finale (étape ouverte, menu, rappel) ; l'API ne fait plus que
+//   rafraîchir. Fermé : la session n'est pas lue, la page reste prérendue (ISR), HTML inchangé.
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import type { Metadata } from "next";
 import { fitDescription, fitTitle, NOT_FOUND_ROBOTS, websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
@@ -30,6 +33,7 @@ import { JsonLd, buildBreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { parcoursWeeks } from "@/config/premium";
 import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 import { BOULOT_SEED, STORYTELLING_SEED } from "@/lib/parcours-seed";
+import { lireAbonneParcours } from "@/lib/parcours-abonne-initial";
 
 // Revalide 1x/h — les steps changent rarement, l'important c'est le SSR sur les bots.
 export const revalidate = 3600;
@@ -182,6 +186,8 @@ export default async function ParcoursDetailPage({
 }) {
   const meta = PARCOURS_META[params.slug];
   const initialData = await fetchInitialData(params.slug);
+  // Tour 7 bis : fermé, aucun appel (page statique) et aucune prop ajoutée (charge RSC inchangée).
+  const abonneInitial = ESPACE_CLIENT_PUBLIE ? await lireAbonneParcours(params.slug) : null;
 
   if (!initialData && !meta) {
     notFound();
@@ -223,6 +229,7 @@ export default async function ParcoursDetailPage({
             ? (initialData.progress as unknown as React.ComponentProps<typeof ParcoursDetail>["initialProgress"])
             : null
         }
+        {...(ESPACE_CLIENT_PUBLIE ? { abonneInitial } : {})}
       />
     </ColonneParcours>
   );

@@ -693,7 +693,6 @@ test.describe("Parcours connecté (s26)", () => {
       const t0 = await page.evaluate(() => performance.now());
       await bouton.click();
       await expect(page.locator(`#etape-${n}-entete`)).toHaveAttribute("aria-expanded", "true");
-      await expect(page.locator("[data-mise-en-place]")).toHaveCount(0);
       await page.waitForTimeout(2_500);
       expect(await sautsDepuis(t0), "sauts après « Reprendre » ou « Commencer l'étape 1 »").toEqual([]);
       // Changement d'étape dans le menu : menu figé (sous-étapes sous chaque étape), contenu remplacé à la même place.
@@ -746,5 +745,111 @@ test.describe("Parcours connecté (s26)", () => {
         expect(m.poids, JSON.stringify(m)).toBe("400");
       }
     });
+  }
+
+  // s26 parcours, tour 7 bis : plus de page invisible pendant la mise en place (refusée : page blanche jusqu'à 2 s) ;
+  // l'abonné est lu côté serveur et la page naît à sa forme finale. Du premier rendu de la page du parcours à 2 s après :
+  // aucun élément de `main` (hors blocs collants ou fixes, qui suivent le défilement) ni le pied de page ne bouge de plus
+  // de 8 px dans le document, aucun n'est remplacé, et `main` n'est jamais invisible.
+  for (const [largeur, hauteur] of [[375, 812], [1280, 900]] as const) {
+    for (const compte of ["avance", "nouvel"] as const) {
+      for (const arrivee of ["reprendre", "direct"] as const) {
+        test(`${largeur}, ${compte}, ${arrivee} : page du parcours immobile (8 px) et jamais invisible du premier rendu à 2 s`, async ({ page }) => {
+          await page.addInitScript(() => {
+            type Mesure = { debut: number; fin: number; fini: boolean; images: number; ecartMax: number; invisibles: number; bouges: string[]; sauts: string[] };
+            const w = window as unknown as { __mesure: Mesure | null };
+            w.__mesure = null;
+            const nom = (e: Element) =>
+              `${e.tagName.toLowerCase()}${e.id ? `#${e.id}` : ""}${Array.from(e.attributes).filter((a) => a.name.startsWith("data-")).map((a) => `[${a.name}]`).join("")} « ${(e.textContent ?? "").trim().slice(0, 40)} »`;
+            new PerformanceObserver((liste) => {
+              const m = w.__mesure;
+              if (!m) return;
+              for (const e of liste.getEntries() as unknown as Array<{ startTime: number; sources?: Array<{ node: Node | null; previousRect: DOMRectReadOnly; currentRect: DOMRectReadOnly }> }>) {
+                if (e.startTime < m.debut || e.startTime > m.fin) continue;
+                for (const s of e.sources ?? []) {
+                  const dy = s.currentRect.y - s.previousRect.y;
+                  const dx = s.currentRect.x - s.previousRect.x;
+                  const el = s.node instanceof Element ? s.node : s.node?.parentElement;
+                  if ((Math.abs(dy) > 8 || Math.abs(dx) > 8) && el?.closest("main, footer")) m.sauts.push(`${nom(el)} dx ${Math.round(dx)} dy ${Math.round(dy)}`);
+                }
+              }
+            }).observe({ type: "layout-shift", buffered: true });
+            const colle = (e: Element) => {
+              for (let x: Element | null = e; x; x = x.parentElement) if (/sticky|fixed/.test(getComputedStyle(x).position)) return true;
+              return false;
+            };
+            const doc = (e: Element) => {
+              const r = e.getBoundingClientRect();
+              return { x: r.left + window.scrollX, y: r.top + window.scrollY };
+            };
+            const attendre = () => {
+              const main = document.querySelector("main");
+              const footer = document.querySelector("footer");
+              if (!main || !footer || !main.querySelector("[data-parcours-detail]")) return requestAnimationFrame(attendre);
+              const debut = performance.now();
+              const m: Mesure = { debut, fin: debut + 2_000, fini: false, images: 0, ecartMax: 0, invisibles: 0, bouges: [], sauts: [] };
+              w.__mesure = m;
+              const suivis = [main, footer, ...Array.from(main.querySelectorAll("*"))]
+                .filter((e) => e.getClientRects().length > 0 && !colle(e))
+                .slice(0, 800)
+                .map((e) => ({ e, ...doc(e) }));
+              const cache = (e: Element) => {
+                const s = getComputedStyle(e);
+                return s.visibility !== "visible" || s.opacity === "0";
+              };
+              const image = () => {
+                const detail = main.querySelector("[data-parcours-detail]");
+                m.images++;
+                if (!main.isConnected || !detail || cache(main) || cache(detail) || cache(footer)) m.invisibles++;
+                const derniere = performance.now() >= m.fin;
+                const remplacants = derniere ? Array.from(document.querySelectorAll("main *, footer")).filter((e) => e.getClientRects().length > 0) : [];
+                for (const s of suivis) {
+                  // Élément remplacé (rendu à nouveau) : comparé, à la dernière image, à ses homonymes (même balise, mêmes
+                  // attributs `data-`, même texte) ; sans homonyme (vignette vidéo sans réseau remplacée par son fond), ignoré.
+                  if (!s.e.isConnected) {
+                    if (!derniere) continue;
+                    const ecarts = remplacants.filter((e) => nom(e) === nom(s.e)).map((e) => Math.max(Math.abs(doc(e).y - s.y), Math.abs(doc(e).x - s.x)));
+                    if (ecarts.length && Math.min(...ecarts) > 8) m.bouges.push(`${nom(s.e)} remplacé, ${Math.round(Math.min(...ecarts))} px plus loin`);
+                    continue;
+                  }
+                  if (!s.e.getClientRects().length) continue;
+                  const p = doc(s.e);
+                  m.ecartMax = Math.max(m.ecartMax, Math.abs(p.y - s.y), Math.abs(p.x - s.x));
+                  if (Math.abs(p.y - s.y) > 8 || Math.abs(p.x - s.x) > 8) m.bouges.push(`${nom(s.e)} dx ${Math.round(p.x - s.x)} dy ${Math.round(p.y - s.y)}`);
+                }
+                if (derniere) m.fini = true;
+                else requestAnimationFrame(image);
+              };
+              image();
+            };
+            requestAnimationFrame(attendre);
+          });
+          // Vignettes vidéo : sans accès à YouTube (serveur e2e hors ligne), l'optimiseur d'images répond 500 et la vignette
+          // passe à son fond de repli à un moment quelconque ; une image locale tient lieu de la vignette, comme en ligne.
+          await page.route(/\/_next\/image\?url=https%3A%2F%2Fi\.ytimg\.com/, (route) =>
+            route.fulfill({ contentType: "image/png", body: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=", "base64") }),
+          );
+          await abonne(page);
+          if (compte === "avance") await valider(page, SLUG, [1, 2]);
+          await page.setViewportSize({ width: largeur, height: hauteur });
+          await page.goto("/parcours");
+          const bouton = page.getByTestId("carte-en-cours-reprendre");
+          await expect(bouton).toBeVisible();
+          const href = (await bouton.getAttribute("href")) ?? "";
+          expect(href).toMatch(/^\/parcours\/[a-z-]+/);
+          if (arrivee === "reprendre") await bouton.click();
+          else await page.goto(href);
+          await expect(page.locator("main [data-parcours-detail]")).toBeVisible();
+          const n = href.match(/#etape-(\d+)$/)?.[1];
+          if (n) await expect(page.locator(`#etape-${n}-entete`)).toHaveAttribute("aria-expanded", "true");
+          await page.waitForFunction(() => (window as unknown as { __mesure: { fini: boolean } | null }).__mesure?.fini === true, undefined, { timeout: 15_000 });
+          const m = await page.evaluate(() => (window as unknown as { __mesure: { images: number; ecartMax: number; invisibles: number; bouges: string[]; sauts: string[] } }).__mesure);
+          console.log(`tour 7 bis ${largeur} ${compte} ${arrivee} : ${m.images} images, écart max ${Math.round(m.ecartMax)} px, ${m.invisibles} invisible(s)`);
+          expect(m.invisibles, "images où `main`, la page du parcours ou le pied de page est invisible").toBe(0);
+          expect([...new Set(m.bouges)].slice(0, 10), "éléments déplacés de plus de 8 px dans le document").toEqual([]);
+          expect(m.sauts.slice(0, 10), "sauts (Layout Shift) de plus de 8 px").toEqual([]);
+        });
+      }
+    }
   }
 });

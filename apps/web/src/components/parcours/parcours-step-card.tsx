@@ -3,7 +3,6 @@
 import { Fragment, useEffect, useRef } from "react";
 import { fichesAffichees } from "@/lib/espace/sous-etapes";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { cn } from "@/lib/utils";
@@ -34,10 +33,11 @@ import {
   VideoCard,
 } from "@/components/parcours/step-blocks";
 import type { Step } from "@/components/parcours/parcours-types";
+import { LignesFiches } from "@/components/espace/parcours/lignes-fiches";
 
-// s24 lot D4 : fiches de l'étape (découpage), chargées à la demande, seulement avec `ancresFiches`
-// (espace ouvert, abonné) : interrupteur fermé, jamais rendues ni téléchargées.
-const LignesFiches = dynamic(() => import("@/components/espace/parcours/lignes-fiches").then((m) => m.LignesFiches));
+// s24 lot D4 : fiches de l'étape (découpage), rendues seulement avec `ancresFiches` (espace ouvert, abonné) ; interrupteur
+// fermé, jamais rendues. s26 parcours, tour 7 bis : import direct (le module est déjà dans la page, `parcours-detail.tsx`) ;
+// chargée à la demande, la liste arrivait une image après la page lors d'une navigation (« Reprendre ») et décalait l'étape.
 
 /**
  * s17 tour 3 (UXV-3-01) : la carte affiche-t-elle le bloc d'échec du chargement ? Règle unique,
