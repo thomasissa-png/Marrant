@@ -3,6 +3,7 @@
 import { TEXTES_CARTES } from "@/config/textes/espace-cartes";
 import { TEXTES_FICHE } from "@/config/textes/espace-bibliotheque";
 import { ETIQUETTE } from "@/components/espace/carte/styles";
+import { BLOC_EXEMPLE, LIBELLE_BLOC } from "@/components/home/da-site";
 import { entreGuillemets } from "@/components/espace/carte/citation";
 import { ReponseDabord } from "@/components/espace/fiche/reponse-dabord";
 import { FINE, frEspaceProfond } from "@/lib/fr-typo";
@@ -29,6 +30,11 @@ export interface CorpsSituationProps {
    * d'actif qui ne fait rien. Absent (fiche de l'abonné) : le rendu d'avant, inchangé.
    */
   suiteOuverte?: boolean;
+  /**
+   * s26 DA du site (décision de Thomas du 20/11) : fiche de Quoi répondre seulement, « La scène » (et la précision d'une
+   * fiche « à plat ») dans le bloc « Exemple concret » de l'accueil, libellé violet. Absent : le rendu d'avant.
+   */
+  da?: boolean;
 }
 
 // Import 2 : retours à la ligne des textes à plusieurs paragraphes conservés (`\n` du lot).
@@ -48,11 +54,11 @@ function Porte({ ouverte, premierePhrase, children }: { ouverte: boolean; premie
  * la scène, « Ta réponse d'abord », puis, après « Tu avais une réponse ? », les trois répliques avec leur
  * pourquoi, « Comment choisir » et « L'erreur que tout le monde fait ». Le geste suit (page de la fiche).
  */
-export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, erreur, precision, siCaDure, suiteOuverte = false }: CorpsSituationProps) {
+export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, erreur, precision, siCaDure, suiteOuverte = false, da = false }: CorpsSituationProps) {
   return (
     <>
-      <section aria-labelledby="f-scene" className="space-y-2">
-        <h2 id="f-scene" className={ETIQUETTE}>
+      <section aria-labelledby="f-scene" className={da ? `${BLOC_EXEMPLE} space-y-2 p-4` : "space-y-2"}>
+        <h2 id="f-scene" className={da ? LIBELLE_BLOC : ETIQUETTE} data-libelle-da={da ? "" : undefined}>
           {T.scene}
         </h2>
         <p className={`${PL} text-base text-text-primary`}>{scene.texte}</p>
@@ -60,8 +66,8 @@ export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, 
         {scene.suite && <p className={`${PL} text-base text-text-primary`}>{scene.suite}</p>}
       </section>
       {precision && (
-        <section aria-labelledby="f-precision" className="space-y-2">
-          <h2 id="f-precision" className={ETIQUETTE}>
+        <section aria-labelledby="f-precision" className={da ? `${BLOC_EXEMPLE} space-y-2 p-4` : "space-y-2"}>
+          <h2 id="f-precision" className={da ? LIBELLE_BLOC : ETIQUETTE} data-libelle-da={da ? "" : undefined}>
             {precision.titre}
           </h2>
           <p className={`${PL} text-base text-text-primary`}>{precision.texte}</p>

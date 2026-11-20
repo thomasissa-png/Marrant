@@ -12,6 +12,8 @@ import { FavoriteButton } from "@/components/ui/favorite-button";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
+// s26 DA du site (décision de Thomas du 20/11) : classes et chevron partagés avec l'espace ouvert, rendu inchangé.
+import { BANDEAU_ACCUEIL, BANDEAU_ACCUEIL_CENTRE, BANDEAU_ACCUEIL_INVERSE, BLOC_EXEMPLE, BLOC_EXERCICE, Chevron, DETAILS_SUMMARY } from "@/components/home/da-site";
 
 interface Joke {
   id: string;
@@ -85,18 +87,6 @@ const DIFFICULTY_LABELS: Record<string, string> = {
   INTERMEDIAIRE: "Intermédiaire",
   EXPERT: "Expert",
 };
-
-/** En-tête d'un bloc repliable (exemple, exercice, apprentissages) : cible 44 px (T04). */
-const DETAILS_SUMMARY =
-  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-link [&::-webkit-details-marker]:hidden";
-
-function Chevron() {
-  return (
-    <svg className="h-4 w-4 shrink-0 transition-transform group-open/d:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-    </svg>
-  );
-}
 
 /** Puce « TITRE : explication » : titre en gras (casse phrase), donnée non modifiée (design T12). */
 function formatLearning(raw: string) {
@@ -175,7 +165,7 @@ export function DailyContent() {
       >
         {/* Vanne du jour */}
         <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
-          <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
+          <div className={BANDEAU_ACCUEIL} />
           <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">😂</span>
@@ -250,7 +240,7 @@ export function DailyContent() {
 
         {/* Conseil du jour */}
         <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
-          <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
+          <div className={BANDEAU_ACCUEIL_INVERSE} />
           <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">💡</span>
@@ -274,7 +264,7 @@ export function DailyContent() {
                   </h3>
                   <p className="text-sm leading-relaxed text-text-primary">{contenuAffiche(data.tip.content)}</p>
                   {data.tip.example && (
-                    <details className="group/d rounded-lg bg-background-elevated">
+                    <details className={`group/d ${BLOC_EXEMPLE}`}>
                       <summary className={DETAILS_SUMMARY}>
                         Exemple concret
                         <Chevron />
@@ -283,7 +273,7 @@ export function DailyContent() {
                     </details>
                   )}
                   {data.tip.exercise && (
-                    <details className="group/d rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                    <details className={`group/d ${BLOC_EXERCICE}`}>
                       <summary className={DETAILS_SUMMARY}>
                         Exercice du jour
                         <Chevron />
@@ -308,7 +298,7 @@ export function DailyContent() {
 
         {/* Vidéo du jour */}
         <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
-          <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
+          <div className={BANDEAU_ACCUEIL_CENTRE} />
           <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">🎬</span>
@@ -336,7 +326,7 @@ export function DailyContent() {
                     <p className="mt-0.5 text-sm text-text-secondary">{data.video.channelName}</p>
                   </div>
                   {data.video.learnings && data.video.learnings.length > 0 && (
-                    <details className="group/d rounded-lg bg-background-elevated">
+                    <details className={`group/d ${BLOC_EXEMPLE}`}>
                       <summary className={DETAILS_SUMMARY}>
                         Ce que tu vas apprendre
                         <Chevron />
@@ -352,7 +342,7 @@ export function DailyContent() {
                     </details>
                   )}
                   {data.video.exercise && (
-                    <details className="group/d rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                    <details className={`group/d ${BLOC_EXERCICE}`}>
                       <summary className={DETAILS_SUMMARY}>
                         Exercice pratique
                         <Chevron />

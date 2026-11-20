@@ -5,7 +5,9 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Card, CardContent, FILET_MASQUE } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE, CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+// s26 DA du site (décision de Thomas du 20/11) : émoji de carte de l'accueil.
+import { EMOJI_CARTE } from "@/components/home/da-site";
 import { ECHELLE_CARTES_PARTAGEES, META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -817,11 +819,11 @@ export function ParcoursDetail({
 
   const titreParcours = (
     <div className="flex items-center gap-3">
-      <span className={ouvert("font-display text-2xl font-semibold lg:text-3xl", "text-4xl")} aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
+      <span className={ouvert(EMOJI_CARTE, "text-4xl")} aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
       <div>
         <h1 className={ouvert(TITRE_PAGE, "font-display text-3xl font-bold")}>{frTypoTexte(path.title)}</h1>
         <div className={ESPACE_CLIENT_PUBLIE ? "mt-2 flex flex-wrap items-center gap-2" : "mt-1 flex flex-wrap items-center gap-2"}>
-          <Badge variant="primary" className={ouvert(cn(META_FORT, "rounded-none bg-transparent px-0 py-0"))}>{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
+          <Badge variant="primary" className={ouvert("whitespace-normal")}>{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
           {/* s19 (N1 @ux rendu) : le rythme promis par le hub et la meta, repris dans l'en-tête ;
               durée et rythme forment un seul bloc (jamais « · » seul en bout ou en début de ligne). */}
           <span className={ouvert(cn(META, "whitespace-nowrap"), "whitespace-nowrap text-sm text-text-muted")}>
@@ -1019,7 +1021,8 @@ export function ParcoursDetail({
           />
         </div>
 
-        <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-start-2 lg:row-start-2")} data-entete-parcours="">
+        {/* s26 DA du site (décision de Thomas du 20/11) : en-tête du parcours au filet violet de l'accueil (`CADRE_CARTE`). */}
+        <div className={cn(CADRE_CARTE, "p-6 lg:col-start-2 lg:row-start-2")} data-entete-parcours="">
           {titreParcours}
           {argumentaireEnTete && argumentaire}
           {invitationRappel && <p className={cn(META, "mt-6 border-t border-border pt-6")}>{invitationRappel}</p>}

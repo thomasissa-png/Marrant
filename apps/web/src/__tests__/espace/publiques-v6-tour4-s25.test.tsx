@@ -98,7 +98,9 @@ describe("points 2 et 3 : /parcours, cartes jumelles et carte seule", () => {
       expect(classes(pied)).not.toContain("mt-auto");
       const details = pied.firstElementChild as HTMLElement;
       expect(details.tagName).toBe("DETAILS");
-      expect(details.className).toBe("group lg:min-w-0");
+      // s26 DA du site (décision de Thomas du 20/11) : test changé (raison : « Programme » prend le bloc des accordéons de
+      // l'accueil, `BLOC_EXEMPLE`, fond élevé et libellé violet).
+      expect(details.className).toBe("group rounded-lg bg-background-elevated lg:min-w-0");
       const bloc = pied.lastElementChild as HTMLElement;
       // s26 parcours, tour 8 : test changé (raison : sous 768 px, le bloc du premier parcours, dont « Tester l'étape 1 » est
       // remonté au-dessus des cartes, est masqué en entier, phrase « Sans compte. La suite : Premium. » comprise).

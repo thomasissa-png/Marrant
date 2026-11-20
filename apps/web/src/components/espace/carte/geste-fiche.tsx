@@ -7,6 +7,7 @@ import { appelEspace } from "@/components/espace/carte/appel";
 import { LigneRetour } from "@/components/espace/carte/ligne-retour";
 import { NoteReplique } from "@/components/espace/carte/note-replique";
 import { ETIQUETTE } from "@/components/espace/carte/styles";
+import { LIBELLE_BLOC } from "@/components/home/da-site";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { useFaitsQuoiRepondre } from "@/components/espace/quoi-repondre/faits-contexte";
 
@@ -32,6 +33,7 @@ export function GesteFiche({
   retourInitial,
   repliqueInitiale,
   separe = true,
+  da = false,
 }: {
   ficheId: string;
   consigne: string;
@@ -44,6 +46,8 @@ export function GesteFiche({
    * `false` quand le geste est seul dans sa carte (« À toi » de la page de fiche : plus de trait orphelin).
    */
   separe?: boolean;
+  /** s26 DA du site (décision de Thomas du 20/11) : « À toi » au libellé violet des blocs de l'accueil (fiche de Quoi répondre). */
+  da?: boolean;
 }) {
   const [retour, setRetour] = useState<RetourGeste | null>(retourInitial);
   const [occupe, setOccupe] = useState(false);
@@ -74,7 +78,9 @@ export function GesteFiche({
             26 px sur une ligne d'étiquette de 20 à 1280) : la pastille garde son dessin mais rentre dans la ligne de
             l'étiquette (`-my-1`, 18 px comptés) : « Fait » n'ajoute ni ne retire rien à la hauteur, rien ne bouge dessous. */}
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className={ETIQUETTE}>{G.aToi}</h3>
+          <h3 className={da ? `${LIBELLE_BLOC} leading-5` : ETIQUETTE} data-libelle-da={da ? "" : undefined}>
+            {G.aToi}
+          </h3>
           {fait && <span className="-my-1 rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary">{G.fait}</span>}
         </div>
         <p className="whitespace-pre-line text-base text-text-primary">

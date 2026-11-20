@@ -35,9 +35,13 @@ const classes = (el: Element | null) => (el?.getAttribute("class") ?? "").split(
 
 describe("point 1 : la carte de l'espace parle la langue de l'accueil", () => {
   it("rayon `rounded-xl`, `overflow-hidden` et filet `h-1` dégradé de l'accueil", () => {
+    // s26 DA du site (décision de Thomas du 20/11) : le bandeau de l'accueil est extrait dans `home/da-site.tsx` (même
+    // chaîne), que `daily-content.tsx` importe.
     const accueil = lire("components/home/daily-content.tsx");
+    const daSite = lire("components/home/da-site.tsx");
     expect(accueil).toContain("overflow-hidden rounded-xl");
-    expect(accueil).toContain("h-1 bg-gradient-to-r from-accent-primary to-accent-secondary");
+    expect(accueil).toContain("<div className={BANDEAU_ACCUEIL} />");
+    expect(daSite).toContain("h-1 bg-gradient-to-r from-accent-primary to-accent-secondary");
     expect(FILET_CARTE).toBe("before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-accent-primary before:to-accent-secondary");
     for (const c of ["relative", "overflow-hidden", "rounded-xl", ...FILET_CARTE.split(" ")]) expect(CADRE_CARTE.split(" ")).toContain(c);
     expect(CARTE).toContain(CADRE_CARTE);

@@ -13,7 +13,8 @@ import { UNIVERS } from "@/lib/espace/fiches-schema";
 import { TEXTES_FICHE_LIGNE, TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import { FiltresSituations } from "@/components/espace/filtres-situations";
 import { CompteFaits, ListeFiches } from "@/components/espace/liste-fiches";
-import { CADRE_CARTE_NEUTRE, CADRE_CARTE_RUBRIQUE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+// s26 DA du site (décision de Thomas du 20/11) : tuiles au filet violet de l'accueil (`CADRE_CARTE`), liens violets.
+import { CADRE_CARTE, LIEN } from "@/components/espace/carte/styles";
 import { BarreProgression, CARTE_ACTION } from "@/components/espace/aujourdhui/tableau";
 import { PanneauFiche, chargerListeQuoiRepondre, donneesPanneau, lettreDeFiche } from "@/components/espace/quoi-repondre/panneau";
 import { MemoireDefilementPage } from "@/components/espace/quoi-repondre/navigation";
@@ -62,9 +63,9 @@ function groupesParLieu(fiches: readonly FicheQuoiRepondre[]) {
 
 function Vide({ testid = "quoi-repondre-vide" }: { testid?: string }) {
   return (
-    <div className={cn(CADRE_CARTE_NEUTRE, "p-6")} data-testid={testid}>
+    <div className={cn(CADRE_CARTE, "p-6")} data-testid={testid}>
       <p className={TEXTE_FORT}>{T.vide}</p>
-      <Link href={`${ESPACE_ACCUEIL}/questions`} className={cn("mt-2", LIEN_NEUTRE)}>
+      <Link href={`${ESPACE_ACCUEIL}/questions`} className={cn("mt-2", LIEN)}>
         {T.raconte}
       </Link>
     </div>
@@ -128,7 +129,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
                   {groupes.map((g) => {
                     const n = g.fiches.filter((f) => faits.has(f.id)).length;
                     return (
-                      <section key={g.cle} aria-labelledby={`lieu-${g.cle}`} className={cn(CADRE_CARTE_RUBRIQUE, "min-w-0 p-6")} data-lieu={g.cle}>
+                      <section key={g.cle} aria-labelledby={`lieu-${g.cle}`} className={cn(CADRE_CARTE, "min-w-0 p-6")} data-lieu={g.cle}>
                         <div className="flex items-baseline justify-between gap-4">
                           <h2 id={`lieu-${g.cle}`} className={TITRE_CARTE}>
                             {g.titre}

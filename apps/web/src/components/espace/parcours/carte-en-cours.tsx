@@ -9,7 +9,11 @@ import type { NumeroCap } from "@/lib/espace/caps";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
-import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+// s26 DA du site (décision de Thomas du 20/11) : carte « En cours » à bandeau violet, comme « Ton contenu du jour ».
+import { BANDEAU_ACCUEIL, CARTE_ACCUEIL } from "@/components/home/da-site";
+
+/** Bandeau posé sur le haut de la carte, hors du flux : marges, hauteur et bords mesurés de la carte inchangés. */
+const BANDEAU_HORS_FLUX = "absolute inset-x-0 top-0";
 import { ETIQUETTE, META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { BarreSegmentee } from "@/components/espace/parcours/barre-segmentee";
 import { TonCap } from "@/components/espace/ton-cap";
@@ -37,7 +41,8 @@ export const CarteEnCours = forwardRef<
 >(function CarteEnCours({ etat, etape, caps, className }, ref) {
   if (etat === "attente") {
     return (
-      <section aria-busy="true" data-testid="carte-en-cours-squelette" className={cn(CADRE_CARTE_NEUTRE, "p-6", className)}>
+      <section aria-busy="true" data-testid="carte-en-cours-squelette" className={cn(CARTE_ACCUEIL, "p-6", className)}>
+        <div className={cn(BANDEAU_ACCUEIL, BANDEAU_HORS_FLUX)} />
         <div aria-hidden="true" className="animate-pulse motion-reduce:animate-none">
           <div className="grid gap-y-4 lg:grid-cols-12 lg:gap-x-6">
             <div className="space-y-2 lg:col-span-9">
@@ -71,7 +76,8 @@ export const CarteEnCours = forwardRef<
   const avancee = etape ? P.etapeSurTotal(etape.ordre, etape.total) : "";
 
   return (
-    <section aria-labelledby={etape ? "en-cours-titre" : undefined} data-testid="carte-en-cours" className={cn(CADRE_CARTE_NEUTRE, "p-6 max-e300:px-3 max-e300:py-2", className)}>
+    <section aria-labelledby={etape ? "en-cours-titre" : undefined} data-testid="carte-en-cours" className={cn(CARTE_ACCUEIL, "p-6 max-e300:px-3 max-e300:py-2", className)}>
+      <div className={cn(BANDEAU_ACCUEIL, BANDEAU_HORS_FLUX)} />
       {etape && (
         <div className="grid gap-y-4 max-e300:gap-y-2 lg:grid-cols-12 lg:gap-x-6">
           <div className="min-w-0 lg:col-span-9">

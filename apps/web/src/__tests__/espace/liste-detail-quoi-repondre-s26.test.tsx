@@ -138,15 +138,18 @@ describe("liste légère et ordre", () => {
 describe("colonne de liste (dès 1024)", () => {
   const rendre = () => render(<ColonneListe lignes={lignesQuoiRepondre(toutes(), faits.ids)} lieux={LIEUX} valides={VALIDES} />);
 
-  it("une seule ligne active (`aria-current`), filet BLANC de 2 px (arbitrage du 19/11), jamais violet ; 0 aplat", () => {
+  // s26 DA du site (décision de Thomas du 20/11) : test changé (raison : la ligne active prend le filet et le texte violets
+  // des liens de l'accueil, au lieu du filet blanc de l'arbitrage du 19/11) ; toujours aucun aplat.
+  it("une seule ligne active (`aria-current`), filet VIOLET de 2 px (DA du site), texte violet ; 0 aplat", () => {
     const lignes = lignesQuoiRepondre(toutes(), new Set());
     nav.segment = lignes[2].id;
     const { container } = rendre();
     const actives = container.querySelectorAll("a[aria-current='page']");
     expect(actives).toHaveLength(1);
     expect(actives[0]).toHaveAttribute("data-ligne-qr", lignes[2].id);
-    expect(classes(actives[0])).toEqual(expect.arrayContaining(["before:w-0.5", "before:bg-text-primary", "bg-background-elevated"]));
-    expect(actives[0].className).not.toMatch(/before:bg-accent/);
+    expect(classes(actives[0])).toEqual(expect.arrayContaining(["before:w-0.5", "before:bg-accent-link", "bg-background-elevated"]));
+    expect(actives[0].className).not.toMatch(/before:bg-text-primary/);
+    expect(classes(actives[0].firstElementChild)).toContain("text-accent-link");
     expect(aplats(container)).toEqual([]);
   });
 
@@ -238,9 +241,22 @@ describe("fiche dans le panneau (`/mon-espace/quoi-repondre/[id]`)", () => {
     // en gris secondaire, aucune opacité ni bord éteint (`border-border`) qui l'effaçait sur la carte.
     expect(classes(enregistrer)).toEqual(expect.arrayContaining(["border", "border-border-input", "disabled:text-text-secondary"]));
     expect(classes(enregistrer).filter((c) => /opacity|^disabled:border-border$|^disabled:text-text-muted$/.test(c))).toEqual([]);
+    // s26 DA du site (décision de Thomas du 20/11) : test changé (raison : la fiche devient UNE carte de la famille « Ton
+    // contenu du jour », bandeau violet, émoji, pastille violette « Quoi répondre » et pastille neutre du lieu ; l'échelle
+    // du panneau passe sur le corps et sur « À toi », sauf les libellés violets de l'accueil, `data-libelle-da`, qui gardent
+    // 12 px et capitales ; plus de filet entre l'en-tête et le corps).
     const panneau = container.querySelector("[data-fiche-panneau]")!;
-    expect(classes(panneau)).toEqual(expect.arrayContaining(["[&_.text-xs]:text-sm", "[&_.uppercase]:normal-case", "[&_[role=status]:empty]:absolute"]));
-    expect(classes(panneau.querySelector("h1#fiche-titre")!.parentElement!.querySelector(".border-t"))).toContain("space-y-6");
+    const carte = panneau.querySelector("[data-carte-da]")!;
+    expect(carte.firstElementChild).toHaveClass("h-1", "bg-gradient-to-r", "from-accent-primary", "to-accent-secondary");
+    const pastilles = [...carte.querySelectorAll("span.rounded-full")].map((e) => [e.textContent, classes(e).includes("text-accent-link")]);
+    expect(pastilles).toEqual([["Quoi répondre", true], [TEXTES_QUOI_REPONDRE.univers[avecGeste.univers!], false]]);
+    const corps = panneau.querySelector("h1#fiche-titre")!.parentElement!.nextElementSibling!;
+    expect(classes(corps)).toEqual(expect.arrayContaining(["space-y-6", "[&_.text-xs:not([data-libelle-da])]:text-sm", "[&_.uppercase:not([data-libelle-da])]:normal-case", "[&_[role=status]:empty]:absolute"]));
+    expect(corps.querySelector("#f-scene")).toHaveClass("text-accent-link", "uppercase");
+    expect(corps.querySelector("#f-scene")).toHaveAttribute("data-libelle-da", "");
+    const aToi = panneau.querySelector("[data-testid='geste-fiche'] h3")!;
+    expect(aToi).toHaveClass("text-accent-link");
+    expect(aToi.closest(".border-accent-primary\\/20")).not.toBeNull();
   });
 
   it("tour 1 : le repli des filtres se referme après un choix (remonté par la clé du filtre)", () => {

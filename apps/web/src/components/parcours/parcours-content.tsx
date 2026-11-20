@@ -4,6 +4,8 @@ import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { useState, useEffect, type ReactNode } from "react";
 import { Card, CardContent, CardHeader, CardTitle, FILET_MASQUE } from "@/components/ui/card";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+// s26 DA du site (décision de Thomas du 20/11) : cartes de parcours au style des cartes « Tu te reconnais ? » de l'accueil.
+import { BLOC_EXEMPLE, DETAILS_SUMMARY, EMOJI_CARTE, TITRE_CARTE_ACCUEIL } from "@/components/home/da-site";
 import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
 import { BarreSegmentee } from "@/components/espace/parcours/barre-segmentee";
 import { useLienParcoursEnCours, useParcoursEnCours } from "@/lib/espace/parcours-en-cours";
@@ -472,6 +474,14 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
               {/* s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §7) : `space-y-2` au lieu de `space-y-0`, qui
                   annulait les `mt-2` du titre et de la phrase (titre collé à sa phrase) : méta-titre 8 px, titre-texte 8 px. */}
               <CardHeader className={o("space-y-2 pb-0", "pb-2")}>
+                {/* s26 DA du site (décision de Thomas du 20/11) : ouvert, l'émoji du parcours en tête de carte, comme les cartes
+                    « Tu te reconnais ? » de l'accueil (fermé : dans le titre, inchangé). */}
+                {ESPACE_CLIENT_PUBLIE && (
+                  // Sous 300 px (200 % de texte, 188 x 406) : masqué, le premier parcours reste dans les deux premiers écrans.
+                  <p className={cn(EMOJI_CARTE, "mb-3 max-e300:hidden")} aria-hidden="true">
+                    {p.emoji}
+                  </p>
+                )}
                 {/* s26 tour 3 (point 2, ouvert seulement) : plus aucun « · » (ni en fin ni en début de ligne), les items sont
                     séparés par l'espace seul (`gap-x-4`). Fermé : les spans d'avant. */}
                 {/* s26 tour 2 (200 % de texte, 188 x 406) : sous 300 px, lignes de la méta jointives ; niveau sur plusieurs
@@ -479,7 +489,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 {/* s26 parcours v2 (§7) : items en `whitespace-nowrap` (« 325 XP à gagner » ne s'orpheline plus), lignes
                     jointives. */}
                 <div className={o(cn("flex min-h-6 flex-wrap items-center gap-x-4 gap-y-0", META), "flex flex-wrap items-center gap-x-3 gap-y-1")}>
-                  <Badge variant="primary" className={o(cn(META_FORT, "min-w-0 shrink whitespace-normal rounded-none bg-transparent px-0 py-0"))}>{p.difficulty}</Badge>
+                  <Badge variant="primary" className={o("min-w-0 shrink whitespace-normal")}>{p.difficulty}</Badge>
                   <span className={o("whitespace-nowrap text-sm text-text-secondary", "text-sm text-text-secondary")}>
                     {p.duration}
                   </span>
@@ -489,15 +499,15 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   <span className={o(cn(META, "whitespace-nowrap"), "text-sm text-text-muted")}>{totalXp} XP à gagner</span>
                   {isDone && <Badge variant="success" className={o(cn(PASTILLE, "font-normal text-success"))}>{LISTE_PARCOURS.termine}</Badge>}
                 </div>
-                <CardTitle className={o(cn(TITRE_CARTE, "mt-2"), "mt-3 text-2xl")}>
+                <CardTitle className={o(cn(TITRE_CARTE_ACCUEIL, "mt-2 text-xl"), "mt-3 text-2xl")}>
                   {/* s26 tour 2 : titre à 137 px du haut (128 de `scroll-padding-top` de l'en-tête universel, + 9). */}
                   <span id={`parcours-title-${p.slug}`} tabIndex={-1} className={o("scroll-mt-[9px] focus:outline-none", "scroll-mt-24 focus:outline-none")}>
-                    <span className="mr-2" aria-hidden="true">{p.emoji}</span>
+                    {!ESPACE_CLIENT_PUBLIE && <span className="mr-2" aria-hidden="true">{p.emoji}</span>}
                     {p.title}
                   </span>
                 </CardTitle>
                 {/* s19 (N1 @design rendu) : typographie française au rendu, tous parcours. */}
-                <p className={o(cn(TEXTE, "mt-2 text-pretty"), "mt-1 text-pretty text-sm font-medium text-accent-link")}>
+                <p className={o("mt-2 text-pretty text-base font-medium text-accent-link", "mt-1 text-pretty text-sm font-medium text-accent-link")}>
                   {frTypoTexte(p.persona)}
                 </p>
               </CardHeader>
@@ -557,14 +567,15 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 >
                 {/* Programme replié par défaut (T24) */}
                 <details
-                  className={ESPACE_CLIENT_PUBLIE ? cn("group", zones && "lg:min-w-0") : "group mb-6"}
+                  className={ESPACE_CLIENT_PUBLIE ? cn("group", BLOC_EXEMPLE, zones && "lg:min-w-0") : "group mb-6"}
                   open={openSlugs.has(p.slug)}
                   onToggle={(e) => setProgrammeOpen(p.slug, e.currentTarget.open)}
                 >
                   <summary
                     className={o(
                       // s26 tour 2 : 48 px dès 1024 px, à la hauteur du bouton voisin (pied en ligne).
-                      cn("flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-xl border border-border px-4 hover:border-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary lg:min-h-12 [&::-webkit-details-marker]:hidden", META_FORT),
+                      // s26 DA du site (décision de Thomas du 20/11) : en-tête des accordéons de l'accueil (« Exemple concret »).
+                      cn(DETAILS_SUMMARY, "rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary lg:min-h-12"),
                       "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 rounded-md border border-border px-3 text-sm font-semibold uppercase tracking-wider text-text-secondary hover:text-text-primary [&::-webkit-details-marker]:hidden",
                     )}
                   >
@@ -573,16 +584,16 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </summary>
-                  <ol className={o("mt-4 space-y-2", "mt-3 space-y-2")}>
+                  <ol className={o("space-y-2 px-4 pb-4", "mt-3 space-y-2")}>
                     {p.modules.map((m) => (
                       <li
                         key={m.week}
-                        className={o("flex flex-col gap-2 rounded-xl bg-background-elevated p-4 sm:flex-row sm:items-start sm:gap-3", "flex flex-col gap-2 rounded-md bg-background-elevated p-3 sm:flex-row sm:items-start sm:gap-3")}
+                        className={o("flex flex-col gap-2 rounded-lg bg-background-card p-4 sm:flex-row sm:items-start sm:gap-3", "flex flex-col gap-2 rounded-md bg-background-elevated p-3 sm:flex-row sm:items-start sm:gap-3")}
                       >
                         <Badge
                           variant="secondary"
                           className={o(
-                            cn(META_FORT, "w-fit shrink-0 whitespace-nowrap rounded-none bg-transparent px-0 py-0 sm:w-[5.25rem]"),
+                            "w-fit shrink-0 whitespace-nowrap sm:mt-0.5 sm:w-[5.25rem] sm:justify-center",
                             "w-fit shrink-0 whitespace-nowrap sm:mt-0.5 sm:w-[5.25rem] sm:justify-center",
                           )}
                         >
@@ -626,7 +637,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                       <Link
                         href={lienEnCours}
                         data-testid="carte-parcours-reprendre"
-                        className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto lg:w-full", CONTOUR_CARTE)}
+                        className={cn(buttonVariants({ variant: "outline-accent", size: "lg" }), "h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto lg:w-full")}
                       >
                         {TEXTES_AUJOURDHUI.etape.reprendre}
                       </Link>
@@ -652,13 +663,14 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                     // ouvert, tous les boutons de carte en contour neutre, visiteur, compte gratuit et abonné. L'en-tête
                     // collant garde le bouton d'offre plein à chaque écran (visiteur, gratuit) et l'abonné a son plein
                     // dans « l'étape à reprendre » : un plein de carte ferait deux aplats violets dans le même écran.
-                    variant={ESPACE_CLIENT_PUBLIE ? "outline" : "primary"}
+                    // s26 DA du site (décision de Thomas du 20/11) : contour violet de l'accueil (« Révéler la chute »), jamais plein.
+                    variant={ESPACE_CLIENT_PUBLIE ? "outline-accent" : "primary"}
                     size="lg"
                     // s26 parcours, tour 6 (D3 de la relecture design v3) : sous 768 px, le parcours dont « Tester l'étape 1 »
                     // est remonté en tête de liste (`premierEtape1`) n'a pas de second bouton dans sa carte.
                     className={cn(
                       "h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto",
-                      ESPACE_CLIENT_PUBLIE ? CONTOUR_CARTE : CORPS_APPEL_MOBILE,
+                      !ESPACE_CLIENT_PUBLIE && CORPS_APPEL_MOBILE,
                       zones && "lg:w-full",
                     )}
                     onClick={() => handleCta(p.slug, etape1Slug !== null)}

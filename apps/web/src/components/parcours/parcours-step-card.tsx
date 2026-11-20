@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { cn } from "@/lib/utils";
-import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE } from "@/components/espace/carte/styles";
 import { ETIQUETTE, META, META_FORT, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -264,7 +264,8 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
       // s26 parcours connecté (§5) : ouvert, 137 px (en-tête collant de 121 px + 16), à toutes les largeurs. Tour 2 : le
       // `scroll-padding-top` de 128 px de l'en-tête universel (site entier, inchangé) s'y ajoute, d'où 9 px (128 + 9).
       className={ouvert(
-        cn(CADRE_CARTE_NEUTRE, "scroll-mt-[9px] p-6", muted && "border-dashed", props.classeOuverte),
+        // s26 DA du site (décision de Thomas du 20/11) : carte d'étape au filet violet de l'accueil (`CADRE_CARTE`).
+        cn(CADRE_CARTE, "scroll-mt-[9px] p-6", muted && "border-dashed", props.classeOuverte),
         `scroll-mt-28 ${isCompleted ? "border-accent-primary/30 bg-accent-primary/5" : muted ? "border-dashed" : ""}`,
       )}
     >
