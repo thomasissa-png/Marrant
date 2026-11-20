@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { TEXTES_BIBLIOTHEQUE, TEXTES_FICHE_LIGNE } from "@/config/textes/espace-bibliotheque";
 import { CLES_BIBLIOTHEQUE, FAMILLES_BIBLIOTHEQUE, type LigneBibliotheque } from "@/lib/espace/bibliotheque-liste";
@@ -9,13 +9,14 @@ import { ficheParDefaut } from "@/lib/espace/quoi-repondre-liste";
 import type { LigneFiche } from "@/lib/espace/lignes-fiches";
 import { useFaitsListe } from "@/components/espace/liste-detail/faits-contexte";
 import { ColonneCollante } from "@/components/espace/liste-detail/colonne-collante";
+import { LIGNE_ACTIVE, LIGNE_LISTE } from "@/components/espace/liste-detail/styles";
 import { CompteFaits, sansPrefixe } from "@/components/espace/liste-fiches";
 import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { Coche } from "@/components/espace/aujourdhui/tableau";
 import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
-import { LIEN_NEUTRE, SOMMAIRE_REPLIABLE, pastilleFiltre } from "@/components/espace/carte/styles";
+import { FILET_CARTE, LIEN_NEUTRE, SOMMAIRE_REPLIABLE, pastilleFiltre } from "@/components/espace/carte/styles";
 import { badgeVariants } from "@/components/ui/badge";
-import { ETIQUETTE, META, META_FORT } from "@/components/espace/typo";
+import { ETIQUETTE, META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 
@@ -27,7 +28,8 @@ const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
  * répondre (DA du site : carte à bandeau violet, famille en pastille neutre, ligne active au filet et au texte violets).
  * En tête, repliés comme les filtres de Quoi répondre, les thèmes et le catalogue (« Vannes, conseils, vidéos ») ; puis
  * les techniques par famille, bonus des caps compris (un bonus garde sa porte, `/mon-espace/bonus/[id]`) ; en pied de
- * liste, le coin « Humour noir, fait bien », comportement inchangé (seuil et cookie d'entrée).
+ * liste, le coin « Humour noir, fait bien », comportement inchangé (seuil et cookie d'entrée). Carte collante, lignes et
+ * ligne active : module commun `liste-detail` (créé par le Carnet), avec le bandeau violet de l'accueil (`FILET_CARTE`).
  */
 export function ColonneBibliotheque({
   lignes,
@@ -45,8 +47,38 @@ export function ColonneBibliotheque({
   const actif = idOuvert ?? ficheParDefaut(techniques, new Set(techniques.filter((l) => l.fait).map((l) => l.id)))?.id ?? null;
   const groupes = FAMILLES_BIBLIOTHEQUE.map((f) => ({ cle: f, titre: T.prefixes[f], lignes: avecFaits.filter((l) => l.famille === f) })).filter((g) => g.lignes.length > 0);
 
+  // Annonce polie du titre ouvert après un changement de fiche (jamais au chargement).
+  const [annonce, setAnnonce] = useState("");
+  const premier = useRef(true);
+  useEffect(() => {
+    if (premier.current) {
+      premier.current = false;
+      return;
+    }
+    setAnnonce(avecFaits.find((l) => l.id === actif)?.titre ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actif]);
+  // Titre de la liste : H1 quand aucune fiche n'occupe le panneau, sinon H2 (le H1 est celui de la fiche).
+  const Titre = actif === null ? "h1" : "h2";
+
   return (
-    <ColonneCollante titre={T.titre} titreId="bib-liste-titre" titreH1={actif === null} cle={CLES_BIBLIOTHEQUE.liste} actif={actif} attributLigne="data-ligne-bib">
+    <ColonneCollante
+      cle={CLES_BIBLIOTHEQUE.liste}
+      label={T.titre}
+      actif={actif}
+      className={FILET_CARTE}
+      data-colonne-liste=""
+      entete={
+        <>
+          <Titre id="bib-liste-titre" className={cn(TITRE_CARTE, "px-6 pb-4 pt-8")}>
+            {T.titre}
+          </Titre>
+          <p className="sr-only" aria-live="polite" data-annonce-fiche>
+            {frEspace(annonce)}
+          </p>
+        </>
+      }
+    >
       <details className="group/repli px-6 pb-4" data-vannes-liste>
         <summary className={SOMMAIRE_REPLIABLE}>
           <span className="min-w-0 [overflow-wrap:anywhere]">{T.blocVannes}</span>
@@ -97,12 +129,10 @@ export function ColonneBibliotheque({
                         prefetch={false}
                         aria-current={estActif ? "page" : undefined}
                         onClick={() => (l.marque ? undefined : faits?.demanderFocus())}
+                        data-ligne={l.id}
                         data-ligne-bib={l.id}
                         data-titre={titre}
-                        className={cn(
-                          "group/ligne relative flex min-h-11 items-center gap-3 px-6 py-2 hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary before:absolute before:inset-y-0 before:left-0 before:w-0.5",
-                          estActif && "bg-background-elevated before:bg-accent-link",
-                        )}
+                        className={cn(LIGNE_LISTE, "group/ligne items-center", estActif && LIGNE_ACTIVE)}
                       >
                         <span className={cn("min-w-0 flex-1 [overflow-wrap:anywhere] group-hover/ligne:text-accent-link", estActif ? `${META_FORT} text-accent-link` : l.fait ? META : `${META} text-text-primary`)}>
                           {l.marque && <span className={cn("block", META)}>{frEspace(l.marque)}</span>}

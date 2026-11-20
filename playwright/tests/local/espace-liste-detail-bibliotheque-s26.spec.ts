@@ -139,7 +139,7 @@ test.describe("Bibliothèque, liste et détail (s26)", () => {
     expect(await capitales(page)).toEqual([]);
     await capturer(page, "bibliotheque-abonne-375");
     const liens = page.locator("[data-mode='page'] [data-etat='liste'] a[data-fiche][href^='/mon-espace/bibliotheque/']");
-    const cible = liens.nth(8);
+    const cible = liens.nth(16);
     await cible.scrollIntoViewIfNeeded();
     await page.evaluate(() => window.scrollBy(0, 40));
     const y = await page.evaluate(() => window.scrollY);

@@ -8,6 +8,8 @@ import { ADRESSE_LISTE_BIBLIOTHEQUE, estFicheBibliotheque, idDeCheminBibliothequ
 import { chargerBibliotheque } from "@/components/espace/bibliotheque/panneau";
 import { ColonneBibliotheque } from "@/components/espace/bibliotheque/colonne-liste";
 import { FournisseurFaitsListe } from "@/components/espace/liste-detail/faits-contexte";
+import { CELLULE_LISTE_COLLANTE, GRILLE_LISTE_DETAIL } from "@/components/espace/liste-detail/styles";
+import { cn } from "@/lib/utils";
 
 /**
  * s26 bibliothèque liste et détail (modèle : le pilote de Quoi répondre, `docs/ux/liste-detail-quoi-repondre-s26.md`,
@@ -37,11 +39,11 @@ export default async function BibliothequeLayout({ children }: { children: React
   return (
     <FournisseurFaitsListe adresseListe={ADRESSE_LISTE_BIBLIOTHEQUE} versionServeur={version}>
       <div
-        className="pb-[calc(4rem+env(safe-area-inset-bottom))] lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[22.5rem_minmax(0,1fr)] xl:gap-8"
+        className={cn("pb-[calc(4rem+env(safe-area-inset-bottom))]", GRILLE_LISTE_DETAIL)}
         data-liste-detail
       >
         {/* Cellule hors du calcul de la rangée (`h-0 min-h-full`) : la liste collante ne rallonge jamais la page. */}
-        <div className="hidden min-w-0 lg:block lg:h-0 lg:min-h-full" data-zone="liste">
+        <div className={cn("hidden lg:block", CELLULE_LISTE_COLLANTE)} data-zone="liste">
           <ColonneBibliotheque lignes={lignes} coin={coin.length > 0 ? { lignes: entre ? coin.map((x) => ligneDeFiche(x, faits)) : null } : null} />
         </div>
         <div className="min-w-0" data-zone="panneau">

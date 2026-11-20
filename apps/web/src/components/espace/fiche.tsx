@@ -212,7 +212,7 @@ const ECHELLE_PANNEAU =
 const Q = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 
 /** s26 bibliothèque liste et détail : plus aucune capitale dans la fiche (libellés violets des blocs de l'accueil compris). */
-const SANS_CAPITALES = "[&_.uppercase]:normal-case [&_.tracking-wider]:tracking-normal [&_.tracking-wide]:tracking-normal";
+const SANS_CAPITALES = "[&_.uppercase]:normal-case [&_.tracking-wider]:tracking-normal [&_.tracking-wide]:tracking-normal [&_[data-libelle-da]]:text-sm";
 
 /** Pastille neutre du lieu d'une fiche de Quoi répondre (libellés des filtres ; sans lieu : « Rattraper un faux pas », comme la liste). */
 function lieuDeFiche(fiche: Fiche): string | null {

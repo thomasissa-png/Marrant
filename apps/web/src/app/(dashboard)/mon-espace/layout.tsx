@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { EN_TETE_CHEMIN_ESPACE, ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { garderEspace } from "@/lib/espace/garde";
 import { estAdresseApercu, estFicheQuoiRepondre, lireLecteurApercu } from "@/components/espace/apercu/acces";
+import { estFicheBibliotheque } from "@/lib/espace/bibliotheque-liste";
 import { noterEvenementEspace } from "@/lib/mesure/evenements-espace";
 import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
 
@@ -35,7 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function MonEspaceLayout({ children }: { children: React.ReactNode }) {
   const chemin = ESPACE_CLIENT_PUBLIE ? headers().get(EN_TETE_CHEMIN_ESPACE) : null;
   // s26 liste et détail : une fiche de Quoi répondre aussi, son layout renvoie (307) le non-abonné vers l'aperçu.
-  if (ESPACE_CLIENT_PUBLIE && (estAdresseApercu(chemin) || estFicheQuoiRepondre(chemin)) && (await lireLecteurApercu())) return <>{children}</>;
+  // s26 bibliothèque liste et détail : même chose pour une technique de la Bibliothèque.
+  if (ESPACE_CLIENT_PUBLIE && (estAdresseApercu(chemin) || estFicheQuoiRepondre(chemin) || estFicheBibliotheque(chemin)) && (await lireLecteurApercu())) return <>{children}</>;
   const { userId } = await garderEspace(chemin);
   await noterEvenementEspace({ type: "espace_ouvert" }, userId);
   // Relecture des captures nav s24, tour 2 (reviewer FD-B) : plus de hauteur minimale ici (elle poussait le pied

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useFaitsListe } from "@/components/espace/liste-detail/faits-contexte";
-import { HAUT_COLLE } from "@/components/espace/quoi-repondre/colonne-liste";
+import { HAUT_COLLE_LISTE as HAUT_COLLE } from "@/components/espace/liste-detail/styles";
 import { LienRetour } from "@/components/espace/lien-retour";
 import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 import { cn } from "@/lib/utils";
