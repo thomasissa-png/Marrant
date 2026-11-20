@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Card, CardContent, FILET_MASQUE } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { CADRE_CARTE, CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 // s26 DA du site (décision de Thomas du 20/11) : émoji de carte de l'accueil.
 import { EMOJI_CARTE } from "@/components/home/da-site";
 import { ECHELLE_CARTES_PARTAGEES, META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
@@ -817,7 +817,9 @@ export function ParcoursDetail({
     </>
   );
 
-  const titreParcours = (
+  // s26 finition avant lancement (point 3, Thomas 20/11 : « la carte du rappel prend trop de place pour une ligne ») :
+  // `sous`, une ligne posée sous la méta (niveau, durée, rythme), alignée sur le titre ; ouvert seulement.
+  const enTeteParcours = (sous?: React.ReactNode) => (
     <div className="flex items-center gap-3">
       <span className={ouvert(EMOJI_CARTE, "text-4xl")} aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
       <div>
@@ -836,9 +838,11 @@ export function ParcoursDetail({
             )}
           </span>
         </div>
+        {sous}
       </div>
     </div>
   );
+  const titreParcours = enTeteParcours();
 
   // s26 parcours connecté, tour 2 (C3 : la carte du nouvel abonné dépassait la colonne de gauche de 127 à 147 px) : espace
   // ouvert, l'invitation au rappel (64 px sur deux lignes dans la carte de 5 colonnes) sort de la carte de progression ;
@@ -1021,11 +1025,12 @@ export function ParcoursDetail({
           />
         </div>
 
-        {/* s26 DA du site (décision de Thomas du 20/11) : en-tête du parcours au filet violet de l'accueil (`CADRE_CARTE`). */}
-        <div className={cn(CADRE_CARTE, "p-6 lg:col-start-2 lg:row-start-2")} data-entete-parcours="">
-          {titreParcours}
+        {/* s26 DA du site (décision de Thomas du 20/11) : en-tête du parcours en carte. s26 finition avant lancement (points 3
+            et 4) : cadre neutre (le filet violet est sur l'étape ouverte), l'invitation au rappel sous la méta du parcours,
+            sans filet ni bloc séparé. */}
+        <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-start-2 lg:row-start-2")} data-entete-parcours="">
+          {enTeteParcours(invitationRappel && <p className={cn(META, "mt-2")} data-rappel-parcours="">{invitationRappel}</p>)}
           {argumentaireEnTete && argumentaire}
-          {invitationRappel && <p className={cn(META, "mt-6 border-t border-border pt-6")}>{invitationRappel}</p>}
         </div>
 
         <div className="flex min-w-0 flex-col gap-6 lg:col-start-2 lg:row-start-3" aria-busy={chargementPremium || undefined}>

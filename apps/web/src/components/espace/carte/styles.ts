@@ -26,8 +26,13 @@ export const BOUTON_PRINCIPAL =
 export const FILET_CARTE =
   "before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-accent-primary before:to-accent-secondary";
 
-/** Cadre d'une carte (sans marge interne) : rayon, bordure, fond et filet de l'accueil. */
-export const CADRE_CARTE = `relative overflow-hidden rounded-xl border border-border bg-background-card ${FILET_CARTE}`;
+/**
+ * Cadre de la CARTE PRINCIPALE d'un écran (sans marge interne) : rayon, bordure, fond et filet de l'accueil.
+ * s26 finition avant lancement (décision de Thomas du 20/11, point 4 : « le bandeau sur toutes les cartes tue la
+ * hiérarchie ») : le filet violet est réservé à la carte principale de chaque écran (fiche ouverte, étape ouverte, carte
+ * de situation…) ; toutes les autres cartes prennent `CADRE_CARTE` (neutre), avec émoji et pastille violette.
+ */
+export const CADRE_CARTE_PRINCIPALE = `relative overflow-hidden rounded-xl border border-border bg-background-card ${FILET_CARTE}`;
 
 /**
  * s25 v7 tour 7 (décision de Thomas du 16/11) : le même cadre SANS le filet, pour « Aujourd'hui » seulement (carte
@@ -35,6 +40,9 @@ export const CADRE_CARTE = `relative overflow-hidden rounded-xl border border-bo
  * plein. Les autres rubriques gardent `CADRE_CARTE` (filet de l'accueil, choix du 15/11).
  */
 export const CADRE_CARTE_NEUTRE = "relative overflow-hidden rounded-xl border border-border bg-background-card";
+
+/** s26 finition avant lancement (point 4) : cadre de toute carte qui n'est pas la carte principale de l'écran. */
+export const CADRE_CARTE: string = CADRE_CARTE_NEUTRE;
 
 /**
  * « Ton cap » (`TonCap`, partagé) en NEUTRE : points, flamme et filet en gris comme les segments d'« Aujourd'hui » ; le
@@ -59,10 +67,14 @@ export const CADRE_CARTE_RUBRIQUE: string = CADRE_CARTE_NEUTRE;
  * (`CADRE_CARTE`, même rendu que `CARTE_ACCUEIL` + `BANDEAU_ACCUEIL` de `home/da-site.tsx`, sans enfant en plus). Cartes de
  * la rafale (dépliée et repliées), échelle des marches, mission, rafale finie. La Bibliothèque garde
  * `CADRE_CARTE_RUBRIQUE` (hors du périmètre de cette passe).
+ * s26 finition avant lancement (point 4) : neutre ; seule la carte de situation (rafale dépliée, `carte-registre.tsx`, ou
+ * « rafale finie » à sa place) garde le filet (`CADRE_CARTE_PRINCIPALE`).
  */
-export const CADRE_CARTE_ENTRAINER: string = CADRE_CARTE;
+export const CADRE_CARTE_ENTRAINER: string = CADRE_CARTE_NEUTRE;
 
 export const CARTE = `min-w-0 space-y-4 ${CADRE_CARTE} p-4 md:p-6 [overflow-wrap:anywhere]`;
+/** s26 finition avant lancement (point 4) : `CARTE` de la carte principale de l'écran (corps de la fiche ouverte). */
+export const CARTE_PRINCIPALE = `min-w-0 space-y-4 ${CADRE_CARTE_PRINCIPALE} p-4 md:p-6 [overflow-wrap:anywhere]`;
 
 /**
  * v6 tour 1 (point 5) : un `<summary>` qui révèle du contenu a la forme d'un bouton secondaire de 44 px avec un

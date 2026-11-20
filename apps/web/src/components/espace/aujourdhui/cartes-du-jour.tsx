@@ -7,7 +7,8 @@ import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { Chevron, Coche, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { META, META_FORT, TEXTE, TITRE_CARTE } from "@/components/espace/typo";
-import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -64,7 +65,7 @@ export function CartesDuJour({
       <section aria-labelledby="rafale-titre" className={TUILE} data-rafale={fini ? "faite" : "a-faire"}>
         {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil (en dernier, hors du flux) ; à faire, la
             pastille de la rubrique. */}
-        {!fini && <PastillesDa emoji={EMOJIS_ACCUEIL.quoiRepondre} pastille={TEXTES_ESPACE_NAVIGATION.index.sEntrainer} className="mb-2" />}
+        {!fini && <PastillesDa emoji={EMOJIS_RUBRIQUES.sEntrainer} pastille={TEXTES_ESPACE_NAVIGATION.index.sEntrainer} className="mb-2" />}
         {fini ? (
           <div className="flex items-center gap-4">
             <RondFait />
@@ -85,7 +86,6 @@ export function CartesDuJour({
             </div>
           </>
         )}
-        <Bandeau />
       </section>
     );
   }
@@ -97,7 +97,7 @@ export function CartesDuJour({
         idTitre="rafale-titre"
         data-rafale="faite"
         etiquette={T.rafale.titre}
-        emoji={EMOJIS_ACCUEIL.quoiRepondre}
+        emoji={EMOJIS_RUBRIQUES.sEntrainer}
         titre={
           <span className="flex items-center gap-4">
             <RondFait />
@@ -114,7 +114,7 @@ export function CartesDuJour({
       idTitre="rafale-titre"
       data-rafale="a-faire"
       etiquette={TEXTES_ESPACE_NAVIGATION.index.sEntrainer}
-      emoji={EMOJIS_ACCUEIL.quoiRepondre}
+      emoji={EMOJIS_RUBRIQUES.sEntrainer}
       titre={T.rafale.titre}
       action={{ href, libelle: T.rafale.bouton }}
       apres={
@@ -123,7 +123,10 @@ export function CartesDuJour({
             {T.rafale.accroche}
           </p>
           {sousTitre}
-          <ul className="mt-4 flex flex-col gap-2 md:grid md:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
+          {/* s26 finition avant lancement (point 1, Thomas 20/11 : titres sur 3 ou 4 lignes à 1280 dans trois colonnes) :
+              une liste verticale pleine largeur à toutes les largeurs, pastille à gauche, titre à droite (une ligne, deux
+              au plus). */}
+          <ul className="mt-4 flex flex-col gap-2">
             {cartes.map((c) => (
               <li key={c.href}>
                 <Link

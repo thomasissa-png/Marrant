@@ -4,7 +4,6 @@ import { frEspace } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { Reassurance } from "@/components/ui/reassurance";
 import { BOUTON_OFFRE_FIN, CARTE_PREMIUM, CONTOUR_FIN_LG, HaloPremium } from "@/components/espace/apercu/offre-apercu";
-import { Bandeau } from "@/components/espace/da-espace";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
 
 /** s26 contrôle d'ensemble, aperçus (C3) : extraits courts, bouton de fin en contour dès 1024 (`CONTOUR_FIN_LG`). */
@@ -91,7 +90,6 @@ export function ExtraitCoupe({ children, href, rubrique }: { children: React.Rea
       >
         <HaloPremium />
         {/* s26 contrôle d'ensemble, aperçus : bandeau violet de l'accueil (hors du flux). */}
-        <Bandeau />
         <div className="relative flex flex-col items-center gap-4">
           <p className={TITRE_CARTE}>{TEXTES_APERCU_VERROUILLE.suite}</p>
           <div className="w-full">

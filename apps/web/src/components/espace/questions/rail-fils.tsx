@@ -7,7 +7,6 @@ import { dateCourte } from "@/components/espace/questions/appel";
 import { hrefFil } from "@/components/espace/questions/reponse-non-lue";
 import { ColonneCollante } from "@/components/espace/liste-detail/colonne-collante";
 import { LIGNE_ACTIVE, LIGNE_LISTE } from "@/components/espace/liste-detail/styles";
-import { Bandeau } from "@/components/espace/da-espace";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
@@ -37,7 +36,6 @@ export function RailFils({ fils, courant, className }: { fils: readonly FilListe
       className={cn("min-w-0", className)}
       entete={
         <div className="px-6 pb-4 pt-6">
-          <Bandeau />
           <p className={TITRE_CARTE}>{Q.envois.titre}</p>
         </div>
       }

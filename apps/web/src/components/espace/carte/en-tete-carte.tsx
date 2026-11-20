@@ -5,13 +5,11 @@ import { EMOJI_CONTENU, RANGEE_PASTILLES } from "@/components/home/da-site";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_CARTES);
 const N = frEspaceProfond(TEXTES_ESPACE_NAVIGATION);
-
-/** Émoji de S'entraîner (l'accueil n'en a pas pour l'entraînement), décoratif. */
-export const EMOJI_ENTRAINER = "🎯";
 
 /**
  * En-tête d'une carte de la rafale (S'entraîner seulement). s26 DA, s'entraîner et favoris (décision de Thomas du
@@ -24,7 +22,7 @@ export function EnTeteCarte({ id, titre, nouvelle }: { id: string; titre: string
     <div>
       <div className={RANGEE_PASTILLES}>
         <span className={EMOJI_CONTENU} aria-hidden="true">
-          {EMOJI_ENTRAINER}
+          {EMOJIS_RUBRIQUES.sEntrainer}
         </span>
         <Badge variant="primary">{N.index.sEntrainer}</Badge>
         <Badge variant="default">{nouvelle ? T.nouvelle : T.aRevoir}</Badge>

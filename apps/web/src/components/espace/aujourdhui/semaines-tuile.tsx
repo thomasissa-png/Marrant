@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { frEspace, frEspaceProfond, frPonctuation } from "@/lib/fr-typo";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META } from "@/components/espace/typo";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -48,7 +48,6 @@ export function SemainesTuile({ ecouterPublie, fige = false }: { ecouterPublie: 
           </li>
         ))}
       </ol>
-      {!fige && <Bandeau />}
     </section>
   );
 }

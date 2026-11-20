@@ -21,6 +21,7 @@ import { FicheSuivante, OuvertureFicheListe } from "@/components/espace/liste-de
 import { BOUTON_SECONDAIRE } from "@/components/espace/carte/styles";
 import { cn } from "@/lib/utils";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 const T = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
 const L = frEspaceProfond(TEXTES_FICHE_LIGNE);
@@ -94,7 +95,7 @@ export function PanneauTechnique({ fiche, lettre, retour, replique, fait, suivan
   return (
     <>
       <OuvertureFicheListe />
-      <FicheVuePanneau fiche={frEspaceProfond(fiche)} retour={retour} replique={replique} lettre={lettre} apres={apres} emoji="💡" rubrique={T.titre} pastille={famille} sansCapitales />
+      <FicheVuePanneau fiche={frEspaceProfond(fiche)} retour={retour} replique={replique} lettre={lettre} apres={apres} emoji={EMOJIS_RUBRIQUES.bibliotheque} rubrique={T.titre} pastille={famille} sansCapitales />
     </>
   );
 }

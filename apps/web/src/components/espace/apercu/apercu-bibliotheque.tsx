@@ -10,13 +10,14 @@ import { ApercuVerrouille } from "@/components/espace/apercu/apercu-verrouille";
 import { SuiteCoupee } from "@/components/espace/apercu/extrait-coupe";
 import { BlocsFermes, TitreFerme } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
-import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 import { Chevron, PASTILLE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { ETIQUETTE, META_FORT, TEXTE } from "@/components/espace/typo";
 import { SignalOffre } from "@/components/espace/apercu/signal-offre";
-import { FILET_CARTE } from "@/components/espace/carte/styles";
+
 import { Badge } from "@/components/ui/badge";
 import { EMOJI_CONTENU, RANGEE_PASTILLES } from "@/components/home/da-site";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 const B = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
 const F = frEspaceProfond(TEXTES_FICHE);
@@ -53,10 +54,10 @@ function ExtraitBibliotheque() {
         <TuileFermee nette className="md:col-span-2 lg:col-span-8">
           {/* s26 bibliothèque liste et détail (DA du site, 20/11) : même famille que la fiche de l'abonné (filet violet,
               émoji 💡 des techniques, pastille violette de la rubrique, pastille neutre de la famille), texte inchangé. */}
-          <div className={cn(TUILE, FILET_CARTE)} data-apercu-construction>
+          <div className={TUILE} data-apercu-construction>
             <p className={cn("pr-8", RANGEE_PASTILLES)}>
               <span className={EMOJI_CONTENU} aria-hidden="true">
-                💡
+                {EMOJIS_RUBRIQUES.bibliotheque}
               </span>
               <Badge variant="primary">{B.titre}</Badge>
               <Badge variant="default">{B.prefixes.construction}</Badge>
@@ -74,8 +75,7 @@ function ExtraitBibliotheque() {
           <TuileFermee className="h-auto">
             {/* s26 contrôle d'ensemble, aperçus : bandeau et pastille violette de l'accueil (émoji de la vanne du jour). */}
             <div className={TUILE} data-apercu-catalogue>
-              <Bandeau />
-              <PastillesDa className="pr-8" emoji={EMOJIS_ACCUEIL.vanne} pastille={B.blocVannes} />
+              <PastillesDa className="pr-8" emoji={EMOJIS_RUBRIQUES.vanne} pastille={B.blocVannes} />
               <p className={cn("mt-4", META_FORT)}>{B.themesNom}</p>
               <ul className="mt-2 flex flex-wrap gap-2">
                 {B.themes.map((t) => (
@@ -96,7 +96,7 @@ function ExtraitBibliotheque() {
           </TuileFermee>
           <TuileFermee className="h-auto">
             <div className={TUILE}>
-              <TitreFerme emoji="💡" titre={B.prefixes.vocabulaire} effectif={nbVocabulaire} />
+              <TitreFerme emoji={EMOJIS_RUBRIQUES.bibliotheque} titre={B.prefixes.vocabulaire} effectif={nbVocabulaire} />
             </div>
           </TuileFermee>
         </div>
@@ -107,7 +107,7 @@ function ExtraitBibliotheque() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
           <TuileFermee className="md:col-span-2 lg:col-span-8">
             <div className={TUILE}>
-              <TitreFerme emoji="💡" titre={B.prefixes.formule} effectif={nbFormules} />
+              <TitreFerme emoji={EMOJIS_RUBRIQUES.bibliotheque} titre={B.prefixes.formule} effectif={nbFormules} />
             </div>
           </TuileFermee>
         </div>

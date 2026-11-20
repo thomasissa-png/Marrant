@@ -14,6 +14,7 @@ import { LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { META, TEXTE, TITRE_PAGE } from "@/components/espace/typo";
 import { DIFFICULTY_LABELS, JOKE_CATEGORY_LABELS, TIP_CATEGORY_LABELS, TYPE_FAVORI } from "@/components/favoris/libelles";
 import type { Favori } from "@/components/espace/favoris/liste-favoris";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 /** Données d'un favori telles que l'API les rend (types des cartes de favoris d'avant, `cartes-abonne.tsx` retiré). */
 export interface JokeData {
@@ -51,9 +52,9 @@ const BLOC = "space-y-2 p-4";
 
 /** Émoji et bandeau de la carte de l'accueil du même type (« Vanne du jour », « Conseil du jour », « Vidéo du jour »). */
 const DA_TYPE = {
-  JOKE: { emoji: "😂", bandeau: BANDEAU_ACCUEIL },
-  TIP: { emoji: "💡", bandeau: BANDEAU_ACCUEIL_INVERSE },
-  VIDEO: { emoji: "🎬", bandeau: BANDEAU_ACCUEIL_CENTRE },
+  JOKE: { emoji: EMOJIS_RUBRIQUES.vanne, bandeau: BANDEAU_ACCUEIL },
+  TIP: { emoji: EMOJIS_RUBRIQUES.conseil, bandeau: BANDEAU_ACCUEIL_INVERSE },
+  VIDEO: { emoji: EMOJIS_RUBRIQUES.video, bandeau: BANDEAU_ACCUEIL_CENTRE },
 } as const;
 
 /** Bloc de l'accueil, ouvert (libellé violet, jamais replié dans le détail). */

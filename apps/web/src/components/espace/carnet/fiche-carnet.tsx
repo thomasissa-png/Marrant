@@ -2,9 +2,10 @@ import type { CarnetFiche } from "@/lib/carnet";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE, CADRE_CARTE_PRINCIPALE } from "@/components/espace/carte/styles";
 import { META, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
 import { TEXTES_CARNET_LISTE } from "@/config/textes/carnet-liste-s26";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 /** Échange de la fiche : « On te dit » sur fond élevé neutre, « Tu réponds » (le cœur) en teinte violette de l'accueil. */
 const BULLE = "rounded-xl bg-background-elevated p-4";
@@ -43,10 +44,10 @@ export function FicheCarnet({
   titreId?: string;
 }) {
   return (
-    <article id={`fiche-${fiche.id}`} className={cn(CADRE_CARTE, "min-w-0 scroll-mt-24 p-6 [overflow-wrap:anywhere]")} data-carnet-fiche={fiche.id}>
+    <article id={`fiche-${fiche.id}`} className={cn(offerte ? CADRE_CARTE : CADRE_CARTE_PRINCIPALE, "min-w-0 scroll-mt-24 p-6 [overflow-wrap:anywhere]")} data-carnet-fiche={fiche.id}>
       <header>
         <div className="flex flex-wrap items-center gap-2" data-carnet-pastilles>
-          <span className="text-2xl" aria-hidden="true">📒</span>
+          <span className="text-2xl" aria-hidden="true">{EMOJIS_RUBRIQUES.carnet}</span>
           <Badge variant="primary">Carnet</Badge>
           <Badge variant="default">{frTypo(fiche.contexte)}</Badge>
         </div>

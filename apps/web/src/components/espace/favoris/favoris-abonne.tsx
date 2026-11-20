@@ -50,6 +50,7 @@ const ecrire = (cle: string, valeur: string | null) => {
 function CarteEtat({ titre, texte, children }: { titre: string; texte?: string; children: React.ReactNode }) {
   return (
     <div className={cn(CADRE_CARTE_NEUTRE, "max-w-2xl p-6")} data-favoris-etat>
+      {/* s26 finition avant lancement (point 4) : seule carte de l'écran (aucun favori, échec), elle en est la principale. */}
       <Bandeau />
       <IconeFavoris className="h-6 w-6 text-text-secondary" />
       <p className={cn("mt-4", TEXTE_FORT)}>{titre}</p>

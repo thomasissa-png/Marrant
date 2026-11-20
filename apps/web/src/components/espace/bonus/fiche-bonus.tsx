@@ -4,7 +4,7 @@ import type { NumeroCap } from "@/lib/espace/caps";
 import { GrilleOuiNon } from "@/components/espace/bonus/grille-oui-non";
 import { FINE, frEspaceProfond } from "@/lib/fr-typo";
 import { COLONNE_LECTURE } from "@/components/layout/gabarit";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_PRINCIPALE } from "@/components/espace/carte/styles";
 import { RetourDe } from "@/components/espace/lien-retour";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 
@@ -51,7 +51,7 @@ export function FicheBonusVue({ bonus }: { bonus: FicheBonus }) {
         <p className="text-sm text-text-secondary">{T.bonus.duree(bonus.dureeMinutes)}</p>
       </div>
       </div>
-      <div className={`${CADRE_CARTE} space-y-6 p-4 md:p-6`}>
+      <div className={`${CADRE_CARTE_PRINCIPALE} space-y-6 p-4 md:p-6`}>
         {bonus.nature === "passage" ? (
           <>
             {bonus.contenu.avantDeLancer && (

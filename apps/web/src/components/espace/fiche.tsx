@@ -2,7 +2,7 @@ import Link from "next/link";
 import { TEXTES_BILAN as TEXTES_BILAN_BRUT, TEXTES_FICHE, TEXTES_FICHE_LIGNE, TEXTES_QUOI_REPONDRE } from "@/config/textes/espace-bibliotheque";
 import type { Fiche } from "@/lib/espace/fiches-schema";
 import type { RetourGeste } from "@/lib/espace/retours";
-import { CARTE, ETIQUETTE, LIEN } from "@/components/espace/carte/styles";
+import { CARTE, CARTE_PRINCIPALE, ETIQUETTE, LIEN } from "@/components/espace/carte/styles";
 import { Badge } from "@/components/ui/badge";
 import { BANDEAU_ACCUEIL, BLOC_EXERCICE, CARTE_ACCUEIL, EMOJI_CONTENU, LIEN_CARTE_ACCUEIL, RANGEE_PASTILLES } from "@/components/home/da-site";
 import { ETIQUETTE as ETIQUETTE_ECHELLE, META, TEXTE, TITRE_PAGE } from "@/components/espace/typo";
@@ -19,6 +19,7 @@ import { parentEspace } from "@/components/espace/rubriques";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { TEXTES_ESPACE_NAVIGATION as N } from "@/config/textes/espace-navigation";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const TEXTES_BILAN = frEspaceProfond(TEXTES_BILAN_BRUT);
@@ -167,7 +168,8 @@ export function FicheVue({
       {bilan ? (
         <Corps fiche={fiche} geste={geste} />
       ) : (
-        <div className={CARTE}>
+        // s26 finition avant lancement (point 4) : le corps de la fiche ouverte est la carte principale (filet violet).
+        <div className={CARTE_PRINCIPALE}>
           <Corps fiche={fiche} />
         </div>
       )}
@@ -234,7 +236,7 @@ export function FicheVuePanneau({
   replique,
   lettre,
   apres = null,
-  emoji = "⚡️",
+  emoji = EMOJIS_RUBRIQUES.quoiRepondre,
   rubrique = Q.titre,
   pastille,
   sansCapitales = false,

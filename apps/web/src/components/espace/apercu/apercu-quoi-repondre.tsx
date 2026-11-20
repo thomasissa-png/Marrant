@@ -12,11 +12,12 @@ import { BarresFermees } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { SignalOffre } from "@/components/espace/apercu/signal-offre";
 import { PASTILLE, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { FILET_CARTE } from "@/components/espace/carte/styles";
+
 import { Badge } from "@/components/ui/badge";
 import { EMOJI_CONTENU, RANGEE_PASTILLES } from "@/components/home/da-site";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 const Q = frEspaceProfond(TEXTES_QUOI_REPONDRE);
 const C = frEspaceProfond(TEXTES_CARTES);
@@ -89,7 +90,6 @@ function TitreFermeSecondaire({ titre, effectif }: { titre: string; effectif?: n
     <>
       <PastillesDa as="h2" className="pr-8" pastille={titre} suite={effectif !== undefined ? <span className={cn("tabular-nums", META)}>{effectif}</span> : undefined} />
       <BarresFermees />
-      <Bandeau />
     </>
   );
 }
@@ -128,10 +128,10 @@ function ExtraitQuoiRepondre() {
         <TuileFermee nette className="h-auto md:col-span-2 lg:col-span-8 lg:col-start-1 lg:row-start-1 xl:h-full">
           {/* s26 DA du site (décision de Thomas du 20/11) : même famille que la fiche de l'abonné (filet violet, émoji,
               pastille violette du type), texte inchangé. */}
-          <div className={cn(TUILE, FILET_CARTE)} data-apercu-situation>
+          <div className={TUILE} data-apercu-situation>
             <p className={RANGEE_PASTILLES}>
               <span className={EMOJI_CONTENU} aria-hidden="true">
-                ⚡️
+                {EMOJIS_RUBRIQUES.quoiRepondre}
               </span>
               <Badge variant="primary">{F.types.situation}</Badge>
             </p>
@@ -143,7 +143,6 @@ function ExtraitQuoiRepondre() {
         </TuileFermee>
         <TuileFermee className="h-auto md:col-span-2 lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1 xl:row-span-1">
           <div className={TUILE} data-apercu-filtres>
-            <Bandeau />
             <PastillesDa className="pr-8" pastille={Q.filtreOu} />
             {/* s26 liste et détail, tour 6 : dès 1280, 16 px entre les lignes de pastilles (8 avant) : la carte passe de
                 286 à 326 px, à 6 px de l'exemple (320, étiré à 326) au lieu de 34 px de vide dessous. */}
@@ -183,7 +182,6 @@ function ExtraitQuoiRepondre() {
               et un bord à x 920 ; dès 1280, toute la largeur, pastilles en cinq colonnes égales (`pleineLargeur`). */}
           <TuileFermee className="hidden xl:col-span-12 xl:col-start-1 xl:row-start-1 xl:block">
             <div className={TUILE} data-apercu-filtres-pour>
-              <Bandeau />
               <FiltresPour pleineLargeur />
             </div>
           </TuileFermee>

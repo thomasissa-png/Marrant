@@ -1,5 +1,5 @@
 import { Verrou } from "@/components/espace/apercu/badge-premium";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 import { Badge } from "@/components/ui/badge";
 import { META, META_FORT } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
@@ -58,7 +58,6 @@ export function TitreFerme({ titre, effectif, emoji }: { titre: string; effectif
     <>
       <PastillesDa as="h2" className="pr-8" emoji={emoji} pastille={titre} suite={effectif !== undefined ? <span className={META}>{effectif}</span> : undefined} />
       <BarresFermees />
-      <Bandeau />
     </>
   );
 }

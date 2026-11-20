@@ -46,12 +46,20 @@ async function fil(userId: string, type: string, message: string, reponse?: stri
 }
 
 /**
- * Vides des cartes de `main` (celles qui portent le bandeau de l'accueil) : `bas` = vide sous la dernière ligne de
- * contenu au-delà de la marge intérieure, `creux` = plus grand écart entre deux lignes de contenu.
+ * Vides des cartes de `main` (celles qui portent le bandeau ou la rangée de pastilles de l'accueil) : `bas` = vide sous
+ * la dernière ligne de contenu au-delà de la marge intérieure, `creux` = plus grand écart entre deux lignes de contenu.
+ * s26 finition avant lancement (point 4) : le bandeau ne reste que sur la carte principale ; les cartes secondaires se
+ * reconnaissent à leur rangée émoji et pastille (cadre de carte le plus proche).
  */
 const videsCartes = (page: Page) =>
   page.evaluate(() => {
-    const cartes = Array.from(document.querySelectorAll("main [data-bandeau-da]")).map((b) => b.parentElement as HTMLElement);
+    const cartes = Array.from(
+      new Set(
+        Array.from(document.querySelectorAll("main [data-bandeau-da], main [data-pastilles-da]")).map((b) =>
+          b.matches("[data-bandeau-da]") ? (b.parentElement as HTMLElement) : ((b.closest(".rounded-xl.border") ?? b.parentElement) as HTMLElement),
+        ),
+      ),
+    );
     return cartes
       .filter((el) => el.getBoundingClientRect().height > 0)
       .map((el) => {
@@ -93,7 +101,7 @@ async function verifierVides(page: Page, quoi: string) {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.waitForTimeout(400);
   const v = await videsCartes(page);
-  expect(v.length, `${quoi} : cartes à bandeau`).toBeGreaterThan(0);
+  expect(v.length, `${quoi} : cartes à bandeau ou à pastilles`).toBeGreaterThan(0);
   for (const c of v) {
     expect(c.bas, `${quoi}, vide de fin : ${c.nom}`).toBeLessThanOrEqual(32);
     expect(c.creux, `${quoi}, creux : ${c.nom}`).toBeLessThanOrEqual(32);
@@ -120,14 +128,16 @@ test.describe("s26 DA, aujourd'hui questions répliques", () => {
   localSeulement();
   test.skip(!ESPACE_OUVERT, "espace ouvert seulement (E2E_ESPACE_OUVERT=1)");
 
-  test("Aujourd'hui : bandeau et pastilles de l'accueil, un seul bouton plein, aucun vide > 32 px à 1280", async ({ browser }) => {
+  // s26 finition avant lancement (point 4) : le bandeau sur la seule carte principale (l'action du jour).
+  test("Aujourd'hui : bandeau sur l'action du jour seulement, pastilles de l'accueil, un seul bouton plein, aucun vide > 32 px à 1280", async ({ browser }) => {
     const { cookies } = await abonne(browser);
     const contexte = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     await contexte.addCookies(cookies);
     const page = await contexte.newPage();
     await page.goto("/mon-espace");
     await expect(page.locator("[data-contenu-du-jour]")).toHaveAttribute("data-etat", /ok|erreur/);
-    expect(await page.locator("main [data-bandeau-da]").count()).toBeGreaterThanOrEqual(3);
+    expect(await page.locator("main [data-bandeau-da]").count()).toBe(1);
+    await expect(page.locator("main [data-action-du-jour] > [data-bandeau-da]")).toHaveCount(1);
     await expect(page.locator("main [data-pastilles-da]").first()).toBeVisible();
     // Un seul aplat violet (bouton plein) dans `main`.
     const pleins = await page.evaluate(

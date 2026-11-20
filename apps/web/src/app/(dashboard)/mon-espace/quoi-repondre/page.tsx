@@ -18,12 +18,13 @@ import { CADRE_CARTE, LIEN } from "@/components/espace/carte/styles";
 import { BarreProgression, CARTE_ACTION } from "@/components/espace/aujourdhui/tableau";
 import { PanneauFiche, chargerListeQuoiRepondre, donneesPanneau, lettreDeFiche } from "@/components/espace/quoi-repondre/panneau";
 import { MemoireDefilementPage } from "@/components/espace/quoi-repondre/navigation";
-import { Bandeau, EMOJIS_ACCUEIL } from "@/components/espace/da-espace";
+import { Bandeau } from "@/components/espace/da-espace";
 import { EMOJI_CONTENU } from "@/components/home/da-site";
 import { META, TEXTE_FORT, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_QUOI_REPONDRE);
@@ -108,7 +109,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
                   {/* s26 contrôle d'ensemble, abonné (C2) : émoji de la répartie de l'accueil et bandeau violet (plus bas). */}
                   <h2 id="prochaine-titre" className={cn(TITRE_CARTE, "flex items-center gap-2")}>
                     <span className={cn(EMOJI_CONTENU, "max-e300:hidden")} aria-hidden="true">
-                      {EMOJIS_ACCUEIL.quoiRepondre}
+                      {EMOJIS_RUBRIQUES.quoiRepondre}
                     </span>
                     <span className="min-w-0">{frEspace(prochaine.titre)}</span>
                   </h2>

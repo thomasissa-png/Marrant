@@ -6,7 +6,7 @@ import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
 import { Flamme, SegmentsCap, StatChiffre } from "@/components/espace/aujourdhui/tableau";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const TEXTES_CAPS = frEspaceProfond(TEXTES_CAPS_BRUT);
@@ -87,7 +87,6 @@ export function CapDuJour({ cap, xp, serie, fige = false }: { cap: NumeroCap; xp
           serieZero
         )}
       </div>
-      <Bandeau />
     </section>
   );
 }

@@ -59,6 +59,18 @@ async function cartes(page: Page, portee = "main"): Promise<Carte[]> {
   }, portee);
 }
 
+/**
+ * s26 finition avant lancement (point 4) : sur un aperçu, le bandeau violet ne reste que sur la carte d'offre (la carte
+ * principale) ; toutes les autres cartes gardent leur marque (émoji ou pastille), sans bandeau.
+ */
+function controlerApercu(liste: Carte[], hauteur: number, ou: string, minimum = 1) {
+  expect(liste.filter((c) => c.haut < hauteur).length, `cartes au premier écran, ${ou}`).toBeGreaterThanOrEqual(minimum);
+  const aBandeau = liste.filter((c) => c.bandeau);
+  expect(aBandeau.length, `un seul bandeau violet, ${ou} : ${aBandeau.map((c) => c.nom).join(" | ")}`).toBe(1);
+  expect(aBandeau[0].offre, `bandeau sur la carte d'offre, ${ou}`).toBe(true);
+  for (const c of liste.filter((x) => !x.offre)) expect(c.marque, `émoji ou pastille, « ${c.nom} », ${ou}`).toBe(true);
+}
+
 function controlerCartes(liste: Carte[], hauteur: number, ou: string, minimum = 1) {
   const premierEcran = liste.filter((c) => c.haut < hauteur);
   expect(premierEcran.length, `cartes au premier écran, ${ou}`).toBeGreaterThanOrEqual(minimum);
@@ -80,10 +92,10 @@ test.describe("@espace s26 contrôle d'ensemble, aperçus (ouvert)", () => {
         for (const [largeur, hauteur] of [[375, 812], [1280, 900]] as const) {
           await ouvrir(page, adresse, largeur, hauteur);
           const ou = `${adresse}, ${lecteur}, ${largeur}`;
-          controlerCartes(await cartes(page), hauteur, ou, 2);
-          // Toutes les tuiles de l'extrait, au-delà du premier écran aussi : bandeau et marque.
+          controlerApercu(await cartes(page), hauteur, ou, 2);
+          // Toutes les tuiles de l'extrait, au-delà du premier écran aussi : marque, sans bandeau (s26 finition, point 4).
           const tuiles = (await cartes(page, "[data-apercu-extrait]")).filter((c) => !c.offre);
-          for (const t of tuiles) expect(t.bandeau && t.marque, `tuile « ${t.nom} », ${ou}`).toBe(true);
+          for (const t of tuiles) expect(!t.bandeau && t.marque, `tuile « ${t.nom} », ${ou}`).toBe(true);
         }
       }
     });

@@ -22,7 +22,7 @@ jest.mock("next-auth", () => ({ getServerSession: jest.fn() }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 
-import { BOUTON_DESTRUCTIF, BOUTON_PRINCIPAL, CADRE_CARTE, CARTE, FILET_CARTE, SOMMAIRE_REPLIABLE } from "@/components/espace/carte/styles";
+import { BOUTON_DESTRUCTIF, BOUTON_PRINCIPAL, CADRE_CARTE, CADRE_CARTE_PRINCIPALE, CARTE, FILET_CARTE, SOMMAIRE_REPLIABLE } from "@/components/espace/carte/styles";
 import { ApercuRubrique } from "@/components/espace/apercu/apercu-rubrique";
 import { CartesDuJour } from "@/components/espace/aujourdhui/cartes-du-jour";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
@@ -43,7 +43,10 @@ describe("point 1 : la carte de l'espace parle la langue de l'accueil", () => {
     expect(accueil).toContain("<div className={BANDEAU_ACCUEIL} />");
     expect(daSite).toContain("h-1 bg-gradient-to-r from-accent-primary to-accent-secondary");
     expect(FILET_CARTE).toBe("before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-accent-primary before:to-accent-secondary");
-    for (const c of ["relative", "overflow-hidden", "rounded-xl", ...FILET_CARTE.split(" ")]) expect(CADRE_CARTE.split(" ")).toContain(c);
+    // s26 finition avant lancement (point 4) : le filet est réservé à la carte principale (`CADRE_CARTE_PRINCIPALE`) ;
+    // `CADRE_CARTE` et `CARTE` sont neutres.
+    for (const c of ["relative", "overflow-hidden", "rounded-xl", ...FILET_CARTE.split(" ")]) expect(CADRE_CARTE_PRINCIPALE.split(" ")).toContain(c);
+    for (const c of FILET_CARTE.split(" ")) expect(CADRE_CARTE.split(" ")).not.toContain(c);
     expect(CARTE).toContain(CADRE_CARTE);
   });
 

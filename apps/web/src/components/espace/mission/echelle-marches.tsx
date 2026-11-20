@@ -3,11 +3,12 @@ import { TEXTES_GESTE, TEXTES_MISSION } from "@/config/textes/espace-cartes";
 import type { NumeroMarche } from "@/lib/espace/missions";
 import { CADRE_CARTE_ENTRAINER } from "@/components/espace/carte/styles";
 import { EMOJI_CONTENU, RANGEE_PASTILLES } from "@/components/home/da-site";
-import { EMOJI_ENTRAINER } from "@/components/espace/carte/en-tete-carte";
+
 import { Coche } from "@/components/espace/aujourdhui/tableau";
 import { META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const M = frEspaceProfond(TEXTES_MISSION);
@@ -35,7 +36,7 @@ export function EchelleMarches({ enCours, reussies, cadre = CADRE_CARTE_ENTRAINE
     <section aria-labelledby="echelle-titre" className={cn(cadre, "min-w-0 px-6 pb-4 pt-6 [overflow-wrap:anywhere] lg:flex lg:flex-1 lg:flex-col")} data-echelle-marches={enCours}>
       <div className={RANGEE_PASTILLES}>
         <span className={EMOJI_CONTENU} aria-hidden="true">
-          {EMOJI_ENTRAINER}
+          {EMOJIS_RUBRIQUES.sEntrainer}
         </span>
         <h2 id="echelle-titre" className={TITRE_CARTE}>
           {M.titre}

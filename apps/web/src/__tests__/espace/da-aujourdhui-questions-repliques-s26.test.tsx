@@ -13,7 +13,7 @@ import { ListeRepliques } from "@/components/espace/repliques/liste-repliques";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { SemainesTuile } from "@/components/espace/aujourdhui/semaines-tuile";
 import { ParcoursTuile } from "@/components/espace/aujourdhui/etape-en-cours";
-import { EMOJIS_ACCUEIL, emojiParcours } from "@/components/espace/da-espace";
+import { EMOJIS_RUBRIQUES, emojiParcours } from "@/components/espace/emojis";
 import { TEXTES_CLOCHE } from "@/config/textes/espace-cloche";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import type { FilListe } from "@/lib/espace/questions-types";
@@ -68,14 +68,22 @@ describe("T7 : le fil reste accessible depuis la liste après lecture", () => {
     expect(container.querySelectorAll("[data-lien-fil]")).toHaveLength(0);
   });
 
-  it("carte du fil : bandeau de l'accueil et type en pastille violette", () => {
-    const { container } = render(
+  it("carte du fil : type en pastille violette ; bandeau sur le fil ouvert seulement (s26 finition avant lancement)", () => {
+    const { container, unmount } = render(
       <ul>
         <FilEnvoi fil={lu} lectureSeule={false} onMaj={() => undefined} onRetire={() => undefined} />
       </ul>,
     );
-    expect(container.querySelector("[data-bandeau-da]")).not.toBeNull();
+    expect(container.querySelector("[data-bandeau-da]")).toBeNull();
     expect(container.querySelector("[data-pastilles-da] .bg-accent-primary\\/20")).not.toBeNull();
+    unmount();
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ fil: lu }) });
+    const ouvert = render(
+      <ul>
+        <FilEnvoi fil={lu} lectureSeule={false} ouvertAuDepart onMaj={() => undefined} onRetire={() => undefined} />
+      </ul>,
+    );
+    expect(ouvert.container.querySelectorAll("[data-bandeau-da]")).toHaveLength(1);
   });
 });
 
@@ -135,7 +143,10 @@ describe("T8 : « Écrire ma prochaine réplique » ouvre un champ focalisé en 
 describe("DA d'Aujourd'hui : émojis de l'accueil, bandeau chez l'abonné, extrait de l'aperçu inchangé", () => {
   it("émojis de l'accueil seulement", () => {
     const accueil = lire("app/(dashboard)/page.tsx") + lire("components/home/daily-content.tsx");
-    for (const e of [...Object.values(EMOJIS_ACCUEIL), emojiParcours("repartie"), emojiParcours("machine-a-cafe"), emojiParcours("confiance")]) {
+    // s26 finition avant lancement (point 2) : table unique ; ceux qui existent à l'accueil en viennent (S'entraîner et
+    // Carnet n'y ont pas d'émoji).
+    const { quoiRepondre, vanne, conseil, video, bibliotheque } = EMOJIS_RUBRIQUES;
+    for (const e of [quoiRepondre, vanne, conseil, video, bibliotheque, emojiParcours("repartie"), emojiParcours("machine-a-cafe"), emojiParcours("confiance")]) {
       expect(accueil).toContain(e as string);
     }
     expect(emojiParcours("storytelling")).toBeNull();
@@ -144,13 +155,15 @@ describe("DA d'Aujourd'hui : émojis de l'accueil, bandeau chez l'abonné, extra
   it("abonné : bandeau et pastille ; semaines figées : ni l'un ni l'autre ; Z1 figée (aperçu) : la DA", () => {
     const etape = { slug: "repartie", titreParcours: "Répartie", ordre: 1, total: 4, titreEtape: "Étape", enCours: false, href: "/parcours/repartie#etape-1" };
     const abonne = render(<ParcoursTuile etape={etape} />).container;
-    expect(abonne.querySelector("[data-bandeau-da]")).not.toBeNull();
+    // s26 finition avant lancement (point 4) : tuile secondaire, plus de bandeau ; émoji et pastille gardés.
+    expect(abonne.querySelector("[data-bandeau-da]")).toBeNull();
     expect(abonne.querySelector("[data-pastilles-da]")?.textContent).toContain("⚡️");
     const fige = render(<SemainesTuile ecouterPublie fige />).container;
     expect(fige.querySelector("[data-bandeau-da], [data-pastilles-da]")).toBeNull();
     const z1 = render(<ActionDuJour idTitre="t" etiquette="É" titre="T" action={{ href: "/x", libelle: "Go" }} fige />).container;
     // s26 contrôle d'ensemble, aperçus (décision de Thomas du 20/11) : l'extrait de l'aperçu prend aussi la DA de l'accueil.
-    expect(z1.querySelector("[data-bandeau-da]")).not.toBeNull();
+    // s26 finition avant lancement (point 4) : figée, plus de bandeau (la carte d'offre est la principale de l'aperçu).
+    expect(z1.querySelector("[data-bandeau-da]")).toBeNull();
     expect(z1.querySelector("[data-pastilles-da]")).not.toBeNull();
   });
 

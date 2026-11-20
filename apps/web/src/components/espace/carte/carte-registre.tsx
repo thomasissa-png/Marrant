@@ -11,7 +11,7 @@ import { CompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import type { DureeCompteARebours } from "@/lib/espace/compte-a-rebours";
 import { EnTeteCarte } from "@/components/espace/carte/en-tete-carte";
 import { GesteFiche } from "@/components/espace/carte/geste-fiche";
-import { BOUTON_SECONDAIRE, CADRE_CARTE_ENTRAINER, nouvelleCle } from "@/components/espace/carte/styles";
+import { BOUTON_SECONDAIRE, CADRE_CARTE_PRINCIPALE, nouvelleCle } from "@/components/espace/carte/styles";
 import { BLOC_EXEMPLE, BLOC_EXERCICE, LIBELLE_BLOC } from "@/components/home/da-site";
 import { META, TEXTE, TEXTE_FORT } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
@@ -34,7 +34,7 @@ export type ApresReponse = { revision: boolean; replique: string | null; retour:
 export type CadreCarte = "action" | "repliee";
 export const cadreCarte = (cadre: CadreCarte) =>
   cadre === "action"
-    ? cn(CADRE_CARTE_ENTRAINER, "flex min-w-0 flex-col gap-4 p-6 [overflow-wrap:anywhere]")
+    ? cn(CADRE_CARTE_PRINCIPALE, "flex min-w-0 flex-col gap-4 p-6 [overflow-wrap:anywhere]")
     : "flex min-w-0 flex-col gap-4 border-t border-border p-6 [overflow-wrap:anywhere]";
 
 /** s26 DA : « La scène » et « Le contexte » dans le bloc « Exemple concret » de l'accueil, libellé violet. */

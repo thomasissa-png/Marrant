@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import { EtatVideQuestions } from "@/components/espace/questions/etat-vide";
 import { FilEnvoi } from "@/components/espace/questions/fil";
 import { frEspaceProfond } from "@/lib/fr-typo";
-import { Bandeau } from "@/components/espace/da-espace";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
@@ -63,7 +62,6 @@ export function ListeEnvois({
       {envois.length === 0 ? (
         // s26 DA, aujourd'hui questions répliques : la carte vide prend le bandeau de l'accueil (contenu inchangé).
         <div className={cn(CADRE_CARTE_NEUTRE, "p-6")}>
-          <Bandeau />
           <EtatVideQuestions />
         </div>
       ) : (
@@ -89,7 +87,6 @@ function EnvoiRetire() {
   useEffect(() => statut.current?.focus(), []);
   return (
     <li className={cn(CADRE_CARTE_NEUTRE, "p-6")} data-retire>
-      <Bandeau />
       <p ref={statut} tabIndex={-1} className={cn(META, "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link")}>
         {Q.envois.retire}
       </p>

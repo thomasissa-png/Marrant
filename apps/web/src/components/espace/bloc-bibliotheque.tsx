@@ -5,9 +5,10 @@ import { CADRE_CARTE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { CompteFaits, ListeFiches, compteFaits } from "@/components/espace/liste-fiches";
 import { META, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
-import { EMOJIS_ACCUEIL } from "@/components/espace/da-espace";
+
 import { EMOJI_CONTENU } from "@/components/home/da-site";
 import { frEspaceProfond } from "@/lib/fr-typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_BIBLIOTHEQUE);
@@ -25,7 +26,7 @@ export function BlocBibliotheque({
   children,
   className,
   compte,
-  emoji = EMOJIS_ACCUEIL.conseil,
+  emoji = EMOJIS_RUBRIQUES.conseil,
 }: {
   id: string;
   titre: string;
@@ -60,7 +61,7 @@ export function BlocBibliotheque({
  */
 export function BlocVannes({ ecouter, className }: { ecouter: readonly LigneFiche[]; className?: string }) {
   return (
-    <BlocBibliotheque id="bloc-vannes" titre={T.blocVannes} emoji={EMOJIS_ACCUEIL.vanne} compte={compteFaits(ecouter)} className={className}>
+    <BlocBibliotheque id="bloc-vannes" titre={T.blocVannes} emoji={EMOJIS_RUBRIQUES.vanne} compte={compteFaits(ecouter)} className={className}>
       <ul aria-label={T.themesNom} className="mt-4 flex flex-wrap gap-2">
         {T.themes.map((t) => (
           <li key={t.slug}>

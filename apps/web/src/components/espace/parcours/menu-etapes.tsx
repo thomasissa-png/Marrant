@@ -9,11 +9,11 @@ import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
 import { Coche } from "@/components/espace/aujourdhui/tableau";
 import { Cadenas } from "@/components/layout/bande-rubriques";
 import { META, META_FORT, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
-import { Bandeau, emojiParcours } from "@/components/espace/da-espace";
 import { EMOJI_CONTENU } from "@/components/home/da-site";
 import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond, frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
+import { emojiParcours } from "@/components/espace/emojis";
 
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
 
@@ -354,7 +354,6 @@ export function MenuEtapes({
           </div>
         )}
         {/* s26 contrôle d'ensemble, abonné (C2) : bandeau violet de l'accueil, hors du flux. */}
-        <Bandeau />
       </nav>
     </div>
   );

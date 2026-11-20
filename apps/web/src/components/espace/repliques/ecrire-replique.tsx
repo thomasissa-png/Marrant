@@ -9,10 +9,11 @@ import type { FicheDeReplique, RepliqueListee } from "@/lib/espace/repliques";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
-import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 import { META, TITRE_CARTE } from "@/components/espace/typo";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 const R = frEspaceProfond(TEXTES_REPLIQUES);
 const G = frEspaceProfond(TEXTES_GESTE);
@@ -82,7 +83,7 @@ export function EcrireReplique({
       data-ecrire-replique={fiche.ficheId}
     >
       {!nu && <Bandeau />}
-      <PastillesDa emoji={EMOJIS_ACCUEIL.quoiRepondre} pastille={N.index.quoiRepondre} />
+      <PastillesDa emoji={EMOJIS_RUBRIQUES.quoiRepondre} pastille={N.index.quoiRepondre} />
       {fiche.href ? (
         <Link href={fiche.href} className={cn("block pt-2", TITRE_CARTE, "hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary")}>
           {frEspace(fiche.titre)}

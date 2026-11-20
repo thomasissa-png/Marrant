@@ -14,7 +14,7 @@ import { CompteFaits, sansPrefixe } from "@/components/espace/liste-fiches";
 import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { Coche } from "@/components/espace/aujourdhui/tableau";
 import { ChevronRepli } from "@/components/espace/carte/chevron-repli";
-import { FILET_CARTE, LIEN_NEUTRE, SOMMAIRE_REPLIABLE, pastilleFiltre } from "@/components/espace/carte/styles";
+import { LIEN_NEUTRE, SOMMAIRE_REPLIABLE, pastilleFiltre } from "@/components/espace/carte/styles";
 import { badgeVariants } from "@/components/ui/badge";
 import { ETIQUETTE, META, META_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
@@ -66,7 +66,6 @@ export function ColonneBibliotheque({
       cle={CLES_BIBLIOTHEQUE.liste}
       label={T.titre}
       actif={actif}
-      className={FILET_CARTE}
       data-colonne-liste=""
       entete={
         <>

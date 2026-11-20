@@ -7,7 +7,7 @@ import { BlocsFermes } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
 import { EtatVideQuestions } from "@/components/espace/questions/etat-vide";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 
 const Q = frEspaceProfond(TEXTES_QUESTIONS);
 
@@ -32,14 +32,12 @@ function ExtraitQuestions() {
             l'historique voisin (71 px vides mesurés à 1280). */}
         <TuileFermee nette verrouDansLaMarge className="h-auto self-start md:col-span-2 lg:col-span-8">
           <div className={TUILE} data-apercu-envois>
-            <Bandeau />
             <PastillesDa as="h2" pastille={Q.envois.titre} />
             <EtatVideQuestions className="mt-4" />
           </div>
         </TuileFermee>
         <TuileFermee verrouDansLaMarge className="md:col-span-2 lg:col-span-4">
           <div className={TUILE} data-apercu-historique>
-            <Bandeau />
             <BlocsFermes libelles={PASTILLES_QUESTIONS} className="mt-0" enPastilles />
           </div>
         </TuileFermee>
@@ -48,7 +46,6 @@ function ExtraitQuestions() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
           <TuileFermee verrouDansLaMarge className="md:col-span-2 lg:col-span-12">
             <div className={TUILE} data-apercu-fil-ferme>
-              <Bandeau />
               <BlocsFermes libelles={[Q.envois.tonMessage, Q.envois.signature]} className="mt-0 md:grid-cols-2" enPastilles />
             </div>
           </TuileFermee>

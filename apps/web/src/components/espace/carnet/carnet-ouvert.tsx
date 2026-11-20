@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils";
 import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL } from "@/config/textes/cta-pages";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { BOUTON_OFFRE_FIN, CARTE_PREMIUM, HaloPremium, OffreApercu } from "@/components/espace/apercu/offre-apercu";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { META, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { FicheCarnet } from "@/components/espace/carnet/fiche-carnet";
 import { EnTeteCarnet } from "@/components/espace/carnet/en-tete-carnet";
 import { PanneauCarnet } from "@/components/espace/carnet/panneau-carnet";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 type Props = {
   view: CarnetView;
@@ -88,8 +89,7 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
             data-carnet-programme
           >
             {/* s26 contrôle d'ensemble, aperçus : DA de l'accueil (bandeau, émoji et pastille violette de la fiche du Carnet). */}
-            <Bandeau />
-            <PastillesDa as="h2" id="carnet-reserve" emoji="📒" pastille={CARNET_PAYWALL.listeTitre} />
+            <PastillesDa as="h2" id="carnet-reserve" emoji={EMOJIS_RUBRIQUES.carnet} pastille={CARNET_PAYWALL.listeTitre} />
             <ol className="mt-4">
               {view.apercus.slice(0, CARNET_LISTE_VISIBLES).map((f) => (
                 <li key={f.id} className="flex min-h-11 items-center gap-4 border-t border-border py-2 first:border-t-0">
@@ -112,7 +112,6 @@ function CarnetVisiteur({ view, returnTo, src, visiteur }: Props) {
         {restantes > 0 && (
           <div className={cn(CARTE_PREMIUM, "mx-auto mt-6 w-full min-w-0 max-w-md p-4 text-center md:p-6 lg:col-span-12")} data-carnet-fin>
             <HaloPremium />
-            <Bandeau />
             <div className="relative flex flex-col items-center gap-4">
               <div>
                 <p className={TITRE_CARTE}>{frTypo(CARNET_PAYWALL.titre(restantes))}</p>

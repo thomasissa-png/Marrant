@@ -6,11 +6,12 @@ import { TEXTES_CARNET_LISTE as TL } from "@/config/textes/carnet-liste-s26";
 import { contextesDe, filtrerLignes, hrefFicheCarnet, hrefListeCarnet, type CarnetListe } from "@/lib/espace/carnet-liste";
 import { ColonneCollante } from "@/components/espace/liste-detail/colonne-collante";
 import { LIGNE_ACTIVE, LIGNE_ACTIVE_LG, LIGNE_LISTE } from "@/components/espace/liste-detail/styles";
-import { FILET_CARTE, pastilleFiltre } from "@/components/espace/carte/styles";
+import { pastilleFiltre } from "@/components/espace/carte/styles";
 import { EMOJI_CONTENU } from "@/components/home/da-site";
 import { ETIQUETTE, META, TEXTE_FORT } from "@/components/espace/typo";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 /** « Où et avec qui ? » : libellé existant de Quoi répondre ; le `contexte` du carnet est ce lieu ou ce milieu (audit §1). */
 const LIBELLE_FILTRE = frTypo(TEXTES_QUOI_REPONDRE.filtreOu);
@@ -65,14 +66,13 @@ export function ListeCarnet({
       cle={`carnet-liste:${carnet.mois}:${contexte ?? ""}`}
       label={frTypo(carnet.titre)}
       actif={actif === null ? null : String(actif)}
-      className={FILET_CARTE}
       data-carnet-liste=""
     >
       <div className="px-6 pb-4 pt-6" data-carnet-filtres>
         {/* s26 contrôle d'ensemble, abonné (C2) : émoji du Carnet, celui de sa fiche (`fiche-carnet.tsx`). */}
         <h2 id="carnet-filtre-titre" className={cn(ETIQUETTE, "flex items-center gap-2")}>
           <span className={cn(EMOJI_CONTENU, "max-e300:hidden")} aria-hidden="true">
-            📒
+            {EMOJIS_RUBRIQUES.carnet}
           </span>
           {LIBELLE_FILTRE}
         </h2>

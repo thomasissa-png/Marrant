@@ -7,7 +7,7 @@ import { contenuAffiche } from "@/lib/tip-prose";
 import { badgeVariants } from "@/components/ui/badge";
 import { useFavoritesStore } from "@/stores/favorites-store";
 import { META } from "@/components/espace/typo";
-import { FILET_CARTE } from "@/components/espace/carte/styles";
+
 import { LIGNE_ACTIVE, LIGNE_LISTE, texteLigne } from "@/components/espace/liste-detail/styles";
 import { ColonneCollante } from "@/components/espace/liste-detail/colonne-collante";
 import { TABS } from "@/components/favoris/libelles";
@@ -51,7 +51,6 @@ export function ListeFavoris({ favoris, actif, titre, ouvrir }: { favoris: reado
       label={titre}
       actif={actif}
       remplir
-      className={FILET_CARTE}
       data-liste-favoris=""
       pied={
         <Link href={pied.ctaHref} className={cn(META, "inline-flex min-h-11 items-center px-6 font-medium text-accent-link underline underline-offset-2")} data-pied-favoris>

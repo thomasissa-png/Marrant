@@ -21,8 +21,9 @@ import { CapDuJour } from "@/components/espace/aujourdhui/cap-du-jour";
 import { ParcoursTuile } from "@/components/espace/aujourdhui/etape-en-cours";
 import { MissionLien } from "@/components/espace/aujourdhui/mission-lien";
 import { TUILE } from "@/components/espace/aujourdhui/tableau";
-import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 import { TEXTE, TEXTE_FORT } from "@/components/espace/typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -63,12 +64,11 @@ function TuileJour({ vanne }: { vanne: VanneExtrait | null }) {
     return (
       // s26 contrôle d'ensemble, aperçus : la carte « Vanne du jour » de l'abonné (bandeau, émoji et pastille de l'accueil).
       <div className={TUILE}>
-        <PastillesDa as="p" emoji={EMOJIS_ACCUEIL.vanne} pastille={T.jour.vanne} />
+        <PastillesDa as="p" emoji={EMOJIS_RUBRIQUES.vanne} pastille={T.jour.vanne} />
         <div className={VANNE_COUPEE} data-apercu-vanne>
           <p className={cn(TEXTE, "text-text-primary")}>{frEspace(vanne.content)}</p>
           <p className={TEXTE_FORT}>{frEspace(vanne.punchline)}</p>
         </div>
-        <Bandeau />
       </div>
     );
   }
@@ -85,7 +85,6 @@ function TuileJour({ vanne }: { vanne: VanneExtrait | null }) {
           </li>
         ))}
       </ul>
-      <Bandeau />
     </div>
   );
 }
@@ -115,7 +114,7 @@ function TableauFerme({ vanne }: { vanne: VanneExtrait | null }) {
             idTitre="apercu-premier-pas-titre"
             fige
             etiquette={T.premierPas.eyebrow}
-            emoji={EMOJIS_ACCUEIL.quoiRepondre}
+            emoji={EMOJIS_RUBRIQUES.quoiRepondre}
             duree={pas.minutes !== null ? T.premierPas.duree(pas.minutes) : null}
             titre={pas.titre}
             action={null}

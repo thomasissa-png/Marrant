@@ -6,7 +6,7 @@ import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
 import { cn } from "@/lib/utils";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { META, META_FORT } from "@/components/espace/typo";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 import { frPonctuation, frEspaceProfond } from "@/lib/fr-typo";
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const P = frEspaceProfond(TEXTES_PARCOURS_ESPACE);
@@ -52,7 +52,6 @@ export function QuatreSemaines({ ecouterPublie, className }: { ecouterPublie: bo
           ))}
         </ol>
       </details>
-      <Bandeau />
     </section>
   );
 }

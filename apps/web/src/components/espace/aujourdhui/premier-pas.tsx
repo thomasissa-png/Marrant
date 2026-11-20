@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { TEXTES_AUJOURDHUI } from "@/config/textes/espace-aujourdhui";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
-import { EMOJIS_ACCUEIL } from "@/components/espace/da-espace";
+
 import {
   CLE_ORIGINE,
   CLE_QUIZ,
@@ -14,6 +14,7 @@ import {
   type OrigineResolue,
 } from "@/lib/espace/premier-pas";
 import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -77,7 +78,7 @@ export function PremierPas({
       data-source={pas.source}
       etiquette={T.premierPas.eyebrow}
       // s26 DA, aujourd'hui questions répliques : le premier pas est une scène de Quoi répondre (⚡️ de l'accueil).
-      emoji={EMOJIS_ACCUEIL.quoiRepondre}
+      emoji={EMOJIS_RUBRIQUES.quoiRepondre}
       duree={pas.minutes !== null ? T.premierPas.duree(pas.minutes) : null}
       titre={pas.titre}
       action={{ href: pas.href, libelle: T.premierPas.bouton }}

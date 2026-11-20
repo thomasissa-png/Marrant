@@ -14,7 +14,7 @@ import { CoinHumourNoir } from "@/components/espace/coin-humour-noir";
 import { ListeFiches, compteFaits } from "@/components/espace/liste-fiches";
 import { PanneauTechnique, chargerBibliotheque, donneesPanneauBibliotheque, lettreDeTechnique } from "@/components/espace/bibliotheque/panneau";
 import { MemoireDefilementListe } from "@/components/espace/liste-detail/memoire-defilement";
-import { FILET_CARTE } from "@/components/espace/carte/styles";
+
 import { TITRE_PAGE } from "@/components/espace/typo";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
@@ -65,7 +65,7 @@ export default async function BibliothequePage() {
               « Comment c'est construit » en premier. Cartes à bandeau violet de l'accueil (DA du site, 20/11). */}
           <div className="mt-8 gap-6 max-md:flex max-md:flex-col max-md:[&>*]:mb-0 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid" data-bibliotheque-grille data-etat="liste">
             <BlocVannes ecouter={deFamille("ecouter")} />
-            {coin.length > 0 && <CoinHumourNoir lignesInitiales={entre ? coin.map((x) => ligneDeFiche(x, faits)) : null} className={FILET_CARTE} />}
+            {coin.length > 0 && <CoinHumourNoir lignesInitiales={entre ? coin.map((x) => ligneDeFiche(x, faits)) : null} />}
             {(["construction", "vocabulaire", "formule"] as const).map((type) => {
               const groupe = deFamille(type);
               if (groupe.length === 0) return null;

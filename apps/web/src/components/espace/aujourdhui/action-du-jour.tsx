@@ -100,7 +100,7 @@ export function ActionDuJour({
       {boutonRendu}
       {apres}
       {/* Bandeau hors du flux, rendu en dernier : l'ordre des enfants (étiquette, titre, bouton) ne change pas. */}
-      <Bandeau />
+      {!fige && <Bandeau />}
     </section>
   );
 }

@@ -115,7 +115,7 @@ export function FilEnvoi({
       data-retard={fil.enRetard || undefined}
     >
       {/* s26 DA, aujourd'hui questions répliques : bandeau de l'accueil, type en pastille violette, date à côté. */}
-      <Bandeau />
+      {ouvertAuDepart && <Bandeau />}
       <PastillesDa pastille={Q.types[fil.type].nom} suite={<span className={META}>{Q.envois.envoyeLe(dateCourte(fil.creeLe))}</span>} className="gap-x-4" />
       {/* s26 DA, aujourd'hui questions répliques (T7 de `docs/ux/audit-trajets-connectes-s26.md`) : dans la liste, un fil
           qui a une réponse garde son lien vers la page du fil, lu ou non (avant, le seul lien était la tuile « réponse

@@ -20,7 +20,7 @@ import { CarteRepliee } from "@/components/espace/carte/carte-repliee";
 import { FournisseurCompteARebours } from "@/components/espace/carte/compte-a-rebours";
 import { MissionCarte } from "@/components/espace/mission/mission-carte";
 import { EchelleMarches } from "@/components/espace/mission/echelle-marches";
-import { CADRE_CARTE_ENTRAINER, LIEN_NEUTRE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE_ENTRAINER, CADRE_CARTE_PRINCIPALE, LIEN_NEUTRE } from "@/components/espace/carte/styles";
 import { TEXTE, TEXTE_FORT, TITRE_PAGE } from "@/components/espace/typo";
 import { cn } from "@/lib/utils";
 import { frEspaceProfond } from "@/lib/fr-typo";
@@ -109,7 +109,7 @@ export default async function SEntrainerPage({ searchParams }: { searchParams: R
       <div className={cn("grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start", avecSegments ? "mt-6" : "mt-8")} data-entrainement-grille>
         <div className="flex min-w-0 flex-col gap-6 lg:col-span-7" data-zone="cartes">
           {fini ? (
-            <div className={cn(CADRE_CARTE_ENTRAINER, "min-w-0 p-6")} data-rafale-finie>
+            <div className={cn(CADRE_CARTE_PRINCIPALE, "min-w-0 p-6")} data-rafale-finie>
               <p className={TEXTE_FORT}>{T.fini}</p>
             </div>
           ) : (

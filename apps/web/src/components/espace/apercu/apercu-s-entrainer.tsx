@@ -11,9 +11,10 @@ import { Verrou } from "@/components/espace/apercu/badge-premium";
 import { BlocsFermes, TitreFerme } from "@/components/espace/apercu/blocs-fermes";
 import { TuileFermee } from "@/components/espace/apercu/tuile-fermee";
 import { TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { EMOJI_ENTRAINER } from "@/components/espace/carte/en-tete-carte";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+
+import { PastillesDa } from "@/components/espace/da-espace";
 import { META, META_FORT, TEXTE } from "@/components/espace/typo";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 const C = frEspaceProfond(TEXTES_CARTES);
 const F = frEspaceProfond(TEXTES_FICHE);
@@ -60,8 +61,7 @@ function ExtraitSEntrainer() {
         <TuileFermee nette className="md:col-span-2 lg:col-span-8">
           {/* s26 contrôle d'ensemble, aperçus : la carte de la rafale de l'abonné (bandeau, émoji 🎯, pastille violette). */}
           <div className={TUILE} data-apercu-jeu>
-            <Bandeau />
-            <PastillesDa emoji={EMOJI_ENTRAINER} pastille={N.index.sEntrainer} suite={<span className={META}>{C.eyebrow}</span>} />
+            <PastillesDa emoji={EMOJIS_RUBRIQUES.sEntrainer} pastille={N.index.sEntrainer} suite={<span className={META}>{C.eyebrow}</span>} />
             <h2 className={cn("pr-8", TITRE_TUILE)}>{frEspace(j.titre)}</h2>
             <p className={cn("mt-4", TEXTE)}>{frEspace(j.consigne)}</p>
             <ul className="mt-4 flex flex-col gap-2" data-apercu-propositions>
@@ -80,14 +80,13 @@ function ExtraitSEntrainer() {
         <div className="flex min-w-0 flex-col gap-6 md:col-span-2 lg:col-span-4" data-apercu-pile>
           <TuileFermee className="h-auto">
             <div className={TUILE} data-apercu-mission>
-              <Bandeau />
-              <PastillesDa className="pr-8" emoji={EMOJI_ENTRAINER} pastille={frEspace(M.titre)} />
+              <PastillesDa className="pr-8" emoji={EMOJIS_RUBRIQUES.sEntrainer} pastille={frEspace(M.titre)} />
               <EchelleMarches />
             </div>
           </TuileFermee>
           <TuileFermee className="h-auto">
             <div className={TUILE}>
-              <TitreFerme emoji={EMOJI_ENTRAINER} titre={frEspace(M.aPlat)} />
+              <TitreFerme emoji={EMOJIS_RUBRIQUES.sEntrainer} titre={frEspace(M.aPlat)} />
             </div>
           </TuileFermee>
         </div>
@@ -98,7 +97,7 @@ function ExtraitSEntrainer() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12" data-apercu-rangee="2">
           <TuileFermee className="md:col-span-2 lg:col-span-8">
             <div className={TUILE}>
-              <TitreFerme emoji={EMOJI_ENTRAINER} titre={frEspace(M.raconte)} />
+              <TitreFerme emoji={EMOJIS_RUBRIQUES.sEntrainer} titre={frEspace(M.raconte)} />
             </div>
           </TuileFermee>
         </div>

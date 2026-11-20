@@ -2,10 +2,11 @@ import { cn } from "@/lib/utils";
 import { frTypo } from "@/lib/fr-typo";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
-import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
 import { TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { Badge } from "@/components/ui/badge";
 import { TYPE_FAVORI } from "@/components/favoris/libelles";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 /**
  * Cartes de Favoris, gabarit unique (s26, `docs/design/favoris-carnet-s26.md` §1 et §2.3) : cadre neutre (filet violet
@@ -38,10 +39,9 @@ export function CorpsVanne({
     <>
       {/* s26 contrôle d'ensemble, aperçus : DA de l'accueil (bandeau, émoji, pastille violette du type, pastille neutre de
           la catégorie), comme le détail de l'abonné. */}
-      <PastillesDa className="pr-8" emoji={EMOJIS_ACCUEIL.vanne} pastille={TYPE_FAVORI.JOKE} suite={<Badge variant="default">{categorie}</Badge>} />
+      <PastillesDa className="pr-8" emoji={EMOJIS_RUBRIQUES.vanne} pastille={TYPE_FAVORI.JOKE} suite={<Badge variant="default">{categorie}</Badge>} />
       <p className={cn("mt-2", TEXTE)}>{frTypo(texte)}</p>
       {chuteVisible ? <p className={cn("mt-4", TEXTE_FORT)}>{chute}</p> : suite}
-      <Bandeau />
     </>
   );
 }
@@ -62,10 +62,9 @@ export function CorpsConseil({
 }) {
   return (
     <>
-      <PastillesDa className="pr-8" emoji={EMOJIS_ACCUEIL.conseil} pastille={TYPE_FAVORI.TIP} suite={<Badge variant="default">{categorie}</Badge>} />
+      <PastillesDa className="pr-8" emoji={EMOJIS_RUBRIQUES.conseil} pastille={TYPE_FAVORI.TIP} suite={<Badge variant="default">{categorie}</Badge>} />
       <Titre className={cn("mt-2", TITRE_CARTE)}>{frTypo(titre)}</Titre>
       <p className={cn("mt-2", TEXTE, !deplie && "line-clamp-2")}>{contenuAffiche(contenu)}</p>
-      <Bandeau variante="inverse" />
     </>
   );
 }

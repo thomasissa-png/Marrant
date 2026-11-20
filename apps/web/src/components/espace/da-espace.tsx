@@ -9,28 +9,15 @@ import { cn } from "@/lib/utils";
  * couleur ni taille neuve. Aucun « use client » : serveur comme navigateur.
  */
 
-/**
- * Émojis de l'accueil seulement (« Ton contenu du jour », « Tu te reconnais ? ») : aucun émoji inventé. Une carte sans
- * équivalent à l'accueil (cap, mission, questions, répliques) garde le bandeau et sa pastille, sans émoji.
- */
-export const EMOJIS_ACCUEIL = {
-  /** « Je reste muet quand on me chambre » : la répartie, donc Quoi répondre et les cartes à jouer. */
-  quoiRepondre: "⚡️",
-  vanne: "😂",
-  conseil: "💡",
-  video: "🎬",
-} as const;
-
-/** Émoji du parcours, celui de sa carte « Tu te reconnais ? » à l'accueil (les autres parcours n'en ont pas). */
-const EMOJIS_PARCOURS: Readonly<Record<string, string>> = { "machine-a-cafe": "☕️", repartie: "⚡️", confiance: "🌱" };
-export const emojiParcours = (slug: string): string | null => EMOJIS_PARCOURS[slug] ?? null;
-
 /** Les trois bandeaux de l'accueil (vanne, conseil, vidéo), dans cet ordre. */
 export const BANDEAUX = { accueil: BANDEAU_ACCUEIL, inverse: BANDEAU_ACCUEIL_INVERSE, centre: BANDEAU_ACCUEIL_CENTRE } as const;
 
 /**
  * Bandeau violet de 4 px posé sur le haut d'une carte, hors du flux (comme la carte « En cours » de Parcours) : marges,
  * hauteurs et grilles internes des cartes inchangées. La carte doit être `relative overflow-hidden` (cadres de l'espace).
+ * s26 finition avant lancement (décision de Thomas du 20/11, point 4) : RÉSERVÉ à la carte principale de chaque écran
+ * (Aujourd'hui : l'action du jour ; fiche ouverte ; carte « En cours » ; étape ouverte ; carte de situation ; fil ouvert ;
+ * carte d'offre des aperçus). Les autres cartes : cadre neutre, émoji et pastille violette (`PastillesDa`).
  */
 export function Bandeau({ variante = "accueil" }: { variante?: keyof typeof BANDEAUX }) {
   return <div aria-hidden="true" className={cn(BANDEAUX[variante], "absolute inset-x-0 top-0")} data-bandeau-da="" />;

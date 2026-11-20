@@ -8,7 +8,8 @@ import { cn } from "@/lib/utils";
 import { parcoursEtapeHref, type ParcoursAReprendre, type ParcoursEntreeSrc } from "@/lib/entrees-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 import { REPRENDRE } from "@/config/textes/entrees-parcours";
-import { Bandeau, PastillesDa, emojiParcours } from "@/components/espace/da-espace";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { emojiParcours } from "@/components/espace/emojis";
 
 /**
  * « Reprendre ton parcours » en tête de l'accueil abonné et du profil

@@ -12,17 +12,15 @@ import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { cn } from "@/lib/utils";
 import { TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
-import { Bandeau, BANDEAUX, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 /**
  * s26 DA, aujourd'hui questions répliques (décision de Thomas du 20/11) : les trois cartes reprennent « Ton contenu du
- * jour » de l'accueil, bandeau (dans le même ordre de dégradés), émoji et titre en pastille violette ; liens violets.
+ * jour » de l'accueil, émoji et titre en pastille violette ; liens violets. s26 finition avant lancement (point 4) : plus
+ * de bandeau (réservé à la carte principale d'Aujourd'hui, l'action du jour) ; émojis de la table unique (point 2).
  */
-const DA_CARTES = {
-  vanne: { emoji: EMOJIS_ACCUEIL.vanne, bandeau: "accueil" },
-  conseil: { emoji: EMOJIS_ACCUEIL.conseil, bandeau: "inverse" },
-  video: { emoji: EMOJIS_ACCUEIL.video, bandeau: "centre" },
-} as const satisfies Record<string, { emoji: string; bandeau: keyof typeof BANDEAUX }>;
+const EMOJI_CARTES = { vanne: EMOJIS_RUBRIQUES.vanne, conseil: EMOJIS_RUBRIQUES.conseil, video: EMOJIS_RUBRIQUES.video } as const;
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -127,12 +125,11 @@ function Carte({
    */
   pile?: boolean;
 }) {
-  const da = DA_CARTES[id === "jour-vanne" ? "vanne" : id === "jour-conseil" ? "conseil" : "video"];
+  const emoji = EMOJI_CARTES[id === "jour-vanne" ? "vanne" : id === "jour-conseil" ? "conseil" : "video"];
   return (
     <article className={cn(CARTE, "flex flex-col", media && VIDEO_768.carte, className)} aria-labelledby={id}>
-      <PastillesDa as="h3" id={id} emoji={da.emoji} pastille={titre} className={cn(media && VIDEO_768.titre)} />
+      <PastillesDa as="h3" id={id} emoji={emoji} pastille={titre} className={cn(media && VIDEO_768.titre)} />
       <div className={cn("mt-2 flex flex-1 flex-col", pile && "lg:flex-none", media && VIDEO_768.corps)}>{children}</div>
-      <Bandeau variante={da.bandeau} />
     </article>
   );
 }

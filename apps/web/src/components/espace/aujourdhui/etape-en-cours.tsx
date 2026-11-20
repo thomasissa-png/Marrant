@@ -8,7 +8,8 @@ import { frEspaceProfond } from "@/lib/fr-typo";
 import { ActionDuJour } from "@/components/espace/aujourdhui/action-du-jour";
 import { BarreProgression, Chevron, PIED_TUILE, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { META, META_FORT, TEXTE } from "@/components/espace/typo";
-import { Bandeau, PastillesDa, emojiParcours } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
+import { emojiParcours } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const T = frEspaceProfond(TEXTES_AUJOURDHUI);
@@ -91,7 +92,6 @@ export function ParcoursTuile({ etape, fige = false, colonne = false }: { etape:
           {pied}
         </Link>
       )}
-      <Bandeau />
     </section>
   );
 }

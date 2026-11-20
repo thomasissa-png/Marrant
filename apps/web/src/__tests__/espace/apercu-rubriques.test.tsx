@@ -249,7 +249,8 @@ describe("Favoris (`/favoris`, hors /mon-espace)", () => {
     // s26 contrôle d'ensemble, aperçus (DA de l'accueil, Thomas 20/11) : pastille violette du type (`text-accent-link`)
     // et bandeau sur les cartes ; toujours aucune capitale.
     expect(exemples.innerHTML).not.toMatch(/uppercase/);
-    expect(exemples.querySelectorAll("[data-bandeau-da]").length).toBeGreaterThanOrEqual(2);
+    // s26 finition avant lancement (point 4) : plus de bandeau sur les cartes d'exemple (réservé à la carte d'offre).
+    expect(exemples.querySelectorAll("[data-bandeau-da]")).toHaveLength(0);
     // Lecture seule : aucun bouton (ni « Retirer », ni partage), aucun lien ; un seul bouton d'offre dans le hero.
     expect(within(exemples).queryAllByRole("button")).toHaveLength(0);
     expect(within(exemples).queryAllByRole("link")).toHaveLength(0);

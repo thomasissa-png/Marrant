@@ -5,7 +5,7 @@ import Link from "next/link";
 import { TEXTES_REPLIQUES } from "@/config/textes/espace-repliques";
 import { TEXTES_GESTE } from "@/config/textes/espace-cartes";
 import type { FicheDeReplique, RepliqueListee } from "@/lib/espace/repliques";
-import { Bandeau, EMOJIS_ACCUEIL, PastillesDa } from "@/components/espace/da-espace";
+import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
 import { EcrireReplique, ID_ECRIRE_REPLIQUE } from "@/components/espace/repliques/ecrire-replique";
 import { REPLIQUE_MAX_CLIENT } from "@/components/espace/carte/limites";
 import { appelEspace } from "@/components/espace/carte/appel";
@@ -16,6 +16,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { META, TEXTE, TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
 import { FINE, frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const R = frEspaceProfond(TEXTES_REPLIQUES);
@@ -31,7 +32,7 @@ type Mode = { ficheId: string; quoi: "modifier" | "confirmer" } | null;
  * rubrique devinée.
  */
 function pastilleReplique(href: string | null): { emoji: string | null; libelle: string } | null {
-  if (href?.startsWith(QUOI_REPONDRE)) return { emoji: EMOJIS_ACCUEIL.quoiRepondre, libelle: N.index.quoiRepondre };
+  if (href?.startsWith(QUOI_REPONDRE)) return { emoji: EMOJIS_RUBRIQUES.quoiRepondre, libelle: N.index.quoiRepondre };
   if (href === "/carnet") return { emoji: null, libelle: N.index.carnet };
   if (href?.startsWith("/mon-espace/bibliotheque/")) return { emoji: null, libelle: N.index.bibliotheque };
   return null;
@@ -169,7 +170,7 @@ export function ListeRepliques({
             <Bandeau />
             {/* s26 contrôle d'ensemble, abonné (C2) : pastille des cartes de répliques (⚡ « Quoi répondre »), sauf pendant
                 l'écriture, dont le formulaire porte déjà la même (`EcrireReplique`). */}
-            {!(proposee && ecriture) && <PastillesDa emoji={EMOJIS_ACCUEIL.quoiRepondre} pastille={N.index.quoiRepondre} className="mb-2" />}
+            {!(proposee && ecriture) && <PastillesDa emoji={EMOJIS_RUBRIQUES.quoiRepondre} pastille={N.index.quoiRepondre} className="mb-2" />}
             <p className={TEXTE}>{R.vide}</p>
             {!lectureSeule && (
               <>

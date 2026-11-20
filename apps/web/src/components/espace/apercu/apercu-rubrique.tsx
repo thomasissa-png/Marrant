@@ -4,7 +4,7 @@ import { TEXTES_APERCU, type RubriqueApercu } from "@/config/textes/espace-aperc
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { buildLoginUrl } from "@/lib/auth-links";
 import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo-meta";
-import { BOUTON_PRINCIPAL, CADRE_CARTE, LIEN } from "@/components/espace/carte/styles";
+import { BOUTON_PRINCIPAL, CADRE_CARTE, CADRE_CARTE_PRINCIPALE, LIEN } from "@/components/espace/carte/styles";
 import { ADRESSES_APERCU } from "@/components/espace/apercu/acces";
 import { ExempleFiche, ExempleQuestions, ExempleRepliques } from "@/components/espace/apercu/exemple";
 import { categoriesQuoiRepondre, ficheApercu } from "@/components/espace/apercu/exemples";
@@ -89,7 +89,8 @@ export function ApercuRubrique({
           <Exemple rubrique={rubrique} />
         </article>
         {rubrique === "quoiRepondre" && <CatalogueQuoiRepondre />}
-        <div className={`${CADRE_CARTE} flex flex-wrap items-center justify-center gap-x-6 gap-y-2 p-5 md:p-6`} data-apercu-offre>
+        {/* s26 finition avant lancement (point 4) : la carte d'offre est la carte principale de l'aperçu (filet violet). */}
+        <div className={`${CADRE_CARTE_PRINCIPALE} flex flex-wrap items-center justify-center gap-x-6 gap-y-2 p-5 md:p-6`} data-apercu-offre>
           <Link
             href={buildAbonnementUrl(adresse, "monthly", sourceApercu(rubrique))}
             aria-label={TEXTES_APERCU.offre.nomAccessible}

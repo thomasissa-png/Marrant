@@ -5,7 +5,8 @@ import { frEspace, frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { TEXTE } from "@/components/espace/typo";
 import { Chevron, PASTILLE, PIED_TUILE_GABARIT, TITRE_TUILE, TUILE } from "@/components/espace/aujourdhui/tableau";
-import { Bandeau, PastillesDa } from "@/components/espace/da-espace";
+import { PastillesDa } from "@/components/espace/da-espace";
+import { EMOJIS_RUBRIQUES } from "@/components/espace/emojis";
 
 // Lot D11c : textes de l'interface avec la typographie de l'espace (espaces insécables, `frEspace`).
 const M = frEspaceProfond(TEXTES_MISSION);
@@ -27,8 +28,8 @@ export function MissionLien({ marche, accroche, fige = false }: { marche: Numero
           figée, l'étiquette d'avant. */}
       {/* s26 contrôle d'ensemble, aperçus : figée aussi (extrait de l'aperçu), la DA de l'accueil. Bandeau en tête (hors
           du flux) : le pied reste le dernier enfant du lien. */}
-      <Bandeau />
-      <PastillesDa as="span" pastille={`${M.titre} · ${M.marche(marche)}`} />
+      {/* s26 finition avant lancement (point 2) : l'émoji de S'entraîner, où mène la mission (table unique). */}
+      <PastillesDa as="span" emoji={EMOJIS_RUBRIQUES.sEntrainer} pastille={`${M.titre} · ${M.marche(marche)}`} />
       <span className={cn(TITRE_TUILE, "block", !accroche && "mb-4")}>{M.titresMarches[marche]}</span>
       {accroche && (
         <span className={cn("mb-4 mt-2 block", TEXTE, fige && "max-h-[4.5rem] overflow-hidden")} data-mission-accroche>

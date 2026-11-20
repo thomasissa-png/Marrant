@@ -19,7 +19,7 @@ jest.mock("@/lib/espace/garde", () => ({ garderEspace: jest.fn(async () => ({ us
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { CADRE_CARTE, CADRE_CARTE_NEUTRE, FILET_CARTE } from "@/components/espace/carte/styles";
+import { CADRE_CARTE, CADRE_CARTE_NEUTRE, CADRE_CARTE_PRINCIPALE, FILET_CARTE } from "@/components/espace/carte/styles";
 import { ApercuAujourdhui } from "@/components/espace/apercu/tableau-verrouille";
 import { BarreProgression, CARTE_ACTION, SegmentsCap, TUILE } from "@/components/espace/aujourdhui/tableau";
 import { CapDuJour } from "@/components/espace/aujourdhui/cap-du-jour";
@@ -29,12 +29,15 @@ const classes = (e: Element | null | undefined) => (e?.getAttribute("class") ?? 
 const lire = (f: string) => readFileSync(join(__dirname, "../../components/espace", f), "utf8");
 
 describe("décision 1 : un seul accent violet, le bouton plein", () => {
-  it("`CADRE_CARTE_NEUTRE` est le cadre de `CADRE_CARTE` sans le filet ; `CADRE_CARTE` garde le filet", () => {
+  // s26 finition avant lancement (point 4) : le filet passe à `CADRE_CARTE_PRINCIPALE` (carte principale de l'écran) ;
+  // `CADRE_CARTE` devient le cadre neutre.
+  it("`CADRE_CARTE_NEUTRE` est le cadre de `CADRE_CARTE_PRINCIPALE` sans le filet ; `CADRE_CARTE` est neutre", () => {
     for (const c of FILET_CARTE.split(" ")) {
       expect(CADRE_CARTE_NEUTRE.split(" ")).not.toContain(c);
-      expect(CADRE_CARTE.split(" ")).toContain(c);
+      expect(CADRE_CARTE_PRINCIPALE.split(" ")).toContain(c);
     }
-    expect(CADRE_CARTE).toBe(`${CADRE_CARTE_NEUTRE} ${FILET_CARTE}`);
+    expect(CADRE_CARTE_PRINCIPALE).toBe(`${CADRE_CARTE_NEUTRE} ${FILET_CARTE}`);
+    expect(CADRE_CARTE).toBe(CADRE_CARTE_NEUTRE);
   });
 
   it("Z1, tuiles et cap sans filet ; cartes du « Contenu du jour » sur le cadre neutre", () => {
@@ -51,9 +54,9 @@ describe("décision 1 : un seul accent violet, le bouton plein", () => {
   it("extrait de l'aperçu : aucune classe de filet ni de violet dans les tuiles fermées, Z1 comprise, hors DA de l'accueil (v7 tour 9)", () => {
     render(<ApercuAujourdhui visiteur />);
     for (const t of Array.from(document.querySelectorAll("[data-tuile-fermee]"))) {
-      // s26 contrôle d'ensemble, aperçus (décision de Thomas du 20/11) : seuls le bandeau et la pastille de l'accueil
-      // portent du violet ; chaque tuile a les deux.
-      expect(t.querySelector("[data-bandeau-da]")).not.toBeNull();
+      // s26 contrôle d'ensemble, aperçus (décision de Thomas du 20/11) : seule la pastille de l'accueil porte du violet.
+      // s26 finition avant lancement (point 4) : plus de bandeau dans les tuiles (réservé à la carte d'offre).
+      expect(t.querySelector("[data-bandeau-da]")).toBeNull();
       expect(t.querySelector("[data-pastilles-da]")).not.toBeNull();
       for (const e of [t, ...Array.from(t.querySelectorAll("*"))]) {
         if (e.matches("[data-bandeau-da]") || e.closest("[data-pastilles-da]")) continue;

@@ -6,8 +6,8 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { cn } from "@/lib/utils";
-import { CADRE_CARTE } from "@/components/espace/carte/styles";
-import { ETIQUETTE, META, META_FORT, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
+import { CADRE_CARTE, CADRE_CARTE_PRINCIPALE } from "@/components/espace/carte/styles";
+import { ETIQUETTE, META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { tipProse } from "@/lib/tip-prose";
@@ -73,7 +73,9 @@ const sectionTitre = () => (ESPACE_CLIENT_PUBLIE ? cn("mb-2", TEXTE_FORT) : SECT
 const CORPS_LECTURE_FERME = "max-w-[68ch] text-base leading-7 text-text-secondary sm:text-[15px]";
 // s26 parcours v2 (`docs/design/parcours-connecte-v2-s26.md` §1, mesure de ligne) : ouvert, plus de 68ch dans la carte
 // d'étape (tiers droit vide à 1280) : le texte prend la largeur de la carte, à côté du menu d'étapes (≈ 90 signes au plus).
-const corpsLecture = () => (ESPACE_CLIENT_PUBLIE ? "text-base leading-7 text-text-secondary" : CORPS_LECTURE_FERME);
+// s26 finition avant lancement (point 3, Thomas 20/11 : « Ce que tu vas apprendre » plus gros que le reste) : ouvert,
+// `TEXTE` de l'échelle de l'espace (16/24, `typo.ts`), plus d'interligne de 28 px hors échelle.
+const corpsLecture = () => (ESPACE_CLIENT_PUBLIE ? TEXTE : CORPS_LECTURE_FERME);
 const ouvert = (classes: string, ferme?: string) => (ESPACE_CLIENT_PUBLIE ? classes : ferme);
 /** Encadré du défi (s18), repris pour le second défi. */
 const ENCADRE_DEFI = "rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3";
@@ -264,8 +266,9 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
       // s26 parcours connecté (§5) : ouvert, 137 px (en-tête collant de 121 px + 16), à toutes les largeurs. Tour 2 : le
       // `scroll-padding-top` de 128 px de l'en-tête universel (site entier, inchangé) s'y ajoute, d'où 9 px (128 + 9).
       className={ouvert(
-        // s26 DA du site (décision de Thomas du 20/11) : carte d'étape au filet violet de l'accueil (`CADRE_CARTE`).
-        cn(CADRE_CARTE, "scroll-mt-[9px] p-6", muted && "border-dashed", props.classeOuverte),
+        // s26 DA du site (décision de Thomas du 20/11) : carte d'étape au filet violet de l'accueil. s26 finition avant
+        // lancement (point 4) : filet sur l'étape OUVERTE seulement (carte principale), les autres en cadre neutre.
+        cn(props.isExpanded ? CADRE_CARTE_PRINCIPALE : CADRE_CARTE, "scroll-mt-[9px] p-6", muted && "border-dashed", props.classeOuverte),
         `scroll-mt-28 ${isCompleted ? "border-accent-primary/30 bg-accent-primary/5" : muted ? "border-dashed" : ""}`,
       )}
     >
