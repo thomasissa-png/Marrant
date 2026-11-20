@@ -68,7 +68,8 @@ describe("GET /api/espace/caps (ouvert)", () => {
     expect(res.status).toBe(200);
     expect(res.headers.get("Cache-Control")).toBe("private, no-store");
     const corps = await res.json();
-    expect(corps).toMatchObject({ xp: 412, capAffiche: 3, capDeblocage: 2, ecart: true, bonus: [] });
+    // s26 lancement : écart réel (cap 3 contre 2), mais aucun bonus rangé : la phrase qui parle des bonus est masquée.
+    expect(corps).toMatchObject({ xp: 412, capAffiche: 3, capDeblocage: 2, ecart: false, bonus: [] });
     // Aucun bonus rangé en production (lot C8 à venir) : l'annonce ne porte que le cap.
     expect(corps.annonce).toEqual({ cap: 3, bonus: null, marques: [{ type: "CAP", numero: 2 }, { type: "CAP", numero: 3 }] });
     expect(corps.etape).toMatchObject({ slug: "confiance", ordre: 3, enCours: true });

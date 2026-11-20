@@ -29,8 +29,9 @@ export async function GET() {
   if (garde instanceof NextResponse) return garde;
   try {
     const acces = ACCES(garde.userId);
+    const ranges = bonusRanges(acces);
     const [etat, progressions] = await Promise.all([
-      lireEtatCaps(prisma, garde.userId, bonusRanges(acces)),
+      lireEtatCaps(prisma, garde.userId, ranges),
       prisma.userPathProgress.findMany({
         where: { userId: garde.userId },
         select: {
@@ -48,7 +49,8 @@ export async function GET() {
       serie: etat.serie,
       capAffiche: etat.capAffiche,
       capDeblocage: etat.capDeblocage,
-      ecart: etat.capAffiche > etat.capDeblocage,
+      // s26 lancement : la phrase de l'écart parle des bonus ; masquée tant qu'aucun bonus n'est rangé (`bonus.json` vide).
+      ecart: etat.capAffiche > etat.capDeblocage && ranges.length > 0,
       bonus: bonusOuverts(etat.capDeblocage, acces),
       // Lot D11b (@ux D-1) : la semaine 4 du calendrier ne promet « Écouter, repérer » que si une fiche est publiée.
       ecouterPublie: ecouterPublie(),

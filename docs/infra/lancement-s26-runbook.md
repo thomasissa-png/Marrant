@@ -94,7 +94,7 @@ cette ligne par Thomas ou sur son ordre (seule écriture manuelle de A, à nomme
 | B2 base | sauvegarde : A2 suffit si B suit A dans l'heure, sinon 2e branche `sauvegarde-avant-ouverture-s26` ; rejouer le contrôle A3 | 11 tables, 2 colonnes | écart : arrêt |
 | B4 build, envoi | `git checkout <shaB> && build_prod B && upload_prod B` ; préversion : `/mon-espace` sans session = 307 vers `/login` ; pages publiques 200 | | 5xx : pas de bascule |
 | B4 bascule | `npx wrangler versions deploy <versionB>@100% -y -m "s26 B ouverture <shaB>"` | `<versionB>` à 100 % | 5xx : C (rollback vers A) |
-| B5 caps (avant toute annonce) | `recalcul-caps.ts` lecture seule puis `--appliquer` : **impossible tel quel ici** (Prisma en TCP), voir bloquant 2 | bilan : 5 abonnés `PREMIUM` au plus ; 2e passage sans effet | |
+| B5 caps (avant toute annonce) | (1) à sec : `NODE_USE_ENV_PROXY=1 npx tsx --tsconfig scripts/tsconfig.scripts.json scripts/recalcul-caps.ts --neon --a-sec` ; (2) écriture : même commande avec `--ecrire` à la place de `--a-sec` ; (3) contrôle : (1) rejouée. Depuis `apps/web`, URL lue dans `NEON_DATABASE_URL` (autre variable : `--url-env=NOM`), WebSocket 443 (bloquant 2 levé) | (1) « Base visée (WebSocket Neon) : <hôte de prod> », une ligne par compte touché, 5 abonnés `PREMIUM` lus au plus ; (2) mêmes comptes et totaux, « lignes silencieuses écrites » = celles de (1) ; (3) « niveaux relevés : 0 », « lignes silencieuses qui seraient écrites : 0 » | hôte inattendu en (1) : arrêt avant (2) ; code de sortie 2 : variable absente ou option refusée, rien n'est lu |
 | B5 G4 | 3 comptes de test de Thomas ramenés à leurs étapes (identifiants hors dépôt, Thomas) | | pas d'accord Q6 : ne rien toucher |
 | B5 démarrage | même appel qu'en A5 | journal sans échec, rien de neuf | |
 | B6 contrôles | liste B-P6 (a) à (f) de JOUR DU GO ; en plus : `curl -s https://deviens-marrant.fr/sitemap.xml \| grep -c mon-espace` = 0 ; `curl -sI https://deviens-marrant.fr/mon-espace` = 307 ; `npx wrangler tail` sans 500 pendant 15 min | conformes | page cassée ou fuite de données : C immédiat |
@@ -124,8 +124,9 @@ Cloudflare sans 500 pendant 1 h. Trace : heure, `<shaA>`, `<shaB>`, versions et 
 1. **Port 5432 fermé** : `psql`, `pg_dump`, `prisma db execute` de JOUR DU GO impossibles ici, et `$DATABASE_URL` n'existe
    pas (c'est `NEON_DATABASE_URL`). Reco : migrations par `$O/neon-sql.mjs` (WebSocket, testé en lecture) ; sauvegarde par
    branche Neon (A2), pas `pg_dump`.
-2. **`recalcul-caps.ts` (B5) en Prisma TCP** : ne tournera pas ici. Reco : @fullstack ajoute avant B0 une option `--neon`
-   (`@prisma/adapter-neon`, déjà installé, Prisma 6.19) ou Thomas le lance depuis son poste ; répéter sur `preversion-s24`.
+2. **`recalcul-caps.ts` (B5) en Prisma TCP** : **levé (s26 lancement)**. Option `--neon` (PrismaNeon, Pool WebSocket), à sec par
+   défaut (`--a-sec`), `--ecrire` explicite ; essayée de bout en bout par WebSocket sur une base locale jetable (relais local,
+   2e passage à 0). Répétition possible sur `preversion-s24` avec `--url-env=NOM` (variable qui porte l'URL de la branche).
 3. **Portes D non levées dans les traces** : G2 (`data/espace/ecouter.json` et `bonus.json` = `[]`, « partent
    obligatoirement avec l'espace »), G4, G6 (0 vanne marquée `humourNoir` possible avant la 19), G7, avocat, préproduction
    P-1 à P-10. Reco : le go B de Thomas doit dire explicitement s'il ouvre sans elles.
@@ -138,4 +139,4 @@ Cloudflare sans 500 pendant 1 h. Trace : heure, `<shaA>`, `<shaB>`, versions et 
 8. **Écart d'entrées** : A-P5 n'attend que la vidéo 39 ; s26 ajoute les 4 remplacements (journal ajouté en A5).
 
 Durée estimée : A ≈ 1 h (CI 20 min, sauvegarde et migrations 10, build et envoi 15, bascule et contrôles 15) ; B ≈ 1 h 15
-(CI parallèle, build 15, caps et comptes 15, contrôles 20, Thomas 30) ; **≈ 2 h 15 à 2 h 45** hors bloquants 2 et 4.
+(CI parallèle, build 15, caps et comptes 15, contrôles 20, Thomas 30) ; **≈ 2 h 15 à 2 h 45** hors bloquant 4.
