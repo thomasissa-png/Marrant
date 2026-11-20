@@ -112,12 +112,14 @@ test.describe("s26 DA, s'entraîner et favoris", () => {
     await expect(detail(page)).toBeHidden();
     const ligne = liste(page).locator("[data-groupe-favoris='VIDEO'] a[data-ligne-favori]").last();
     await ligne.scrollIntoViewIfNeeded();
-    await page.evaluate(() => window.scrollBy(0, 40));
+    // s26 CI : défilements instantanés (`html` est en `scroll-behavior: smooth` ; le Chromium de la CI l'anime : `scrollY`
+    // lu juste après valait encore 0, et la position gardée au clic était celle d'une animation en cours).
+    await page.evaluate(() => window.scrollBy({ top: 40, behavior: "instant" }));
     const y = await page.evaluate(() => window.scrollY);
     expect(y, "la liste a défilé avant le clic").toBeGreaterThan(0);
     const id = await ligne.getAttribute("data-ligne-favori");
     for (const sortie of ["retour", "navigateur"] as const) {
-      await page.evaluate((v) => window.scrollTo(0, v), y);
+      await page.evaluate((v) => window.scrollTo({ top: v, behavior: "instant" }), y);
       await ligne.click();
       await expect(page).toHaveURL(new RegExp(`/favoris\\?favori=${id}$`));
       await expect(page.locator(`[data-favori-detail='${id}']`)).toBeVisible();

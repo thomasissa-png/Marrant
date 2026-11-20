@@ -92,16 +92,18 @@ export function FavorisAbonne({ titre = "Mes favoris" }: { titre?: string }) {
   const idOuvert = ouvert?.id ?? null;
 
   // Sous 1024 : un favori ouvert part du haut de la page ; au retour à la liste, sa position est rendue.
+  // s26 CI : défilements instantanés, comme le carnet (`html` est en `scroll-behavior: smooth` : sans `instant`, le
+  // Chromium de la CI animait le retour à la position au lieu de la rendre).
   useEffect(() => {
     const precedent = avant.current;
     avant.current = idOuvert;
     if (precedent === idOuvert || typeof window === "undefined") return;
     const large = window.matchMedia?.(LARGE).matches ?? false;
-    if (!large && idOuvert) window.scrollTo({ top: 0 });
+    if (!large && idOuvert) window.scrollTo({ top: 0, behavior: "instant" });
     if (!large && !idOuvert && precedent) {
       const y = Number(lire(CLE_POSITION) ?? NaN);
       ecrire(CLE_POSITION, null);
-      if (Number.isFinite(y)) window.requestAnimationFrame(() => window.scrollTo({ top: y }));
+      if (Number.isFinite(y)) window.requestAnimationFrame(() => window.scrollTo({ top: y, behavior: "instant" }));
     }
     if (focusDemande.current) {
       focusDemande.current = false;

@@ -100,7 +100,9 @@ export function ValidationWall({
     buttonVariants({ variant: "primary", size: "lg" }),
     "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
     // s26 parcours connecté, tour 2 : ouvert, 16/600 de l'échelle `typo.ts` sous 400 px aussi (plus de 15 px).
-    ESPACE_CLIENT_PUBLIE ? CONTOUR_NEUTRE : CORPS_APPEL_MOBILE,
+    // s26 CI : libellé de 239 px (local) à 245 px (Chromium de la CI) pour 243 px utiles entre les marges de 24 px :
+    // sous 400 px, la marge interne du fermé (`CORPS_APPEL_MOBILE`, 6 px) ; libellé centré, 34 px de jeu.
+    ESPACE_CLIENT_PUBLIE ? cn(CONTOUR_NEUTRE, "max-[399px]:px-1.5") : CORPS_APPEL_MOBILE,
   );
   if (quizPending || !isParcoursSlug(slug)) {
     return (

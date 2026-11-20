@@ -95,7 +95,9 @@ test.describe("Carnet, liste et détail (s26)", () => {
     await expect(page.locator("[data-carnet-panneau]")).toBeHidden();
     const ligne = liste(page).locator("a[data-ligne='20']");
     await ligne.scrollIntoViewIfNeeded();
-    await page.evaluate(() => window.scrollBy(0, 60));
+    // s26 CI : défilement instantané (`html` est en `scroll-behavior: smooth` ; le Chromium de la CI l'anime, `scrollY`
+    // lu juste après valait encore la position d'avant, 60 px sous celle du clic).
+    await page.evaluate(() => window.scrollBy({ top: 60, behavior: "instant" }));
     const y = await page.evaluate(() => window.scrollY);
     await ligne.click();
     await expect(page).toHaveURL(/\/carnet\/2026-11\/20$/);
