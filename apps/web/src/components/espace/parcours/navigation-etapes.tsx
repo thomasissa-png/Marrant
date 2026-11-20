@@ -2,7 +2,7 @@
 
 import type { MouseEvent } from "react";
 import { cn } from "@/lib/utils";
-import { frTypoTexte } from "@/lib/fr-typo";
+import { frTypoTexte, pointMedianInsecable } from "@/lib/fr-typo";
 import { trackUmami } from "@/lib/umami";
 import { etapeLienTexte } from "@/config/textes/parcours";
 import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
@@ -46,7 +46,7 @@ export function PiedEtape({
             META_FORT,
           )}
         >
-          {frTypoTexte(etapeLienTexte(suivante.order, suivante.titre))}
+          {pointMedianInsecable(frTypoTexte(etapeLienTexte(suivante.order, suivante.titre)))}
           <svg aria-hidden="true" className="h-4 w-4 flex-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>

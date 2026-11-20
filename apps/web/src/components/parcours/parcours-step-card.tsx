@@ -1,17 +1,18 @@
 "use client";
 
 import { Fragment, useEffect, useRef } from "react";
+import { fichesAffichees } from "@/lib/espace/sous-etapes";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { cn } from "@/lib/utils";
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
-import { ETIQUETTE, META, META_FORT, TEXTE_FORT } from "@/components/espace/typo";
+import { ETIQUETTE, META, META_FORT, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { tipProse } from "@/lib/tip-prose";
-import { frTypoParcours } from "@/lib/fr-typo";
+import { frTypoParcours, pointMedianInsecable } from "@/lib/fr-typo";
 import { trackUmami } from "@/lib/umami";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import {
@@ -304,8 +305,10 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
             <div>
               {props.contexte && (
                 // Répète le H1 : masqué au lecteur d'écran (nom du bouton « Étape 1 : … » inchangé).
-                <p aria-hidden="true" className={ouvert(cn(ETIQUETTE, "mb-1"), "mb-0.5 text-xs font-semibold uppercase tracking-wide text-accent-link")}>
-                  {props.contexte}
+                // s26 parcours, tour 7 (relecture design v4, points 16 et 17) : ouvert, masqué sous 1024 px (le titre du
+                // parcours est déjà juste au-dessus) ; « · » lié à ses deux voisins, jamais seul en fin de ligne.
+                <p aria-hidden="true" className={ouvert(cn(ETIQUETTE, "mb-1 max-lg:hidden"), "mb-0.5 text-xs font-semibold uppercase tracking-wide text-accent-link")}>
+                  {ESPACE_CLIENT_PUBLIE ? pointMedianInsecable(props.contexte) : props.contexte}
                 </p>
               )}
               {/* DES-1-11 : titre verrouillé en secondaire (tentant, pas éteint).
@@ -313,7 +316,9 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                   (le soulignement au survol se lisait comme un état actif sur une seule étape) ; l'actif est dans le menu. */}
               <CardTitle
                 className={ouvert(
-                  cn("font-sans", TEXTE_FORT, muted && "text-text-secondary"),
+                  // s26 parcours, tour 7 (relecture design v4, point 15 : titre d'étape au niveau des sous-titres) : titre de
+                  // carte (20/600), au-dessus des sous-titres de la fiche en texte fort (16/600).
+                  cn(TITRE_CARTE, muted && "text-text-secondary"),
                   `text-base decoration-text-muted underline-offset-4 group-hover:underline ${muted ? "text-text-secondary" : ""}`,
                 )}
               >
@@ -421,10 +426,13 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   // s19 (N4 @ux rendu iter 2) : « Version sans risque » et « Aller au défi », parcours Boulot seulement.
   const versionSansRisque = slug === "boulot" && exercice !== "";
   const defiAncre = `etape-${step.order}-defi`;
-  // s24 lot D4 : rangs du découpage (`data/espace/parcours-fiches.json`) : conseil 1, vannes 2, vidéos, quiz.
+  // s24 lot D4 : blocs du découpage (`data/espace/parcours-fiches.json`) : conseil, vannes, vidéos, quiz. s26 parcours,
+  // tour 7 : ancre d'un bloc = numéro de sa sous-étape affichée (`#fiche-2-2` pour « 2.2 »), la même que la liste.
   const ancres = props.ancresFiches === true;
-  const fiche = (rang: number) => `fiche-${step.order}-${rang}`;
-  const rangQuiz = 3 + (step.videos?.length ?? 0);
+  const ancresBlocs = new Map(
+    ancres ? fichesAffichees(slug, step, { etapeFaite: isCompleted, quizFait: isQuizDone }).map((f) => [f.cle, f.ancre] as const) : [],
+  );
+  const fiche = (cle: string) => ancresBlocs.get(cle);
   // s26 parcours, tour 5 : blocs des fiches, mêmes conditions que la liste (`blocRendu`) ; la fiche 1 (conseil) est titrée
   // du titre du conseil, texte existant déjà lu dans la liste des fiches.
   const vannesRendues = isPremium && (step.jokes?.length ?? 0) > 0;
@@ -433,7 +441,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
     <div className="space-y-6">
       {ancres && <LignesFiches slug={slug} etape={step} etapeFaite={isCompleted} quizFait={isQuizDone} className="lg:hidden" />}
       {ancres && step.tip.title.trim() !== "" && (
-        <h4 id={fiche(1)} tabIndex={-1} className={cn(sectionTitre(), "mb-0 rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
+        <h4 id={fiche("conseil")} tabIndex={-1} className={cn(sectionTitre(), "mb-0 rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
           {frTypoParcours(step.tip.title)}
         </h4>
       )}
@@ -545,7 +553,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       )}
 
       {ancres && vannesRendues ? (
-        <div id={fiche(2)} tabIndex={-1} className={cn("rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
+        <div id={fiche("vannes")} tabIndex={-1} className={cn("rounded-xl", BLOC_FICHE, REPERE_FICHE)}>
           <StepJokes step={step} isPremium={isPremium} />
         </div>
       ) : (
@@ -559,8 +567,9 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
           <div className="grid gap-3 sm:grid-cols-2">
             {step.videos.map((v, i) =>
               ancres ? (
-                <div key={v.youtubeId} id={fiche(3 + i)} tabIndex={-1} className={cn("rounded-xl", BLOC_FICHE, MARGE_VIDEO(i), REPERE_FICHE)}>
-                  <VideoCard video={v} seule={step.videos!.length === 1} />
+                <div key={v.youtubeId} id={fiche(`video:${v.youtubeId}`)} tabIndex={-1} className={cn("rounded-xl", BLOC_FICHE, MARGE_VIDEO(i), REPERE_FICHE)}>
+                  {/* s26 parcours, tour 7 (MESURES v4 §6.3) : titre incrusté dans la vignette à toutes les largeurs. */}
+                  <VideoCard video={v} seule={step.videos!.length === 1} titreIncruste />
                 </div>
               ) : (
                 <VideoCard key={v.youtubeId} video={v} seule={step.videos!.length === 1} />
@@ -573,7 +582,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       {/* Visiteur : le quiz reste affiché une fois fini (résultat, « Refaire le quiz »), UXV-1-04. */}
       {quizRendu && (
         <div
-          id={ancres ? fiche(rangQuiz) : undefined}
+          id={ancres ? fiche("quiz") : undefined}
           tabIndex={ancres ? -1 : undefined}
           className={cn("border-t border-border pt-6", ancres && cn(BLOC_FICHE, REPERE_FICHE))}
         >

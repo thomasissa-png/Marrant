@@ -11,6 +11,7 @@ import { QuatreSemaines } from "@/components/espace/quatre-semaines";
 import { CarteEnCours } from "@/components/espace/parcours/carte-en-cours";
 import { TesBonus } from "@/components/espace/tes-bonus";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
+import { noterParcoursEnCours } from "@/lib/espace/parcours-en-cours";
 import { frEspaceProfond } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
 import { TITRE_CARTE, TITRE_PAGE } from "@/components/espace/typo";
@@ -80,9 +81,12 @@ export function ParcoursEspace() {
       if (!actif) return;
       setCaps(lu);
       setEtat(lu ? "ok" : "echec");
+      // s26 parcours, tour 7 : la carte de ce parcours, dans la liste, n'a plus de second bouton (« Reprendre » suffit).
+      noterParcoursEnCours(lu?.etape?.enCours ? lu.etape.slug : null);
     });
     return () => {
       actif = false;
+      noterParcoursEnCours(null);
     };
   }, [premium]);
 
@@ -100,7 +104,7 @@ export function ParcoursEspace() {
     <h1 className={cn(TITRE_PAGE, "mb-8 max-e300:mb-3", LARGEUR)}>{P.titrePage}</h1>
     <div className="mb-6 flex flex-col gap-6 max-e300:mb-3 max-e300:gap-2 lg:contents" aria-busy={etat === "attente" || undefined} data-testid="parcours-espace">
       {/* Arbitrage @ux D4 n°1 (lot D5) : l'introduction publique est masquée pour l'abonné ; il garde un h1. */}
-      <AnnonceCap annonce={caps?.annonce ?? null} retour={() => reprendre.current} className={cn(LARGEUR, "lg:has-[p]:mb-6")} />
+      <AnnonceCap annonce={caps?.annonce ?? null} retour={() => reprendre.current} className={cn(LARGEUR, "lg:has-[p]:mb-6")} leger />
       <CarteEnCours
         ref={reprendre}
         etat={etat}

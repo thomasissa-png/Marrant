@@ -94,8 +94,10 @@ export const CarteEnCours = forwardRef<
           </Link>
           {barre && (
             <>
-              <BarreSegmentee faites={etape.ordre - 1} total={etape.total} enCours={etape.ordre} texte={avancee} className="min-w-0 lg:col-span-9 lg:self-center" />
-              <p className={cn(META, "tabular-nums max-lg:-mt-2 lg:col-span-3 lg:self-center lg:justify-self-end")} aria-hidden="true">
+              {/* s26 parcours, tour 7 (relecture design v4, point 11 : barre arrêtée à 925 px, bouton et carte à 1223) : la
+                  barre prend les 12 colonnes (bord droit = bord du bouton), « Étape n sur N » collé dessous, à gauche. */}
+              <BarreSegmentee faites={etape.ordre - 1} total={etape.total} enCours={etape.ordre} texte={avancee} className="min-w-0 lg:col-span-12" />
+              <p className={cn(META, "-mt-2 tabular-nums lg:col-span-12")} aria-hidden="true">
                 {avancee}
               </p>
             </>

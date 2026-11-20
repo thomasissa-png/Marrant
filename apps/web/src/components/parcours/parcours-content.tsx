@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, FILET_MASQUE } from "@/compon
 import { CADRE_CARTE_NEUTRE } from "@/components/espace/carte/styles";
 import { PASTILLE } from "@/components/espace/aujourdhui/tableau";
 import { BarreSegmentee } from "@/components/espace/parcours/barre-segmentee";
+import { useParcoursEnCours } from "@/lib/espace/parcours-en-cours";
 import { META, META_FORT, TEXTE, TEXTE_FORT, TITRE_CARTE } from "@/components/espace/typo";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -355,6 +356,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   const enteteEspace = ESPACE_CLIENT_PUBLIE && statut === "premium";
   // s26 (`docs/ux/parcours-vannes-s26.md` §1.3) : espace ouvert, le seul plein de l'abonné est l'étape à reprendre
   // (`QuatreSemaines`, au-dessus de la liste) ; toutes les cartes passent en contour (plus de plein sur `pleinUnique`).
+  const enCoursSlug = useParcoursEnCours();
   const parcoursEntame = enteteEspace ||(statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0));
   // s26 (`docs/design/parcours-vannes-s26.md` §1.1 et §1.2) : plus de colonne centrée ; chaque bloc prend sa place dans
   // la grille de 12 colonnes de la page (`parcours/(liste)/page.tsx`). Visiteur et compte gratuit : quiz compact dans
@@ -612,6 +614,9 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
 
                 {/* v6 tour 3, point 12 : cartes jumelles de même hauteur ; tour 4, point 2 : le `mt-auto` passe au bloc
                     commun (`PiedCarte`). Forme et place du bouton inchangées (cta-forme-place-s21 §1.3). */}
+                {/* s26 parcours, tour 7 (relecture design v4, point 14) : espace ouvert, la carte du parcours que « Reprendre »
+                    fait reprendre (carte « En cours » au-dessus) n'a plus de « Continuer ce parcours » ; « Programme » reste. */}
+                {!(enteteEspace && enCoursSlug === p.slug) && (
                 <div className={cn("flex flex-col gap-2", zones && "lg:min-w-0")}>
                   {/* s21 B15 (froid) : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous. */}
                   <Button
@@ -644,6 +649,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   </Button>
                   {etape1Slug && <p className={o(META, "text-xs text-text-muted")}>{frontiereListe(etape1Slug, ESPACE_CLIENT_PUBLIE && statut !== "visiteur")}</p>}
                 </div>
+                )}
                 </PiedCarte>
               </CardContent>
             </Card>

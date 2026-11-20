@@ -163,6 +163,9 @@ export function ParcoursDetail({
   const [validationsEspace, setValidationsEspace] = useState(0);
   // s17 tour 1 (UXV-1-02) : invitation au rappel seulement pour un compte qui y a droit et ne l'a pas activé.
   const [rappelInvite, setRappelInvite] = useState(false);
+  // s26 parcours, tour 7 : réponse sur le rappel reçue (ou échouée) ; la page de l'abonné est montrée une fois mise en place.
+  const [rappelLu, setRappelLu] = useState(false);
+  const [miseEnPlaceFinie, setMiseEnPlaceFinie] = useState(false);
   const [quizDone, setQuizDone] = useState<Set<number>>(new Set());
   const quizStorageKey = `parcours-quiz-done:${slug}`;
   const openTrigger = useRef<"auto" | "manuel">("auto");
@@ -431,9 +434,24 @@ export function ParcoursDetail({
       })
       .catch(() => {
         // Sans réponse, pas d'invitation (jamais de lien vers une commande absente).
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setRappelLu(true);
       });
     return () => controller.abort();
   }, [tracksProgress]);
+
+  // s26 parcours, tour 7 : fin de la mise en place de la page de l'abonné (`miseEnPlace` plus bas) : progression lue (ou en
+  // échec) et rappel lu, ou 2 s écoulées ; ensuite plus jamais masquée (« Réessayer », validations : page montrée).
+  useEffect(() => {
+    if (!ESPACE_CLIENT_PUBLIE || miseEnPlaceFinie || !isPremium || !initialPath || status !== "authenticated") return;
+    if (enrich === "echec" || (enrich === "ok" && (!tracksProgress || rappelLu))) {
+      setMiseEnPlaceFinie(true);
+      return;
+    }
+    const delai = setTimeout(() => setMiseEnPlaceFinie(true), 2_000);
+    return () => clearTimeout(delai);
+  }, [miseEnPlaceFinie, isPremium, initialPath, status, enrich, tracksProgress, rappelLu]);
 
   /** Appels secondaires de l'abonné (quiz = pratique D3, retour d'exercice) : jamais bloquants. */
   const postQuiet = (route: "quiz" | "retour", body: Record<string, string | number>) => {
@@ -721,6 +739,19 @@ export function ParcoursDetail({
   const chargementPremium = isPremium && attendApi && enrich === "attente";
   const echecPremium = isPremium && attendApi && enrich === "echec";
   const progressionConnue = progress !== null || !attendApi || enrich === "ok";
+  /*
+   * s26 parcours, tour 7 (MESURES v4 §2, 1280 : après « Reprendre », « Le programme » +69 puis -162 px, menu +95) : chez
+   * l'abonné, la page d'arrivée change de forme tant que la progression (argumentaire déplacé sous le programme, lignes
+   * d'XP et de rythme du menu) et la réponse du rappel (invitation dans la carte d'en-tête) ne sont pas lues. Ouvert
+   * seulement : la page garde sa place mais reste invisible (`invisible`, pas de remise en page visible) jusqu'à sa forme
+   * finale, 2 s au plus (au-delà, montrée telle quelle, l'état de chargement reste annoncé).
+   */
+  const miseEnPlace =
+    ESPACE_CLIENT_PUBLIE &&
+    isPremium &&
+    attendApi &&
+    !miseEnPlaceFinie &&
+    (enrich === "attente" || (tracksProgress && !rappelLu && enrich === "ok"));
   // s21 (décision de Thomas du 18/10) : avec Premium, toutes les étapes sont ouvertes d'un coup ;
   // l'ordre et « une étape par semaine » restent des conseils (date conseillée, prochaine étape), jamais un verrou.
   const etapeAccessible = (order: number) => canAccessParcoursStep(order, isPremium ? "PREMIUM" : null);
@@ -903,13 +934,22 @@ export function ParcoursDetail({
     ) : (
       <span aria-hidden="true" data-testid="progression-squelette" className="inline-block h-4 w-32 animate-pulse rounded bg-background-elevated motion-reduce:animate-none" />
     );
-    const etapeActive = etapeMenu !== null ? path.steps.find((s) => s.order === etapeMenu) : undefined;
     const argumentaireEnTete = !isPathCompleted && !argumentaireApresProgramme;
     return (
       <FicheActiveContexte.Provider value={ficheContexte}>
-      <div className="flex flex-col gap-6 lg:col-span-12 lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[22.5rem_minmax(0,1fr)] xl:gap-x-8" data-parcours-detail="">
-        <div className="-mb-2 lg:col-span-2 lg:row-start-1">
-          <nav aria-label="Fil d’Ariane" className="text-sm text-text-muted max-lg:hidden">
+      <div
+        className={cn(
+          "flex flex-col gap-6 lg:col-span-12 lg:grid lg:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[22.5rem_minmax(0,1fr)] xl:gap-x-8",
+          miseEnPlace && "invisible",
+        )}
+        data-parcours-detail=""
+        data-mise-en-place={miseEnPlace || undefined}
+      >
+        {/* Tour 7 : le pied de page, seul visible sous une page invisible, sauterait avec elle (mesuré : +69 puis -599 px à
+            1280, dernière étape) ; masqué le temps de la mise en place. */}
+        {miseEnPlace && <style>{"footer{visibility:hidden}"}</style>}
+        <div className="-mb-2 max-lg:hidden lg:col-span-2 lg:row-start-1">
+          <nav aria-label="Fil d’Ariane" className="text-sm text-text-muted">
             <Link href="/" className="hover:text-text-primary">Accueil</Link>
             <span className="mx-2">/</span>
             {/* s26 parcours, tour 5 (F3, relecture UX v2) : même ancre que « Retour : Parcours » (carte du parcours). */}
@@ -917,19 +957,14 @@ export function ParcoursDetail({
             <span className="mx-2">/</span>
             <span className="text-text-secondary">{frTypoTexte(path.title)}</span>
           </nav>
-          <div className="lg:hidden">
-            <LienRetour href={`/parcours#parcours-${slug}`} label={TEXTES_ESPACE_NAVIGATION.parcours} />
-          </div>
         </div>
 
-        <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-start-2 lg:row-start-2")} data-entete-parcours="">
-          {titreParcours}
-          {argumentaireEnTete && argumentaire}
-          {invitationRappel && <p className={cn(META, "mt-6 border-t border-border pt-6")}>{invitationRappel}</p>}
-        </div>
-
-        <div className="lg:col-start-1 lg:row-span-2 lg:row-start-2">
+        {/* s26 parcours, tour 7 (relecture UX v4, D5) : la cellule du menu précède la carte d'en-tête dans le document ; sous
+            1024 px, c'est la barre collante (« Retour : Parcours » et bouton du menu) en tête de page ; dès 1024 px, place
+            fixée par la grille (colonne de gauche), rendu inchangé. */}
+        <div className="max-lg:contents lg:col-start-1 lg:row-span-2 lg:row-start-2">
           <MenuEtapes
+            retour={<LienRetour href={`/parcours#parcours-${slug}`} label={TEXTES_ESPACE_NAVIGATION.parcours} />}
             slug={slug}
             titre={path.title}
             avancee={avancee}
@@ -943,16 +978,23 @@ export function ParcoursDetail({
             faites={completedSteps}
             active={etapeMenu}
             onChoisir={allerAEtape}
+            // s26 parcours, tour 7 : sous-étapes de chaque étape ouverte à l'abonné (menu figé, `menu-etapes.tsx`).
             sousEtapes={
-              espaceOuvert && etapeActive && etapeAccessible(etapeActive.order) ? (
-                <LignesFiches
-                  slug={slug}
-                  etape={etapeActive}
-                  etapeFaite={completedSteps.includes(etapeActive.order)}
-                  quizFait={quizDone.has(etapeActive.order)}
-                  variante="menu"
-                />
-              ) : undefined
+              espaceOuvert
+                ? (order) => {
+                    const etape = path.steps.find((s) => s.order === order);
+                    return etape && etapeAccessible(order) ? (
+                      <LignesFiches
+                        slug={slug}
+                        etape={etape}
+                        etapeFaite={completedSteps.includes(order)}
+                        quizFait={quizDone.has(order)}
+                        variante="menu"
+                        etapeAffichee={order === etapeMenu}
+                      />
+                    ) : null;
+                  }
+                : undefined
             }
             reprendre={
               aReprendre
@@ -970,6 +1012,12 @@ export function ParcoursDetail({
               ) : undefined
             }
           />
+        </div>
+
+        <div className={cn(CADRE_CARTE_NEUTRE, "p-6 lg:col-start-2 lg:row-start-2")} data-entete-parcours="">
+          {titreParcours}
+          {argumentaireEnTete && argumentaire}
+          {invitationRappel && <p className={cn(META, "mt-6 border-t border-border pt-6")}>{invitationRappel}</p>}
         </div>
 
         <div className="flex min-w-0 flex-col gap-6 lg:col-start-2 lg:row-start-3" aria-busy={chargementPremium || undefined}>

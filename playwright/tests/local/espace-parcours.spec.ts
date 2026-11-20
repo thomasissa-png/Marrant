@@ -230,7 +230,9 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       // ligne-lien par étape et un seul bouton « Reprendre » en pied, `docs/design/parcours-connecte-v2-s26.md` §1).
       await expect(sommaire.getByRole("button", { name: P.sommaire.reprendre })).toBeHidden();
       await sommaire.locator("[data-menu-bascule]").click();
-      await expect(sommaire.locator("[data-menu-etapes]").getByText(P.sommaire.fait, { exact: true })).toHaveCount(2);
+      // s26 parcours, tour 7 : test changé (raison : sous-étapes sous chaque étape du menu, menu figé ; leur « Fait » lu
+      // seulement n'est pas une étape faite : on compte les lignes d'étape).
+      await expect(sommaire.locator("a[data-ligne-etape]").getByText(P.sommaire.fait, { exact: true })).toHaveCount(2);
       await expect(sommaire.locator("a[data-ligne-etape]")).toHaveCount(3);
       await expect(sommaire.locator("[data-menu-etapes]").getByRole("button")).toHaveCount(1);
       await sommaire.getByRole("button", { name: P.sommaire.reprendre }).click();

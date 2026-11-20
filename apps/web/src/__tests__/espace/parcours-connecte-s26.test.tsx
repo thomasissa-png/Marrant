@@ -25,6 +25,8 @@ const CAPS = { cap: 2 as const, serie: 3, ecart: false };
 describe("carte « En cours »", () => {
   // s26 parcours v2 : tests changés (raison : trois rangées sur la même grille, barre segmentée et « Étape n sur N » sous
   // le bouton, « Ton cap » seul sur la 3e rangée, `docs/design/parcours-connecte-v2-s26.md` §4).
+  // s26 parcours, tour 7 : test changé (raison : barre sur les 12 colonnes, bord droit = bord du bouton, « Étape n sur N »
+  // collé dessous à gauche ; relecture design v4, point 11).
   it("rangée 1 (étape et LE plein), rangée 2 (barre segmentée, « Étape n sur N »), rangée 3 « Ton cap » derrière un filet", () => {
     const { container } = render(<CarteEnCours etat="ok" etape={ETAPE} caps={CAPS} />);
     const carte = screen.getByTestId("carte-en-cours");
@@ -36,11 +38,12 @@ describe("carte « En cours »", () => {
     expect(barre).toHaveAttribute("aria-valuenow", "1");
     expect(barre).toHaveAttribute("aria-valuemax", "5");
     expect(barre).toHaveAttribute("aria-valuetext", "Étape 2 sur 5");
-    expect(barre.className.split(" ")).toContain("lg:col-span-9");
+    expect(barre.className.split(" ")).toContain("lg:col-span-12");
     expect(Array.from(barre.children).map((e) => e.getAttribute("data-segment"))).toEqual(["fait", "en-cours", "a-venir", "a-venir", "a-venir"]);
     expect(barre.innerHTML).not.toMatch(/accent/);
     const avancee = within(carte).getByText("Étape 2 sur 5");
-    expect(avancee.className.split(" ")).toEqual(expect.arrayContaining(["lg:col-span-3", "lg:justify-self-end"]));
+    expect(avancee.className.split(" ")).toEqual(expect.arrayContaining(["lg:col-span-12", "-mt-2"]));
+    expect(avancee.className).not.toMatch(/justify-self-end/);
     expect(bouton.compareDocumentPosition(barre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     const cap = container.querySelector("#cap") as HTMLElement;
     expect(cap.getAttribute("aria-labelledby")).toBe("ton-cap-titre");
@@ -130,13 +133,15 @@ describe("/parcours/[slug] : navigation entre étapes", () => {
 
   // s26 parcours, tour 5 : test changé (raison : menu collé à 137 px, au haut d'une étape amenée sous l'en-tête, au lieu de
   // 144 ; D6 de la relecture design v2).
+  // s26 parcours, tour 7 : test changé (raison : sous 1024 px, le bouton est dans la barre collante `lg:hidden`, avec le
+  // retour ; relecture UX v4, D5).
   it("menu replié sous 1024 px (liste et « Reprendre » en `display: none`), collant à 137 px dès 1024", () => {
     const { container } = render(
       <MenuEtapes slug="repartie" titre="Répartie" avancee="1 sur 2 étapes" etapes={[{ order: 1, titre: "Un" }, { order: 2, titre: "Deux" }]} faites={[1]} active={2} onChoisir={jest.fn()} reprendre={{ order: 2, libelle: "Reprendre" }} />,
     );
     const bascule = container.querySelector("[data-menu-bascule]") as HTMLElement;
     expect(bascule).toHaveAttribute("aria-expanded", "false");
-    expect(bascule.className.split(" ")).toContain("lg:hidden");
+    expect((bascule.closest("[data-barre-parcours]") as HTMLElement).className.split(" ")).toContain("lg:hidden");
     const nav = container.querySelector("[data-menu-etapes]") as HTMLElement;
     expect(nav.className.split(" ")).toEqual(expect.arrayContaining(["max-lg:hidden", "lg:sticky", "lg:top-[8.5625rem]", "lg:max-h-[calc(100dvh-10.0625rem)]"]));
     expect((nav.parentElement as HTMLElement).className.split(" ")).toEqual(expect.arrayContaining(["lg:h-0", "lg:min-h-full"]));

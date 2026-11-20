@@ -127,7 +127,9 @@ export function StepQuiz({
 
   return (
     // DES-1-12 : conteneur du quiz, lettres en pastille, explication en encadré.
-    <div className="space-y-3 rounded-lg border border-border bg-background-elevated/40 p-4">
+    // s26 parcours, tour 7 (relecture design v4, point 18 : carte d'étape, cadre du quiz, cadres des options) : espace
+    // ouvert, le quiz n'a plus de bordure (fond seul), un seul cadre autour des options. Fermé : inchangé.
+    <div className={ESPACE_CLIENT_PUBLIE ? "space-y-3 rounded-lg bg-background-elevated/40 p-4" : "space-y-3 rounded-lg border border-border bg-background-elevated/40 p-4"}>
       {/* s26 tour 2 (P3, ouvert seulement) : pastille neutre (plus de fond ni de texte violets). */}
       <Badge variant={ESPACE_CLIENT_PUBLIE ? "default" : "secondary"}>
         Quiz {currentQ + 1}/{quiz.length}
