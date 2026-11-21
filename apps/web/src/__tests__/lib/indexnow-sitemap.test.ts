@@ -105,10 +105,12 @@ describe("s23 : changement d'un bloc commun (config/indexnow)", () => {
     expect(isSiteWideChangeRecent(NOW, 8, "pas-une-date", null)).toBe(false);
   });
 
-  it("valeurs livrées (31/10/2026, déjà soumis à la main) : le cron du 02/11 ne resoumet pas tout", () => {
+  // s26 : test changé (raison : ouverture de l'espace client le 21/11/2026, 434 URL soumises à la main le jour même).
+  it("valeurs livrées (21/11/2026, déjà soumis à la main) : le cron du 23/11 ne resoumet pas tout", () => {
     const { SITE_WIDE_CHANGE_AT, SITE_WIDE_SUBMITTED_AT } = jest.requireActual("@/config/indexnow");
-    expect(SITE_WIDE_CHANGE_AT).toBe("2026-10-31");
-    expect(isSiteWideChangeRecent(new Date("2026-11-02T09:00:00Z"), 8, SITE_WIDE_CHANGE_AT, SITE_WIDE_SUBMITTED_AT)).toBe(false);
+    expect(SITE_WIDE_CHANGE_AT).toBe("2026-11-21");
+    expect(SITE_WIDE_SUBMITTED_AT).toBe("2026-11-21");
+    expect(isSiteWideChangeRecent(new Date("2026-11-23T09:00:00Z"), 8, SITE_WIDE_CHANGE_AT, SITE_WIDE_SUBMITTED_AT)).toBe(false);
   });
 
   it("changement récent : toutes les URL du sitemap, sans date comprise, en un seul POST", async () => {

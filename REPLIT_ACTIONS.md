@@ -9,6 +9,10 @@
 
 ## À DÉPLOYER
 
+### s26 IndexNow : 434 URL du sitemap soumises à la main le 21/11 (HTTP 200), COMMITÉ, NON DÉPLOYÉ (sans urgence)
+- **Quoi** : `config/indexnow.ts`, `SITE_WIDE_CHANGE_AT` et `SITE_WIDE_SUBMITTED_AT` = "2026-11-21" (ouverture de l'espace = navigation commune changée ; soumission manuelle déjà faite). Test `lib/indexnow-sitemap` mis à jour.
+- **Effet** : aucun visible ; le cron du lundi garde son comportement habituel (lastmod de moins de 8 jours). Partira avec le prochain déploiement.
+
 ### s26 parcours Storytelling 1.4 (Ngijol) au nouvel id `l__Xirj2N6c` (SITE PUBLIC), COMMITÉ, NON DÉPLOYÉ
 - **Quoi** (relecture à l'aveugle R7, `docs/qa/relecture-aveugle-videos-s26.md` section « B1 Ngijol, 21/11 ») : bloc vidéo de l'étape 1 (fiche 1.4) `v-ySkBGAXLI` → `l__Xirj2N6c`, title « Superman », why R7 ; empreinte de la fiche recalculée (`parcours-fiches.json`). Le bloc est lu dans le bundle : effet au déploiement, sans tâche ni base. La fiche `/videos` de Ngijol affiche de nouveau « Dans un parcours : Cette vidéo est travaillée dans l'étape 1 du parcours Storytelling. »
 - **Action Replit** : aucune (ni variable, ni migration, ni package).

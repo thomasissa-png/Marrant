@@ -13,6 +13,8 @@
  *
  * Valeurs initiales : 428 URL soumises à la main le 31/10/2026 (HTTP 200), le jour
  * du dernier changement commun connu : le cron du 02/11 ne les resoumet pas.
+ * s26 : ouverture de l'espace client le 21/11/2026 (navigation commune changée) ; les 434 URL
+ * du sitemap ont été soumises à la main le jour même (HTTP 200) : le cron du lundi ne les resoumet pas.
  */
-export const SITE_WIDE_CHANGE_AT = "2026-10-31";
-export const SITE_WIDE_SUBMITTED_AT: string | null = "2026-10-31";
+export const SITE_WIDE_CHANGE_AT = "2026-11-21";
+export const SITE_WIDE_SUBMITTED_AT: string | null = "2026-11-21";
