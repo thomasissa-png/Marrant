@@ -56,3 +56,32 @@ par :
 - A2 : le doc s26 demande aussi de retirer `recommendedTimestamp` (l. 43). Le texte n'est pas concerné, mais c'est à faire au moment de l'application.
 - A3 : les learnings 2 (« code partagé ») et 3 (« énergie de récit ») passent parce qu'ils s'appuient sur le sujet (le tennis, que la description pose comme un univers à rituels) et pas sur le passage lui-même. Risque restant : si le passage est de l'interaction avec le public plutôt que du récit, « en racontant » sonnera faux. Au premier retour d'un abonné, c'est la phrase à revoir.
 - R1 à R6 ne touchent à aucun intouchable (titres, `channelName`, `youtubeId`). La mesure du diff réel (P0 s11) reste à faire sur le JSON au moment de l'application.
+
+## B1 Ngijol, 21/11
+
+Texte jugé : B1 de `docs/copy/textes-videos-remplacees-s26.md` (l. 72-73), storytelling 1.4, `l__Xirj2N6c`, `steps[0].videos[1]`. Vidéo non visionnée (décision du fondateur). Même règle que le 20/11 pour le critère 1. Seule source sûre : le titre oEmbed « Thomas Ngijol - Superman - Jamel Comedy Club (2006) » (`docs/qa/remplacements-videos-s26.md`, l. 27). Le sketch décrit par Politis n'est pas rattaché à cette vidéo, et la montée en plusieurs marches n'est pas vérifiée (doc s26, l. 69 et 76). Technique de la fiche actuelle (`docs/content/parcours-storytelling-s18.json`, l. 139) : « banal, puis agaçant, puis dément », la montée, le deuxième acte.
+
+| Champ | (1) Sourcé | (2) Technique | (3) Ton | (4) Typo | Verdict |
+|---|---|---|---|---|---|
+| title « Superman » | PASS (titre oEmbed) | PASS | PASS | PASS | GO |
+| why proposé | **FAIL** (R7) | **FAIL** (R7) | PASS | PASS | NO-GO |
+
+**R7. B1, why.** Trois affirmations reposent sur des points « À VÉRIFIER » que rien ne couvre :
+- « et qui devient vite soûlant » : c'est le mot de Politis (« soûlant »), donc l'attribution non prouvée revient en douce dans le texte ;
+- « qu'on devrait admirer » : le conditionnel annonce que le sketch démolit le héros, ce qui reprend la même source par la bande ;
+- « Repère chaque marche entre les deux » : ça suppose plusieurs marches, soit exactement le point (2) non vérifié.
+
+Critère 2 : si la vidéo ne monte pas par paliers, l'élève cherche des marches qui n'existent pas, et la phrase « c'est la montée » colle le nom de la technique sur autre chose. Il apprendrait une technique fausse.
+
+Remplacer le why par :
+> Le héros qu'on admire depuis l'enfance. Repère s'il dérape, et à quel moment : c'est là que commence la montée, le deuxième acte.
+
+Pourquoi ça passe :
+- (1) La première phrase parle de Superman en général, pas du sketch. « S'il dérape » est une consigne d'observation au conditionnel : rien n'est affirmé sur le contenu.
+- (2) L'élève repère le point de départ (le héros admiré, l'équivalent du « banal ») puis le premier écart, et c'est bien là que commence la montée de la fiche. La phrase reste juste même si l'escalade est courte.
+- (3) Tutoiement, phrases courtes, ni coach ni scolaire.
+- (4) Zéro tiret cadratin, espace avant les deux-points.
+
+Le title « Superman » ne change pas.
+
+Hors critères (pas bloquant) : comme le notait déjà le doc s26, la vidéo sert la fiche moins nettement que « Le voisin ». Si le premier retour d'un abonné dit « il ne dérape pas », c'est le why à revoir, ou il faut passer au secours JCC prévu dans le doc s26 (l. 76). Pour le diff réel (P0 s11) : seuls le `title` et le `why` de `steps[0].videos[1]` changent, aucun intouchable n'est touché.
