@@ -98,3 +98,21 @@ Retour arrière disponible : `cd apps/web && npx wrangler rollback 5504e970-5c1d
 **Non faits ici (session Premium ou Thomas requis)** : B-P6 (a), parcours complet à 375 px sur compte Premium de test ; parcours 2.4 et 3.4 vus en Premium ; vérifications de Thomas (§4 du runbook : achat Stripe, compte Premium, navigation privée, e-mails, vidéo en 4G, journaux 1 h). G4 non touché.
 
 Retour arrière : `cd apps/web && npx wrangler rollback c7ace530-0de6-46af-b596-72a43554c9c8 -m "rollback s26 B" -y` (B seul) ; sauvegardes de la base : `br-plain-silence-b1pcw0xb` (avant B), `br-plain-butterfly-b16lk1qd` (avant A).
+
+## Correctif Ngijol, 21/11 (go écrit de Thomas « go mise en ligne », relayé par l'orchestrateur)
+
+Commit `df8f40a4` (CI verte, run 44889912286, 4 jobs `success`). Code depuis `9ffa6311` : `src/data/espace/parcours-fiches.json` (fiche 1.4 : `v-ySkBGAXLI` → `l__Xirj2N6c`, empreinte), `src/data/video-remplacements-s26.json` (note `parcours` seule), `docs/content/parcours-storytelling-s18.json` (bloc 1.4 lu dans le bundle), un test. `ESPACE_CLIENT_PUBLIE = true` inchangé ; aucune migration, variable ni package.
+
+| Heure (UTC) | Étape | Résultat |
+|---|---|---|
+| 10:39 | N-1 | `deployments list` : **`e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3` à 100 %** (« s26 B ouverture 9ffa6311 »), conforme |
+| 10:39 | sauvegarde | **aucune branche Neon** : le correctif n'écrit rien en base (aucune migration, aucune tâche de démarrage) |
+| 10:42 | export | `git archive df8f40a4` dans `/root/lancement-s26/export-ngijol`, `node_modules` par `cp -al` (0 lien symbolique), `.prisma` en copie réelle ; 5,1 Go libres après build |
+| 10:42-10:44 | build | `build_prod` : **BUILD OK** (172 pages, `/root/lancement-s26/build-ngijol.log`) ; dépôt principal intact |
+| 10:44 | envoi | `upload_prod` (exit 0) : **Worker Version ID `b29666a2-5af9-4504-94dd-92c183b8c804`**, préversion `https://b29666a2-marrant.thomas-issa.workers.dev` ; non servie (`e9def49b` à 100 %) |
+| 10:45 | préversion | 13 adresses 200 (`/`, `/vannes`, `/conseils`, `/videos`, `/parcours`, `/parcours/storytelling`, `/carnet`, `/confidentialite`, `/cgu`, `/register`, `/abonnement`, `/blog`, `/api/health`) ; `/profil` 307 ; `/mon-espace` visiteur 200, `no-store`, `noindex, follow` ; santé `ok` (Stripe `live`, base `up`) ; fiche `/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0` 200, `l__Xirj2N6c`, bloc « Dans un parcours : Cette vidéo est travaillée dans l'étape 1 du parcours Storytelling. » présent (absent en prod `e9def49b`) |
+| 10:45:43 | bascule | `npx wrangler versions deploy b29666a2-…@100% -y --message "s26 correctif Ngijol df8f40a4"` : SUCCESS ; `deployments list` = **`b29666a2-5af9-4504-94dd-92c183b8c804` à 100 %**, N-1 `e9def49b…` |
+| 10:45 | contrôles prod | mêmes contrôles qu'en préversion, tous conformes : 13 adresses 200, `/profil` 307, `/mon-espace` visiteur 200 `no-store` `noindex, follow`, santé `ok` (Stripe `live`, base `up`), fiche Ngijol 200 avec `l__Xirj2N6c` et le bloc « Dans un parcours » (étape 1, Storytelling) |
+| 10:46 | nettoyage | export `/root/lancement-s26/export-ngijol` supprimé (seul ce dossier) ; `node_modules` du dépôt intact ; 8,4 Go libres |
+| 10:45-10:56 | tail 10 min | `wrangler tail --format json` de 10:45:50 à 10:56 : 24 requêtes (23 × 200, 1 × 307), **0 réponse 5xx**, 0 exception, 0 issue non `ok`, 0 log `error` (`/root/lancement-s26/tail-ngijol.jsonl`) |
+| 10:56 | état final | `b29666a2-5af9-4504-94dd-92c183b8c804` à 100 % (« s26 correctif Ngijol df8f40a4 »), N-1 `e9def49b…`. Aucun retour arrière nécessaire. Retour arrière si besoin : `npx wrangler rollback e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3 -m "rollback correctif Ngijol" -y` |
