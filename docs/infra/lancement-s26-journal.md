@@ -116,3 +116,7 @@ Commit `df8f40a4` (CI verte, run 44889912286, 4 jobs `success`). Code depuis `9f
 | 10:46 | nettoyage | export `/root/lancement-s26/export-ngijol` supprimé (seul ce dossier) ; `node_modules` du dépôt intact ; 8,4 Go libres |
 | 10:45-10:56 | tail 10 min | `wrangler tail --format json` de 10:45:50 à 10:56 : 24 requêtes (23 × 200, 1 × 307), **0 réponse 5xx**, 0 exception, 0 issue non `ok`, 0 log `error` (`/root/lancement-s26/tail-ngijol.jsonl`) |
 | 10:56 | état final | `b29666a2-5af9-4504-94dd-92c183b8c804` à 100 % (« s26 correctif Ngijol df8f40a4 »), N-1 `e9def49b…`. Aucun retour arrière nécessaire. Retour arrière si besoin : `npx wrangler rollback e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3 -m "rollback correctif Ngijol" -y` |
+
+## Surveillance après les déploiements (21/11, 12:06 UTC)
+
+Tail JSON de 11:19 à 11:37 (connexion perdue ensuite, faible trafic du samedi) : 13 requêtes sur `b29666a2` (12 × 200, 1 × 404), 0 réponse 5xx, 0 exception, 0 log d'erreur. À 12:06 : `b29666a2` à 100 %, `/api/health` ok (Stripe live, base up), 11 adresses clés conformes (pages publiques et aperçu de l'espace 200, `/profil` 307).
