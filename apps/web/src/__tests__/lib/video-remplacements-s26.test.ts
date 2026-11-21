@@ -22,6 +22,7 @@ import {
 } from "@/lib/video-remplacements-s26";
 import { videoTextFingerprint } from "@/lib/video-content-s20";
 import { anciensSlugsVideo } from "@/lib/video-anciens-slugs";
+import { findParcoursForVideo } from "@/lib/entrees-parcours-fiches";
 import { buildVideoSlug, pickBySlug } from "@/lib/catalogue-slug";
 import remplacements from "@/data/video-remplacements-s26.json";
 import videoContentS20 from "@/data/video-content-s20.json";
@@ -201,17 +202,22 @@ describe("JSON s26", () => {
     expect(seed.find((x) => x.id === 68)?.youtubeId).toBe("JNo86HEt86w");
   });
 
-  it("parcours : Domenge (2.4) et Kev Adams (3.4) au nouvel id, Ngijol (1.4) gardé sur l'ancien tant que son texte n'est pas appliqué", () => {
+  it("parcours : Ngijol (1.4), Domenge (2.4) et Kev Adams (3.4) au nouvel id, ancien id absent ; Bun Hay Mean, Fellag et Éboué hors parcours", () => {
     const root = path.resolve(__dirname, "../../../../..");
     const parcours = ["parcours-storytelling-s18.json", "parcours-boulot-s19.json"].map((f) => fs.readFileSync(path.join(root, "docs/content", f), "utf8")).join("");
-    const auNouvelId = new Set([15, 5]);
+    const auNouvelId = new Set([14, 15, 5]);
     for (const v of videos) {
-      if (auNouvelId.has(v.seedId)) {
-        expect(parcours).toContain(v.cible.youtubeId);
-        expect(parcours).not.toContain(v.youtubeId);
-      } else expect(parcours).not.toContain(v.cible.youtubeId);
+      expect(parcours).not.toContain(v.youtubeId);
+      if (auNouvelId.has(v.seedId)) expect(parcours).toContain(v.cible.youtubeId);
+      else expect(parcours).not.toContain(v.cible.youtubeId);
     }
-    expect(parcours).toContain("v-ySkBGAXLI");
+  });
+
+  it("fiche /videos : le bloc « Dans un parcours » suit le nouvel id (Ngijol 1.4, Domenge 2.4, Kev Adams 3.4)", () => {
+    expect(findParcoursForVideo("l__Xirj2N6c")).toEqual([{ slug: "storytelling", etape: 1 }]);
+    expect(findParcoursForVideo("W7i0KRn_GLY")).toEqual([{ slug: "storytelling", etape: 2 }]);
+    expect(findParcoursForVideo("fSMhy3-7Xpk")).toEqual([{ slug: "boulot", etape: 3 }]);
+    for (const ancien of ["v-ySkBGAXLI", "PrQTbXOz2iU", "3v8Y4C9Q5hE"]) expect(findParcoursForVideo(ancien)).toEqual([]);
   });
 
   it("toutes « appliquer » (0 en attente) ; textes réécrits complets, sans tiret cadratin", () => {

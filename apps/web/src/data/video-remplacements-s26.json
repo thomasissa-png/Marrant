@@ -43,7 +43,7 @@
    "memePassage": "non (autre passage au Jamel Comedy Club ; texte s20 générique, sans référence au voisin)",
    "attendu": "c32be182465cd6d6",
    "anciensTitres": ["Thomas Ngijol au Jamel Comedy Club", "Thomas Ngijol - Le voisin"],
-   "parcours": "storytelling 1.4 (parcours-storytelling-s18.json, steps[0].videos[1]) GARDÉ sur v-ySkBGAXLI : title « Le voisin » et why (« Un voisin banal, puis agaçant, puis dément ») décrivent l'ancien passage ; à réécrire (@copywriter, relecture à l'aveugle) avant d'y changer l'id",
+   "parcours": "storytelling 1.4 (parcours-storytelling-s18.json, steps[0].videos[1]) passé à l__Xirj2N6c le 21/11 : title « Superman », why R7 (docs/qa/relecture-aveugle-videos-s26.md, section « B1 Ngijol, 21/11 »)",
    "cible": { "youtubeId": "l__Xirj2N6c", "title": "Thomas Ngijol - Superman (Jamel Comedy Club)", "channelName": "Jamel Comedy Club - CANAL+", "duration": "" }
   },
   {

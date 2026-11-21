@@ -8,6 +8,10 @@
 
 ## À DÉPLOYER
 
+### s26 parcours Storytelling 1.4 (Ngijol) au nouvel id `l__Xirj2N6c` (SITE PUBLIC), COMMITÉ, NON DÉPLOYÉ
+- **Quoi** (relecture à l'aveugle R7, `docs/qa/relecture-aveugle-videos-s26.md` section « B1 Ngijol, 21/11 ») : bloc vidéo de l'étape 1 (fiche 1.4) `v-ySkBGAXLI` → `l__Xirj2N6c`, title « Superman », why R7 ; empreinte de la fiche recalculée (`parcours-fiches.json`). Le bloc est lu dans le bundle : effet au déploiement, sans tâche ni base. La fiche `/videos` de Ngijol affiche de nouveau « Dans un parcours : Cette vidéo est travaillée dans l'étape 1 du parcours Storytelling. »
+- **Action Replit** : aucune (ni variable, ni migration, ni package).
+
 ### s26 lancement phase B : B0 activation de l'espace client + vidéos s26 v1 (3 dernières), COMMITÉ, NON DÉPLOYÉ
 - **Quoi** (go écrit de Thomas du 20/11 : phase B, et les 3 vidéos sans visionnage) : 1. vidéos (commit `809c5f1f`) : Domenge, Gad, Kev Adams passent à « appliquer » dans `video-remplacements-s26.json` (textes du doc s26 ajustés, relus à l'aveugle R1 à R6), `_meta.version` reste 1 (marqueur par version + ancien id : les 4 déjà faites sont sautées) ; parcours storytelling 2.4 et boulot 3.4 au nouvel id (Ngijol 1.4 inchangé). 2. B0 : `ESPACE_CLIENT_PUBLIE = true`, `ESPACE_DATE_TEXTES = "20 novembre 2026"` ; `SEUIL_TOUCHER` null et `RESILIATION_PAGE_OUVERTE` false inchangés. Jest fermé par défaut (`jest.setup.ts`), valeurs commitées vérifiées par `espace/ouverture-b0-s26`.
 - **Attendu au démarrage (B5)** : « remplacements vidéo s26 v1 : 3 vidéo(s) remplacée(s), 0 refus garde-fou, 4 déjà faite(s) » ; 2e appel : 0 remplacée, 7 déjà faites.
