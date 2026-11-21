@@ -1,0 +1,1504 @@
+{
+  "res": [
+    {
+      "chemin": "/",
+      "statut": 200,
+      "urlFinale": "/",
+      "cacheControl": "s-maxage=178, stale-while-revalidate=2592000",
+      "titre": "Devenir drôle et avoir de la répartie | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Tu parles et personne rit.\nOn va arranger ça."
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": true,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2F",
+        "https://deviens-marrant.fr/abonnement?src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/parcours/repartie?src=accueil",
+        "https://deviens-marrant.fr/parcours/machine-a-cafe?src=accueil",
+        "https://deviens-marrant.fr/parcours/confiance?src=accueil",
+        "https://deviens-marrant.fr/vannes/cette-annee-on-a-pu-noter-notre-manager-de-facon-anonyme-cv11236cb2",
+        "https://deviens-marrant.fr/vannes/ma-voisine-ma-invite-a-diner-jutilise-son-wifi-depuis-deux-cv13109a2e",
+        "https://deviens-marrant.fr/conseils/le-toast-de-soixante-secondes-qui-tient-debout-cs19tipbou",
+        "https://deviens-marrant.fr/conseils/ce-que-raconte-une-salle-de-reunion-cs19tipbou",
+        "https://deviens-marrant.fr/videos/doully-la-sobriete-cmmp8p5610",
+        "https://deviens-marrant.fr/videos/ahmed-sparrow-pietons-vs-automobilistes-cmmp8p5410",
+        "https://deviens-marrant.fr/parcours/machine-a-cafe",
+        "https://deviens-marrant.fr/parcours/repartie",
+        "https://deviens-marrant.fr/parcours/confiance",
+        "https://deviens-marrant.fr/parcours/storytelling",
+        "https://deviens-marrant.fr/parcours/boulot",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/blog/refuser-une-invitation-avec-humour",
+        "https://deviens-marrant.fr/blog/voeux-drole-nouvelle-annee",
+        "https://deviens-marrant.fr/blog/chambrer-sans-blesser-entre-potes",
+        "https://deviens-marrant.fr/abonnement?src=accueil-premium",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    },
+    {
+      "chemin": "/mon-espace",
+      "statut": 200,
+      "urlFinale": "/mon-espace",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Aujourd’hui | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Aujourd’hui"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace&src=apercu-aujourdhui",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    },
+    {
+      "chemin": "/mon-espace/quoi-repondre",
+      "statut": 200,
+      "urlFinale": "/mon-espace/quoi-repondre",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Quoi répondre | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Quoi répondre"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace%2Fquoi-repondre",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "focus": "Tout ouvrir · 1,99 €/mois"
+    },
+    {
+      "chemin": "/abonnement",
+      "statut": 200,
+      "urlFinale": "/abonnement",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Abonnement Premium : 1,99 €/mois | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Premium ouvre tout Deviens Marrant"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": true,
+      "premium": 8,
+      "toutOuvrir": [],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fabonnement",
+        "https://deviens-marrant.fr/register?callbackUrl=%2Fabonnement&src=abonnement",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fabonnement%3Fauto%3D1&src=abonnement",
+        "https://deviens-marrant.fr/parcours/repartie?src=abonnement",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    },
+    {
+      "chemin": "/register?callbackUrl=%2Fabonnement&src=abonnement",
+      "statut": 200,
+      "urlFinale": "/register?callbackUrl=%2Fabonnement&src=abonnement",
+      "cacheControl": "s-maxage=31536000, stale-while-revalidate=2592000",
+      "titre": "Inscription : apprends à devenir drôle | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Ton compte, puis le paiement"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 2,
+      "toutOuvrir": [],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fabonnement&src=abonnement"
+      ],
+      "retractation": [
+        "Renoncer au contrat ici"
+      ]
+    },
+    {
+      "chemin": "/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "statut": 200,
+      "urlFinale": "/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "cacheControl": "s-maxage=348, stale-while-revalidate=2592000",
+      "titre": "Laura Domenge - Se remettre avec son ex | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Laura Domenge - Se remettre avec son ex"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fvideos%2Flaura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Flaura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Flaura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0&src=exercice-video",
+        "https://deviens-marrant.fr/parcours/storytelling?src=fiche",
+        "https://deviens-marrant.fr/videos/djimo-jaurais-kiffe-etre-une-tortue-cmmp8p0vq0",
+        "https://deviens-marrant.fr/videos/quentin-ratieuville-handicape-et-alors-cmmp8p5210",
+        "https://deviens-marrant.fr/videos/haroun-special-elections-cmmp8p13w0",
+        "https://deviens-marrant.fr/videos/felix-dhjan-jamel-comedy-club-saison-10-cmmp8p1px0",
+        "https://deviens-marrant.fr/videos?category=STORYTELLING",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    },
+    {
+      "chemin": "/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "statut": 200,
+      "urlFinale": "/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "cacheControl": "s-maxage=346, stale-while-revalidate=2592000",
+      "titre": "Gad Elmaleh - La visite d'appartement (La vie normale)",
+      "robots": "index, follow",
+      "h1": [
+        "Gad Elmaleh - La visite d’appartement (La vie normale)"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fvideos%2Fgad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Fgad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Fgad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0&src=exercice-video",
+        "https://deviens-marrant.fr/parcours/repartie?src=fiche",
+        "https://deviens-marrant.fr/videos/roman-frayssinet-alors-spectacle-complet-cmmp8p37w0",
+        "https://deviens-marrant.fr/videos/haroun-internet-etc-cmmp8p35x0",
+        "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+        "https://deviens-marrant.fr/videos/berengere-krief-filles-et-garcons-cmmp8p3lv0",
+        "https://deviens-marrant.fr/videos?category=OBSERVATION",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "19-video-gad-1280.png"
+    },
+    {
+      "chemin": "/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "statut": 200,
+      "urlFinale": "/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "cacheControl": "s-maxage=343, stale-while-revalidate=2592000",
+      "titre": "Kev Adams - Le tennis | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Kev Adams - Le tennis"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fvideos%2Fkev-adams-le-tennis-cmmp8p0fd0",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Fkev-adams-le-tennis-cmmp8p0fd0&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Fkev-adams-le-tennis-cmmp8p0fd0&src=exercice-video",
+        "https://deviens-marrant.fr/parcours/boulot?src=fiche",
+        "https://deviens-marrant.fr/videos/elodie-poux-survivre-en-ecole-maternelle-cmmp8p0dc0",
+        "https://deviens-marrant.fr/videos/fary-neymar-cmmp8p0bb0",
+        "https://deviens-marrant.fr/videos/anne-roumanoff-carmen-et-la-crise-cmmp8p0hf0",
+        "https://deviens-marrant.fr/videos/fadily-camara-jamel-comedy-club-saison-9-cmmp8p0pn0",
+        "https://deviens-marrant.fr/videos?category=OBSERVATION",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    },
+    {
+      "chemin": "/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "statut": 200,
+      "urlFinale": "/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "cacheControl": "s-maxage=707, stale-while-revalidate=2592000",
+      "titre": "Thomas Ngijol - Superman (Jamel Comedy Club)",
+      "robots": "index, follow",
+      "h1": [
+        "Thomas Ngijol - Superman (Jamel Comedy Club)"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fvideos%2Fthomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Fthomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Fthomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0&src=exercice-video",
+        "https://deviens-marrant.fr/parcours/repartie?src=fiche",
+        "https://deviens-marrant.fr/videos/paul-mirabel-gad-elmaleh-conseils-dami-cmmp8p43w0",
+        "https://deviens-marrant.fr/videos/thomas-wiesel-kyan-khojandi-petites-blagues-entre-amis-cmmp8p2rv0",
+        "https://deviens-marrant.fr/videos/paul-sere-jamel-comedy-club-saison-8-2015-cmmp8p1nw0",
+        "https://deviens-marrant.fr/videos/marina-rollman-jamel-comedy-club-saison-8-cmmp8p1tw0",
+        "https://deviens-marrant.fr/videos?category=TIMING",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    },
+    {
+      "chemin": "/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "statut": 200,
+      "urlFinale": "/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "cacheControl": "s-maxage=736, stale-while-revalidate=2592000",
+      "titre": "Fabrice Éboué - Les vegans (Plus rien à perdre)",
+      "robots": "index, follow",
+      "h1": [
+        "Fabrice Éboué - Les vegans (Plus rien à perdre)"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fvideos%2Ffabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Ffabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Ffabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0&src=exercice-video",
+        "https://deviens-marrant.fr/parcours/repartie?src=fiche",
+        "https://deviens-marrant.fr/videos/lisa-delmoitiez-jai-pas-confiance-en-moi-et-jai-raison-cmmp8p2xv0",
+        "https://deviens-marrant.fr/videos/dena-lesbienne-iranienne-cmmp8p2vv0",
+        "https://deviens-marrant.fr/videos/kheiron-60-minutes-probleme-de-taille-cmmp8p47y0",
+        "https://deviens-marrant.fr/videos/nora-hamzawi-les-chagrins-damour-chronique-france-inter-cmmp8p4k10",
+        "https://deviens-marrant.fr/videos?category=AUTODERISION",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    },
+    {
+      "chemin": "/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "statut": 200,
+      "urlFinale": "/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "cacheControl": "s-maxage=3510, stale-while-revalidate=2592000",
+      "titre": "Bun Hay Mean - Le Chinois marrant | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Bun Hay Mean - Le Chinois marrant"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fvideos%2Fbun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Fbun-hay-mean-le-chinois-marrant-cmmp8p1dx0&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Fbun-hay-mean-le-chinois-marrant-cmmp8p1dx0&src=exercice-video",
+        "https://deviens-marrant.fr/parcours/repartie?src=fiche",
+        "https://deviens-marrant.fr/videos/max-bird-les-effets-de-lalcool-cmmp8p1by0",
+        "https://deviens-marrant.fr/videos/fary-le-legging-cmmp8p1800",
+        "https://deviens-marrant.fr/videos/jason-brokerss-snapchat-cmmp8p25w0",
+        "https://deviens-marrant.fr/videos/kyan-khojandi-navo-le-reve-cmmp8p29w0",
+        "https://deviens-marrant.fr/videos?category=ABSURDE",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    },
+    {
+      "chemin": "/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "statut": 200,
+      "urlFinale": "/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "cacheControl": "s-maxage=3508, stale-while-revalidate=2592000",
+      "titre": "Fellag - Petits chocs des civilisations | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Fellag - Petits chocs des civilisations"
+      ],
+      "scrollWidth": 1280,
+      "largeur": 1280,
+      "a1500": false,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fvideos%2Ffellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Ffellag-petits-chocs-des-civilisations-cmmp8p3fw0&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fvideos%2Ffellag-petits-chocs-des-civilisations-cmmp8p3fw0&src=exercice-video",
+        "https://deviens-marrant.fr/parcours/repartie?src=fiche",
+        "https://deviens-marrant.fr/videos/gad-elmaleh-decalages-spectacle-complet-1997-cmmp8p3dw0",
+        "https://deviens-marrant.fr/videos/roman-frayssinet-alors-spectacle-complet-cmmp8p37w0",
+        "https://deviens-marrant.fr/videos/berengere-krief-filles-et-garcons-cmmp8p3lv0",
+        "https://deviens-marrant.fr/videos/sugar-sammy-medecins-au-quebec-cmmp8p3pw0",
+        "https://deviens-marrant.fr/videos?category=OBSERVATION",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ]
+    }
+  ],
+  "lecteurs": [
+    {
+      "nom": "Domenge",
+      "sw": 1280,
+      "etat": "lecteur sans erreur | titre=\"Se remettre avec son ex - Laura Domenge” - Topito Comedy Night #2 | Topito - Yo"
+    },
+    {
+      "nom": "Gad Elmaleh",
+      "sw": 1280,
+      "etat": "lecteur sans erreur | titre=Gad Elmaleh : La visite d'appartement - \" La vie normale\" - Comédie+ - YouTube"
+    },
+    {
+      "nom": "Kev Adams",
+      "sw": 1280,
+      "etat": "lecteur sans erreur | titre=Kev Adams - Le tennis - YouTube"
+    },
+    {
+      "nom": "Ngijol",
+      "sw": 1280,
+      "etat": "lecteur sans erreur | titre=Thomas Ngijol - Superman - Jamel Comedy Club (2006) - YouTube"
+    },
+    {
+      "nom": "Éboué",
+      "sw": 1280,
+      "etat": "lecteur sans erreur | titre=Fabrice Eboué - Les Vegans - YouTube"
+    },
+    {
+      "nom": "Bun Hay Mean (titre gardé)",
+      "sw": 1280,
+      "etat": "lecteur sans erreur | titre=Bun Hay Mean - Chinois Marrant - YouTube"
+    },
+    {
+      "nom": "Fellag (titre gardé)",
+      "sw": 1280,
+      "etat": "lecteur sans erreur | titre=Fellag - Petits Chocs Des Civilisations - YouTube"
+    }
+  ],
+  "liens": [
+    {
+      "lien": "/",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/login?callbackUrl=%2F",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/abonnement?src=header",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/mon-espace",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/parcours",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/mon-espace/quoi-repondre",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/mon-espace/bibliotheque",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/mon-espace/s-entrainer",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/vannes",
+      "statut": 200,
+      "final": "/vannes"
+    },
+    {
+      "lien": "/conseils",
+      "statut": 200,
+      "final": "/conseils"
+    },
+    {
+      "lien": "/videos",
+      "statut": 200,
+      "final": "/videos"
+    },
+    {
+      "lien": "/blog",
+      "statut": 200,
+      "final": "/blog"
+    },
+    {
+      "lien": "/lettre",
+      "statut": 200,
+      "final": "/lettre"
+    },
+    {
+      "lien": "/favoris",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/carnet",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/mon-espace/questions",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/mon-espace/repliques",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/parcours/repartie?src=accueil",
+      "statut": 200,
+      "final": "/parcours/repartie?src=accueil"
+    },
+    {
+      "lien": "/parcours/machine-a-cafe?src=accueil",
+      "statut": 200,
+      "final": "/parcours/machine-a-cafe?src=accueil"
+    },
+    {
+      "lien": "/parcours/confiance?src=accueil",
+      "statut": 200,
+      "final": "/parcours/confiance?src=accueil"
+    },
+    {
+      "lien": "/vannes/cette-annee-on-a-pu-noter-notre-manager-de-facon-anonyme-cv11236cb2",
+      "statut": 200,
+      "final": "/vannes/cette-annee-on-a-pu-noter-notre-manager-de-facon-anonyme-cv11236cb2"
+    },
+    {
+      "lien": "/vannes/ma-voisine-ma-invite-a-diner-jutilise-son-wifi-depuis-deux-cv13109a2e",
+      "statut": 200,
+      "final": "/vannes/ma-voisine-ma-invite-a-diner-jutilise-son-wifi-depuis-deux-cv13109a2e"
+    },
+    {
+      "lien": "/conseils/le-toast-de-soixante-secondes-qui-tient-debout-cs19tipbou",
+      "statut": 200,
+      "final": "/conseils/le-toast-de-soixante-secondes-qui-tient-debout-cs19tipbou"
+    },
+    {
+      "lien": "/conseils/ce-que-raconte-une-salle-de-reunion-cs19tipbou",
+      "statut": 200,
+      "final": "/conseils/ce-que-raconte-une-salle-de-reunion-cs19tipbou"
+    },
+    {
+      "lien": "/videos/doully-la-sobriete-cmmp8p5610",
+      "statut": 200,
+      "final": "/videos/doully-la-sobriete-cmmp8p5610"
+    },
+    {
+      "lien": "/videos/ahmed-sparrow-pietons-vs-automobilistes-cmmp8p5410",
+      "statut": 200,
+      "final": "/videos/ahmed-sparrow-pietons-vs-automobilistes-cmmp8p5410"
+    },
+    {
+      "lien": "/parcours/storytelling",
+      "statut": 200,
+      "final": "/parcours/storytelling"
+    },
+    {
+      "lien": "/parcours/boulot",
+      "statut": 200,
+      "final": "/parcours/boulot"
+    },
+    {
+      "lien": "/blog/comment-devenir-drole",
+      "statut": 200,
+      "final": "/blog/comment-devenir-drole"
+    },
+    {
+      "lien": "/blog/refuser-une-invitation-avec-humour",
+      "statut": 200,
+      "final": "/blog/refuser-une-invitation-avec-humour"
+    },
+    {
+      "lien": "/blog/voeux-drole-nouvelle-annee",
+      "statut": 200,
+      "final": "/blog/voeux-drole-nouvelle-annee"
+    },
+    {
+      "lien": "/blog/chambrer-sans-blesser-entre-potes",
+      "statut": 200,
+      "final": "/blog/chambrer-sans-blesser-entre-potes"
+    },
+    {
+      "lien": "/glossaire",
+      "statut": 200,
+      "final": "/glossaire"
+    },
+    {
+      "lien": "/quiz-humour",
+      "statut": 200,
+      "final": "/quiz-humour"
+    },
+    {
+      "lien": "/anatomie-vanne",
+      "statut": 200,
+      "final": "/anatomie-vanne"
+    },
+    {
+      "lien": "/integrer-la-vanne-du-jour",
+      "statut": 200,
+      "final": "/integrer-la-vanne-du-jour"
+    },
+    {
+      "lien": "/a-propos",
+      "statut": 200,
+      "final": "/a-propos"
+    },
+    {
+      "lien": "/mentions-legales",
+      "statut": 200,
+      "final": "/mentions-legales"
+    },
+    {
+      "lien": "/cgu",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/confidentialite",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/retractation",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/profil",
+      "statut": 200,
+      "final": "/login?callbackUrl=%2Fprofil"
+    },
+    {
+      "lien": "/register?callbackUrl=%2Fabonnement&src=abonnement",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/videos/djimo-jaurais-kiffe-etre-une-tortue-cmmp8p0vq0",
+      "statut": 200,
+      "final": "/videos/djimo-jaurais-kiffe-etre-une-tortue-cmmp8p0vq0"
+    },
+    {
+      "lien": "/videos/quentin-ratieuville-handicape-et-alors-cmmp8p5210",
+      "statut": 200,
+      "final": "/videos/quentin-ratieuville-handicape-et-alors-cmmp8p5210"
+    },
+    {
+      "lien": "/videos/haroun-special-elections-cmmp8p13w0",
+      "statut": 200,
+      "final": "/videos/haroun-special-elections-cmmp8p13w0"
+    },
+    {
+      "lien": "/videos/felix-dhjan-jamel-comedy-club-saison-10-cmmp8p1px0",
+      "statut": 200,
+      "final": "/videos/felix-dhjan-jamel-comedy-club-saison-10-cmmp8p1px0"
+    },
+    {
+      "lien": "/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/videos/roman-frayssinet-alors-spectacle-complet-cmmp8p37w0",
+      "statut": 200,
+      "final": "/videos/roman-frayssinet-alors-spectacle-complet-cmmp8p37w0"
+    },
+    {
+      "lien": "/videos/haroun-internet-etc-cmmp8p35x0",
+      "statut": 200,
+      "final": "/videos/haroun-internet-etc-cmmp8p35x0"
+    },
+    {
+      "lien": "/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/videos/berengere-krief-filles-et-garcons-cmmp8p3lv0",
+      "statut": 200,
+      "final": "/videos/berengere-krief-filles-et-garcons-cmmp8p3lv0"
+    },
+    {
+      "lien": "/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/videos/elodie-poux-survivre-en-ecole-maternelle-cmmp8p0dc0",
+      "statut": 200,
+      "final": "/videos/elodie-poux-survivre-en-ecole-maternelle-cmmp8p0dc0"
+    },
+    {
+      "lien": "/videos/fary-neymar-cmmp8p0bb0",
+      "statut": 200,
+      "final": "/videos/fary-neymar-cmmp8p0bb0"
+    },
+    {
+      "lien": "/videos/anne-roumanoff-carmen-et-la-crise-cmmp8p0hf0",
+      "statut": 200,
+      "final": "/videos/anne-roumanoff-carmen-et-la-crise-cmmp8p0hf0"
+    },
+    {
+      "lien": "/videos/fadily-camara-jamel-comedy-club-saison-9-cmmp8p0pn0",
+      "statut": 200,
+      "final": "/videos/fadily-camara-jamel-comedy-club-saison-9-cmmp8p0pn0"
+    },
+    {
+      "lien": "/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/videos/paul-mirabel-gad-elmaleh-conseils-dami-cmmp8p43w0",
+      "statut": 200,
+      "final": "/videos/paul-mirabel-gad-elmaleh-conseils-dami-cmmp8p43w0"
+    },
+    {
+      "lien": "/videos/thomas-wiesel-kyan-khojandi-petites-blagues-entre-amis-cmmp8p2rv0",
+      "statut": 200,
+      "final": "/videos/thomas-wiesel-kyan-khojandi-petites-blagues-entre-amis-cmmp8p2rv0"
+    },
+    {
+      "lien": "/videos/paul-sere-jamel-comedy-club-saison-8-2015-cmmp8p1nw0",
+      "statut": 200,
+      "final": "/videos/paul-sere-jamel-comedy-club-saison-8-2015-cmmp8p1nw0"
+    },
+    {
+      "lien": "/videos/marina-rollman-jamel-comedy-club-saison-8-cmmp8p1tw0",
+      "statut": 200,
+      "final": "/videos/marina-rollman-jamel-comedy-club-saison-8-cmmp8p1tw0"
+    },
+    {
+      "lien": "/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/videos/lisa-delmoitiez-jai-pas-confiance-en-moi-et-jai-raison-cmmp8p2xv0",
+      "statut": 200,
+      "final": "/videos/lisa-delmoitiez-jai-pas-confiance-en-moi-et-jai-raison-cmmp8p2xv0"
+    },
+    {
+      "lien": "/videos/dena-lesbienne-iranienne-cmmp8p2vv0",
+      "statut": 200,
+      "final": "/videos/dena-lesbienne-iranienne-cmmp8p2vv0"
+    },
+    {
+      "lien": "/videos/kheiron-60-minutes-probleme-de-taille-cmmp8p47y0",
+      "statut": 200,
+      "final": "/videos/kheiron-60-minutes-probleme-de-taille-cmmp8p47y0"
+    },
+    {
+      "lien": "/videos/nora-hamzawi-les-chagrins-damour-chronique-france-inter-cmmp8p4k10",
+      "statut": 200,
+      "final": "/videos/nora-hamzawi-les-chagrins-damour-chronique-france-inter-cmmp8p4k10"
+    },
+    {
+      "lien": "/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "statut": 200,
+      "via": "page visitée"
+    },
+    {
+      "lien": "/videos/max-bird-les-effets-de-lalcool-cmmp8p1by0",
+      "statut": 200,
+      "final": "/videos/max-bird-les-effets-de-lalcool-cmmp8p1by0"
+    },
+    {
+      "lien": "/videos/fary-le-legging-cmmp8p1800",
+      "statut": 200,
+      "final": "/videos/fary-le-legging-cmmp8p1800"
+    },
+    {
+      "lien": "/videos/jason-brokerss-snapchat-cmmp8p25w0",
+      "statut": 200,
+      "final": "/videos/jason-brokerss-snapchat-cmmp8p25w0"
+    },
+    {
+      "lien": "/videos/kyan-khojandi-navo-le-reve-cmmp8p29w0",
+      "statut": 200,
+      "final": "/videos/kyan-khojandi-navo-le-reve-cmmp8p29w0"
+    },
+    {
+      "lien": "/videos/gad-elmaleh-decalages-spectacle-complet-1997-cmmp8p3dw0",
+      "statut": 200,
+      "final": "/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0"
+    },
+    {
+      "lien": "/videos/sugar-sammy-medecins-au-quebec-cmmp8p3pw0",
+      "statut": 200,
+      "final": "/videos/sugar-sammy-medecins-au-quebec-cmmp8p3pw0"
+    },
+    {
+      "lien": "/blog/rester-muet-en-groupe",
+      "statut": 200,
+      "final": "/blog/rester-muet-en-groupe"
+    },
+    {
+      "lien": "/forgot-password",
+      "statut": 200,
+      "via": "page visitée"
+    }
+  ],
+  "smInfo": {
+    "urls": 434,
+    "monEspace": 0,
+    "anciensSlugs": [
+      "laura-domenge-jamel-comedy-club",
+      "gad-elmaleh-decalages",
+      "kev-adams-du-cote"
+    ],
+    "nouveaux": [
+      "ngijol-superman",
+      "eboue-les-vegans"
+    ]
+  },
+  "err": [
+    {
+      "url": "https://deviens-marrant.fr/",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/abonnement",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/abonnement",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/register?callbackUrl=%2Fabonnement&src=abonnement",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Permissions policy violation: compute-pressure is not allowed in this document."
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/kev-adams-le-tennis-cmmp8p0fd0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/thomas-ngijol-superman-jamel-comedy-club-cmmp8p0xs0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fabrice-eboue-les-vegans-plus-rien-a-perdre-cmmp8p3hw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/bun-hay-mean-le-chinois-marrant-cmmp8p1dx0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/videos/fellag-petits-chocs-des-civilisations-cmmp8p3fw0",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    }
+  ],
+  "compteur": {
+    "navigations": 12,
+    "apiGet": 54,
+    "navigateurTotal": 785,
+    "bloquees": [
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://jnn-pa.googleapis.com/$rpc/google.internal.waa.v1.Waa/GenerateIT",
+      "POST https://www.youtube-nocookie.com/youtubei/v1/log_event?alt=json"
+    ]
+  }
+}

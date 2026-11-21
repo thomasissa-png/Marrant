@@ -1,0 +1,1051 @@
+{
+  "res": [
+    {
+      "chemin": "/mon-espace",
+      "statut": 200,
+      "urlFinale": "/mon-espace",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Aujourd’hui | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Aujourd’hui"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace&src=apercu-aujourdhui",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "07-mon-espace-375.png",
+      "tuiles": 5,
+      "offreHaut": true,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": true,
+      "debordants": [
+        "A.relative isolate flex h-11 flex-none ite",
+        "svg.[object SVGAnimatedString]",
+        "rect.[object SVGAnimatedString]"
+      ]
+    },
+    {
+      "chemin": "/mon-espace/quoi-repondre",
+      "statut": 200,
+      "urlFinale": "/mon-espace/quoi-repondre",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Quoi répondre | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Quoi répondre"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace%2Fquoi-repondre",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "tuiles": 6,
+      "offreHaut": true,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": true,
+      "debordants": [
+        "A.relative isolate flex h-11 flex-none ite",
+        "svg.[object SVGAnimatedString]",
+        "rect.[object SVGAnimatedString]"
+      ]
+    },
+    {
+      "chemin": "/mon-espace/bibliotheque",
+      "statut": 200,
+      "urlFinale": "/mon-espace/bibliotheque",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Bibliothèque | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Bibliothèque"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace%2Fbibliotheque",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fbibliotheque&src=apercu-bibliotheque",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "08-bibliotheque-375.png",
+      "tuiles": 4,
+      "offreHaut": true,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": true,
+      "debordants": [
+        "A.relative isolate flex h-11 flex-none ite",
+        "SPAN.mx-1 h-5 w-px flex-none bg-border-hover",
+        "A.relative isolate flex h-11 flex-none ite"
+      ]
+    },
+    {
+      "chemin": "/mon-espace/s-entrainer",
+      "statut": 200,
+      "urlFinale": "/mon-espace/s-entrainer",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "S’entraîner | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "S’entraîner"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace%2Fs-entrainer",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fs-entrainer&src=apercu-s-entrainer",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "09-s-entrainer-375.png",
+      "tuiles": 4,
+      "offreHaut": true,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": true,
+      "debordants": [
+        "A.relative isolate flex h-11 flex-none ite",
+        "A.relative isolate flex h-11 flex-none ite",
+        "A.relative isolate flex h-11 flex-none ite"
+      ]
+    },
+    {
+      "chemin": "/mon-espace/questions",
+      "statut": 200,
+      "urlFinale": "/mon-espace/questions",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Mes questions | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Mes questions"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace%2Fquestions",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fquestions&src=apercu-questions",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "10-questions-375.png",
+      "tuiles": 3,
+      "offreHaut": true,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": true,
+      "debordants": [
+        "A.relative isolate flex h-11 flex-none ite",
+        "svg.[object SVGAnimatedString]",
+        "rect.[object SVGAnimatedString]"
+      ]
+    },
+    {
+      "chemin": "/mon-espace/repliques",
+      "statut": 200,
+      "urlFinale": "/mon-espace/repliques",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Mes répliques | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Mes répliques"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace%2Frepliques",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Frepliques&src=apercu-repliques",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "11-repliques-375.png",
+      "tuiles": 3,
+      "offreHaut": true,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": true,
+      "debordants": [
+        "A.relative isolate flex h-11 flex-none ite",
+        "svg.[object SVGAnimatedString]",
+        "rect.[object SVGAnimatedString]"
+      ]
+    },
+    {
+      "chemin": "/carnet",
+      "statut": 200,
+      "urlFinale": "/carnet",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Le carnet de répartie du mois | deviens-marrant.fr",
+      "robots": "noindex, nofollow",
+      "h1": [
+        "Carnet de novembre"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 2,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fcarnet",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fcarnet&src=carnet",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "12-carnet-375.png",
+      "tuiles": 0,
+      "offreHaut": true,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": true,
+      "debordants": [
+        "DIV.pointer-events-none absolute -right-8 -t",
+        "DIV.pointer-events-none absolute -right-8 -t"
+      ]
+    },
+    {
+      "chemin": "/parcours",
+      "statut": 200,
+      "urlFinale": "/parcours",
+      "cacheControl": "s-maxage=157, stale-while-revalidate=2592000",
+      "titre": "Cours d’humour en ligne : 5 parcours pour devenir drôle",
+      "robots": "index, follow",
+      "h1": [
+        "Parcours humour : deviens drôle pas à pas"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 5,
+      "toutOuvrir": [
+        "Tout ouvrir"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fparcours",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fparcours&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/parcours/machine-a-cafe",
+        "https://deviens-marrant.fr/parcours/repartie",
+        "https://deviens-marrant.fr/parcours/confiance",
+        "https://deviens-marrant.fr/parcours/storytelling",
+        "https://deviens-marrant.fr/parcours/boulot",
+        "https://deviens-marrant.fr/parcours/machine-a-cafe?src=hub",
+        "https://deviens-marrant.fr/abonnement?src=parcours-liste",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "tuiles": 0,
+      "offreHaut": false,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": false,
+      "debordants": [
+        "A.relative isolate flex h-11 flex-none ite",
+        "svg.[object SVGAnimatedString]",
+        "A.relative isolate flex h-11 flex-none ite"
+      ]
+    },
+    {
+      "chemin": "/favoris",
+      "statut": 200,
+      "urlFinale": "/favoris",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Mes favoris | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Favoris"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Ffavoris",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Ffavoris&src=apercu-favoris",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "13-favoris-375.png",
+      "tuiles": 3,
+      "offreHaut": true,
+      "liensAbonnement": 3,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": true,
+      "debordants": [
+        "DIV.pointer-events-none absolute -right-8 -t",
+        "DIV.pointer-events-none absolute -right-8 -t"
+      ]
+    },
+    {
+      "chemin": "/mon-espace/lettres",
+      "statut": 200,
+      "urlFinale": "/lettre",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "La lettre : trois répliques, chaque mois | deviens-marrant.fr",
+      "robots": "noindex, nofollow",
+      "h1": [
+        "Une situation, trois répliques, chaque mois"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 3,
+      "toutOuvrir": [],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Flettre",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/blog/rester-muet-en-groupe",
+        "https://deviens-marrant.fr/parcours/repartie",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "tuiles": 0,
+      "offreHaut": false,
+      "liensAbonnement": 2,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": false,
+      "debordants": []
+    },
+    {
+      "chemin": "/mon-espace/bonus",
+      "statut": 404,
+      "urlFinale": "/mon-espace/bonus",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Page introuvable | deviens-marrant.fr",
+      "robots": "noindex",
+      "h1": [
+        "Oups, cette page a oublié sa punchline"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 0,
+      "toutOuvrir": [],
+      "prix199": false,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/vannes"
+      ],
+      "tuiles": 0,
+      "offreHaut": false,
+      "liensAbonnement": 0,
+      "deconnexion": false,
+      "emails": [],
+      "connexionVisible": false,
+      "debordants": []
+    },
+    {
+      "chemin": "/cgu",
+      "statut": 200,
+      "urlFinale": "/cgu",
+      "cacheControl": "s-maxage=31536000, stale-while-revalidate=2592000",
+      "titre": "Conditions Générales d’Utilisation | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Conditions Générales d’Utilisation"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 11,
+      "toutOuvrir": [
+        "Tout ouvrir"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fcgu",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fcgu&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "date20nov": true,
+      "dates": [
+        "20 novembre 2026"
+      ]
+    },
+    {
+      "chemin": "/confidentialite",
+      "statut": 200,
+      "urlFinale": "/confidentialite",
+      "cacheControl": "s-maxage=31536000, stale-while-revalidate=2592000",
+      "titre": "Politique de confidentialité | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Politique de confidentialité"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir"
+      ],
+      "prix199": false,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fconfidentialite",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fconfidentialite&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/profil",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/retractation"
+      ],
+      "date20nov": true,
+      "dates": [
+        "20 novembre 2026"
+      ]
+    },
+    {
+      "chemin": "/retractation",
+      "statut": 200,
+      "urlFinale": "/retractation",
+      "cacheControl": "s-maxage=31536000, stale-while-revalidate=2592000",
+      "titre": "Droit de rétractation | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Renoncer au contrat ici"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 0,
+      "toutOuvrir": [
+        "Tout ouvrir"
+      ],
+      "prix199": false,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fretractation",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fretractation&src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "date20nov": false,
+      "dates": [
+        "7 octobre 2026"
+      ]
+    },
+    {
+      "chemin": "/resiliation",
+      "statut": 404,
+      "urlFinale": "/resiliation",
+      "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "titre": "Résilier ton contrat | deviens-marrant.fr",
+      "robots": "noindex, nofollow",
+      "h1": [
+        "Oups, cette page a oublié sa punchline"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 0,
+      "toutOuvrir": [],
+      "prix199": false,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/vannes"
+      ],
+      "date20nov": false,
+      "dates": []
+    },
+    {
+      "chemin": "/login",
+      "statut": 200,
+      "urlFinale": "/login",
+      "cacheControl": "s-maxage=31536000, stale-while-revalidate=2592000",
+      "titre": "Connexion | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Content de te revoir"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 0,
+      "toutOuvrir": [],
+      "prix199": false,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/forgot-password",
+        "https://deviens-marrant.fr/register?src=login"
+      ],
+      "capture": "14-login-375.png",
+      "formulaire": {
+        "champs": [
+          "email:email",
+          "password:password"
+        ],
+        "boutons": [
+          "Se connecter",
+          "Continuer avec Google"
+        ],
+        "lienOubli": [
+          "/forgot-password"
+        ]
+      }
+    },
+    {
+      "chemin": "/forgot-password",
+      "statut": 200,
+      "urlFinale": "/forgot-password",
+      "cacheControl": "s-maxage=31536000, stale-while-revalidate=2592000",
+      "titre": "Mot de passe oublié | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Mot de passe oublié"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 0,
+      "toutOuvrir": [],
+      "prix199": false,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login"
+      ],
+      "formulaire": {
+        "champs": [
+          "email:email"
+        ],
+        "boutons": [
+          "Envoyer le lien"
+        ],
+        "lienOubli": []
+      }
+    }
+  ],
+  "err": [
+    {
+      "url": "https://deviens-marrant.fr/mon-espace",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/bibliotheque",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/s-entrainer",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/questions",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/repliques",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/carnet",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/parcours",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/favoris",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/lettre",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/lettre",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/bonus",
+      "type": "console",
+      "texte": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/bonus",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/cgu",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/confidentialite",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/retractation",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/resiliation",
+      "type": "console",
+      "texte": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "url": "https://deviens-marrant.fr/resiliation",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/login",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/forgot-password",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    }
+  ],
+  "compteur": {
+    "navigations": 17,
+    "apiGet": 0,
+    "navigateurTotal": 713,
+    "bloquees": [
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send"
+    ]
+  }
+}

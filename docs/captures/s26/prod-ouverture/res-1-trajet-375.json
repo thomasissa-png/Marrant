@@ -1,0 +1,251 @@
+{
+  "res": [
+    {
+      "chemin": "/",
+      "statut": 200,
+      "urlFinale": "/",
+      "cacheControl": "s-maxage=76, stale-while-revalidate=2592000",
+      "titre": "Devenir drôle et avoir de la répartie | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Tu parles et personne rit.\nOn va arranger ça."
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": true,
+      "premium": 1,
+      "toutOuvrir": [
+        "Tout ouvrir",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2F",
+        "https://deviens-marrant.fr/abonnement?src=header",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/parcours/repartie?src=accueil",
+        "https://deviens-marrant.fr/parcours/machine-a-cafe?src=accueil",
+        "https://deviens-marrant.fr/parcours/confiance?src=accueil",
+        "https://deviens-marrant.fr/vannes/cette-annee-on-a-pu-noter-notre-manager-de-facon-anonyme-cv11236cb2",
+        "https://deviens-marrant.fr/vannes/ma-voisine-ma-invite-a-diner-jutilise-son-wifi-depuis-deux-cv13109a2e",
+        "https://deviens-marrant.fr/conseils/le-toast-de-soixante-secondes-qui-tient-debout-cs19tipbou",
+        "https://deviens-marrant.fr/conseils/ce-que-raconte-une-salle-de-reunion-cs19tipbou",
+        "https://deviens-marrant.fr/videos/doully-la-sobriete-cmmp8p5610",
+        "https://deviens-marrant.fr/videos/ahmed-sparrow-pietons-vs-automobilistes-cmmp8p5410",
+        "https://deviens-marrant.fr/parcours/machine-a-cafe",
+        "https://deviens-marrant.fr/parcours/repartie",
+        "https://deviens-marrant.fr/parcours/confiance",
+        "https://deviens-marrant.fr/parcours/storytelling",
+        "https://deviens-marrant.fr/parcours/boulot",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/blog/refuser-une-invitation-avec-humour",
+        "https://deviens-marrant.fr/blog/voeux-drole-nouvelle-annee",
+        "https://deviens-marrant.fr/blog/chambrer-sans-blesser-entre-potes",
+        "https://deviens-marrant.fr/abonnement?src=accueil-premium",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "01-accueil-375.png"
+    },
+    {
+      "chemin": "(clic menu) /mon-espace/quoi-repondre",
+      "titre": "Quoi répondre | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Quoi répondre"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 6,
+      "toutOuvrir": [
+        "Tout ouvrir · 1,99 €/mois",
+        "Tout ouvrir · 1,99 €/mois"
+      ],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fmon-espace%2Fquoi-repondre",
+        "https://deviens-marrant.fr/mon-espace",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/mon-espace/bibliotheque",
+        "https://deviens-marrant.fr/mon-espace/s-entrainer",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/favoris",
+        "https://deviens-marrant.fr/carnet",
+        "https://deviens-marrant.fr/mon-espace/questions",
+        "https://deviens-marrant.fr/mon-espace/repliques",
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "capture": "02-quoi-repondre-apercu-375.png"
+    },
+    {
+      "chemin": "(clic offre) /abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+      "titre": "Abonnement Premium : 1,99 €/mois | deviens-marrant.fr",
+      "robots": "index, follow",
+      "h1": [
+        "Premium ouvre tout Deviens Marrant"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": true,
+      "premium": 8,
+      "toutOuvrir": [],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fabonnement",
+        "https://deviens-marrant.fr/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fmon-espace%252Fquoi-repondre%26src%3Dapercu-quoi-repondre&src=apercu-quoi-repondre",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fmon-espace%252Fquoi-repondre%26src%3Dapercu-quoi-repondre%26auto%3D1&src=apercu-quoi-repondre",
+        "https://deviens-marrant.fr/parcours/repartie?src=abonnement",
+        "https://deviens-marrant.fr/vannes",
+        "https://deviens-marrant.fr/conseils",
+        "https://deviens-marrant.fr/videos",
+        "https://deviens-marrant.fr/parcours",
+        "https://deviens-marrant.fr/blog/comment-devenir-drole",
+        "https://deviens-marrant.fr/blog",
+        "https://deviens-marrant.fr/glossaire",
+        "https://deviens-marrant.fr/quiz-humour",
+        "https://deviens-marrant.fr/lettre",
+        "https://deviens-marrant.fr/anatomie-vanne",
+        "https://deviens-marrant.fr/integrer-la-vanne-du-jour",
+        "https://deviens-marrant.fr/abonnement",
+        "https://deviens-marrant.fr/a-propos",
+        "https://deviens-marrant.fr/mentions-legales",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/confidentialite",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/profil"
+      ],
+      "prix1699": true,
+      "capture": "04-abonnement-375.png"
+    },
+    {
+      "chemin": "(clic S'abonner) /register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fmon-espace%252Fquoi-repondre%26src%3Dapercu-quoi-repondre&src=apercu-quoi-repondre",
+      "titre": "Inscription : apprends à devenir drôle | deviens-marrant.fr",
+      "robots": "noindex, follow",
+      "h1": [
+        "Ton compte, puis le paiement"
+      ],
+      "scrollWidth": 375,
+      "largeur": 375,
+      "a1500": false,
+      "premium": 2,
+      "toutOuvrir": [],
+      "prix199": true,
+      "undefinedVisible": false,
+      "liens": [
+        "https://deviens-marrant.fr/",
+        "https://deviens-marrant.fr/cgu",
+        "https://deviens-marrant.fr/retractation",
+        "https://deviens-marrant.fr/login?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fmon-espace%252Fquoi-repondre%26src%3Dapercu-quoi-repondre&src=apercu-quoi-repondre"
+      ],
+      "legal": [
+        {
+          "href": "/cgu",
+          "texte": "CGU",
+          "visible": true,
+          "contexte": "En créant ton compte, tu acceptes les CGU."
+        },
+        {
+          "href": "/retractation",
+          "texte": "Renoncer au contrat ici",
+          "visible": true,
+          "contexte": "Renoncer au contrat ici"
+        }
+      ],
+      "capture": "05-register-375.png"
+    }
+  ],
+  "etapes": [
+    "lien Quoi répondre : Quoi répondre",
+    "tuiles visibles après clic menu : true en 803 ms",
+    "tuiles fermées : 6",
+    "focus après tuile : {\"tag\":\"A\",\"texte\":\"Tout ouvrir · 1,99 €/mois\",\"label\":\"Tout ouvrir, 1,99 € par mois : voir l’offre Premium\",\"href\":\"/abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre\"}",
+    "bouton offre : « Tout ouvrir · 1,99 €/mois » → /abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+    "liens /register sur /abonnement : [{\"href\":\"/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fmon-espace%252Fquoi-repondre%26src%3Dapercu-quoi-repondre&src=apercu-quoi-repondre\",\"texte\":\"S’abonner · 1,99 €/mois\",\"visible\":true},{\"href\":\"/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fmon-espace%252Fquoi-repondre%26src%3Dapercu-quoi-repondre&src=apercu-quoi-repondre\",\"texte\":\"S’abonner · 1,99 €/mois\",\"visible\":true},{\"href\":\"/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fmon-espace%252Fquoi-repondre%26src%3Dapercu-quoi-repondre&src=apercu-quoi-repondre\",\"texte\":\"\",\"visible\":true}]"
+  ],
+  "consoleErr": [
+    {
+      "url": "https://deviens-marrant.fr/",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/mon-espace/quoi-repondre",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://deviens-marrant.fr/abonnement?returnTo=%2Fmon-espace%2Fquoi-repondre&src=apercu-quoi-repondre",
+      "type": "console",
+      "texte": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    }
+  ],
+  "compteur": {
+    "navigations": 4,
+    "apiGet": 0,
+    "navigateurTotal": 91,
+    "bloquees": [
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send",
+      "POST https://gateway.umami.is/api/send"
+    ]
+  }
+}
