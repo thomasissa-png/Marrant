@@ -111,3 +111,7 @@ ressources chargées par les pages elles-mêmes (JS, CSS, images).
   `2-espace-legal-auth-375.js`, `3-videos.js`, `4-1280-liens.js`, `diag-qr.js` (diagnostic du squelette).
 - Résultats bruts : `res-1-trajet-375.json`, `res-2-espace-legal-auth-375.json`, `res-3-videos.json`, `res-4-1280-liens.json`.
 - Captures (18, deviceScaleFactor 1) : `01` à `05` (trajet 375), `07` à `14` (aperçus et /login 375), `15` (fiche Domenge 375), `16` à `19` (1280).
+
+## Suivi A1 (21/11, 11:17 UTC)
+
+Résolue sans intervention : le sitemap (434 adresses) liste les 3 nouvelles adresses (Domenge, Gad, Kev Adams) et Ngijol, et plus aucune des anciennes. IndexNow des 3 nouvelles adresses : proposé à Thomas, non lancé.
