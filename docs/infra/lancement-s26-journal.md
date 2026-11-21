@@ -72,3 +72,29 @@ Retour arrière disponible : `cd apps/web && npx wrangler rollback 5504e970-5c1d
 | 22:20 | B5 caps, à sec (lecture seule) | `recalcul-caps.ts --neon --a-sec` depuis l'export de `9ffa6311` : hôte affiché = hôte de `NEON_DATABASE_URL` (production), comparé sans affichage ; 2 comptes abonnés actifs lus (≤ 5) ; niveaux relevés : 0 ; 1 ligne silencieuse serait écrite (1 compte, `APPRENTI` inchangé, cap 2, aucun bonus). Journal : `/root/lancement-s26/caps-a-sec-1.log` |
 
 **Arrêt (22:21 UTC)** : bascule, `--ecrire`, B5 démarrage et B6 non faits, faute de permission pour la bascule. Reprise dès que Thomas aura autorisé l'action (règle de permission ou exécution par lui-même).
+
+### Phase B, partie 3 (après la bascule faite par l'orchestrateur sur accord écrit de Thomas « lance la bascule B »)
+
+| Heure (UTC) | Étape | Résultat |
+|---|---|---|
+| 21/11 09:06:30 | B4 bascule (orchestrateur) | **`e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3` à 100 %** (« s26 B ouverture 9ffa6311 »), N-1 = `c7ace530…` ; revérifié par `deployments list` à 09:07 |
+| 09:07 | tail | `wrangler tail marrant --format json` en fond (`/root/lancement-s26/tail-B.jsonl`) |
+| 09:07:34 | B5 caps, à sec de vérification | identique à celui du 20/11 22:20 : hôte de production (comparé sans affichage), 2 abonnés actifs lus, 0 niveau relevé, 1 ligne silencieuse |
+| 09:07:53 | B5 caps, `--ecrire` | « Recalcul appliqué (silencieux) » : 2 abonnés lus, 0 niveau relevé, 1 ligne silencieuse écrite (1 compte, `APPRENTI` inchangé, cap 2, aucun bonus) |
+| 09:07:58 | B5 caps, à sec de contrôle | 2 abonnés lus, 0 niveau relevé, 0 ligne qui serait écrite (idempotent) |
+| — | B5 G4 | comptes de test de Thomas : rien touché (consigne) |
+| 09:08:08 | B5 démarrage, 1er appel | `startup-tasks` HTTP 200 en 11,0 s (`success`, 10 837 ms). Journal : « remplacements vidéo s26 v1 : 3 vidéo(s) remplacée(s), 0 refus garde-fou, 4 déjà faite(s) » (conforme) ; aucun échec ni GARDE-FOU ; `warn` attendus (lettres 2026-11, W46, W47 déjà envoyées) |
+| 09:08:35 | B5 démarrage, 2e appel | HTTP 200 en 9,6 s ; « 0 vidéo(s) remplacée(s), 0 refus garde-fou, 7 déjà faite(s) » ; rien de neuf |
+| 09:09 | B6 vidéos | Domenge `/videos/laura-domenge-se-remettre-avec-son-ex-cmmp8p0zu0` 200 (`W7i0KRn_GLY`), anciennes `laura-domenge-jamel-comedy-club-…` et `laura-domenge-la-vie-de-couple-…` 308 vers la nouvelle ; Gad `/videos/gad-elmaleh-la-visite-dappartement-la-vie-normale-cmmp8p3dw0` 200 (`BY8kpWBf57M`), ancienne `gad-elmaleh-decalages-spectacle-complet-1997-…` 308 ; Kev Adams `/videos/kev-adams-le-tennis-cmmp8p0fd0` 200 (`fSMhy3-7Xpk`), ancienne `kev-adams-du-cote-de-chez-vous-…` 308. Sitemap encore sur les anciennes adresses à 09:09 (`revalidate = 3600`, mise à jour d'ici une heure ; les anciennes redirigent déjà) ; 0 `mon-espace` dans le sitemap |
+| 09:09 | B6 parcours 2.4 et 3.4 | non contrôlables sans session (étapes réservées aux abonnés, aucun des nouveaux `youtubeId` dans les pages publiques `/parcours/storytelling` et `/parcours/boulot`) : à voir par Thomas sur son compte Premium |
+| 09:09 | B6 (c) en-têtes | `/mon-espace` visiteur : 200, aperçu « Aujourd'hui », `private, no-cache, no-store`, meta `noindex, follow` ; `/api/espace/caps` et `/api/espace/questions` 401 `private, no-store` ; `/api/espace/compteurs` 404 `no-store` |
+| 09:09 | B6 (d) textes | `/cgu` et `/confidentialite` : « Dernière mise à jour : 20 novembre 2026 » ; alinéa des bonus de l'article 3 des CGU absent (`data-cgu-bonus` 0 : bonus pas tous publiés) ; confidentialité : phrases de l'espace présentes (« Les caps et les bonus qu'on t'a déjà annoncés », « Ne t'annoncer qu'une seule fois chaque cap », « Usage de ton espace, si tu es abonné ») |
+| 09:10 | B6 (e) relevé de lecture | `GET /api/admin/espace-lecture?format=texte` avec l'auth admin : 200 (401 sans) ; « 0 abonné(s) ayant ouvert l'espace », « Moins de 15 abonnés : lecture cas par cas, aucun chiffre agrégé », 0 pourcentage, 0 adresse e-mail |
+| 09:10 | B6 (f) santé | `ok`, Stripe `live`, base `up`, contenu `ok` ; 7 en-têtes de sécurité identiques à N-1 (`entetes-avant-B.txt`) |
+| 09:11 | B6 (b) pages visiteur | texte visible comparé entre A (préversion `c7ace530`) et B (prod) sur 16 pages : `/register` et `robots.txt` identiques ; les autres diffèrent par la navigation nav v6 (« Tout ouvrir · 1,99 €/mois », Aujourd'hui, Parcours, Quoi répondre, Bibliothèque, S'entraîner, Favoris, Carnet, Mes questions, Mes répliques, à la place de Premium et Accueil, fil d'Ariane retiré) et des textes et mises en page de l'état ouvert (intro de `/vannes`, `/carnet`, `/parcours/*`, liens de `/lettre` sans UTM affichées). Ces changements sont conditionnés par l'interrupteur dans le code (ex. `src/app/(dashboard)/vannes/page.tsx`), donc voulus par l'ouverture ; l'attendu « identiques à A » de B-P6 (b) date d'avant la nav v6. **À confirmer par l'orchestrateur** ; ni 5xx ni fuite |
+| 09:07-09:22 | B6 tail 15 min | `wrangler tail --format json` de 09:07 à 09:22 (15 min après la bascule de 09:06:30) : 101 requêtes (92 × 200, 4 × 308, 3 × 401, 1 × 301, 1 × 404), **0 réponse 5xx**, 0 exception, 0 issue non `ok`, 0 log `error` (`/root/lancement-s26/tail-B.jsonl`) |
+| 09:22 | état final | `deployments list` : `e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3` à 100 % (« s26 B ouverture 9ffa6311 »), N-1 `c7ace530…` ; santé `ok`. Aucun retour arrière nécessaire |
+
+**Non faits ici (session Premium ou Thomas requis)** : B-P6 (a), parcours complet à 375 px sur compte Premium de test ; parcours 2.4 et 3.4 vus en Premium ; vérifications de Thomas (§4 du runbook : achat Stripe, compte Premium, navigation privée, e-mails, vidéo en 4G, journaux 1 h). G4 non touché.
+
+Retour arrière : `cd apps/web && npx wrangler rollback c7ace530-0de6-46af-b596-72a43554c9c8 -m "rollback s26 B" -y` (B seul) ; sauvegardes de la base : `br-plain-silence-b1pcw0xb` (avant B), `br-plain-butterfly-b16lk1qd` (avant A).

@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## DÉPLOYÉ : lancement s26 (Cloudflare Workers, runbook `docs/infra/lancement-s26-runbook.md`)
+- **Phase A** (go « go! » du 20/11) : migrations 18 à 26 jouées sur Neon (20/11 20:23 UTC) ; version `c7ace530-0de6-46af-b596-72a43554c9c8` (build `86f2be81`, espace fermé) à 100 % le 20/11 à 20:24:11 UTC ; N-1 `5504e970-5c1d-496d-a90a-3eaaf0db9846`. Sauvegarde Neon `br-plain-butterfly-b16lk1qd`.
+- **Phase B** (go « je suis tes recos, finissons » puis « lance la bascule B ») : version `e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3` (build `9ffa6311`, `ESPACE_CLIENT_PUBLIE = true`) à 100 % le 21/11 à 09:06:30 UTC ; N-1 `c7ace530`. Sauvegarde Neon `br-plain-silence-b1pcw0xb`. Caps : 1 ligne silencieuse écrite, contrôle 0/0. Démarrage : 3 vidéos remplacées, 0 refus, 4 déjà faites. Tail 15 min : 0 5xx.
+- **Toutes les entrées s26 ci-dessous marquées « COMMITÉ, NON DÉPLOYÉ » sont en ligne depuis la phase B** (sauf `RESILIATION_PAGE_OUVERTE`, resté à false).
+- **Retour arrière** : `npx wrangler rollback c7ace530-0de6-46af-b596-72a43554c9c8 -m "rollback s26 B" -y` (migrations additives, non défaites). Journal : `docs/infra/lancement-s26-journal.md`.
+
 ## À DÉPLOYER
 
 ### s26 lancement phase B : B0 activation de l'espace client + vidéos s26 v1 (3 dernières), COMMITÉ, NON DÉPLOYÉ
