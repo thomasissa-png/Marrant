@@ -376,14 +376,12 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
               )}
             </Button>
             {/* s26 allègement du tunnel (décision de Thomas du 22/11, `docs/legal/allegement-tunnel-achat-s26.md` §2) :
-                formulaire d'un seul tenant, toutes les mentions sous le bouton, en petit, deux lignes. */}
+                formulaire d'un seul tenant, toutes les mentions sous le bouton, en petit, deux lignes ; pas de lien
+                « Renoncer au contrat ici » avant toute souscription (décision de Thomas du 22/11). */}
             <div className="-mt-2 space-y-1 text-center text-xs leading-snug text-text-muted" data-testid="register-mentions">
               <Reassurance
                 className="mt-0 text-xs text-text-muted"
                 testId="register-reassurance"
-                lienRetractation
-                lienTestId="register-retractation"
-                lienClassName="hover:text-text-secondary"
               />
               <p data-testid="register-cgu">
                 {CGU_ACCEPTATION.avant}

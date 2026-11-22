@@ -36,7 +36,7 @@ describe("RegisterPage, audit s16", () => {
     render(<RegisterPage />);
     // s26 (22/11) : sans « Premium : », avec le lien de rétractation dans la phrase.
     expect(screen.getByTestId("register-reassurance")).toHaveTextContent(
-      /^Premier paiement remboursable sous 14 jours : Renoncer au contrat ici\. Résiliable depuis ton profil\.$/,
+      /^Premier paiement remboursable sous 14 jours\. Résiliable depuis ton profil\.$/,
     );
     const cgu = screen.getByRole("link", { name: "CGU" });
     expect(cgu).toHaveAttribute("href", "/cgu");

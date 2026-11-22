@@ -1,8 +1,9 @@
 /**
- * s26 rétractation /register (décision de Thomas du 20/11) puis allègement du tunnel (décision du 22/11,
- * `docs/legal/allegement-tunnel-achat-s26.md` §2) : formulaire d'un seul tenant (Google, champs, bouton),
- * puis, SOUS le bouton, en petit, deux lignes : remboursement avec le lien « Renoncer au contrat ici »,
- * puis CGU, confidentialité (RGPD art. 13) et lettre du mois.
+ * s26 allègement du tunnel (décision du 22/11, `docs/legal/allegement-tunnel-achat-s26.md` §2) : formulaire
+ * d'un seul tenant (Google, champs, bouton), puis, SOUS le bouton, en petit, deux lignes : remboursement,
+ * puis CGU, confidentialité (RGPD art. 13) et lettre du mois. Test changé (raison : décision de Thomas du
+ * 22/11, « à quoi ça sert vu qu'il n'est pas inscrit, enlevez-moi ça ») : plus de lien « Renoncer au
+ * contrat ici » sur /register, avant toute souscription (il reste en pied de page, profil, confirmation).
  */
 import { render, screen } from "@testing-library/react";
 import RegisterPage from "@/app/(auth)/register/page";
@@ -22,23 +23,18 @@ const espaces = (t: string | null | undefined) => (t ?? "").replace(/\s/g, " ");
 const suit = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
 
 describe("RegisterPage, s26 allègement du tunnel", () => {
-  it("lien présent, vers /retractation, libellé exact « Renoncer au contrat ici »", () => {
+  it("aucun lien « Renoncer au contrat ici » ni vers /retractation sur /register", () => {
     render(<RegisterPage />);
-    expect(LIBELLE_RENONCER_CONTRAT).toBe("Renoncer au contrat ici");
-    const liens = screen.getAllByRole("link", { name: LIBELLE_RENONCER_CONTRAT });
-    expect(liens).toHaveLength(1);
-    expect(liens[0]).toHaveAttribute("href", "/retractation");
-    expect(liens[0]).toHaveAttribute("data-testid", "register-retractation");
-    expect(liens[0].textContent).toBe("Renoncer au contrat ici");
+    expect(screen.queryByRole("link", { name: LIBELLE_RENONCER_CONTRAT })).toBeNull();
+    expect(screen.queryByTestId("register-retractation")).toBeNull();
+    expect(document.querySelector('a[href="/retractation"]')).toBeNull();
   });
 
-  it("ligne 1 mot pour mot, dans la phrase du remboursement", () => {
+  it("ligne 1 mot pour mot : le remboursement, sans lien", () => {
     render(<RegisterPage />);
     const ligne = screen.getByTestId("register-reassurance");
-    expect(espaces(ligne.textContent)).toBe(
-      "Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.",
-    );
-    expect(ligne).toContainElement(screen.getByTestId("register-retractation"));
+    expect(espaces(ligne.textContent)).toBe("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(ligne.querySelector("a")).toBeNull();
   });
 
   it("ligne 2 mot pour mot : CGU et confidentialité liées, lettre du mois", () => {
@@ -84,7 +80,7 @@ describe("RegisterPage, s26 allègement du tunnel", () => {
       expect(classes).toContain("text-xs");
       expect(classes).toContain("text-text-muted");
     }
-    for (const nom of [LIBELLE_RENONCER_CONTRAT, "CGU", "confidentialité"]) {
+    for (const nom of ["CGU", "confidentialité"]) {
       expect(screen.getByRole("link", { name: nom }).className.split(/\s+/)).toEqual(
         expect.arrayContaining(["underline", "underline-offset-2", "hover:text-text-secondary"]),
       );

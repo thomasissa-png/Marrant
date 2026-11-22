@@ -9,6 +9,9 @@
 
 ## À DÉPLOYER
 
+### s26 tunnel : lien « Renoncer au contrat ici » retiré de /register et de /abonnement (décision de Thomas du 22/11), COMMITÉ, NON DÉPLOYÉ
+- **Quoi** : garantie seule sous les boutons (« Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. ») ; variante avec lien supprimée (`REASSURANCE_AVEC_LIEN`, option `lienRetractation`). Rétractation toujours dans le pied de page, le profil, la confirmation. Part avec le lot « tunnel allégé ».
+
 ### s26 tunnel d'achat allégé (/abonnement, /register, réassurance partout) (SITE PUBLIC), COMMITÉ, NON DÉPLOYÉ
 - **Quoi** (décision de Thomas du 22/11, « vas-y go » ; spec `docs/legal/allegement-tunnel-achat-s26.md` §2) : /register d'un seul tenant (Google, « E-mail », mot de passe, bouton), puis 2 lignes en petit sous le bouton (14 jours + lien « Renoncer au contrat ici » ; CGU + confidentialité + lettre du mois) ; « Paiement sécurisé par Stripe. » retiré. /abonnement : réassurance avec le lien, « D'abord ton compte, puis le paiement. » (visiteur), plus de ligne Stripe (connecté) ; cartes Mensuel et Annuel à la même hauteur ; 3e avantage souligné plein. Ailleurs (murs, fenêtres, encarts, FAQ prix) : « Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. » (sans « Premium : »).
 - **Contrôles** : env vide, valeurs factices ; tsc (build, complet, e2e), lint, build, Jest complet sans secrets Stripe ; 1 snapshot d'inertie modifié à la main (favoris gratuit : la REASS seule). Captures `docs/captures/s26/tunnel-allege/`.

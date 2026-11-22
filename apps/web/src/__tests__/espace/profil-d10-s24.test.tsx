@@ -303,9 +303,9 @@ const HACHAGES = {
   e0Ferme: "3cc6a8a2ac60cbb066f505ed3e8a8bd7debaf1006acea0f990b991655f2e531d",
   paiementNonTouches: "582b4f852898171b08cad11076913e2a5cef5893617ee26ed914bbd6336252ab",
   fichiers: {
-    // s26 allègement du tunnel (décision de Thomas du 22/11) : REASS sans « Premium : », variante avec lien,
-    // CGU + confidentialité + lettre sous le bouton de /register. Changement voulu, hors §6 D10.
-    "config/textes/offre.ts": "2acd8d7208bd13511a1e4a3a78c63479434b3f132cc3b61738521dce0d9c6967",
+    // s26 allègement du tunnel (décisions de Thomas du 22/11) : REASS sans « Premium : », CGU + confidentialité
+    // + lettre sous le bouton de /register, puis variante « avec lien » de la garantie retirée. Changement voulu, hors §6 D10.
+    "config/textes/offre.ts": "2eb6afe84fa7675d9ac777edc5d7ed20d668be81b4ec5dcdf6addc1db2f67433",
     "config/textes/parcours-emails.ts": "356fff7e47b215fd117c2b756bae1671faedae518bd7587798f08f0f700e0625",
     "config/textes/lettre-hebdo-s21.ts": "6f988c87929bd04bb96fe833b194105009488a27d40c410009b2a314558724a0",
     "lib/faqs.ts": "709913ccce713ab6fe3a3af7994b270a4286c5fe703e4b0a1e0306b2d890fb11",

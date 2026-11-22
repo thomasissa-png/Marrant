@@ -63,8 +63,8 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     expect(screen.getByRole("heading", { name: "Offre Premium" })).toBeInTheDocument();
     expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 1,99 € TTC / mois »
     // REASS (concision v5) sous le bouton du haut et sous le bouton final ; s26 (22/11) : avec le lien de rétractation.
-    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.");
-    expect(screen.getByTestId("reassurance-paiement-final")).toHaveTextContent("Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.");
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(screen.getByTestId("reassurance-paiement-final")).toHaveTextContent("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "vannes" });
     expect(screen.queryByTestId("paiement-annule")).not.toBeInTheDocument();
@@ -112,7 +112,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     render(<AbonnementView annualAvailable />);
     await userEvent.click(screen.getByRole("radio", { name: /^Annuel/ }));
     expect(screen.getByText("TTC / an")).toBeInTheDocument();
-    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.");
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
   });
 
   it("visiteur : clic vers l'inscription mesuré (abonnement-clic, statut visiteur)", async () => {

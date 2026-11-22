@@ -19,11 +19,10 @@ import {
 import { AVANTAGE_LETTRE, avantagesPremium } from "@/config/textes/avantages-premium";
 import { ABONNEMENT_CTA } from "@/config/textes/cta-pages";
 import { CARNET_EXTRAIT_TITRE } from "@/config/textes/carnet-extrait";
-import { ANNUEL_MOIS_OFFERTS_LABEL, prixLabel, rappelFormule, REASSURANCE_AVEC_LIEN, REASSURANCE_UNIQUE } from "@/config/textes/offre";
-import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
+import { ANNUEL_MOIS_OFFERTS_LABEL, prixLabel, rappelFormule, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
-/** s26 (22/11) : la réassurance de /abonnement porte le lien « Renoncer au contrat ici ». */
-const REASS_ABONNEMENT = `${REASSURANCE_AVEC_LIEN.avant}${LIBELLE_RENONCER_CONTRAT}${REASSURANCE_AVEC_LIEN.apres}`;
+/** s26 (22/11, décision de Thomas) : plus de lien « Renoncer au contrat ici » sous le bouton de /abonnement. */
+const REASS_ABONNEMENT = REASSURANCE_UNIQUE;
 import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
 import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire";
 import { origineAbonnement } from "@/lib/abonnement-accroche";

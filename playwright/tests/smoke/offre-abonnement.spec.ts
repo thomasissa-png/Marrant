@@ -1,7 +1,6 @@
 import type { Page } from "@playwright/test";
 import { test, expect, estMobile, lireUrl, texteValide } from "../support/fixtures";
-import { rappelFormule, REASSURANCE_AVEC_LIEN } from "@/config/textes/offre";
-import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
+import { rappelFormule, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
@@ -17,8 +16,8 @@ async function choisirAnnuel(page: Page) {
 }
 
 // REASS (concision v5) : même texte en mensuel et en annuel, le prix TTC est affiché juste au-dessus.
-// s26 (22/11) : sur /abonnement et /register, avec le lien « Renoncer au contrat ici » dans la phrase.
-const REASSURANCE = texteValide(`${REASSURANCE_AVEC_LIEN.avant}${LIBELLE_RENONCER_CONTRAT}${REASSURANCE_AVEC_LIEN.apres}`);
+// s26 (22/11, décision de Thomas) : plus de lien « Renoncer au contrat ici » avant toute souscription.
+const REASSURANCE = texteValide(REASSURANCE_UNIQUE);
 
 test.describe("Offre /abonnement @smoke", () => {
   // Trajet de conversion s21 : « S'abonner », qui suit la formule choisie (bouton du premier écran).
@@ -76,7 +75,7 @@ test.describe("Offre /abonnement @smoke", () => {
     // Le prix est rappelé en haut de /register (v2 G02), la REASS unique est collée sous le plein.
     await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("monthly", { saufResiliation: true })));
     await expect(page.getByTestId("register-reassurance")).toHaveText(REASSURANCE);
-    await expect(page.getByTestId("register-retractation")).toHaveAttribute("href", "/retractation");
+    await expect(page.locator('a[href="/retractation"]')).toHaveCount(0);
     await expect(page.getByText(/En créant ton compte, tu acceptes les/)).toBeVisible();
     const cgu = page.getByRole("link", { name: "CGU", exact: true });
     await expect(cgu).toHaveAttribute("href", "/cgu");

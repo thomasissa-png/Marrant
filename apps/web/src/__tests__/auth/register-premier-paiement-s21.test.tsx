@@ -22,7 +22,7 @@ jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 const ANCIENNE_PHRASE = "remboursé sous 14 jours";
 /** Concision v5 : la REASS unique, collée sous le plein. */
 /** s26 (22/11) : avec le lien « Renoncer au contrat ici » dans la phrase, sans « Premium : ». */
-const LIGNE_BAS = "Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.";
+const LIGNE_BAS = "Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
 
 /** Texte de la page, espaces insécables ramenés à des espaces simples. */
 function textePage(): string {

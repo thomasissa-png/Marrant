@@ -60,16 +60,6 @@ export function rappelFormule(plan: PremiumPlan, { saufResiliation = false }: { 
 export const REASSURANCE_UNIQUE = "Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
 
 /**
- * s26 (allègement du tunnel, décision de Thomas du 22/11, `docs/legal/allegement-tunnel-achat-s26.md` §2) :
- * variante AVEC lien vers /retractation, seulement sous le bouton principal de /abonnement et de /register.
- * Rendu : `avant` + lien `LIBELLE_RENONCER_CONTRAT` + `apres`.
- */
-export const REASSURANCE_AVEC_LIEN = {
-  avant: "Premier paiement remboursable sous 14 jours : ",
-  apres: ". Résiliable depuis ton profil.",
-} as const;
-
-/**
  * Acceptation des CGU sous le bouton de création de compte, avec la confidentialité (RGPD art. 13,
  * ajout s26) et la lettre du mois (décision de Thomas du 25/10 : envoyée d'office, sans case), dans
  * la même ligne (allègement du tunnel s26, texte du 22/11 mot pour mot).

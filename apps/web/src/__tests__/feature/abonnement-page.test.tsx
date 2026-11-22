@@ -135,11 +135,12 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     // Réassurance lisible (revue visuelle tour 1) : blanc cassé, 14 px, même composant partout.
     expect(screen.getByTestId("reassurance-paiement").className).toMatch(/text-text-primary/);
     expect(screen.getByTestId("reassurance-paiement").className).not.toMatch(/text-text-muted|text-xs/);
-    // s26 (22/11) : le lien « Renoncer au contrat ici » dans la phrase, seulement sur /abonnement et /register.
+    // s26 (22/11) : test changé (raison : décision de Thomas du 22/11, pas de lien « Renoncer au contrat ici »
+    // avant toute souscription) : la garantie seule, sans lien.
     expect(texteDe(screen.getByTestId("reassurance-paiement"))).toBe(
-      "Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.",
+      "Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
     );
-    expect(screen.getByTestId("abonnement-retractation")).toHaveAttribute("href", "/retractation");
+    expect(screen.getByTestId("reassurance-paiement").querySelector("a")).toBeNull();
     // Mêmes hauteurs (s26, 22/11) : grille étirée, contenu calé en haut de chaque carte.
     expect(screen.getByTestId("formule-monthly").parentElement!.className).toContain("items-stretch");
     expect(screen.getByTestId("formule-monthly").className).toContain("justify-start");
@@ -287,7 +288,7 @@ describe("AbonnementPage (serveur)", () => {
     expect(screen.queryByText(/Paiement sécurisé/)).toBeNull();
     for (const id of ["reassurance-paiement", "reassurance-paiement-final"]) {
       expect(texteDe(screen.getByTestId(id))).toBe(
-        "Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.",
+        "Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
       );
     }
     expect(screen.queryByTestId("abonnement-suite")).toBeNull();
