@@ -24,7 +24,7 @@ jest.mock("@/lib/umami", () => ({
 }));
 
 async function fillAndSubmit() {
-  await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+  await userEvent.type(screen.getByLabelText("E-mail"), "jean@test.fr");
   await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
   await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 }
@@ -37,15 +37,16 @@ describe("RegisterPage", () => {
 
   it("renders registration form", () => {
     render(<RegisterPage />);
-    // textes-trajet-v2 G01, G02, G06 : titre, rappel de formule, Stripe nommé ; plus d'« Étape 1 sur 2 ».
+    // textes-trajet-v2 G01, G02 : titre, rappel de formule ; plus d'« Étape 1 sur 2 ». s26 (22/11) : Stripe n'est plus nommé.
     expect(screen.queryByText("Étape 1 sur 2")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Ton compte, puis le paiement" })).toBeInTheDocument();
     expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe("Premium, 1,99 €/mois.");
-    expect(screen.getByTestId("register-stripe")).toHaveTextContent("Paiement sécurisé par Stripe.");
+    expect(screen.queryByTestId("register-stripe")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Paiement sécurisé par Stripe/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Étape 2 : le paiement/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Retour à l/)).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/^Prénom/)).not.toBeInTheDocument();
-    expect(screen.getByLabelText("Email")).toBeInTheDocument();
+    expect(screen.getByLabelText("E-mail")).toBeInTheDocument();
     expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
   });
 
@@ -58,7 +59,7 @@ describe("RegisterPage", () => {
     // Google avant le premier champ et avant le bouton d'envoi.
     const form = container.querySelector("form")!;
     const google = screen.getByRole("button", { name: /Continuer avec Google/ });
-    const email = screen.getByLabelText("Email");
+    const email = screen.getByLabelText("E-mail");
     const envoi = screen.getByRole("button", { name: REGISTER_CTA.bouton });
     expect(google.compareDocumentPosition(email) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(google.compareDocumentPosition(envoi) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -80,7 +81,7 @@ describe("RegisterPage", () => {
     (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => ({ user: { id: "u" } }) });
     mockSignIn.mockResolvedValue({ ok: true });
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+    await userEvent.type(screen.getByLabelText("E-mail"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
@@ -128,7 +129,7 @@ describe("RegisterPage", () => {
 
     render(<RegisterPage />);
 
-      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("E-mail"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
@@ -157,7 +158,7 @@ describe("RegisterPage", () => {
     mockSignIn.mockResolvedValue({ error: null });
 
     render(<RegisterPage />);
-      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("E-mail"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
@@ -174,7 +175,7 @@ describe("RegisterPage", () => {
     });
 
     render(<RegisterPage />);
-      await userEvent.type(screen.getByLabelText("Email"), "exists@test.fr");
+      await userEvent.type(screen.getByLabelText("E-mail"), "exists@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
@@ -187,7 +188,7 @@ describe("RegisterPage", () => {
   it("shows loading state", async () => {
     (global.fetch as jest.Mock).mockImplementation(() => new Promise(() => {}));
     render(<RegisterPage />);
-      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("E-mail"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 

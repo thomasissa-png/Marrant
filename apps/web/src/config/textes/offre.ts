@@ -57,18 +57,33 @@ export function rappelFormule(plan: PremiumPlan, { saufResiliation = false }: { 
  * pour te faire rembourser… », `lignePrixGarantie`, `FENETRE_GARANTIE`, etc.). Ne promet le
  * remboursement que du premier paiement (docs/legal/remboursement-abonnement-s21.md).
  */
-export const REASSURANCE_UNIQUE = `${OFFRE_NOM} : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.`;
+export const REASSURANCE_UNIQUE = "Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
 
-// PROVISOIRE s16, étalon à valider
-/** Acceptation des CGU sous le bouton de création de compte (reco 9). */
+/**
+ * s26 (allègement du tunnel, décision de Thomas du 22/11, `docs/legal/allegement-tunnel-achat-s26.md` §2) :
+ * variante AVEC lien vers /retractation, seulement sous le bouton principal de /abonnement et de /register.
+ * Rendu : `avant` + lien `LIBELLE_RENONCER_CONTRAT` + `apres`.
+ */
+export const REASSURANCE_AVEC_LIEN = {
+  avant: "Premier paiement remboursable sous 14 jours : ",
+  apres: ". Résiliable depuis ton profil.",
+} as const;
+
+/**
+ * Acceptation des CGU sous le bouton de création de compte, avec la confidentialité (RGPD art. 13,
+ * ajout s26) et la lettre du mois (décision de Thomas du 25/10 : envoyée d'office, sans case), dans
+ * la même ligne (allègement du tunnel s26, texte du 22/11 mot pour mot).
+ */
 export const CGU_ACCEPTATION = {
   avant: "En créant ton compte, tu acceptes les ",
   lien: "CGU",
-  apres: ".",
+  entre: " et la ",
+  lienConfidentialite: "confidentialité",
+  apres: ". ",
 } as const;
 
-/** s22 (décision de Thomas du 25/10, mot pour mot) : sous la mention des CGU, valable pour l'e-mail et Google. */
-export const LETTRE_MOIS_INSCRIPTION_COMPTE = "Tu recevras aussi la lettre du mois, une fois par mois. Désinscription en un clic.";
+/** s26 : suite de `CGU_ACCEPTATION`, valable pour l'e-mail et Google. */
+export const LETTRE_MOIS_INSCRIPTION_COMPTE = "Tu recevras la lettre du mois, désinscription en un clic.";
 
 /**
  * Mois offerts par l'annuel, calculés : 6,89 € / 1,99 € = 3,46 mois, donc

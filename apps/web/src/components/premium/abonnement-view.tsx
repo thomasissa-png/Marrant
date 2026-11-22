@@ -139,16 +139,26 @@ export function AbonnementView({
     />
   );
   // v3 M1 : la garantie juste sous le bouton (au-dessus de la flottaison à 320 × 640), puis la suite.
+  // s26 allègement du tunnel (22/11, `docs/legal/allegement-tunnel-achat-s26.md` §2) : garantie avec le
+  // lien « Renoncer au contrat ici » ; visiteur : « D'abord ton compte, puis le paiement. » ; connecté : rien de plus.
   const suiteEtReassurance = (testId: string) => (
     <>
-      <Reassurance className="mt-2 max-[359px]:mt-1.5" testId={`reassurance-paiement${testId}`} />
+      <Reassurance
+        className="mt-2 max-[359px]:mt-1.5"
+        testId={`reassurance-paiement${testId}`}
+        lienRetractation
+        lienTestId={`abonnement-retractation${testId}`}
+        lienClassName="hover:text-text-primary"
+      />
       {/* Finition du tour 3 : ligne compte sur UNE ligne à 320 px (12 px, approche serrée, déborde sur la marge de la carte). */}
-      <p
-        className={cn("mt-1", LIGNE_PETITE, "max-[359px]:-mx-2 max-[359px]:mt-0.5 max-[359px]:whitespace-nowrap max-[359px]:text-xs max-[359px]:tracking-tight")}
-        data-testid={isAuthenticated ? `paiement-stripe${testId}` : `abonnement-suite${testId}`}
-      >
-        {frTypo(isAuthenticated ? ABONNEMENT_ACHAT.suiteConnecte : ABONNEMENT_ACHAT.suiteVisiteur)}
-      </p>
+      {!isAuthenticated && (
+        <p
+          className={cn("mt-1", LIGNE_PETITE, "max-[359px]:-mx-2 max-[359px]:mt-0.5 max-[359px]:whitespace-nowrap max-[359px]:text-xs max-[359px]:tracking-tight")}
+          data-testid={`abonnement-suite${testId}`}
+        >
+          {frTypo(ABONNEMENT_ACHAT.suiteVisiteur)}
+        </p>
+      )}
     </>
   );
 

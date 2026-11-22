@@ -44,7 +44,7 @@ describe("/register", () => {
   it("s21 concision : Google avant l'e-mail pour tous, sans order-first (Safari : Google actif, aucun message)", async () => {
     setUserAgent(UA.safariIos);
     render(<RegisterPage />);
-    const email = screen.getByLabelText("Email");
+    const email = screen.getByLabelText("E-mail");
     const google = screen.getByRole("button", { name: /Continuer avec Google/ });
     expect(google.compareDocumentPosition(email) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(google.className).not.toMatch(/order-first/);

@@ -82,8 +82,8 @@ describe("/carnet non Premium", () => {
     expect(t(screen.getByRole("heading", { name: /^Ça, c.était la réplique offerte/ }))).toBe(`Ça, c'était la réplique offerte. Il en reste ${n}.`);
     expect(screen.getByText("Un nouveau carnet arrive chaque mois.")).toBeInTheDocument();
     expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Ouvrir tout le carnet · 1,99 €/mois");
-    expect(t(screen.getByText(/^Premium\s:\spremier paiement/))).toBe(
-      "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
+    expect(t(screen.getByText(/^Premier paiement remboursable/))).toBe(
+      "Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
     );
     // Bloc d'achat avant la liste verrouillée.
     const bouton = screen.getByTestId("carnet-paywall-bouton");

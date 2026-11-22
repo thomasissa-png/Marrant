@@ -43,9 +43,9 @@ export function FormuleCartes({
     <fieldset className="mt-4 max-[399px]:mt-2.5 max-[359px]:mt-2" data-testid="plan-selector">
       <legend className="sr-only">{FORMULES.legende}</legend>
       {/* Sous 400 px : une carte par ligne, nom et prix sur la même ligne (premier écran à 320 × 640). */}
-      {/* Finition du tour 3 : cartes à la hauteur de leur contenu (`items-start`) : prix alignés en haut,
-          plus de vide sous le prix de la case Mensuel. */}
-      <div className="grid grid-cols-2 items-start gap-2 max-[399px]:grid-cols-1 max-[399px]:gap-1.5">
+      {/* s26 (22/11, « vas-y go ») : les deux cartes à la même hauteur (`items-stretch`), contenu calé en
+          haut dans chaque carte (`justify-start`) : prix alignés d'une carte à l'autre. */}
+      <div className="grid grid-cols-2 items-stretch gap-2 max-[399px]:grid-cols-1 max-[399px]:gap-1.5">
         <Carte
           plan="monthly"
           actif={value === "monthly"}

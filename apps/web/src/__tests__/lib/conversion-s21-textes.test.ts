@@ -19,7 +19,11 @@ import {
 import { AVANTAGE_LETTRE, avantagesPremium } from "@/config/textes/avantages-premium";
 import { ABONNEMENT_CTA } from "@/config/textes/cta-pages";
 import { CARNET_EXTRAIT_TITRE } from "@/config/textes/carnet-extrait";
-import { ANNUEL_MOIS_OFFERTS_LABEL, prixLabel, rappelFormule, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { ANNUEL_MOIS_OFFERTS_LABEL, prixLabel, rappelFormule, REASSURANCE_AVEC_LIEN, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
+
+/** s26 (22/11) : la réassurance de /abonnement porte le lien « Renoncer au contrat ici ». */
+const REASS_ABONNEMENT = `${REASSURANCE_AVEC_LIEN.avant}${LIBELLE_RENONCER_CONTRAT}${REASSURANCE_AVEC_LIEN.apres}`;
 import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
 import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire";
 import { origineAbonnement } from "@/lib/abonnement-accroche";
@@ -57,12 +61,13 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
     expect(t(ABONNEMENT_ACHAT.bouton("monthly"))).toBe("S’abonner · 1,99 €/mois");
     expect(t(ABONNEMENT_ACHAT.bouton("annual"))).toBe("S’abonner · 16,99 €/an");
     expect(ABONNEMENT_ACHAT.chargement).toBe("On t’emmène au paiement…");
-    expect(ABONNEMENT_ACHAT.suiteVisiteur).toBe("D’abord ton compte, puis le paiement sur Stripe.");
+    expect(ABONNEMENT_ACHAT.suiteVisiteur).toBe("D’abord ton compte, puis le paiement.");
     // v2 A04 : renouvellement de l'annuel (affiché seulement en annuel).
     expect(FORMULES.renouvelAnnuel).toBe("Renouvelé chaque année, sauf résiliation.");
-    expect(ABONNEMENT_ACHAT.suiteConnecte).toBe("Paiement sécurisé par Stripe");
+    // s26 (22/11) : connecté, plus de ligne « Paiement sécurisé par Stripe ».
+    expect("suiteConnecte" in ABONNEMENT_ACHAT).toBe(false);
     expect(`${ABONNEMENT_ACHAT.dejaCompte} ${ABONNEMENT_ACHAT.connecteToi}`).toBe("Déjà un compte ? Connecte-toi");
-    expect(REASSURANCE_UNIQUE).toBe("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(REASSURANCE_UNIQUE).toBe("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
   });
 
   it("tableau : 7 lignes sans la lettre, 8 avec, faits lus à la source (v2 A10 à A13)", () => {
@@ -186,7 +191,7 @@ describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10 ; v2 
       ANNUEL_MOIS_OFFERTS_LABEL,
       ABONNEMENT_ACHAT.bouton("monthly"),
       ABONNEMENT_ACHAT.suiteVisiteur,
-      REASSURANCE_UNIQUE,
+      REASS_ABONNEMENT,
       ABONNEMENT_ACHAT.dejaCompte,
       ABONNEMENT_ACHAT.connecteToi,
       ...tableau(lettre),
@@ -196,7 +201,7 @@ describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10 ; v2 
       PAS_ENCORE_SUR_SANS_COMPTE,
       ABONNEMENT_ACHAT.bouton("monthly"),
       ABONNEMENT_ACHAT.suiteVisiteur,
-      REASSURANCE_UNIQUE,
+      REASS_ABONNEMENT,
     );
   it("sans la lettre et avec (renouvellement toujours affiché) : ≤ 230 mots hors FAQ, accroche et texte de la fiche", () => {
     const [v0, v1] = [page(false), page(true)];

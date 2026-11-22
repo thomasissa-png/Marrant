@@ -67,7 +67,7 @@ const mots = (...textes: string[]) =>
     .split(/[ \n]+/)
     .filter((m) => /[\p{L}\p{N}]/u.test(m)).length;
 
-const REASS = "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
+const REASS = "Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
 /** Porte générique (arbitrage du 19/10) et verbe d'achat (étalon A), trajet de conversion s21. */
 const OUVRIR = "Tout ouvrir · 1,99 €/mois";
 const SABONNER = "S’abonner · 1,99 €/mois";
@@ -76,7 +76,8 @@ const OBJET = "Premium ouvre tout : le catalogue, les 5 parcours, un carnet de r
 describe("§0 conventions : REASS, OUVRIR, GRATUIT_ACCUEIL, GRATUIT_P", () => {
   it("libellés uniques et réassurance unique, mot pour mot", () => {
     expect(t(REASSURANCE_UNIQUE)).toBe(REASS);
-    expect(mots(REASSURANCE_UNIQUE)).toBe(11);
+    // s26 (22/11) : « Premium : » retiré en tête, un mot de moins.
+    expect(mots(REASSURANCE_UNIQUE)).toBe(10);
     expect(t(libelleToutOuvrir())).toBe(OUVRIR);
     expect(t(libelleToutOuvrir("16,99 €/an"))).toBe("Tout ouvrir · 16,99 €/an");
     expect(GRATUIT_ACCUEIL).toBe("Apprends à répondre à une pique, gratuit");
@@ -352,7 +353,8 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
     expect(getPremiumFaqs(true)[2].answer).toBe(
       `C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas. ${REASS} Les 14 jours courent dès ton abonnement, annuel compris. Un renouvellement n’ouvre pas de nouveau délai.`,
     );
-    expect([mots(FAQ_VENTE[2].answer), mots(getPremiumFaqs(true)[2].answer)]).toEqual([40, 45]);
+    // s26 (22/11) : « Premium : » retiré de la REASS citée dans la réponse prix, un mot de moins.
+    expect([mots(FAQ_VENTE[2].answer), mots(getPremiumFaqs(true)[2].answer)]).toEqual([39, 44]);
   });
 
   it("§4 /register", () => {
@@ -360,7 +362,8 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
     expect(REGISTER_CTA.titre).toBe("Ton compte, puis le paiement");
     expect(t(REGISTER_CTA.planReminder("monthly"))).toBe("Premium, 1,99 €/mois.");
     expect(t(REGISTER_CTA.planReminder("annual"))).toBe("Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation.");
-    expect(REGISTER_CTA.stripe).toBe("Paiement sécurisé par Stripe.");
+    // s26 (22/11) : plus de « Paiement sécurisé par Stripe. » sur /register.
+    expect("stripe" in REGISTER_CTA).toBe(false);
     expect(REGISTER_CTA.bouton).toBe("Créer mon compte et passer au paiement");
     expect(REGISTER_CTA.google).toBe("Continuer avec Google");
     expect(`${REGISTER_CTA.dejaCompte} ${REGISTER_CTA.connecteToi}`).toBe("Déjà un compte ? Connecte-toi");

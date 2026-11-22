@@ -152,7 +152,7 @@ describe("ProfilDashboard", () => {
     // Trajet de conversion s21 §2 : phrase d'objet commune (accueil et profil connectés).
     expect(screen.getByText("Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.")).toBeInTheDocument();
     expect(
-      screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil."),
+      screen.getByText("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil."),
     ).toBeInTheDocument();
     expect(screen.queryByText(/Passe Premium pour débloquer|Résiliable en ligne quand tu veux|Active mon accès/)).toBeNull();
     expect(screen.queryByText(/Sans engagement/)).toBeNull();

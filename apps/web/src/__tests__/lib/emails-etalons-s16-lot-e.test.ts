@@ -263,7 +263,7 @@ describe("dates, montants, textes d’écran validés", () => {
   });
 
   it("REASS unique (concision v5 : premier paiement, sans prix) et texte Stripe : seule la formule choisie", () => {
-    expect(REASSURANCE_UNIQUE).toBe("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(REASSURANCE_UNIQUE).toBe("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
     expect(REASSURANCE_UNIQUE).not.toMatch(/€|remboursé sous|—/);
     const annuel = lisible(texteStripeSubmit("annual")).replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
     expect(annuel).toBe(

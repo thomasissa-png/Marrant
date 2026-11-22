@@ -101,7 +101,7 @@ describe("FavorisList", () => {
     expect(screen.getByText(/réservés aux membres Premium/)).toBeInTheDocument();
     // Concision v5 : libellé payant générique unique `OUVRIR`, REASS dessous.
     expect(screen.getByText("Tout ouvrir · 1,99 €/mois")).toBeInTheDocument();
-    expect(screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument();
+    expect(screen.getByText("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument();
   });
 
   it("renders tab filters with ARIA", () => {

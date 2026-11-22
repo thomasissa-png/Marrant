@@ -143,7 +143,7 @@ describe("bloc de fin unique (s21, B2)", () => {
     expect(bloc).toHaveTextContent("Premium ouvre le catalogue, les parcours et leurs exercices.");
     expect(bloc).not.toHaveTextContent(normalise("La placer à voix haute, ça s'entraîne."));
     expect(bloc).toHaveTextContent(/Tout ouvrir\s·\s1,99\s€\/mois/);
-    expect(bloc).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(bloc).toHaveTextContent("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
     // v3 S01 : libellé unique du parcours (Répartie pour l'article n°1).
     expect(bloc).toHaveTextContent(/Tester l’étape\s1\sde Répartie, gratuite/);
     expect(bloc).not.toHaveTextContent("Apprends à répondre à une pique, gratuit");

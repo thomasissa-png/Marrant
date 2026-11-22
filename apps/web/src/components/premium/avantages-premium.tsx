@@ -24,10 +24,10 @@ export function AvantagesPremium({
         <li key={ligne} className="flex items-start gap-2">
           <span className="w-5 shrink-0 text-center text-success" aria-hidden="true">✓</span>
           {ancreCarnet && i === RANG_AVANTAGE_CARNET ? (
-            // Lien discret (souligné pointillé) : même texte, vers l'exemple juste en dessous.
+            // Lien (souligné plein comme les autres liens du site, s26 22/11) : même texte, vers l'exemple juste en dessous.
             <a
               href={`#${ANCRE_CARNET_VENTE}`}
-              className="underline decoration-accent-link decoration-dotted decoration-2 underline-offset-4 hover:text-accent-link"
+              className="underline decoration-accent-link underline-offset-4 hover:text-accent-link"
               data-testid="avantage-carnet-lien"
             >
               {frTypo(ligne)}

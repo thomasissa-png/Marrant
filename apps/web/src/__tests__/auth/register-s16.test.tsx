@@ -20,7 +20,7 @@ const mockTrack = jest.fn();
 jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
 
 async function fillAndSubmit() {
-  await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+  await userEvent.type(screen.getByLabelText("E-mail"), "jean@test.fr");
   await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
   await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 }
@@ -34,23 +34,23 @@ describe("RegisterPage, audit s16", () => {
 
   it("réassurance premier paiement (s21) et acceptation des CGU avec lien", () => {
     render(<RegisterPage />);
+    // s26 (22/11) : sans « Premium : », avec le lien de rétractation dans la phrase.
     expect(screen.getByTestId("register-reassurance")).toHaveTextContent(
-      /^Premium : premier paiement remboursable sous 14 jours\. Résiliable depuis ton profil\.$/,
+      /^Premier paiement remboursable sous 14 jours : Renoncer au contrat ici\. Résiliable depuis ton profil\.$/,
     );
     const cgu = screen.getByRole("link", { name: "CGU" });
     expect(cgu).toHaveAttribute("href", "/cgu");
-    expect(cgu.closest("p")).toHaveTextContent("En créant ton compte, tu acceptes les CGU.");
+    expect(cgu.closest("p")).toHaveTextContent("En créant ton compte, tu acceptes les CGU et la confidentialité.");
   });
 
-  it("revue v3 m2 : une seule mention CGU, juste sous Google, avant le formulaire e-mail", () => {
+  it("s26 (22/11) : une seule mention CGU, sous le bouton (formulaire d'un seul tenant)", () => {
     render(<RegisterPage />);
     const mention = screen.getByTestId("register-cgu");
     expect(screen.getAllByText(/En créant ton compte, tu acceptes les/)).toHaveLength(1);
     const google = screen.getByRole("button", { name: /Continuer avec Google/ });
     const suit = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
-    expect(google.nextElementSibling).toBe(mention);
-    expect(suit(mention, screen.getByLabelText("Email"))).toBe(true);
-    expect(suit(mention, screen.getByRole("button", { name: REGISTER_CTA.bouton }))).toBe(true);
+    expect(suit(google, screen.getByLabelText("E-mail"))).toBe(true);
+    expect(suit(screen.getByRole("button", { name: REGISTER_CTA.bouton }), mention)).toBe(true);
   });
 
   it("revue v3 m3 : `register-etape1`, source connue de parcours-ouvert", () => {

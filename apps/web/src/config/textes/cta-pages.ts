@@ -264,8 +264,6 @@ export const REGISTER_CTA = {
   google: "Continuer avec Google",
   dejaCompte: "Déjà un compte ?",
   connecteToi: "Connecte-toi",
-  /** v2 G06 : sous la réassurance, même style petit. */
-  stripe: "Paiement sécurisé par Stripe.",
   /** v2 G05 : seulement sans source ou depuis /login (aucun clic d'achat). Parcours d'origine, Répartie par défaut. */
   lienEtape1: libelleGratuitParcours,
 } as const;

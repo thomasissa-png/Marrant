@@ -25,7 +25,7 @@ const GLUON = new RegExp(String.fromCharCode(0x2060), "g");
 const norm = (s: string | null | undefined) => (s ?? "").replace(INVISIBLES, " ").replace(GLUON, "").replace(/’/g, "'");
 
 /** Copie mot pour mot de `docs/copy/cta-s21/concision/textes-v5-c.md` §8. */
-const REASS = "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
+const REASS = "Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
 const ATTENDU = {
   e5: {
     titre: "Le vocabulaire, c'est fait. Reste à s'en servir.",
@@ -46,7 +46,7 @@ function bloc(testId: string) {
   const el = screen.getByTestId(testId);
   const ps = Array.from(el.querySelectorAll("p")).map((p) => norm(p.textContent));
   const liens = within(el).getAllByRole("link");
-  return { titre: ps[0], paragraphe: ps[1], ligne: ps.find((t) => t.startsWith("Premium :")), tout: norm(el.textContent), bouton: liens[0], lien: liens[1] };
+  return { titre: ps[0], paragraphe: ps[1], ligne: ps.find((t) => t.startsWith("Premier paiement")), tout: norm(el.textContent), bouton: liens[0], lien: liens[1] };
 }
 
 describe("source : sections E5 et E6", () => {

@@ -129,15 +129,20 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     // Sans carnet sur la page : l'avantage 3 n'est pas un lien (ancre absente).
     expect(screen.queryByTestId("avantage-carnet-lien")).toBeNull();
     expect(texteDe(boutonHaut())).toBe(MENSUEL);
-    expect(screen.getByTestId("abonnement-suite")).toHaveTextContent("D’abord ton compte, puis le paiement sur Stripe.");
+    expect(screen.getByTestId("abonnement-suite")).toHaveTextContent("D’abord ton compte, puis le paiement.");
     // v3 M2 : le renouvellement est dans la carte Annuel, plus jamais entre les cartes et le bouton.
     expect(within(screen.getByTestId("formule-annual")).getByTestId("renouvellement-annuel")).toBeInTheDocument();
     // Réassurance lisible (revue visuelle tour 1) : blanc cassé, 14 px, même composant partout.
     expect(screen.getByTestId("reassurance-paiement").className).toMatch(/text-text-primary/);
     expect(screen.getByTestId("reassurance-paiement").className).not.toMatch(/text-text-muted|text-xs/);
+    // s26 (22/11) : le lien « Renoncer au contrat ici » dans la phrase, seulement sur /abonnement et /register.
     expect(texteDe(screen.getByTestId("reassurance-paiement"))).toBe(
-      "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
+      "Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.",
     );
+    expect(screen.getByTestId("abonnement-retractation")).toHaveAttribute("href", "/retractation");
+    // Mêmes hauteurs (s26, 22/11) : grille étirée, contenu calé en haut de chaque carte.
+    expect(screen.getByTestId("formule-monthly").parentElement!.className).toContain("items-stretch");
+    expect(screen.getByTestId("formule-monthly").className).toContain("justify-start");
     const deja = screen.getByTestId("abonnement-deja-compte");
     expect(texteDe(deja)).toBe("Déjà un compte ? Connecte-toi");
     // « Connecte-toi » : après connexion, retour ici avec `auto=1` (page d'attente puis paiement).
@@ -154,7 +159,9 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     const lien = screen.getByTestId("avantage-carnet-lien");
     expect(lien).toHaveAttribute("href", "#le-carnet-en-vrai");
     expect(lien).toHaveTextContent("Chaque mois, un carnet de situations et leurs répliques");
-    expect(lien.className).toMatch(/decoration-dotted/);
+    // s26 (22/11) : soulignement plein, comme les autres liens du site.
+    expect(lien.className).toMatch(/(^|\s)underline(\s|$)/);
+    expect(lien.className).not.toMatch(/decoration-dotted|decoration-dashed/);
     const haut = screen.getByTestId("abonnement-preuve");
     const bas = screen.getByTestId("abonnement-preuve-bas");
     expect(texteDe(bas)).toBe(texteDe(haut));
@@ -182,7 +189,7 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
       expect(texteDe(screen.getByTestId(id))).toBe(MENSUEL);
       expect(screen.getByTestId(id)).toHaveAttribute("href", href);
     }
-    expect(screen.getByTestId("abonnement-suite-final")).toHaveTextContent("D’abord ton compte, puis le paiement sur Stripe.");
+    expect(screen.getByTestId("abonnement-suite-final")).toHaveTextContent("D’abord ton compte, puis le paiement.");
     expect(screen.getByTestId("reassurance-paiement-final")).toBeInTheDocument();
     // La barre n'a ni suite ni réassurance (textes-trajet-v1 §1.4).
     expect(within(screen.getByTestId("abonnement-barre-collante")).queryByText(/remboursable|Tu crées/)).toBeNull();
@@ -269,13 +276,20 @@ describe("AbonnementPage (serveur)", () => {
     expect(params.get("src")).toBe("parcours-apercu");
   });
 
-  it("compte connecté : bouton Stripe, ligne Stripe, sans « Déjà un compte ? » ni « Pas encore sûr ? »", async () => {
+  it("compte connecté : bouton Stripe, seule la ligne du remboursement, sans « Déjà un compte ? » ni « Pas encore sûr ? »", async () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(await AbonnementPage({}));
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Premium ouvre tout Deviens Marrant");
     expect(screen.getByTestId("abonnement-bouton-haut")).toHaveTextContent(MENSUEL);
-    expect(screen.getByTestId("paiement-stripe")).toHaveTextContent("Paiement sécurisé par Stripe");
-    expect(screen.getByTestId("paiement-stripe-final")).toHaveTextContent("Paiement sécurisé par Stripe");
+    // s26 (22/11) : plus de « Paiement sécurisé par Stripe ».
+    expect(screen.queryByTestId("paiement-stripe")).toBeNull();
+    expect(screen.queryByTestId("paiement-stripe-final")).toBeNull();
+    expect(screen.queryByText(/Paiement sécurisé/)).toBeNull();
+    for (const id of ["reassurance-paiement", "reassurance-paiement-final"]) {
+      expect(texteDe(screen.getByTestId(id))).toBe(
+        "Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.",
+      );
+    }
     expect(screen.queryByTestId("abonnement-suite")).toBeNull();
     expect(screen.queryByTestId("abonnement-deja-compte")).toBeNull();
     expect(screen.queryByTestId("abonnement-etape-1")).toBeNull();

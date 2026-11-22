@@ -77,20 +77,20 @@ describe("phrase de contexte et lien gratuit (G03 à G05)", () => {
     expect(lienGratuit()).toBeInTheDocument();
   });
 
-  it("titre, réassurance, puis ligne Stripe (G01, G06)", () => {
+  it("titre, réassurance, puis CGU (G01 ; s26 22/11 : plus de ligne Stripe)", () => {
     poser({ src: "header" });
     render(<RegisterPage />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Ton compte, puis le paiement");
     const reass = screen.getByTestId("register-reassurance");
-    const stripe = screen.getByTestId("register-stripe");
-    expect(stripe).toHaveTextContent(REGISTER_CTA.stripe);
-    expect(reass.compareDocumentPosition(stripe) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const cgu = screen.getByTestId("register-cgu");
+    expect(screen.queryByTestId("register-stripe")).toBeNull();
+    expect(reass.compareDocumentPosition(cgu) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 });
 
 describe("attente dans le bouton après l'inscription par e-mail", () => {
   async function inscrire() {
-    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+    await userEvent.type(screen.getByLabelText("E-mail"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
   }

@@ -19,7 +19,8 @@ const VUES = [
   { width: 390, height: 844 },
   { width: 1440, height: 900 },
 ] as const;
-const LIGNE = "Tu recevras aussi la lettre du mois, une fois par mois. Désinscription en un clic.";
+// s26 (22/11) : ligne raccourcie, sous le bouton, dans la phrase des CGU.
+const LIGNE = "Tu recevras la lettre du mois, désinscription en un clic.";
 
 test.describe.configure({ mode: "serial" });
 
@@ -66,7 +67,7 @@ test.describe("Captures v10 : lettre du mois d'office aux comptes", () => {
       const google = page.getByRole("button", { name: /Google/ });
       await capturerZone(page, google, ligne, `inscription-google-${vue.width}`);
       const soumettre = page.locator("form button[type=submit]");
-      await capturerZone(page, ligne, soumettre, `inscription-email-${vue.width}`);
+      await capturerZone(page, soumettre, ligne, `inscription-email-${vue.width}`);
     });
 
     test(`${vue.width} : confidentialité sections 7 et 8`, async ({ page }) => {

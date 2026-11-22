@@ -78,10 +78,10 @@ describe("/abonnement (compte connecté)", () => {
     expect(appels("checkout-echec")).toEqual([{ src: "abonnement", raison: "reseau", formule: "mensuel" }]);
   });
 
-  it("une mention de Stripe sous chaque bouton d'achat (haut et final, textes-trajet-v1 §1.7), pas de « Droit de rétractation »", () => {
+  it("s26 (22/11) : plus aucune mention de Stripe sous les boutons d'achat, pas de « Droit de rétractation »", () => {
     checkoutVers(500);
     render(<AbonnementView annualAvailable={false} carnetExtrait={null} />);
-    expect(screen.getAllByText(/Stripe/).map((el) => el.getAttribute("data-testid"))).toEqual(["paiement-stripe", "paiement-stripe-final"]);
+    expect(screen.queryAllByText(/Stripe/)).toHaveLength(0);
     expect(screen.queryByText(/Droit de/)).toBeNull();
   });
 });

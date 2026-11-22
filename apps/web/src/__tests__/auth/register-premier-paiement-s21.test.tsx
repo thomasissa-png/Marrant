@@ -21,12 +21,13 @@ jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 
 const ANCIENNE_PHRASE = "remboursé sous 14 jours";
 /** Concision v5 : la REASS unique, collée sous le plein. */
-const LIGNE_BAS = "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
+/** s26 (22/11) : avec le lien « Renoncer au contrat ici » dans la phrase, sans « Premium : ». */
+const LIGNE_BAS = "Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.";
 
 /** Texte de la page, espaces insécables ramenés à des espaces simples. */
 function textePage(): string {
-  // s22 : la ligne de la lettre du mois (« une fois par mois », décision de Thomas du 25/10) n'est pas
-  // une ligne de prix ; elle est vérifiée à part, mot pour mot.
+  // s22 : la ligne de la lettre du mois (décision de Thomas du 25/10) n'est pas une ligne de prix ;
+  // elle est vérifiée à part, mot pour mot.
   return (document.body.textContent ?? "").replace(/[  ]/g, " ").replace(LETTRE_MOIS_INSCRIPTION_COMPTE, "");
 }
 
@@ -54,11 +55,11 @@ describe("/register, lignes prix et remboursement (s21)", () => {
     expect(textePage()).not.toContain(ANCIENNE_PHRASE);
     expect(textePage()).not.toContain("TTC");
     expect(textePage()).not.toContain("par mois");
-    // s22 : ligne de la lettre du mois, mot pour mot, une seule fois (sous les CGU, valable e-mail et Google).
+    // s22 : lettre du mois, une seule fois, dans la ligne des CGU (s26, texte du 22/11 mot pour mot).
     expect(screen.getAllByTestId("register-lettre-mois")).toHaveLength(1);
     // Relecture s22 (mineur) : « en un clic » insécable.
     expect(screen.getByTestId("register-lettre-mois").textContent).toContain("en un clic.");
-    expect(screen.getByTestId("register-lettre-mois").textContent?.replace(/[  ]/g, " ")).toBe("Tu recevras aussi la lettre du mois, une fois par mois. Désinscription en un clic.");
+    expect(screen.getByTestId("register-lettre-mois").textContent?.replace(/[  ]/g, " ")).toBe("Tu recevras la lettre du mois, désinscription en un clic.");
   });
 
   it("annuel depuis l'offre (callbackUrl /abonnement?plan=annual) : seul le prix change", () => {

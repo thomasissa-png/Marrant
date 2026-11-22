@@ -20,7 +20,6 @@ import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
 import { CGU_ACCEPTATION, LETTRE_MOIS_INSCRIPTION_COMPTE } from "@/config/textes/offre";
-import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
 import { contexteRegister, MUR_PARCOURS, REGISTER_CTA, SRC_SANS_ACHAT } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
 import { Chargement } from "@/components/ui/chargement";
@@ -302,31 +301,9 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             {googleBloque && inApp && (
               <InAppBrowserNotice page="register" callbackUrl={callbackUrl} src={src} ios={inApp.ios} android={inApp.android} />
             )}
-            {/* Revue v3 m2 : les CGU sous Google (premier geste possible), avant le formulaire e-mail ;
-                une seule mention, valable pour les deux façons de créer le compte. */}
-            <p className="-mt-2 text-center text-xs text-text-muted" data-testid="register-cgu">
-              {CGU_ACCEPTATION.avant}
-              <Link href="/cgu" className="underline underline-offset-2 hover:text-text-secondary">
-                {CGU_ACCEPTATION.lien}
-              </Link>
-              {CGU_ACCEPTATION.apres}
-            </p>
-            {/* s26 rétractation /register (décision de Thomas du 20/11, `docs/legal/retractation-register-s26.md`) :
-                le libellé légal existant vers /retractation, sans phrase d'introduction, style du lien CGU ;
-                lien seul sur sa ligne, donc cible de 44 px comme les autres liens isolés de la page. */}
-            <p className="-mt-3 text-center text-xs text-text-muted" data-testid="register-retractation">
-              <Link href="/retractation" className="inline-flex min-h-11 items-center underline underline-offset-2 hover:text-text-secondary">
-                {LIBELLE_RENONCER_CONTRAT}
-              </Link>
-            </p>
-            {/* s22 : la lettre du mois part d'office aux comptes (décision de Thomas du 25/10), sans case. */}
-            <p className="-mt-3 text-center text-xs text-text-muted" data-testid="register-lettre-mois">
-              {/* Relecture s22 (mineur) : « en un clic » insécable, jamais « un clic. » seul en fin de ligne. */}
-              {frTypo(LETTRE_MOIS_INSCRIPTION_COMPTE).replace("en un clic", "en un clic")}
-            </p>
             <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">
-                Email
+                E-mail
               </label>
               <Input
                 id="email"
@@ -398,11 +375,31 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
                 REGISTER_CTA.bouton
               )}
             </Button>
-            {/* Concision v5 : la REASS collée sous le plein (CGU : sous Google, revue v3 m2) ; v2 G06 : Stripe dessous. */}
-            <div className="-mt-2">
-              <Reassurance className="mt-0" testId="register-reassurance" />
-              <p className="mt-1 text-center text-sm text-text-secondary" data-testid="register-stripe">
-                {REGISTER_CTA.stripe}
+            {/* s26 allègement du tunnel (décision de Thomas du 22/11, `docs/legal/allegement-tunnel-achat-s26.md` §2) :
+                formulaire d'un seul tenant, toutes les mentions sous le bouton, en petit, deux lignes. */}
+            <div className="-mt-2 space-y-1 text-center text-xs leading-snug text-text-muted" data-testid="register-mentions">
+              <Reassurance
+                className="mt-0 text-xs text-text-muted"
+                testId="register-reassurance"
+                lienRetractation
+                lienTestId="register-retractation"
+                lienClassName="hover:text-text-secondary"
+              />
+              <p data-testid="register-cgu">
+                {CGU_ACCEPTATION.avant}
+                <Link href="/cgu" className="underline underline-offset-2 hover:text-text-secondary">
+                  {CGU_ACCEPTATION.lien}
+                </Link>
+                {CGU_ACCEPTATION.entre}
+                <Link href="/confidentialite" className="underline underline-offset-2 hover:text-text-secondary" data-testid="register-confidentialite">
+                  {CGU_ACCEPTATION.lienConfidentialite}
+                </Link>
+                {CGU_ACCEPTATION.apres}
+                {/* s22 : la lettre du mois part d'office aux comptes (décision de Thomas du 25/10), sans case.
+                    « en un clic » insécable, jamais « un clic. » seul en fin de ligne. */}
+                <span data-testid="register-lettre-mois">
+                  {frTypo(LETTRE_MOIS_INSCRIPTION_COMPTE).replace("en un clic", "en un clic")}
+                </span>
               </p>
             </div>
           </form>

@@ -52,8 +52,11 @@ const TOTAUX_V3: Record<string, number> = {
   "blagues-vacances-ete-entre-amis": 19,
 };
 
-/** Blocs au-delà de la dérogation de 37 mots (titre d'article long + lien du parcours) : signalés, aucun texte inventé. */
-const DEPASSEMENTS: Record<string, number> = { "voeux-drole-nouvelle-annee": 38 };
+/**
+ * Blocs au-delà de la dérogation de 37 mots (titre d'article long + lien du parcours) : signalés, aucun texte inventé.
+ * s26 (22/11) : « Premium : » retiré de la réassurance, « voeux-drole-nouvelle-annee » passe de 38 à 37 mots (dans le budget).
+ */
+const DEPASSEMENTS: Record<string, number> = {};
 
 const ANCIENS = /Passer à Premium|Commencer le parcours|Lire l'étape 1|parcours complets/i;
 

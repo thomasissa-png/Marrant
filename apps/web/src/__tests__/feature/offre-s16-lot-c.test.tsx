@@ -62,9 +62,9 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     // Trajet de conversion s21 : le nom de la carte reste pour les lecteurs d'écran (le titre dit déjà Premium).
     expect(screen.getByRole("heading", { name: "Offre Premium" })).toBeInTheDocument();
     expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 1,99 € TTC / mois »
-    // REASS unique (concision v5) sous le bouton du haut, et sous le bouton final.
-    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
-    expect(screen.getByTestId("reassurance-paiement-final")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    // REASS (concision v5) sous le bouton du haut et sous le bouton final ; s26 (22/11) : avec le lien de rétractation.
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.");
+    expect(screen.getByTestId("reassurance-paiement-final")).toHaveTextContent("Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.");
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "vannes" });
     expect(screen.queryByTestId("paiement-annule")).not.toBeInTheDocument();
@@ -112,7 +112,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     render(<AbonnementView annualAvailable />);
     await userEvent.click(screen.getByRole("radio", { name: /^Annuel/ }));
     expect(screen.getByText("TTC / an")).toBeInTheDocument();
-    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premier paiement remboursable sous 14 jours : Renoncer au contrat ici. Résiliable depuis ton profil.");
   });
 
   it("visiteur : clic vers l'inscription mesuré (abonnement-clic, statut visiteur)", async () => {
@@ -156,7 +156,7 @@ describe("accueil : bloc Premium", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumCta />);
     expect(screen.queryByRole("heading", { name: "Premium" })).toBeNull();
-    expect(screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument();
+    expect(screen.getByText("Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument();
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(document.body.textContent).not.toContain("inscrits");
     // s21 (B4 + B5) : plein vers /abonnement?src=accueil-premium, libellé du tour 4.
