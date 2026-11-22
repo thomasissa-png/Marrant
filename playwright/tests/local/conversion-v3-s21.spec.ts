@@ -251,11 +251,14 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
     for (const id of ["abonnement-carnet-extrait", "abonnement-tableau", "abonnement-final"]) expect(await largeur(id), id).toBe(carte);
     const yPrix = async (plan: string) => (await page.getByTestId(`formule-${plan}`).locator("span.font-display").boundingBox())!.y;
     expect(Math.round(await yPrix("monthly"))).toBe(Math.round(await yPrix("annual")));
-    // Finition du tour 3 : FAQ à la même largeur ; plus de vide sous le prix de la case Mensuel.
+    // Finition du tour 3 : FAQ à la même largeur.
     expect(await largeur("abonnement-faq")).toBe(carte);
+    // s26 (22/11) : test changé (raison : décision de Thomas du 22/11, cartes Mensuel et Annuel à la MÊME hauteur
+    // côte à côte, le vide passe en fin de la carte Mensuel, règle du 19/11 ; remplace « pas de vide sous le prix »).
     const mensuel = (await page.getByTestId("formule-monthly").boundingBox())!;
-    const prixMensuel = (await page.getByTestId("formule-monthly").locator("span.font-display").boundingBox())!;
-    expect(mensuel.y + mensuel.height - (prixMensuel.y + prixMensuel.height), "vide sous le prix Mensuel").toBeLessThanOrEqual(16);
+    const annuel = (await page.getByTestId("formule-annual").boundingBox())!;
+    expect(Math.round(mensuel.y), "cartes alignées en haut").toBe(Math.round(annuel.y));
+    expect(Math.round(mensuel.height), "cartes de même hauteur").toBe(Math.round(annuel.height));
   });
 
   test("M6 : « Parcours humour : … », espace insécable avant « : »", async ({ page }) => {
