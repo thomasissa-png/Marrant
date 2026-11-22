@@ -78,7 +78,7 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     // Trajet de conversion s21 (étalon A) : 3 avantages tant que la promesse de la lettre est fermée.
     await expect(page.getByTestId("avantages-premium").locator("li")).toHaveCount(3);
     await expect(page.getByText(/^Les listes ne s.arrêtent plus à la dixième vanne, les parcours vont au bout\.$/)).toBeVisible();
-    await expect(page.getByTestId("reassurance-paiement")).toHaveText(/^Premier\spaiement\sremboursable\ssous\s14\sjours\s:\sRenoncer\sau\scontrat\sici\.\sRésiliable\sdepuis\ston\sprofil\.$/);
+    await expect(page.getByTestId("reassurance-paiement")).toHaveText(/^Premier\spaiement\sremboursable\ssous\s14\sjours\.\sRésiliable\sdepuis\ston\sprofil\.$/);
     expect(await page.locator("main").textContent()).not.toMatch(/1 clic/);
 
     await page.goto("/carnet");
