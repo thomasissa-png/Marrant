@@ -120,3 +120,12 @@ Commit `df8f40a4` (CI verte, run 44889912286, 4 jobs `success`). Code depuis `9f
 ## Surveillance après les déploiements (21/11, 12:06 UTC)
 
 Tail JSON de 11:19 à 11:37 (connexion perdue ensuite, faible trafic du samedi) : 13 requêtes sur `b29666a2` (12 × 200, 1 × 404), 0 réponse 5xx, 0 exception, 0 log d'erreur. À 12:06 : `b29666a2` à 100 %, `/api/health` ok (Stripe live, base up), 11 adresses clés conformes (pages publiques et aperçu de l'espace 200, `/profil` 307).
+
+## Tunnel allégé, 22/11 (go écrit de Thomas « go mise en ligne », relayé par l'orchestrateur)
+
+Commit `e2670ba0` (code identique à `721663bc` + correctif de test e2e ; CI en cours au départ). Depuis `df8f40a4` : `register/page.tsx`, `abonnement-view.tsx`, `avantages-premium.tsx`, `formule-cartes.tsx`, `reassurance.tsx`, `config/indexnow.ts`, textes (`abonnement-vente.ts`, `cta-pages.ts`, `offre.ts`) et tests. Aucune migration, variable, package ni changement de `wrangler.jsonc` ; `ESPACE_CLIENT_PUBLIE = true` inchangé.
+
+| Heure (UTC) | Étape | Résultat |
+|---|---|---|
+| 10:33 | N-1 | `deployments list` : **`b29666a2-5af9-4504-94dd-92c183b8c804` à 100 %** (« s26 correctif Ngijol df8f40a4 »), conforme |
+| 10:33 | sauvegarde | **aucune branche Neon** : rien n'est écrit en base (ni migration, ni tâche de démarrage) |
