@@ -4,8 +4,9 @@
 - **Phase A** (go « go! » du 20/11) : migrations 18 à 26 jouées sur Neon (20/11 20:23 UTC) ; version `c7ace530-0de6-46af-b596-72a43554c9c8` (build `86f2be81`, espace fermé) à 100 % le 20/11 à 20:24:11 UTC ; N-1 `5504e970-5c1d-496d-a90a-3eaaf0db9846`. Sauvegarde Neon `br-plain-butterfly-b16lk1qd`.
 - **Phase B** (go « je suis tes recos, finissons » puis « lance la bascule B ») : version `e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3` (build `9ffa6311`, `ESPACE_CLIENT_PUBLIE = true`) à 100 % le 21/11 à 09:06:30 UTC ; N-1 `c7ace530`. Sauvegarde Neon `br-plain-silence-b1pcw0xb`. Caps : 1 ligne silencieuse écrite, contrôle 0/0. Démarrage : 3 vidéos remplacées, 0 refus, 4 déjà faites. Tail 15 min : 0 5xx.
 - **Correctif Ngijol** (go « go mise en ligne » du 21/11) : version `b29666a2-5af9-4504-94dd-92c183b8c804` (build `df8f40a4`, parcours storytelling 1.4 vers `l__Xirj2N6c`) à 100 % le 21/11 à 10:45:43 UTC ; N-1 `e9def49b` ; aucune écriture en base ; tail 10 min : 0 5xx.
+- **Tunnel d'achat allégé** (go « go mise en ligne » du 22/11) : version `6612baa4-b134-4cad-a1e3-7041d537d315` (build `e2670ba0` : /register et /abonnement allégés, plus de lien « Renoncer au contrat ici » sous les boutons, lien confidentialité, cartes de même hauteur ; IndexNow config 21/11) à 100 % le 22/11 à 10:42 UTC ; N-1 `b29666a2` ; tail 10 min : 0 5xx. **Les entrées « tunnel » et « IndexNow » de « À DÉPLOYER » sont en ligne.**
 - **Toutes les entrées s26 ci-dessous marquées « COMMITÉ, NON DÉPLOYÉ » sont en ligne depuis la phase B** (sauf `RESILIATION_PAGE_OUVERTE`, resté à false).
-- **Retour arrière** : `npx wrangler rollback c7ace530-0de6-46af-b596-72a43554c9c8 -m "rollback s26 B" -y` (migrations additives, non défaites). Journal : `docs/infra/lancement-s26-journal.md`.
+- **Retour arrière** (prod actuelle `6612baa4`) : `npx wrangler rollback b29666a2-5af9-4504-94dd-92c183b8c804 -m "rollback tunnel" -y` ; pour revenir avant l'ouverture : `c7ace530-0de6-46af-b596-72a43554c9c8` (migrations additives, non défaites). Journal : `docs/infra/lancement-s26-journal.md`.
 
 ## À DÉPLOYER
 
