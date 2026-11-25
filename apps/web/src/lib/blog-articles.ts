@@ -382,9 +382,9 @@ Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos
   },
   {
     slug: "autoderision-interactions",
-    title: "Autodérision : définition et exemples",
+    title: "Autodérision : définition, exemples et règles d'or",
     excerpt:
-      "L'autodérision, c'est rire de soi sans se rabaisser. Définition, règles d'or et exemples pour être sympathique en 30 secondes sans te démolir.",
+      "Autodérision : rire de ses défauts sans se rabaisser. Définition claire, 3 règles pour la doser et des exemples d'humoristes à copier dès aujourd'hui.",
     content: `Bien dosée, l'autodérision te rend sympathique, accessible et drôle. Mal dosée, elle te fait passer pour quelqu'un qui attend qu'on le console. Toute la différence tient dans **le ton**, et ce guide t'apprend à le trouver pour rire de toi sans te démolir.
 
 > **À retenir :** L'autodérision est un signal de confiance, pas de faiblesse. Elle fonctionne quand elle cible des défauts mineurs (sens de l'orientation, goûts musicaux) avec le sourire. Les 3 règles : viser les défauts qui ne blessent pas, sourire en les énonçant, et doser (un trait d'esprit par conversation, pas à chaque phrase).
@@ -625,9 +625,9 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
   },
   {
     slug: "5-types-humour-lequel-pour-toi",
-    title: "Humour observationnel : les 5 types",
+    title: "Humour observationnel : définition et les 5 types",
     excerpt:
-      "Il y a l'humour de Roman Frayssinet, celui de Paul Mirabel, celui de Blanche Gardin, et puis le tien : explore les 5 types d'humour pour trouver ton style.",
+      "L'humour observationnel fait rire en décrivant le quotidien avec précision. Sa définition, les autres types d'humour et comment trouver ton style.",
     content: `> **En bref :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types : trouve ta dominante et développe-la.
 
 Tu connais ce moment où quelqu'un sort une vanne et tu te dis "ça, c'est mon humour" ? C'est que tu as déjà un style, même si tu ne l'as jamais nommé. Le trouver, c'est le moyen le plus simple d'être drôle sans forcer.
@@ -1175,9 +1175,9 @@ Nos [parcours](/parcours) incluent des exercices de structure comique avec feedb
   },
   {
     slug: "phrases-droles-conversations",
-    title: "30 phrases drôles prêtes à ressortir",
+    title: "Phrases drôles : 30 répliques à ressortir au bon moment",
     excerpt:
-      "Phrases drôles pour la soirée, le date, WhatsApp ou la réunion : 33 répliques à placer, chacune avec le moment où la sortir pour qu'elle fasse rire.",
+      "Phrases drôles et phrases de répartie classées par situation : soirée, date, WhatsApp, réunion. 33 répliques, chacune avec le moment où la sortir.",
     content: `Tu connais ce moment où quelqu'un sort la phrase drôle parfaite, pile au bon moment, et toute la table explose ? Et toi, tu retrouves la réplique idéale… sous la douche, 3 heures plus tard ?
 
 Les gens drôles ne sont pas tous des génies de l'improvisation. La plupart ont juste **un stock de phrases rodées**, qu'ils ressortent au bon moment. Regarde Paul Mirabel : derrière son naturel de scène, il y a de la préparation que personne ne voit.
@@ -1602,9 +1602,9 @@ Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te do
   },
   {
     slug: "comment-faire-rire-une-fille",
-    title: "Comment faire rire une fille : 7 techniques",
+    title: "Comment faire rire une fille ou une femme : 7 techniques",
     excerpt:
-      "Pour faire rire une fille, arrête d'abord de chercher à être drôle. Ça paraît idiot, et pourtant : 7 techniques qui marchent en soirée, en date ou par message.",
+      "Comment faire rire une femme ou une fille ? Arrête d'abord de chercher à être drôle. 7 techniques qui marchent en soirée, en date ou par message.",
     content: `Tu veux faire rire une fille ? Bonne idée, tant que ton plan n'est pas de sortir "Tu connais la différence entre..." suivi d'un jeu de mots douteux.
 
 La réponse courte : arrête de performer, commence à observer. **Faire rire quelqu'un, c'est créer une connexion**, pas faire un numéro. Et les techniques qui marchent en humour marchent aussi en conversation : que ce soit un date, une soirée, ou un message à 23h.
@@ -1704,9 +1704,9 @@ Si tu veux travailler ta répartie en général, nos [techniques de répartie](/
   },
   {
     slug: "comment-faire-rire-un-homme",
-    title: "Comment faire rire un homme : 6 techniques",
+    title: "Comment faire rire un homme : 6 techniques qui marchent",
     excerpt:
-      "Faire rire un homme ne demande pas un humour spécial : chambrage léger, réponse décalée, autodérision… 6 techniques sans cliché, qui marchent sur tout le monde.",
+      "Comment faire rire un homme, un pote ou quelqu'un que tu connais mal : chambrage léger, réponse décalée, autodérision. 6 techniques avec exemples.",
     content: `Pour faire rire un homme, pas besoin d'un humour spécial : le chambrage léger, la réponse décalée, les références partagées, l'autodérision, l'observation et le timing marchent sur lui comme sur n'importe qui. Voici les 6, avec des exemples à adapter.
 
 Il y a un mythe tenace : c'est aux mecs d'être drôles, les filles sont censées rire. Ce mythe date de la même époque que "souffler dans la cartouche pour que le jeu marche" : tout le monde y croyait, personne n'avait vérifié.
@@ -1939,9 +1939,9 @@ Notre guide complet [Comment devenir drôle](/blog/comment-devenir-drole) t'acco
   },
   {
     slug: "repondre-moqueries-avec-humour",
-    title: "Répondre aux moqueries avec humour",
+    title: "Que répondre quand on se moque de toi : 6 techniques",
     excerpt:
-      "Quand on te chambre, ton cerveau fait Ctrl+Alt+Suppr ? Répondre aux moqueries avec humour tient à quelques réflexes : 6 techniques pour ne plus rester muet.",
+      "Quelqu'un se moque de toi et tu restes muet ? Répondre aux moqueries avec humour tient à quelques réflexes : 6 techniques, avec les phrases à sortir.",
     content: `Pour répondre à une moquerie avec humour, pas besoin d'être plus drôle que l'autre : il suffit de 2-3 réflexes prêts à l'emploi, comme exagérer la critique, rebondir sur un de ses mots ou lui demander d'expliquer.
 
 Le scénario habituel : quelqu'un te balance une remarque, ton cerveau fait ctrl+alt+suppr, bouche ouverte, rien ne sort. Et 2 heures plus tard, sous la douche, la réplique parfaite arrive. Devant ton gel douche, qui n'avait rien demandé.

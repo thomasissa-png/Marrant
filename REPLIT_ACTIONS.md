@@ -19,6 +19,11 @@
 - **Contrôles faits (25/11)** : `tsc` build et complet, `next lint`, `next build` OK (`/blog/[slug]` 131 kB First Load) ; Jest complet sans `NEXTAUTH_*` ni secrets Stripe : 7390 + 13 nouveaux tests (`ui/lettre-articles-blagues-s27`), 3 tests anciens adaptés (ordre des articles « blagues »). Captures mobile 390 et PC 1280 : `docs/captures/s27-lettre-blog/`.
 - **Action Replit / Cloudflare** : aucune (ni variable, ni migration, ni package). Part avec le prochain déploiement. **Retour arrière** : `LETTRE_EN_PREMIER_CATEGORIES = []` (`config/lettre.ts`), puis build.
 
+## À DÉPLOYER (s27) : SEO gains rapides, titles et descriptions de 7 pages (SITE PUBLIC), COMMITÉ, NON DÉPLOYÉ
+
+- Code seul : `apps/web/src/lib/blog-articles.ts` (title + excerpt de 6 articles statiques, donc H1, meta title/description, og, cartes du blog) et `apps/web/src/app/(dashboard)/vannes/page.tsx` (title + description de /vannes). Corps, slugs, H2, FAQ, liens, chiffres inchangés. Aucune base, aucun IndexNow, aucune action Search Console.
+- Après déploiement : relever Search Console à J+14 et J+28 (`docs/seo/plan-pages-qui-vendent-s27.md`, section 4). IndexNow possible ensuite, sur go de Thomas.
+
 ## DÉPLOYÉ : lancement s26 (Cloudflare Workers, runbook `docs/infra/lancement-s26-runbook.md`)
 - **Phase A** (go « go! » du 20/11) : migrations 18 à 26 jouées sur Neon (20/11 20:23 UTC) ; version `c7ace530-0de6-46af-b596-72a43554c9c8` (build `86f2be81`, espace fermé) à 100 % le 20/11 à 20:24:11 UTC ; N-1 `5504e970-5c1d-496d-a90a-3eaaf0db9846`. Sauvegarde Neon `br-plain-butterfly-b16lk1qd`.
 - **Phase B** (go « je suis tes recos, finissons » puis « lance la bascule B ») : version `e9def49b-e40d-4cc3-90ae-5ba2bed1d7f3` (build `9ffa6311`, `ESPACE_CLIENT_PUBLIE = true`) à 100 % le 21/11 à 09:06:30 UTC ; N-1 `c7ace530`. Sauvegarde Neon `br-plain-silence-b1pcw0xb`. Caps : 1 ligne silencieuse écrite, contrôle 0/0. Démarrage : 3 vidéos remplacées, 0 refus, 4 déjà faites. Tail 15 min : 0 5xx.

@@ -35,8 +35,8 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des vannes";
-  const title = "Vannes et blagues drôles à ressortir";
-  const description = `${prefix} (ou blagues) rangées par situation : boulot, couple, soirées, famille, gaming. Chacune a sa chute et son décryptage pour la replacer au bon moment.`;
+  const title = "Vannes drôles : blagues courtes à ressortir";
+  const description = `${prefix} drôles (blagues courtes) classées par situation : boulot, couple, soirées, famille, gaming. Chacune a sa chute et son décryptage pour apprendre à la placer.`;
   const url = listCanonical("/vannes", page);
   return {
     title,
