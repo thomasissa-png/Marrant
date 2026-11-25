@@ -59,3 +59,10 @@ Risque réel : un vrai message à contact@ ou alex@ que Gmail juge douteux est r
 1. Cloudflare, Email > DMARC Management (gratuit) : les rapports partent chez Cloudflare au lieu de alex@. Fin des rapports quotidiens et de la plupart des rebonds.
 2. IONOS : vérifier que la redirection de alex@ et contact@ garde une copie dans la boîte IONOS (rien n'est perdu si Gmail refuse).
 3. DMARC : rester en `p=none` ; passer à `p=quarantine` après 2 à 3 semaines de rapports Cloudflare ne montrant que IONOS et Resend.
+
+### Fait le 25/11 (go de Thomas : « je suis tes recos mais qu'on arrête de me spammer »)
+
+- Enregistrement `_dmarc.deviens-marrant.fr` (Cloudflare, id `aa3cf767…`) : `rua=mailto:alex@deviens-marrant.fr` retiré. Nouvelle valeur : `v=DMARC1; p=none; adkim=r; aspf=r; pct=100`, vérifiée en DNS public. Retour arrière : remettre `rua=mailto:alex@deviens-marrant.fr;` après `p=none;`.
+- Les rapports déjà en route peuvent encore arriver 24 à 48 h (cache DNS des expéditeurs).
+- Pas d'API publique pour « DMARC Management » : l'activation (Email > DMARC Management) se fait dans le tableau de bord Cloudflare et ajoute une adresse de rapport Cloudflare, sans rien envoyer dans la boîte de Thomas.
+- Reste à Thomas : copie conservée chez IONOS pour alex@ et contact@ (seule source restante de rebonds : les spams reçus sur contact@ et refusés par Gmail).
