@@ -67,3 +67,37 @@ Remarques clés : A, définition correcte mais un peu manuelle ; B, doublon avec
 ## 5. Question pour Thomas
 
 **Lequel (ou quel mélange) devient l'étalon ?** (B, C, un mix B + phrase 2 de D, autre.) Rien d'autre à valider : les 3 autres paragraphes (répartie, autodérision, humour observationnel) seront écrits sur l'étalon choisi, puis relus à l'aveugle.
+
+## 6. Tour 2 (25/11)
+
+### Notes du tour 1 (relecture à l'aveugle réelle, 25/11, 2 lecteurs indépendants, ordre mélangé)
+
+| Étalon | Yanis | Lecteur Google | Constat |
+|---|---|---|---|
+| A | 5 | 6,5 | « une compétence, pas un don » fait slogan de développement perso ; « Cet article te donne… » sonne quatrième de couverture |
+| B | 6 | 8 | Google : seule version qui répond au « comment » avec un geste faisable ce soir, mais la coupe à 160 cache les leviers. Yanis : ça fait devoirs (« reformule de trois façons »), « trois leviers de l'humour » = cours magistral, noter des situations absurdes = écrire des sketchs, pas avoir de la répartie quand on le chambre |
+| C | 7 | 5,5 | Yanis : seule version qui part de ce qu'il ressent (« Si tu te dis que tu n'es pas drôle ») ; phrase 2 retombe dans l'abstrait, « comme n'importe quelle compétence » déjà lu cent fois. Google : réponse trop tardive (~100e caractère), ressemble à une intro qui tourne autour |
+| D | 5 | 7 | Générique, sommaire d'exposé |
+
+Pistes des deux lecteurs : ouvrir en reconnaissant ce que ressent Yanis, puis tout de suite un geste concret relié au moment où les potes se chambrent ; réponse au « comment » visible avant 160 caractères.
+Les notes de la §4 (relecture simulée) sont caduques.
+
+### Contraintes du tour 2
+Geste concret qui commence avant le 60e caractère OU première phrase complète < 160 caractères contenant le geste. Interdits : « compétence, pas un don », « leviers », « Cet article te donne », « comme n'importe quelle compétence ». Chiffres : seuls « 5 piliers » et « 30 jours ». À insérer avant le « En bref », sans répéter ses 4 gestes. Comptage fait à la main (pas de shell dans cette session), à ± 2 près, à revérifier par script.
+
+### E1 : le geste d'abord, ancré dans le moment
+> Ce soir, quand tes potes se chambrent, repère le détail précis qui les fait rire : c'est la matière de ta prochaine vanne. Refais-le pendant 30 jours : le décalé te saute aux yeux de plus en plus vite, et les 5 piliers t'aident à en faire des phrases.
+
+- Phrase 1 : 122 caractères, contient le geste. Début du geste : caractère 1 (« Ce soir, »), verbe « repère » au caractère 40.
+
+### E2 : on reconnaît le blocage, puis le geste
+> Si tu restes muet quand tes potes se chambrent, commence par noter dans ton téléphone la phrase qui a fait rire le plus fort, et pourquoi elle marche. Au bout de quelques soirées, tu repères le schéma, et la suite de l'article t'apprend à le fabriquer toi-même, sur 30 jours.
+
+- Phrase 1 : 150 caractères, contient le geste. Début du geste : caractère 49 (« commence par noter »).
+
+### E3 : on lève le doute, puis le geste
+> Pas besoin d'être drôle pour commencer : ce soir, repère la première chose qui fait rire dans ton groupe et demande-toi ce qu'elle a de surprenant. Les humoristes font pareil : ils remarquent ce que les autres laissent passer, et les 5 piliers t'apprennent à en faire une phrase.
+
+- Phrase 1 : 148 caractères, contient le geste. Début du geste : caractère 43 (« ce soir, »), verbe « repère » au caractère 52.
+
+Non notés (à faire relire à l'aveugle par la session).
