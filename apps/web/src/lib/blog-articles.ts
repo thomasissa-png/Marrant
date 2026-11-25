@@ -20,7 +20,9 @@ export const blogArticles: BlogArticle[] = [
     title: "Comment devenir drôle : 5 piliers et un plan sur 30 jours",
     excerpt:
       "Devenir drôle, ça s'apprend, n'en déplaise à l'oncle qui répète « t'es drôle ou tu l'es pas » : les 5 piliers, ce qu'en dit la science et un plan sur 30 jours.",
-    content: `> **En bref :** Pour devenir drôle, note chaque jour une situation absurde, reformule-la en 3 versions, teste la meilleure sur un proche, puis réutilise ce qui a fait sourire. 5 à 10 minutes par jour pendant 30 jours suffisent à la plupart des gens pour sentir la différence : l'humour est une compétence, pas un talent inné.
+    content: `Si tu restes muet quand tes potes se chambrent, en rentrant, note dans ton téléphone la phrase qui a fait rire le plus fort, et pourquoi elle marche. Au bout de quelques soirées, tu vois venir les moments où ta réplique a sa place, et tu arrêtes de regarder passer les vannes.
+
+> **En bref :** Pour devenir drôle, note chaque jour une situation absurde, reformule-la en 3 versions, teste la meilleure sur un proche, puis réutilise ce qui a fait sourire. 5 à 10 minutes par jour pendant 30 jours suffisent à la plupart des gens pour sentir la différence : l'humour est une compétence, pas un talent inné.
 
 "Soit t'es drôle, soit tu l'es pas." Celui qui dit ça, c'est souvent l'oncle qui raconte la même blague sur les blondes depuis 2003. Il est "né drôle", paraît-il. **L'humour est une compétence**, pas un chromosome : ça s'apprend.
 
@@ -128,7 +130,9 @@ Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te
     title: "Avoir de la répartie : 10 techniques",
     excerpt:
       "Avoir de la répartie, c'est trouver la réplique sur le moment, pas sous la douche 2h après. 10 techniques concrètes, en soirée comme au bureau.",
-    content: `> **En bref :** Avoir de la répartie, ça s'apprend : c'est un répertoire de réflexes verbaux qu'on entraîne, pas un don. Pour débuter, trois techniques suffisent : l'accusé de réception pour gagner du temps, le rebond sur un mot-clé et le retournement. Avec 5 minutes de pratique par jour, la plupart des gens progressent en 2 à 4 semaines.
+    content: `Si on te balance une pique devant tout le monde et que tu réponds par un rire gêné, en rentrant, note la pique, et en face la réplique que tu aurais voulu sortir. Au bout de quelques soirées, tu remarques que les piques se ressemblent, et quand la suivante arrive, ta réponse est déjà prête.
+
+> **En bref :** Avoir de la répartie, ça s'apprend : c'est un répertoire de réflexes verbaux qu'on entraîne, pas un don. Pour débuter, trois techniques suffisent : l'accusé de réception pour gagner du temps, le rebond sur un mot-clé et le retournement. Avec 5 minutes de pratique par jour, la plupart des gens progressent en 2 à 4 semaines.
 
 Tu connais ce moment : quelqu'un te lance une remarque, ton cerveau affiche un écran bleu, rien ne sort. Et la réplique parfaite arrive sous la douche, 2 heures plus tard. Ton cerveau livre bien, mais en point relais.
 
@@ -385,7 +389,9 @@ Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos
     title: "Autodérision : définition, exemples et règles d'or",
     excerpt:
       "Autodérision : rire de ses défauts sans se rabaisser. Définition claire, 3 règles pour la doser et des exemples d'humoristes à copier dès aujourd'hui.",
-    content: `Bien dosée, l'autodérision te rend sympathique, accessible et drôle. Mal dosée, elle te fait passer pour quelqu'un qui attend qu'on le console. Toute la différence tient dans **le ton**, et ce guide t'apprend à le trouver pour rire de toi sans te démolir.
+    content: `L'autodérision, c'est rire d'un de tes petits défauts, pour que les autres soient à l'aise au lieu d'être gênés pour toi. La prochaine fois que tu te plantes devant du monde (tu te trompes de salle, tu oublies un prénom), sors la vanne avant les autres, et tu verras les épaules se détendre.
+
+Bien dosée, l'autodérision te rend sympathique, accessible et drôle. Mal dosée, elle te fait passer pour quelqu'un qui attend qu'on le console. Toute la différence tient dans **le ton**, et ce guide t'apprend à le trouver pour rire de toi sans te démolir.
 
 > **À retenir :** L'autodérision est un signal de confiance, pas de faiblesse. Elle fonctionne quand elle cible des défauts mineurs (sens de l'orientation, goûts musicaux) avec le sourire. Les 3 règles : viser les défauts qui ne blessent pas, sourire en les énonçant, et doser (un trait d'esprit par conversation, pas à chaque phrase).
 
@@ -628,7 +634,9 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
     title: "Humour observationnel : définition et les 5 types",
     excerpt:
       "L'humour observationnel fait rire en décrivant le quotidien avec précision. Sa définition, les autres types d'humour et comment trouver ton style.",
-    content: `> **En bref :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types : trouve ta dominante et développe-la.
+    content: `L'humour observationnel, c'est dire à voix haute un truc que tout le monde a vécu sans jamais le formuler. La prochaine fois que tu te dis dans le métro « mais pourquoi ils font tous ça ? », dis-le tel quel à un pote, et s'il te répond « c'est tellement vrai », tu tiens peut-être ton type d'humour.
+
+> **En bref :** Il existe 5 grands types d'humour : l'observationnel (décrire la réalité avec précision), l'autodérision (rire de soi avec confiance), l'absurde (créer du non-sens surprenant), les jeux de mots (exploiter les doubles sens) et l'humour noir (aborder les tabous avec finesse). La plupart des gens drôles combinent 2-3 types : trouve ta dominante et développe-la.
 
 Tu connais ce moment où quelqu'un sort une vanne et tu te dis "ça, c'est mon humour" ? C'est que tu as déjà un style, même si tu ne l'as jamais nommé. Le trouver, c'est le moyen le plus simple d'être drôle sans forcer.
 
@@ -1502,7 +1510,7 @@ Le prochain repas de famille arrive toujours plus vite que prévu : [les blagues
 
 ## Les vannes entre potes (le labo d'essai)
 
-C'est là que tout commence : faire rire sa bande avant de faire rire un public.
+C'est là que tout commence : faire rire sa bande avant de faire rire un public. Et si tu veux que ça tombe juste plus souvent, il y a [des exercices pour développer ton humour](/blog/exercices-developper-humour) à faire entre deux soirées.
 
 **31.** « Mon pote me dit "on fait un truc chill ce soir". Chill pour lui c'est 4 bars, 2 clubs et un kebab à 5h du mat. On a pas le même dictionnaire. »
 
@@ -1579,7 +1587,7 @@ Avoir 50 vannes en stock, c'est bien. Savoir les placer, c'est ce qui sépare le
 
 **Ne rigole pas avant ta punchline.** C'est l'erreur n°1. On détaille toutes les erreurs dans [Comment raconter une blague sans la massacrer](/blog/comment-raconter-une-blague-sans-la-rater).
 
-**Adapte, n'apprends pas par cœur.** Change les prénoms, adapte les situations à ta vie.
+**Adapte, n'apprends pas par cœur.** Change les prénoms, adapte les situations à ta vie. Et si on te chambre en retour, voici comment [avoir de la répartie](/blog/comment-avoir-de-la-repartie) au lieu de rester sans voix.
 
 Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te donnent un plan semaine par semaine.
 

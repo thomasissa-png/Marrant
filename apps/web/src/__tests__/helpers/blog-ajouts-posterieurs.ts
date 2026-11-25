@@ -1,4 +1,5 @@
 import type { BlogArticle } from "@/lib/blog-articles";
+import { NBSP } from "@/lib/fr-typo";
 
 /**
  * Ajouts éditoriaux postérieurs aux audits figés (baseline tirets cadratins, audit s20).
@@ -12,22 +13,66 @@ export const URL_FLORINE =
 export const PARAGRAPHE_FLORINE_S23 =
   `Sur ce point, Florine Bosch Duchatelet, conseillère en image et praticienne en PNL, le dit très bien dans son article [Les bienfaits du rire au quotidien](${URL_FLORINE}) : savoir rire de soi, avec tendresse, sans ironie destructrice, c’est un acte de bienveillance envers soi-même.`;
 
+/**
+ * s27 (25/11/2026, décision de Thomas « Je suis tes recos. Avance maximale ») : paragraphes de tête
+ * de 4 articles, copiés au caractère près de la section « FONT FOI » de
+ * `docs/copy/paragraphes-tete-s27-final.md` (relectures `docs/reviews/paragraphes-tete-s27-review*.md`).
+ * Le texte de `5-types-humour-lequel-pour-toi` porte 5 espaces insécables (guillemets, « ? »).
+ */
+export const PARAGRAPHES_TETE_S27: Record<string, string> = {
+  "comment-devenir-drole":
+    "Si tu restes muet quand tes potes se chambrent, en rentrant, note dans ton téléphone la phrase qui a fait rire le plus fort, et pourquoi elle marche. Au bout de quelques soirées, tu vois venir les moments où ta réplique a sa place, et tu arrêtes de regarder passer les vannes.",
+  "comment-avoir-de-la-repartie":
+    "Si on te balance une pique devant tout le monde et que tu réponds par un rire gêné, en rentrant, note la pique, et en face la réplique que tu aurais voulu sortir. Au bout de quelques soirées, tu remarques que les piques se ressemblent, et quand la suivante arrive, ta réponse est déjà prête.",
+  "autoderision-interactions":
+    "L'autodérision, c'est rire d'un de tes petits défauts, pour que les autres soient à l'aise au lieu d'être gênés pour toi. La prochaine fois que tu te plantes devant du monde (tu te trompes de salle, tu oublies un prénom), sors la vanne avant les autres, et tu verras les épaules se détendre.",
+  "5-types-humour-lequel-pour-toi":
+    `L'humour observationnel, c'est dire à voix haute un truc que tout le monde a vécu sans jamais le formuler. La prochaine fois que tu te dis dans le métro «${NBSP}mais pourquoi ils font tous ça${NBSP}?${NBSP}», dis-le tel quel à un pote, et s'il te répond «${NBSP}c'est tellement vrai${NBSP}», tu tiens peut-être ton type d'humour.`,
+};
+
+/** s27, même décision : 2 phrases de lien ajoutées à la suite d'une phrase existante de l'article blagues (même paragraphe). */
+export const LIENS_BLAGUES_S27: { apres: string; phrase: string; href: string }[] = [
+  {
+    // Texte 5 (R2), section « Comment placer tes vannes ».
+    apres: "**Adapte, n'apprends pas par cœur.** Change les prénoms, adapte les situations à ta vie.",
+    phrase:
+      "Et si on te chambre en retour, voici comment [avoir de la répartie](/blog/comment-avoir-de-la-repartie) au lieu de rester sans voix.",
+    href: "/blog/comment-avoir-de-la-repartie",
+  },
+  {
+    // Texte 6 (E2), section « Les vannes entre potes ».
+    apres: "C'est là que tout commence : faire rire sa bande avant de faire rire un public.",
+    phrase:
+      "Et si tu veux que ça tombe juste plus souvent, il y a [des exercices pour développer ton humour](/blog/exercices-developper-humour) à faire entre deux soirées.",
+    href: "/blog/exercices-developper-humour",
+  },
+];
+
 interface AjoutPosterieur {
-  /** Texte inséré, précédé de la ligne vide qui le sépare du paragraphe précédent. */
-  insertion: string;
+  /** Textes insérés, chacun avec son séparateur (ligne vide ou espace), présents une seule fois. */
+  insertions: string[];
   /** Date de mise à jour avant l'ajout (référence des audits). */
   updatedAtAvant: string;
-  /** Date de mise à jour posée par l'ajout. */
+  /** Date de mise à jour posée par l'ajout (égale à l'avant si l'ajout ne la change pas). */
   updatedAtApres: string;
 }
+
+/** s27 : updatedAt inchangé (code commité, non déployé ; la date se pose à la mise en ligne si Thomas le décide). */
+const AVANT_S27 = { updatedAtAvant: "2026-10-12", updatedAtApres: "2026-10-12" };
 
 export const AJOUTS_POSTERIEURS: Record<string, AjoutPosterieur> = {
   // s23 (05/11/2026), demande de Thomas : mention éditoriale après l'habitude 6.
   "humour-quotidien-8-habitudes": {
-    insertion: `\n\n${PARAGRAPHE_FLORINE_S23}`,
+    insertions: [`\n\n${PARAGRAPHE_FLORINE_S23}`],
     updatedAtAvant: "2026-10-12",
     updatedAtApres: "2026-11-05",
   },
+  // s27 (25/11/2026) : paragraphe de tête, premier paragraphe du corps, suivi de sa ligne vide.
+  ...Object.fromEntries(
+    Object.entries(PARAGRAPHES_TETE_S27).map(([slug, texte]) => [slug, { insertions: [`${texte}\n\n`], ...AVANT_S27 }]),
+  ),
+  // s27 (25/11/2026) : 2 phrases de lien, chacune précédée d'une espace, dans le paragraphe existant.
+  "meilleures-blagues-droles-2026": { insertions: LIENS_BLAGUES_S27.map((l) => ` ${l.phrase}`), ...AVANT_S27 },
 };
 
 /**
@@ -68,8 +113,12 @@ export function sansAjoutsPosterieurs(article: BlogArticle): BlogArticle {
   const metas = METAS_AVANT_S27[article.slug];
   if (metas) article = { ...article, ...metas };
   if (!ajout) return article;
-  if (article.content.split(ajout.insertion).length - 1 !== 1) {
-    throw new Error(`Ajout postérieur introuvable ou dupliqué dans ${article.slug}`);
+  let content = article.content;
+  for (const insertion of ajout.insertions) {
+    if (content.split(insertion).length - 1 !== 1) {
+      throw new Error(`Ajout postérieur introuvable ou dupliqué dans ${article.slug}`);
+    }
+    content = content.replace(insertion, "");
   }
-  return { ...article, content: article.content.replace(ajout.insertion, ""), updatedAt: ajout.updatedAtAvant };
+  return { ...article, content, updatedAt: ajout.updatedAtAvant };
 }
