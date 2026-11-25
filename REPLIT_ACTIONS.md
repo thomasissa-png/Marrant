@@ -1,5 +1,10 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s27 liens internes : RIEN À DÉPLOYER (aucun code modifié, aucune écriture en base), 25/11/2026
+- **Action 5** (`phrases-droles-conversations` → `/blog/comment-avoir-de-la-repartie`) : déjà en place (3 liens, visibles en prod). Aucun changement.
+- **Action 1** (`meilleures-blagues-droles-2026`) : l'article est **statique** (`apps/web/src/lib/blog-articles.ts` l. 1381), aucune ligne en base Neon ; une écriture en base n'aurait aucun effet (`findBlogArticle` sert le statique d'abord). Rien n'a été écrit. Emplacements proposés dans `docs/seo/liens-internes-s27.md` ; quand ils seront choisis : modification de code, test d'empreinte (`src/__tests__/helpers/blog-ajouts-posterieurs.ts`), puis déploiement normal.
+- **Retour arrière** : sans objet.
+
 ## DÉPLOYÉ (s27) : mise en ligne groupée du 25/11/2026 (go écrit de Thomas « Si tu es sûr de toi, oui, go, mise en ligne. »)
 - **Version** `5ce0a19b-500a-4d67-b6bd-d74d7896d589` (build `1998ae31` : résiliation maison `6a22675d`, lettre sur les articles « blagues » `28dcb0e8`, tests `afad893b` `ed8a2b9d` `f29b8696`, SEO de 7 pages `1998ae31`) à 100 % le 25/11 à 10:52:21 UTC, message « s27 resiliation + lettre blog + SEO 1998ae31 ». **N-1** `6612baa4-b134-4cad-a1e3-7041d537d315`. CI run 45596100912 : 4 jobs `success`, aucun flaky.
 - **Base** : sauvegarde Neon `sauvegarde-avant-resiliation-s27`, **id `br-polished-block-b1odjxvq`** (parente `production`, LSN `0/A8D6618`, 10:48:49 UTC, 0 point de terminaison). Migration 17 jouée 2 fois (10:48:59 et 10:49:00 UTC, `OK` / `OK`) : `CancellationFeedback` présente, 9 colonnes, 0 ligne, 2 contraintes, 4 index. Aucune autre écriture.

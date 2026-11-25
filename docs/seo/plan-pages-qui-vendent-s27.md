@@ -5,7 +5,7 @@ Date : 25/11/2026. Sources : Search Console `sc-domain:deviens-marrant.fr` (28 j
 ## 0. Constat
 
 - 468 clics / 17 546 impressions / position moyenne 9,4. Les impressions ont doublé, pas les clics.
-- Une page porte le site : `meilleures-blagues-droles-2026` (250 clics, position 5,0). Elle est en base (pas dans `blog-articles.ts`), donc ses liens ne se modifient pas depuis le code : action de contenu en base, à valider par Thomas.
+- Une page porte le site : `meilleures-blagues-droles-2026` (250 clics, position 5,0). **Correction du 25/11 : elle est statique dans `blog-articles.ts` (l. 1381) et n'existe pas en base** ; ses liens se modifient dans le code et demandent un déploiement (voir `docs/seo/liens-internes-s27.md`).
 - Son HTML public renvoie 3 liens vers `/blog/comment-devenir-drole`, 3 vers `/parcours`, 1 vers `phrases-droles-conversations`, 1 vers chacun des articles « faire rire un homme / une fille ». **Aucun lien vers `/blog/comment-avoir-de-la-repartie` ni vers `/blog/exercices-developper-humour`.**
 - JSON-LD présent sur cette page : Article, FAQPage, BreadcrumbList, Organization, WebSite. Les articles statiques utilisent le même composant (`components/seo/json-ld.tsx`) : pas de balisage manquant à ajouter pour ces trois pages (vérifier au Rich Results Test, voir mesure).
 
@@ -33,7 +33,7 @@ Remarque : les chiffres du diagnostic (66 impressions et position 18,5 pour « c
 
 | # | Action | Page | Impact attendu | Qui / validation |
 |---|---|---|---|---|
-| 1 | Ajouter dans `meilleures-blagues-droles-2026` (base) un lien contextuel vers `comment-avoir-de-la-repartie` et un vers `exercices-developper-humour`, aux endroits où l'article parle déjà de répartie/s'entraîner | meilleures-blagues | Fort : transmet le poids de la page à 250 clics ; 0 coût. Vérifier avant que 2 liens de plus ne dégradent pas la conversion de l'encart (658 vues d'encart, 36 clics) | Thomas valide (écriture en base, hors périmètre de cette session) |
+| 1 | Ajouter dans `meilleures-blagues-droles-2026` (code statique, pas la base : voir `liens-internes-s27.md`) un lien contextuel vers `comment-avoir-de-la-repartie` et un vers `exercices-developper-humour`, aux endroits où l'article parle déjà de répartie/s'entraîner | meilleures-blagues | Fort : transmet le poids de la page à 250 clics ; 0 coût. Vérifier avant que 2 liens de plus ne dégradent pas la conversion de l'encart (658 vues d'encart, 36 clics) | Thomas valide (écriture en base, hors périmètre de cette session) |
 | 2 | Paragraphe de définition/réponse en tête de `comment-devenir-drole` et `comment-avoir-de-la-repartie` (2 phrases : ce que c'est, la réponse courte), sans toucher aux H2/FAQ/liens/chiffres existants | les deux | Moyen à fort sur la position et sur les extraits IA ; même méthode que pour autodérision | @copywriter + relecture à l'aveugle (P0 s18), test d'empreinte comme s27 |
 | 3 | Réécrire le title et la description de ces deux pages sur l'intention (« Comment devenir drôle : 5 piliers et un plan sur 30 jours » existe déjà dans `/vannes` JSON-LD ; vérifier l'écart avec le title réel) | les deux | Moyen : CTR dès que la page passe en page 1 | @seo, lot 3 après J+14 (ne pas empiler les changements avant de mesurer le lot 1) |
 | 4 | Retirer la cannibalisation : différencier le title de `exercices-developper-humour` et l'ancre des liens internes vers cet article (« exercices pour s'entraîner » plutôt que « comment devenir drôle ») | exercices | Moyen | @seo + @copywriter |
