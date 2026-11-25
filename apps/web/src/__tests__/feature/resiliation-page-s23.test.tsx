@@ -326,8 +326,8 @@ describe("interrupteur RESILIATION_PAGE_OUVERTE", () => {
     <AbonnementCard plan="PREMIUM" onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={{ summary: actif, openPortal: jest.fn(), portalLoading: null }} />
   );
 
-  it("fermé (défaut) : la constante du dépôt est à false", () => {
-    expect(jest.requireActual("@/config/resiliation").RESILIATION_PAGE_OUVERTE).toBe(false);
+  it("s27 (décision du 25/11) : la constante du dépôt est à true", () => {
+    expect(jest.requireActual("@/config/resiliation").RESILIATION_PAGE_OUVERTE).toBe(true);
   });
   it("fermé : pied de page vers /profil#abonnement, carte avec le bouton du portail Stripe (parcours actuel)", async () => {
     render(<Footer />);

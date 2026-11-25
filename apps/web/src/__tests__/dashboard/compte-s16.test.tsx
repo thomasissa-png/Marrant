@@ -61,8 +61,10 @@ describe("AbonnementCard (reco 11)", () => {
     expect(await screen.findByText("Formule mensuelle, 1,99 €/mois")).toBeInTheDocument();
     expect(screen.getByText("Prochain prélèvement le 12 novembre 2026.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: TEXTES_ABONNEMENT.changerFormule })).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: /Résilier/ })).toHaveLength(1);
-    expect(screen.getByRole("button", { name: "Résilier ton contrat" })).toBeInTheDocument();
+    // s27 : page de résiliation maison ouverte, un seul lien vers /resiliation (plus de bouton du portail).
+    expect(screen.queryByRole("button", { name: /Résilier/ })).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /Résilier/ })).toHaveLength(1);
+    expect(screen.getByRole("link", { name: "Résilier ton contrat" })).toHaveAttribute("href", "/resiliation");
     expect(screen.getByText(/tu gardes Premium jusqu['’]au 12 novembre 2026/)).toBeInTheDocument();
     expect(screen.getByText(/Passe à l['’]annuel : plus de 3 mois offerts, 6,89 € économisés/)).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/votre|—/);
@@ -74,6 +76,7 @@ describe("AbonnementCard (reco 11)", () => {
     expect(await screen.findByText("Premium jusqu’au 12 novembre 2026.")).toBeInTheDocument();
     expect(screen.getByText("Formule annuelle, 16,99 €/an")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Résilier/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Résilier/ })).not.toBeInTheDocument();
   });
 
   it("impayé : message carte refusée + bouton vers le parcours carte du portail", async () => {
@@ -161,7 +164,7 @@ describe("AbonnementCard, impayé (audit s16, lot D)", () => {
     render(card());
     expect(await screen.findByText(TEXTES_ABONNEMENT.impaye)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: TEXTES_ABONNEMENT.majCarte })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Résilier ton contrat" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Résilier ton contrat" })).toHaveAttribute("href", "/resiliation");
   });
 });
 

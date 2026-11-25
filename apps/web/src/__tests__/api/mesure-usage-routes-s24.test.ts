@@ -240,13 +240,14 @@ describe("portail Stripe", () => {
   it("parcours ciblé : « portail_ouvert » avec le parcours ; repli : « simple »", async () => {
     const u = seConnecter("PREMIUM");
     portalCreate.mockResolvedValueOnce({ url: "https://billing.stripe.com/p/1" });
-    expect((await postPortail(corps("resilier"))).status).toBe(200);
+    // s27 : « resilier » mène à /resiliation sans ouvrir le portail ; le parcours ciblé mesuré est « carte ».
+    expect((await postPortail(corps("carte"))).status).toBe(200);
     portalCreate.mockRejectedValueOnce(new Error("flow refusé"));
     createPortalSession.mockResolvedValueOnce("https://billing.stripe.com/p/2");
     expect((await postPortail(corps("changer-formule"))).status).toBe(200);
     createPortalSession.mockResolvedValueOnce("https://billing.stripe.com/p/3");
     expect((await postPortailSimple(new Request("http://localhost/api/stripe/portal", { method: "POST" }))).status).toBe(200);
-    expect(types(u)).toEqual(["portail_ouvert/resilier", "portail_ouvert/simple", "portail_ouvert/simple"]);
+    expect(types(u)).toEqual(["portail_ouvert/carte", "portail_ouvert/simple", "portail_ouvert/simple"]);
   });
 
   it("écriture en échec : l'adresse du portail est rendue quand même", async () => {

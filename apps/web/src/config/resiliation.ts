@@ -5,12 +5,15 @@
  * `docs/ux/page-resiliation-s23-spec.md` (v3), `docs/design/page-resiliation-s23-design.md`,
  * `docs/copy/page-resiliation-s23-textes.md`, cadre `docs/legal/resiliation-onboarding-cadre-s23.md`.
  *
- * Interrupteur `RESILIATION_PAGE_OUVERTE` : FERMÉ par défaut. Fermé, le parcours actuel est
- * inchangé (pied de page et carte abonnement vers le portail Stripe), `/resiliation` et
- * `/resiliation/confirmee` répondent 404 et l'API répond 404. À ouvrir seulement sur go
- * écrit de Thomas (textes validés, avis avocat sur les points de la spec §6).
+ * Interrupteur `RESILIATION_PAGE_OUVERTE` : OUVERT en s27 (décision de Thomas du 25/11/2026,
+ * « pas besoin d'avocat pour ce sujet, on fait standard please » : textes standard, plus d'avis
+ * d'avocat attendu). Ouvert, le pied de page, la carte abonnement et le parcours `resilier` du
+ * portail mènent à `/resiliation`. Fermé (retour arrière), le parcours d'avant revient (portail
+ * Stripe), `/resiliation` et `/resiliation/confirmee` répondent 404 et l'API répond 404.
+ * Ouverture liée à deux gestes hors code (`REPLIT_ACTIONS.md`, s27) : migration 17 jouée AVANT le
+ * déploiement, résiliation retirée de la configuration du portail Stripe APRÈS.
  */
-export const RESILIATION_PAGE_OUVERTE: boolean = false;
+export const RESILIATION_PAGE_OUVERTE: boolean = true;
 
 export const RESILIATION_HREF = "/resiliation";
 export const RESILIATION_CONFIRMEE_HREF = "/resiliation/confirmee";
@@ -70,6 +73,7 @@ export const RESILIATION_CONFIDENTIALITE_ANCRE = "resiliation";
 
 /**
  * Date des ajouts « résiliation » de la politique de confidentialité (« Dernière mise à jour »,
- * prise en compte seulement interrupteur ouvert). PROVISOIRE : à mettre à la date d'ouverture.
+ * prise en compte seulement interrupteur ouvert) : date de l'ouverture (s27). Si le déploiement
+ * a lieu un autre jour, mettre ici la date réelle de mise en ligne.
  */
-export const RESILIATION_DATE_TEXTES = "6 novembre 2026";
+export const RESILIATION_DATE_TEXTES = "25 novembre 2026";

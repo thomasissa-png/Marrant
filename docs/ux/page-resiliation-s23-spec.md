@@ -82,6 +82,8 @@ Nouvelle route `POST /api/user/subscription/resiliation` : session, `refuserSiAu
 
 ## 6. À faire valider par l'avocat (liste courte)
 
+> **s27 (25/11/2026), CLOS SANS AVOCAT** : décision de Thomas « pas besoin d'avocat pour ce sujet, on fait standard please ». Réponses standard retenues : 1 notre écran (récapitulatif + bouton « Confirmer la résiliation » toujours actif, question facultative) tient lieu de confirmation ; 2 connexion gardée (compte existant, aucun compte à créer) ; 3 « sous un jour ouvré », date d'effet = date de la demande (validé 07/11) ; 4 conservation 24 mois, mention en place (validé 07/11) ; 5 accusé immédiat tel qu'intégré, remboursement de l'annuel non mentionné (CGU article 7) ; 6 sans objet : la résiliation est retirée de la configuration du portail Stripe après le déploiement (`REPLIT_ACTIONS.md`, s27).
+
 1. Notre écran de confirmation remplace-t-il valablement le récapitulatif D215-3 ? Question de motif facultative sur ce même écran : admise ? Texte de L215-1-1 et D215-1 à D215-3 à relire en entier.
 2. Connexion exigée avant `/resiliation` (compte déjà existant) : compatible, et compte-t-elle dans les clics ?
 3. Garantie « on résilie pour toi » en cas d'erreur Stripe : valeur de l'accusé, date d'effet retenue (celle de la demande), délai de traitement.

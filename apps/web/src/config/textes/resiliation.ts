@@ -1,7 +1,7 @@
 /**
- * Textes de /resiliation, /resiliation/confirmee et des e-mails d'accusé (s23, PROVISOIRES).
- * Source unique : `docs/copy/page-resiliation-s23-textes.md` (v1, recos A pour le titre et la
- * question). À valider avec Thomas (P0 s8) puis relecture à l'aveugle (P0 s18).
+ * Textes de /resiliation, /resiliation/confirmee et des e-mails d'accusé (s23, arrêtés en s27).
+ * Source unique : `docs/copy/page-resiliation-s23-textes.md` (recos A pour le titre et la
+ * question). Décision de Thomas du 25/11/2026 : textes standard, sans avis d'avocat.
  * Zéro tiret cadratin, tutoiement, aucune culpabilisation, aucune offre.
  */
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
@@ -53,7 +53,7 @@ export const TEXTES_RESILIATION = {
   horsLigne: "Pas de connexion. Rien n’est perdu, réessaie.",
   /** Refus du serveur (429, 403, 500…) : rien n'est parti (UX O4). */
   refus: "Ça n’a pas pu partir. Rien n’est perdu, réessaie dans un instant.",
-  /** UX O8 + @legal O5 réunis (délai provisoire, `RESILIATION_DELAI_EQUIPE`). */
+  /** UX O8 + @legal O5 réunis (délai validé le 07/11, `RESILIATION_DELAI_EQUIPE`). */
   erreurStripe: `Ça n’a pas marché de notre côté. Ta demande est bien enregistrée : on résilie pour toi ${RESILIATION_DELAI_EQUIPE} et on te le confirme par e-mail. Tu n’as rien à refaire, mais tu peux réessayer tout de suite.`,
   /** @reviewer R1 : accès offert (sans abonnement Stripe), rien n'a échoué, « Réessayer » ne sert à rien. */
   transmisOffert: `Ta demande est bien enregistrée : on s’occupe de ta résiliation ${RESILIATION_DELAI_EQUIPE} et on te confirme par e-mail. Tu n’as rien à refaire.`,
@@ -130,7 +130,7 @@ export const AIDES_APRES_RESILIATION: Record<
 };
 
 /**
- * Politique de confidentialité (@legal O2 et O3, mot pour mot ; durée provisoire
+ * Politique de confidentialité (@legal O2 et O3, mot pour mot ; durée validée le 07/11,
  * `RESILIATION_CONSERVATION_MOIS`). Publiée seulement interrupteur `RESILIATION_PAGE_OUVERTE` ouvert.
  */
 export const CONFIDENTIALITE_RESILIATION = {

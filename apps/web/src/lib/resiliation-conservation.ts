@@ -1,6 +1,6 @@
 /**
  * Conservation des réponses à la question de la résiliation (s23, @legal O3), table
- * `CancellationFeedback`. Durée PROVISOIRE `RESILIATION_CONSERVATION_MOIS` (à confirmer par Thomas).
+ * `CancellationFeedback`. Durée `RESILIATION_CONSERVATION_MOIS` (validée par Thomas le 07/11/2026).
  * Table absente (migration 17 pas jouée) : rien à faire, aucune erreur. Module à part : importé par
  * `lib/account.ts` (suppression du compte) sans cycle avec `lib/resiliation.ts`.
  */

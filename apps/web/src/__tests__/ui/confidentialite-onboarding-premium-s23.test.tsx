@@ -10,6 +10,8 @@ import { render, screen } from "@testing-library/react";
 
 // s24 : la date de mise en ligne de la mesure d'usage est neutralisée pour isoler ce qui est testé ici.
 jest.mock("@/config/mesure-usage", () => ({ MESURE_USAGE_DATE_TEXTES: "" }));
+// s27 : page de résiliation ouverte (date « 25 novembre 2026 ») neutralisée : ce fichier vérifie sa propre date.
+jest.mock("@/config/resiliation", () => ({ ...jest.requireActual("@/config/resiliation"), RESILIATION_PAGE_OUVERTE: false }));
 jest.mock("@/config/onboarding-premium", () => ({
   ...jest.requireActual("@/config/onboarding-premium"),
   get ONBOARDING_PREMIUM_OUVERT() {

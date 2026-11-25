@@ -21,6 +21,9 @@ import type { SubscriptionSummary } from "@/lib/account";
 // Pied de page : lien de la lettre masqué pour un Premium (session lue côté client).
 jest.mock("next-auth/react", () => ({ signOut: jest.fn(), useSession: () => ({ data: null, status: "unauthenticated" }) }));
 jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
+// s27 : ce fichier couvre le parcours FERMÉ (bouton du portail Stripe), gardé pour le retour arrière.
+// Parcours ouvert (lien vers /resiliation) : `compte-s16`, `profil-d10-s24`, `resiliation-page-s23`.
+jest.mock("@/config/resiliation", () => ({ ...jest.requireActual("@/config/resiliation"), RESILIATION_PAGE_OUVERTE: false }));
 jest.mock("@/components/ui/toast", () => ({ toast: jest.fn() }));
 jest.mock("@/components/retractation/retractation-form", () => ({ RetractationForm: () => null }));
 

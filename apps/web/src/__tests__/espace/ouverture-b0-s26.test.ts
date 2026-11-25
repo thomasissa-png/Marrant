@@ -22,9 +22,9 @@ describe("B0 : activation de l'espace client", () => {
     expect(ESPACE_DATE_TEXTES).toBe(MESURE_USAGE_DATE_TEXTES);
   });
 
-  it("restent fermés : seuil du toucher (null) et page de résiliation (false)", () => {
+  it("seuil du toucher fermé (null) ; page de résiliation ouverte en s27 (true, décision du 25/11)", () => {
     expect(reel<typeof import("@/lib/espace/vanne")>("@/lib/espace/vanne").SEUIL_TOUCHER).toBeNull();
-    expect(reel<typeof import("@/config/resiliation")>("@/config/resiliation").RESILIATION_PAGE_OUVERTE).toBe(false);
+    expect(reel<typeof import("@/config/resiliation")>("@/config/resiliation").RESILIATION_PAGE_OUVERTE).toBe(true);
   });
 
   it("Jest tourne fermé par défaut (jest.setup.ts) : le mock est bien celui de l'interrupteur seul", () => {

@@ -314,8 +314,15 @@ describe("POST /api/user/subscription/portal", () => {
   it("parcours refusé par la config du portail : repli sur le portail simple", async () => {
     stripeApi.billingPortal.sessions.create.mockRejectedValue(new Error("feature not enabled"));
     createPortalSession.mockResolvedValue("https://billing.stripe.com/simple");
-    const res = await postPortal(json("POST", { parcours: "resilier" }));
+    const res = await postPortal(json("POST", { parcours: "changer-formule" }));
     expect(await res.json()).toEqual({ url: "https://billing.stripe.com/simple", cible: false });
+  });
+
+  it("s27, page de résiliation ouverte : le parcours « resilier » mène à /resiliation, jamais au portail", async () => {
+    const res = await postPortal(json("POST", { parcours: "resilier" }));
+    expect(await res.json()).toEqual({ url: "/resiliation", cible: true });
+    expect(stripeApi.billingPortal.sessions.create).not.toHaveBeenCalled();
+    expect(createPortalSession).not.toHaveBeenCalled();
   });
 
   it("carte (impayé) : payment_method_update ; parcours inconnu : 400 ; sans client Stripe : 404", async () => {

@@ -11,6 +11,9 @@ import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 import { MESURE_USAGE_DATE_TEXTES } from "@/config/mesure-usage";
 import { dateTextesJuridiques, servicesTextesJuridiques } from "@/lib/date-textes-juridiques";
 
+// s27 : page de résiliation ouverte (date « 25 novembre 2026 ») neutralisée : ce fichier vérifie sa propre date.
+jest.mock("@/config/resiliation", () => ({ ...jest.requireActual("@/config/resiliation"), RESILIATION_PAGE_OUVERTE: false }));
+
 /** Citations du bloc 1 (lignes « > ») : actuelle, proposée (partie 3), puce (partie 2). */
 function citationsBloc1(): string[] {
   const md = readFileSync(join(__dirname, "../../../../../docs/legal/espace-client-s24-phrases.md"), "utf8");

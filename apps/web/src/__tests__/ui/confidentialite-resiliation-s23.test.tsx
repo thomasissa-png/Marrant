@@ -1,7 +1,7 @@
 /**
  * Politique de confidentialité, ajouts « résiliation » (s23, @legal O2 et O3) : publiés SEULEMENT
  * interrupteur RESILIATION_PAGE_OUVERTE ouvert. Fermé : page strictement inchangée (ni texte, ni
- * ancre, ni date). Textes mot pour mot de la revue légale, durée provisoire de 24 mois.
+ * ancre, ni date). Textes mot pour mot de la revue légale, durée de 24 mois validée le 07/11.
  */
 import { render, screen } from "@testing-library/react";
 
@@ -33,7 +33,7 @@ beforeEach(() => {
 });
 
 describe("confidentialité : résiliation", () => {
-  it("valeurs provisoires uniques : 24 mois, « sous un jour ouvré »", () => {
+  it("valeurs uniques validées le 07/11 : 24 mois, « sous un jour ouvré »", () => {
     expect(RESILIATION_CONSERVATION_MOIS).toBe(24);
     expect(RESILIATION_DELAI_EQUIPE).toBe("sous un jour ouvré");
   });
@@ -67,7 +67,7 @@ describe("confidentialité : résiliation", () => {
     );
     expect(t).toContain("Tu peux demander l’accès ou l’effacement de ta réponse à la résiliation en écrivant à contact@deviens-marrant.fr.");
     expect(document.getElementById("resiliation")?.textContent?.replace(/⁠/g, "")).toContain("Résiliation, si tu réponds");
-    expect(t).toContain("Dernière mise à jour : 6 novembre 2026");
+    expect(t).toContain("Dernière mise à jour : 25 novembre 2026");
   });
 
   it("zéro tiret cadratin dans les ajouts", () => {

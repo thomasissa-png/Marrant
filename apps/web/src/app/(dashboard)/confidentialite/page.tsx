@@ -193,7 +193,7 @@ export default function ConfidentialitePage() {
           )}
           <p className="mt-2">Si tu nous as envoyé une demande de rétractation, elle est gardée comme preuve de son traitement, le temps nécessaire pour répondre à une éventuelle contestation.</p>
           {/* s22, avis @legal §4.3 (B1) : durée propre des échanges avec l'équipe, publiée avec le service. */}
-          {/* s23 (@legal O3), durée provisoire RESILIATION_CONSERVATION_MOIS. */}
+          {/* s23 (@legal O3), durée validée le 07/11, RESILIATION_CONSERVATION_MOIS. */}
           {RESILIATION_PAGE_OUVERTE && (
             <p className="mt-2" data-testid="confidentialite-resiliation">
               {frTypo(RESILIATION.duree)}

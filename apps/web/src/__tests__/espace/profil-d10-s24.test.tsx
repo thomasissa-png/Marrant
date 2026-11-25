@@ -75,7 +75,8 @@ describe.each([["fermé", false], ["ouvert", true]])("« Mon profil », interrup
     const { container } = render(<ProfilDashboard />);
     expect(container.querySelector("#abonnement")).not.toBeNull();
     expect(container.querySelector("#rappel-parcours")).not.toBeNull();
-    expect(screen.getByRole("button", { name: TEXTES_ABONNEMENT.resilier })).toBeInTheDocument();
+    // s27 : page de résiliation maison ouverte, la carte mène à /resiliation (lien, plus le portail).
+    expect(screen.getByRole("link", { name: TEXTES_ABONNEMENT.resilier })).toHaveAttribute("href", "/resiliation");
     expect(screen.getByRole("link", { name: LIBELLE_RENONCER_CONTRAT })).toHaveAttribute("href", "/retractation");
   });
 

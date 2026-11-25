@@ -1,5 +1,5 @@
 /**
- * E-mails de la résiliation par l'écran /resiliation (s23, PROVISOIRES) : accusé « C'est noté »
+ * E-mails de la résiliation par l'écran /resiliation (s23, arrêtés en s27) : accusé « C'est noté »
  * (C1 + C2), accusé de demande en cas d'erreur Stripe, e-mail à l'équipe « on résilie pour toi ».
  * Source : `docs/copy/page-resiliation-s23-textes.md` §3. Texte seul, aucun pixel ni lien réécrit.
  * La résiliation par le portail Stripe garde `emailConfirmationResiliation` (`paiement.ts`, étalon 5c).
@@ -113,7 +113,7 @@ export function emailDemandeResiliationRecue(v: {
       // @reviewer R4 : la date de la demande est dite une seule fois, dans la phrase de @legal ci-dessous.
       "Ta demande de résiliation est bien reçue.",
       "",
-      // @legal O5 : délai provisoire (`RESILIATION_DELAI_EQUIPE`) et date d'effet = date de la demande.
+      // @legal O5 : délai validé le 07/11 (`RESILIATION_DELAI_EQUIPE`) et date d'effet = date de la demande.
       `On s’occupe de ta résiliation et on te confirme par e-mail ${RESILIATION_DELAI_EQUIPE}. Ta demande date du ${dateHeure(v.demandeLe)} : c’est cette date qui compte, même si on la finalise plus tard. Tu gardes Premium ${fin ? `jusqu’au ${dateLongue(fin)}` : v.offert ? "jusqu’à la fin de ton accès Premium" : "jusqu’à la fin de la période payée"}.`,
       "",
       `Une question sur ta résiliation : ${CONTACT_EMAIL}.`,

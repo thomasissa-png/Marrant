@@ -23,6 +23,7 @@ import {
 import { CARTE_PREMIUM } from "@/config/textes/cta-articles-accueil";
 import { normalise } from "../helpers/texte-normalise";
 import { MESURE_USAGE_DATE_TEXTES } from "@/config/mesure-usage";
+import { RESILIATION_DATE_TEXTES, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/stores/user-store", () => ({ useUserStore: () => null }));
@@ -201,9 +202,10 @@ describe("pages légales (reco 18, D6)", () => {
     // 08/11 : onboarding Premium ouvert (puce C8) ; s24 : la mesure d'usage (sans interrupteur) date
     // la confidentialité de sa mise en ligne. La plus récente des deux l'emporte.
     expect(text).toContain(
-      `Dernière mise à jour : ${dateTextesJuridiques([{ ouvert: ONBOARDING_PREMIUM_OUVERT, date: ONBOARDING_DATE_TEXTES }, { ouvert: true, date: MESURE_USAGE_DATE_TEXTES }])}`,
+      `Dernière mise à jour : ${dateTextesJuridiques([{ ouvert: ONBOARDING_PREMIUM_OUVERT, date: ONBOARDING_DATE_TEXTES }, { ouvert: true, date: MESURE_USAGE_DATE_TEXTES }, { ouvert: RESILIATION_PAGE_OUVERTE, date: RESILIATION_DATE_TEXTES }])}`,
     );
-    expect(text).toContain(`Dernière mise à jour : ${MESURE_USAGE_DATE_TEXTES}`);
+    // s27 : page de résiliation ouverte, sa date (25/11) est la plus récente.
+    expect(text).toContain(`Dernière mise à jour : ${RESILIATION_PAGE_OUVERTE ? RESILIATION_DATE_TEXTES : MESURE_USAGE_DATE_TEXTES}`);
     if (ONBOARDING_PREMIUM_OUVERT) expect(text.replace(/\u2060/g, "").replace(/[\u00A0\u202F]/g, " ")).toContain("jusqu’à trois e-mails d’accueil, au bout de 5, 12 puis 21 jours");
     expect(text).not.toMatch(/Replit|soumis à votre consentement|intelligence artificielle|\bIA\b/);
     expect(screen.getByRole("link", { name: "profil" })).toHaveAttribute("href", "/profil");

@@ -1,4 +1,6 @@
-# Textes de /resiliation, /resiliation/confirmee et e-mail « C'est noté » (s23, v1, PROVISOIRE)
+# Textes de /resiliation, /resiliation/confirmee et e-mail « C'est noté » (s23, v1, ARRÊTÉS en s27)
+
+> **s27 (25/11/2026)** : décision de Thomas « pas besoin d'avocat pour ce sujet, on fait standard please ». Plus d'avis d'avocat attendu ; les textes tels qu'intégrés dans `apps/web/src/config/textes/resiliation.ts` et `resiliation-emails.ts` sont arrêtés. Points qui attendaient l'avocat, tranchés en standard : remboursement de l'annuel NON mentionné (la page dit déjà « Aucun nouveau prélèvement après » ; CGU article 7 en ligne : période payée non remboursée, sauf rétractation) ; connexion avant `/resiliation` gardée (compte déjà existant, aucun compte à créer). Délai « sous un jour ouvré » et conservation 24 mois : validés le 07/11.
 
 Sources : spec `docs/ux/page-resiliation-s23-spec.md` (v3), cadre `docs/legal/resiliation-onboarding-cadre-s23.md` (A), `docs/copy/ton-alex.md`, choix du 06/11 (raison demandée AVANT, question facultative sur notre écran).
 [Framework : récapitulatif factuel (clarté), pas de persuasion] [Conscience : Most-Aware, la personne a décidé]. Textes à valider avec Thomas (P0 s8) puis relecture à l'aveugle (P0 s18). Apostrophes typographiques à l'intégration (’), comme `paiement.ts`.
@@ -16,7 +18,7 @@ Variante B : « Résilier ton contrat Premium ». **Reco : A.** Le libellé doit
 - `Fin du contrat : {dateFin}`
 - « Jusqu'au {dateFin}, tu gardes tout ton Premium. »
 - « Aucun nouveau prélèvement après. »
-- Annuel seulement : « Le renouvellement de {prix} n'aura pas lieu. » [À CONFIRMER avocat : mention du remboursement ou non du reste de la période, ne rien promettre d'ici là]
+- Annuel seulement : « Le renouvellement de {prix} n'aura pas lieu. » [TRANCHÉ s27, standard : remboursement non mentionné, CGU article 7]
 - Date inconnue (lecture en échec) : « Fin du contrat : à la fin de la période déjà payée. »
 
 **Question facultative**
@@ -44,11 +46,11 @@ Légende de groupe (`legend`, lecteurs d'écran) : « Qu'est-ce qui n'a pas coll
 - Envoi : « On résilie… »
 - Connexion lente (> 3 s) : « Toujours en cours, ne ferme pas la page. »
 - Hors ligne : « Pas de connexion. Rien n'est perdu, réessaie. »
-- Erreur Stripe (bandeau `role="alert"`, bouton « Réessayer », saisie conservée) : « Ça n'a pas marché de notre côté. Ta demande est bien enregistrée : on résilie pour toi et on te le confirme par e-mail. » Aucun délai écrit tant que Thomas n'a pas fixé le délai de traitement [À FIXER par Thomas].
+- Erreur Stripe (bandeau `role="alert"`, bouton « Réessayer », saisie conservée) : « Ça n'a pas marché de notre côté. Ta demande est bien enregistrée : on résilie pour toi et on te le confirme par e-mail. » [FIXÉ le 07/11 : « sous un jour ouvré », `RESILIATION_DELAI_EQUIPE`]
 - Déjà résilié : « Ta résiliation est déjà enregistrée. Tu gardes Premium jusqu'au {dateFin}. » + lien « Réactiver mon abonnement ». Ni question, ni bouton.
 - Sans abonnement : « Rien à résilier ici. » + lien « Retour à l'accueil ».
 - App Store : « Ton abonnement passe par Apple. La résiliation se fait dans les réglages de ton compte Apple. »
-- Sans session : écran de connexion, libellé « Connecte-toi pour résilier ton contrat. Tu reviens ici juste après. » [lien avocat n°2]
+- Sans session : écran de connexion, libellé « Connecte-toi pour résilier ton contrat. Tu reviens ici juste après. » [TRANCHÉ s27, standard : connexion gardée]
 
 ## 2. Page /resiliation/confirmee
 
@@ -97,7 +99,7 @@ Une question sur ta résiliation : contact@deviens-marrant.fr.
 
 L'Équipe Deviens Marrant
 ```
-Repli sans date : « Tu gardes l'accès Premium jusqu'à la fin de la période payée » (déjà géré par `emailConfirmationResiliation`). Annuel : mêmes lignes, « le renouvellement de {prix} n'aura pas lieu » en plus, remboursement non mentionné [À CONFIRMER avocat].
+Repli sans date : « Tu gardes l'accès Premium jusqu'à la fin de la période payée » (déjà géré par `emailConfirmationResiliation`). Annuel : mêmes lignes, « le renouvellement de {prix} n'aura pas lieu » en plus, remboursement non mentionné [TRANCHÉ s27, standard].
 **Cas erreur Stripe** : objet « Ta demande de résiliation est bien reçue » ; corps : « On s'occupe de la résiliation. Dès qu'elle est faite, on te le confirme par e-mail. Tu gardes Premium jusqu'au {dateFin}. » (date attendue, ou « la fin de la période payée »). Aucun délai tant que non fixé.
 
 ## 4. Vérifications faites

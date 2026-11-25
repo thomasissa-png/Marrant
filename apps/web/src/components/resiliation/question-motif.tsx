@@ -84,7 +84,7 @@ export function QuestionMotif({ raisons, commentaire, fige, onBasculer, onCommen
           <span aria-hidden="true">{T.compteur(commentaire.length, RESILIATION_COMMENTAIRE_MAX)}</span>
           <span className="sr-only">{`${commentaire.length} caractères sur ${RESILIATION_COMMENTAIRE_MAX}`}</span>
         </p>
-        {/* @legal O1 : information au point de collecte (durée provisoire RESILIATION_CONSERVATION_MOIS). */}
+        {/* @legal O1 : information au point de collecte (durée validée le 07/11, RESILIATION_CONSERVATION_MOIS). */}
         <p id="resiliation-mot-mention" className="mt-2 text-xs text-text-secondary">
           {T.mention}
           <Link
