@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
-import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { LETTRE_INSCRIPTIONS_OUVERTES, lettreEnPremierSurArticle } from "@/config/lettre";
 import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { BlogArticleBody } from "@/components/blog/blog-article-body";
@@ -21,6 +21,8 @@ import {
   authorPersonJsonLd,
 } from "@/components/seo/json-ld";
 import { frTypo } from "@/lib/fr-typo";
+import { cn } from "@/lib/utils";
+import { BLOC_APPEL } from "@/components/layout/gabarit";
 import { blogCategoryLabel } from "@/lib/blog-labels";
 import { formatIsoDateFr } from "@/lib/utils";
 import type { BlogArticleData, BlogArticleNavigation } from "@/lib/blog-article-page";
@@ -48,6 +50,9 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
   // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).
   const shareMode = FORTE_FRAPPE_SHARE[article.slug];
+  // s27 (décision de Thomas, 25/11) : articles « blagues » (catégorie CATALOGUE), lettre gratuite
+  // d'abord (au fil du texte et au-dessus du bloc payant, qui passe en contour), mesure à part.
+  const lettreEnPremier = LETTRE_INSCRIPTIONS_OUVERTES && lettreEnPremierSurArticle(article.category);
   const faqs = article.faqs ?? [];
   const howToSteps = ["GUIDE", "PRATIQUE", "ROADMAP"].includes(article.category)
     ? (article.content.match(/^## (.+)$/gm) ?? [])
@@ -126,13 +131,27 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
           category={article.category}
           content={article.content}
           shareJokes={Boolean(shareMode)}
+          lettreEnPremier={lettreEnPremier}
         />
         {shareMode && <BlogVanneShare slug={article.slug} mode={shareMode} />}
 
         {/* s21 (spec cta-forme-place §3.1) : ordre identique pour tous les articles. Corps,
             partage, bloc de fin, cluster et « À lire ensuite », lettre (v2 F05), puis la FAQ en
-            dernier (le JSON-LD FAQPage ne dépend pas de l'ordre du DOM). */}
+            dernier (le JSON-LD FAQPage ne dépend pas de l'ordre du DOM).
+            s27, articles « blagues » : la lettre passe AU-DESSUS du bloc de fin (plein), qui devient
+            discret, et n'est plus répétée après les articles liés. */}
+        {lettreEnPremier && (
+          <LettreInscription
+            emplacement="article"
+            slug={article.slug}
+            textes={LETTRE_ARTICLE}
+            positionBlog="fin"
+            boutonPlein
+            className={cn("mt-10", BLOC_APPEL)}
+          />
+        )}
         <ArticleCta
+          discret={lettreEnPremier}
           parcours={parcours}
           src={`blog-${article.slug}`}
           title={s21Copy?.titre ?? finCopy?.titre ?? ctaCopy?.title}
@@ -144,7 +163,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         {/* Lettre mensuelle APRÈS les articles liés (textes-trajet-v2 F05 : au moins un écran sous le
             bouton payant, plus trois demandes empilées), sans attribut data-blog-cta* (mesure du
             lot 1 isolée). Textes B18 du tour 4, inchangés. */}
-        {LETTRE_INSCRIPTIONS_OUVERTES && (
+        {LETTRE_INSCRIPTIONS_OUVERTES && !lettreEnPremier && (
           <LettreInscription
             emplacement="article"
             slug={article.slug}

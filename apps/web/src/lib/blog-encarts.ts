@@ -92,3 +92,34 @@ export function computeEncartPlacements(
 export function visibleTextLength(html: string): number {
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim().length;
 }
+
+/**
+ * s27 (articles « blagues », `lettreEnPremierSurArticle`) : la lettre gratuite se place après la
+ * PREMIÈRE section H2 (le premier bloc de blagues), jamais après la dernière (le bloc de fin
+ * suit). Elle reste le premier appel du corps : un encart posé au même endroit ou avant elle
+ * descend d'une section (si possible, sinon il est retiré : jamais deux appels empilés, jamais
+ * l'encart avant la lettre). Pas de section H2 utilisable : pas de lettre au fil du texte
+ * (celle de fin d'article reste). Les encarts plus bas ne bougent pas.
+ */
+export function placerLettreEnPremier(
+  sections: readonly BlogSection[],
+  encarts: readonly EncartPlacement[],
+): { lettreApres: number | null; encarts: EncartPlacement[] } {
+  const derniere = sections.length - 1;
+  const premiere = sections.findIndex((s) => s.heading !== null);
+  if (premiere <= 0 || premiere >= derniere) return { lettreApres: null, encarts: [...encarts] };
+  const occupes = new Set(encarts.filter((e) => e.apresIndex > premiere).map((e) => e.apresIndex));
+  const suite: EncartPlacement[] = [];
+  for (const encart of encarts) {
+    if (encart.apresIndex > premiere) {
+      suite.push(encart);
+      continue;
+    }
+    let index = premiere + 1;
+    while (index < derniere && occupes.has(index)) index++;
+    if (index >= derniere) continue;
+    occupes.add(index);
+    suite.push({ ...encart, apresIndex: index });
+  }
+  return { lettreApres: premiere, encarts: suite.sort((a, b) => a.apresIndex - b.apresIndex) };
+}

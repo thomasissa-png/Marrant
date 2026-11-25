@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
-import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, CONTOUR_OFFRE, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { frTypo } from "@/lib/fr-typo";
 import { parcoursEtape1Href, parcoursEtapeHref, type ParcoursSlug } from "@/lib/entrees-parcours";
@@ -24,6 +24,11 @@ interface ArticleCtaProps {
   title?: string;
   /** Libellé du plein gratuit imposé par l'article (config/blog-cta.ts), sinon celui du parcours. */
   boutonEtape1?: string;
+  /**
+   * s27 (articles « blagues », la lettre gratuite juste au-dessus porte le plein) : bouton payant
+   * en contour (`CONTOUR_OFFRE`, un seul aplat violet par écran). Même libellé, même lien, même mesure.
+   */
+  discret?: boolean;
 }
 
 /**
@@ -48,7 +53,7 @@ export function titreBlocFin(titre: string): string {
  * (blog-cta-vu / blog-cta-clic, components/blog/blog-article-tracking).
  * Textes : config/textes/cta-articles-accueil.ts (BLOC_FIN) et encarts-blog-s20.ts.
  */
-export function ArticleCta({ parcours = "repartie", src, title, boutonEtape1 }: ArticleCtaProps) {
+export function ArticleCta({ parcours = "repartie", src, title, boutonEtape1, discret = false }: ArticleCtaProps) {
   const { data: session, status } = useSession();
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
@@ -88,7 +93,7 @@ export function ArticleCta({ parcours = "repartie", src, title, boutonEtape1 }: 
             <Link
               href={buildAbonnementUrl(`/parcours/${parcours}`, "monthly", src)}
               data-blog-cta="abonnement"
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL, discret && CONTOUR_OFFRE)}
             >
               {frTypo(BLOC_FIN.bouton)}
             </Link>

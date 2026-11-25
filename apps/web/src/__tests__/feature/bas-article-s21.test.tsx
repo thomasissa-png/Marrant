@@ -55,7 +55,9 @@ describe("bloc de fin (textes-trajet-v2 F01 à F04)", () => {
 
 describe("lettre en bas d'article (concision v5, textes-v5-a §7)", () => {
   it("titre et phrase v5, sans réassurance ni vanne d'exemple, après le bloc de fin et les articles liés (v2 F05)", async () => {
-    const { container } = await renderArticle("meilleures-blagues-droles-2026");
+    // s27 : article hors « blagues » (les articles CATALOGUE ont la lettre AU-DESSUS du bloc de fin,
+    // `ui/lettre-articles-blagues-s27.test.tsx`).
+    const { container } = await renderArticle("comment-avoir-de-la-repartie");
     const lettre = container.querySelector<HTMLElement>('[data-blog-zone="lettre"]')!;
     expect(lettre).toHaveTextContent(LETTRE_ARTICLE.titre);
     expect(LETTRE_ARTICLE.titre).toBe("Une situation, trois répliques, chaque mois");

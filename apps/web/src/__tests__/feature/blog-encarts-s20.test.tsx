@@ -98,7 +98,12 @@ describe("article n°1 : un seul encart, la démonstration (s21, B1)", () => {
     ]);
     const soiree = h2(container, "Quelles blagues sortir en soirée");
     const bureau = h2(container, "Quelles blagues au bureau");
-    expect(follows(soiree, encarts[0]) && follows(encarts[0], bureau)).toBe(true);
+    // s27 (décision de Thomas, 25/11) : la lettre gratuite prend la place après la section soirée,
+    // la démonstration descend d'une section (après le bureau, avant le date).
+    const lettre = container.querySelector<HTMLElement>('[data-blog-lettre-position="milieu"]')!;
+    expect(follows(soiree, lettre) && follows(lettre, bureau)).toBe(true);
+    const date = h2(container, "Comment faire rire en date");
+    expect(follows(bureau, encarts[0]) && follows(encarts[0], date)).toBe(true);
     const liens = encarts[0].querySelectorAll("a");
     expect(liens).toHaveLength(1);
     expect(liens[0]).toHaveAttribute("href", "/carnet?src=blog-demo-milieu-1#fiche-2026-10-15");
@@ -109,15 +114,18 @@ describe("article n°1 : un seul encart, la démonstration (s21, B1)", () => {
 
 describe("bloc de fin unique (s21, B2)", () => {
   it.each(["meilleures-blagues-droles-2026", "comment-devenir-drole", "phrases-droles-conversations"])(
-    "%s : payant en PLEIN (seul plein), réassurance, lien étape 1 ; articles liés, lettre (v2 F05), FAQ en dernier",
+    "%s : payant en PLEIN (seul plein, s27 : contour sous la lettre sur les articles « blagues »), réassurance, lien étape 1 ; articles liés, lettre, FAQ en dernier",
     async (slug) => {
+      // s27 : catégorie CATALOGUE (articles « blagues »), lettre au-dessus du bloc de fin, payant en contour.
+      const blagues = slug !== "comment-devenir-drole";
       const { container } = await renderArticle(slug);
       const blocs = container.querySelectorAll<HTMLElement>("[data-blog-bloc-fin]");
       expect(blocs).toHaveLength(1);
       const links = [...blocs[0].querySelectorAll<HTMLAnchorElement>("a[data-blog-cta]")];
       // textes-trajet-v2 F01 à F04 : le payant devient le plein, le gratuit un lien.
       expect(links.map((a) => a.dataset.blogCta)).toEqual(["abonnement", "etape-1"]);
-      expect(links[0].className).toContain("bg-accent-secondary-hover");
+      if (blagues) expect(links[0].className).toMatch(/bg-transparent/);
+      else expect(links[0].className).toContain("bg-accent-secondary-hover");
       expect(links[1].className).not.toContain("bg-accent-secondary-hover");
       expect(links[1].className).toContain("underline");
       expect(links[0]).toHaveTextContent(normalise(BLOC_FIN.bouton));
@@ -127,9 +135,11 @@ describe("bloc de fin unique (s21, B2)", () => {
       expect(follows(blocs[0].querySelector("[data-reassurance]")!, links[1])).toBe(true);
       expect(blocs[0].querySelector("ul")).toBeNull();
       // v2 F05 : bloc de fin, cluster / « À lire ensuite », lettre (éloignée du bouton payant), FAQ.
-      const lettre = container.querySelector('[data-blog-zone="lettre"]')!;
+      const lettres = container.querySelectorAll('[data-blog-zone="lettre"]');
+      const lettre = lettres[lettres.length - 1];
       const related = container.querySelector('[data-blog-zone="related"]')!;
-      expect(follows(blocs[0], related) && follows(related, lettre)).toBe(true);
+      if (blagues) expect(lettre.nextElementSibling === blocs[0] && follows(blocs[0], related)).toBe(true);
+      else expect(follows(blocs[0], related) && follows(related, lettre)).toBe(true);
       const faq = screen.queryByText("Questions fréquentes");
       if (faq) expect(follows(lettre, faq)).toBe(true);
       expect(container.querySelector('[data-blog-zone="parcours"]')).toBeNull();

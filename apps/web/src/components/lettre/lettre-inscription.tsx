@@ -4,7 +4,12 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { LETTRE_CONFIDENTIALITE_HREF, LETTRE_INSCRIPTIONS_OUVERTES, type LettreEmplacement } from "@/config/lettre";
+import {
+  LETTRE_CONFIDENTIALITE_HREF,
+  LETTRE_INSCRIPTIONS_OUVERTES,
+  type LettreBlogPosition,
+  type LettreEmplacement,
+} from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { useLettreInscription, useLettreVu } from "@/hooks/use-lettre-inscription";
 import { isPremiumPlan } from "@/lib/parcours-access";
@@ -48,6 +53,14 @@ interface LettreInscriptionProps {
    * page, donc le plein (exception (c) de `docs/design/cta-forme-place-s21.md` §1.3). Absent : `outline-accent`.
    */
   plein?: boolean;
+  /**
+   * s27 (articles « blagues », `lettreEnPremierSurArticle`) : position de la lettre dans l'article.
+   * Identifiants propres à la position (deux formulaires sur la page), propriété Umami `position`
+   * et événements `blog-lettre-vu` / `blog-lettre-envoi` {slug, position} en plus des génériques.
+   */
+  positionBlog?: LettreBlogPosition;
+  /** s27 (fin d'un article « blagues ») : bouton plein, l'offre payante passe en contour dessous. */
+  boutonPlein?: boolean;
   className?: string;
 }
 
@@ -84,20 +97,31 @@ export function LettreInscription({
   sansMesureVu = false,
   ignorerDrapeau = false,
   plein = false,
+  positionBlog,
+  boutonPlein = false,
   className,
 }: LettreInscriptionProps) {
   const { data: session, status } = useSession();
   const user = session?.user as { email?: string | null; plan?: string } | undefined;
   const isPremium = status === "authenticated" && isPremiumPlan(user?.plan);
   const mesure = useMemo(
-    () => ({ emplacement, ...(slug ? { slug } : {}), ...(profil ? { profil } : {}) }),
-    [emplacement, slug, profil],
+    () => ({
+      emplacement,
+      ...(slug ? { slug } : {}),
+      ...(profil ? { profil } : {}),
+      ...(positionBlog ? { position: positionBlog } : {}),
+    }),
+    [emplacement, slug, profil, positionBlog],
+  );
+  const mesureBlog = useMemo(
+    () => (positionBlog ? { ...(slug ? { slug } : {}), position: positionBlog } : undefined),
+    [slug, positionBlog],
   );
   const sectionRef = useRef<HTMLElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const caseRef = useRef<HTMLInputElement>(null);
   const piegeRef = useRef<HTMLInputElement>(null);
-  const { etat, setEtat, erreur, setErreur, lente, attente, envoyer } = useLettreInscription(emplacement, slug, mesure, ignorerDrapeau);
+  const { etat, setEtat, erreur, setErreur, lente, attente, envoyer } = useLettreInscription(emplacement, slug, mesure, ignorerDrapeau, mesureBlog);
   const [email, setEmail] = useState("");
   const [modifie, setModifie] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -108,7 +132,7 @@ export function LettreInscription({
   // l'échelle de l'espace (plus de `mt-1`, `mt-3`, `gap-2.5` ni de 500). Ailleurs et fermé : classes d'avant.
   const echelleEspace = ESPACE_CLIENT_PUBLIE && plein;
 
-  useLettreVu(sectionRef, LETTRE_INSCRIPTIONS_OUVERTES && !isPremium && !sansMesureVu, mesure);
+  useLettreVu(sectionRef, LETTRE_INSCRIPTIONS_OUVERTES && !isPremium && !sansMesureVu, mesure, mesureBlog);
 
   // E-mail du compte pré-rempli (modifiable) tant que la personne n'a rien tapé.
   useEffect(() => {
@@ -130,7 +154,7 @@ export function LettreInscription({
 
   if (!LETTRE_INSCRIPTIONS_OUVERTES || isPremium) return null;
 
-  const id = `lettre-${emplacement}`;
+  const id = positionBlog ? `lettre-${emplacement}-${positionBlog}` : `lettre-${emplacement}`;
   const occupe = etat === "envoi";
 
   const soumettre = (e: FormEvent<HTMLFormElement>) => {
@@ -145,6 +169,7 @@ export function LettreInscription({
       aria-labelledby={titreId ?? `${id}-titre`}
       data-lettre={emplacement}
       {...(emplacement === "article" ? { "data-blog-zone": "lettre" } : {})}
+      {...(positionBlog ? { "data-blog-lettre-position": positionBlog } : {})}
       className={cn("relative", className)}
       style={etat === "succes" && hauteur ? { minHeight: hauteur } : undefined}
     >
@@ -292,7 +317,7 @@ export function LettreInscription({
 
             <Button
               type="submit"
-              variant={plein ? "primary" : "outline-accent"}
+              variant={plein || boutonPlein ? "primary" : "outline-accent"}
               size="lg"
               aria-busy={occupe || undefined}
               // Revue visuelle s21 (décision 3) : même bouton que sur /lettre ; replié (fin d'étape 1),

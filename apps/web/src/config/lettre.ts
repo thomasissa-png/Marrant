@@ -50,6 +50,24 @@ export const LETTRE_EMPLACEMENTS = ["article", "quiz", "page", "parcours"] as co
 export type LettreEmplacement = (typeof LETTRE_EMPLACEMENTS)[number];
 
 /**
+ * s27 (décision de Thomas du 25/11/2026) : sur les articles d'intention « blagues », la lettre
+ * gratuite passe AVANT l'offre payante (un e-mail est un premier pas plus réaliste que 1,99 € pour
+ * qui vient chercher des blagues). Critère : la catégorie de l'article, celle du cluster
+ * « Blagues et vannes à ressortir » (`lib/blog-clusters`, CATALOGUE → fort-volume), statique ou
+ * en base. Sur ces articles : lettre au fil du texte (après la première section) et en fin
+ * d'article au-dessus du bloc payant, mesurées à part (`blog-lettre-vu`, `blog-lettre-envoi`).
+ * Autres catégories : rien ne change.
+ */
+export const LETTRE_EN_PREMIER_CATEGORIES: readonly string[] = ["CATALOGUE"];
+
+export function lettreEnPremierSurArticle(category: string | null | undefined): boolean {
+  return Boolean(category && LETTRE_EN_PREMIER_CATEGORIES.includes(category));
+}
+
+/** Position de la lettre dans un article « blagues » (propriété Umami `position`). */
+export type LettreBlogPosition = "milieu" | "fin";
+
+/**
  * Version du consentement. Toute modification du texte de la case
  * (`TEXTES_LETTRE.formulaire.case`) = nouvelle version (spec §2.3), l'ancien
  * texte reste dans `CONSENTEMENTS_LETTRE_ARCHIVES` (preuve des consentements

@@ -53,11 +53,17 @@ function poserDrapeau() {
   }
 }
 
-/** `lettre-vu` une fois par emplacement et par vue de page, visible à 50 % ou plus. */
-export function useLettreVu(ref: RefObject<HTMLElement>, actif: boolean, mesure: LettreMesure) {
+/**
+ * `lettre-vu` une fois par emplacement et par vue de page, visible à 50 % ou plus.
+ * s27 : `mesureBlog` (articles « blagues », `lettreEnPremierSurArticle`) envoie AUSSI
+ * `blog-lettre-vu` {slug, position}, à comparer avec `blog-cta-vu` de l'encart payant.
+ */
+export function useLettreVu(ref: RefObject<HTMLElement>, actif: boolean, mesure: LettreMesure, mesureBlog?: LettreMesure) {
   const envoye = useRef(false);
   const mesureRef = useRef(mesure);
   mesureRef.current = mesure;
+  const mesureBlogRef = useRef(mesureBlog);
+  mesureBlogRef.current = mesureBlog;
   useEffect(() => {
     const el = ref.current;
     if (!actif || !el || envoye.current || typeof IntersectionObserver === "undefined") return;
@@ -66,6 +72,7 @@ export function useLettreVu(ref: RefObject<HTMLElement>, actif: boolean, mesure:
         if (entries.some((e) => e.isIntersecting && e.intersectionRatio >= LETTRE_VU_RATIO) && !envoye.current) {
           envoye.current = true;
           trackUmami("lettre-vu", mesureRef.current);
+          if (mesureBlogRef.current) trackUmami("blog-lettre-vu", mesureBlogRef.current);
           obs.disconnect();
         }
       },
@@ -86,6 +93,8 @@ export function useLettreInscription(
   slug: string | undefined,
   mesure: LettreMesure,
   ignorerDrapeau = false,
+  /** s27 : article « blagues », `blog-lettre-envoi` {slug, position} en plus de `lettre-envoi`. */
+  mesureBlog?: LettreMesure,
 ) {
   const [etat, setEtat] = useState<LettreEtat>("formulaire");
   const [erreur, setErreur] = useState<LettreErreur>(null);
@@ -119,6 +128,7 @@ export function useLettreInscription(
       if (!renvoi) {
         setEtat("envoi");
         trackUmami("lettre-envoi", mesure);
+        if (mesureBlog) trackUmami("blog-lettre-envoi", mesureBlog);
       }
       const controleur = new AbortController();
       const lenteT = window.setTimeout(() => setLente(true), LETTRE_ATTENTE_LONGUE_MS);
@@ -161,7 +171,7 @@ export function useLettreInscription(
       }
       return resultat;
     },
-    [emplacement, slug, mesure],
+    [emplacement, slug, mesure, mesureBlog],
   );
 
   return { etat, setEtat, erreur, setErreur, lente, attente, envoyer };

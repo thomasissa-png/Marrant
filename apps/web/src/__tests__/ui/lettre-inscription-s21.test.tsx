@@ -133,7 +133,9 @@ describe("Interrupteur ouvert", () => {
   });
 
   it("article : bloc après les articles liés (textes-trajet-v2 F05), sans data-blog-cta*, zone « lettre », bouton neutre", async () => {
-    const Page = await BlogArticlePage({ params: { slug: SLUG } });
+    // s27 : article hors « blagues » (REPARTIE) ; les articles « blagues » ont leur propre test
+    // (`lettre-articles-blagues-s27.test.tsx`).
+    const Page = await BlogArticlePage({ params: { slug: "comment-avoir-de-la-repartie" } });
     const { container } = render(Page);
     const blocs = container.querySelectorAll("[data-lettre]");
     expect(blocs).toHaveLength(1);
