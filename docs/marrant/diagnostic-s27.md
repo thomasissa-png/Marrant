@@ -39,6 +39,15 @@ Données lues en lecture seule le 25/11/2026 vers 8 h UTC : Stripe (live), base 
 - Comprendre la résiliation immédiate : ouvrir la page de résiliation maison (`RESILIATION_PAGE_OUVERTE`, question facultative déjà codée, avis d'avocat en attente) pour récolter le motif ; regarder ce que voit un abonné dans les 10 premières minutes.
 - Volume : le levier est le trafic (SEO, articles invités, réseaux en pause depuis le 26/10) et le passage blog vers offre.
 
+### Trafic, Search Console (lu le 25/11, 28 jours au 22/11)
+
+- 468 clics, 17 546 impressions, position moyenne 9,4. Par mois : sept. 417 clics / 9 934 impressions ; oct. 396 / 9 435 ; nov. 473 / 17 835. Les impressions ont doublé, les clics non : le site apparaît plus, mais en bas de page 1.
+- Une page porte le site : `/blog/meilleures-blagues-droles-2026` (250 clics, position 5,1).
+- Impressions sans clics, à portée de la page 1 (titre et description à revoir) : groupe « autodérision / définition » (environ 1 250 impressions, position 10 à 11, 3 clics, page `/blog/autoderision-interactions` 2 140 impressions) ; « humour observationnel » (597 impressions, position 13,8, 0 clic) ; « comment faire rire une femme / une fille / quelqu'un » (environ 260 impressions, position 7 à 15) ; `/blog/phrases-droles-conversations` (3 024 impressions, 59 clics).
+- Requêtes qui vendent, en page 2 à 5 : « comment devenir drôle » (66 impressions, position 18,5, 0 clic), « comment être drôle » (position 20 à 45), « avoir de la répartie » (position 29 à 30). Ce sont les recherches de la cible qui achète.
+- Réseaux : gérés par les agents Grok de Thomas (correction du 25/11, pas en pause). Umami 30 jours : t.co 3, linkedin.com 2, m.facebook.com 2 visites. Les réseaux n'amènent presque pas de visiteurs sur le site.
+- Articles invités et échanges de liens : en cours (réponses reçues les 17, 19 et 20/11).
+
 ## 2. Délivrabilité e-mail (priorité notée à la clôture s26)
 
 ### Faits
