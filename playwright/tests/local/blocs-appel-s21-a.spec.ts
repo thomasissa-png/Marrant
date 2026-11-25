@@ -91,7 +91,8 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
         await y("[data-blog-zone='related']"),
         await y("section:has(> h2:text('Questions fréquentes'))"),
       ];
-      expect(yLettre).toBeGreaterThan(0);
+      // boundingBox : y relatif à la fenêtre (négatif au-dessus), seule la comparaison compte.
+      await expect(page.locator("[data-blog-lettre-position='fin']")).toHaveCount(1);
       expect(yLettre).toBeLessThan(yFin);
       expect(yFin).toBeLessThan(yLies);
       expect(yLies).toBeLessThan(yFaq);
