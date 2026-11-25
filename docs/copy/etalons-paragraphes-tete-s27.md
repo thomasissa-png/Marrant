@@ -132,3 +132,18 @@ Deux retouches d'E2 seulement. Garder l'ouverture « Si tu restes muet quand tes
 - Phrase 1 : 150 caractères environ, « devenir drôle » dès le caractère 6, geste dès le caractère 77.
 
 Non notés (à faire relire à l'aveugle par la session).
+
+## 8. Résultat du tour 3 (relecture à l'aveugle réelle, 25/11, 2 lecteurs neufs)
+
+| Version | Yanis | Lecteur Google |
+|---|---|---|
+| E2 | 8 | 5 |
+| E2a | 7 | 6 |
+| E2b | 7 | 7 |
+| B (témoin) | 4 | 6,5 |
+
+- Les notes d'une même version bougent d'un lecteur à l'autre (B : 8 puis 6,5 chez Google ; E2 : 7 puis 5) : écart de 1 à 2 points entre lecteurs.
+- Tension de fond, constante sur 3 tours : Yanis rejette le mot-clé en tête (« ça sent la phrase écrite pour Google ») ; le lecteur Google pénalise son absence (Google ne le met pas en gras et peut réécrire l'extrait).
+- E2a : « pourquoi » répété, et « sortir tes propres phrases » ne suit pas logiquement « noter celles des autres ».
+- E2b : le meilleur équilibre (7/7), seule version jamais sous 7 au tour 3. Piste du lecteur Google pour 8 : première phrase vers 110 caractères pour que la promesse (« tu vois venir les moments où ta réplique a sa place ») tienne dans les 160.
+- Aucune version à 8 chez les deux : décision de priorité soumise à Thomas (voix de Yanis ou extrait Google), puis version finale relue à l'aveugle avant intégration.
