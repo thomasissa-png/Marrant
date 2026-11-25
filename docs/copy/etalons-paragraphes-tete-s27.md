@@ -101,3 +101,34 @@ Geste concret qui commence avant le 60e caractère OU première phrase complète
 - Phrase 1 : 148 caractères, contient le geste. Début du geste : caractère 43 (« ce soir, »), verbe « repère » au caractère 52.
 
 Non notés (à faire relire à l'aveugle par la session).
+
+## 7. Tour 3 (25/11)
+
+### Notes réelles du tour 2 (relecture à l'aveugle, 25/11, 2 lecteurs neufs, B et C du tour 1 en témoins)
+
+| Étalon | Yanis | Lecteur Google |
+|---|---|---|
+| E1 | 7 | 6 |
+| E2 | 8 | 7 |
+| E3 | 6 | 7 |
+| B (témoin) | 4 | 8 |
+| C (témoin) | 6 | 6 |
+
+- **E2, Yanis (8)** : « la première phrase, c'est littéralement moi ; noter discrètement dans mon tel, je peux le faire ce soir sans parler ». Réserves : « au bout de quelques soirées » est flou ; « la suite de l'article t'apprend » fait teasing.
+- **E2, Google (7)** : « tu restes muet » = exactement la douleur, action simple et crédible. Manque : « devenir drôle » absent de la phrase ; « la suite de l'article » sonne méta et repousse la promesse ; on n'a qu'un exercice préparatoire, pas encore la réponse.
+- **B (Google 8)** gagnait par le mot-clé en tête et la méthode visible avant 160 caractères. B perdait chez Yanis (4) : devoir de français, « teste sur un proche » = ce qui le bloque.
+
+### Consigne du tour 3
+Deux retouches d'E2 seulement. Garder l'ouverture « Si tu restes muet quand tes potes se chambrent » (ou très proche) et le geste discret (noter dans le téléphone la phrase qui a fait rire et pourquoi). « Devenir drôle » mot pour mot dans la phrase 1, phrase 1 < 160 caractères avec le geste dedans. Remplacer « la suite de l'article t'apprend » par une promesse concrète de ce que le geste construit, sans méta. Chiffres : seulement « 30 jours » et « 5 piliers », ou aucun. Pas de test sur quelqu'un. Zéro tiret cadratin. Comptage à la main, ± 2 près, à revérifier par script.
+
+### E2a : « devenir drôle » dans la subordonnée, geste au milieu
+> Si tu restes muet quand tes potes se chambrent et que tu veux devenir drôle, note dans ton téléphone la phrase qui a fait rire, et pourquoi. Au bout de 30 jours, tu sais pourquoi ça fait rire, et tu commences à sortir tes propres phrases au lieu de les garder pour toi.
+
+- Phrase 1 : 140 caractères environ, contient « devenir drôle » (caractère 62) et le geste (caractère 78).
+
+### E2b : « devenir drôle » en tête, puis la douleur, puis le geste
+> Pour devenir drôle quand tu restes muet pendant que tes potes se chambrent, note dans ton téléphone la phrase qui a fait rire et pourquoi elle marche. Au bout de 30 jours, tu as un carnet de ce qui fait rire dans ton groupe, et tu vois venir les moments où ta réplique a sa place.
+
+- Phrase 1 : 150 caractères environ, « devenir drôle » dès le caractère 6, geste dès le caractère 77.
+
+Non notés (à faire relire à l'aveugle par la session).
