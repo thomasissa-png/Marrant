@@ -165,3 +165,17 @@ Décision de Thomas : reco suivie, E2b retouchée selon la piste du lecteur Goog
 - Promesse commence au caractère 132, avant le 160e.
 
 Non notés (à faire relire à l'aveugle par la session).
+
+## 10. Tours 4 et 5 (relecture à l'aveugle réelle, 25/11, lecteurs neufs à chaque tour)
+
+| Version | Yanis | Google |
+|---|---|---|
+| F1 (tour 4) | 7,5 | 7 |
+| E2b (témoin, tour 4) | 7 | 6 |
+| F2 (tour 4) | 5,5 | 5 |
+| F1 retouchée « ton groupe… pourquoi elle marche » (tour 5) | 7 | 6 |
+| F1 (témoin, tour 5) | 6 | 6,5 |
+
+Constat après 5 tours et 10 lecteurs : les versions plafonnent entre 6 et 8, avec 1 à 2 points d'écart d'un lecteur à l'autre sur un même texte. Les deux grilles se contredisent sur le même paragraphe : Yanis rejette le mot-clé en tête et le « 30 jours » de coach ; le lecteur Google exige le mot-clé et la promesse dans les 160 caractères, et préfère la brièveté à la clarté.
+
+Reco de la session : séparer les rôles. L'extrait Google vient en général de la meta description (déjà pilotée par le SEO, action 3 du plan, après J+14). Le paragraphe de tête peut donc être écrit pour Yanis seul. Meilleure version Yanis sur 5 tours : E2 (8 aux tours 2 et 3, deux lecteurs différents), à retoucher seulement sur « la suite de l'article t'apprend » (teasing) puis à relire par un lecteur Yanis neuf (barre 8).
