@@ -57,3 +57,18 @@ Ancre : « des exercices pour développer ton humour ».
 Lien à l'étalon : reste dans la soirée entre potes, geste faisable seul (chez soi, entre deux soirées), bénéfice concret (ça tombe juste plus souvent), zéro chiffre, zéro promesse de coach.
 
 Rappel : les liens vers `/parcours` et `/conseils` ne sont pas touchés. Prérequis du plan toujours ouvert : vérifier dans Umami que 2 liens de plus ne font pas baisser les clics de l'encart.
+
+
+## Versions corrigées après relecture (@reviewer, 25/11, `docs/reviews/paragraphes-tete-s27-review.md`) : FONT FOI
+
+1. comment-devenir-drole (étalon, inchangé) : « Si tu restes muet quand tes potes se chambrent, en rentrant, note dans ton téléphone la phrase qui a fait rire le plus fort, et pourquoi elle marche. Au bout de quelques soirées, tu vois venir les moments où ta réplique a sa place, et tu arrêtes de regarder passer les vannes. »
+
+2. comment-avoir-de-la-repartie : « Si on te balance une pique devant tout le monde et que tu réponds par un rire gêné, en rentrant, note la pique, et en face la réplique que tu aurais voulu sortir. Au bout de quelques soirées, tu remarques que les piques se ressemblent, et quand la suivante arrive, ta réponse est déjà prête. »
+
+3. autoderision-interactions : « L'autodérision, c'est rire d'un de tes petits défauts avec le sourire, pour que les autres soient à l'aise au lieu d'être gênés pour toi. La prochaine fois que tu te plantes devant du monde (tu te trompes de salle, tu oublies un prénom), sors la vanne avant les autres, et tu verras les épaules se détendre. »
+
+4. 5-types-humour-lequel-pour-toi : « L'humour observationnel, c'est dire à voix haute un truc que tout le monde a vécu sans jamais le formuler. La prochaine fois que tu te dis dans le métro « mais pourquoi ils font tous ça ? », dis-le tel quel à un pote, et s'il te répond « c'est tellement vrai », tu tiens peut-être ton type d'humour. »
+
+5. meilleures-blagues-droles-2026, l. 1582 (R2), à la suite de « Adapte, n'apprends pas par cœur. Change les prénoms, adapte les situations à ta vie. » : « Et si on te chambre en retour, voici comment [avoir de la répartie](/blog/comment-avoir-de-la-repartie) au lieu de rester sans voix. »
+
+6. meilleures-blagues-droles-2026, l. 1505 (E2), à la suite de « C'est là que tout commence : faire rire sa bande avant de faire rire un public. » : « Et si tu veux que ça tombe juste plus souvent, il y a [des exercices pour développer ton humour](/blog/exercices-developper-humour) à faire entre deux soirées. »
