@@ -179,3 +179,15 @@ Non notés (à faire relire à l'aveugle par la session).
 Constat après 5 tours et 10 lecteurs : les versions plafonnent entre 6 et 8, avec 1 à 2 points d'écart d'un lecteur à l'autre sur un même texte. Les deux grilles se contredisent sur le même paragraphe : Yanis rejette le mot-clé en tête et le « 30 jours » de coach ; le lecteur Google exige le mot-clé et la promesse dans les 160 caractères, et préfère la brièveté à la clarté.
 
 Reco de la session : séparer les rôles. L'extrait Google vient en général de la meta description (déjà pilotée par le SEO, action 3 du plan, après J+14). Le paragraphe de tête peut donc être écrit pour Yanis seul. Meilleure version Yanis sur 5 tours : E2 (8 aux tours 2 et 3, deux lecteurs différents), à retoucher seulement sur « la suite de l'article t'apprend » (teasing) puis à relire par un lecteur Yanis neuf (barre 8).
+
+## 11. Tour 6 (25/11)
+
+Décision de Thomas (« Oui ta reco ») : le paragraphe de tête s'écrit pour Yanis seul, l'extrait Google sera géré par la meta description plus tard. Plus de contrainte de mot-clé ni de 160 caractères. Base : E2. Phrase 1 conservée mot pour mot ; phrase 2 réécrite pour retirer « la suite de l'article t'apprend… sur 30 jours » (méta, promesse de coach) et « le schéma » (vague), au profit d'un bénéfice concret tiré des formules aimées. Aucun chiffre promis, aucune méta.
+
+### G1 : le moment de la réplique
+> Si tu restes muet quand tes potes se chambrent, commence par noter dans ton téléphone la phrase qui a fait rire le plus fort, et pourquoi elle marche. Au bout de quelques soirées, tu vois venir les moments où ta réplique a sa place, et tu arrêtes de regarder passer les vannes.
+
+### G2 : le groupe et la vanne qu'on sort
+> Si tu restes muet quand tes potes se chambrent, commence par noter dans ton téléphone la phrase qui a fait rire le plus fort, et pourquoi elle marche. Au bout de quelques soirées, tu sais ce qui fait rire dans ton groupe, et tu lances tes vannes au lieu de les garder pour toi.
+
+Non notés (à faire relire à l'aveugle par la session, lecteurs Yanis neufs, barre 8).
