@@ -65,7 +65,7 @@ Rappel : les liens vers `/parcours` et `/conseils` ne sont pas touchés. Préreq
 
 2. comment-avoir-de-la-repartie : « Si on te balance une pique devant tout le monde et que tu réponds par un rire gêné, en rentrant, note la pique, et en face la réplique que tu aurais voulu sortir. Au bout de quelques soirées, tu remarques que les piques se ressemblent, et quand la suivante arrive, ta réponse est déjà prête. »
 
-3. autoderision-interactions : « L'autodérision, c'est rire d'un de tes petits défauts avec le sourire, pour que les autres soient à l'aise au lieu d'être gênés pour toi. La prochaine fois que tu te plantes devant du monde (tu te trompes de salle, tu oublies un prénom), sors la vanne avant les autres, et tu verras les épaules se détendre. »
+3. autoderision-interactions : « L'autodérision, c'est rire d'un de tes petits défauts, pour que les autres soient à l'aise au lieu d'être gênés pour toi. La prochaine fois que tu te plantes devant du monde (tu te trompes de salle, tu oublies un prénom), sors la vanne avant les autres, et tu verras les épaules se détendre. »
 
 4. 5-types-humour-lequel-pour-toi : « L'humour observationnel, c'est dire à voix haute un truc que tout le monde a vécu sans jamais le formuler. La prochaine fois que tu te dis dans le métro « mais pourquoi ils font tous ça ? », dis-le tel quel à un pote, et s'il te répond « c'est tellement vrai », tu tiens peut-être ton type d'humour. »
 
