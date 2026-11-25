@@ -35,6 +35,8 @@ Le corps contient bien « Écris 3 versions de chaque observation » (étape 2, 
 
 ## Version finale après relecture à l'aveugle (@reviewer, 25/11) : FAIT FOI
 
-> **En bref :** Pour devenir drôle, prends le réflexe de noter ce qui fait rire, puis travaille 5 piliers : observation, surprise, timing, autodérision et pratique. Le plan sur 30 jours en fait un entraînement en quatre étapes (observer, reformuler, tester auprès d'un ami, élargir aux réunions et aux soirées), 5 à 10 minutes par jour.
+> **En bref :** Pour devenir drôle, prends le réflexe de noter ce qui fait rire, puis travaille 5 piliers : observation, surprise, timing, autodérision et pratique. Ensuite, suis un plan sur 30 jours en quatre étapes (observer, reformuler, tester auprès d'un ami, élargir aux réunions et aux soirées), 5 à 10 minutes par jour.
 
 Correction appliquée : « garde le réflexe de noter » devient « prends le réflexe de noter ce qui fait rire » (sans complément, l'extrait Google seul ne se comprenait pas). Typographie : majuscule après « : » et absence d'espace insécable conservées, par cohérence avec les autres encadrés du fichier (chantier global, hors périmètre).
+
+Correction 2 (relecture à l'aveugle n°2, 25/11) : « Le plan sur 30 jours en fait un entraînement en quatre étapes » devient « Ensuite, suis un plan sur 30 jours en quatre étapes » (« en fait » se lisait « en réalité » ; « le plan » supposait un plan déjà présenté).
