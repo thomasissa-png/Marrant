@@ -81,21 +81,21 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       if (largeur < 400) expect(hFin, "bloc de fin : 600 px au plus à 375").toBeLessThanOrEqual(600);
       await capture(page, `article-fin-${largeur}`, testInfo);
 
-      // Ordre v2 F05 : bloc de fin, articles liés, lettre (éloignée du bouton payant), FAQ.
+      // s27 (décision de Thomas du 25/11) : article « blagues », la lettre gratuite passe AU-DESSUS du
+      // bloc de fin (qui passe en contour), plus de lettre après les articles liés. Ordre : lettre, bloc
+      // de fin, articles liés, FAQ. Ancien ordre v2 F05 (lettre à un écran du payant) : autres articles.
       const y = async (sel: string) => (await page.locator(sel).first().boundingBox())?.y ?? -1;
-      const [yFin, yLettre, yLies, yFaq] = [
+      const [yLettre, yFin, yLies, yFaq] = [
+        await y("[data-blog-lettre-position='fin']"),
         await y("[data-blog-bloc-fin]"),
-        await y("[data-lettre='article']"),
         await y("[data-blog-zone='related']"),
         await y("section:has(> h2:text('Questions fréquentes'))"),
       ];
+      expect(yLettre).toBeGreaterThan(0);
+      expect(yLettre).toBeLessThan(yFin);
       expect(yFin).toBeLessThan(yLies);
-      expect(yLies).toBeLessThan(yLettre);
-      expect(yLettre).toBeLessThan(yFaq);
-      // « Au moins un écran » entre le bouton payant et la lettre (v2 F05, défaut relevé sur téléphone).
-      // Sur ordinateur, les articles liés tiennent sur moins d'un écran : écart mesuré et signalé, pas d'espace vide ajouté.
-      if (largeur < 400) expect(yLettre - yFin, "lettre à un écran au moins du bloc de fin").toBeGreaterThanOrEqual(812);
-      else console.log(`[blocs-appel] ${largeur} px : lettre à ${Math.round(yLettre - yFin)} px du haut du bloc de fin`);
+      expect(yLies).toBeLessThan(yFaq);
+      await expect(page.locator("[data-blog-zone='related'] ~ [data-lettre]")).toHaveCount(0);
 
       // Cible du bouton de la démonstration : la fiche est celle du carnet en cours, ouverte.
       await page.goto(hrefDemo);
