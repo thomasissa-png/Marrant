@@ -108,7 +108,10 @@ test.describe("lot D10, « Mon profil » et `/abonnement`", () => {
       await expect(page.locator("#abonnement")).toBeVisible();
       await expect(page.locator("#rappel-parcours")).toBeAttached();
     }
-    await expect(page.getByRole("button", { name: TEXTES_ABONNEMENT.resilier })).toBeVisible();
+    // s27 : page de résiliation ouverte, « Résilier » est un lien vers /resiliation (le pied de page porte le même nom).
+    await expect(
+      page.locator("#abonnement").getByRole("link", { name: TEXTES_ABONNEMENT.resilier }),
+    ).toHaveAttribute("href", "/resiliation");
     await expect(page.locator("main").getByRole("link", { name: LIBELLE_RENONCER_CONTRAT })).toBeVisible();
   });
 
