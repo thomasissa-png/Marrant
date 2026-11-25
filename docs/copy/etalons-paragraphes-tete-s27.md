@@ -191,3 +191,16 @@ Décision de Thomas (« Oui ta reco ») : le paragraphe de tête s'écrit pour Y
 > Si tu restes muet quand tes potes se chambrent, commence par noter dans ton téléphone la phrase qui a fait rire le plus fort, et pourquoi elle marche. Au bout de quelques soirées, tu sais ce qui fait rire dans ton groupe, et tu lances tes vannes au lieu de les garder pour toi.
 
 Non notés (à faire relire à l'aveugle par la session, lecteurs Yanis neufs, barre 8).
+
+## 12. Résultat du tour 6 (2 lecteurs Yanis neufs, 25/11)
+
+| Version | Yanis A | Yanis B |
+|---|---|---|
+| G1 (« tu vois venir les moments… regarder passer les vannes ») | 7 | 7 |
+| G2 (« tu lances tes vannes au lieu de les garder pour toi ») | 6 | 5 |
+| E2 (témoin) | 5 | 5 |
+
+- E2, même texte : 8 et 8 aux tours 2 et 3, 5 et 5 au tour 6. Le bruit entre lecteurs simulés (jusqu'à 3 points) dépasse les écarts entre versions : la barre de 8 par lecteurs simulés ne converge pas.
+- Objection nouvelle, commune aux deux lecteurs : sortir son téléphone en pleine soirée pour noter une vanne fait « chelou » et scolaire. Piste : noter en rentrant, pas pendant.
+- G1 est la seule version jamais sous 7 au tour 6, et ses deux formules (« les moments où ta réplique a sa place », « regarder passer les vannes ») ont été citées comme les plus justes à chaque tour où elles apparaissaient.
+- Décision rendue à Thomas (calibrage P0 s8 : l'étalon se fixe avec le fondateur).
