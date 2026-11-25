@@ -22,7 +22,7 @@ export const blogArticles: BlogArticle[] = [
       "Devenir drôle, ça s'apprend, n'en déplaise à l'oncle qui répète « t'es drôle ou tu l'es pas » : les 5 piliers, ce qu'en dit la science et un plan sur 30 jours.",
     content: `Si tu restes muet quand tes potes se chambrent, en rentrant, note dans ton téléphone la phrase qui a fait rire le plus fort, et pourquoi elle marche. Au bout de quelques soirées, tu vois venir les moments où ta réplique a sa place, et tu arrêtes de regarder passer les vannes.
 
-> **En bref :** Pour devenir drôle, note chaque jour une situation absurde, reformule-la en 3 versions, teste la meilleure sur un proche, puis réutilise ce qui a fait sourire. 5 à 10 minutes par jour pendant 30 jours suffisent à la plupart des gens pour sentir la différence : l'humour est une compétence, pas un talent inné.
+> **En bref :** Pour devenir drôle, prends le réflexe de noter ce qui fait rire, puis travaille 5 piliers : observation, surprise, timing, autodérision et pratique. Ensuite, suis un plan sur 30 jours en quatre étapes (observer, reformuler, tester auprès d'un ami, élargir aux réunions et aux soirées), 5 à 10 minutes par jour.
 
 "Soit t'es drôle, soit tu l'es pas." Celui qui dit ça, c'est souvent l'oncle qui raconte la même blague sur les blondes depuis 2003. Il est "né drôle", paraît-il. **L'humour est une compétence**, pas un chromosome : ça s'apprend.
 

@@ -6,15 +6,18 @@
  * celui de l'oncle, conservé intact). Source : docs/copy/etalons-pilier-s15.md.
  */
 import { blogArticles } from "@/lib/blog-articles";
-import { PARAGRAPHES_TETE_S27, sansAjoutsPosterieurs } from "../helpers/blog-ajouts-posterieurs";
+import { EN_BREF_DEVENIR_DROLE_S27, PARAGRAPHES_TETE_S27, sansAjoutsPosterieurs } from "../helpers/blog-ajouts-posterieurs";
 
 const TITLE = "Comment devenir drôle : 5 piliers et un plan sur 30 jours";
 const pilier = blogArticles.find((a) => a.slug === "comment-devenir-drole");
-// s27 : paragraphe de tête ajouté avant l'En bref (blog-paragraphes-tete-s27.test.ts) ; les étalons s15 sont vérifiés sans lui.
+// s27 : paragraphe de tête ajouté avant l'En bref (blog-paragraphes-tete-s27.test.ts) et En bref remplacé
+// (blog-en-bref-devenir-drole-s27.test.ts) ; les étalons s15 sont vérifiés sans ces deux modifications.
 const pilierS15 = pilier && sansAjoutsPosterieurs(pilier);
 
-const EN_BREF =
-  "> **En bref :** Pour devenir drôle, note chaque jour une situation absurde, reformule-la en 3 versions, teste la meilleure sur un proche, puis réutilise ce qui a fait sourire. 5 à 10 minutes par jour pendant 30 jours suffisent à la plupart des gens pour sentir la différence : l'humour est une compétence, pas un talent inné.";
+// Étalon 1A (s15), tel que figé avant s27.
+const EN_BREF = EN_BREF_DEVENIR_DROLE_S27.avant;
+// s27 (25/11/2026, « Aligne puis met en ligne ») : version FAIT FOI de docs/copy/en-bref-devenir-drole-s27.md.
+const EN_BREF_S27 = EN_BREF_DEVENIR_DROLE_S27.apres;
 const ONCLE =
   "\"Soit t'es drôle, soit tu l'es pas.\" Celui qui dit ça, c'est souvent l'oncle qui raconte la même blague sur les blondes depuis 2003. Il est \"né drôle\", paraît-il. **L'humour est une compétence**, pas un chromosome : ça s'apprend.";
 const PROGRAMME =
@@ -35,14 +38,15 @@ describe("pilier comment-devenir-drole : haut de page s15", () => {
     expect(head.trim().split("\n\n")).toEqual([EN_BREF, ONCLE, PROGRAMME]);
   });
 
-  it("s27 : seul ajout du haut de page, le paragraphe de tête avant l'En bref", () => {
+  it("s27 : seules modifications du haut de page, le paragraphe de tête puis l'En bref remplacé", () => {
     const [head] = (pilier?.content ?? "").split("\n## ");
-    expect(head.trim().split("\n\n")).toEqual([PARAGRAPHES_TETE_S27["comment-devenir-drole"], EN_BREF, ONCLE, PROGRAMME]);
+    expect(head.trim().split("\n\n")).toEqual([PARAGRAPHES_TETE_S27["comment-devenir-drole"], EN_BREF_S27, ONCLE, PROGRAMME]);
   });
 
   it("l'En bref ne mentionne plus « 3 leviers » ni « 8 semaines »", () => {
     const bref = (pilierS15?.content ?? "").split("\n")[0];
     expect(bref).not.toMatch(/leviers|semaines/);
+    expect(EN_BREF_S27).not.toMatch(/leviers|semaines/);
   });
 
   it("excerpt inchangé, updatedAt = audit s20 (12/10)", () => {

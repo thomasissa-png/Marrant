@@ -48,9 +48,36 @@ export const LIENS_BLAGUES_S27: { apres: string; phrase: string; href: string }[
   },
 ];
 
+/**
+ * s27 (25/11/2026, décision de Thomas « Aligne puis met en ligne ») : encadré « En bref » de
+ * `comment-devenir-drole` remplacé, au caractère près, par la section « FAIT FOI » de
+ * `docs/copy/en-bref-devenir-drole-s27.md` (concordance vérifiée par blog-en-bref-devenir-drole-s27.test.ts).
+ * `avant` = l'encadré des étalons s15 et des audits, `apres` = le texte en ligne.
+ */
+export const EN_BREF_DEVENIR_DROLE_S27 = {
+  slug: "comment-devenir-drole",
+  avant:
+    "> **En bref :** Pour devenir drôle, note chaque jour une situation absurde, reformule-la en 3 versions, teste la meilleure sur un proche, puis réutilise ce qui a fait sourire. 5 à 10 minutes par jour pendant 30 jours suffisent à la plupart des gens pour sentir la différence : l'humour est une compétence, pas un talent inné.",
+  apres:
+    "> **En bref :** Pour devenir drôle, prends le réflexe de noter ce qui fait rire, puis travaille 5 piliers : observation, surprise, timing, autodérision et pratique. Ensuite, suis un plan sur 30 jours en quatre étapes (observer, reformuler, tester auprès d'un ami, élargir aux réunions et aux soirées), 5 à 10 minutes par jour.",
+};
+
+/** Remet l'ancien texte à la place de chaque remplacement (présent une seule fois, sinon erreur). */
+export function sansRemplacements(slug: string, content: string): string {
+  for (const { avant, apres } of AJOUTS_POSTERIEURS[slug]?.remplacements ?? []) {
+    if (content.split(apres).length - 1 !== 1) {
+      throw new Error(`Remplacement postérieur introuvable ou dupliqué dans ${slug}`);
+    }
+    content = content.replace(apres, avant);
+  }
+  return content;
+}
+
 interface AjoutPosterieur {
   /** Textes insérés, chacun avec son séparateur (ligne vide ou espace), présents une seule fois. */
   insertions: string[];
+  /** Textes remplacés (ancien → nouveau, présent une seule fois), remis à l'ancien avant comparaison. */
+  remplacements?: { avant: string; apres: string }[];
   /** Date de mise à jour avant l'ajout (référence des audits). */
   updatedAtAvant: string;
   /** Date de mise à jour posée par l'ajout (égale à l'avant si l'ajout ne la change pas). */
@@ -74,6 +101,10 @@ export const AJOUTS_POSTERIEURS: Record<string, AjoutPosterieur> = {
   // s27 (25/11/2026) : 2 phrases de lien, chacune précédée d'une espace, dans le paragraphe existant.
   "meilleures-blagues-droles-2026": { insertions: LIENS_BLAGUES_S27.map((l) => ` ${l.phrase}`), ...AVANT_S27 },
 };
+// s27 (25/11/2026) : encadré « En bref » remplacé (même date, updatedAt inchangé).
+AJOUTS_POSTERIEURS[EN_BREF_DEVENIR_DROLE_S27.slug].remplacements = [
+  { avant: EN_BREF_DEVENIR_DROLE_S27.avant, apres: EN_BREF_DEVENIR_DROLE_S27.apres },
+];
 
 /**
  * s27 : title + excerpt réécrits pour le SEO (gains rapides Search Console du 25/11). Seul le
@@ -113,7 +144,7 @@ export function sansAjoutsPosterieurs(article: BlogArticle): BlogArticle {
   const metas = METAS_AVANT_S27[article.slug];
   if (metas) article = { ...article, ...metas };
   if (!ajout) return article;
-  let content = article.content;
+  let content = sansRemplacements(article.slug, article.content);
   for (const insertion of ajout.insertions) {
     if (content.split(insertion).length - 1 !== 1) {
       throw new Error(`Ajout postérieur introuvable ou dupliqué dans ${article.slug}`);

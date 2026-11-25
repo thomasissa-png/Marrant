@@ -11,7 +11,7 @@ import path from "path";
 import { renderMarkdownSections } from "@/components/ui/markdown-renderer";
 import { blogArticles, getArticleBySlug } from "@/lib/blog-articles";
 import { NBSP } from "@/lib/fr-typo";
-import { LIENS_BLAGUES_S27, PARAGRAPHES_TETE_S27, sansAjoutsPosterieurs } from "../helpers/blog-ajouts-posterieurs";
+import { LIENS_BLAGUES_S27, PARAGRAPHES_TETE_S27, sansAjoutsPosterieurs, sansRemplacements } from "../helpers/blog-ajouts-posterieurs";
 
 const DOC = path.resolve(__dirname, "../../../../../docs/copy/paragraphes-tete-s27-final.md");
 const BLAGUES = "meilleures-blagues-droles-2026";
@@ -62,8 +62,8 @@ describe("s27 : paragraphes de tête et liens de l'article blagues", () => {
       expect(occurrences(article.content, texte)).toBe(1);
     });
 
-    it("le corps qui suit est l'ancien corps, inchangé", () => {
-      expect(article.content.slice(texte.length + 2)).toBe(sansAjoutsPosterieurs(article).content);
+    it("le corps qui suit est l'ancien corps, inchangé (hors remplacement s27 déclaré : En bref de comment-devenir-drole)", () => {
+      expect(sansRemplacements(slug, article.content.slice(texte.length + 2))).toBe(sansAjoutsPosterieurs(article).content);
     });
 
     it("rendu en paragraphe ordinaire, premier élément du corps, avant tout bloc « En bref »", () => {
