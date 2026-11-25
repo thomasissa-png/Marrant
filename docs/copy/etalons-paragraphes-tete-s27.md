@@ -147,3 +147,21 @@ Non notés (à faire relire à l'aveugle par la session).
 - E2a : « pourquoi » répété, et « sortir tes propres phrases » ne suit pas logiquement « noter celles des autres ».
 - E2b : le meilleur équilibre (7/7), seule version jamais sous 7 au tour 3. Piste du lecteur Google pour 8 : première phrase vers 110 caractères pour que la promesse (« tu vois venir les moments où ta réplique a sa place ») tienne dans les 160.
 - Aucune version à 8 chez les deux : décision de priorité soumise à Thomas (voix de Yanis ou extrait Google), puis version finale relue à l'aveugle avant intégration.
+
+## 9. Tour 4 (25/11)
+
+Décision de Thomas : reco suivie, E2b retouchée selon la piste du lecteur Google. Retouches : phrase 1 raccourcie à 105-120 caractères, « carnet » supprimé, promesse avancée avant le 160e caractère, un seul « pourquoi ». Comptage à la main (pas d'outil de script disponible dans cette session), à revérifier par script avant intégration.
+
+### F1 : « Pour devenir drôle » en tête, situation resserrée
+> Pour devenir drôle quand ça chambre et que tu te tais, note dans ton téléphone la phrase qui a fait rire, et pourquoi. En 30 jours, tu vois venir les moments où ta réplique a sa place, et tu arrêtes de regarder passer les vannes.
+
+- Phrase 1 : 118 caractères. « devenir drôle » dès le caractère 6, geste dès le caractère 56.
+- Promesse (« tu vois venir… ») commence au caractère 133, avant le 160e.
+
+### F2 : question d'ouverture, promesse appuyée sur le groupe
+> Envie de devenir drôle quand ça chambre et que tu te tais ? Note la phrase qui a fait rire dans ton tel, et pourquoi. En 30 jours, tu vois venir les moments où ta réplique a sa place, parce que tu sais ce qui fait rire dans ton groupe.
+
+- Phrase 1 (question + consigne, lues comme une seule phrase d'accroche) : 117 caractères. « devenir drôle » dès le caractère 10, geste dès le caractère 62.
+- Promesse commence au caractère 132, avant le 160e.
+
+Non notés (à faire relire à l'aveugle par la session).
