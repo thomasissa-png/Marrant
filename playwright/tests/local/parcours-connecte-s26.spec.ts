@@ -131,7 +131,9 @@ test.describe("Parcours connecté (s26)", () => {
       await expect(etape2.locator("[data-etape-suivante='3']")).toHaveCount(0);
 
       // Clic 2 : étape suivante depuis le pied d'une étape validée (étape 1 → étape 2).
-      await page.locator("#etape-1-entete").click();
+      // Dès 1024 px, une seule étape est affichée : on choisit l'étape 1 dans le menu d'étapes, comme un abonné.
+      if (largeur >= 1024) await page.locator("[data-menu-etapes]").locator("a[href='#etape-1']").click();
+      else await page.locator("#etape-1-entete").click();
       await expect(page.locator("#etape-1-entete")).toHaveAttribute("aria-expanded", "true");
       await page.locator("#etape-1").locator("[data-etape-suivante='2']").click();
       await expect(page.locator("#etape-2-entete")).toHaveAttribute("aria-expanded", "true");
