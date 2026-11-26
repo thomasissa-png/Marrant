@@ -34,6 +34,8 @@ En attente (semaines suivantes, selon les chiffres) : réduire les commentaires 
 
 Correction du 26/11 (question de Thomas « tu es sûr pour enlever les techniques partout ? ») : la technique est GARDÉE et déplacée, pas supprimée. Les chiffres X et LinkedIn ne l'isolent pas (longueur, 3 temps et technique ont changé ensemble). Vidéos : légende ; carrousels : carte finale « Pourquoi ça marche » ; LinkedIn : une ligne ; statique anecdote et X : sans. Comparaison avec et sans technique pendant 2 semaines.
 
+Décision de Thomas du 26/11 (après le lot S49) : la technique revient PARTOUT, en court, car « quand ça s'arrête sec on reste sur notre faim ». Instagram 19h30 = carrousel de 2 images (vanne, puis technique). Vidéos : carte de fin d'environ 2 s (technique ou réaction), total 8 à 10 s. X : une ligne « Technique : … » dans le même post. Restent interdits : « À toi » et tout renvoi au site. Voir `prompt-grok-rectificatif-s49-technique.md`.
+
 ## 4. Mesure
 
 Référence : médianes du bilan (Reels 123 vues la semaine du 08 au 14/11, TikTok 150 à 260 fin octobre, LinkedIn bureau environ 400 impressions, X environ 40 pour le format court). Relevé au rapport hebdomadaire de Grok, comparé chaque samedi.
