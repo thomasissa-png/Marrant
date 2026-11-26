@@ -27,6 +27,6 @@ Le reste des 3 changements de la semaine ne bouge pas (son dans tous les fichier
 ## Avis de la session sur le lot S49 (avant le rectificatif)
 
 - Bon niveau d'ensemble : situations reconnaissables, chutes courtes, vidéos à 6 à 8 s comme demandé, légendes sans lien, plus de réponse « Technique » sur X.
-- À remplacer (signalé par son propre relecteur, et la session est d'accord) : X du 2/12 « raclette, j'ai su qui étaient mes vrais amis » (formule connue) ; carte « Ma mère m'a écrit « Appelle-moi quand tu peux » » (déjà vue) ; carte « caisse automatique » (vanne connue). Avec le carrousel de 2 images, elles sortent naturellement du lot.
+- Corrigé après la décision de Thomas (« si déjà vu mais que ça marche bien, pas de souci ») : les 3 vannes signalées comme connues (X raclette du 2/12, « Appelle-moi quand tu peux », caisse automatique) RESTENT publiables ; on juge sur leurs chiffres.
 - À trancher par Thomas : X du 30/11, les mots ont changé (« Premier Noël… le grand-père m'a pris pour son notaire. Tout le monde voulait être assis à côté de moi. ») ; la nouvelle version est plus nette que l'ancienne, à valider.
 - Hashtags : 4 au plus, et seulement sur Instagram et TikTok.
