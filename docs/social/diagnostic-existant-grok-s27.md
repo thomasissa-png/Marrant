@@ -28,6 +28,8 @@ Source : `Social/bilan-grok-initial-2026-11.md` (Drive, Marrant2, 26/11 vers 10h
 2. **Son et écran vivant.** Chaque fichier sort avec une piste son (y compris pour Instagram). Texte centré et plus grand ; à la chute, un changement visible (couleur ou léger zoom) pour marquer le rire.
 3. **Régularité plutôt que volume.** 1 vidéo par jour au plus, à heure fixe, priorité TikTok et Reels (seuls formats au-dessus de 100 vues). X : retour au format court en 2 temps, sans réponse « Technique ». LinkedIn : seulement des vannes de bureau courtes, 2 à 3 par semaine. Plus de rattrapage groupé : un créneau manqué est sauté. Chaque publication notée dans un registre unique au moment de l'envoi.
 
+Décision de Thomas du 26/11 (après le diagnostic) : Instagram à 2 publications par jour, 1 Reel vidéo et 1 post statique ou carrousel d'anecdotes courtes dans l'esprit VDM (sans reprendre leur marque). Remplace pour Instagram la règle « 1 vidéo par jour au plus ». Point de départ : Grok avait arrêté les carrousels le 02/11 sur décision du 26/10 (créneau de 19h30 passé en 2e Reel) ; le créneau de 19h30 redevient un post statique ou carrousel.
+
 En attente (semaines suivantes, selon les chiffres) : réduire les commentaires chez les autres (environ 25 par jour) à quelques-uns sur de gros comptes ; relever les abonnés chaque semaine.
 
 ## 4. Mesure

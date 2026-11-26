@@ -20,6 +20,7 @@ Rappel du cadre : on est là pour partager du fun et quelques explications. Aucu
 
 3. RÉGULARITÉ PLUTÔT QUE VOLUME
 - 1 vidéo par jour au plus, à heure fixe, en priorité TikTok et Reels.
+- Instagram (décision de Thomas du 26/11) : 2 publications par jour, à heures fixes : 1 Reel vidéo chaque jour, et 1 post statique ou carrousel chaque jour, dans l'esprit des pages d'anecdotes courtes (type VDM) : une situation du quotidien racontée en 2 à 4 lignes, qui se lit en 3 secondes, avec la chute à la fin. Visuel sobre à nos couleurs, gros texte lisible, aucune reprise du nom, du logo ou de la signature d'une autre page. Carrousel : 1 anecdote par carte, 3 à 5 cartes, la meilleure en premier. Légende : une phrase, sans lien ni appel au site.
 - LinkedIn : seulement des vannes de bureau courtes (type « Bernard 2014 », « chouquettes »), 2 à 3 par semaine.
 - Plus de rattrapage groupé : un créneau manqué est sauté, pas doublé.
 - Tiens un registre unique des publications, rempli au moment de chaque envoi : date, heure, réseau, lien, texte exact publié, puis les chiffres relevés à 48 h.
