@@ -46,7 +46,7 @@ export function ListeEnvois({
         </h2>
         {fils.length > 0 && (
           <p className={cn("tabular-nums", META)} data-compteur-envois>
-            {repondues} / {fils.length}
+            {Q.envois.compteur(repondues, fils.length)}
           </p>
         )}
       </div>

@@ -5,6 +5,7 @@ import { enregistrerReplique, ficheAcceptantReplique, journaliserSansTexte, supp
 import { idFiche } from "@/lib/espace/fiches-schema";
 import { jsonEspace, lireCorps, limiterEcritures } from "@/lib/espace/api";
 import { compterAnonyme } from "@/lib/espace/compteurs";
+import { compterPratiqueEspace } from "@/lib/espace/pratique-espace";
 
 /**
  * /api/espace/replique (s24, lot D5) : « Ma réplique à moi », une phrase par fiche à geste.
@@ -13,6 +14,7 @@ import { compterAnonyme } from "@/lib/espace/compteurs";
  * DELETE `{ ficheId }` : suppression, acceptée aussi après la résiliation.
  * Le texte n'est jamais journalisé (erreurs : nom seul), ni écrit ailleurs (`UsageEvent`, Umami).
  * Lot D10 : réplique NOUVELLE = compteur anonyme `action` / `replique-ecrite` (aucun compte, aucun texte).
+ * s27 D4 : toute réplique enregistrée compte comme pratique du jour (série, premier pas), sans XP (`pratique-espace.ts`).
  * Fermé : 404 avant toute lecture ; 401 sans session ; 403 compte jamais abonné ; 503.
  */
 export const dynamic = "force-dynamic";
@@ -32,6 +34,7 @@ export async function PUT(request: Request) {
     if (trop) return trop;
     const nouvelle = await enregistrerReplique(garde.userId, lu.data.ficheId, lu.data.texte);
     if (nouvelle) await compterAnonyme({ cle: "action", valeur: "replique-ecrite" });
+    await compterPratiqueEspace(garde.userId, "replique");
     return jsonEspace({ ok: true });
   } catch (error) {
     journaliserSansTexte("replique", error);

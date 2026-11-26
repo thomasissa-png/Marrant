@@ -80,7 +80,9 @@ export const SERIE = {
   titre: "Série",
   ariaIcone: "série",
   jours: (n: number) => `${n} ${n > 1 ? "jours" : "jour"} de pratique d’affilée`,
-  aide: "Un jour compte quand tu valides une étape ou que tu termines un quiz d’étape.",
+  // [PROVISOIRE s27, À VALIDER PAR THOMAS] règle D4 (réplique et « Ton retour » comptent) ; texte validé s17 jusque-là :
+  // « Un jour compte quand tu valides une étape ou que tu termines un quiz d’étape. »
+  aide: "Un jour compte quand tu valides une étape, que tu termines un quiz d’étape ou que tu écris ta réplique.",
   zero: "Ta série démarre à ta prochaine étape.",
 } as const;
 

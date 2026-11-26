@@ -98,10 +98,12 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
   return (
     <>
       <MemoireDefilementPage cle={cleDefilementPage(filtres)}>
+        {/* s27 D9 (même règle que la Bibliothèque) : seul h1 de la page, hors du mode page (dès 1024, lu par les lecteurs
+            d'écran seulement ; le titre de la fiche du panneau y est un h2). */}
+        <header className="lg:sr-only">
+          <h1 className={TITRE_PAGE}>{T.titre}</h1>
+        </header>
         <div className="lg:hidden" data-mode="page">
-          <header>
-            <h1 className={TITRE_PAGE}>{T.titre}</h1>
-          </header>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2" data-quoi-repondre-grille>
             {prochaine && (
               <section aria-labelledby="prochaine-titre" className={cn(CARTE_ACTION, "h-auto md:col-span-2")} data-prochaine-action={prochaine.id}>
@@ -160,7 +162,7 @@ export default async function QuoiRepondrePage({ searchParams }: { searchParams:
         </div>
       </MemoireDefilementPage>
       <div className="hidden lg:block" data-mode="panneau">
-        {panneau ? <PanneauFiche {...panneau} /> : <Vide testid="quoi-repondre-vide-panneau" />}
+        {panneau ? <PanneauFiche {...panneau} niveauTitre={2} /> : <Vide testid="quoi-repondre-vide-panneau" />}
       </div>
     </>
   );

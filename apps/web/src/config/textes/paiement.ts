@@ -144,7 +144,9 @@ export const TEXTES_PORTAIL = {
 export const TEXTES_SUCCESS = {
   // Concision v5 (textes-v5-c §5) : paiement vérifié, juste avant le retour automatique.
   pretTitre: "Paiement reçu !",
-  pretTexte: "Merci. Ton accès s’active…",
+  // s27 D5 (`docs/qa/parcours-abonne-s27.md`) : « Ton accès s’active… » retiré, l'accès est déjà prêt quand ce texte
+  // s'affiche (les points de suspension faisaient croire à un chargement). Mot existant gardé seul, à valider par Thomas.
+  pretTexte: "Merci.",
   /** Plein vers la destination d'origine (`returnTo`, sinon /parcours) : trajet de conversion s21 §4. */
   pretBouton: "Continuer",
   verificationTitre: "On vérifie ton paiement",

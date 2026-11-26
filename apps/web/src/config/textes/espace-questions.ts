@@ -45,6 +45,11 @@ export const TEXTES_QUESTIONS = {
     exempleIntro: "Par exemple, pour « Une question » :",
     envoyeLe: (date: string) => `Envoyé le ${date}`,
     reponduLe: (date: string) => `Répondu le ${date}`,
+    /**
+     * s27 D7 : compteur à côté de « Mes envois » (réponses reçues sur envois). « 0 / 3 » seul se lisait comme un quota
+     * épuisé. [PROVISOIRE s27, À VALIDER PAR THOMAS] : mot existant « Répondu » devant les chiffres.
+     */
+    compteur: (repondues: number, total: number) => `Répondu : ${repondues} / ${total}`,
     enAttente: "Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés",
     enRetard: "L'équipe n'a pas encore répondu, ta demande est bien là",
     tonMessage: "Ton message",

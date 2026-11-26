@@ -93,16 +93,18 @@ export async function POST(request: NextRequest) {
       ...(contentType === "VIDEO" && { videoId: contentId }),
     };
 
-    const favorite = await prisma.userFavorite.create({
-      data,
-      include: {
-        joke: true,
-        tip: true,
-        video: true,
-      },
-    });
-
-    return NextResponse.json({ favorite }, { status: 201 });
+    const include = { joke: true, tip: true, video: true } as const;
+    try {
+      const favorite = await prisma.userFavorite.create({ data, include });
+      return NextResponse.json({ favorite }, { status: 201 });
+    } catch (error) {
+      // s27 D1 (`docs/qa/parcours-abonne-s27.md`) : ajout idempotent. Déjà en favori (contrainte unique) : le
+      // favori existant, en 200, au lieu d'un 409 que l'étoile taisait. 409 seulement si la ligne a disparu entre-temps.
+      if (!(error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002")) throw error;
+      const existant = await prisma.userFavorite.findFirst({ where: data, include });
+      if (existant) return NextResponse.json({ favorite: existant }, { status: 200 });
+      throw error;
+    }
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(

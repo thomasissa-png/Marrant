@@ -382,7 +382,10 @@ describe("ParcoursDetail — quiz gate", () => {
     // Complete the quiz
     await userEvent.click(screen.getByText("La surprise de la chute"));
     await userEvent.click(screen.getByText("Voir le résultat"));
-    await userEvent.click(screen.getByText("Continuer"));
+    // s27 D3 (test changé, raison : `docs/qa/parcours-abonne-s27.md`, plus de « Continuer » en contour) : quiz compté à la
+    // fin, « Valider cette étape » actif tout de suite sous le résultat.
+    expect(screen.queryByText("Continuer")).not.toBeInTheDocument();
+    expect(screen.queryByText("Termine le quiz pour valider cette étape")).not.toBeInTheDocument();
 
     // Now the complete button should appear
     await waitFor(() => {
@@ -448,7 +451,7 @@ describe("ParcoursDetail — tunnel s15", () => {
     await screen.findByText("Petit quiz avant de valider");
     await userEvent.click(screen.getByText("La surprise de la chute"));
     await userEvent.click(screen.getByText("Voir le résultat"));
-    await userEvent.click(screen.getByText("Continuer"));
+    // s27 D3 : plus de « Continuer », « Valider cette étape » directement.
     await userEvent.click(await screen.findByText("Valider cette étape"));
 
     await waitFor(() =>

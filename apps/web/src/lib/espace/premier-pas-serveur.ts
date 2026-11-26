@@ -53,15 +53,18 @@ export interface TracesPremierPas {
   etapesValidees: number;
   /** Réponse à la question C9 enregistrée : elle n'est posée qu'APRÈS le premier pas. */
   c9Repondue: boolean;
+  /** s27 D4 : répliques enregistrées (`UserReplique`). Absent : 0 (appels d'avant). */
+  repliques?: number;
 }
 
 /**
- * Règle du premier pas : une fiche « Fait », OU une carte jouée, OU une étape validée. Ne comptent pas :
- * réplique écrite, retour de mission, favori. La réponse à C9 (posée seulement après le premier pas) le
- * garde vrai pour les comptes d'avant la migration 26.
+ * Règle du premier pas : une fiche « Fait », OU une carte jouée, OU une étape validée, OU (s27 D4, go de Thomas du
+ * 26/11) une réplique enregistrée : l'abonné qui écrit sa réplique sur la situation proposée a fait son premier pas, y
+ * compris pour les répliques d'avant cette règle. Ne comptent pas : retour de mission, favori. La réponse à C9 (posée
+ * seulement après le premier pas) le garde vrai pour les comptes d'avant la migration 26.
  */
 export function premierPasDepuis(t: TracesPremierPas): boolean {
-  return t.ficheOuCarte || t.etapesValidees > 0 || t.c9Repondue;
+  return t.ficheOuCarte || t.etapesValidees > 0 || t.c9Repondue || (t.repliques ?? 0) > 0;
 }
 
 /**
@@ -70,13 +73,14 @@ export function premierPasDepuis(t: TracesPremierPas): boolean {
  * non, « Aujourd'hui » reste à l'état 1 (4.4) et la question C9 (posée APRÈS) n'est pas montée.
  */
 export async function premierPasFait(userId: string): Promise<boolean> {
-  const [ficheOuCarte, etapesValidees, compte] = await Promise.all([
+  const [ficheOuCarte, etapesValidees, compte, repliques] = await Promise.all([
     auMoinsUneFicheFaite(userId),
     prisma.userPathStepCompletion.count({ where: { userId } }),
     prisma.espaceCompte.findUnique({ where: { userId }, select: { aise: true, premierPasLe: true } }),
+    prisma.userReplique.count({ where: { userId } }),
   ]);
   if (compte?.premierPasLe) return true;
-  const fait = premierPasDepuis({ ficheOuCarte, etapesValidees, c9Repondue: Boolean(compte?.aise) });
+  const fait = premierPasDepuis({ ficheOuCarte, etapesValidees, c9Repondue: Boolean(compte?.aise), repliques });
   if (fait) await figerPremierPas(userId);
   return fait;
 }

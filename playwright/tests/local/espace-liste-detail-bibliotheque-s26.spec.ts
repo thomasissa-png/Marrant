@@ -50,7 +50,10 @@ test.describe("Bibliothèque, liste et détail (s26)", () => {
       await page.setViewportSize({ width: largeur, height: largeur === 1024 ? 768 : 900 });
       await page.goto(LISTE);
       // Panneau d'office : une technique ouverte (H1) dès le chargement, sa ligne active, l'adresse ne change pas.
-      await expect(page.locator("[data-mode='panneau'] h1#fiche-titre")).toBeVisible();
+      // s27 D9 (test changé, raison : un seul h1 par page, `docs/qa/parcours-abonne-s27.md`) : sur la page de liste, la fiche
+      // ouverte d'office est titrée en h2 ; le h1 est celui de la rubrique (lecteur d'écran seul dès 1024).
+      await expect(page.locator("[data-mode='panneau'] h2#fiche-titre")).toBeVisible();
+      await expect(page.locator("h1")).toHaveCount(1);
       await expect(actives(page)).toHaveCount(1);
       expect(new URL(page.url()).pathname).toBe(LISTE);
       // Modèle de Quoi répondre : bandeau violet, émoji 💡, pastille violette « Bibliothèque ».

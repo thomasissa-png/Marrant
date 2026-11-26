@@ -57,7 +57,9 @@ export function BoutonsReponse({
             <button
               key={r}
               type="button"
-              className={`${puce(reponse === r)} w-full justify-center [overflow-wrap:anywhere] disabled:cursor-default aria-disabled:cursor-default`}
+              // s27 D6 : à 390 px, « À moitié » choisi (coche) se coupait au milieu du mot (« moiti / é ») ; coupure aux
+              // espaces seulement, marge interne réduite sous 640 px (un mot trop long seul passe encore à la ligne).
+              className={`${puce(reponse === r)} w-full justify-center [overflow-wrap:break-word] max-sm:!px-2 disabled:cursor-default aria-disabled:cursor-default`}
               aria-pressed={reponse === r}
               aria-disabled={attente && !reponse ? true : undefined}
               disabled={reponse !== null}

@@ -5,12 +5,14 @@
  * proposition hebdomadaire, jamais de raccourci automatique), premier pas (4 cas de l'arbitrage @ux D5
  * n°3 et règle monotone), plafond de la réplique compté en caractères (constante unique).
  */
-const comptes = { ficheFait: 0, carteReponse: 0, etapes: 0, aise: null as string | null, premierPasLe: null as Date | null, ligne: false };
+const comptes = { ficheFait: 0, carteReponse: 0, etapes: 0, repliques: 0, aise: null as string | null, premierPasLe: null as Date | null, ligne: false };
 jest.mock("@/lib/prisma", () => ({
   prisma: {
     ficheFait: { count: jest.fn(async () => comptes.ficheFait), upsert: jest.fn(async () => ({})), deleteMany: jest.fn(async () => ({ count: 1 })) },
     carteReponse: { count: jest.fn(async () => comptes.carteReponse) },
     userPathStepCompletion: { count: jest.fn(async () => comptes.etapes) },
+    // s27 D4 : répliques lues pour le premier pas.
+    userReplique: { count: jest.fn(async () => comptes.repliques) },
     espaceCompte: {
       findUnique: jest.fn(async () => (comptes.ligne || comptes.aise ? { aise: comptes.aise, premierPasLe: comptes.premierPasLe } : null)),
       // Lot D7 (migration 26) : date du premier pas, posée une fois (création sans conflit, puis si vide).
@@ -76,9 +78,11 @@ describe("compte à rebours : état servi à la rafale", () => {
 });
 
 describe("premier pas (arbitrage @ux D5 n°3)", () => {
-  beforeEach(() => Object.assign(comptes, { ficheFait: 0, carteReponse: 0, etapes: 0, aise: null, premierPasLe: null, ligne: false }));
+  beforeEach(() => Object.assign(comptes, { ficheFait: 0, carteReponse: 0, etapes: 0, repliques: 0, aise: null, premierPasLe: null, ligne: false }));
 
-  it("4 cas : fiche « Fait », carte « Rien », étape seule = vrai ; réplique seule = faux", async () => {
+  // s27 D4 (test changé, raison : go de Thomas du 26/11, `docs/qa/parcours-abonne-s27.md`) : une réplique enregistrée
+  // fait le premier pas (avant : « réplique seule = faux »).
+  it("4 cas : fiche « Fait », carte « Rien », étape seule = vrai ; aucune trace = faux ; réplique seule = vrai (s27)", async () => {
     const sansDate = () => Object.assign(comptes, { premierPasLe: null, ligne: false });
     comptes.ficheFait = 1;
     expect(await premierPasFait("u1")).toBe(true);
@@ -88,10 +92,12 @@ describe("premier pas (arbitrage @ux D5 n°3)", () => {
     sansDate();
     Object.assign(comptes, { carteReponse: 0, etapes: 1 });
     expect(await premierPasFait("u1")).toBe(true);
-    // Réplique seule : aucune des sources lues ne bouge (la réplique n'est pas lue).
     sansDate();
     Object.assign(comptes, { etapes: 0 });
     expect(await premierPasFait("u1")).toBe(false);
+    sansDate();
+    Object.assign(comptes, { repliques: 1 });
+    expect(await premierPasFait("u1")).toBe(true);
   });
 
   it("monotone : « Fait » retiré après la question C9, le premier pas reste fait", async () => {

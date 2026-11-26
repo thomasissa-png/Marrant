@@ -24,6 +24,15 @@ function versEtape(slug: string, ordre: number, allerAEtape: (ordre: number) => 
  * (`#parcours-{slug}`, déjà posé sur la carte), puis le lien `etapeLienTexte` de l'étape suivante (même ouverture que
  * `allerAEtape`) ; dernière étape : pas de lien « suivante ». Cibles de 44 px.
  */
+/**
+ * s27 D3 (`docs/qa/parcours-abonne-s27.md`) : lien « étape suivante » du pied. Abonné : seulement une fois l'étape
+ * validée (avant, il pouvait passer à l'étape 2 sans valider : ni +50 XP ni jour de série) ; suivi indisponible (parcours
+ * de secours, rien à valider) : gardé. Visiteur : inchangé. Le menu des étapes reste libre.
+ */
+export function lienSuivanteVisible({ abonne, etapeValidee, suiviIndisponible }: { abonne: boolean; etapeValidee: boolean; suiviIndisponible: boolean }): boolean {
+  return !abonne || etapeValidee || suiviIndisponible;
+}
+
 export function PiedEtape({
   slug,
   suivante,

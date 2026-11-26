@@ -25,7 +25,7 @@ describe("StreakCounter", () => {
 
   it("shows the rule of the streak (étalon 3.8 A)", () => {
     render(<StreakCounter count={2} />);
-    expect(screen.getByText("Un jour compte quand tu valides une étape ou que tu termines un quiz d’étape.")).toBeInTheDocument();
+    expect(screen.getByText("Un jour compte quand tu valides une étape, que tu termines un quiz d’étape ou que tu écris ta réplique.")).toBeInTheDocument();
   });
 
   it("applies pulse animation when count > 0", () => {

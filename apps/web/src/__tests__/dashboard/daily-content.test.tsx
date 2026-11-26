@@ -12,6 +12,9 @@ jest.mock("@/stores/favorites-store", () => ({
     addFavorite: jest.fn(),
     removeFavorite: jest.fn(),
     getFavoriteId: jest.fn().mockReturnValue(null),
+    // s27 D1 : l'étoile lit les favoris une fois par page.
+    chargerUneFois: jest.fn().mockResolvedValue(undefined),
+    retirerFavori: jest.fn(),
   }),
 }));
 

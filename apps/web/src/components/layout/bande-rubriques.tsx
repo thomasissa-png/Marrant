@@ -42,9 +42,12 @@ const REPOS = "text-text-secondary hover:text-text-primary hover:before:bg-white
 const ACTIF =
   "text-text-primary before:bg-background-elevated after:absolute after:inset-x-1.5 after:bottom-1 after:h-[3px] after:rounded-t-sm after:bg-accent-primary";
 
-/** Cadenas de 14 px du non-abonné, partagé avec le menu mobile (fenêtre basse) ; couleur du libellé (spec §2). */
+/**
+ * Cadenas de 14 px du non-abonné, partagé avec le menu mobile (fenêtre basse) ; couleur du libellé (spec §2).
+ * s27 D2 : `data-masque-abonne`, jamais affiché dans le navigateur d'un abonné, même avant la lecture de la session.
+ */
 export const Cadenas = () => (
-  <svg aria-hidden="true" className="h-3.5 w-3.5 flex-none text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+  <svg aria-hidden="true" data-masque-abonne="" className="h-3.5 w-3.5 flex-none text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <rect x="4" y="11" width="16" height="10" rx="2" />
     <path d="M8 11V7a4 4 0 118 0v4" />
   </svg>

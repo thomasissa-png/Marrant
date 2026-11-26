@@ -1,4 +1,5 @@
 import { withAuth } from "next-auth/middleware";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import {
   BLOG_PREVIEW_COOKIE,
@@ -11,6 +12,7 @@ import { createPreviewToken, isAdminPassword } from "@/lib/blog-preview-auth";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { EN_TETE_CHEMIN_ESPACE, ESPACE_ACCUEIL, ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { PAGE_ADMIN_QUESTIONS } from "@/lib/espace/questions-chemins";
+import { COOKIE_INDICE_LECTEUR, DUREE_INDICE_LECTEUR_S, aCookieDeSession, indiceDepuisPlan } from "@/lib/indice-lecteur";
 
 // Routes PREMIUM-only (pas de version gratuite)
 const PREMIUM_ONLY_PATHS = ["/favoris"];
@@ -149,8 +151,42 @@ export async function blogPreviewMiddleware(req: NextRequest): Promise<NextRespo
   return res;
 }
 
+/**
+ * s27 D2 (`lib/indice-lecteur.ts`) : indice « abonné » lisible par le script de <head>, posé dès le PREMIER chargement
+ * d'un navigateur connecté qui ne l'a pas encore (retour de connexion Google, nouvel appareil) : plan lu dans le jeton,
+ * une seule fois (ensuite, `IndiceLecteur` le tient à jour). Sans cookie de session : effacé s'il traîne. Le visiteur
+ * (ni session ni indice) ne passe par aucune lecture et ne reçoit aucun en-tête : réponse et cache inchangés pour lui.
+ */
+export async function poserIndiceLecteur(req: NextRequest, res: NextResponse): Promise<NextResponse> {
+  const indice = req.cookies.get(COOKIE_INDICE_LECTEUR)?.value;
+  if (!aCookieDeSession(req.cookies.getAll().map((c) => c.name))) {
+    if (indice !== undefined) res.cookies.set(COOKIE_INDICE_LECTEUR, "", { path: "/", maxAge: 0 });
+    return res;
+  }
+  if (indice === "abonne" || indice === "compte") return res;
+  try {
+    const jeton = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (jeton?.sub) {
+      res.cookies.set(COOKIE_INDICE_LECTEUR, indiceDepuisPlan(jeton.plan), {
+        path: "/",
+        maxAge: DUREE_INDICE_LECTEUR_S,
+        sameSite: "lax",
+        secure: req.nextUrl.protocol === "https:",
+      });
+    }
+  } catch {
+    // Jeton illisible : pas d'indice, la page s'affiche comme avant.
+  }
+  return res;
+}
+
 // --- Middleware principal : www redirect + delegation auth ---
 export default async function middleware(req: NextRequest) {
+  const res = await aiguiller(req);
+  return res instanceof NextResponse ? poserIndiceLecteur(req, res) : res;
+}
+
+async function aiguiller(req: NextRequest) {
   const hostname = req.headers.get("host") || "";
 
   // Redirection www → non-www (301 permanente, SEO-friendly)

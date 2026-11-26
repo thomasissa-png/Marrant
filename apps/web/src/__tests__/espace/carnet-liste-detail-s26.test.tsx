@@ -111,7 +111,9 @@ describe("s26 carnet liste et détail : abonné", () => {
     expect(courante[0]).toHaveAttribute("data-ligne", "7");
     expect(classes(courante[0])).toEqual(expect.arrayContaining(["bg-background-elevated", "before:bg-accent-primary"]));
     expect(classes(container.querySelector("[data-zone='liste']"))).toContain("max-lg:hidden");
-    expect(classes(container.querySelector("[data-carnet-en-tete]"))).toContain("max-lg:hidden");
+    // s27 D8 (test changé, raison : fiche sans h1 en mobile) : l'en-tête reste masqué à l'œil sous 1024, son h1 est gardé
+    // pour les lecteurs d'écran.
+    expect(classes(container.querySelector("[data-carnet-en-tete]"))).toEqual(expect.arrayContaining(["max-lg:[&>:not(h1)]:hidden", "max-lg:[&>h1]:sr-only"]));
     expect(screen.getByRole("link", { name: /^Retour\s?:\s?Carnet$/ })).toHaveAttribute("href", `/carnet?contexte=${encodeURIComponent(ctx)}`);
     // Autre contexte : la fiche 7 n'y est pas, la pastille mène à la liste filtrée ; « Toutes » la garde ouverte.
     const autre = contextesDe(LIGNES).find((c) => c.cle !== ctx)!.cle;

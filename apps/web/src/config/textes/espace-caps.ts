@@ -82,7 +82,9 @@ export const TEXTES_PARCOURS_ESPACE = {
   semaines: {
     titre: "Tes 4 premières semaines", // (13)
     lignes: [
-      { semaine: "Semaine 1 :", texte: "le faux secret, une mission à voix haute. Le parcours peut attendre." },
+      // s27 (décision de Thomas du 26/11, « je suis ta reco », amélioration UX n°2 de `docs/qa/parcours-abonne-s27.md`) :
+      // « Le parcours peut attendre. » retiré, il contredisait « Étape conseillée » juste au-dessus. Retrait seul.
+      { semaine: "Semaine 1 :", texte: "le faux secret, une mission à voix haute." },
       { semaine: "Semaine 2 :", texte: "une étape, un mot de vocabulaire, une mission à envoyer par message." },
       { semaine: "Semaine 3 :", texte: "l'étape suivante, une séance de 20 minutes, une mission en face." },
       { semaine: "Semaine 4 :", texte: "l'étape suivante, un exercice « Écouter, repérer », une mission en face." },

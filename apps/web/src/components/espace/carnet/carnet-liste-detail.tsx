@@ -115,7 +115,9 @@ export function CarnetListeDetail({ carnets, children }: { carnets: CarnetListe[
           <span className="text-text-secondary">{carnet.libelle}</span>
         </nav>
       )}
-      <EnTeteCarnet mois={carnet.mois} libelle={carnet.libelle} titre={carnet.titre} intro={carnet.intro} className={cn("mb-8", ouverte && "max-lg:hidden")} />
+      {/* s27 D8 : fiche ouverte sous 1024, l'en-tête reste masqué à l'œil mais son h1 est gardé pour les lecteurs d'écran
+          (avant : aucun h1, le titre de la fiche est un h2 sous ce h1). */}
+      <EnTeteCarnet mois={carnet.mois} libelle={carnet.libelle} titre={carnet.titre} intro={carnet.intro} className={cn("mb-8", ouverte && "max-lg:mb-0 max-lg:[&>:not(h1)]:hidden max-lg:[&>h1]:sr-only")} />
       <div className={GRILLE_LISTE_DETAIL} data-liste-detail>
         <div className={cn(CELLULE_LISTE_COLLANTE, ouverte && "max-lg:hidden")} data-zone="liste">
           <ListeCarnet carnets={carnets} carnet={carnet} numero={numero} contexte={contexte} surOuverture={surOuverture} />

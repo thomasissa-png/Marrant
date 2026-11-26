@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useFavoritesStore } from "@/stores/favorites-store";
 import { useEstPremium } from "@/hooks/use-est-premium";
@@ -21,13 +21,19 @@ interface FavoriteButtonProps {
 
 export function FavoriteButton({ contentType, contentId, apercu, className }: FavoriteButtonProps) {
   const { status } = useSession();
-  const { isFavorite, addFavorite, removeFavorite, getFavoriteId } = useFavoritesStore();
+  const { isFavorite, addFavorite, retirerFavori, getFavoriteId, chargerUneFois } = useFavoritesStore();
   const [premiumOpen, setPremiumOpen] = useState(false);
+  const [enCours, setEnCours] = useState(false);
 
   const isAuth = status === "authenticated";
   const isPremium = useEstPremium();
   const isFav = isPremium ? isFavorite(contentType, contentId) : false;
-  const favId = isPremium ? getFavoriteId(contentType, contentId) : null;
+
+  // s27 D1 (`docs/qa/parcours-abonne-s27.md`) : l'étoile d'un abonné reflète ses favoris en base dès le chargement de
+  // la page (une seule lecture pour toutes les étoiles de la page, `chargerUneFois`).
+  useEffect(() => {
+    if (isPremium) void chargerUneFois();
+  }, [isPremium, chargerUneFois]);
 
   const handleClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -37,18 +43,23 @@ export function FavoriteButton({ contentType, contentId, apercu, className }: Fa
       setPremiumOpen(true);
       return;
     }
+    if (enCours) return;
 
-    if (isFav && favId) {
-      await removeFavorite(favId);
-    } else {
-      await addFavorite(contentType, contentId);
-    }
+    setEnCours(true);
+    // Lecture pas encore revenue : l'attendre, pour retirer (et non ajouter une 2e fois) un favori déjà gardé.
+    await chargerUneFois();
+    const id = getFavoriteId(contentType, contentId);
+    const resultat = id ? await retirerFavori(id) : await addFavorite(contentType, contentId);
+    setEnCours(false);
+    // s27 D1 : plus d'échec silencieux.
+    if (!resultat.ok) toast(resultat.erreur, "error");
   };
 
   return (
     <>
       <button
         onClick={handleClick}
+        aria-busy={enCours || undefined}
         className={cn(
           // Cible tactile 44 px (T17), pastille visible inchangée à 32 px.
           "group/fav flex h-11 w-11 items-center justify-center rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",

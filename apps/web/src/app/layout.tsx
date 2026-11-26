@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import { SessionProvider } from "@/components/providers/session-provider";
+import { IndiceLecteur } from "@/components/providers/indice-lecteur";
+import { SCRIPT_INDICE_LECTEUR } from "@/lib/indice-lecteur";
 import {
   JsonLd,
   organizationJsonLd,
@@ -131,14 +133,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${plusJakarta.variable}`}>
+    // s27 D2 : `data-indice-lecteur` est posé par le script de <head> avant l'hydratation (abonné seulement).
+    <html lang="fr" className={`${inter.variable} ${plusJakarta.variable}`} suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#0D0D0D" />
+        {/* s27 D2 (`lib/indice-lecteur.ts`) : avant tout affichage, un abonné ne voit jamais l'offre du visiteur. */}
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_INDICE_LECTEUR }} />
       </head>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased">
         <JsonLd data={organizationJsonLd} />
         <JsonLd data={websiteJsonLd} />
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <IndiceLecteur />
+          {children}
+        </SessionProvider>
         <WebVitalsReporter />
         <AttributionCapture />
         <AuthReturnTracker />

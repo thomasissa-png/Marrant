@@ -4,7 +4,8 @@
  * « Fait » est DÉCLARÉ par l'abonné, par la ligne « Ton retour » sous le geste de la fiche (maquette
  * `carte-rafale.html`, valeurs fermées de 2.4) : « Essayé, bof » ou « Essayé, ça a marché » posent
  * `FicheFait` (une ligne par abonné et fiche, migration 24) ; « Pas essayé » la retire (statut « Voir »).
- * Écrire « ma réplique à moi » ne coche jamais « Fait » (2.7). Aucun point, aucune série (C4).
+ * Écrire « ma réplique à moi » ne coche jamais « Fait » (2.7). Aucun point. s27 D4 (go de Thomas du 26/11) : la série
+ * compte « Essayé… » et la réplique comme pratique du jour, dans les routes (`lib/espace/pratique-espace.ts`).
  */
 import { prisma } from "@/lib/prisma";
 import { RETOURS_GESTE, type RetourGeste } from "@/lib/espace/retours";

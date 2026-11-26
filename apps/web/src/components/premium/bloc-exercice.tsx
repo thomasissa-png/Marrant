@@ -108,11 +108,13 @@ export function BlocExercice({ type, returnTo, parcours, ficheId }: BlocExercice
     );
   }
 
+  // s27 D2 : version visiteur (offre), masquée d'emblée dans le navigateur d'un abonné (`lib/indice-lecteur.ts`).
   return (
     <section
       aria-labelledby={`bloc-exercice-${type}`}
       className={cn("mt-8", BLOC_APPEL)}
       data-bloc-exercice={type}
+      data-masque-abonne=""
     >
       <h2 id={`bloc-exercice-${type}`} className={TITRE_BLOC_APPEL}>
         {frTypo(t.titre)}

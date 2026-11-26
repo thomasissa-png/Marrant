@@ -3,8 +3,8 @@
  * Règles : `lib/espace/rafale.ts` (tirage) et `lib/espace/revision.ts` (retours). Tables `CarteSuivi`
  * et `CarteReponse` (migration 23).
  *
- * Ce que la rafale ne fait JAMAIS : appeler `recordPractice` (la série ne compte que les étapes et les
- * quiz d'étape, C4), toucher aux XP ou au cap, écrire un texte de l'abonné (aucun champ libre ici),
+ * Ce que la rafale ne fait JAMAIS : appeler `recordPractice` (la série compte les étapes, les quiz d'étape et, s27 D4,
+ * la réplique et « Ton retour » dans leurs routes ; pas la carte jouée elle-même, C4), toucher aux XP ou au cap, écrire un texte de l'abonné (aucun champ libre ici),
  * journaliser une réponse. La note « ma réplique à moi » n'est lue qu'APRÈS la réponse,
  * et renvoyée dans la réponse de l'API (jamais dans la page avant) ; « Ta réplique la dernière fois »
  * ne s'affiche que sur une carte de révision.

@@ -62,7 +62,9 @@ describe("point 1 : en-têtes des rubriques centrés comme l'accueil (ouvert)", 
   // s26 (`docs/design/rubriques-abonne-s26.md` §0, spec UX §2.2) : vue abonné alignée à gauche comme « Aujourd'hui ».
   it.each(["bibliotheque", "s-entrainer", "quoi-repondre"])("rubrique %s (s26) : en-tête à gauche, H1 en `TITRE_PAGE`, plus centré", (r) => {
     const page = lire(`app/(dashboard)/mon-espace/${r}/page.tsx`);
-    expect(page).toMatch(/<header>\s*<h1 className=\{TITRE_PAGE\}>/);
+    // s27 D9 (test changé, raison : un seul h1 dans la page de liste, `docs/qa/parcours-abonne-s27.md`) : l'en-tête sort du
+    // mode page, lecteur d'écran seul dès 1024 (`lg:sr-only`) ; à gauche et en `TITRE_PAGE`, comme avant.
+    expect(page).toMatch(/<header(?: className="lg:sr-only")?>\s*<h1 className=\{TITRE_PAGE\}>/);
     expect(page).not.toMatch(/EN_TETE_CENTRE|PageHeader|text-center/);
   });
 

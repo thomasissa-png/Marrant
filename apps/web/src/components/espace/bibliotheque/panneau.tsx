@@ -81,7 +81,7 @@ export async function donneesPanneauBibliotheque({ userId, fiche, lettre, ordre,
  * violette « Bibliothèque », pastille neutre de la famille, sections dans les blocs de l'accueil, sans capitales), puis
  * « Voir : {technique suivante} » (libellés existants, repli de la spec du pilote). Dernière : sous 1024, retour à la liste.
  */
-export function PanneauTechnique({ fiche, lettre, retour, replique, fait, suivante }: Awaited<ReturnType<typeof donneesPanneauBibliotheque>>) {
+export function PanneauTechnique({ fiche, lettre, retour, replique, fait, suivante, niveauTitre }: Awaited<ReturnType<typeof donneesPanneauBibliotheque>> & { niveauTitre?: 1 | 2 }) {
   const apres = suivante ? (
     <FicheSuivante ficheId={fiche.id} href={suivante.href} faitInitial={fait}>
       {frEspace(`${L.voir} : ${suivante.titre}`)}
@@ -95,7 +95,7 @@ export function PanneauTechnique({ fiche, lettre, retour, replique, fait, suivan
   return (
     <>
       <OuvertureFicheListe />
-      <FicheVuePanneau fiche={frEspaceProfond(fiche)} retour={retour} replique={replique} lettre={lettre} apres={apres} emoji={EMOJIS_RUBRIQUES.bibliotheque} rubrique={T.titre} pastille={famille} sansCapitales />
+      <FicheVuePanneau fiche={frEspaceProfond(fiche)} retour={retour} replique={replique} lettre={lettre} apres={apres} emoji={EMOJIS_RUBRIQUES.bibliotheque} rubrique={T.titre} pastille={famille} sansCapitales niveauTitre={niveauTitre} />
     </>
   );
 }

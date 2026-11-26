@@ -27,7 +27,8 @@ const BLOC_FIN_QUIZ = ESPACE_CLIENT_PUBLIE
  * écrite (« Bonne réponse » / « Pas tout à fait » + la bonne réponse) et
  * marquée par une icône, pas seulement par la couleur ; elle est annoncée
  * par une zone vocale toujours présente ; le focus passe sur « Question
- * suivante ». Fin de quiz : « Tu peux valider » seulement pour un abonné (D1).
+ * suivante ». Fin de quiz : « Tu peux valider » seulement pour un abonné (D1) ; s27 D3 : plus de « Continuer »,
+ * le seul bouton plein est « Valider cette étape », actif juste sous le résultat (`parcours-step-card.tsx`).
  * s17 tour 1 (UXV-1-04, DES-1-05) : le visiteur n'a plus de « Continuer » qui
  * fait disparaître le quiz ; le quiz est compté à la fin, un lien texte
  * « Refaire le quiz » le relance (s21 concision). Un seul bouton plein à l'écran (l'offre).
@@ -69,8 +70,9 @@ export function StepQuiz({
       return;
     }
     setFinished(true);
-    // Visiteur : quiz compté dès la fin (événement quiz-etape-termine), sans bouton à cliquer.
-    if (!canValidate) onComplete(score, quiz.length);
+    // Quiz compté dès la fin (événement quiz-etape-termine), sans bouton à cliquer. s27 D3 : l'abonné aussi (avant, un
+    // « Continuer » en contour, sous un « Valider » grisé) : « Valider cette étape » s'active sous le résultat.
+    onComplete(score, quiz.length);
   };
 
   const restart = () => {
@@ -108,13 +110,6 @@ export function StepQuiz({
             ? "Tu as tout compris. Tu peux valider l’étape."
             : "Pas de souci, ce quiz ne compte pas : la vraie épreuve, c’est ta prochaine conversation. Tu peux valider l’étape."}
         </p>
-        <Button
-          variant="outline"
-          className="mt-3 min-h-[44px] w-full border-text-muted hover:border-text-primary sm:w-auto"
-          onClick={() => onComplete(score, quiz.length)}
-        >
-          {QUIZ_FIN_BOUTON.abonne}
-        </Button>
       </div>
     );
   }

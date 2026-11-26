@@ -349,15 +349,18 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     await userEvent.click(screen.getByText("Bonne"));
     await userEvent.click(screen.getByText("Question suivante"));
     await userEvent.click(screen.getByText("Bonne 2"));
-    await userEvent.click(screen.getByText("Voir le résultat"));
+    // s27 D3 (test changé, raison : `docs/qa/parcours-abonne-s27.md`) : le quiz part dès « Voir le résultat » (plus de
+    // « Continuer ») ; le résultat reste affiché, « Valider cette étape » actif dessous ; « Quiz bouclé » ne s'affiche plus
+    // qu'après un rechargement (le résultat le dit déjà).
     await act(async () => {
-      await userEvent.click(screen.getByText("Continuer"));
+      await userEvent.click(screen.getByText("Voir le résultat"));
     });
     expect(global.fetch).toHaveBeenCalledWith(
       "/api/parcours/db-path/quiz",
       expect.objectContaining({ method: "POST", body: JSON.stringify({ stepOrder: 1 }) }),
     );
-    expect(screen.getByText("Quiz bouclé, tu peux valider l’étape")).toBeInTheDocument();
+    expect(screen.queryByText("Continuer")).not.toBeInTheDocument();
+    expect(screen.getByText("Valider cette étape")).toBeEnabled();
   });
 });
 

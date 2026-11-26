@@ -25,7 +25,8 @@ import { cn } from "@/lib/utils";
  * v5 §1) : le même pour visiteur, compte gratuit et abonné, sur toutes les pages qui ont un en-tête. Fermé,
  * `header.tsx` rend l'en-tête d'aujourd'hui et ce module n'est jamais chargé.
  * HTML serveur : celui du visiteur (la session n'est connue que dans le navigateur). Parties de l'abonné
- * (cloche) chargées à la demande.
+ * (cloche) chargées à la demande. s27 D2 : « Connexion » et le bouton d'offre portent `data-masque-abonne`
+ * (`lib/indice-lecteur.ts`) : masqués d'emblée dans le navigateur d'un abonné, avant la lecture de la session.
  * s25, navigation v6 (`docs/ux/navigation-v6-menu-rubriques.md`, maquette D validée le 15/11) : rangée de 65 px
  * (logo, recherche, Connexion, bouton d'offre, cloche, compte, Menu) puis, dans le même bloc collant, la bande des
  * rubriques (`bande-rubriques.tsx`) ; les liens du site et « Mon espace » quittent la rangée.
@@ -187,6 +188,7 @@ export function EnTeteUniversel() {
             {etat === "visiteur" && (
               <Link
                 href={loginHref}
+                data-masque-abonne=""
                 className="hidden h-11 min-w-[44px] items-center justify-center rounded-lg px-2 text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link min-[520px]:flex"
               >
                 {TEXTES_CONNEXION.lienConnexionMobile}
@@ -197,6 +199,7 @@ export function EnTeteUniversel() {
                 href={prixHref}
                 aria-label={EN_TETE_OUVERT.nomAccessible}
                 data-en-tete-prix
+                data-masque-abonne=""
                 className={cn(
                   buttonVariants({ variant: "primary", size: "sm" }),
                   "inline-flex h-11 shrink-0 whitespace-nowrap px-2 text-xs min-[360px]:px-3 min-[360px]:text-sm",

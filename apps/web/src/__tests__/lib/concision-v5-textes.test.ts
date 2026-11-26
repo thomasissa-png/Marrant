@@ -373,7 +373,9 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
   it("§5 page de retour après paiement", () => {
     expect([TEXTES_SUCCESS.pretTitre, TEXTES_SUCCESS.pretTexte, TEXTES_SUCCESS.pretBouton]).toEqual([
       "Paiement reçu !",
-      "Merci. Ton accès s’active…",
+      // s27 D5 (test changé, raison : `docs/qa/parcours-abonne-s27.md`, l'accès est déjà prêt quand ce texte s'affiche,
+      // go de Thomas du 26/11 « corrigeons! ») : « Ton accès s’active… » retiré, « Merci. » gardé seul.
+      "Merci.",
       "Continuer",
     ]);
   });

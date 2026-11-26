@@ -67,7 +67,7 @@ describe("StreakCounter", () => {
     // Étalon 3.8 A (s17 tour 1) : jours de pratique d'affilée + aide, nom vocal en français.
     render(<StreakCounter count={7} />);
     expect(screen.getByText("7 jours de pratique d’affilée")).toBeInTheDocument();
-    expect(screen.getByText("Un jour compte quand tu valides une étape ou que tu termines un quiz d’étape.")).toBeInTheDocument();
+    expect(screen.getByText("Un jour compte quand tu valides une étape, que tu termines un quiz d’étape ou que tu écris ta réplique.")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "série" })).toBeInTheDocument();
   });
 

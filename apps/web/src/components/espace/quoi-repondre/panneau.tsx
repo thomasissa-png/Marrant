@@ -68,7 +68,7 @@ export async function donneesPanneau({
 }
 
 /** Rendu du panneau (synchrone : données lues par `donneesPanneau`). */
-export function PanneauFiche({ fiche, lettre, filtres, retour, replique, fait, hrefSuivante }: Awaited<ReturnType<typeof donneesPanneau>>) {
+export function PanneauFiche({ fiche, lettre, filtres, retour, replique, fait, hrefSuivante, niveauTitre }: Awaited<ReturnType<typeof donneesPanneau>> & { niveauTitre?: 1 | 2 }) {
   const apres = hrefSuivante ? (
     <SituationSuivante ficheId={fiche.id} href={hrefSuivante} faitInitial={fait} />
   ) : (
@@ -80,7 +80,7 @@ export function PanneauFiche({ fiche, lettre, filtres, retour, replique, fait, h
     <>
       <OuvertureFiche />
       {/* Lot D11c : typographie de l'espace sur le contenu de la fiche, à l'affichage seulement (JSON intact). */}
-      <FicheVuePanneau fiche={frEspaceProfond(fiche)} retour={retour} replique={replique} lettre={lettre} apres={apres} />
+      <FicheVuePanneau fiche={frEspaceProfond(fiche)} retour={retour} replique={replique} lettre={lettre} apres={apres} niveauTitre={niveauTitre} />
     </>
   );
 }

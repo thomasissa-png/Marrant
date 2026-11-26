@@ -148,3 +148,9 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* s27 D2 (`lib/indice-lecteur.ts`) : navigateur d'un abonné (indice posé avant l'affichage), l'offre et les éléments
+   du seul visiteur sont masqués tant que la session n'est pas lue ; ensuite, la version abonné les remplace. */
+html[data-indice-lecteur="abonne"] [data-masque-abonne] {
+  display: none !important;
+}

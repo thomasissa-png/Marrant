@@ -5,11 +5,13 @@ import { RETOURS_GESTE, declarerRetour } from "@/lib/espace/fiche-fait";
 import { ficheAcceptantReplique, journaliserSansTexte } from "@/lib/espace/repliques";
 import { idFiche } from "@/lib/espace/fiches-schema";
 import { jsonEspace, lireCorps, limiterEcritures } from "@/lib/espace/api";
+import { compterPratiqueEspace } from "@/lib/espace/pratique-espace";
 
 /**
  * POST /api/espace/fiche-fait (s24, lot D5) : « Ton retour » sous le geste d'une fiche. « Essayé, bof »
  * et « Essayé, ça a marché » posent « Fait » (une ligne `FicheFait` par fiche, idempotent) ; « Pas
- * essayé » le retire. Fiche à geste servie à l'abonné seulement (404 sinon). Ni XP, ni cap, ni série.
+ * essayé » le retire. Fiche à geste servie à l'abonné seulement (404 sinon). Ni XP, ni cap. s27 D4 : « Essayé… »
+ * compte comme pratique du jour (série, premier pas, `pratique-espace.ts`) ; « Pas essayé » ne compte pas.
  * Fermé : 404 avant toute lecture ; 401, 403 (abonné actif seulement), 503.
  */
 export const dynamic = "force-dynamic";
@@ -26,6 +28,7 @@ export async function POST(request: Request) {
     const trop = await limiterEcritures("fiche-fait", garde.userId);
     if (trop) return trop;
     const { fait } = await declarerRetour(garde.userId, lu.data.ficheId, lu.data.retour);
+    if (fait) await compterPratiqueEspace(garde.userId, "retour");
     return jsonEspace({ ok: true, fait });
   } catch (error) {
     journaliserSansTexte("fiche-fait", error);

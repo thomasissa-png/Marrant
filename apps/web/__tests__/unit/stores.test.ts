@@ -115,7 +115,8 @@ describe("useFavoritesStore", () => {
 
     const result = await useFavoritesStore.getState().addFavorite("TIP", "t1");
 
-    expect(result).toBe(true);
+    // s27 D1 : résultat avec le message d'échec éventuel (plus un booléen).
+    expect(result).toEqual({ ok: true });
     expect(useFavoritesStore.getState().favorites[0]).toEqual(mockFav);
   });
 
@@ -124,7 +125,7 @@ describe("useFavoritesStore", () => {
 
     const result = await useFavoritesStore.getState().addFavorite("JOKE", "j1");
 
-    expect(result).toBe(false);
+    expect(result.ok).toBe(false);
   });
 
   it("removeFavorite retire l'élément de la liste", async () => {

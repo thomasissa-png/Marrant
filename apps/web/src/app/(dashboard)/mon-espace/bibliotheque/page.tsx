@@ -56,11 +56,12 @@ export default async function BibliothequePage() {
   return (
     <>
       <MemoireDefilementListe cle={CLES_BIBLIOTHEQUE.page} prefixeFiches={`${ADRESSE_LISTE_BIBLIOTHEQUE}/`} cles={CLES_BIBLIOTHEQUE}>
+        {/* s26 (spec UX §2.2) : en-tête aligné à gauche, comme « Aujourd'hui ». s27 D9 : hors du mode page, seul h1 de la
+            page (dès 1024, lu par les lecteurs d'écran seulement ; le titre de la fiche du panneau y est un h2). */}
+        <header className="lg:sr-only">
+          <h1 className={TITRE_PAGE}>{T.titre}</h1>
+        </header>
         <div className="lg:hidden" data-mode="page">
-          {/* s26 (spec UX §2.2) : en-tête aligné à gauche, comme « Aujourd'hui ». */}
-          <header>
-            <h1 className={TITRE_PAGE}>{T.titre}</h1>
-          </header>
           {/* Sous 1024 : une colonne, deux dès 768 (colonnes CSS, chaque carte à la hauteur de son contenu) ; à 375,
               « Comment c'est construit » en premier. Cartes à bandeau violet de l'accueil (DA du site, 20/11). */}
           <div className="mt-8 gap-6 max-md:flex max-md:flex-col max-md:[&>*]:mb-0 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid" data-bibliotheque-grille data-etat="liste">
@@ -81,7 +82,7 @@ export default async function BibliothequePage() {
         </div>
       </MemoireDefilementListe>
       <div className="hidden lg:block" data-mode="panneau">
-        {panneau && <PanneauTechnique {...panneau} />}
+        {panneau && <PanneauTechnique {...panneau} niveauTitre={2} />}
       </div>
     </>
   );

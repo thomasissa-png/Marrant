@@ -54,7 +54,7 @@ import type { AbonneInitial, PathData, StatutParcours, Step, UserProgress } from
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { MenuEtapes } from "@/components/espace/parcours/menu-etapes";
 import { FicheActiveContexte, LignesFiches } from "@/components/espace/parcours/lignes-fiches";
-import { PiedEtape } from "@/components/espace/parcours/navigation-etapes";
+import { PiedEtape, lienSuivanteVisible } from "@/components/espace/parcours/navigation-etapes";
 import { LienRetour } from "@/components/espace/lien-retour";
 import { TEXTES_ESPACE_NAVIGATION } from "@/config/textes/espace-navigation";
 import { TEXTES_PARCOURS_ESPACE } from "@/config/textes/espace-caps";
@@ -907,8 +907,9 @@ export function ParcoursDetail({
           espaceOuvert && etapeAccessible(step.order) ? (
             <PiedEtape
               slug={slug}
+              // s27 D3 : abonné, pas de lien vers l'étape suivante tant que celle-ci n'est pas validée.
               suivante={
-                path.steps[stepIndex + 1]
+                path.steps[stepIndex + 1] && lienSuivanteVisible({ abonne: isPremium, etapeValidee: isCompleted, suiviIndisponible: isSeedFallback })
                   ? { order: path.steps[stepIndex + 1].order, titre: path.steps[stepIndex + 1].moduleTitle ?? path.steps[stepIndex + 1].tip.title }
                   : null
               }

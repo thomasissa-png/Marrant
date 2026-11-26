@@ -105,7 +105,10 @@ describe("« Quoi répondre » abonné : prochaine action et progression", () =>
     expect(classes(container.querySelector("[data-mode='panneau']"))).toEqual(expect.arrayContaining(["hidden", "lg:block"]));
     const prochaine = container.querySelector("[data-prochaine-action]")!.getAttribute("data-prochaine-action");
     expect(container.querySelector("[data-mode='panneau'] [data-fiche-panneau]")).toHaveAttribute("data-fiche-panneau", prochaine!);
-    expect(container.querySelector("[data-mode='panneau'] h1")).toHaveAttribute("id", "fiche-titre");
+    // s27 D9 (test changé, raison : un seul h1 dans la page de liste) : la fiche du panneau est titrée en h2, le h1 est
+    // celui de la rubrique (lecteur d'écran seul dès 1024).
+    expect(container.querySelector("[data-mode='panneau'] h2#fiche-titre")).not.toBeNull();
+    expect(container.querySelectorAll("h1")).toHaveLength(1);
     expect(container.querySelector("[data-carnet]")).toHaveAttribute("href", "/carnet");
     expect(container.querySelector("[data-zone='filtres']")!.className).not.toMatch(/sticky|lg:col-span/);
   });

@@ -59,14 +59,15 @@ describe("FavoritesStore", () => {
       });
 
       const result = await useFavoritesStore.getState().addFavorite("TIP", "t1");
-      expect(result).toBe(true);
+      // s27 D1 : résultat avec le message d'échec éventuel.
+      expect(result).toEqual({ ok: true });
       expect(useFavoritesStore.getState().favorites).toContainEqual(newFav);
     });
 
     it("returns false on failure", async () => {
       (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
       const result = await useFavoritesStore.getState().addFavorite("JOKE", "j1");
-      expect(result).toBe(false);
+      expect(result.ok).toBe(false);
     });
 
     it("posts to /api/favorites", async () => {

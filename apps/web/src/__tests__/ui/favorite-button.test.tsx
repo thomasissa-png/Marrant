@@ -10,13 +10,16 @@ const mockAddFavorite = jest.fn();
 const mockRemoveFavorite = jest.fn();
 const mockIsFavorite = jest.fn();
 const mockGetFavoriteId = jest.fn();
+const mockChargerUneFois = jest.fn();
 
 jest.mock("@/stores/favorites-store", () => ({
   useFavoritesStore: () => ({
     isFavorite: mockIsFavorite,
     addFavorite: mockAddFavorite,
-    removeFavorite: mockRemoveFavorite,
+    // s27 D1 : retrait par `retirerFavori` (message d'échec), lecture des favoris par `chargerUneFois`.
+    retirerFavori: mockRemoveFavorite,
     getFavoriteId: mockGetFavoriteId,
+    chargerUneFois: mockChargerUneFois,
   }),
 }));
 
@@ -50,6 +53,9 @@ describe("FavoriteButton", () => {
     );
     mockIsFavorite.mockReturnValue(false);
     mockGetFavoriteId.mockReturnValue(null);
+    mockChargerUneFois.mockResolvedValue(undefined);
+    mockAddFavorite.mockResolvedValue({ ok: true });
+    mockRemoveFavorite.mockResolvedValue({ ok: true });
   });
 
   it("renders button when unauthenticated (shows for everyone)", () => {

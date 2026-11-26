@@ -240,12 +240,18 @@ export function FicheVuePanneau({
   rubrique = Q.titre,
   pastille,
   sansCapitales = false,
+  niveauTitre = 1,
 }: {
   fiche: Fiche;
   retour: RetourGeste | null;
   replique: string | null;
   lettre: { titre: string; href: string } | null;
   apres?: React.ReactNode;
+  /**
+   * s27 D9 : 2 sur la page de LISTE (panneau de la fiche par défaut, dès 1024) : le h1 y est le titre de la rubrique,
+   * un seul h1 dans la page. 1 (défaut) : la fiche est la page.
+   */
+  niveauTitre?: 1 | 2;
   /** s26 bibliothèque liste et détail : émoji de l'accueil de la rubrique (💡 pour les techniques). */
   emoji?: string;
   /** Pastille violette : la rubrique (« Quoi répondre » par défaut, « Bibliothèque »). */
@@ -257,6 +263,7 @@ export function FicheVuePanneau({
 }) {
   const parent = parente(fiche);
   const lieu = pastille === undefined ? lieuDeFiche(fiche) : pastille;
+  const TitreFiche = niveauTitre === 2 ? "h2" : "h1";
   return (
     <article className={cn("flex min-w-0 flex-col gap-6", sansCapitales && SANS_CAPITALES)} data-fiche-type={fiche.type} data-fiche-panneau={fiche.id}>
       {/* s26 DA du site (décision de Thomas du 20/11) : une carte de la famille « Ton contenu du jour » de l'accueil
@@ -274,9 +281,9 @@ export function FicheVuePanneau({
               <Badge variant="primary">{rubrique}</Badge>
               {lieu && <Badge variant="default">{lieu}</Badge>}
             </div>
-            <h1 id="fiche-titre" tabIndex={-1} className={cn(TITRE_PAGE, "mt-4 [overflow-wrap:anywhere] focus:outline-none")}>
+            <TitreFiche id="fiche-titre" tabIndex={-1} className={cn(TITRE_PAGE, "mt-4 [overflow-wrap:anywhere] focus:outline-none")}>
               {fiche.titre}
-            </h1>
+            </TitreFiche>
             <p className={cn("mt-2", META)}>
               {T.types[fiche.type] !== parent.label && T.types[fiche.type] !== lieu && (
                 <>

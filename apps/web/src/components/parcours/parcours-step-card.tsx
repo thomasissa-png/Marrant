@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useContext, useEffect, useRef } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { fichesAffichees } from "@/lib/espace/sous-etapes";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -425,6 +425,16 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   useEffect(() => {
     if (erreurValidation && !completing) validerRef.current?.focus();
   }, [erreurValidation, completing]);
+  // s27 D3 (`docs/qa/parcours-abonne-s27.md`) : quiz fini ICI par l'abonné, le résultat reste affiché juste au-dessus
+  // de « Valider cette étape », actif (plus de bouton grisé ni de « Continuer ») ; le focus y passe.
+  const [resultatQuiz, setResultatQuiz] = useState(false);
+  useEffect(() => {
+    if (resultatQuiz) validerRef.current?.focus({ preventScroll: true });
+  }, [resultatQuiz]);
+  const quizTermine = (score: number, total: number) => {
+    if (isPremium) setResultatQuiz(true);
+    props.onQuizComplete(score, total);
+  };
   // s18 (D3 @ux) : typographie française (espaces insécables, gluons) sur les textes du conseil et de l'étape
   // (`why`, `moduleDetail`). s19 iter 5 (H @design, S17 @ux) : tous les parcours, comme le défi en gras.
   // Seuls des caractères invisibles ou des espaces insécables sont posés : texte stocké inchangé.
@@ -441,7 +451,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   // tour 7 : ancre d'un bloc = numéro de sa sous-étape affichée (`#fiche-2-2` pour « 2.2 »), la même que la liste.
   const ancres = props.ancresFiches === true;
   const ancresBlocs = new Map(
-    ancres ? fichesAffichees(slug, step, { etapeFaite: isCompleted, quizFait: isQuizDone }).map((f) => [f.cle, f.ancre] as const) : [],
+    ancres ? fichesAffichees(slug, step, { etapeFaite: isCompleted, quizFait: isQuizDone && !resultatQuiz }).map((f) => [f.cle, f.ancre] as const) : [],
   );
   const fiche = (cle: string) => ancresBlocs.get(cle);
   // s26 parcours, tour 8 : bloc de la sous-étape cible (anneau fin tant qu'elle l'est, `REPERE_FICHE`).
@@ -450,7 +460,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   // s26 parcours, tour 5 : blocs des fiches, mêmes conditions que la liste (`blocRendu`) ; la fiche 1 (conseil) est titrée
   // du titre du conseil, texte existant déjà lu dans la liste des fiches.
   const vannesRendues = isPremium && (step.jokes?.length ?? 0) > 0;
-  const quizRendu = hasQuiz && (!isQuizDone || !isPremium) && !isCompleted;
+  const quizRendu = hasQuiz && (!isQuizDone || !isPremium || resultatQuiz) && !isCompleted;
   return (
     <div className="space-y-6">
       {ancres && <LignesFiches slug={slug} etape={step} etapeFaite={isCompleted} quizFait={isQuizDone} className="lg:hidden" />}
@@ -612,11 +622,12 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
           className={cn("border-t border-border pt-6", ancres && cn(BLOC_FICHE, REPERE_FICHE))}
         >
           <h4 className={sectionTitre()}>{isPremium ? QUIZ_TITRE.abonne : QUIZ_TITRE.visiteur}</h4>
-          <StepQuiz quiz={step.quiz!} canValidate={isPremium} onComplete={props.onQuizComplete} />
+          <StepQuiz quiz={step.quiz!} canValidate={isPremium} onComplete={quizTermine} />
         </div>
       )}
 
-      {hasQuiz && isQuizDone && !isCompleted && isPremium && (
+      {/* s27 D3 : après un rechargement seulement (le résultat du quiz n'est plus à l'écran pour le dire). */}
+      {hasQuiz && isQuizDone && !isCompleted && isPremium && !resultatQuiz && (
         <p className="text-center text-sm font-medium text-accent-link">Quiz bouclé, tu peux valider l’étape</p>
       )}
 
