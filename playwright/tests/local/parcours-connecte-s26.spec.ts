@@ -126,13 +126,19 @@ test.describe("Parcours connecté (s26)", () => {
       // Sous 1024, le « Reprendre » du sommaire est replié (aucun second « Reprendre » visible).
       if (largeur < 1024) expect(await reprendreVisibles(page)).toBe(0);
 
-      // Clic 2 : étape suivante depuis le pied de l'étape ouverte.
-      await etape2.locator("[data-etape-suivante='3']").click();
-      await expect(page.locator("#etape-3-entete")).toHaveAttribute("aria-expanded", "true");
-      expect(Math.abs((await hautStable(page.locator("#etape-3"))) - ancre), `haut de l'étape 3 à ${ancre} ± 2 px`).toBeLessThanOrEqual(2);
+      // s27 corrections (D3) : test changé (raison : le lien « étape suivante » du pied est caché tant que l'abonné n'a
+      // pas validé l'étape ; l'étape 2, en cours, n'en a donc pas). Le clic 2 part de l'étape 1, validée.
+      await expect(etape2.locator("[data-etape-suivante='3']")).toHaveCount(0);
+
+      // Clic 2 : étape suivante depuis le pied d'une étape validée (étape 1 → étape 2).
+      await page.locator("#etape-1-entete").click();
+      await expect(page.locator("#etape-1-entete")).toHaveAttribute("aria-expanded", "true");
+      await page.locator("#etape-1").locator("[data-etape-suivante='2']").click();
+      await expect(page.locator("#etape-2-entete")).toHaveAttribute("aria-expanded", "true");
+      expect(Math.abs((await hautStable(page.locator("#etape-2"))) - ancre), `haut de l'étape 2 à ${ancre} ± 2 px`).toBeLessThanOrEqual(2);
 
       // Clic 3 : retour sur la carte du parcours dans /parcours.
-      await page.locator("#etape-3 [data-lien-retour]").click();
+      await page.locator("#etape-2 [data-lien-retour]").click();
       await expect(page).toHaveURL(new RegExp(`/parcours#parcours-${SLUG}$`));
       const carte = page.locator(`#parcours-${SLUG}`);
       expect(Math.abs((await hautStable(carte)) - ANCRE), "haut de la carte du parcours à 137 ± 2 px").toBeLessThanOrEqual(2);
