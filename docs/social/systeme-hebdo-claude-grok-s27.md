@@ -1,9 +1,13 @@
 # Système hebdomadaire Claude / Grok : TikTok, Instagram, LinkedIn, X (s27, 26/11/2026)
 
-> Décision de Thomas du 25-26/11/2026 : publier sur TikTok, Instagram, LinkedIn et X, 2 à 3 posts par semaine, trois sortes de contenu (résumé d'article, nouveauté du produit, actu de l'humour). Claude (la session) écrit les textes chaque samedi ; Grok bot fait visuels et vidéos, publie, modère et rend compte. Thomas valide chaque post pendant les 3 premières semaines (programmes S49, S50, S51), puis publication automatique ; **avant de lui présenter un programme, chaque post passe la boucle de qualité du §2bis** (grille `grille-qualite-posts.md`).
+> **Principe (Thomas, 26/11/2026).** « non surtout pas d'auto promo. Je veux qu'on parte de l'existant et qu'on améliore progressivement. On est juste là pour partager [du fun : le message d'origine dit « des fans », faute de frappe corrigée] et quelques explications. Encore une fois, ne réinvente pas la roue. »
+> On part de ce que Grok publie déjà : améliorer progressivement, 3 améliorations au plus par semaine, ne rien changer à ce qui marche.
+> Aucune autopromotion (ni offre, ni Premium, ni prix, ni lettre, ni « va sur le site », critère G8) : du fun et des explications. Le juge est le résultat réel, sans test humain.
+
+> Décision de Thomas du 25-26/11/2026 : publier sur TikTok, Instagram, LinkedIn et X, 2 à 3 posts par semaine, trois sortes de contenu (explication tirée d'un article, extrait du catalogue, actu de l'humour ; la « nouveauté du produit » de la décision d'origine est retirée par la décision du 26/11 sur l'autopromotion). Claude (la session) écrit les textes chaque samedi ; Grok bot fait visuels et vidéos, publie, modère et rend compte. Thomas valide chaque post pendant les 3 premières semaines (programmes S49, S50, S51), puis publication automatique ; **avant de lui présenter un programme, chaque post passe la boucle de qualité du §2bis** (grille `grille-qualite-posts.md`).
 > Périmètre (précisions de Thomas du 26/11/2026) : uniquement Deviens Marrant ; Instagram, TikTok, LinkedIn et X ; **les 4 comptes existent déjà et fonctionnent** (aucune création). Lieu de travail : `00. Me/02. Projets/02. Pro/Projets Web/Deviens Marrant/` (dossier `Social/` à l'intérieur). On ne part pas de zéro : voir §0.
 > Ce document remplace pour la cadence l'ancien mix 5/5/2 de `mix-formats-s15.md` (jamais repris tel quel : la préparation mensuelle et Buffer sont éteints, voir §6). Les seuils chiffrés de `mesure.md` (X, Instagram, LinkedIn) restent la référence de lecture ; TikTok n'en a pas encore `[À DÉFINIR après 4 semaines de relevés]`.
-> Faits de départ : 7 visites venues des réseaux en 30 jours (Umami : t.co 3, linkedin 2, facebook 2). Le point de départ est quasi nul : on mesure donc la progression des visites et des inscriptions à la lettre, jamais les « j'aime ».
+> Faits de départ : 7 visites venues des réseaux en 30 jours (Umami : t.co 3, linkedin 2, facebook 2). Le point de départ est quasi nul : on mesure donc d'abord les statistiques natives rapportées par Grok (vues terminées, partages, enregistrements, abonnés) contre la médiane de l'état initial, et les visites par UTM à titre de repère seulement, jamais les « j'aime ».
 
 ## 0. État des lieux : on ne part pas de zéro (26/11/2026)
 
@@ -14,8 +18,8 @@ Construit sur ce qui existe, rien d'inventé. Ce que la session n'a pas pu lire 
 | Source | Ce qu'on y trouve | Leçon retenue |
 |---|---|---|
 | `audit-note-s15.md`, `donnees-audit-s15.md` (05/10) | Note globale 4/10. « PUBLISHED » en base voulait dire « remis à Buffer », pas publié ; Instagram avait perdu son autorisation Buffer (0 publication visible) ; LinkedIn muet depuis août ; social = 1 visite en 28 jours contre 455 en recherche organique | Ne jamais croire un statut sans le relire chez la plateforme : la mesure vient du rapport Grok et d'Umami, pas de la base |
-| `audit-qualite-12-10.md`, `duels-resultat-cycle5.md`, `relecture-aveugle-cycle4.md` | Sur 21 vannes publiées du 06 au 16/10 : 3 au niveau de l'étalon (Alexa, canapé, prof IA), 4 limites, 14 sous la barre. Défauts récurrents : clichés (mère, couple et resto, retraité, anniversaire surprise), setup qui livre la chute, moule unique « amorce // chute », tic « À envoyer à » (8 posts Instagram sur 9), « je » qui change de genre, blague connue (détecteur de fumée, attestée depuis 1983, passée faute de recherche réelle). Bruit de notation d'environ un point : la barre « 8,5 chez 2 relecteurs » tourne presque à pile ou face, et l'auteur et le juge sont du même type de modèle | Une vanne médiocre fait plus de tort qu'un post sans vanne. Recherche web obligatoire pour « connue ». Varier les moules. Un signal humain reste nécessaire (Thomas, quelques lecteurs de 20 à 35 ans). Origine de la grille v1 |
-| `banque-reponses.md` (15 situations, cycles 7 et 8) | Réponses types aux commentaires : brèves, tutoiement, jamais d'émoji, de hashtag, de prix, de « je », troll sans riposte, spam sans réponse, « c'est une IA ? » et plaintes remontées à Thomas | Base de la charte §3.3 de Grok. **Écart à trancher** : elle interdit le mot « gratuit » et tout prix, alors que le §2.6 règle 6 et la charte §3.3 de ce document autorisent « lettre gratuite » et 1,99 €/mois (question ouverte n°3) |
+| `audit-qualite-12-10.md`, `duels-resultat-cycle5.md`, `relecture-aveugle-cycle4.md` | Sur 21 vannes publiées du 06 au 16/10 : 3 au niveau de l'étalon (Alexa, canapé, prof IA), 4 limites, 14 sous la barre. Défauts récurrents : clichés (mère, couple et resto, retraité, anniversaire surprise), setup qui livre la chute, moule unique « amorce // chute », tic « À envoyer à » (8 posts Instagram sur 9), « je » qui change de genre, blague connue (détecteur de fumée, attestée depuis 1983, passée faute de recherche réelle). Bruit de notation d'environ un point : la barre « 8,5 chez 2 relecteurs » tourne presque à pile ou face, et l'auteur et le juge sont du même type de modèle | Une vanne médiocre fait plus de tort qu'un post sans vanne. Recherche web obligatoire pour « connue ». Varier les moules. Le juge final reste le résultat réel des posts (statistiques natives), pas un test humain. Origine de la grille v1 |
+| `banque-reponses.md` (15 situations, cycles 7 et 8) | Réponses types aux commentaires : brèves, tutoiement, jamais d'émoji, de hashtag, de prix, de « je », troll sans riposte, spam sans réponse, « c'est une IA ? » et plaintes remontées à Thomas | Base de la charte §3.3 de Grok. **Écart tranché le 26/11/2026** : aucune autopromotion (ni prix, ni « gratuit », ni lettre) ; le §2.6 règle 6 et la charte §3.3 sont alignés sur G8 |
 | `content-templates.md` (24/03, ancien) | Templates X, LinkedIn, Instagram par format, hook de 5 mots, jamais les prénoms de persona en public, barre « un humoriste peut l'envoyer à un pote » | Garder le hook de 5 mots et l'interdit des prénoms de persona ; il n'y a aucun template TikTok ni vidéo : à écrire dans la semaine S49 |
 | `etalons-formats-sociaux-s15.md` (+ `docs/copy/`) | Étalons validés par Thomas le 06/10 : conseils E4 (remarque chirurgicale), E7 (ironie bienveillante), E2 (détails spécifiques), quiz seul, relais LinkedIn (visio, soirée de Noël), carrousels Nicolas/Julien et parking. Barre : technique nommée en 4 mots, situation concrète, chute non annoncée, un seul critère faisable | Garder comme étalons de FORME des contenus B et A, scène d'abord, une seule consigne |
 | `mix-formats-s15.md` | Cadence 5 X / 5 Instagram / 2 LinkedIn, stock de vannes « au niveau » très court (22 au 12/10, plancher au 03/11 non recompté), rendement des vagues de production d'environ 0,56 % | Le stock de vannes au niveau est le vrai goulot : confirme le choix « pas de vanne plutôt qu'une vanne moyenne » et 3 contenus maîtres par semaine |
@@ -45,9 +49,9 @@ Dossier `03. Autres/Deviens Marrant/` :
 Le dossier `02. Pro/Projets Web/Deviens Marrant` paraît vide (créé le 26/11).
 Inconnu de la session : si ces vidéos et visuels ont été publiés, sur quel compte, avec quels résultats.
 
-### 0.4 Ce que fait Grok bot aujourd'hui sur Marrant : INCONNU
+### 0.4 Ce que fait Grok bot aujourd'hui sur Marrant (fait de Thomas, 26/11/2026)
 
-Ni sa consigne actuelle ni son journal n'ont été trouvés par la session. Rien n'est supposé ici. Questions à Thomas : que publie-t-il aujourd'hui, sur quels comptes, à quelle fréquence, avec quelle consigne ? Répond-il aux commentaires ? Où écrit-il ses comptes rendus ? Les 4 comptes sont-ils publiés à la main, par lui, ou par un outil (Buffer ou autre) ? La consigne du §7 le remplace-t-elle ou s'ajoute-t-elle à l'existant ?
+Thomas : « Grok publie déjà les posts sur toutes les plateformes, avec des vidéos et tout. » Grok publie donc déjà sur Instagram, TikTok, LinkedIn et X, vidéos comprises. Ce qui n'est pas connu de la session (consigne actuelle, fréquence, formats, résultats par post) est demandé à Grok par le **bilan initial** du prompt `docs/social/prompt-grok-bilan-initial.md` ; fichier attendu : `Social/bilan-grok-initial-2026-11.md`. Tant qu'il n'est pas arrivé, rien n'est supposé sur ces points. La consigne du §7 s'ajoute à l'existant et ne le remplace que sur ce qu'elle dit : on ne change pas ce qui marche.
 
 ### 0.5 Ce qu'on garde / ce qu'on change / ce qu'on arrête
 
@@ -68,7 +72,7 @@ Ni sa consigne actuelle ni son journal n'ont été trouvés par la session. Rien
 | **Arrête** | Préparation mensuelle, files `file-*-retenue-s15.json` en l'état, cadence 5/5/2 | Cadence non tenable au niveau (stock), remplacée par ce document |
 | **Arrête** | Le moule unique « amorce // chute » sur tous les posts, et « À envoyer à » en légende systématique | Tic observé sur 8 posts sur 9 |
 | **Arrête** | Les vannes à clichés connus (liste G10 de la grille) et toute vanne sans recherche « connue » | Faute objective du 16/10 |
-| **Arrête** | Toute publication de Grok hors programme déposé (si c'est ce qu'il fait aujourd'hui : voir 0.4) | Un seul auteur des textes |
+| **Arrête (progressivement)** | Toute publication de Grok hors programme déposé, **à partir du premier programme `VALIDE_THOMAS` seulement** ; d'ici là son flux actuel continue et rien n'est retiré (grille §3bis, T7) | Un seul auteur des textes ; on part de l'existant |
 
 ## 1. Stratégie courte par réseau (pour Yanis, 20 ans, étudiant, muet quand ça chambre)
 
@@ -76,8 +80,8 @@ Ni sa consigne actuelle ni son journal n'ont été trouvés par la session. Rien
 
 | Contenu maître | Jour | Type | Rôle |
 |---|---|---|---|
-| A | lundi | blog : résumé d'un article publié | amener du trafic Google/IA vers le blog et la lettre |
-| B | mercredi | développement : nouveauté du produit (ou, sans nouveauté, un extrait du catalogue validé) | montrer que le site vit, donner une raison d'essayer |
+| A | lundi | blog : explication tirée d'un article publié (le lien vers l'article seulement s'il prolonge l'explication, jamais en appel à l'action) | partager une explication utile |
+| B | mercredi | extrait du catalogue validé (technique, réplique) ; **une nouveauté du produit n'est plus un sujet** (autopromotion, G8) | du fun et une technique à garder |
 | C | vendredi | actu : humoristes, saisons, événements | rester dans la conversation de Yanis, être partageable |
 
 | Réseau | Publications / semaine | Lesquelles | Format |
@@ -118,7 +122,7 @@ Réglages à faire avant la 1re publication (hors de ce document, pas de code mo
 ```
 # Programme AAAA-Sxx
 statut: A_VALIDER | VALIDE_THOMAS | AUTO
-grille: <version de grille-qualite-posts.md appliquée, ex. v1>
+grille: <version de grille-qualite-posts.md appliquée, ex. v1.2>
 semaine: du <lundi JJ/MM> au <dimanche JJ/MM>
 déposé: <samedi JJ/MM> 15h (heure de Paris)
 contenus maîtres: A=<titre court>, B=<titre court>, C=<titre court>
@@ -163,7 +167,7 @@ Si un visuel généré par IA est réaliste (visage, voix, lieu réel) : étique
 ### 2.5 Format du lien et UTM
 `https://deviens-marrant.fr/<chemin>?utm_source=<tiktok|instagram|x|linkedin>&utm_medium=social&utm_campaign=<AAAA-Sxx>&utm_content=<id>`
 - `utm_content` = l'id du bloc en minuscules (ex. `2026-s49-a-x`). Aucun lien sans UTM, même ajouté à la main (règle `mesure.md` §1).
-- TikTok et Instagram : le bloc écrit `lien: aucun` en légende et le texte dit « lien dans la bio » ; le lien de bio ne change pas chaque semaine.
+- TikTok et Instagram : le bloc écrit `lien: aucun` en légende et le texte ne dit pas « lien dans la bio » (G8, aucun appel) ; le lien de bio existant n'est pas modifié.
 - X : lien dans le texte. LinkedIn : lien en dernière ligne, jamais en premier commentaire.
 
 ### 2.6 Règles fixes (Grok les applique sans discussion)
@@ -172,7 +176,7 @@ Si un visuel généré par IA est réaliste (visage, voix, lieu réel) : étique
 3. **Zéro tiret cadratin (—)** et zéro émoji, dans les textes comme dans les réponses.
 4. **Aucune donnée inventée** : pas de chiffre, prix, témoignage, citation ou date qui ne soit pas dans le bloc. Question hors bloc = « je vérifie » et remontée.
 5. Humoristes nommés et cités : autorisés. Chaque citation du bloc est vérifiée par Claude avec sa source (dans la ligne `source`). Grok ne cite jamais un humoriste de mémoire dans une réponse.
-6. Aucun concurrent nommé. Aucune promesse hors offre : ce qui s'écrit sur l'offre se limite au journal des nouveautés et aux textes du bloc (lettre gratuite, 1,99 €/mois, « premier paiement remboursable sous 14 jours », « résiliable depuis ton profil »).
+6. Aucun concurrent nommé. **Aucune autopromotion (G8)** : ni offre, ni Premium, ni prix, ni abonnement, ni lettre, ni appel à s'inscrire ou à « aller sur le site ». Un lien vers un article du blog n'est permis que si le post explique quelque chose et que l'article prolonge l'explication. Si un abonné pose une question directe sur l'offre, Grok remonte (rapport §6) et ne promeut pas.
 7. Créneau manqué de plus de 3 heures sans raison technique : ne pas publier, noter au rapport.
 8. Un sujet d'actu sensible (deuil, drame, procès) : ne pas publier la vanne, signaler.
 
@@ -181,7 +185,7 @@ Si un visuel généré par IA est réaliste (visage, voix, lieu réel) : étique
 Thomas valide toujours les programmes S49 à S51, mais **un programme ne lui est présenté qu'après que chaque post a passé la boucle ci-dessous**. Le but : lui montrer des posts déjà au niveau, pas lui servir de premier relecteur.
 
 ### 2bis.1 La grille
-`docs/social/grille-qualite-posts.md` (v1 au 26/11/2026) : 15 critères communs (accroche, une seule idée, ton d'Alex, véracité et source, zéro donnée inventée, lien UTM, format natif, appel à l'action lettre, typographie de marque, humour au niveau ou pas d'humour, variété, brief exécutable, visuels et droits, date et sujet, valeur pour le lecteur) et 7 critères par réseau. Tous binaires, avec une preuve d'une ligne.
+`docs/social/grille-qualite-posts.md` (v1.2 au 26/11/2026) : 17 critères communs G1 à G17 (accroche, une seule idée, ton, source, zéro donnée inventée, lien UTM, format natif, **aucune autopromotion (G8, protégé)**, typographie, humour au niveau ou pas d'humour, variété, brief exécutable, visuels et droits, date et sujet, rattachement et valeur, style fluide, aucun tag), 6 critères vidéo V1 à V6 et 7 critères par réseau (TT1, IG1, IG2, X1, X2, LI1, LI2), soit 30 critères. Chaque critère porte une colonne « Qui » : **C** = contrôle mécanique par la session, **L** = lecteur à l'aveugle. Tous binaires, avec une preuve d'une ligne. La qualité des vidéos est jugée par la session sur le fichier réel (grille §2.1 bis : `ffprobe`, images à 0 s, 1 s, 3 s, milieu et fin).
 
 ### 2bis.2 La procédure, par post
 1. **Rédaction** : Claude écrit le bloc complet (§2.3) et la fiche de grille (PASS/FAIL et preuve par critère).
@@ -196,10 +200,10 @@ Thomas valide toujours les programmes S49 à S51, mais **un programme ne lui est
 ### 2bis.3 Itération de la grille elle-même
 - Chaque samedi, étape 9 bis de la routine (§4), avant d'écrire le programme : la session compare les verdicts de la semaine, les signalements de Grok (section 10 du rapport), les clics UTM et les statistiques par post aux critères. Cinq écarts déclenchent une action : post à PASS sans résultat pendant 4 semaines, post à FAIL qui aurait marché, critère toujours PASS depuis 6 semaines, critère qui fait échouer plus de 30 % des posts ou sur lequel les lecteurs divergent, faute objective découverte (blague connue, fait faux).
 - Règles : 3 changements au plus par samedi ; un critère d'audience ne bouge qu'après 4 semaines de relevés et 2 posts concordants (à environ 7 visites sociales par mois au départ, une semaine isolée ne prouve rien) ; un critère ajouté est « à l'essai » 2 semaines ; un critère retiré reste dans le journal avec sa raison.
-- Versionnage : `docs/social/grille-qualite-posts.md`, v1 aujourd'hui, un journal des changements en pied de fichier (version, date, changement, donnée source). La version appliquée est écrite en tête de chaque programme (`grille: v1`).
+- Versionnage : `docs/social/grille-qualite-posts.md`, v1.2 aujourd'hui, un journal des changements en pied de fichier (version, date, changement, donnée source). La version appliquée est écrite en tête de chaque programme (`grille: v1.2`).
 
 ### 2bis.4 Limite de la session
-Les relecteurs sont des sous-sessions du même type de modèle que l'auteur : même biais, bruit d'environ un point (`audit-qualite-12-10.md` §3). La boucle réduit les fautes objectives (format, lien, fait, cliché, blague connue) mais **ne remplace pas un rire humain**. Compensations : la validation de Thomas pendant 3 semaines, et, quand il le veut, un test oui/non « tu l'enverrais à un pote ? » auprès de 3 à 5 personnes de 20 à 35 ans. `[HYPOTHÈSE : à proposer à Thomas, non décidé]`
+Les relecteurs sont des sous-sessions du même type de modèle que l'auteur : même biais, bruit d'environ un point (`audit-qualite-12-10.md` §3). La boucle réduit les fautes objectives (format, lien, fait, cliché, blague connue) mais **ne remplace pas un rire humain**. Compensations : la validation de Thomas pendant 3 semaines et, surtout, le résultat réel des posts (statistiques natives rapportées par Grok, comparées à la médiane de l'état initial). Thomas, 26/11 : « pas de vrais tests ou autres, juste on regarde si ça fonctionne et on fait ça intelligemment. »
 
 ## 3. CONTRAT Grok vers Claude : le rapport hebdomadaire
 
@@ -248,24 +252,26 @@ Blocs que Grok a jugés faux ou problématiques : id, phrase, motif. (Grok n'a r
 
 Grok répond seul à :
 - remerciement, compliment, émoji seul : un merci court (« Merci, content que ça t'ait fait sourire. »), sans émoji, jamais deux fois la même formule dans la journée ;
-- question simple dont la réponse est dans le programme, le journal des nouveautés ou le site public (où est la lettre, la lettre est gratuite, le site est en français) : réponse d'une ou deux phrases, ton d'Alex, avec le lien utile seulement si la personne le demande ou si l'idée y mène naturellement (UTM `utm_content=reponse`) ;
+- question simple sur le contenu d'un post (la technique, l'humoriste cité, l'explication) dont la réponse est dans le programme ou dans l'article source : réponse d'une ou deux phrases, ton d'Alex ; un lien vers l'article du blog seulement si la personne le demande (UTM `utm_content=reponse`). Aucune promotion (G8) ;
 - demande de conseil d'humour en une ligne : un apport utile court, puis « Je peux te partager un article si tu as envie d'en savoir plus. » (modèle de `ton-alex.md`) ;
 - troll ou moquerie sans insulte grave : « Pas de problème. Le catalogue est là si tu reviens. » ou ne pas répondre. Jamais de joute, jamais de moquerie de la personne ;
 - critique d'une vanne : « Merci d'avoir relevé ça. » + rien d'autre ; la critique est notée au §5 du rapport (la qualité est un sujet de fond pour Claude et Thomas).
 
 Grok ne répond pas, remonte dans le rapport (§6) et, si urgent, prévient Thomas le jour même :
-- tout ce qui touche à un prix, un remboursement, une résiliation, un paiement, un compte, une donnée personnelle (RGPD) : réponse type permise uniquement « On te répond par e-mail, écris-nous via le site. » `[À VÉRIFIER : adresse de contact à donner, absente de ce document]` ;
+- toute question directe d'un abonné sur l'offre, un prix, un remboursement, une résiliation, un paiement, un compte, une donnée personnelle (RGPD) : Grok ne promeut pas et ne donne ni prix ni conditions ; réponse type permise uniquement « On te répond par e-mail, écris-nous via le site. » `[À VÉRIFIER : adresse de contact à donner, absente de ce document]` ;
 - une critique de fond sur le produit, une accusation de plagiat de vanne ou de copie d'un humoriste, une demande d'humoriste ou de son entourage, toute presse ;
 - toute personne qui se dit mal (détresse, harcèlement subi) : ne pas plaisanter, ne pas répondre sur le fond, remonter immédiatement ;
 - insultes, propos haineux, menaces : masquer ou supprimer selon l'outil, capturer d'abord, remonter ;
 - toute demande de droit à l'image, de retrait, de collaboration, de concours ou de partenariat ;
 - toute question dont la réponse n'est pas dans les fichiers du vault : « je vérifie » est interdit s'il n'y a pas de suivi ; on remonte.
 
-Jamais : promettre une fonction, une date, un prix ; confirmer ou démentir une rumeur ; parler d'un concurrent ; mettre en relation avec un humoriste ; envoyer un message privé non sollicité ; envoyer un lien payant en premier. Délai visé : réponse sous 24 h (jours ouvrés), sans heure fixe (`founder-preferences.md`, 05/10).
+Jamais : faire de l'autopromotion (offre, Premium, prix, lettre, « va sur le site ») ; promettre une fonction, une date, un prix ; confirmer ou démentir une rumeur ; parler d'un concurrent ; mettre en relation avec un humoriste ; envoyer un message privé non sollicité ; envoyer un lien payant en premier. Délai visé : réponse sous 24 h (jours ouvrés), sans heure fixe (`founder-preferences.md`, 05/10).
 
 ## 4. La routine du samedi 15h (heure de Paris), pour la session Claude
 
 Rappel : les 3 premières semaines, le dépôt (étape 11) se fait en `A_VALIDER` après la boucle de qualité (étape 10 bis), puis le statut passe à `VALIDE_THOMAS` seulement sur validation de Thomas. L'ordre est : analyse (9), grille (9 bis), rédaction (10), boucle de qualité (10 bis), dépôt (11), résumé (12). Chaque étape produit une ligne dans la note de session (`Social/routine-AAAA-Sxx.md`) : OK, PAS OK, ou NON FAIT avec la raison. Une étape PAS OK ne bloque pas les suivantes, elle est listée dans le résumé final.
+
+**Première revue, samedi 28/11/2026.** Elle part du bilan de Grok (`Social/bilan-grok-initial-2026-11.md`) s'il est arrivé : état initial par réseau, médianes, étalons de forme, grille passée sur le haut et le bas du classement (grille §3bis), puis programme S49. Sinon, **elle ne produit pas de programme complet** : la session évalue ce qui est visible sur les 4 comptes (textes, vidéos téléchargées et jugées selon la grille §2.1 bis), et propose à Grok **3 améliorations au plus**, sans toucher à ce qui marche. Ensuite, chaque samedi : 3 améliorations au plus.
 
 | N° | Étape | Source | Outil | Critère OK / pas OK |
 |---|---|---|---|---|
@@ -282,7 +288,7 @@ Rappel : les 3 premières semaines, le dépôt (étape 11) se fait en `A_VALIDER
 | 10 | Programme de la semaine suivante | journal des nouveautés (§5), derniers articles du blog, calendrier d'actu (humoristes, saisons, événements vérifiés par WebSearch), rapport Grok | rédaction par la session, les textes d'humour passés à l'aveugle comme pour tout contenu public | OK : 3 contenus maîtres A/B/C, 11 blocs au plus, chaque bloc complet selon §2.3, chaque lien avec UTM, chaque citation d'humoriste vérifiée avec sa source, 0 tiret cadratin, 0 émoji, jamais le même sujet avec le même angle qu'un post déjà parti (registre : liste des `source` des 8 derniers programmes). Contrôle de la barre d'humour. Pas OK : un seul bloc incomplet : on ne dépose pas ce bloc. |
 | 10 bis | Boucle de qualité | brouillon de l'étape 10, grille de la version écrite à l'étape 9 bis | session Claude : fiche de grille par post, 2 sous-sessions de relecture à l'aveugle par post (Yanis, relecteur de plateforme), contrôles mécaniques (tiret, émojis, signes, URL, source) | OK : chaque post déposé a tous ses critères applicables à PASS chez les 2 lecteurs en 3 tours au plus ; les posts non conformes au 3e tour sont écartés et remplacés par le repli (§2bis.2) ; la note de session liste, par post : tours, critères corrigés, écartés. Pas OK : un post déposé sans fiche, ou avec un FAIL non traité : on le retire du programme. |
 | 11 | Dépôt dans le vault | dossier `00. Me/02. Projets/02. Pro/Projets Web/Deviens Marrant/Social/` | outil du vault (Obsidian ou Drive selon l'accès de la session) | OK : `programme-AAAA-Sxx.md` (nouveau, statut `A_VALIDER` ou `AUTO`, ligne `grille: vN`), `routine-AAAA-Sxx.md`, relevé SEO/GEO ; relecture du fichier déposé. Pas OK : écriture impossible : coller le contenu dans le résumé à Thomas. |
-| 12 | Résumé à Thomas | message de fin de session | session | OK : 10 lignes au plus : ce qui est OK, ce qui est PAS OK, **ce qui demande sa décision** (validation du programme les 3 premières semaines, clé Bing, un réglage, un post sensible), 1 chiffre clé (visites sociales de la semaine, inscriptions lettre). |
+| 12 | Résumé à Thomas | message de fin de session | session | OK : 10 lignes au plus : ce qui est OK, ce qui est PAS OK, **ce qui demande sa décision** (validation du programme les 3 premières semaines, clé Bing, un réglage, un post sensible), 1 chiffre clé (statistique native du meilleur post de la semaine contre la médiane de l'état initial). |
 
 ## 5. Le journal des nouveautés
 
@@ -313,7 +319,7 @@ Pas de nouveau cron à créer pour le système Claude/Grok : la publication se f
 2. **Nettoyage proposé (décision Thomas, non fait)** : passer en `REJECTED` les posts `APPROVED` ou `PENDING` restants en base, vider la file Buffer, puis retirer `BUFFER_ACCESS_TOKEN` du Worker. Aucun de ces gestes n'est fait par ce document.
 3. **Doublons de sujet** : registre des `source` des 8 derniers programmes ; jamais le même sujet avec le même angle.
 4. **Pas de double compte** : Buffer et Grok ne gèrent pas le même compte au même moment (canaux Buffer déconnectés ou en pause).
-5. **Cohérence avec l'offre** : seules sont citées les promesses déjà publiques : lettre gratuite, 1,99 €/mois (prix du site au 25/11), « premier paiement remboursable sous 14 jours », « résiliable depuis ton profil ». Les chiffres de catalogue (`project-context.md` du 24/03 : 290+ vannes, 60+ conseils, 80+ vidéos) sont **datés et à revérifier** avant toute citation. Aucun post ne promet une fonction non en ligne ; une nouveauté n'est annoncée que si elle figure au journal.
+5. **Aucune autopromotion (G8)** : aucun post ne cite l'offre, Premium, un prix, la lettre ou le site comme destination. Un chiffre de catalogue cité dans une explication (`project-context.md` du 24/03 : 290+ vannes, 60+ conseils, 80+ vidéos) est **daté et à revérifier**. Aucun post ne promet une fonction. Le journal des nouveautés (§5) ne sert plus de sujet de post.
 6. **Humour sous la barre** : une vanne n'entre dans un programme qu'après relecture à l'aveugle ; sinon bloc sans blague (règle d'or P0 s18 : jamais remettre en ligne un contenu sous la barre).
 7. **Validation des 3 premières semaines** : Grok publie seulement un fichier `VALIDE_THOMAS`. Le passage à `AUTO` est une décision écrite de Thomas, datée dans `Social/routine-AAAA-Sxx.md`.
 8. **Dérive d'attribution** : TikTok non reconnu dans `origine` et pas de page de bio dédiée (§1.2) tant que @fullstack n'a pas livré.
@@ -334,7 +340,7 @@ TON TRAVAIL
 3. Tu ne réécris JAMAIS un texte : ni reformulation, ni raccourci, ni émoji, ni hashtag ajouté. Si un texte te semble faux, trop long, dépassé ou sensible, tu NE PUBLIES PAS ce bloc et tu le signales dans le rapport (section 10).
 4. N'invente aucune donnée : pas de chiffre, prix, date, témoignage ni citation qui ne soit pas dans le bloc. Zéro tiret cadratin, zéro émoji, aucun concurrent nommé. Les humoristes nommés dans les textes sont autorisés ; n'en cite jamais un de mémoire.
 5. Visuels : pas de visage de personne réelle, pas de ressemblance avec un humoriste, musique libre de droits uniquement. Étiquette "contenu IA" sur tout visuel réaliste généré.
-6. Commentaires : réponds seul aux remerciements, aux questions simples dont la réponse est dans le programme ou sur le site, aux trolls (sobrement : "Pas de problème. Le catalogue est là si tu reviens."). Ton d'Alex : tutoiement, le pote drôle et bienveillant, court, sans leçon. REMONTE sans répondre : prix, paiement, remboursement, résiliation, compte, données personnelles, critique de fond, presse, humoriste ou entourage, droit à l'image, détresse, harcèlement, insultes graves (capture d'abord), toute question dont tu n'as pas la réponse dans le dossier. Ne promets jamais une fonction, une date, un prix.
+6. Commentaires : réponds seul aux remerciements, aux questions simples dont la réponse est dans le programme ou sur le site, aux trolls (sobrement : "Pas de problème. Le catalogue est là si tu reviens."). Ton d'Alex : tutoiement, le pote drôle et bienveillant, court, sans leçon. REMONTE sans répondre : prix, paiement, remboursement, résiliation, compte, données personnelles, critique de fond, presse, humoriste ou entourage, droit à l'image, détresse, harcèlement, insultes graves (capture d'abord), toute question dont tu n'as pas la réponse dans le dossier. Ne promets jamais une fonction, une date, un prix. Aucune autopromotion, ni dans les réponses ni dans les posts : si un abonné te pose une question directe sur l'offre, tu remontes sans promouvoir. Pars de ce que tu fais déjà : ne change rien à ce qui marche, applique seulement les améliorations demandées par le programme.
 7. Chaque vendredi, relève les statistiques natives par post (48 h après la publication au plus tôt) et les abonnés par réseau. Recopie les chiffres tels quels. Case vide = "non disponible". Jamais d'estimation.
 8. Rapport hebdomadaire : suis le format du contrat (10 sections : posts partis, non publiés, statistiques, comptes, commentaires notables, commentaires remontés, questions récurrentes, incidents, volet SEO/GEO si tu en as fait, signalements de texte). Une section vide s'écrit "néant".
 9. SEO/GEO (optionnel) : si tu as fait des constats ou des actions, indique la source (URL, date, capture). Jamais de chiffre sans source.
@@ -347,7 +353,8 @@ TES LIMITES
 
 ## 8. Reste à décider ou à faire (hors périmètre de ce document)
 
-- **Questions ouvertes pour Thomas (26/11)** : (1) que fait Grok bot aujourd'hui sur Marrant, avec quelle consigne, et où écrit-il ses comptes rendus (§0.4) ; (2) les 6 vidéos TikTok, 14 visuels Instagram et 4 vidéos « v4 » du Drive ont-ils été publiés, et avec quels résultats ; (3) peut-on citer « lettre gratuite » et 1,99 €/mois dans les posts ? `banque-reponses.md` et la décision du 05/10 disent jamais de prix ni de « gratuit », ce document dit l'inverse (§2.6 règle 6) : trancher avant S49 ; (4) les posts restent à la voix du site sans « je » (`ton-alex.md` l.6) ; mais `ton-alex.md` fait dire « je » à Alex en commentaire alors que `banque-reponses.md` l'interdit : quelle règle pour les réponses de Grok ? Et les portraits « Alex Durand » (images de synthèse) : usage prévu ou non ? Étiquette « contenu IA » exigée si utilisés ; (5) le kit du 27/10 (« La bonne réplique. Au bon moment. », avatar « dm. ») est-il à imposer ; (6) accepte-t-il le test oui/non de 3 à 5 lecteurs de 20 à 35 ans ; (7) accès de Grok au dossier Drive en lecture et écriture.
+- **Tranché le 26/11 par Thomas** : Grok publie déjà sur les 4 réseaux, vidéos comprises (§0.4) ; aucune autopromotion, donc ni « lettre gratuite » ni prix dans les posts (ancienne question n°3, résolue par G8) ; pas de test humain (ancienne question n°6, retirée). T2 à T7 de la grille : la session applique les recos de @reviewer.
+- **Questions ouvertes pour Thomas** : (1) où Grok écrit ses comptes rendus et sa consigne actuelle (réponse attendue dans le bilan initial, §0.4) ; (2) les 6 vidéos TikTok, 14 visuels Instagram et 4 vidéos « v4 » du Drive ont-ils été publiés, et avec quels résultats (le bilan initial doit le dire) ; (4) les posts restent à la voix du site sans « je » (`ton-alex.md` l.6) ; mais `ton-alex.md` fait dire « je » à Alex en commentaire alors que `banque-reponses.md` l'interdit : quelle règle pour les réponses de Grok ? Et les portraits « Alex Durand » (images de synthèse) : usage prévu ou non ? Étiquette « contenu IA » exigée si utilisés ; (5) le kit du 27/10 (« La bonne réplique. Au bon moment. », avatar « dm. ») est-il à imposer ; (7) accès de Grok au dossier Drive en lecture et écriture.
 - Thomas : confirmer 3 pauses dans l'admin social ; décider du nettoyage Buffer (§6.2, point 2) ; dire comment Grok accède au vault (lecture/écriture du dossier) ; valider le programme S49 le samedi 28/11.
 - @fullstack : ajouter `tiktok` aux origines reconnues, page de bio dédiée.
 - @infrastructure : ajouter la ligne « Journal des nouveautés » au gabarit de déploiement.
