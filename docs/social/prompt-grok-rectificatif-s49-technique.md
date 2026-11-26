@@ -28,5 +28,5 @@ Le reste des 3 changements de la semaine ne bouge pas (son dans tous les fichier
 
 - Bon niveau d'ensemble : situations reconnaissables, chutes courtes, vidéos à 6 à 8 s comme demandé, légendes sans lien, plus de réponse « Technique » sur X.
 - Corrigé après la décision de Thomas (« si déjà vu mais que ça marche bien, pas de souci ») : les 3 vannes signalées comme connues (X raclette du 2/12, « Appelle-moi quand tu peux », caisse automatique) RESTENT publiables ; on juge sur leurs chiffres.
-- À trancher par Thomas : X du 30/11, les mots ont changé (« Premier Noël… le grand-père m'a pris pour son notaire. Tout le monde voulait être assis à côté de moi. ») ; la nouvelle version est plus nette que l'ancienne, à valider.
+- X du 30/11 : nouvelle version VALIDÉE par Thomas le 26/11 (« ok ») : « Premier Noël chez ma belle-famille : le grand-père m'a pris pour son notaire. Tout le monde voulait être assis à côté de moi. » (plus la ligne « Technique : … » du rectificatif).
 - Hashtags : 4 au plus, et seulement sur Instagram et TikTok.
