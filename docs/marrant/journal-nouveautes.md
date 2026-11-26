@@ -6,6 +6,8 @@
 
 | Date | Nouveauté | Où le voir |
 |---|---|---|
+| 26/11/2026 | Abonné, tu ne vois plus l'offre « Tout ouvrir » clignoter pendant le chargement des pages, et tes favoris sont déjà cochés quand la page s'ouvre. | conseils, vannes, vidéos (connecté) |
+| 26/11/2026 | À la fin du quiz d'une étape, le bouton « Valider cette étape » est tout de suite là, et écrire ta réplique ou noter que tu as essayé compte pour ta série du jour. | `/parcours`, « Ma réplique à moi », « Ton retour » (connecté) |
 | 25/11/2026 | Les paragraphes d'ouverture de cinq articles du blog ont été réécrits pour aller droit au but ; l'encadré « En bref » de « comment devenir drôle » est plus clair, et l'article des meilleures blagues renvoie vers deux guides (répartie, exercices). | `/blog/comment-devenir-drole`, `/blog/comment-avoir-de-la-repartie`, `/blog/autoderision-interactions`, `/blog/5-types-humour-lequel-pour-toi`, `/blog/meilleures-blagues-droles-2026` |
 | 25/11/2026 | Sur les articles de blagues, tu peux recevoir la lettre gratuite d'un clic, au milieu de l'article et en fin d'article, avant l'offre payante. | `/blog/meilleures-blagues-droles-2026` et les autres articles de blagues |
 | 25/11/2026 | Une page pour résilier ton abonnement en ligne, avec une question facultative pour nous dire ce qui n'a pas collé ; le lien « Résilier ton contrat » est dans le pied de page. | `/resiliation` (connexion demandée) |

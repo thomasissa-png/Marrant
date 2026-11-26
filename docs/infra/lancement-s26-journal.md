@@ -178,3 +178,21 @@ Commit `5e795c19`. Diff de `apps/web/` depuis `1998ae31` (prod `5ce0a19b`) : `sr
 | 13:13 | état final | `eddd8755-66d1-4b8e-9146-8e41aad4c8f8` à 100 %, N-1 `5ce0a19b…`. Aucun retour arrière nécessaire. Export `$O/export-s27b` supprimé. Retour arrière si besoin : `npx wrangler rollback 5ce0a19b-500a-4d67-b6bd-d74d7896d589 -m "rollback s27 textes" -y` |
 
 À retenir : après une bascule, attendre environ 1 minute avant les contrôles navigateur ; une `ChunkLoadError` isolée dans cette fenêtre ne justifie pas un retour arrière si le fichier fait partie du nouveau build et répond 200 juste après.
+
+## Corrections du parcours abonné s27, 26/11 (go écrit de Thomas « go mise en ligne » + « textes ok », relayé par l'orchestrateur)
+
+Code `dddc03f9` (D1 à D9, `docs/qa/parcours-abonne-s27.md`). Diff de `apps/web/` depuis `5e795c19` : 34 fichiers de `src/` (dont `middleware.ts`, `app/layout.tsx`, `lib/indice-lecteur.ts`, `styles/globals.css`) et des tests ; ni schéma, ni migrations, ni `wrangler`, ni packages ; aucune écriture en base, pas de branche de sauvegarde.
+
+| Heure (UTC) | Étape | Résultat |
+|---|---|---|
+| 13:31 | en-têtes « avant » | prod `eddd8755` : statut, `cache-control`, `vary`, `set-cookie` de 8 pages relevés (`/root/lancement-s26/s27c/avant.txt`) ; 0 `Set-Cookie` visiteur |
+| 13:31-13:34 | export, build, envoi | `git archive dddc03f9`, `build_prod` : **BUILD OK** (172 pages) ; `upload_prod` : **`a824cc3d-acb4-4d36-b3e8-91f09eb8a5f9`**, préversion `https://a824cc3d-marrant.thomas-issa.workers.dev`, non servie |
+| 13:36 | préversion | santé `ok` ; visiteur : « Tout ouvrir » visible (conseil, `/vannes`, vidéo), 0 `Set-Cookie`, pas de `dm_lecteur` ni de `data-indice-lecteur`, 0 erreur JS, « Le parcours peut attendre » absent, résiliation et lettre en place |
+| 13:45 | CI rouge, pas de bascule | runs 45829374714 (`dddc03f9`) et 45829796597 (`ba953b6a`) : `e2e-local (ouvert)` rouge, `parcours-connecte-s26.spec.ts:130` (lien « étape suivante » de l'étape 2 caché par D3) |
+| 14:05 | CI rouge, pas de bascule | run 45832641481 (`d284a294`) : même spec, ligne 134, à 1280 seulement (dès 1024 px, seule l'étape du menu est affichée : `#etape-1-entete` invisible) |
+| 14:27 | CI | run 45836541500 sur `fd9f8c1d` (`apps/web` identique à `dddc03f9`) : 4 jobs `success` ; 1 flaky passé à la relance (`corrections-abonne-s27.spec.ts:79`, D1) |
+| 14:32:00 | bascule sans rebuild | N-1 relue `eddd8755…` ; `npx wrangler versions deploy a824cc3d-…@100% -y --message "s27 corrections parcours abonné dddc03f9"` : SUCCESS, **`a824cc3d` à 100 %** |
+| 14:33 | en-têtes « après » | 0 `Set-Cookie` ; statuts et `vary` identiques ; `cache-control` identique pour `/vannes`, `/abonnement`, `/parcours/repartie` (privés) et `/register` (`s-maxage=31536000`) ; pages ISR (conseil, vidéo, accueil, article) : même politique, seul le `s-maxage` restant varie (`apres.txt`) |
+| 14:33:18 | contrôles prod (Chromium 1243, 2 passages, visiteur) | santé `ok` (base `up`, Stripe `live`) ; 10 pages 200, **0 erreur JS** (accueil, /abonnement, /register, /parcours, /parcours/repartie, article blagues, conseil, /vannes, vidéo) ; « Tout ouvrir » visible sur le conseil, `/vannes` et la vidéo ; `data-indice-lecteur` absent ; cookies du navigateur : NextAuth seulement (passage par `/login`) ; « Le parcours peut attendre » absent ; pied « Résilier ton contrat » → `/resiliation`, `/resiliation` → `/login?callbackUrl=%2Fresiliation` ; lettre milieu et fin ; `/confidentialite` au 25 novembre 2026 ; `/profil` 307. **Aucun contrôle connecté possible en prod** (pas de compte de test) |
+| 14:32-14:42 | tail 10 min | `wrangler tail --format json` de 14:32 à 14:42:39 (événements de 14:33:02 à 14:41:51) : 330 événements, tous sur `a824cc3d` (320 × 200, 9 × 308, 1 × 307), **0 réponse 5xx**, 0 exception, 0 log `error` (`/root/lancement-s26/tail-s27c.jsonl`) |
+| 14:43 | état final | `a824cc3d-acb4-4d36-b3e8-91f09eb8a5f9` à 100 %, N-1 `eddd8755…`. Aucun retour arrière nécessaire. Retour arrière si besoin : `npx wrangler rollback eddd8755-66d1-4b8e-9146-8e41aad4c8f8 -m "rollback s27 corrections" -y`. Reste à Thomas : contrôle en abonné réel (offre qui ne clignote plus, étoiles des favoris pleines) |
